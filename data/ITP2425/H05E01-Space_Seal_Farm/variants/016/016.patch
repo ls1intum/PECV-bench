@@ -1,0 +1,66 @@
+diff -ruN a/solution/src/de/tum/cit/ase/Animal.java b/solution/src/de/tum/cit/ase/Animal.java
+--- a/solution/src/de/tum/cit/ase/Animal.java	2025-07-11 10:16:28
++++ b/solution/src/de/tum/cit/ase/Animal.java	2025-07-23 17:52:58
+@@ -15,5 +15,5 @@
+ 		this.name = newName;
+ 	}
+ 
+-	public abstract String messageOnFeed();
++	public abstract FeedResponse messageOnFeed();
+ }
+diff -ruN a/solution/src/de/tum/cit/ase/FeedResponse.java b/solution/src/de/tum/cit/ase/FeedResponse.java
+--- a/solution/src/de/tum/cit/ase/FeedResponse.java	1970-01-01 01:00:00
++++ b/solution/src/de/tum/cit/ase/FeedResponse.java	2025-07-23 17:52:42
+@@ -0,0 +1,24 @@
++package de.tum.cit.ase;
++
++public class FeedResponse {
++    private final String message;
++    private final boolean satisfied;
++    
++    public FeedResponse(String message, boolean satisfied) {
++        this.message = message;
++        this.satisfied = satisfied;
++    }
++    
++    public String getMessage() {
++        return message;
++    }
++    
++    public boolean isSatisfied() {
++        return satisfied;
++    }
++    
++    @Override
++    public String toString() {
++        return message;
++    }
++}
+diff -ruN a/solution/src/de/tum/cit/ase/Pig.java b/solution/src/de/tum/cit/ase/Pig.java
+--- a/solution/src/de/tum/cit/ase/Pig.java	2025-07-11 10:16:28
++++ b/solution/src/de/tum/cit/ase/Pig.java	2025-07-23 17:53:28
+@@ -7,8 +7,8 @@
+ 	}
+ 
+ 	@Override
+-	public String messageOnFeed() {
+-		return "Oink!";
++	public FeedResponse messageOnFeed() {
++		return new FeedResponse("Oink!", true);
+ 	}
+ 
+ 	@Override
+diff -ruN a/solution/src/de/tum/cit/ase/Seal.java b/solution/src/de/tum/cit/ase/Seal.java
+--- a/solution/src/de/tum/cit/ase/Seal.java	2025-07-11 10:16:28
++++ b/solution/src/de/tum/cit/ase/Seal.java	2025-07-23 17:53:14
+@@ -10,8 +10,8 @@
+ 
+ 
+ 	@Override
+-	public String messageOnFeed() {
+-		return "Arf Arf!";
++	public FeedResponse messageOnFeed() {
++		return new FeedResponse("Arf Arf!", true);
+ 	}
+ 
+ 

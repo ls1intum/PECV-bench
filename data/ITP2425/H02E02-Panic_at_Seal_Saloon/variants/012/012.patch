@@ -1,0 +1,289 @@
+diff -ruN a/solution/src/de/tum/cit/ase/Inventory.java b/solution/src/de/tum/cit/ase/Inventory.java
+--- a/solution/src/de/tum/cit/ase/Inventory.java	1970-01-01 01:00:00
++++ b/solution/src/de/tum/cit/ase/Inventory.java	2025-07-23 13:19:57
+@@ -0,0 +1,62 @@
++package de.tum.cit.ase;
++
++public class Inventory {
++	private StockIngredient[] stockIngredients;
++
++	public Inventory() {
++		this.stockIngredients = new StockIngredient[0];
++	}
++
++	public void setStockIngredients(StockIngredient[] stockIngredients) {
++		this.stockIngredients = stockIngredients;
++	}
++
++	public StockIngredient[] getStockIngredients() {
++		return this.stockIngredients;
++	}
++
++	public void addToStockIngredients(StockIngredient ingredient) {
++		this.stockIngredients = ArrayHelpers.addElementToArray(this.stockIngredients, ingredient);
++	}
++
++	public StockIngredient findStockIngredient(String name) {
++		for (var x : this.stockIngredients) {
++			if (x.getName().equals(name)) {
++				return x;
++			}
++		}
++
++		return null;
++	}
++
++	public int add(String ingredient) {
++		StockIngredient stockIngredient = this.findStockIngredient(ingredient);
++
++		if (stockIngredient != null) {
++			stockIngredient.setQuantity(stockIngredient.getQuantity() + 1);
++			return stockIngredient.getQuantity();
++		}
++
++		return -1;
++	}
++
++	public int take(String ingredient) {
++		StockIngredient stockIngredient = this.findStockIngredient(ingredient);
++
++		if (stockIngredient != null) {
++			var stockQuant = stockIngredient.getQuantity();
++			if (stockQuant < 1) {
++				return -1;
++			}
++
++			stockIngredient.setQuantity(stockQuant - 1);
++			return stockIngredient.getQuantity();
++		}
++
++		return -1;
++	}
++
++	public void emptyStock() {
++		this.stockIngredients = new StockIngredient[0];
++	}
++}
+\ No newline at end of file
+diff -ruN a/solution/src/de/tum/cit/ase/SealSaloon.java b/solution/src/de/tum/cit/ase/SealSaloon.java
+--- a/solution/src/de/tum/cit/ase/SealSaloon.java	2025-07-11 10:16:28
++++ b/solution/src/de/tum/cit/ase/SealSaloon.java	2025-07-23 13:20:44
+@@ -2,7 +2,7 @@
+ 
+ public class SealSaloon {
+ 	private Meal[] orders;
+-	private static final Stock stock = new Stock();
++	private static final Inventory stock = new Inventory();
+ 	private int totalOrders = 0;
+ 
+ 	public SealSaloon() {
+@@ -79,7 +79,7 @@
+ 		return orders;
+ 	}
+ 
+-	public static Stock getStock() {
++	public static Inventory getStock() {
+ 		return stock;
+ 	}
+ 
+diff -ruN a/solution/src/de/tum/cit/ase/Stock.java b/solution/src/de/tum/cit/ase/Stock.java
+--- a/solution/src/de/tum/cit/ase/Stock.java	2025-07-11 10:16:28
++++ b/solution/src/de/tum/cit/ase/Stock.java	1970-01-01 01:00:00
+@@ -1,62 +0,0 @@
+-package de.tum.cit.ase;
+-
+-public class Stock {
+-	private StockIngredient[] stockIngredients;
+-
+-	public Stock() {
+-		this.stockIngredients = new StockIngredient[0];
+-	}
+-
+-	public void setStockIngredients(StockIngredient[] stockIngredients) {
+-		this.stockIngredients = stockIngredients;
+-	}
+-
+-	public StockIngredient[] getStockIngredients() {
+-		return this.stockIngredients;
+-	}
+-
+-	public void addToStockIngredients(StockIngredient ingredient) {
+-		this.stockIngredients = ArrayHelpers.addElementToArray(this.stockIngredients, ingredient);
+-	}
+-
+-	public StockIngredient findStockIngredient(String name) {
+-		for (var x : this.stockIngredients) {
+-			if (x.getName().equals(name)) {
+-				return x;
+-			}
+-		}
+-
+-		return null;
+-	}
+-
+-	public int add(String ingredient) {
+-		StockIngredient stockIngredient = this.findStockIngredient(ingredient);
+-
+-		if (stockIngredient != null) {
+-			stockIngredient.setQuantity(stockIngredient.getQuantity() + 1);
+-			return stockIngredient.getQuantity();
+-		}
+-
+-		return -1;
+-	}
+-
+-	public int take(String ingredient) {
+-		StockIngredient stockIngredient = this.findStockIngredient(ingredient);
+-
+-		if (stockIngredient != null) {
+-			var stockQuant = stockIngredient.getQuantity();
+-			if (stockQuant < 1) {
+-				return -1;
+-			}
+-
+-			stockIngredient.setQuantity(stockQuant - 1);
+-			return stockIngredient.getQuantity();
+-		}
+-
+-		return -1;
+-	}
+-
+-	public void emptyStock() {
+-		this.stockIngredients = new StockIngredient[0];
+-	}
+-}
+\ No newline at end of file
+diff -ruN a/template/src/de/tum/cit/ase/Inventory.java b/template/src/de/tum/cit/ase/Inventory.java
+--- a/template/src/de/tum/cit/ase/Inventory.java	1970-01-01 01:00:00
++++ b/template/src/de/tum/cit/ase/Inventory.java	2025-07-23 13:20:20
+@@ -0,0 +1,62 @@
++package de.tum.cit.ase;
++
++public class Inventory {
++	private StockIngredient[] stockIngredients;
++
++	public Inventory() {
++		this.stockIngredients = new StockIngredient[0];
++	}
++
++	public void setStockIngredients(StockIngredient[] stockIngredients) {
++		this.stockIngredients = stockIngredients;
++	}
++
++	public StockIngredient[] getStockIngredients() {
++		return this.stockIngredients;
++	}
++
++	public void addToStockIngredients(StockIngredient ingredient) {
++		this.stockIngredients = ArrayHelpers.addElementToArray(this.stockIngredients, ingredient);
++	}
++
++	public StockIngredient findStockIngredient(String name) {
++		for (var x : this.stockIngredients) {
++			if (x.getName().equals(name)) {
++				return x;
++			}
++		}
++
++		return null;
++	}
++
++	public int add(String ingredient) {
++		StockIngredient stockIngredient = this.findStockIngredient(ingredient);
++
++		if (stockIngredient != null) {
++			stockIngredient.setQuantity(stockIngredient.getQuantity() + 1);
++			return stockIngredient.getQuantity();
++		}
++
++		return -1;
++	}
++
++	public int take(String ingredient) {
++		StockIngredient stockIngredient = this.findStockIngredient(ingredient);
++
++		if (stockIngredient != null) {
++			var stockQuant = stockIngredient.getQuantity();
++			if (stockQuant < 1) {
++				return -1;
++			}
++
++			stockIngredient.setQuantity(stockQuant - 1);
++			return stockIngredient.getQuantity();
++		}
++
++		return -1;
++	}
++
++	public void emptyStock() {
++		this.stockIngredients = new StockIngredient[0];
++	}
++}
+\ No newline at end of file
+diff -ruN a/template/src/de/tum/cit/ase/Stock.java b/template/src/de/tum/cit/ase/Stock.java
+--- a/template/src/de/tum/cit/ase/Stock.java	2025-07-11 10:16:28
++++ b/template/src/de/tum/cit/ase/Stock.java	1970-01-01 01:00:00
+@@ -1,62 +0,0 @@
+-package de.tum.cit.ase;
+-
+-public class Stock {
+-	private StockIngredient[] stockIngredients;
+-
+-	public Stock() {
+-		this.stockIngredients = new StockIngredient[0];
+-	}
+-
+-	public void setStockIngredients(StockIngredient[] stockIngredients) {
+-		this.stockIngredients = stockIngredients;
+-	}
+-
+-	public StockIngredient[] getStockIngredients() {
+-		return this.stockIngredients;
+-	}
+-
+-	public void addToStockIngredients(StockIngredient ingredient) {
+-		this.stockIngredients = ArrayHelpers.addElementToArray(this.stockIngredients, ingredient);
+-	}
+-
+-	public StockIngredient findStockIngredient(String name) {
+-		for (var x : this.stockIngredients) {
+-			if (x.getName().equals(name)) {
+-				return x;
+-			}
+-		}
+-
+-		return null;
+-	}
+-
+-	public int add(String ingredient) {
+-		StockIngredient stockIngredient = this.findStockIngredient(ingredient);
+-
+-		if (stockIngredient != null) {
+-			stockIngredient.setQuantity(stockIngredient.getQuantity() + 1);
+-			return stockIngredient.getQuantity();
+-		}
+-
+-		return -1;
+-	}
+-
+-	public int take(String ingredient) {
+-		StockIngredient stockIngredient = this.findStockIngredient(ingredient);
+-
+-		if (stockIngredient != null) {
+-			var stockQuant = stockIngredient.getQuantity();
+-			if (stockQuant < 1) {
+-				return -1;
+-			}
+-
+-			stockIngredient.setQuantity(stockQuant - 1);
+-			return stockIngredient.getQuantity();
+-		}
+-
+-		return -1;
+-	}
+-
+-	public void emptyStock() {
+-		this.stockIngredients = new StockIngredient[0];
+-	}
+-}
+\ No newline at end of file
