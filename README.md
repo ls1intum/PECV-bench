@@ -55,12 +55,17 @@ source .venv/bin/activate
 
 #### Install dependencies (pip)
 
-Pinned runtime dependencies live in `requirements.txt`, and the reference pipeline itself should be installed in editable mode:
+Install the workspace directly in editable mode (append `.[dev]` to include linting and formatting tools):
 
 ```bash
 pip install --upgrade pip
-pip install -r requirements.txt
-pip install -e pecv-reference
+pip install -e .
+```
+
+For development workflows that need linters and formatters:
+
+```bash
+pip install -e .[dev]
 ```
 
 Whenever you start a new shell session, reactivate the virtual environment with `source .venv/bin/activate` before running any CLI commands.
@@ -103,7 +108,7 @@ Update `pecv-reference/.env` (or export the variables in your shell) with the fo
 Execute the reference pipeline with OpenAI's `o4-mini` model at medium reasoning effort across all exercises and variants:
 
 ```bash
-python -m cli.main run-benchmark \
+pecv-bench run-benchmark \
   pecv-reference \
   --model openai:o4-mini \
   --reasoning-effort medium \
@@ -115,7 +120,18 @@ python -m cli.main run-benchmark \
 Aggregate any completed runs into Markdown/JSON summaries:
 
 ```bash
-python -m cli.main report --benchmark pecv-reference
+pecv-bench report --benchmark pecv-reference
+```
+
+### CLI overview
+
+The entry point `pecv-bench` exposes all automation helpers. Use the built-in help to explore each command:
+
+```bash
+pecv-bench --help
+pecv-bench run-benchmark --help
+pecv-bench report --help
+pecv-bench variants --help
 ```
 
 ### Expected outputs
@@ -137,7 +153,7 @@ Run metadata lives in `runs/pecv-reference/<timestamped-run-id>.yaml`, enabling 
 
 - **Tasks & datasets:** Three Java programming exercises (Lectures, Panic at Seal Saloon, Space Seal Farm) with 91 perturbed variants and provenance for every injected inconsistency.
 - **Inconsistency taxonomy:** Six ontology categories—ATTRIBUTE_TYPE_MISMATCH, METHOD_RETURN_TYPE_MISMATCH, IDENTIFIER_NAMING_INCONSISTENCY, METHOD_PARAMETER_MISMATCH, VISIBILITY_MISMATCH, CONSTRUCTOR_PARAMETER_MISMATCH.
-- **Evaluation pipeline:** `run-benchmark` orchestrates prompt construction, model execution, and artifact diffing; `report` aligns predictions with gold spans and aggregates metrics (precision, recall, F1, span F1, IoU, latency, and cost).
+- **Evaluation pipeline:** `run-benchmark` orchestrates prompt construction, model execution, and output parsing; `report` aligns predictions with gold spans and aggregates metrics (precision, recall, F1, span F1, IoU, latency, and cost).
 
 ![Ontology diagram highlighting inconsistency categories](figures/inconsistency_ontology.svg)
 
@@ -159,9 +175,9 @@ Run metadata lives in `runs/pecv-reference/<timestamped-run-id>.yaml`, enabling 
 
 ### Add your own results
 
-1. Create a config (or reuse `configs/pecv-reference.yaml`) and run `python -m cli.main run-benchmark ...` with your approach.
+1. Create a config (or reuse `configs/pecv-reference.yaml`) and run `pecv-bench run-benchmark ...` with your approach.
 2. Place generated outputs under `results/<benchmark>/<your-run-id>/` and metadata in `runs/<benchmark>/<your-run-id>.yaml`.
-3. Re-run `python -m cli.main report --benchmark <benchmark>` to update summaries and leaderboard tables.
+3. Re-run `pecv-bench report --benchmark <benchmark>` to update summaries and leaderboard tables.
 
 ## License
 

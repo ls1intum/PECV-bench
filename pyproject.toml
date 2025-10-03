@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pecv-bench"
+version = "1.0.0"
+description = "Programming Exercise Consistency Verification benchmark toolkit"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.9,<4.0"
+authors = [
+    { name = "Felix T.J. Dietrich", email = "felixtj.dietrich@tum.de" }
+]
+dependencies = [
+    "langchain==0.3.27",
+    "langchain-core==0.3.72",
+    "langchain-openai==0.3.28",
+    "langchain-ollama==0.3.6",
+    "langsmith==0.4.8",
+    "langfuse==2.60.5",
+    "python-dotenv==1.0.1",
+    "pydantic-settings==2.8.1",
+    "pydantic==2.9.2",
+    "PyYAML==6.0.2"
+]
+
+[project.optional-dependencies]
+dev = [
+    "black==24.10.0",
+    "flake8==7.1.2"
+]
+
+[project.scripts]
+pecv-bench = "cli.main:main"
+pecv-reference = "pecv_reference.runner:main"
+
+[project.urls]
+Homepage = "https://github.com/ls1intum/PECV-bench"
+"Issue Tracker" = "https://github.com/ls1intum/PECV-bench/issues"
+
+[tool.setuptools]
+packages = [
+    "cli",
+    "cli.commands",
+    "cli.reporting",
+    "pecv_reference",
+    "pecv_reference.consistency_check",
+    "pecv_reference.consistency_check.checker"
+]
+
+[tool.setuptools.package-dir]
+pecv_reference = "pecv-reference/pecv_reference"
