@@ -151,7 +151,7 @@ Run metadata lives in `runs/pecv-reference/<timestamped-run-id>.yaml`, enabling 
 
 ## Methodology
 
-- **Tasks & datasets:** Three Java programming exercises (Lectures, Panic at Seal Saloon, Space Seal Farm) with 91 perturbed variants and provenance for every injected inconsistency.
+- **Tasks & datasets:** Three Java programming exercises (Lectures, Panic at Seal Saloon, Space Seal Farm) with 91 perturbed variants and provenance for every injected inconsistency. These programming exercises originate from the [Artemis](https://github.com/ls1intum/Artemis) learning management system, an open-source LMS used to deliver interactive programming education. See the [Artemis README](https://github.com/ls1intum/Artemis/blob/develop/README.md) for platform details and pedagogical context.
 - **Inconsistency taxonomy:** Six ontology categories—ATTRIBUTE_TYPE_MISMATCH, METHOD_RETURN_TYPE_MISMATCH, IDENTIFIER_NAMING_INCONSISTENCY, METHOD_PARAMETER_MISMATCH, VISIBILITY_MISMATCH, CONSTRUCTOR_PARAMETER_MISMATCH.
 - **Evaluation pipeline:** `run-benchmark` orchestrates prompt construction, model execution, and output parsing; `report` aligns predictions with gold spans and aggregates metrics (precision, recall, F1, span F1, IoU, latency, and cost).
 
