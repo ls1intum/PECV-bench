@@ -1,10 +1,15 @@
 # PECV-bench
 
+[![DOI](https://zenodo.org/badge/1069196433.svg)](https://doi.org/10.5281/zenodo.17260262)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue)](pecv-reference/pyproject.toml)
+[![Python](https://img.shields.io/badge/python-3.9%2B-3776AB?logo=python&logoColor=white)](pecv-reference/pyproject.toml)
+[![Software License](https://img.shields.io/github/license/ls1intum/PECV-bench)](LICENSE)
+[![Data License](https://img.shields.io/badge/data%20license-CC%20BY%204.0-ff6f00)](DATA_LICENSE)
+
 The Programming Exercise Consistency Verification (PECV) benchmark delivers automated consistency verification across multi-artifact programming exercises so course staff can deliver trustworthy assignments faster and with less manual effort.
 
 Grounded in a 91-variant benchmark with 93 gold inconsistencies, the toolkit pairs an ontology-driven dataset with an LLM-based reference pipeline for reproducible evaluation.
 
-<a id="at-a-glance"></a>
 ## At-a-Glance
 
 | Benchmark | Config Key | N runs | TP | FP | FN | Precision | Recall | F1 | Span F1 | IoU | Avg Time (s) | Avg Cost ($) |
