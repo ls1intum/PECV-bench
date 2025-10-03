@@ -1,0 +1,136 @@
+{
+  "type": "programming",
+  "id": 15036,
+  "title": "H05E01 - Space Seal Farm",
+  "shortName": "h05e01",
+  "maxPoints": 10.0,
+  "bonusPoints": 0.0,
+  "assessmentType": "AUTOMATIC",
+  "releaseDate": "2024-11-13T18:00:00Z",
+  "startDate": "2024-11-13T18:00:00Z",
+  "dueDate": "2024-11-20T12:00:00Z",
+  "difficulty": "EASY",
+  "mode": "INDIVIDUAL",
+  "allowComplaintsForAutomaticAssessments": false,
+  "allowFeedbackRequests": false,
+  "includedInOverallScore": "INCLUDED_COMPLETELY",
+  "problemStatement": "# H05E01 - Space Farm! \n\nIn our cosmic adventure, Old MacDonald has set out to build an intergalactic seal sanctuary using the latest and greatest object-oriented technologies. In this futuristic twist on the traditional “Old MacDonald Had a Farm,” our hero isn’t herding cows and chickens but rather floating alongside space seals in the vast depths of outer space.\n\nEach verse of the song swaps in a new cosmic creature, complete with its unique sound resonating through the stars. For example, if our intergalactic verse features a Seal, the sound might be an ethereal \"moo,” echoing across the void. To create a foundation for our “Old MacDonald Had a Farm” reimagined with seals, pigs, and star-bound goats, we’ll explore the principles of inheritance, interface implementation, and abstract classes. Therefore, it’s essential to be familiar with these concepts from the lecture to build our space sanctuary’s object-oriented architecture.\n\n## Project Structure\n\nIn the template repository folder `src/de/tum/cit/ase`, you can already find the `Main` class for testing the rest of the classes, which must also be created in the same directory according to the UML diagram below:\n\n\n@startuml\n \n\ntogether {\nclass Farm { \n<color:testsColor(testMethods[Farm])>- animals: List<Animal></color>\n<color:testsColor(testMethods[Farm])>+ addAnimal(animal: Animal):void</color>\n<color:testsColor(testMethods[Farm])>- singFarmSongVerse(animal: Animal):void</color>\n<color:testsColor(testMethods[Farm])>+ singFarmSong():void</color>\n<color:testsColor(testMethods[Farm])>+ feedAllAnimals():void</color>\n}\n}\n\ntogether {\nabstract class Animal <<abstract>> #text:testsColor(testClass[Animal]) {\n<color:testsColor(testAttributes[Animal])>- name: String</color>\n{abstract} <color:testsColor(testMethods[Animal])>+ messageOnFeed():String</color>\n}\n\nclass Seal #text:testsColor(testClass[Seal]){\n<color:testsColor(testMethods[Seal])>+ messageOnFeed():String</color>\n<color:testsColor(testMethods[Seal])>+ messageOnMilk():String</color>\n<color:testsColor(testMethods[Seal])>+ messageOnRide():String</color>\n}\n\nclass Pig #text:testsColor(testClass[Pig]){\n<color:testsColor(testMethods[Pig])>+ messageOnFeed():String</color>\n<color:testsColor(testMethods[Pig])>+ messageOnRide():String</color>\n}\n\nclass Goat #text:testsColor(testClass[Goat]){\n<color:testsColor(testMethods[Goat])>+ messageOnFeed():String</color>\n<color:testsColor(testMethods[Goat])>+ messageOnMilk():String</color>\n}\n\ninterface Rideable <<interface>> #text:testsColor(testClass[Rideable]){\n<color:testsColor(testMethods[Rideable])>{abstract} messageOnRide():String</color>\n}\n\ninterface Milkable <<interface>> #text:testsColor(testClass[Milkable]){\n<color:testsColor(testMethods[Milkable])>{abstract} messageOnMilk():String</color>\n}\n }\n\nFarm -d-> \"*\" Animal #testsColor(testAttributes[Farm]);text:testsColor(testAttributes[Farm]) : animals\n\nMilkable <|-- Seal #testsColor(testClass[Seal])\nMilkable <|-- Goat #testsColor(testClass[Goat])\n\n\nRideable <|-- Pig #testsColor(testClass[Pig])\nRideable <|-- Seal #testsColor(testClass[Seal])\n\nAnimal <|-[hidden]right- Rideable\nMilkable <|-[hidden]left- Rideable\n\nAnimal <|--Seal #testsColor(testClass[Seal])\nAnimal <|--Pig #testsColor(testClass[Pig])\nAnimal <|--Goat #testsColor(testClass[Goat]) \n \n\nhide circles\nhide empty members\n@enduml\n\n\n## Your tasks\n\nFirst of all, we need to set up the structure for our song \"Old MacDonald had a Farm\". Therefore, we need to implement the structure from the UML diagram above. Each class should have a constructor that initializes all class attributes. The animal is an abstract class, which can be a pig, a goat, or a seal. All three animals have something in common: they have a name.\n\n### Part 1\n\n1. [task][Implement the Animal class](testClass[Animal],testAttributes[Animal],testMethods[Animal],testConstructors[Animal])\n    Create an `abstract` class `Animal` according to the UML diagram above and define method `messageOnFeed()` as `abstract`. Also, don't forget to implement a `getter` and a `setter`.\n\n2. [task][Create Interfaces](testClass[Rideable],testClass[Milkable],testMethods[Milkable],testMethods[Rideable]) \n    Define the `Rideable` and `Milkable` interfaces and remember that their methods are not `default` or `static`.\n    \n### Part 2\n\nNow, in our classes Goat, Seal, and Pig, you have to implement the interfaces as shown in the UML diagram and implement the methods.\n- The method `messageOnMilk()` should return <code class=\"string\">\"[Animal Type] [name] is milked\"</code>\n- The method `messageOnRide()` should return <code class= \"string\"> \"Riding on [Animal Type] [name]\" </code>\n\n1. [task][Implement the Seal class](testClass[Seal],testConstructors[Seal],testMethods[Seal],feedSealTest(),milkSealTest(),rideSealTest())\n    Implement the class `Seal` according to the UML diagram. A seal is an `Animal` which is `Rideable` and `Milkable`, and `messageOnFeed()` should return <code class=\"string\">\"Arf Arf!\"</code>\n\n2. [task][Implement the Pig class](testClass[Pig],testConstructors[Pig],testMethods[Pig],feedPigTest(),ridePigTest())\n    Implement the class `Pig` according to the UML diagram. A pig is a `Rideable` `Animal`, and `messageOnFeed()` should return <code class=\"string\">\"Oink!\"</code>\n\n3. [task][Implement the Goat class](testClass[Goat],testConstructors[Goat],testMethods[Goat],feedGoatTest(),milkGoatTest())\n    Implement the class `Goat` according to the UML diagram. A goat is a `Milkable` `Animal`, and `messageOnFeed()` should return <code class=\"string\">\"Maah!\"</code>\n\n### Part 3\n\n1. [task][Implement the Farm class](testMethods[Farm],testAttributes[Farm],farmConstructs(),getAnimalsTest())\n    Implement the class `Farm` according to the UML diagram. In a farm, there are a list of animals. The aggregation between Farm and Animal is realized using a `List`, implemented using an `ArrayList`. Initialize the ArrayList in a constructor with no arguments. Also, don't forget to implement a `getter` and a `setter`.\n    - `addAnimal(Animal a)` adds an animal to the list. \n    - `feedAllAnimals()` calls `messageOnFeed()` on all animals in the Farm, printing out the message for each animal.\n\n2. [task][Play the Song](testMethods[Farm],executeSongMethod(IOTester)) \n    Implement the method `singFarmSong()` inside `Farm.java`, which prints the **Old MacDonald had a Farm** song. Your song must be printed correctly for a farm with any number of animals. The song consists of multiple verses, where each verse is sung by one Animal. A verse looks like this:\n    Hint: Use animal.getClass().getSimpleName() to get the class name of the animal \n\n```\n    Old MacDonald had a farm\n    Ee i ee i o\n    And on his farm he had some [Animal Type]s\n    Ee i ee i oh\n    With a \n    [messageOnFeed() Return value]\n    [messageOnFeed() Return value]\n    here, and a \n    [messageOnFeed() Return value]\n    [messageOnFeed() Return value]\n    there.\n    Here a \n    [messageOnFeed() Return value]\n    There a \n    [messageOnFeed() Return value]\n    Everywhere a \n    [messageOnFeed() Return value]\n    [messageOnFeed() Return value]\n    Old MacDonald had a farm\n    Ee i ee i o\n```\n\nVerses are printed back to back, so no space or blank line is added between verses, only line breaks.\n\n<style>\ncode.string {\n    background-color: rgba(var(--bs-body-color-rgb), 0.10);;\n    border: 2px;\n    border-radius: 3px;\n    padding: 2px;\n}  \n#plantUml-11 {\n  display: flex;\n  justify-content: center;  \n  align-items: center;  \n}\n\n#plantUml-11 svg[width=\"1444px\"][height=\"280px\"][viewBox=\"0 0 1444 280\"] { \n  transform-origin: center;  \n}\n\n\n</style>",
+  "presentationScoreEnabled": true,
+  "secondCorrectionEnabled": false,
+  "course": {
+    "id": 396,
+    "title": "Introduction to Programming (CIT5230000) WS24/25",
+    "description": "Master programming in the small using object-oriented programming, realize programs on your own and apply the fundamental concepts of computer science.",
+    "shortName": "itp2425",
+    "studentGroupName": "artemis-itp2425-students",
+    "teachingAssistantGroupName": "artemis-itp2425-tutors",
+    "editorGroupName": "artemis-itp2425-editors",
+    "instructorGroupName": "artemis-itp2425-instructors",
+    "startDate": "2024-10-14T06:00:00Z",
+    "endDate": "2025-04-22T12:00:00Z",
+    "enrollmentStartDate": "2024-10-14T05:00:00Z",
+    "enrollmentEndDate": "2024-11-19T23:00:00Z",
+    "unenrollmentEndDate": "2024-11-19T23:00:01Z",
+    "semester": "WS24/25",
+    "testCourse": false,
+    "defaultProgrammingLanguage": "JAVA",
+    "onlineCourse": false,
+    "courseInformationSharingConfiguration": "COMMUNICATION_AND_MESSAGING",
+    "courseInformationSharingMessagingCodeOfConduct": "<!-- Code of Conduct Template: Adapt to your demands -->\n<!-- Important: This template will directly be shown on the iOS and Android client if a course has no explicit code of conduct set. -->\n\nWe as students, tutors, and instructors pledge to make participation in our course a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.\n\nWe pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.\n\n## Our Standards\n\n### Examples of behavior that contributes to a positive environment for our community include:\n\n- Demonstrating empathy and kindness toward other people\n- Being respectful of differing opinions, viewpoints, and experiences\n- Giving and gracefully accepting constructive feedback\n- Accepting responsibility and apologizing to those affected by our mistakes, and learning from the experience\n- Focusing on what is best not just for us as individuals, but for the overall community\n\n### Examples of unacceptable behavior include:\n\n- The use of sexualized language or imagery, and sexual attention or advances of any kind\n- Trolling, insulting or derogatory comments, and personal or political attacks\n- Public or private harassment\n- Publishing others' private information, such as a physical or email address, without their explicit permission\n- Other conduct which could reasonably be considered inappropriate in a professional setting\n\n## Scope\n\nThis Code of Conduct applies within all messages channels.\n\n## Reporting\n\nEach course is represented by instructors. If you see inappropriate behavior or content, please report it.\nYou may find a list of contacts responsible for this course below.\n\n<!-- The responsible users are automatically compiled from the course's instructors -->\n",
+    "maxComplaints": 3,
+    "maxTeamComplaints": 3,
+    "maxComplaintTimeDays": 2,
+    "maxRequestMoreFeedbackTimeDays": 0,
+    "maxComplaintTextLimit": 2000,
+    "maxComplaintResponseTextLimit": 2000,
+    "color": "#ffb2b2",
+    "courseIcon": "course/icons/396/CourseIcon_2024-09-26T11-51-52-151_acaaa9b8.png",
+    "enrollmentEnabled": true,
+    "enrollmentConfirmationMessage": "By enrolling to this course, I confirm:\n1. I **study** at the School of Management (SoM). \n2. I will **strictly follow** the [TUM Digital Learning Commitment](https://portal.mytum.de/archiv/komp_ssz/ArchiveFolder_20201029_163636/20201029_165601), the [Informatics Student Code of Conduct](https://nextcloud.in.tum.de/index.php/s/ZBskKXitEFfFEFf) and the [ITP Student Code of Conduct](https://nextcloud.in.tum.de/index.php/s/JJxKzdAsrymx3SK).\n3. I will **`not` share** course material to third parties.\n\nSlides, recordings, and exercises are copyrighted material. Passing on the materials to third parties is **`not`** permitted. Participation is only possible if you study at the SoM.",
+    "unenrollmentEnabled": true,
+    "faqEnabled": true,
+    "accuracyOfScores": 1,
+    "restrictedAthenaModulesAccess": false,
+    "timeZone": "Europe/Berlin",
+    "learningPathsEnabled": false,
+    "studentCourseAnalyticsDashboardEnabled": false,
+    "requestMoreFeedbackEnabled": false,
+    "complaintsEnabled": true
+  },
+  "plagiarismDetectionConfig": {
+    "continuousPlagiarismControlEnabled": false,
+    "continuousPlagiarismControlPostDueDateChecksEnabled": false,
+    "continuousPlagiarismControlPlagiarismCaseStudentResponsePeriod": 7,
+    "similarityThreshold": 90,
+    "minimumScore": 0,
+    "minimumSize": 50
+  },
+  "testRepositoryUri": "https://artemis.tum.de/git/ITP2425H05E01/itp2425h05e01-tests.git",
+  "allowOnlineEditor": false,
+  "allowOfflineIde": true,
+  "allowOnlineIde": false,
+  "staticCodeAnalysisEnabled": false,
+  "programmingLanguage": "JAVA",
+  "packageName": "de.tum.in.ase",
+  "showTestNamesToStudents": false,
+  "testCasesChanged": true,
+  "projectKey": "ITP2425H05E01",
+  "projectType": "PLAIN_GRADLE",
+  "releaseTestsWithExampleSolution": false,
+  "buildConfig": {
+    "id": 14868,
+    "sequentialTestRuns": false,
+    "branch": "main",
+    "buildPlanConfiguration": "{\"api\":\"v0.0.1\",\"metadata\":{\"docker\":{\"image\":\"ls1tum/artemis-maven-template:java17-22\",\"volumes\":[\"${WORKDIR}:${WORKDIR}\",\"${TMPDIR}:${TMPDIR}\"],\"parameters\":[]}},\"actions\":[{\"name\":\"tests\",\"runAlways\":false,\"parameters\":{},\"script\":\"chmod +x ./gradlew\\n./gradlew clean test tiaTests --run-all-tests\"},{\"name\":\"setup_working_directory_for_cleanup\",\"runAlways\":true,\"results\":[{\"name\":\"testwiseCoverageReport\",\"path\":\"build/reports/testwise-coverage/tiaTests/tiaTests.json\",\"type\":\"testwise-coverage\",\"before\":false},{\"name\":\"junit_**/test-results/test/*.xml\",\"path\":\"**/test-results/test/*.xml\",\"type\":\"junit\",\"before\":true}],\"platform\":\"bamboo\",\"parameters\":{},\"script\":\"chmod -R 777 ${WORKDIR}\"}]}",
+    "buildScript": "#!/usr/bin/env bash\nset -e\n\ntests () {\n  echo '⚙️ executing tests'\n  chmod +x ./gradlew\n  ./gradlew clean test tiaTests --run-all-tests\n}\n\nmain () {\n  tests\n}\n\nmain \"${@}\"",
+    "checkoutSolutionRepository": false,
+    "timeoutSeconds": 0,
+    "allowBranching": false,
+    "windfile": {
+      "api": "v0.0.1",
+      "metadata": {
+        "docker": {
+          "image": "ls1tum/artemis-maven-template:java17-22",
+          "volumes": [
+            "${WORKDIR}:${WORKDIR}",
+            "${TMPDIR}:${TMPDIR}"
+          ]
+        }
+      },
+      "actions": [
+        {
+          "name": "tests",
+          "runAlways": false,
+          "script": "chmod +x ./gradlew\n./gradlew clean test tiaTests --run-all-tests"
+        },
+        {
+          "name": "setup_working_directory_for_cleanup",
+          "results": [
+            {
+              "name": "testwiseCoverageReport",
+              "path": "build/reports/testwise-coverage/tiaTests/tiaTests.json",
+              "type": "testwise-coverage",
+              "before": false
+            },
+            {
+              "name": "junit_**/test-results/test/*.xml",
+              "path": "**/test-results/test/*.xml",
+              "type": "junit",
+              "before": true
+            }
+          ],
+          "runAlways": true,
+          "platform": "bamboo",
+          "script": "chmod -R 777 ${WORKDIR}"
+        }
+      ]
+    }
+  },
+  "type": "programming",
+  "exerciseType": "PROGRAMMING",
+  "defaultTestCaseVisibility": "ALWAYS",
+  "studentAssignedTeamIdComputed": false,
+  "gradingInstructionFeedbackUsed": false,
+  "visibleToStudents": true,
+  "teamMode": false
+}

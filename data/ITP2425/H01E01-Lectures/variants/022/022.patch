@@ -1,0 +1,30 @@
+diff -ruN a/solution/src/de/tum/cit/ase/Lecture.java b/solution/src/de/tum/cit/ase/Lecture.java
+--- a/solution/src/de/tum/cit/ase/Lecture.java	2025-07-25 15:07:44
++++ b/solution/src/de/tum/cit/ase/Lecture.java	2025-07-27 01:44:32
+@@ -72,18 +72,22 @@
+     }
+ 
+     // TODO 2.4: Add the getTotalNumberOfStudents method as specified in the task and the UML diagram
+-    public int getTotalNumberOfStudents() {
+-        return numberOfGuestStudents + numberOfInscribedStudents;
++    public int getTotalNumberOfStudents(boolean includeGuests) {
++        if (includeGuests) {
++            return numberOfGuestStudents + numberOfInscribedStudents;
++        } else {
++            return numberOfInscribedStudents;
++        }
+     }
+ 
+     // TODO 2.5: Add the getNameAndTotalNumberOfStudents method as specified in the task and the UML diagram. HINT: Implement 2.4 first
+     public String getNameAndTotalNumberOfStudents() {
+-        return lectureName + " (" + getTotalNumberOfStudents() + ")";
++        return lectureName + " (" + getTotalNumberOfStudents(true) + ")";
+     }
+ 
+     // TODO 2.6: Add the getNumberOfStudentsPerTutor method as specified in the task and the UML diagram. HINT: Implement 2.4 first
+     public int getNumberOfStudentsPerTutor() {
+-        return getTotalNumberOfStudents() / getNumberOfTutors();
++        return getTotalNumberOfStudents(true) / getNumberOfTutors();
+     }
+ 
+     // TODO 2.7: Add the addGuestStudents method as specified in the task and the UML diagram

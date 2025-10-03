@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pecv-reference"
+version = "1.0.0"
+description = "Reference implementation for the PECV benchmark consistency checks"
+authors = [
+    {name = "Felix T.J. Dietrich", email = "felixtj.dietrich@tum.de"},
+]
+requires-python = ">=3.9,<4.0"
+dependencies = [
+    "langchain==0.3.27",
+    "langchain-core==0.3.72",
+    "langchain-openai==0.3.28",
+    "langchain-ollama==0.3.6",
+    "langsmith==0.4.8",
+    "langfuse==2.60.5",
+    "python-dotenv==1.0.1",
+    "pydantic-settings==2.8.1",
+    "pydantic==2.9.2",
+]
+
+[project.scripts]
+pecv-reference = "pecv_reference.runner:main"
+
+[project.optional-dependencies]
+dev = [
+    "black==24.10.0",
+    "flake8==7.1.2",
+]
+
+[tool.setuptools.packages.find]
+include = ["pecv_reference*"]
+
+[tool.black]
+line-length = 88
+target-version = ["py310"]
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203"]

@@ -1,0 +1,28 @@
+diff -ruN a/template/src/de/tum/cit/ase/Stock.java b/template/src/de/tum/cit/ase/Stock.java
+--- a/template/src/de/tum/cit/ase/Stock.java	2025-07-11 10:16:28
++++ b/template/src/de/tum/cit/ase/Stock.java	2025-07-23 17:24:50
+@@ -40,20 +40,20 @@
+ 		return -1;
+ 	}
+ 
+-	public int take(String ingredient) {
++	public boolean take(String ingredient) {
+ 		StockIngredient stockIngredient = this.findStockIngredient(ingredient);
+ 
+ 		if (stockIngredient != null) {
+ 			var stockQuant = stockIngredient.getQuantity();
+ 			if (stockQuant < 1) {
+-				return -1;
++				return false;
+ 			}
+ 
+ 			stockIngredient.setQuantity(stockQuant - 1);
+-			return stockIngredient.getQuantity();
++			return true;
+ 		}
+ 
+-		return -1;
++		return false;
+ 	}
+ 
+ 	public void emptyStock() {
