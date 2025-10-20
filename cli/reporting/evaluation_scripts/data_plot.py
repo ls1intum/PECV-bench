@@ -587,10 +587,10 @@ if __name__ == "__main__":
     # Create plotter instance - loads model_performance_results.json
     # Expected JSON format: {model_name: [{prompt_tokens: X, f1: Y, exercise: Z}, ...]}
 
-    plotter = ModelPerformancePlotter("variants_report.json")
+    plotter = ModelPerformancePlotter("cli/reporting/evaluation_scripts/variants_report.json")
 
     # print("Summary Statistics:", plotter.get_summary_statistics())
     plotter.print_correlation_analysis()
     plotter.print_per_exercise_correlation_analysis()
-    plotter.plot_per_model_subplots("plots/per_model.png")
-    plotter.plot_per_model_per_exercise_subplots("plots/per_model_per_exercise.png")
+    plotter.plot_per_model_subplots("cli/reporting/evaluation_scripts/plots/per_model.png")
+    plotter.plot_per_model_per_exercise_subplots("cli/reporting/evaluation_scripts/plots/per_model_per_exercise.png")
