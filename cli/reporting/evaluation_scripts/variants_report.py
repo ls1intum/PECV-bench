@@ -249,7 +249,7 @@ def iterate_test_files(results_dir: str) -> None:
         )
 
     # Save results
-    output_file = "cli/reporting/evaluation_scripts/variants_report.json"
+    output_file = "cli/reporting/evaluation_scripts/evaluation_report/variants_report.json"
     with open(output_file, "w", encoding="utf-8") as file:
         json.dump(sorted_results_by_model, file, indent=2)
 
