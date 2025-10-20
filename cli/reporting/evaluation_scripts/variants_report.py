@@ -14,6 +14,13 @@ import os
 import json
 from pathlib import Path
 import re
+from ..metrics import (
+    unify_model_name,
+    unify_path,
+    issue_to_tokens,
+    compute_f1_iou,
+    greedy_match,
+)
 
 from collections import defaultdict
 from typing import Dict, List, Tuple, Set
@@ -46,7 +53,21 @@ def get_stats_file_with_run_id(result_file_path, run_id) -> str | None:
 
 
 # ------------FROM CREATE_EVALUATION_REPORT.PY-----------------
+"""
+unify_model_name — no
 
+Reason: present only in variants_report.py; not defined in metrics.py.
+unify_path — no
+
+Difference:
+variants_report: returns "" for empty input and only strips "solution_repository/" and "template_repository/".
+metrics.py: returns "problem_statement.md" for empty input and strips additional prefixes ("solution/", "template/") — more robust.
+issue_to_tokens — no
+
+Difference:
+variants_report: assumes related_locations entries are dict-like and that start/end lines parse to int; uses "problem_statement.md" when file_path empty; does not add fallback token when no locations found.
+metrics.py: defensive (checks isinstance, catches non-int start/end, ensures end >= start) and if no tokens adds ("PROBLEM_STATEMENT","problem_statement.md",0). More robust.
+"""
 
 def unify_model_name(model_name: str) -> str:
     """Normalise provider-qualified model identifiers.
@@ -68,107 +89,107 @@ def unify_model_name(model_name: str) -> str:
     return short
 
 
-def unify_path(path: str) -> str:
-    """Canonicalise file paths by removing repository prefixes.
+# def unify_path(path: str) -> str:
+#     """Canonicalise file paths by removing repository prefixes.
 
-    Gold annotations store paths relative to the repository root (e.g.
-    ``src/com/example/Foo.java``) whereas predictions sometimes prefix
-    ``solution_repository/`` or ``template_repository/``. To enable
-    matching, we strip these known prefixes. Empty file paths (used for
-    problem statements) are normalised to ``problem_statement.md``.
-    """
-    if not path:
-        return ""
-    for prefix in ["solution_repository/", "template_repository/"]:
-        if path.startswith(prefix):
-            return path[len(prefix) :]
-    return path
-
-
-def issue_to_tokens(issue: Dict) -> Set[Tuple[str, str, int]]:
-    """Transform an issue into a set of tokens for overlap calculation.
-
-    Each issue contains one or more ``related_locations`` specifying the
-    artifact type, file path, and line range. We convert each line in
-    each location into a token ``(artifact_type, file_path, line)``. The
-    file path is canonicalised via :func:`unify_path`. For empty file
-    paths, we use a placeholder ``problem_statement.md``. The tokens
-    uniquely identify each affected line and allow straightforward
-    computation of set overlap.
-    """
-    tokens: Set[Tuple[str, str, int]] = set()
-    for loc in issue.get("related_locations", []):
-        art_type = loc.get("type")
-        file_path = unify_path(loc.get("file_path") or "")
-        if not file_path:
-            file_path = "problem_statement.md"
-        start = int(loc.get("start_line", 0))
-        end = int(loc.get("end_line", start))
-        for line in range(start, end + 1):
-            tokens.add((art_type, file_path, line))
-    return tokens
+#     Gold annotations store paths relative to the repository root (e.g.
+#     ``src/com/example/Foo.java``) whereas predictions sometimes prefix
+#     ``solution_repository/`` or ``template_repository/``. To enable
+#     matching, we strip these known prefixes. Empty file paths (used for
+#     problem statements) are normalised to ``problem_statement.md``.
+#     """
+#     if not path:
+#         return ""
+#     for prefix in ["solution_repository/", "template_repository/"]:
+#         if path.startswith(prefix):
+#             return path[len(prefix) :]
+#     return path
 
 
-def compute_f1_iou(
-    pred_tokens: Set[Tuple[str, str, int]], gold_tokens: Set[Tuple[str, str, int]]
-) -> Tuple[float, float]:
-    """Compute Dice/F1 and IoU between two sets of tokens.
+# def issue_to_tokens(issue: Dict) -> Set[Tuple[str, str, int]]:
+#     """Transform an issue into a set of tokens for overlap calculation.
 
-    The Dice coefficient (F1) is defined as ``2|A∩B| / (|A| + |B|)``.
-    The Intersection‑over‑Union (IoU) is ``|A∩B| / |A∪B|``.
-    Both return zero if either set is empty or if there is no overlap.
-    """
-    if not pred_tokens or not gold_tokens:
-        return 0.0, 0.0
-    intersection = pred_tokens & gold_tokens  # TRUE POSITIVES
-    if not intersection:
-        return 0.0, 0.0
-    inter = len(intersection)
-    precision = inter / len(
-        pred_tokens
-    )  # TRUE POSITIVES / (TRUE POSITIVES + FALSE POSITIVES)
-    recall = inter / len(
-        gold_tokens
-    )  # TRUE POSITIVES / (TRUE POSITIVES + FALSE NEGATIVES)
-    f1 = (
-        2 * precision * recall / (precision + recall)
-        if (precision + recall) > 0
-        else 0.0
-    )
-    union = len(pred_tokens | gold_tokens)
-    iou = inter / union if union > 0 else 0.0
-    return f1, iou
+#     Each issue contains one or more ``related_locations`` specifying the
+#     artifact type, file path, and line range. We convert each line in
+#     each location into a token ``(artifact_type, file_path, line)``. The
+#     file path is canonicalised via :func:`unify_path`. For empty file
+#     paths, we use a placeholder ``problem_statement.md``. The tokens
+#     uniquely identify each affected line and allow straightforward
+#     computation of set overlap.
+#     """
+#     tokens: Set[Tuple[str, str, int]] = set()
+#     for loc in issue.get("related_locations", []):
+#         art_type = loc.get("type")
+#         file_path = unify_path(loc.get("file_path") or "")
+#         if not file_path:
+#             file_path = "problem_statement.md"
+#         start = int(loc.get("start_line", 0))
+#         end = int(loc.get("end_line", start))
+#         for line in range(start, end + 1):
+#             tokens.add((art_type, file_path, line))
+#     return tokens
 
 
-def greedy_match(
-    pred_issues: List[Dict], gold_issues: List[Dict]
-) -> Tuple[List[Tuple[int, int, float, float]], Set[int], Set[int]]:
-    """Greedily match predicted issues to gold issues within each category.
+# def compute_f1_iou(
+#     pred_tokens: Set[Tuple[str, str, int]], gold_tokens: Set[Tuple[str, str, int]]
+# ) -> Tuple[float, float]:
+#     """Compute Dice/F1 and IoU between two sets of tokens.
 
-    We generate candidate pairs for issues of the same category and compute
-    their span F1 and IoU. Candidate pairs with zero F1 are discarded. We
-    then sort candidates by descending F1 and IoU and iteratively select
-    matches, ensuring each predicted and gold issue is used at most once.
-    The function returns the list of selected matches and the sets of matched indices.
-    """
-    candidates: List[Tuple[float, float, int, int]] = []
-    for i, p in enumerate(pred_issues):
-        for j, g in enumerate(gold_issues):
-            if p["category"] != g["category"]:
-                continue
-            f1, iou = compute_f1_iou(p["tokens"], g["tokens"])
-            if f1 > 0:
-                candidates.append((f1, iou, i, j))
-    candidates.sort(key=lambda x: (-x[0], -x[1]))
-    matched_pred: Set[int] = set()
-    matched_gold: Set[int] = set()
-    matches: List[Tuple[int, int, float, float]] = []
-    for f1, iou, i, j in candidates:
-        if i not in matched_pred and j not in matched_gold:
-            matched_pred.add(i)
-            matched_gold.add(j)
-            matches.append((i, j, f1, iou))
-    return matches, matched_pred, matched_gold
+#     The Dice coefficient (F1) is defined as ``2|A∩B| / (|A| + |B|)``.
+#     The Intersection‑over‑Union (IoU) is ``|A∩B| / |A∪B|``.
+#     Both return zero if either set is empty or if there is no overlap.
+#     """
+#     if not pred_tokens or not gold_tokens:
+#         return 0.0, 0.0
+#     intersection = pred_tokens & gold_tokens  # TRUE POSITIVES
+#     if not intersection:
+#         return 0.0, 0.0
+#     inter = len(intersection)
+#     precision = inter / len(
+#         pred_tokens
+#     )  # TRUE POSITIVES / (TRUE POSITIVES + FALSE POSITIVES)
+#     recall = inter / len(
+#         gold_tokens
+#     )  # TRUE POSITIVES / (TRUE POSITIVES + FALSE NEGATIVES)
+#     f1 = (
+#         2 * precision * recall / (precision + recall)
+#         if (precision + recall) > 0
+#         else 0.0
+#     )
+#     union = len(pred_tokens | gold_tokens)
+#     iou = inter / union if union > 0 else 0.0
+#     return f1, iou
+
+
+# def greedy_match(
+#     pred_issues: List[Dict], gold_issues: List[Dict]
+# ) -> Tuple[List[Tuple[int, int, float, float]], Set[int], Set[int]]:
+#     """Greedily match predicted issues to gold issues within each category.
+
+#     We generate candidate pairs for issues of the same category and compute
+#     their span F1 and IoU. Candidate pairs with zero F1 are discarded. We
+#     then sort candidates by descending F1 and IoU and iteratively select
+#     matches, ensuring each predicted and gold issue is used at most once.
+#     The function returns the list of selected matches and the sets of matched indices.
+#     """
+#     candidates: List[Tuple[float, float, int, int]] = []
+#     for i, p in enumerate(pred_issues):
+#         for j, g in enumerate(gold_issues):
+#             if p["category"] != g["category"]:
+#                 continue
+#             f1, iou = compute_f1_iou(p["tokens"], g["tokens"])
+#             if f1 > 0:
+#                 candidates.append((f1, iou, i, j))
+#     candidates.sort(key=lambda x: (-x[0], -x[1]))
+#     matched_pred: Set[int] = set()
+#     matched_gold: Set[int] = set()
+#     matches: List[Tuple[int, int, float, float]] = []
+#     for f1, iou, i, j in candidates:
+#         if i not in matched_pred and j not in matched_gold:
+#             matched_pred.add(i)
+#             matched_gold.add(j)
+#             matches.append((i, j, f1, iou))
+#     return matches, matched_pred, matched_gold
 
 
 def process_variant(gt_path: str, pred_path: str) -> Tuple[List[Dict], List[Dict]]:
@@ -229,7 +250,7 @@ def evaluate_run(gold_issues: List[Dict], pred_issues: List[Dict]) -> Tuple[
 # ---------------------------------------------------
 
 
-def iterate_test_files(data_dir: str = "data") -> None:
+def iterate_test_files(data_dir: str) -> None:
     """
     Iterate through all variant/{}/outputs files and extract required information
     """
@@ -247,13 +268,13 @@ def iterate_test_files(data_dir: str = "data") -> None:
         if not os.path.isdir(course_dir):
             continue
 
-        # print(f"\n=== Processing Course: {course} ===")
+        #print(f"\n=== Processing Course: {course} ===")
 
         for exercise in sorted(os.listdir(course_dir)):
             exercise_dir = os.path.join(course_dir, exercise)
             if not os.path.isdir(exercise_dir):
                 continue
-
+            #print(f"=== Processing Exercise: {exercise} ===")
             variants_dir = os.path.join(exercise_dir, "variants")
             if not os.path.isdir(variants_dir):
                 continue
@@ -262,11 +283,15 @@ def iterate_test_files(data_dir: str = "data") -> None:
                 variant_dir = os.path.join(variants_dir, variant)
                 if not os.path.isdir(variant_dir):
                     continue
+                #print(f"=== Processing Variant: {variant_dir} ===")
+
                 outputs_dir = os.path.join(variant_dir, "outputs")
                 if not os.path.isdir(outputs_dir):
+                    print(f"Warning: Outputs directory not found: {outputs_dir}")
+                    print("Run the evaluation benchmark first to generate outputs.")
                     continue
 
-                # print(f"\nVariant: {variant}")
+                #print(f"\nVariant: {variant}")
                 # Load gold standard for this variant
                 gold_standard_path = os.path.join(variant_dir, f"{variant}.json")
                 if not os.path.isfile(gold_standard_path):
@@ -274,7 +299,7 @@ def iterate_test_files(data_dir: str = "data") -> None:
                         f"Warning: Gold standard file not found: {gold_standard_path}"
                     )
                     continue
-
+                #print(f"Gold standard path: {gold_standard_path}")
                 result_files = [
                     file
                     for file in os.listdir(outputs_dir)
@@ -282,7 +307,7 @@ def iterate_test_files(data_dir: str = "data") -> None:
                 ]
                 for result_file in sorted(result_files):
                     result_file_path = os.path.join(outputs_dir, result_file)
-
+                    #print(f"\nProcessing result file: {result_file}")
                     run_id = get_run_id_from_filename(result_file)
                     if not run_id:
                         print(f"Warning: Could not extract run ID from {result_file}")
@@ -382,4 +407,4 @@ def iterate_test_files(data_dir: str = "data") -> None:
 
 
 if __name__ == "__main__":
-    iterate_test_files(data_dir="../data")
+    iterate_test_files(data_dir="../../../data")

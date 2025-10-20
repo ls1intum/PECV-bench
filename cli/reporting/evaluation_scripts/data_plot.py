@@ -587,7 +587,7 @@ if __name__ == "__main__":
     # Create plotter instance - loads model_performance_results.json
     # Expected JSON format: {model_name: [{prompt_tokens: X, f1: Y, exercise: Z}, ...]}
 
-    plotter = ModelPerformancePlotter("model_performance_results.json")
+    plotter = ModelPerformancePlotter("variants_report.json")
 
     # print("Summary Statistics:", plotter.get_summary_statistics())
     plotter.print_correlation_analysis()
