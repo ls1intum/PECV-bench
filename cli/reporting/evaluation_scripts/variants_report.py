@@ -25,32 +25,6 @@ from cli.reporting.metrics import (
 from collections import defaultdict
 from typing import Dict, List, Tuple, Set
 
-# TODO: we dont have run_id in filename, now it 
-def get_run_id_from_filename(filename) -> str | None:
-    """Extract run ID from filename.
-    '20250727_091546_65d45dbb_result.json' -> '65d45dbb'
-    """
-    match = re.search(r"_(\w+)_result\.json$", filename)
-    if match:
-        return match.group(1)
-    else:
-        return None
-
-
-def get_stats_file_with_run_id(result_file_path, run_id) -> str | None:
-    """
-    Get the corresponding stats file for a given result
-    file and run ID.
-    """
-    dir = os.path.dirname(result_file_path)
-    expected_stat_file = f"{run_id}_stats.json"
-
-    for file in os.listdir(dir):
-        if file.endswith(expected_stat_file):
-            stats_file_path = os.path.join(dir, file)
-            return stats_file_path
-    return None
-
 
 def unify_model_name(model_name: str) -> str:
     """Normalise provider-qualified model identifiers.
@@ -289,10 +263,18 @@ def iterate_test_files(results_dir: str) -> None:
                     continue
 
 
+    # Sort results by case_id within each model
+    sorted_results_by_model = {}
+    for model_name, results in results_by_model.items():
+        sorted_results_by_model[model_name] = sorted(
+            results, 
+            key=lambda x: x["case_id"]
+        )
+
     # Save results
     output_file = "cli/reporting/evaluation_scripts/variants_report.json"
     with open(output_file, "w", encoding="utf-8") as file:
-        json.dump(dict(results_by_model), file, indent=2)
+        json.dump(sorted_results_by_model, file, indent=2)
 
     print(f"\n=== Summary ===")
     print(f"Total result files processed: {total_analysed_files}")
