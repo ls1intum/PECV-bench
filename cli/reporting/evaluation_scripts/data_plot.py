@@ -16,15 +16,15 @@ import os
 
 
 class ModelPerformancePlotter:
+    
+    """Initialize plotter with data from JSON file."""
     def __init__(self, json_file_path: str):
-        """Initialize plotter with data from JSON file."""
         self.json_file_path = json_file_path
         self.data = self._load_data()
         self.model_names = list(self.data.keys())
 
     def _load_data(self) -> Dict[str, List[Dict[str, Any]]]:
         """Load model performance data from JSON file.
-
         Expected format: {model_name:[runs]}
         {
             "o4-mini": [
@@ -36,7 +36,6 @@ class ModelPerformancePlotter:
             ],
             ...
         }
-
         Each run result should contain: prompt_tokens, f1, exercise fields
         """
         if not os.path.isfile(self.json_file_path):
@@ -64,12 +63,21 @@ class ModelPerformancePlotter:
         Returns: same as input but only valid runs, for a specific model
         This is the core data extraction for x-axis (input tokens) and y-axis (F1 scores)
         """
-        return [
-            run
-            for run in runs
-            if run.get("prompt_tokens") not in ["N/A", None]
-            and run.get("f1") is not None
-        ]
+        valid_runs = []
+        for run in runs:
+            try:
+                prompt_tokens = run.get("prompt_tokens")
+                f1 = run.get("f1")
+            
+                if prompt_tokens not in ["N/A", None] and f1 is not None:
+                    # test conversion
+                    float(prompt_tokens)
+                    float(f1)
+                    valid_runs.append(run)
+            except (ValueError, TypeError):
+                print("Invalid data in run: ", run.get("case_id"))
+                continue
+            return valid_runs
 
     def get_summary_statistics(self) -> Dict[str, Dict]:
         """Get summary statistics for each model."""
@@ -241,7 +249,7 @@ class ModelPerformancePlotter:
             save_path: Path to save the plot
             color_by_exercise: Whether to color points by exercise type: true by default
         """
-        if not self.data:
+        if not self.data or len(self.model_names) == 0:
             print("No model data available for plotting.")
             return
 
@@ -396,8 +404,12 @@ class ModelPerformancePlotter:
 
         # Save and show
         if save_path:
-            plt.savefig(save_path, dpi=300, bbox_inches="tight", facecolor="white")
-            print(f"Plot saved to: {save_path}")
+            try:
+                os.makedirs(os.path.dirname(save_path), exist_ok=True)
+                plt.savefig(save_path, dpi=300, bbox_inches="tight", facecolor="white")
+                print(f"Plot saved to: {save_path}")
+            except (IOError, PermissionError) as e:
+                print(f"Error saving plot to {save_path}: {e}")
         plt.show()
 
     def _format_subplot(self, axe):
@@ -444,6 +456,10 @@ class ModelPerformancePlotter:
         colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b"]
         for i, exercise in enumerate(exercise_list):
             exercise_colors[exercise] = colors[i % len(colors)]
+        
+        if n_models * n_exercises > 50:
+            print(f"Warning: Creating {n_models * n_exercises} subplots may be slow.")
+            print("Consider reducing the number of models or exercises.")
 
         fig, axes = plt.subplots(
             n_models, n_exercises, figsize=(4 * n_exercises, 3 * n_models)
@@ -578,8 +594,12 @@ class ModelPerformancePlotter:
 
         # Save plot if path provided
         if save_path:
-            plt.savefig(save_path, dpi=300, bbox_inches="tight")
-            print(f"Matrix plot saved to: {save_path}")
+            try:
+                os.makedirs(os.path.dirname(save_path), exist_ok=True)
+                plt.savefig(save_path, dpi=300, bbox_inches="tight")
+                print(f"Plot saved to: {save_path}")
+            except (IOError, PermissionError) as e:
+                print(f"Error saving plot to {save_path}: {e}")
         plt.show()
 
 
