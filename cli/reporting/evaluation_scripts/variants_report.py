@@ -42,27 +42,8 @@ def unify_model_name(model_name: str) -> str:
     short = spec.split("/")[-1]
     # normalise Flash Lite preview identifiers
     if "flash-lite" in short:
-        return "gemini-2.5-flash-lite"
+        return "google-gemini-2.5-flash-lite"
     return short
-
-def process_variant(gt_path: str, pred_path: str) -> Tuple[List[Dict], List[Dict]]:
-    """Load and prepare gold and predicted issues for a single variant run."""
-    gold = json.load(open(gt_path, "r", encoding="utf-8"))
-    gold_issues = []
-    for issue in gold.get("issues", []):
-        tokens = issue_to_tokens(issue)
-        gold_issues.append(
-            {"category": issue["category"], "tokens": tokens, "raw": issue}
-        )
-    pred = json.load(open(pred_path, "r", encoding="utf-8"))
-    response = pred.get("response", {})
-    pred_issues = []
-    for issue in response.get("issues", []):
-        tokens = issue_to_tokens(issue)
-        pred_issues.append(
-            {"category": issue.get("category"), "tokens": tokens, "raw": issue}
-        )
-    return gold_issues, pred_issues
 
 
 def evaluate_run(gold_issues: List[Dict], pred_issues: List[Dict]) -> Tuple[
@@ -98,10 +79,6 @@ def evaluate_run(gold_issues: List[Dict], pred_issues: List[Dict]) -> Tuple[
             stats = per_cat[g["category"]]
             stats[2] += 1  # FN
     return tp, fp, fn, matches, per_cat
-
-
-# ---------------------------------------------------
-
 
 def iterate_test_files(results_dir: str) -> None:
     """
