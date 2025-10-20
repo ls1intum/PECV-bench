@@ -77,7 +77,8 @@ class ModelPerformancePlotter:
             except (ValueError, TypeError):
                 print("Invalid data in run: ", run.get("case_id"))
                 continue
-            return valid_runs
+        return valid_runs
+
 
     def get_summary_statistics(self) -> Dict[str, Dict]:
         """Get summary statistics for each model."""
