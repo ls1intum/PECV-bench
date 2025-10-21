@@ -123,6 +123,16 @@ Aggregate any completed runs into Markdown/JSON summaries:
 pecv-bench report --benchmark pecv-reference
 ```
 
+### Run variants report file
+```bash
+python3 -m cli.reporting.metrics
+```
+
+### Run plotter script
+```bash
+python -m cli.reporting.variants_report_plotter
+```
+
 ### CLI overview
 
 The entry point `pecv-bench` exposes all automation helpers. Use the built-in help to explore each command:
