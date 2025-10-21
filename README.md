@@ -132,6 +132,7 @@ pecv-bench --help
 pecv-bench run-benchmark --help
 pecv-bench report --help
 pecv-bench variants --help
+pecv-bench variants-analysis --help
 ```
 
 ### Expected outputs
@@ -213,6 +214,33 @@ This will install:
 - All other dependencies from pyproject.toml
 
 ## Testing Methods
+#### Clean Previous Results
+
+The `--clear` flag removes previous analysis results before running a fresh analysis:
+
+```bash
+# Clear previous results before running analysis
+pecv-bench variants-analysis --clear
+```
+
+**What `--clear` does:**
+- Deletes `results/pecv-reference/variants_report.json` (if exists)
+- Deletes `results/pecv-reference/variants_report_plots/` directory (if exists)
+
+**Expected Output:**
+```
+=== Cleaning Previous Results ===
+Removed: results/pecv-reference/variants_report.json
+Removed: results/pecv-reference/variants_report_plots
+
+=== Running Variants Analysis ===
+...
+```
+
+**Use cases:**
+- **Fresh start**: When you want to ensure no stale data from previous runs
+- **Troubleshooting**: When you suspect corrupted or incomplete results
+- **Reproducibility**: When you want to regenerate results from scratch
 
 #### Test 1: Run Analysis Only
 
@@ -249,6 +277,7 @@ pecv-bench variants-analysis --results-dir results/pecv-reference --plot --plot-
 - Two PNG files created:
   - `per_model.png` - Scatter plots grouped by model
   - `per_model_per_exercise.png` - Grid of scatter plots by model and exercise
+
 
 ## Verifying Results
 
@@ -342,18 +371,14 @@ Significance markers:
 Here's a complete end-to-end test:
 
 ```bash
-# 1. Clean previous results (optional)
-rm -rf results/pecv-reference/variants_report.json
-rm -rf results/pecv-reference/variants_report_plots/
+# 1. Run fresh analysis with plotting (recommended)
+pecv-bench variants-analysis --clear --plot
 
-# 2. Run analysis with plotting
-pecv-bench variants-analysis --plot
-
-# 3. Verify outputs
+# 2. Verify outputs
 ls -lh results/pecv-reference/variants_report.json
 ls -lh results/pecv-reference/variants_report_plots/
 
-# 4. View results
+# 3. View results
 jq 'keys' results/pecv-reference/variants_report.json  # List models
 open results/pecv-reference/variants_report_plots/per_model.png
 ```
