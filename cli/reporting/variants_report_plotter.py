@@ -11,7 +11,7 @@ import json
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import pearsonr
-from typing import Dict, List, Any, Tuple
+from typing import Dict, List, Any
 import os
 
 
@@ -604,14 +604,22 @@ class ModelPerformancePlotter:
         plt.show()
 
 
-if __name__ == "__main__":
-    # Create plotter instance - loads model_performance_results.json
-    # Expected JSON format: {model_name: [{prompt_tokens: X, f1: Y, exercise: Z}, ...]}
+def generate_plots(json_file: str, output_dir: str) -> None:
+    """Generate all plots from variants report JSON.
 
-    plotter = ModelPerformancePlotter("results/pecv-reference/variants_report.json")
+    Args:
+        json_file: Path to the variants_report.json file
+        output_dir: Directory where plots will be saved
+    """
+    plotter = ModelPerformancePlotter(json_file)
 
-    # print("Summary Statistics:", plotter.get_summary_statistics())
+    # Print correlation analysis
     plotter.print_correlation_analysis()
     plotter.print_per_exercise_correlation_analysis()
-    plotter.plot_per_model_subplots("results/pecv-reference/variants_report_plots/per_model.png")
-    plotter.plot_per_model_per_exercise_subplots("results/pecv-reference/variants_report_plots/per_model_per_exercise.png")
+
+    # Generate plots
+    os.makedirs(output_dir, exist_ok=True)
+    plotter.plot_per_model_subplots(os.path.join(output_dir, "per_model.png"))
+    plotter.plot_per_model_per_exercise_subplots(os.path.join(output_dir, "per_model_per_exercise.png"))
+
+
