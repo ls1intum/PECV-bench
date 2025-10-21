@@ -123,16 +123,6 @@ Aggregate any completed runs into Markdown/JSON summaries:
 pecv-bench report --benchmark pecv-reference
 ```
 
-### Run variants report file
-```bash
-python3 -m cli.reporting.metrics
-```
-
-### Run plotter script
-```bash
-python -m cli.reporting.variants_report_plotter
-```
-
 ### CLI overview
 
 The entry point `pecv-bench` exposes all automation helpers. Use the built-in help to explore each command:
@@ -195,3 +185,181 @@ Run metadata lives in `runs/pecv-reference/<timestamped-run-id>.yaml`, enabling 
 - **Benchmark data, annotations, schemas, and packaged results:** [Creative Commons Attribution 4.0 International](DATA_LICENSE).
 
 Questions, bug reports, or contributions are always welcome—open an issue or pull request to get involved.
+
+
+# Testing Guide: Variants Analysis and Plotting
+
+This guide explains how to test the variants analysis and plotting functionality.
+
+## Overview
+
+The variants analysis workflow consists of two main steps:
+
+1. **Metrics Analysis** (`cli/reporting/metrics.py`): Processes benchmark results and generates a JSON report
+2. **Plotting** (`cli/reporting/variants_report_plotter.py`): Generates visualizations from the JSON report
+
+## Prerequisites
+
+Make sure all dependencies are installed:
+
+```bash
+pip install -e .
+```
+
+This will install:
+- numpy
+- scipy
+- matplotlib
+- All other dependencies from pyproject.toml
+
+## Testing Methods
+
+#### Test 1: Run Analysis Only
+
+```bash
+# Using default results directory (results/pecv-reference)
+pecv-bench variants-analysis
+
+# Using a custom results directory
+pecv-bench variants-analysis --results-dir path/to/results
+```
+
+**Expected Output:**
+- Console output showing progress of processing runs
+- A summary of total files processed and models analyzed
+- JSON file created at: `results/pecv-reference/variants_report.json`
+
+#### Test 2: Run Analysis + Generate Plots
+
+```bash
+# Generate plots with default output location
+pecv-bench variants-analysis --plot
+
+# Generate plots with custom output location
+pecv-bench variants-analysis --plot --plot-output my_plots/
+
+# Full example with custom paths
+pecv-bench variants-analysis --results-dir results/pecv-reference --plot --plot-output results/pecv-reference/plots
+```
+
+**Expected Output:**
+- All outputs from Test 1
+- Correlation analysis printed to console
+- Per-exercise correlation analysis printed to console
+- Two PNG files created:
+  - `per_model.png` - Scatter plots grouped by model
+  - `per_model_per_exercise.png` - Grid of scatter plots by model and exercise
+
+## Verifying Results
+
+### Expected outputs
+
+```text
+results/
+└── pecv-reference/
+    ├── <timestamped-run-id>/
+    │   ├── cases/
+    │   └── run_report.json
+    ├── variants_report_plots
+    ├── variants_report.json
+    ├── summary.json
+    ├── summary.md
+    └── summary.tex
+```
+
+### 1. Check JSON Output
+
+```bash
+# View the generated JSON (first few lines)
+head -50 results/pecv-reference/variants_report.json
+
+# Or use jq for pretty formatting
+jq '.' results/pecv-reference/variants_report.json | less
+```
+
+**Expected Structure:**
+```json
+{
+  "model-name-1": [
+    {
+      "variant": "001",
+      "exercise": "ITP2425/H01E01-Lectures",
+      "case_id": "ITP2425/H01E01-Lectures/001",
+      "run_id": "model-name-1-medium-2025-10-20-1207-abc123",
+      "prompt_tokens": 1234,
+      "f1": 0.85,
+      "precision": 0.90,
+      "recall": 0.80,
+      "span_f1": 0.88,
+      "iou": 0.75,
+      "duration_s": 12.5,
+      "cost_usd": 0.0023,
+      "tp": 5,
+      "fp": 1,
+      "fn": 2
+    }
+  ],
+  "model-name-2": [...]
+}
+```
+
+### 2. Check Generated Plots
+
+```bash
+# List generated plot files
+ls -lh results/pecv-reference/variants_report_plots/
+
+# View plots (macOS)
+open results/pecv-reference/variants_report_plots/per_model.png
+open results/pecv-reference/variants_report_plots/per_model_per_exercise.png
+```
+
+**Expected Plots:**
+- **per_model.png**: Scatter plots with one subplot per model, showing relationship between prompt tokens (x-axis) and F1 score (y-axis)
+- **per_model_per_exercise.png**: Grid of scatter plots, grouped by model (rows) and exercise (columns)
+
+### 3. Check Console Output
+
+The correlation analysis should print tables like:
+
+```
+Correlation Analysis: Input Tokens vs F1 Score
+============================================================
+Model Name                | Correlation | P-Value  | N Samples
+------------------------------------------------------------
+o4-mini                   | -0.1234     | 0.0567   | 45
+claude-3-5-sonnet         |  0.2345**   | 0.0012   | 52
+...
+```
+
+Significance markers:
+- `***` = p < 0.001 (highly significant)
+- `**` = p < 0.01 (very significant)
+- `*` = p < 0.05 (significant)
+
+## Complete Test Workflow
+
+Here's a complete end-to-end test:
+
+```bash
+# 1. Clean previous results (optional)
+rm -rf results/pecv-reference/variants_report.json
+rm -rf results/pecv-reference/variants_report_plots/
+
+# 2. Run analysis with plotting
+pecv-bench variants-analysis --plot
+
+# 3. Verify outputs
+ls -lh results/pecv-reference/variants_report.json
+ls -lh results/pecv-reference/variants_report_plots/
+
+# 4. View results
+jq 'keys' results/pecv-reference/variants_report.json  # List models
+open results/pecv-reference/variants_report_plots/per_model.png
+```
+
+## Expected Performance
+
+- **Metrics Analysis**: Should process ~50-100 result files per second
+- **Plotting**: Should generate plots in a few seconds
+- **Total Time**: Typically < 1 minute for a full benchmark suite
