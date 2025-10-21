@@ -25,6 +25,7 @@ def build_parser() -> argparse.ArgumentParser:
         "variants": "cli.commands.variants",
         "run-benchmark": "cli.commands.run",
         "report": "cli.commands.report",
+        "variants-analysis": "cli.commands.variants_analysis",
     }
 
     for command, module_path in commands.items():
