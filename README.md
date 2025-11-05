@@ -1,6 +1,6 @@
 # PECV-bench
 
-[![DOI](https://zenodo.org/badge/1069196433.svg)](https://doi.org/10.5281/zenodo.17260262)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17260263.svg)](https://doi.org/10.5281/zenodo.17260263)
 [![Version](https://img.shields.io/badge/version-1.0.0-blue)](pecv-reference/pyproject.toml)
 [![Python](https://img.shields.io/badge/python-3.9%2B-3776AB?logo=python&logoColor=white)](pecv-reference/pyproject.toml)
 [![Software License](https://img.shields.io/github/license/ls1intum/PECV-bench)](LICENSE)
