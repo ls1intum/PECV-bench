@@ -6,9 +6,13 @@
 [![Software License](https://img.shields.io/github/license/ls1intum/PECV-bench)](LICENSE)
 [![Data License](https://img.shields.io/badge/data%20license-CC%20BY%204.0-ff6f00)](DATA_LICENSE)
 
-The Programming Exercise Consistency Verification (PECV) benchmark delivers automated consistency verification across multi-artifact programming exercises so course staff can deliver trustworthy assignments faster and with less manual effort.
+This repository hosts the reproducibility package for the Programming Exercise Consistency Verification (PECV) benchmark. It contains the 91-variant dataset, CLI configs, and reference LLM pipeline used to evaluate cross-artifact inconsistency detectors in the accompanying paper.
 
-Grounded in a 91-variant benchmark with 93 gold inconsistencies, the toolkit pairs an ontology-driven dataset with an LLM-based reference pipeline for reproducible evaluation.
+The benchmark annotates 93 inconsistencies across three Java exercises and labels each with one of six ontology categories described in the *Methodology* section below. The reference pipeline—implemented in `pecv-reference/` and requiring external LLM API credentials—reproduces the published results and writes traceable reports under `results/`.
+
+Workflow overview for the packaged benchmark:
+
+![PECV benchmark overview](figures/pecv-bench-overview.png)
 
 ## At-a-Glance
 
