@@ -2,15 +2,20 @@ from __future__ import annotations
 
 import argparse
 import shutil
+import textwrap
 from pathlib import Path
 
 from cli.reporting.metrics import analyse_variants_runs
 from cli.reporting.variants_report_plotter import generate_plots
 from cli.utils import PROJECT_ROOT, RESULTS_ROOT
 
+class RawAndDefaults(argparse.ArgumentDefaultsHelpFormatter, argparse.RawTextHelpFormatter):
+    pass
+
 
 def variants_analysis_command(args: argparse.Namespace) -> int:
     """Run variants analysis to generate reports grouped by model."""
+
 
     # Resolve results directory
     if args.results_dir:
@@ -76,24 +81,56 @@ def variants_analysis_command(args: argparse.Namespace) -> int:
 
 def register_subcommand(parser: argparse.ArgumentParser) -> None:
     """Register the variants-analysis subcommand."""
+    parser.formatter_class = RawAndDefaults
     parser.set_defaults(handler=variants_analysis_command)
     parser.add_argument(
         "--results-dir",
         default=None,
-        help="Path to results directory (default: results/pecv-reference)",
+        help=textwrap.dedent(
+            """Path to results directory (default: results/pecv-reference)
+JSON file created at: RESULTS_DIR/variants_report.json`
+    {
+    "model-name-1": [
+        {
+        "variant": "001",
+        "exercise": "ITP2425/H01E01-Lectures",
+        ... other fields ...
+        }
+    ],
+    "model-name-2": [...],
+    ...
+    }
+        """,
+        )
     )
     parser.add_argument(
         "--clear",
         action="store_true",
-        help="Remove previous results (variants_report.json and plots) before running analysis",
+        help="Remove previous results (variants_report.json and variants_report_plots folder\n in results/pecv-reference) before running analysis",
     )
     parser.add_argument(
         "--plot",
         action="store_true",
-        help="Runs the analysis and generates plots after analysis",
+        help=textwrap.dedent(
+            """Runs the analysis and generates plots after analysis\nExpected structure:
+    results/
+    └── pecv-reference/
+        ├── <timestamped-run-id>/
+        │   ├── cases/
+        │   └── run_report.json
+        ├── variants_report_plots
+        │   ├── per_mode.png - Scatter plots with one subplot per model, 
+        |   |      showing relationship between prompt tokens (x-axis) and F1 score (y-axis)
+        │   └── per_model_per_exercise.png - Grid of scatter plots, grouped by model (rows) and exercise (columns)
+        ├── variants_report.json
+        ├── summary.json
+        ├── summary.md
+        └── summary.tex
+            """,
+        )
     )
     parser.add_argument(
         "--plot-output",
         default=None,
-        help="Output directory for plots (default: results/pecv-reference/variants_report_plots)",
+        help="Output directory for plots PLOT_OUTPUT/variants_report_plots\n(default: results/pecv-reference/variants_report_plots)"
     )

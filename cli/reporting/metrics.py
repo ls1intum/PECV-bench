@@ -348,5 +348,3 @@ def analyse_variants_runs(results_dir: str) -> None:
     print(f"Total result files processed: {total_analysed_files}")
     print(f"Models analyzed: {list(results_by_model.keys())}")
     print(f"Results saved to: {output_file}")
-
-

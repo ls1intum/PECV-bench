@@ -621,5 +621,3 @@ def generate_plots(json_file: str, output_dir: str) -> None:
     os.makedirs(output_dir, exist_ok=True)
     plotter.plot_per_model_subplots(os.path.join(output_dir, "per_model.png"))
     plotter.plot_per_model_per_exercise_subplots(os.path.join(output_dir, "per_model_per_exercise.png"))
-
-
