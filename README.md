@@ -196,7 +196,7 @@ The analysis workflow consists of two main steps:
 2. **Plotting** (`cli/reporting/variants_report_plotter.py`): Generates visualizations from the JSON report
 
 ```bash
-# Using default results directory (results/pecv-reference)
+# Run analysis with default results directory (results/pecv-reference)
 pecv-bench variants-analysis
 
 # Generate plots with default output location
