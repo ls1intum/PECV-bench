@@ -186,19 +186,3 @@ Run metadata lives in `runs/pecv-reference/<timestamped-run-id>.yaml`, enabling 
 - **Benchmark data, annotations, schemas, and packaged results:** [Creative Commons Attribution 4.0 International](DATA_LICENSE).
 
 Questions, bug reports, or contributions are always welcome—open an issue or pull request to get involved.
-
-
-# Testing Guide: Variants Analysis and Plotting
-
-The analysis workflow consists of two main steps:
-
-1. **Variants Analysis** (`cli/reporting/metrics.py`): Processes benchmark results and generates a JSON report
-2. **Plotting** (`cli/reporting/variants_report_plotter.py`): Generates visualizations from the JSON report
-
-```bash
-# Run analysis with default results directory (results/pecv-reference)
-pecv-bench variants-analysis
-
-# Generate plots with default output location
-pecv-bench variants-analysis --plot
-```
