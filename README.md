@@ -136,6 +136,7 @@ pecv-bench --help
 pecv-bench run-benchmark --help
 pecv-bench report --help
 pecv-bench variants --help
+pecv-bench variants-analysis --help
 ```
 
 ### Expected outputs
