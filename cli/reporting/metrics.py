@@ -172,7 +172,9 @@ def unify_model_name(model_name: str) -> str:
 
 def analyse_variants_runs(results_dir: str) -> None:
     """
-    Iterate through all result files in results/pecv-reference/<run-id>/cases/
+    Iterate through all result files in results_dir
+    
+    DEFAULT: results/pecv-reference
     and extract required information.
     
     New structure:
@@ -182,12 +184,10 @@ def analyse_variants_runs(results_dir: str) -> None:
     - case_id: "ITP2425/H01E01-Lectures/003" (course/exercise/variant)
     - run_id: the full run identifier
     - issues: array of detected issues
-    - tokens: {prompt, completion, total}
-    - cost: {total_usd}
-    - timing: {duration_s}
+    - [OPTIONAL] tokens: {prompt, completion, total}
+    - [OPTIONAL] cost: {total_usd}
+    - [OPTIONAL] timing: {duration_s}
     """
-
-    #results_dir = project_root / "results" / "pecv-reference"
 
     if not os.path.isdir(results_dir):
         raise ValueError(
@@ -197,7 +197,7 @@ def analyse_variants_runs(results_dir: str) -> None:
     total_analysed_files = 0
     results_by_model = defaultdict(list)
 
-    # Iterate over run directories in results_dir: "results/pecv-reference/"
+    # Iterate over run directories in results_dir
     for run_id in sorted(os.listdir(results_dir)):
         run_dir = os.path.join(results_dir, run_id)
         if not os.path.isdir(run_dir):
@@ -271,7 +271,7 @@ def analyse_variants_runs(results_dir: str) -> None:
                     pred_issues, is_empty = extract_prediction_issues(result_data)
                     
                     if is_empty:
-                        print(f"Warning: No prediction issues found in {result_file_path}")
+                        print(f"Warning: No issues found in {result_file_path}")
                         continue
 
 
@@ -340,7 +340,7 @@ def analyse_variants_runs(results_dir: str) -> None:
         )
 
     # Save results
-    output_file = "results/pecv-reference/variants_report.json"
+    output_file = f"{results_dir}/variants_report.json"
     with open(output_file, "w", encoding="utf-8") as file:
         json.dump(sorted_results_by_model, file, indent=2)
 

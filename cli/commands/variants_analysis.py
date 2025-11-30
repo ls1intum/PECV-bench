@@ -62,8 +62,8 @@ def variants_analysis_command(args: argparse.Namespace) -> int:
         if not json_file.exists():
             print(f"\nWarning: Cannot generate plots - {json_file} not found")
             return 1
-
-        output_dir = args.plot_output or str(plots_dir)
+    
+        output_dir = f"{args.plot_output}/variants_report_plots" or str(plots_dir)
 
         # Ensure output directory exists
         Path(output_dir).mkdir(parents=True, exist_ok=True)
@@ -132,5 +132,5 @@ JSON file created at: RESULTS_DIR/variants_report.json`
     parser.add_argument(
         "--plot-output",
         default=None,
-        help="Output directory for plots PLOT_OUTPUT/variants_report_plots\n(default: results/pecv-reference/variants_report_plots)"
+        help="Output directory for plots\n(default: results_dir/variants_report_plots)"
     )
