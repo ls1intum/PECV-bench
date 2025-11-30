@@ -23,17 +23,19 @@ def unify_path(path: str | None) -> str:
 
 def issue_to_tokens(issue: Dict[str, Any]) -> Set[Tuple[str, str, int]]:
     tokens: Set[Tuple[str, str, int]] = set()
-    for location in issue.get("related_locations", []) or []:
+    # Support both snake_case (internal/gold) and camelCase (API/prediction) keys
+    locations = issue.get("related_locations") or issue.get("relatedLocations") or []
+    for location in locations:
         if not isinstance(location, dict):
             continue
         artifact_type = str(location.get("type") or "UNKNOWN")
-        file_path = unify_path(location.get("file_path") or "")
+        file_path = unify_path(location.get("file_path") or location.get("filePath") or "")
         try:
-            start_line = int(location.get("start_line", 0))
+            start_line = int(location.get("start_line") or location.get("startLine") or 0)
         except (TypeError, ValueError):
             start_line = 0
         try:
-            end_line = int(location.get("end_line", start_line))
+            end_line = int(location.get("end_line") or location.get("endLine") or start_line)             
         except (TypeError, ValueError):
             end_line = start_line
         if end_line < start_line:
