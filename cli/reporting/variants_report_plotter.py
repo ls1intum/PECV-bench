@@ -8,9 +8,10 @@ to analyze the relationship between input tokens and model accuracy.
 
 from collections import defaultdict
 import json
+import warnings
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.stats import pearsonr
+from scipy.stats import pearsonr, ConstantInputWarning
 from typing import Dict, List, Any
 import os
 
@@ -90,6 +91,8 @@ class ModelPerformancePlotter:
             if valid_runs:
                 tokens = [run["prompt_tokens"] for run in valid_runs]
                 f1_scores = [run["f1"] for run in valid_runs]
+                
+                corr, p_val = self.calculate_correlation(tokens, f1_scores)
 
                 summary[model_name] = {
                     "n_samples": len(tokens),
@@ -100,14 +103,31 @@ class ModelPerformancePlotter:
                     "min_f1": np.min(f1_scores),
                     "max_f1": np.max(f1_scores),
                     "correlation": (
-                        pearsonr(tokens, f1_scores)[0] if len(tokens) > 1 else None
+                        corr if len(tokens) > 1 else None
                     ),
                     "p_value": (
-                        pearsonr(tokens, f1_scores)[1] if len(tokens) > 1 else None
+                        p_val if len(tokens) > 1 else None
                     ),
                 }
 
         return summary
+
+    def calculate_correlation(self, tokens, f1_scores):
+        """Helper to safely calculate correlation."""
+        if len(tokens) < 2:
+            return float('nan'), float('nan')
+            
+        # Check for constant input (zero variance)
+        if np.std(tokens) == 0 or np.std(f1_scores) == 0:
+            return float('nan'), float('nan')
+
+        with warnings.catch_warnings():
+            warnings.filterwarnings('ignore', category=ConstantInputWarning)
+            try:
+                return pearsonr(tokens, f1_scores)
+            except Exception:
+                return float('nan'), float('nan')
+
 
     def print_correlation_analysis(self):
         """Print correlation analysis table within each model.
@@ -134,13 +154,15 @@ class ModelPerformancePlotter:
                 tokens = [run["prompt_tokens"] for run in valid_runs]
                 f1_scores = [run["f1"] for run in valid_runs]
                 try:
-                    corr, p_value = pearsonr(tokens, f1_scores)
-                    if np.isnan(corr) or np.isnan(p_value):
-                        print(
-                            f"{model_name:<25} | {'Invalid':<11} | {'N/A':<8} | {len(tokens):<9}"
-                        )
+                    corr, p_value = self.calculate_correlation(tokens, f1_scores)
+                    significance = ""  # Default value
+                    
+                    if np.isnan(corr):
+                        corr_str = "Invalid"
+                        p_str = "N/A"
                     else:
-                        significance = ""
+                        corr_str = f"{corr:8.3f}"
+                        p_str = f"{p_value:8.3f}"
                         if p_value < 0.001:
                             significance = "***"
                         elif p_value < 0.01:
@@ -148,9 +170,8 @@ class ModelPerformancePlotter:
                         elif p_value < 0.05:
                             significance = "*"
 
-                        print(
-                            f"{model_name:<25} | {corr:8.3f}{significance:<3} | {p_value:8.3f} | {len(tokens):<9}"
-                        )
+                    print(f"{model_name:<25} | {corr_str}{significance:<3} | {p_str}{significance:<3} | {len(tokens):<9}")
+
                 except Exception as e:
                     print(
                         f"{model_name:<25} | {'Error':<11} | {'N/A':<8} | {len(tokens):<9}"
@@ -204,22 +225,23 @@ class ModelPerformancePlotter:
 
                 if len(tokens_exercise) > 1:
                     try:
-                        corr, p_value = pearsonr(tokens_exercise, f1_exercise)
-                        if np.isnan(corr) or np.isnan(p_value):
-                            print(
-                                f"{model_name:<25} | {exercise_short_name:<20} | {'Invalid':<11} | {'N/A':<8} | {len(tokens_exercise):<5}"
-                            )
+                        corr, p_value = self.calculate_correlation(tokens_exercise, f1_exercise)
+                        significance = ""  # Default value
+                        
+                        if np.isnan(corr):
+                            corr_str = "Invalid"
+                            p_str = "N/A"
                         else:
-                            significance = ""
+                            corr_str = f"{corr:8.3f}"
+                            p_str = f"{p_value:8.3f}"
                             if p_value < 0.001:
                                 significance = "***"
                             elif p_value < 0.01:
                                 significance = "**"
                             elif p_value < 0.05:
-                                significance = "*"
-                        print(
-                            f"{model_name:<25} | {exercise_short_name:<20} | {corr:8.3f}{significance:<3} | {p_value:8.3f} | {len(tokens_exercise):<5}"
-                        )
+                                significance = "*"                        
+
+                        print(f"{model_name:<25} | {exercise_short_name:<20} | {corr_str}{significance:<3} | {p_str}{significance:<3} | {len(tokens_exercise):<5}")
                     except Exception as e:
                         print(
                             f"{model_name:<25} | {exercise_short_name:<20} | {'Error':<11} | {'N/A':<8} | {len(tokens_exercise):<5}"
@@ -366,7 +388,7 @@ class ModelPerformancePlotter:
                 )
 
             # OLS Trend Line
-            if len(tokens) > 1:
+            if len(tokens) > 1 and np.std(tokens) > 0:
                 try:
                     z = np.polyfit(
                         tokens, f1_scores, 1
@@ -378,7 +400,7 @@ class ModelPerformancePlotter:
                         min(tokens), max(tokens), 100
                     )  # generates 100 points between min and max tokens
                     axe.plot(x_trend, p(x_trend), "r--", alpha=0.8, linewidth=2)
-                except np.RankWarning:
+                except Exception:
                     pass
 
             # plot title
@@ -529,7 +551,7 @@ class ModelPerformancePlotter:
                         )
 
                         # OLS Trend Line
-                        if len(ex_tokens) > 1:
+                        if len(ex_tokens) > 1 and np.std(ex_tokens) > 0:
                             try:
                                 z = np.polyfit(ex_tokens, ex_f1, 1)
                                 p = np.poly1d(z)
@@ -539,12 +561,12 @@ class ModelPerformancePlotter:
                                 axe.plot(
                                     x_trend, p(x_trend), "r--", alpha=0.8, linewidth=2
                                 )
-                            except np.RankWarning:
+                            except Exception:
                                 pass
 
                         if len(ex_tokens) > 1:
                             try:
-                                corr, p_value = pearsonr(ex_tokens, ex_f1)
+                                corr, p_value = self.calculate_correlation(ex_tokens, ex_f1)
 
                                 significance = ""
                                 if not np.isnan(p_value):
