@@ -32,6 +32,7 @@ def variants_analysis_command(args: argparse.Namespace) -> int:
 
     json_file = results_dir / "variants_report.json"
     plots_dir = results_dir / "variants_report_plots"
+    report_file = results_dir / "report.md"
 
     # Handle --clear flag (only clear, don't run analysis)
     if args.clear:
@@ -47,6 +48,10 @@ def variants_analysis_command(args: argparse.Namespace) -> int:
             shutil.rmtree(plots_dir)
             removed_items.append(str(plots_dir))
             print(f"Removed: {plots_dir}")
+        if report_file.exists():
+            report_file.unlink()
+            removed_items.append(str(report_file))
+            print(f"Removed: {report_file}")
 
         if not removed_items:
             print("No previous results found to clear.")
@@ -62,18 +67,50 @@ def variants_analysis_command(args: argparse.Namespace) -> int:
         if not json_file.exists():
             print(f"\nWarning: Cannot generate plots - {json_file} not found")
             return 1
-    
-        output_dir = f"{args.plot_output}/variants_report_plots" or str(plots_dir)
+
+        if args.plot_output:
+            plot_dir = str(args.plot_output)
+        else:
+            plot_dir = str(results_dir / "variants_report_plots")
 
         # Ensure output directory exists
-        Path(output_dir).mkdir(parents=True, exist_ok=True)
+        Path(plot_dir).mkdir(parents=True, exist_ok=True)
 
-        print(f"\n=== Generating Plots ===")
+        print(f"\n=== Generating Plots & Report ===")
         try:
-            generate_plots(str(json_file), output_dir)
-            print(f"\nPlots saved to: {output_dir}")
+            # 1. Generate plots and get text report (ensure generate_plots returns the string!)
+            report_content = generate_plots(str(json_file), plot_dir)
+            
+            # 2. Define report file path
+            report_file = results_dir / "report.md"
+            
+            # 3. Calculate relative path for images so they render in the MD file
+            #    (e.g., "variants_report_plots/per_model.png")
+            plot_path_obj = Path(plot_dir)
+            try:
+                # Make path relative to where report.md is stored
+                rel_plot_path = plot_path_obj.relative_to(results_dir)
+            except ValueError:
+                # Fallback if paths are completely different
+                rel_plot_path = plot_path_obj
+
+            # 4. Append images to Markdown
+            report_content += "\n\n## Visualizations\n\n"
+            report_content += "### Model Performance (Tokens vs F1)\n"
+            report_content += f"![Per Model Analysis]({rel_plot_path}/per_model.png)\n\n"
+            report_content += "### Detailed Performance by Exercise\n"
+            report_content += f"![Per Model Per Exercise]({rel_plot_path}/per_model_per_exercise.png)\n"
+
+            # 5. Save file
+            report_file.write_text(report_content, encoding="utf-8")
+            
+            print(f"\nPlots saved to: {plot_dir}")
+            print(f"Report saved to: {report_file}")
+            
         except Exception as e:
             print(f"Error generating plots: {e}")
+            import traceback
+            traceback.print_exc()
             return 1
 
     return 0

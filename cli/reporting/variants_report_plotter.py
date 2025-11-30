@@ -9,6 +9,8 @@ to analyze the relationship between input tokens and model accuracy.
 from collections import defaultdict
 import json
 import warnings
+import matplotlib
+matplotlib.use('Agg')  # Use non-interactive backend for environments without display
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import pearsonr, ConstantInputWarning
@@ -433,7 +435,7 @@ class ModelPerformancePlotter:
                 print(f"Plot saved to: {save_path}")
             except (IOError, PermissionError) as e:
                 print(f"Error saving plot to {save_path}: {e}")
-        plt.show()
+        plt.close()
 
     def _format_subplot(self, axe):
         """Helper function to apply consistent subplot formatting."""
@@ -623,10 +625,94 @@ class ModelPerformancePlotter:
                 print(f"Plot saved to: {save_path}")
             except (IOError, PermissionError) as e:
                 print(f"Error saving plot to {save_path}: {e}")
-        plt.show()
+        plt.close()
 
 
-def generate_plots(json_file: str, output_dir: str) -> None:
+    def get_correlation_analysis_md(self) -> str:
+        """Generate Markdown string for correlation analysis."""
+        summary = self.get_summary_statistics()
+        
+        md = []
+        md.append("## Correlation Analysis: Input Tokens vs F1 Score")
+        md.append("")
+        md.append("| Model Name | Correlation | P-Value | N Samples |")
+        md.append("| :--- | :--- | :--- | :--- |")
+
+        for model_name, stats in summary.items():
+            corr = stats["correlation"]
+            p_val = stats["p_value"]
+            n = stats["n_samples"]
+
+            if corr is None or (isinstance(corr, float) and np.isnan(corr)):
+                corr_str = "Invalid"
+                p_str = "N/A"
+            else:
+                corr_str = f"{corr:8.3f}"
+                p_str = f"{p_val:8.3f}"
+                if p_val < 0.001:
+                    corr_str += "***"
+                elif p_val < 0.01:
+                    corr_str += "**"
+                elif p_val < 0.05:
+                    corr_str += "*"
+
+            md.append(f"| {model_name} | {corr_str} | {p_str} | {n} |")
+        
+        md.append("")
+        md.append(r"*Significance: \*\*\* p<0.001, \*\* p<0.01, \* p<0.05*")
+        md.append("")
+        return "\n".join(md)
+
+    def get_per_exercise_correlation_analysis_md(self) -> str:
+        """Generate Markdown string for per-exercise correlation analysis."""
+        md = []
+        md.append("## Per-Exercise Correlation Analysis")
+        md.append("")
+        md.append("| Model | Exercise | Correlation | P-Value | N |")
+        md.append("| :--- | :--- | :--- | :--- | :--- |")
+
+        # Sort by model then exercise
+        sorted_models = sorted(self.data.keys())
+        
+        for model_name in sorted_models:
+            runs = self._filter_valid_runs(self.data[model_name])
+            
+            # Group by exercise
+            runs_by_exercise = defaultdict(list)
+            for run in runs:
+                # Extract exercise from case_id (Course/Exercise/Variant)
+                parts = run["case_id"].split("/")
+                if len(parts) >= 2:
+                    exercise_name = f"{parts[0]}/{parts[1]}"
+                    runs_by_exercise[exercise_name].append(run)
+
+            for exercise_name in sorted(runs_by_exercise.keys()):
+                ex_runs = runs_by_exercise[exercise_name]
+                ex_tokens = [r["prompt_tokens"] for r in ex_runs]
+                ex_f1 = [r["f1"] for r in ex_runs]
+
+                corr, p_value = self.calculate_correlation(ex_tokens, ex_f1)
+                
+                if np.isnan(corr):
+                    corr_str = "Invalid"
+                    p_str = "N/A"
+                else:
+                    corr_str = f"{corr:8.3f}"
+                    p_str = f"{p_value:8.3f}"
+                    if p_value < 0.001:
+                        corr_str += "***"
+                    elif p_value < 0.01:
+                        corr_str += "**"
+                    elif p_value < 0.05:
+                        corr_str += "*"
+
+                md.append(f"| {model_name} | {exercise_name} | {corr_str} | {p_str} | {len(ex_tokens)} |")
+            
+        md.append("")
+        return "\n".join(md)
+
+
+def generate_plots(json_file: str, output_dir: str) -> str:
     """Generate all plots from variants report JSON.
 
     Args:
@@ -643,3 +729,11 @@ def generate_plots(json_file: str, output_dir: str) -> None:
     os.makedirs(output_dir, exist_ok=True)
     plotter.plot_per_model_subplots(os.path.join(output_dir, "per_model.png"))
     plotter.plot_per_model_per_exercise_subplots(os.path.join(output_dir, "per_model_per_exercise.png"))
+
+    # Generate Markdown content
+    report_md = "# Variants Analysis Report\n\n"
+    report_md += plotter.get_correlation_analysis_md()
+    report_md += "\n"
+    report_md += plotter.get_per_exercise_correlation_analysis_md()
+
+    return report_md
