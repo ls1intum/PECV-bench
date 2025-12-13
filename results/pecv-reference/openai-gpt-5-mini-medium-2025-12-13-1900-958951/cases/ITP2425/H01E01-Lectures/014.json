@@ -1,0 +1,45 @@
+{
+  "case_id": "ITP2425/H01E01-Lectures/014",
+  "run_id": "openai-gpt-5-mini-medium-2025-12-13-190321-014-0c7656",
+  "timestamp": "2025-12-13T19:03:45.752016",
+  "issues": [
+    {
+      "description": "The UML in the problem statement declares numberOfInscribedStudents and numberOfGuestStudents as type double, while the UML's methods (getTotalNumberOfStudents(), getNumberOfStudentsPerTutor()) specify int return types. The solution implementation uses int for the two student-count attributes and returns int from total/calculation methods. This is an inner-artifact and cross-artifact type mismatch: students reading the UML might implement the two attributes as double (following the diagram) and then be confused about how to implement getTotalNumberOfStudents() which is specified to return int. The template leaves attributes undefined (TODO), so students will rely on the problem statement UML and could choose double, leading to unnecessary casting or type errors compared to the provided solution.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 65,
+          "end_line": 68
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 70,
+          "end_line": 72
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 4,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 6,
+          "end_line": 10
+        }
+      ],
+      "suggested_fix": "Make the numeric types consistent. The simplest fix is to update the problem statement UML to declare numberOfInscribedStudents and numberOfGuestStudents as int (matching the methods' int return types and the solution). Alternatively, if fractional students were intended (unlikely), change the method return types (getTotalNumberOfStudents and getNumberOfStudentsPerTutor) to double throughout the UML and solution. Preferred resolution: change the two attribute types in the UML and any example text to int so the specification, template expectations, and solution align."
+    }
+  ],
+  "timing": {
+    "start_time": "2025-12-13T19:03:21.148428",
+    "end_time": "2025-12-13T19:03:45.752016",
+    "duration_s": 24.603588
+  },
+  "trace_id": "772f7957-731d-46a3-b88b-cf0e26103133"
+}
