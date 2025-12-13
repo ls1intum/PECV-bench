@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 import json
+import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple
 from collections import defaultdict
@@ -35,7 +36,7 @@ def issue_to_tokens(issue: Dict[str, Any]) -> Set[Tuple[str, str, int]]:
         except (TypeError, ValueError):
             start_line = 0
         try:
-            end_line = int(location.get("end_line") or location.get("endLine") or start_line)             
+            end_line = int(location.get("end_line") or location.get("endLine") or start_line)
         except (TypeError, ValueError):
             end_line = start_line
         if end_line < start_line:
@@ -166,6 +167,10 @@ def unify_model_name(model_name: str) -> str:
     else:
         spec = model_name
     short = spec.split("/")[-1]
+
+    # Strip timestamp if present (e.g., -2025-12-13-...) in output json file, key: run_id
+    short = re.sub(r"-\d{4}-\d{2}-\d{2}.*", "", short)
+
     # normalise Flash Lite preview identifiers
     if "flash-lite" in short:
         return "google-gemini-2.5-flash-lite"
@@ -175,13 +180,13 @@ def unify_model_name(model_name: str) -> str:
 def analyse_variants_runs(results_dir: str) -> None:
     """
     Iterate through all result files in results_dir
-    
+
     DEFAULT: results/pecv-reference
     and extract required information.
-    
+
     New structure:
     results/pecv-reference/<run-id>/cases/<course>/<exercise>/<variant>.json
-    
+
     Each JSON contains:
     - case_id: "ITP2425/H01E01-Lectures/003" (course/exercise/variant)
     - run_id: the full run identifier
@@ -204,7 +209,7 @@ def analyse_variants_runs(results_dir: str) -> None:
         run_dir = os.path.join(results_dir, run_id)
         if not os.path.isdir(run_dir):
             continue
-        
+
         cases_dir = os.path.join(run_dir, "cases")
         if not os.path.isdir(cases_dir):
             print(f"Warning: No cases directory in {run_dir}")
@@ -216,7 +221,7 @@ def analyse_variants_runs(results_dir: str) -> None:
                 if not filename.endswith(".json"):
                     print("No json files found.")
                     continue
-                
+
                 result_file_path = os.path.join(root, filename)
 
                 try:
@@ -227,7 +232,7 @@ def analyse_variants_runs(results_dir: str) -> None:
                     if not case_id:
                         print(f"Warning: No case_id found in {result_file_path}")
                         continue
-                    
+
                     # Extract course, exercise, variant from case_id
                     # case_id format: "ITP2425/H01E01-Lectures/003"
                     parts = case_id.split("/")
@@ -238,17 +243,12 @@ def analyse_variants_runs(results_dir: str) -> None:
 
                     # Extract model name from run_id or file structure
                     # run_id format: "openai-o4-mini-medium-2025-10-20-1207-e8aa62"
-                    # Extract model portion (everything before reasoning effort and timestamp)
-                    model_name = result_data.get("run_id", run_id)
-                    # Simple heuristic: take everything before "-medium-" or "-low-" or "-high-"
-                    for effort in ["-medium-", "-low-", "-high-"]:
-                        if effort in model_name:
-                            model_name = model_name.split(effort)[0]
-                            break
-                    
-                    unified_model_name = unify_model_name(model_name)
+                    # Use the directory name (run_id) as the source of truth for the model identifier
+                    # to ensure we capture differences like reasoning effort (medium/high) that might
+                    # be missing from the internal JSON run_id.
+                    model_name = run_id
 
-                    # Find corresponding gold standard file
+                    unified_model_name = unify_model_name(model_name)                    # Find corresponding gold standard file
                     # Assume gold standard is in data/<course>/<exercise>/variants/<variant>/<variant>.json
                     project_root = Path(__file__).resolve().parents[2]
                     gold_standard_path = project_root / "data" / course / exercise / "variants" / variant / f"{variant}.json"
@@ -264,14 +264,14 @@ def analyse_variants_runs(results_dir: str) -> None:
                         variant=variant,
                         data_root=project_root / "data"
                     )
-                    
+
                     if gold_issues is None:
                         print(f"Warning: Gold standard not found: {gold_path}")
                         continue
 
                     # Extract predicted issues using the metrics function
                     pred_issues, is_empty = extract_prediction_issues(result_data)
-                    
+
                     if is_empty:
                         print(f"Warning: No issues found in {result_file_path}")
                         continue
@@ -282,28 +282,28 @@ def analyse_variants_runs(results_dir: str) -> None:
                     try:
                         tp, fp, fn, span_sum, iou_sum, match_count = evaluate_case(gold_issues, pred_issues)
                         #tp, fp, fn, span_sum, iou_sum, match_count = evaluate_run(gold_issues, pred_issues)
-                        
+
                         # Calculate metrics
                         precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
                         recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
                         f1 = (2 * precision * recall / (precision + recall)) if (precision + recall) > 0 else 0.0
-                        
+
                         # Calculate average span F1 and IoU
                         avg_span_f1 = span_sum / match_count if match_count > 0 else 0.0
                         avg_iou = iou_sum / match_count if match_count > 0 else 0.0
 
 
-                        
+
                         # Extract tokens/timing/cost
                         tokens_data = result_data.get("tokens", {})
                         prompt_tokens = tokens_data.get("prompt", 0)
-                        
+
                         timing_data = result_data.get("timing", {})
-                        duration_s = timing_data.get("duration_s", 0)
-                        
+                        duration_s = timing_data.get("duration_s") or timing_data.get("durationS") or 0
+
                         cost_data = result_data.get("cost", {})
-                        total_cost = cost_data.get("total_usd", 0)
-                        
+                        total_cost = cost_data.get("total_usd") or cost_data.get("totalUsd") or 0
+
                         # Store result grouped by model
                         results_by_model[unified_model_name].append({
                             "variant": variant,
@@ -322,9 +322,9 @@ def analyse_variants_runs(results_dir: str) -> None:
                             "fp": fp,
                             "fn": fn
                         })
-                        
+
                         total_analysed_files += 1
-                        
+
                     except Exception as e:
                         print(f"Error evaluating {case_id}: {e}")
                         continue
@@ -337,7 +337,7 @@ def analyse_variants_runs(results_dir: str) -> None:
     sorted_results_by_model = {}
     for model_name, results in results_by_model.items():
         sorted_results_by_model[model_name] = sorted(
-            results, 
+            results,
             key=lambda x: x["case_id"]
         )
 
