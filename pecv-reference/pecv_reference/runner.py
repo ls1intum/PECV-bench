@@ -224,8 +224,12 @@ def resolve_output_file(path: Path) -> Path:
     return path / "result.json"
 
 
-def build_run_id(model_name: str, case_id: str, timestamp: datetime) -> str:
+def build_run_id(
+    model_name: str, case_id: str, timestamp: datetime, reasoning_effort: str = None
+) -> str:
     model_slug = model_name.replace(":", "-").replace("/", "-")
+    if reasoning_effort:
+        model_slug = f"{model_slug}-{reasoning_effort}"
     time_slug = timestamp.strftime("%Y-%m-%d-%H%M%S")
     suffix = case_id.split("/")[-1]
     random_part = uuid.uuid4().hex[:6]
@@ -250,7 +254,9 @@ def run_consistency_check(
 ) -> None:
     start_time = datetime.now(timezone.utc)
     resolved_case_id = case_id or derive_case_id(input_path)
-    resolved_run_id = run_id or build_run_id(model_name, resolved_case_id, start_time)
+    resolved_run_id = run_id or build_run_id(
+        model_name, resolved_case_id, start_time, reasoning_effort
+    )
 
     problem_statement = load_problem_statement(input_path)
     template_files = load_repository_files(input_path / "template")
