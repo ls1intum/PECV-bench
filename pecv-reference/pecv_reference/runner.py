@@ -225,7 +225,7 @@ def resolve_output_file(path: Path) -> Path:
 
 
 def build_run_id(
-    model_name: str, case_id: str, timestamp: datetime, reasoning_effort: str | None = None
+    model_name: str, case_id: str, timestamp: datetime, reasoning_effort: str = None
 ) -> str:
     model_slug = model_name.replace(":", "-").replace("/", "-")
     if reasoning_effort:
