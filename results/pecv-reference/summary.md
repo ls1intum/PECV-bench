@@ -27,12 +27,20 @@
 ## Aggregate Results
 | Benchmark | Config Key | N runs | TP | FP | FN | Precision | Recall | F1 | Span F1 | IoU | Avg Time (s) | Avg Cost ($) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| pecv-reference | model=openai:gpt-5-mini, reasoning_effort=medium | 3 | 262 | 197 | 17 | 0.571 | 0.939 | 0.710 | 0.433 | 0.308 | 31.634 | — |
 | pecv-reference | model=openai:o4-mini, reasoning_effort=medium | 3 | 254 | 148 | 25 | 0.632 | 0.910 | 0.746 | 0.676 | 0.565 | 32.958 | 0.0338 |
 | pecv-reference | model=openrouter:google/gemini-2.5-flash, reasoning_effort=medium | 3 | 263 | 623 | 15 | 0.297 | 0.946 | 0.452 | 0.597 | 0.474 | 26.380 | 0.0244 |
 | pecv-reference | model=openrouter:google/gemini-2.5-flash-lite-preview-06-17, reasoning_effort=medium | 3 | 216 | 288 | 21 | 0.429 | 0.911 | 0.583 | 0.594 | 0.485 | 16.975 | 0.0063 |
 | pecv-reference | model=openrouter:x-ai/grok-3-mini, reasoning_effort=medium | 3 | 233 | 222 | 46 | 0.512 | 0.835 | 0.635 | 0.640 | 0.534 | 14.306 | 0.0061 |
 
 ## Per Exercise Breakdown
+
+### pecv-reference :: model=openai:gpt-5-mini, reasoning_effort=medium
+| Exercise | TP | FP | FN | Precision | Recall | F1 | Span F1 | IoU | Avg Time (s) | Avg Cost ($) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ITP2425/H01E01-Lectures | 82 | 44 | 8 | 0.651 | 0.911 | 0.759 | 0.487 | 0.357 | 23.466 | — |
+| ITP2425/H02E02-Panic_at_Seal_Saloon | 82 | 82 | 5 | 0.500 | 0.943 | 0.653 | 0.413 | 0.299 | 35.530 | — |
+| ITP2425/H05E01-Space_Seal_Farm | 98 | 71 | 4 | 0.580 | 0.961 | 0.723 | 0.405 | 0.274 | 35.761 | — |
 
 ### pecv-reference :: model=openai:o4-mini, reasoning_effort=medium
 | Exercise | TP | FP | FN | Precision | Recall | F1 | Span F1 | IoU | Avg Time (s) | Avg Cost ($) |
