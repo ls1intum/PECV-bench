@@ -301,7 +301,7 @@ def analyse_variants_runs(results_dir: str) -> None:
                         timing_data = result_data.get("timing", {})
                         duration_s = timing_data.get("duration_s") or timing_data.get("durationS") or 0
 
-                        cost_data = result_data.get("cost", {})
+                        cost_data = result_data.get("cost") or result_data.get("costs") or {}
                         total_cost = cost_data.get("total_usd") or cost_data.get("totalUsd") or 0
 
                         # Store result grouped by model

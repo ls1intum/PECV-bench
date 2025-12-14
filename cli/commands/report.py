@@ -286,8 +286,11 @@ def _collect_run_stats(cases_dir: Path) -> tuple[StatsAccumulator, dict[str, Sta
         except (OSError, json.JSONDecodeError):
             continue
 
-        duration = _safe_number((case_data.get("timing") or {}).get("duration_s"))
-        cost = _safe_number((case_data.get("cost") or {}).get("total_usd"))
+        timing_data = case_data.get("timing") or {}
+        duration = _safe_number(timing_data.get("duration_s") or timing_data.get("durationS"))
+
+        cost_data = case_data.get("cost") or case_data.get("costs") or {}
+        cost = _safe_number(cost_data.get("total_usd") or cost_data.get("totalUsd"))
 
         case_relative = None
         try:
