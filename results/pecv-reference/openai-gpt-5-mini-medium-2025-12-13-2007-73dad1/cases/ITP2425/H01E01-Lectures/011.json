@@ -1,0 +1,39 @@
+{
+  "case_id": "ITP2425/H01E01-Lectures/011",
+  "run_id": "openai-gpt-5-mini-medium-2025-12-13-201005-011-1aa811",
+  "timestamp": "2025-12-13T20:10:29.295530",
+  "issues": [
+    {
+      "description": "The problem statement's UML and method specification declare getNumberOfStudentsPerTutor() to return a double (to represent students-per-tutor possibly as a fractional value), but the solution implementation defines getNumberOfStudentsPerTutor() with return type int. This mismatch between the specification and the provided solution can confuse students about the expected return type and behavior (integer division vs. floating-point division) and may cause tests or example code that expect a double to fail or behave unexpectedly.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 70,
+          "end_line": 73
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 12,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 84,
+          "end_line": 87
+        }
+      ],
+      "suggested_fix": "Make the solution implementation match the specification by changing the method signature and implementation to return a double. For example: public double getNumberOfStudentsPerTutor() { return (double) getTotalNumberOfStudents() / getNumberOfTutors(); } Alternatively, if the intended design is integer division, update the problem statement UML and description to indicate an int return type and that integer division is intended. Prefer returning double to avoid loss of precision."
+    }
+  ],
+  "timing": {
+    "start_time": "2025-12-13T20:10:05.836997",
+    "end_time": "2025-12-13T20:10:29.295530",
+    "duration_s": 23.458533
+  },
+  "trace_id": "0fe8a795-1529-4cfb-b775-f6fa9e45add0"
+}

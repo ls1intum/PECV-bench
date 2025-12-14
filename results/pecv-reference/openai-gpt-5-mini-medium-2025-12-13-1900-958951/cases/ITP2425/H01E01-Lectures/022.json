@@ -1,0 +1,65 @@
+{
+  "case_id": "ITP2425/H01E01-Lectures/022",
+  "run_id": "openai-gpt-5-mini-medium-2025-12-13-190615-022-ac049e",
+  "timestamp": "2025-12-13T19:06:33.027185",
+  "issues": [
+    {
+      "description": "The problem statement (UML and task text) specifies a parameterless method getTotalNumberOfStudents(): int, but the solution implements getTotalNumberOfStudents(boolean includeGuests). The template comments also instruct students to implement the method as specified in the UML. This parameter mismatch means students following the specification (and the automated tests) cannot match the solution signature; it will cause confusion and test failures. Additionally, other solution methods (e.g. getNameAndTotalNumberOfStudents and getNumberOfStudentsPerTutor) call getTotalNumberOfStudents(true), which is an implementation choice that deviates from the specified parameterless API.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 70,
+          "end_line": 73
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 12,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 74,
+          "end_line": 81
+        }
+      ],
+      "suggested_fix": "Align the solution with the problem specification by providing a parameterless method: public int getTotalNumberOfStudents() that returns numberOfInscribedStudents + numberOfGuestStudents. Update any internal calls (e.g. getNameAndTotalNumberOfStudents, getNumberOfStudentsPerTutor) to use the parameterless method. Alternatively, if the boolean parameter is intended pedagogically, update the problem statement and template to document and require getTotalNumberOfStudents(boolean includeGuests) (or provide both overloads) so signatures are consistent across artifacts."
+    },
+    {
+      "description": "The problem statement and UML specify a method getTotalNumberOfStudents(): int with no parameters. In the solution implementation this method is declared as getTotalNumberOfStudents(boolean includeGuests) \u2014 i.e. it takes a boolean parameter to control whether guest students are included. This changes the public API and behavior compared to the exercise description and UML, and forces other solution methods to call it with a boolean. Students reading the problem/UML will expect a parameterless method and can be confused when the reference solution uses a different signature and semantics.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 70,
+          "end_line": 72
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 12,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 74,
+          "end_line": 81
+        }
+      ],
+      "suggested_fix": "Align the solution with the problem statement/UML by removing the boolean parameter. Implement a parameterless method public int getTotalNumberOfStudents() that returns the total number of students (e.g. numberOfInscribedStudents + numberOfGuestStudents). Update any internal calls in the solution (e.g. getNameAndTotalNumberOfStudents(), getNumberOfStudentsPerTutor()) to call the parameterless getTotalNumberOfStudents() so the API matches the exercise description."
+    }
+  ],
+  "timing": {
+    "start_time": "2025-12-13T19:06:15.276653",
+    "end_time": "2025-12-13T19:06:33.027185",
+    "duration_s": 17.750532
+  },
+  "trace_id": "597efd2b-1381-47e7-a17b-691447fced20"
+}
