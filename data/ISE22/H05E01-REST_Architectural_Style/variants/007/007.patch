@@ -1,0 +1,23 @@
+diff -ruN a/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java b/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java
+--- a/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java	2025-07-11 10:16:28
++++ b/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java	2025-07-23 15:39:23
+@@ -38,7 +38,7 @@
+ 
+     public List<Person> getAllPersons(PersonSortingOptions sortingOptions) {
+         if (sortingOptions == null) {
+-            return new ArrayList<>(this.persons);
++            return this.persons; // ARCHITECTURAL VIOLATION: Exposing internal list directly
+         }
+         var sortedList = new ArrayList<>(this.persons);
+         sortedList.sort((p1, p2) -> {
+@@ -60,5 +60,10 @@
+             };
+         });
+         return sortedList;
++    }
++
++    // ARCHITECTURAL VIOLATION: Direct access to internal data structure
++    public List<Person> getPersonsDirectAccess() {
++        return this.persons;
+     }
+ }

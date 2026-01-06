@@ -1,0 +1,27 @@
+diff -ruN a/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java b/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java
+--- a/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java	2025-07-11 10:16:28
++++ b/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java	2025-07-23 15:40:28
+@@ -31,6 +31,23 @@
+         if (person.getId() != null) {
+             return ResponseEntity.badRequest().build();
+         }
++        
++        // ARCHITECTURAL VIOLATION: Business logic in REST layer
++        if (person.getFirstName() == null || person.getFirstName().trim().isEmpty()) {
++            return ResponseEntity.badRequest().build();
++        }
++        if (person.getLastName() == null || person.getLastName().trim().isEmpty()) {
++            return ResponseEntity.badRequest().build();
++        }
++        if (person.getBirthday() == null) {
++            return ResponseEntity.badRequest().build();
++        }
++        
++        // Additional business validation that should be in service layer
++        if (person.getFirstName().length() < 2 || person.getLastName().length() < 2) {
++            return ResponseEntity.badRequest().build();
++        }
++        
+         return ResponseEntity.ok(personService.savePerson(person));
+     }
+ 

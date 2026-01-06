@@ -1,0 +1,32 @@
+{
+  "exercise_path": "ISE22/H05E01-REST_Architectural_Style/variants/024",
+  "programming_language": "ProgrammingLanguage.JAVA",
+  "issues": [
+    {
+      "description": "The template’s PersonController class omits the fields and constructor specified in the problem (and shown in the UML) and present in the solution. Without a WebClient field and an internal List<Person> (and their initialization in a constructor), students lack the necessary structure to implement the HTTP requests and maintain the persons list as described.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 157,
+          "end_line": 164
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 8,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 14,
+          "end_line": 25
+        }
+      ],
+      "suggested_fix": "In PersonController, add the following to match the design and solution implementation:\n\nprivate final WebClient webClient;\nprivate final List<Person> persons;\n\npublic PersonController() {\n    this.webClient = WebClient.builder()\n        .baseUrl(\"http://localhost:8080/\")\n        .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)\n        .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)\n        .build();\n    this.persons = new ArrayList<>();\n}\n\nEnsure imports for WebClient, HttpHeaders, MediaType, and ArrayList are added."
+    }
+  ]
+}

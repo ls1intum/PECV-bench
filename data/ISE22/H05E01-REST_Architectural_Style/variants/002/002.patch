@@ -1,0 +1,15 @@
+diff -ruN a/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java b/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java
+--- a/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java	2025-07-11 10:16:28
++++ b/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java	2025-07-23 15:22:21
+@@ -43,8 +43,9 @@
+     }
+ 
+     @DeleteMapping("persons/{personId}")
+-    public ResponseEntity<Void> deletePerson(@PathVariable("personId") UUID personId) {
++    public ResponseEntity<Person> deletePerson(@PathVariable("personId") UUID personId) {
++        Person deletedPerson = personService.getPersonById(personId);
+         personService.deletePerson(personId);
+-        return ResponseEntity.noContent().build();
++        return ResponseEntity.ok(deletedPerson);
+     }
+ }
