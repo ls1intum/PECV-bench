@@ -1,0 +1,51 @@
+{
+  "case_id": "ISE22/H10E01-Containers/011",
+  "issues": [
+    {
+      "description": "The `Person` entity in the template declares its `id` field as `java.util.UUID`, but the `PersonRepository` (and the REST controllers and tests) are parameterized with and expect a `Long` identifier. This mismatch prevents compilation and makes it impossible for students to implement or run the provided tests.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 19,
+          "end_line": 23
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/repository/PersonRepository.java",
+          "start_line": 12,
+          "end_line": 14
+        }
+      ],
+      "suggested_fix": "Change the type of the `id` field in `Person.java` from `java.util.UUID` to `Long` so that it matches the generic type parameter of `JpaRepository<Person, Long>` and the `Long personId` parameters used in controllers and tests."
+    },
+    {
+      "description": "The problem statement refers to the REST endpoints with an \"/api\" prefix (e.g. PUT /api/persons/{personId}/parents), but both the template and solution code define those mappings at \"/persons/...\" (no \"/api\"). This mismatch will confuse students when invoking or testing the API.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 123,
+          "end_line": 128
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 64
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 64
+        }
+      ],
+      "suggested_fix": "Unify the path prefix by updating the code: add path=\"/api\" to the class-level @RequestMapping in PersonResource (e.g. @RequestMapping(path = \"/api\", consumes = ..., produces = ...)) so that all endpoints match the \"/api/persons/...\" usage in the problem statement."
+    }
+  ]
+}

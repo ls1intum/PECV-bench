@@ -1,0 +1,51 @@
+{
+  "case_id": "ISE22/H10E01-Containers/014",
+  "issues": [
+    {
+      "description": "The problem statement instructs students to access the children list via a public field (`person.children`), but in both the template and solution `Person.java`, the `children` field is declared private and only exposed via a getter. Students will be unable to follow the instruction to access the field directly.",
+      "severity": "MEDIUM",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 3,
+          "end_line": 3
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 49,
+          "end_line": 49
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 49,
+          "end_line": 49
+        }
+      ],
+      "suggested_fix": "Either make the `children` field public in `Person.java` so it can be accessed directly as described, or update the problem statement to instruct students to use the `getChildren()` method instead of direct field access."
+    },
+    {
+      "description": "The problem statement specifies API endpoints with the `/api` prefix (e.g., `PUT /api/persons/{personId}/parents`), but the controller mappings in the starter code define these endpoints without `/api` (e.g., `@PutMapping(\"persons/{personId}/parents\")`). This mismatch between the documented paths and actual mappings can confuse students when testing or calling the endpoints.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 64
+        }
+      ],
+      "suggested_fix": "Either remove the `/api` prefix from all endpoint examples in the problem statement or add it to the controller mappings. For example, annotate the class with `@RequestMapping(path = \"/api\", consumes = ..., produces = ...)` so that `@PutMapping(\"persons/{personId}/parents\")` becomes available at `/api/persons/{personId}/parents`."
+    }
+  ]
+}
