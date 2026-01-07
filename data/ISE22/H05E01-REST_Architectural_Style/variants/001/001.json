@@ -1,17 +1,22 @@
 {
-  "exercise_path": "ISE22/H05E01-REST_Architectural_Style/variants/001",
-  "programming_language": "ProgrammingLanguage.JAVA",
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/001",
   "issues": [
     {
-      "description": "The create-person endpoint is documented as POST /persons in the problem statement, but in the solution the server uses @PutMapping(\"persons\") and the client uses webClient.put() when adding a new Person. This mismatch between POST and PUT will confuse students and breaks the specified API contract.",
+      "description": "The problem statement and template instruct using HTTP POST to create persons (POST /persons and webClient.post()), but the solution uses HTTP PUT for creation (@PutMapping(\"persons\") in PersonResource and webClient.put() in PersonController). This mismatch in HTTP methods will confuse students about which verb to implement and conflicts with the specified API design.",
       "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 109,
-          "end_line": 114
+          "start_line": 110,
+          "end_line": 113
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 12
         },
         {
           "type": "SOLUTION_REPOSITORY",
@@ -22,11 +27,43 @@
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 27,
-          "end_line": 34
+          "start_line": 28,
+          "end_line": 36
         }
       ],
-      "suggested_fix": "Align the create-person endpoint to use POST in both server and client. Change the server annotation to @PostMapping(\"persons\") and in the client use webClient.post() for addPerson(..)."
+      "suggested_fix": "Use HTTP POST for the createPerson endpoint and client request: change @PutMapping(\"persons\") to @PostMapping(\"persons\") in PersonResource, and use webClient.post() instead of webClient.put() in PersonController.addPerson."
+    },
+    {
+      "description": "The problem specification requires creating a new person via a POST request to /persons, but the solution implementation uses PUT for both the server endpoint (@PutMapping(\"persons\")) and the client-side addPerson (webClient.put()). This mismatch breaks the conceptual mapping from the problem (POST) to the code, leading students to implement the wrong HTTP verb.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 110,
+          "end_line": 112
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 12
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 29
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
+          "end_line": 30
+        }
+      ],
+      "suggested_fix": "Align the createPerson implementation with the problem statement by using @PostMapping(\"persons\") on the server and webClient.post() in PersonController.addPerson instead of PUT."
     }
   ]
 }

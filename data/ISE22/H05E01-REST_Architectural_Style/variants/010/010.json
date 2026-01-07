@@ -1,45 +1,12 @@
 {
-  "exercise_path": "ISE22/H05E01-REST_Architectural_Style/variants/010",
-  "programming_language": "ProgrammingLanguage.JAVA",
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/010",
   "issues": [
     {
-      "description": "Template’s PersonController class is missing the fields and constructor required by the problem’s UML (a WebClient instance and a List<Person> to hold state). Without those attributes and a constructor to initialize them, students have no place to send HTTP requests or store the retrieved/modified Person objects, making the core client-side functionality impossible.",
-      "severity": "HIGH",
-      "category": "ATTRIBUTE_TYPE_MISMATCH",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 154,
-          "end_line": 164
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 8,
-          "end_line": 24
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 15,
-          "end_line": 24
-        }
-      ],
-      "suggested_fix": "Add to the template’s PersonController a private WebClient webClient; a private List<Person> persons; and a constructor that builds the WebClient (as shown in the NoteController) and initializes the list."
-    },
-    {
-      "description": "The solution’s PersonResource class maps GET and PUT endpoints to “v2/persons” (and “v2/persons/{personId}”) while POST and DELETE remain on “persons”. The problem specification and template expect all endpoints under “persons”. This inconsistent path prefix will break the API contract and confuse students.",
+      "description": "In the solution, the server’s PersonResource maps GET and PUT operations under “v2/persons” while POST and DELETE use “persons”, yet the client’s PersonController always sends requests to “persons” (and the problem statement never mentions a “v2” prefix). This mismatch between the server path mappings and the client/prompt will prevent any GET or PUT calls from reaching the server and will confuse students about the correct endpoint URLs.",
       "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 109,
-          "end_line": 114
-        },
-        {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
           "start_line": 23,
@@ -47,35 +14,15 @@
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 37,
-          "end_line": 42
-        }
-      ],
-      "suggested_fix": "Use the same base path for all PersonResource methods—change both @GetMapping and @PutMapping to use “persons” (and “persons/{personId}”) instead of “v2/persons”."
-    },
-    {
-      "description": "The problem statement incorrectly specifies the PersonController methods should take a Consumer<List<Note>> parameter, but in the template (and intended solution) these methods take a Consumer<List<Person>>. This typo creates confusion about the type of list the controller methods should handle.",
-      "severity": "LOW",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 149,
-          "end_line": 149
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
           "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 10,
-          "end_line": 12
+          "start_line": 65,
+          "end_line": 71
         }
       ],
-      "suggested_fix": "Change the problem statement text to specify Consumer<List<Person>> instead of Consumer<List<Note>> for the PersonController methods."
+      "suggested_fix": "Unify the endpoint mappings so that all PersonResource methods use the same base path (e.g. remove the “v2/” prefix and map GET and PUT to “persons” like POST and DELETE), matching the client’s URIs and the prompt’s specifications."
     },
     {
-      "description": "The solution’s PersonResource uses versioned paths for some endpoints (e.g., @GetMapping(\"v2/persons\") and @PutMapping(\"v2/persons/{personId}\")), while the problem specification and other endpoints use unversioned \"/persons\" paths. This mismatch in endpoint naming will confuse students when wiring their client calls.",
+      "description": "The solution’s PersonResource class inconsistently prefixes the GET and PUT endpoints with “v2/” (e.g. @GetMapping(\"v2/persons\") and @PutMapping(\"v2/persons/{personId}\")), whereas the problem statement and client code uniformly expect unversioned \"/persons\" endpoints. This mismatched naming prevents students’ client requests from reaching the server and creates confusion mapping the specified endpoints to their implementations.",
       "severity": "HIGH",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
@@ -89,7 +36,7 @@
           "type": "SOLUTION_REPOSITORY",
           "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
           "start_line": 23,
-          "end_line": 27
+          "end_line": 28
         },
         {
           "type": "SOLUTION_REPOSITORY",
@@ -98,7 +45,7 @@
           "end_line": 43
         }
       ],
-      "suggested_fix": "Align all PersonResource mappings to the unversioned \"/persons\" path. For example, change @GetMapping(\"v2/persons\") to @GetMapping(\"persons\") and @PutMapping(\"v2/persons/{personId}\") to @PutMapping(\"persons/{personId}\")."
+      "suggested_fix": "Remove the “v2/” prefix so that all mappings use \"persons\" consistently (e.g. change @GetMapping(\"v2/persons\") to @GetMapping(\"persons\") and @PutMapping(\"v2/persons/{personId}\") to @PutMapping(\"persons/{personId}\"))."
     }
   ]
 }

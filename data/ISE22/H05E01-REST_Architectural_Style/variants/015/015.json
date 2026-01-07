@@ -1,9 +1,8 @@
 {
-  "exercise_path": "ISE22/H05E01-REST_Architectural_Style/variants/015",
-  "programming_language": "ProgrammingLanguage.JAVA",
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/015",
   "issues": [
     {
-      "description": "In the template PersonService, the methods savePerson, deletePerson, and getAllPersons are declared public so that PersonResource (in a different package) can call them. In the solution these methods have been changed to protected, making them inaccessible to PersonResource and breaking the endpoint implementations.",
+      "description": "In PersonService, the methods savePerson, deletePerson, and getAllPersons are declared public in the template but were changed to protected in the solution. This visibility change prevents PersonResource (in a different package) from accessing these service methods, causing compilation errors in the solution.",
       "severity": "HIGH",
       "category": "VISIBILITY_MISMATCH",
       "related_locations": [
@@ -17,10 +16,10 @@
           "type": "SOLUTION_REPOSITORY",
           "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
           "start_line": 20,
-          "end_line": 63
+          "end_line": 42
         }
       ],
-      "suggested_fix": "Restore public visibility for savePerson, deletePerson, and getAllPersons in PersonService in the solution to match the template and allow access from PersonResource."
+      "suggested_fix": "Restore public visibility on savePerson, deletePerson, and getAllPersons in the solution’s PersonService so that PersonResource can invoke these methods across packages."
     }
   ]
 }

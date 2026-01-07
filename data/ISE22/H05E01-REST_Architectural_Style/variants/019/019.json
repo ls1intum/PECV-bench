@@ -1,52 +1,25 @@
 {
-  "exercise_path": "ISE22/H05E01-REST_Architectural_Style/variants/019",
-  "programming_language": "ProgrammingLanguage.JAVA",
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/019",
   "issues": [
     {
-      "description": "The problem statement describes PersonController methods as taking a Consumer<List<Note>> parameter (copied from NoteController) but the template (and solution) PersonController methods actually use Consumer<List<Person>>. This mismatch between documentation and code signatures can confuse students about the correct type.",
+      "description": "The template’s PersonService uses a List<Person> for its internal storage, but the solution’s PersonService uses a Set<Person>. This mismatch in the underlying collection type is not mentioned in the problem statement and could confuse students when comparing template code to the reference implementation.",
       "severity": "MEDIUM",
-      "category": "METHOD_PARAMETER_MISMATCH",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 150,
-          "end_line": 151
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 8,
-          "end_line": 16
-        }
-      ],
-      "suggested_fix": "Correct the problem statement to refer to Consumer<List<Person>> for the PersonController methods instead of Consumer<List<Note>> so that it matches the template and solution code."
-    },
-    {
-      "description": "The template declares the internal collection in PersonService as a List<Person> (private final List<Person> persons) but the solution reference implementation changes this to a Set<Person>. This attribute type mismatch contradicts the problem statement note (‘Do not change the attributes of PersonService’) and can lead to confusion or test failures.",
-      "severity": "HIGH",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 208,
-          "end_line": 210
-        },
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
           "start_line": 11,
-          "end_line": 15
+          "end_line": 16
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
           "start_line": 13,
-          "end_line": 17
+          "end_line": 18
         }
       ],
-      "suggested_fix": "Align the type of the `persons` field in PersonService between template and solution. For example, revert the solution implementation to use `private final List<Person> persons` so it matches the template and honors the problem statement’s instruction."
+      "suggested_fix": "Use the same collection type in both template and solution. For example, change the solution’s Set<Person> to List<Person> (or change the template’s List to Set) so that the internal field type matches across both repositories."
     }
   ]
 }

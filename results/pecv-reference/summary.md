@@ -1,33 +1,36 @@
 ## Dataset Summary
 
-- Total annotated variants: 91
-- Total gold issues: 93
+- Total annotated variants: 149
+- Total gold issues: 179
 
 | Exercise | Variants |
 | --- | --- |
+| ISE22/H05E01-REST_Architectural_Style | 22 |
+| ISE22/H10E01-Containers | 18 |
 | ITP2425/H01E01-Lectures | 30 |
 | ITP2425/H02E02-Panic_at_Seal_Saloon | 29 |
 | ITP2425/H05E01-Space_Seal_Farm | 32 |
+| ITP2425/SE01E01-UML | 18 |
 
 | Issue Category | Count |
 | --- | --- |
-| ATTRIBUTE_TYPE_MISMATCH | 17 |
-| CONSTRUCTOR_PARAMETER_MISMATCH | 10 |
-| IDENTIFIER_NAMING_INCONSISTENCY | 23 |
-| METHOD_PARAMETER_MISMATCH | 12 |
-| METHOD_RETURN_TYPE_MISMATCH | 19 |
-| VISIBILITY_MISMATCH | 12 |
+| ATTRIBUTE_TYPE_MISMATCH | 30 |
+| CONSTRUCTOR_PARAMETER_MISMATCH | 18 |
+| IDENTIFIER_NAMING_INCONSISTENCY | 51 |
+| METHOD_PARAMETER_MISMATCH | 30 |
+| METHOD_RETURN_TYPE_MISMATCH | 29 |
+| VISIBILITY_MISMATCH | 21 |
 
 | Artifact Type | Count |
 | --- | --- |
-| PROBLEM_STATEMENT | 89 |
-| SOLUTION_REPOSITORY | 90 |
-| TEMPLATE_REPOSITORY | 40 |
+| PROBLEM_STATEMENT | 155 |
+| SOLUTION_REPOSITORY | 158 |
+| TEMPLATE_REPOSITORY | 95 |
 
 ## Aggregate Results
 | Benchmark | Config Key | N runs | TP | FP | FN | Precision | Recall | F1 | Span F1 | IoU | Avg Time (s) | Avg Cost ($) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| pecv-reference | model=openai:gpt-5-mini, reasoning_effort=medium | 3 | 262 | 197 | 17 | 0.571 | 0.939 | 0.710 | 0.433 | 0.308 | 31.634 | — |
+| pecv-reference | model=openai:gpt-5-mini, reasoning_effort=medium | 6 | 727 | 496 | 87 | 0.594 | 0.893 | 0.714 | 0.454 | 0.328 | 34.449 | — |
 | pecv-reference | model=openai:o4-mini, reasoning_effort=medium | 3 | 254 | 148 | 25 | 0.632 | 0.910 | 0.746 | 0.676 | 0.565 | 32.958 | 0.0338 |
 | pecv-reference | model=openrouter:google/gemini-2.5-flash, reasoning_effort=medium | 3 | 263 | 623 | 15 | 0.297 | 0.946 | 0.452 | 0.597 | 0.474 | 26.380 | 0.0244 |
 | pecv-reference | model=openrouter:google/gemini-2.5-flash-lite-preview-06-17, reasoning_effort=medium | 3 | 216 | 288 | 21 | 0.429 | 0.911 | 0.583 | 0.594 | 0.485 | 16.975 | 0.0063 |
@@ -38,9 +41,12 @@
 ### pecv-reference :: model=openai:gpt-5-mini, reasoning_effort=medium
 | Exercise | TP | FP | FN | Precision | Recall | F1 | Span F1 | IoU | Avg Time (s) | Avg Cost ($) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| ITP2425/H01E01-Lectures | 82 | 44 | 8 | 0.651 | 0.911 | 0.759 | 0.487 | 0.357 | 23.466 | — |
-| ITP2425/H02E02-Panic_at_Seal_Saloon | 82 | 82 | 5 | 0.500 | 0.943 | 0.653 | 0.413 | 0.299 | 35.530 | — |
-| ITP2425/H05E01-Space_Seal_Farm | 98 | 71 | 4 | 0.580 | 0.961 | 0.723 | 0.405 | 0.274 | 35.761 | — |
+| ISE22/H05E01-REST_Architectural_Style | 70 | 59 | 15 | 0.543 | 0.824 | 0.654 | 0.532 | 0.395 | 40.950 | — |
+| ISE22/H10E01-Containers | 69 | 30 | 39 | 0.697 | 0.639 | 0.667 | 0.495 | 0.381 | 34.639 | — |
+| ITP2425/H01E01-Lectures | 166 | 87 | 14 | 0.656 | 0.922 | 0.767 | 0.486 | 0.356 | 25.589 | — |
+| ITP2425/H02E02-Panic_at_Seal_Saloon | 166 | 160 | 8 | 0.509 | 0.954 | 0.664 | 0.429 | 0.317 | 39.219 | — |
+| ITP2425/H05E01-Space_Seal_Farm | 197 | 145 | 7 | 0.576 | 0.966 | 0.722 | 0.407 | 0.275 | 36.216 | — |
+| ITP2425/SE01E01-UML | 59 | 15 | 4 | 0.797 | 0.937 | 0.861 | 0.448 | 0.314 | 34.434 | — |
 
 ### pecv-reference :: model=openai:o4-mini, reasoning_effort=medium
 | Exercise | TP | FP | FN | Precision | Recall | F1 | Span F1 | IoU | Avg Time (s) | Avg Cost ($) |

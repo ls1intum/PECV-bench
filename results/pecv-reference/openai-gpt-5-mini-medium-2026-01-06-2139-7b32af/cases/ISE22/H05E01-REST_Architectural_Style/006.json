@@ -1,0 +1,89 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/006",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-06-214105-006-ef0a5d",
+  "timestamp": "2026-01-06T21:42:05.090853",
+  "issues": [
+    {
+      "description": "The template (and the problem instructions) define PersonService.getAllPersons(PersonSortingOptions) \u2014 a single-parameter method \u2014 but the solution changes the service API by adding an extra boolean parameter (getAllPersons(PersonSortingOptions, boolean)). The solution's PersonResource also calls the two-parameter method (passing true). This is a structural API mismatch: students who implement the exercise following the template and the problem statement will implement getAllPersons with one parameter, but the solution demonstrates and relies on a different signature. The problem statement even explicitly warns not to change PersonService attributes, so the extra parameter in the solution is unexpected and can confuse students and graders (method signature mismatch will break compilation if code is copied or compared).",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 199,
+          "end_line": 209
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 37,
+          "end_line": 40
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 39,
+          "end_line": 67
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 27
+        }
+      ],
+      "suggested_fix": "Make the service API consistent across template, problem statement, and solution. Two options:\n1) Prefer preserving the original template/problem signature: update the solution to implement sorting in getAllPersons(PersonSortingOptions) (single parameter) and remove the extra boolean parameter; update PersonResource in the solution to call personService.getAllPersons(new PersonSortingOptions(sortingOrder, sortField)).\nOR\n2) If the boolean flag (includeInactive) is required, update the template and the problem statement to declare getAllPersons(PersonSortingOptions, boolean) and document the new parameter, so students implement the same signature as the solution. Ensure PersonResource and any guidance reflect the updated API.\nEither approach will align signatures and avoid compile-time and conceptual confusion."
+    },
+    {
+      "description": "The problem statement and the template expect PersonService.getAllPersons to accept a single parameter of type PersonSortingOptions (Part 3). The solution, however, changes the service API by adding a second boolean parameter includeInactive (PersonService.getAllPersons(PersonSortingOptions, boolean)) and updates PersonResource to call the two-argument method. This alters the method signature between template and solution and introduces behavior (includeInactive) not mentioned in the problem description. Students comparing the template, problem text and solution will face a mismatched API and unclear mapping of the required method, creating unnecessary confusion.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 201,
+          "end_line": 209
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 37,
+          "end_line": 40
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 39,
+          "end_line": 67
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 27
+        }
+      ],
+      "suggested_fix": "Keep the PersonService.getAllPersons API consistent with the problem statement and template by using a single-parameter signature: getAllPersons(PersonSortingOptions sortingOptions). Update the solution to remove the extra boolean includeInactive parameter (and its use in PersonResource), or alternatively update the problem statement and template to document and expose the second parameter explicitly. Preferably: modify the solution's PersonService to public List<Person> getAllPersons(PersonSortingOptions sortingOptions) and have PersonResource call personService.getAllPersons(new PersonSortingOptions(sortingOrder, sortField)) so the API matches the assignment instructions."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-06T21:41:05.933268",
+    "end_time": "2026-01-06T21:42:05.090853",
+    "duration_s": 59.157585
+  },
+  "trace_id": "dda0ec4f-408e-4a71-bc51-3ff27eb1dea4"
+}

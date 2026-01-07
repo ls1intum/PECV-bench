@@ -1,0 +1,115 @@
+{
+  "case_id": "ISE22/H10E01-Containers/016",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-07-114830-016-f0ae66",
+  "timestamp": "2026-01-07T11:49:11.042923",
+  "issues": [
+    {
+      "description": "The problem statement refers to the REST endpoints with an \"/api\" prefix (e.g. PUT /api/persons/{personId}/parents), but the controller mappings in both the template and solution use paths without the \"/api\" prefix (e.g. PUT /persons/{personId}/parents). This mismatch between the described endpoint paths and the actual controller mappings can confuse students (they may call the wrong URL) and cause their integration tests or manual requests to fail if they follow the text instead of the code.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 123,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 66
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 66
+        }
+      ],
+      "suggested_fix": "Make the endpoint paths consistent. Either (A) update the problem statement to refer to /persons/... (remove the \"/api\" prefix) so it matches the template and solution controllers, or (B) change the controllers to expose the endpoints under an \"/api\" prefix (e.g. add a class-level @RequestMapping(\"/api\") or prefix each mapping with \"api/\"). Ensure the tests and examples in the statement match the chosen paths."
+    },
+    {
+      "description": "The problem statement refers to the person's date-of-birth as \"dob\" (short for date of birth), while the code (template and solution) uses the attribute name \"birthday\" (field, getter and setter). This is the same conceptual property but referenced with different identifiers across artifacts. Students might look for getDob()/setDob() or a field named dob when the provided codebase and tests use birthday, causing unnecessary mapping effort.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 3,
+          "end_line": 3
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 30,
+          "end_line": 31
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 77,
+          "end_line": 83
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 30,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 77,
+          "end_line": 83
+        }
+      ],
+      "suggested_fix": "Align terminology: update the problem statement to use the same attribute name as the code (e.g., replace 'dob' with 'birthday' or explicitly state 'dob (called \"birthday\" in the codebase)'). This preserves the conceptual meaning while removing the identifier mismatch students must resolve."
+    },
+    {
+      "description": "The problem statement describes the persistence layer class as \"PersonDAO\", but the provided code (template and solution) exposes and uses a PersonRepository (Spring Data JPA repository). This names the same persistence concept differently across artifacts and may lead students to search for a non-existing PersonDAO class or be uncertain whether to implement/modify a DAO or a Repository.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 24,
+          "end_line": 24
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/repository/PersonRepository.java",
+          "start_line": 12,
+          "end_line": 16
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 15,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/repository/PersonRepository.java",
+          "start_line": 12,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 15,
+          "end_line": 19
+        }
+      ],
+      "suggested_fix": "Use consistent persistence-layer terminology across artifacts. Either (a) change the problem statement to refer to the persistence component as 'PersonRepository (Spring Data JPA repository)' instead of 'PersonDAO', or (b) if you prefer the term DAO, rename the repository class in the template to PersonDAO (and adjust usages). The recommended, minimal change is to update the problem statement to mention 'PersonRepository' to match the provided code and tests."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-07T11:48:30.147410",
+    "end_time": "2026-01-07T11:49:11.042923",
+    "duration_s": 40.895513
+  },
+  "trace_id": "c734a707-42d5-4a9d-9404-68dbc0504095"
+}

@@ -1,29 +1,28 @@
 {
-  "exercise_path": "ISE22/H05E01-REST_Architectural_Style/variants/002",
-  "programming_language": "ProgrammingLanguage.JAVA",
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/002",
   "issues": [
     {
-      "description": "The solution’s PersonResource.deletePerson method returns ResponseEntity<Person> with HTTP 200 and a body, but the problem specification and the NoteResource pattern require returning HTTP 204 No Content (ResponseEntity<Void>) for DELETE endpoints. This mismatch conflicts with the spec and will confuse students and break client expectations.",
+      "description": "The solution’s deletePerson endpoint in PersonResource returns a ResponseEntity<Person> with HTTP 200 and a Person body, but the problem statement specifies DELETE /persons should return HTTP 204 No Content with no body. Furthermore, the client-side PersonController.deletePerson expects no body (toBodilessEntity()). This mismatch will break client-server integration and confuse students.",
       "severity": "HIGH",
       "category": "METHOD_RETURN_TYPE_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 110,
-          "end_line": 113
+          "start_line": 113,
+          "end_line": 114
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
           "start_line": 45,
-          "end_line": 51
+          "end_line": 50
         }
       ],
-      "suggested_fix": "Change PersonResource.deletePerson to return ResponseEntity<Void> and use ResponseEntity.noContent().build(), removing the deleted person body, to match the spec and the NoteResource example."
+      "suggested_fix": "Change the deletePerson method in PersonResource to return ResponseEntity<Void> and use ResponseEntity.noContent().build() to align with the problem specification and client expectations."
     },
     {
-      "description": "PersonResource.deletePerson invokes personService.getPersonById(UUID), but the PersonService in the solution does not declare a getPersonById method. This structural mismatch causes a compilation error and inconsistencies between the Resource and Service layers.",
+      "description": "PersonResource.deletePerson calls personService.getPersonById(personId), but neither the template nor the solution’s PersonService defines a getPersonById method. This will cause a compilation error and leaves students unclear on how to retrieve a person before deletion.",
       "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
@@ -31,16 +30,16 @@
           "type": "SOLUTION_REPOSITORY",
           "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
           "start_line": 45,
-          "end_line": 47
+          "end_line": 48
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
-          "start_line": 30,
+          "start_line": 31,
           "end_line": 38
         }
       ],
-      "suggested_fix": "Either add a public getPersonById(UUID) method to PersonService, or refactor the deletePerson endpoint to perform deletion without calling a nonexistent service method (e.g., delete and return no content)."
+      "suggested_fix": "Add a public Person getPersonById(UUID personId) method to PersonService (e.g., lookup in the internal list) or remove the need to fetch the person in the delete endpoint to resolve the missing-method error."
     }
   ]
 }

@@ -1,26 +1,25 @@
 {
-  "exercise_path": "ISE22/H05E01-REST_Architectural_Style/variants/018",
-  "programming_language": "ProgrammingLanguage.JAVA",
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/018",
   "issues": [
     {
-      "description": "In the problem statement’s Part 2 description, it says “Each method takes a Consumer<List<Note>> parameter … This consumer takes the internal list of persons as a parameter,” but in both the template and solution the PersonController methods use Consumer<List<Person>>. This copy-paste type mismatch between the spec and code can confuse students about the correct generic type to implement.",
-      "severity": "MEDIUM",
-      "category": "METHOD_PARAMETER_MISMATCH",
+      "description": "The no-argument constructor of common Person is declared public in the template but package-private in the solution. Since view and controller code (in de.tum.in.ase.eist.view and controller packages) instantiate Person via `new Person()`, the package-private constructor in the solution will cause a compilation error and block student code from running.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
       "related_locations": [
         {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 150,
-          "end_line": 152
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 12,
+          "end_line": 12
         },
         {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 10,
-          "end_line": 16
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 12,
+          "end_line": 12
         }
       ],
-      "suggested_fix": "Correct the problem statement to refer to Consumer<List<Person>> (not Consumer<List<Note>>) for the PersonController methods."
+      "suggested_fix": "Change the no-arg constructor in solution common Person to `public Person() {}` so it matches the template and allows instantiation from other packages."
     }
   ]
 }

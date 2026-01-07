@@ -1,0 +1,65 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/014",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-06-214315-014-bc38f4",
+  "timestamp": "2026-01-06T21:44:04.384916",
+  "issues": [
+    {
+      "description": "The solution's PersonController declares only a constructor with parameters (String baseUrl, Duration timeout) while the application code instantiates PersonController with a no-argument constructor (new PersonController()). This mismatch appears both in the solution repository (H05E01ClientApplication calls new PersonController()) and in the template (H05E01ClientApplication also calls new PersonController()). As a result, the code in the solution repository is not structurally consistent and will not compile: there is no no-arg constructor available for the call sites. Students expect to be able to construct PersonController with no arguments (the template uses that), so the parameterized-only constructor in the solution creates confusion and a structural build error.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 21,
+          "end_line": 29
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/H05E01ClientApplication.java",
+          "start_line": 12,
+          "end_line": 13
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/H05E01ClientApplication.java",
+          "start_line": 12,
+          "end_line": 13
+        }
+      ],
+      "suggested_fix": "Provide a public no-argument constructor for PersonController (e.g. public PersonController() { this(\"http://localhost:8080/\", Duration.ofSeconds(5)); }) so the existing instantiation sites (new PersonController()) compile and students can follow the template. Alternatively, change the application instantiation to pass the required parameters where PersonController(String, Duration) is intended (and update the template accordingly). Prefer adding an overload no-arg constructor to preserve the template behavior and educational intent."
+    },
+    {
+      "description": "The problem statement (Part 2) says \"Each method takes a Consumer<List<Note>> parameter\" while both the template and the solution PersonController methods use Consumer<List<Person>>. This is a typographical/identifier mismatch in the problem text that can confuse students about the expected method signatures and the generic type they must use for the consumer callback (Person vs Note).",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 149,
+          "end_line": 152
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 31,
+          "end_line": 84
+        }
+      ],
+      "suggested_fix": "Correct the problem statement to refer to Consumer<List<Person>> (not Consumer<List<Note>>) where describing the PersonController API. Example: \"Each method takes a Consumer<List<Person>> parameter, which has to be called after a response is received \u2014 this consumer takes the internal list of persons as a parameter.\""
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-06T21:43:15.225677",
+    "end_time": "2026-01-06T21:44:04.384916",
+    "duration_s": 49.159239
+  },
+  "trace_id": "f97907e5-94a6-4db1-951d-96af2f1c13b6"
+}

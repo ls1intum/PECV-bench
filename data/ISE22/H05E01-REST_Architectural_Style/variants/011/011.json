@@ -1,26 +1,31 @@
 {
-  "exercise_path": "ISE22/H05E01-REST_Architectural_Style/variants/011",
-  "programming_language": "ProgrammingLanguage.JAVA",
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/011",
   "issues": [
     {
-      "description": "The solution’s PersonScene view class declares and imports a PersonService attribute, directly violating the MVC layering described in the problem (the view should only interact with PersonController). This extra service field is never initialized or used, breaking the intended design and preventing the view from compiling and running correctly.",
-      "severity": "HIGH",
+      "description": "The solution’s PersonScene view class declares and imports a PersonService field, contradicting the MVC component diagram (where the view should only interact with the controller) and the template (which has no such field). Moreover, this field is never initialized or used, causing a compile error and confusing students about the intended layering.",
+      "severity": "MEDIUM",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 49,
-          "end_line": 59
+          "start_line": 53,
+          "end_line": 54
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
+          "start_line": 1,
+          "end_line": 5
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
           "start_line": 6,
           "end_line": 7
         }
       ],
-      "suggested_fix": "Remove the PersonService import and field declaration from PersonScene. The view should use only the provided PersonController for all interactions, consistent with the MVC design."
+      "suggested_fix": "Remove the import and declaration of PersonService from PersonScene so that the view only depends on PersonController as shown in the MVC diagram."
     }
   ]
 }

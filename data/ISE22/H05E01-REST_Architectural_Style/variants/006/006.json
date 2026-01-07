@@ -1,26 +1,31 @@
 {
-  "exercise_path": "ISE22/H05E01-REST_Architectural_Style/variants/006",
-  "programming_language": "ProgrammingLanguage.JAVA",
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/006",
   "issues": [
     {
-      "description": "The signature of getAllPersons in PersonService differs between the template and the solution. The template defines getAllPersons(PersonSortingOptions), but the solution adds a second boolean parameter (includeInactive) not mentioned in the problem statement. Students won’t know to include this extra parameter, causing confusion and making the provided solution incompatible with the template.",
+      "description": "The template and problem specification define PersonService.getAllPersons(PersonSortingOptions) (Part 3), but the solution’s PersonService and PersonResource use getAllPersons(PersonSortingOptions, boolean includeInactive). This parameter mismatch prevents students from following the spec or compiling against the solution.",
       "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 206,
+          "end_line": 210
+        },
+        {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
           "start_line": 37,
           "end_line": 40
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
           "start_line": 39,
-          "end_line": 68
+          "end_line": 41
         }
       ],
-      "suggested_fix": "Either remove the extra includeInactive parameter from the solution’s getAllPersons method so it matches the template signature, or update the template (and problem statement) to document and include the boolean parameter—to ensure all artifacts agree on the method signature."
+      "suggested_fix": "Align the service signature with the specification by removing the extra boolean parameter (or updating the spec to include it). For example, change the solution’s getAllPersons to accept only PersonSortingOptions and handle filtering without a second parameter."
     }
   ]
 }

@@ -1,0 +1,65 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/020",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-06-224938-020-17c915",
+  "timestamp": "2026-01-06T22:50:08.834296",
+  "issues": [
+    {
+      "description": "The problem statement (Part 2, client controller description) says \"Each method takes a Consumer<List<Note>> parameter\" while the exercise and template/solution APIs actually require Consumer<List<Person>> for the PersonController methods. This is a documentation/type mismatch in the problem description that could confuse students about the expected method parameter types when implementing the PersonController.",
+      "severity": "LOW",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 152
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 38
+        }
+      ],
+      "suggested_fix": "Correct the problem statement text to refer to Consumer<List<Person>> (not Consumer<List<Note>>) when describing the PersonController methods. This aligns the documentation with the template and solution method signatures and removes potential confusion."
+    },
+    {
+      "description": "The problem statement (Part 2, method parameter description) incorrectly refers to Consumer<List<Note>> for the PersonController methods, while both the template and the solution code define and expect Consumer<List<Person>>. This mismatched identifier in the textual specification (using 'Note' instead of 'Person') creates a conceptual mapping confusion: students reading the problem may expect note-lists as callbacks or try to implement the wrong generic type, even though the code skeleton and final implementation use Person. ",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 151
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 8,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 80
+        }
+      ],
+      "suggested_fix": "Update the problem statement text to refer to Consumer<List<Person>> (and to say the consumer takes the internal list of persons) so it matches the template and solution code. Concretely, replace the phrase \"Each method takes a `Consumer<List<Note>>` parameter... This consumer takes the internal list of persons as a parameter\" with: \"Each method takes a `Consumer<List<Person>>` parameter, which must be called after a response is received \u2014 the consumer will be passed the controller's internal list of Person objects.\""
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-06T22:49:38.137304",
+    "end_time": "2026-01-06T22:50:08.834296",
+    "duration_s": 30.696992
+  },
+  "trace_id": "a39139df-2682-4d10-b47c-56dd3ed0389a"
+}

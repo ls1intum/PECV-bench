@@ -1,0 +1,109 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/001",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-06-224358-001-25f557",
+  "timestamp": "2026-01-06T22:44:34.740796",
+  "issues": [
+    {
+      "description": "HTTP method for the \"create person\" endpoint is inconsistent between the problem statement and the code. The problem statement explicitly lists POST /persons as the create endpoint (problem_statement.md lines 109-114), but the solution (and client implementation) use PUT for creation: solution repository PersonResource defines createPerson with @PutMapping(\"persons\") and the solution client PersonController.addPerson uses webClient.put(). This mismatch will confuse students about which HTTP verb to implement and may cause failing requests if they follow the written spec (POST) while the provided solution/server expects PUT.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 114
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 35
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
+        }
+      ],
+      "suggested_fix": "Make the HTTP verb consistent across specification, server and client. Preferred fixes (pick one):\n- Update the server and client to follow the problem statement: change the server create endpoint to use @PostMapping(\"persons\") and change PersonController.addPerson to use webClient.post().\n- OR update the problem statement to specify that creation is via PUT /persons (if that was intentional). The first option (using POST for create) is REST-idiomatic and matches NoteResource; adopt it to avoid student confusion."
+    },
+    {
+      "description": "Typo / parameter-type inconsistency in the problem statement about controller method parameters. The problem text (Part 2, lines describing method signatures) says \"Each method takes a Consumer<List<Note>> parameter\" but the context is about PersonController and the consumer should be Consumer<List<Person>>. This could momentarily confuse students about the expected generic type even though the template and solution use Consumer<List<Person>>.",
+      "severity": "LOW",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 151
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 36
+        }
+      ],
+      "suggested_fix": "Fix the problem statement text to refer to Consumer<List<Person>> when describing the PersonController methods so it matches the template and solution signatures and avoids brief confusion."
+    },
+    {
+      "description": "The problem statement (and the TODO comment in the template client) specify that creating a person should be done via POST /persons, but the solution implements the create-person endpoint and client request using HTTP PUT (server: @PutMapping(\"persons\"), client: webClient.put().uri(\"persons\")). This is a cross-artifact mismatch for the same conceptual action (create a new Person) and will confuse students about which HTTP method to use when implementing the required endpoint and client call.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 113
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 12
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 33
+        }
+      ],
+      "suggested_fix": "Unify the HTTP method for the \"create person\" action across all artifacts. Preferred fix: change the solution server to use POST for creation (replace @PutMapping(\"persons\") with @PostMapping(\"persons\") and keep the handler name createPerson), and change the solution client to use webClient.post().uri(\"persons\") for addPerson. Alternatively, if PUT was intentional, update the problem statement and template comments to specify PUT /persons for creation so all artifacts match."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-06T22:43:58.120370",
+    "end_time": "2026-01-06T22:44:34.740796",
+    "duration_s": 36.620426
+  },
+  "trace_id": "d831410a-c404-4a91-b0b5-77c68ce5092f"
+}

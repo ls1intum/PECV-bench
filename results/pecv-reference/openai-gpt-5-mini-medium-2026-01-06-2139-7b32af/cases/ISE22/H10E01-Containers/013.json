@@ -1,0 +1,83 @@
+{
+  "case_id": "ISE22/H10E01-Containers/013",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-06-215029-013-ccfcbf",
+  "timestamp": "2026-01-06T21:51:07.947220",
+  "issues": [
+    {
+      "description": "The template defines PersonService.save(...) as a private method, but controllers and tests expect to call personService.save(...). PersonResource calls personService.save(...) in create and update endpoints, and PersonServiceTest (and integration tests indirectly) call personService.save(...). The solution makes save(...) public. Having save() private in the template prevents compilation and blocks students from executing the provided tests or using the service as intended.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 99,
+          "end_line": 106
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 21,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 37,
+          "end_line": 43
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 51
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 33,
+          "end_line": 37
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 21,
+          "end_line": 26
+        }
+      ],
+      "suggested_fix": "Change the visibility of PersonService.save(Person) in the template from private to public so that controllers and tests can call it (i.e., replace 'private Person save(...)' with 'public Person save(...)'). This matches the solution and the usage in PersonResource and the tests, and prevents compilation/runtime failures for students."
+    },
+    {
+      "description": "The problem statement refers to the REST endpoints with an \"/api\" prefix (e.g. \"PUT /api/persons/{personId}/parents\"), but both the template and solution controllers expose the endpoints without that prefix (e.g. \"PUT /persons/{personId}/parents\"). This mismatch between the documented endpoint paths and the actual controller mappings can confuse students when they try to call the endpoints or implement integration tests (they may call /api/... and get 404s even though the code and provided tests use /persons/...).",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 72
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 72
+        }
+      ],
+      "suggested_fix": "Make the endpoint paths consistent across artifacts. Either (A) update the problem statement to refer to the actual paths used by the controllers (e.g. \"PUT /persons/{personId}/parents\" and \"PUT /persons/{personId}/children\"), or (B) change the controllers to include the \"/api\" base path (for example, add @RequestMapping(value = \"/api\", consumes = ..., produces = ...) at the controller class level) so the exposed endpoints match the problem description. Choose one approach and apply it consistently in template, solution, and documentation."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-06T21:50:29.546039",
+    "end_time": "2026-01-06T21:51:07.947220",
+    "duration_s": 38.401181
+  },
+  "trace_id": "84398880-03cc-440c-a5de-4a0568dfa6ab"
+}

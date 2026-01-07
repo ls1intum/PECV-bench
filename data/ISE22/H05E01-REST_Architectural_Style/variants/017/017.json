@@ -1,5 +1,25 @@
 {
-  "exercise_path": "ISE22/H05E01-REST_Architectural_Style/variants/017",
-  "programming_language": "ProgrammingLanguage.JAVA",
-  "issues": []
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/017",
+  "issues": [
+    {
+      "description": "The return type of getAllPersons in PersonService differs between the template and the solution. The template declares `public List<Person> getAllPersons(PersonSortingOptions)`, but the solution shows `public Stream<Person> getAllPersons(PersonSortingOptions)`. This conflicts with the problem specification which expects a `List<Person>` to be returned and will confuse students when implementing and testing this method.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 37,
+          "end_line": 40
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 39,
+          "end_line": 41
+        }
+      ],
+      "suggested_fix": "Change the solution’s `getAllPersons` signature back to return `List<Person>` (matching the template) and collect the sorted stream into a `List`, e.g.:  \n```java\npublic List<Person> getAllPersons(PersonSortingOptions sortingOptions) {\n    return this.persons.stream()\n        .sorted(/* comparator based on sortingOptions */)\n        .collect(Collectors.toList());\n}\n```"
+    }
+  ]
 }

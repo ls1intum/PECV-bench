@@ -1,0 +1,77 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/003",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-07-113729-003-49a21e",
+  "timestamp": "2026-01-07T11:38:42.091049",
+  "issues": [
+    {
+      "description": "The solution's GET /persons endpoint requires an additional required query parameter 'limit' that is not mentioned in the problem statement and is not sent by the client. The problem statement and Part 3 only describe passing sortField and sortingOrder as query parameters (with defaults). The solution's PersonResource.getAllPersons has a required @RequestParam(value = \"limit\") int limit and then returns a subList(0, Math.min(limit, allPersons.size())). However the client implementation (PersonController.getAllPersons) builds a request with only sortField and sortingOrder and does not provide a 'limit' parameter. This mismatch will cause requests from the provided client to the server to fail (HTTP 400 due to the missing required parameter) and thus breaks the intended end-to-end behavior.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 115
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 201,
+          "end_line": 205
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 29
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 65,
+          "end_line": 71
+        }
+      ],
+      "suggested_fix": "Align the server endpoint with the problem statement and client by removing the required 'limit' parameter or making it optional with a sensible default. For example change the server method to accept only the sorting query params (with defaults) and return the full sorted list:\n\npublic ResponseEntity<List<Person>> getAllPersons(@RequestParam(value = \"sortField\", defaultValue = \"ID\") PersonSortingOptions.SortField sortField,\n                                                   @RequestParam(value = \"sortingOrder\", defaultValue = \"ASCENDING\") PersonSortingOptions.SortingOrder sortingOrder) {\n    List<Person> allPersons = personService.getAllPersons(new PersonSortingOptions(sortingOrder, sortField));\n    return ResponseEntity.ok(allPersons);\n}\n\nAlternatively, if a limit is desired, make it optional with a defaultValue and document it in the problem statement and update the client to send it. The first option (removing 'limit') best preserves the exercise description and avoids breaking the provided client."
+    },
+    {
+      "description": "The problem statement (lines 150-151) says \"Each method takes a Consumer<List<Note>> parameter... This consumer takes the internal list of persons as a parameter\", which incorrectly names the generic parameter as List<Note> instead of List<Person>. The template and solution PersonController methods use Consumer<List<Person>>. This copy-paste/identifier mismatch between the problem description and the code can confuse students about the expected types and which controller (notes vs. persons) the text refers to.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 151
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 81
+        }
+      ],
+      "suggested_fix": "Correct the problem statement to refer to Consumer<List<Person>> (not Consumer<List<Note>>) when describing the PersonController methods. For example: \"Each method takes a Consumer<List<Person>> parameter, which has to be called after a response is received \u2014 this consumer takes the internal list of persons as a parameter.\" This aligns the textual description with the template and solution code and removes potential confusion."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-07T11:37:29.848861",
+    "end_time": "2026-01-07T11:38:42.091049",
+    "duration_s": 72.242188
+  },
+  "trace_id": "d10788aa-4290-47bf-a786-278186f359cb"
+}

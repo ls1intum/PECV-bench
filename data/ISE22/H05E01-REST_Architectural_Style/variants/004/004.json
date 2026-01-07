@@ -1,11 +1,50 @@
 {
-  "exercise_path": "ISE22/H05E01-REST_Architectural_Style/variants/004",
-  "programming_language": "ProgrammingLanguage.JAVA",
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/004",
   "issues": [
     {
-      "description": "Endpoint path naming for Person CRUD operations is inconsistent: the problem statement specifies \"/persons\", whereas the solution PersonResource defines mappings under \"/people\" and the solution’s PersonController mixes both \"/people\" (for create/update) and \"/persons\" (for get/delete). This mismatch will break client-server calls and confuse students.",
+      "description": "The problem statement specifies CRUD endpoints under \"/persons\" (e.g., POST /persons, GET /persons), but the solution’s PersonResource maps all endpoints to \"/people\". This mismatch in resource paths will confuse students about which URI to use.",
       "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 114
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 30
+        }
+      ],
+      "suggested_fix": "Change all mappings in PersonResource from \"people\" to \"persons\", e.g. use @GetMapping(\"persons\"), @PostMapping(\"persons\"), etc., to match the problem specification."
+    },
+    {
+      "description": "Within the solution’s client-side PersonController, URIs are used inconsistently: addPerson/updatePerson post to \"people\", but deletePerson and getAllPersons use \"persons\". This inner inconsistency will break client-server communication and confuse students.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 34
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 53,
+          "end_line": 60
+        }
+      ],
+      "suggested_fix": "Use the same base path for all HTTP calls in PersonController (either always \"people\" or always \"persons\"). For example, if you choose \"/persons\", update the POST and PUT URIs to \".uri(\\\"persons\\\")\" and \".uri(\\\"persons/\" + person.getId() + \"\\\")\"."
+    },
+    {
+      "description": "The problem statement specifies that the CRUD endpoints should be under the URI path \"/persons\" (e.g., POST /persons, GET /persons, etc.), but the Solution Repository’s PersonResource defines those endpoints under \"/people\" (@GetMapping(\"people\"), @PostMapping(\"people\"), etc.). This mismatch between “persons” and “people” breaks the intended mapping of requirements to implementation.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
@@ -18,47 +57,29 @@
           "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
           "start_line": 23,
           "end_line": 27
-        },
+        }
+      ],
+      "suggested_fix": "Rename the path segments in PersonResource from \"people\" to \"persons\" for all CRUD mappings so they match the problem specification (POST /persons, GET /persons, PUT /persons/{id}, DELETE /persons/{id})."
+    },
+    {
+      "description": "Within the Solution Repository’s PersonController, the HTTP request URIs are inconsistently mixed: POST and PUT use \"people\" (.uri(\"people\")), while DELETE and GET use \"persons\" (.uri(\"persons/...\"), .path(\"persons\")). This inconsistent naming of the same resource will confuse students about which endpoint to call.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
           "start_line": 27,
-          "end_line": 36
+          "end_line": 34
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
           "start_line": 53,
-          "end_line": 61
+          "end_line": 60
         }
       ],
-      "suggested_fix": "Use a single consistent path name for Person endpoints across all artifacts. For example, change all mappings in PersonResource to use \"/persons\" (e.g., @GetMapping(\"persons\"), @PostMapping(\"persons\"), etc.) and update all corresponding URI calls in PersonController to \"persons\". Ensure problem statement, server mappings, and client URIs all match."
-    },
-    {
-      "description": "The REST endpoint path for person resources is inconsistently named across artifacts. The problem statement and curl examples specify the endpoints under \"/persons\", but in the solution repository the server-side resource maps to \"/people\" in PersonResource and the client-side PersonController alternates between \"people\" (for add/update) and \"persons\" (for delete/get). This misalignment will confuse students about which URI to implement and call.",
-      "severity": "HIGH",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 110,
-          "end_line": 113
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 23,
-          "end_line": 27
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 27,
-          "end_line": 31
-        }
-      ],
-      "suggested_fix": "Use a single consistent plural form for the person resource across all artifacts. For example, rename all occurrences of \"/people\" to \"/persons\" in both PersonResource and PersonController (add, update, delete, get methods) so they align with the problem statement and each other."
+      "suggested_fix": "Unify the resource path in PersonController so that all CRUD operations use the same segment—either consistently \"people\" or \"persons\"—to avoid confusion."
     }
   ]
 }
