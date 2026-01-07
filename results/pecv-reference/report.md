@@ -6,7 +6,7 @@
 | :--- | :--- | :--- | :--- |
 | google-gemini-2.5-flash-lite |   -0.008 |    0.905 | 231 |
 | google-gemini-2-5-flash-medium |   -0.051 |    0.398 | 272 |
-| openai-gpt-5-mini-medium | Invalid | N/A | 273 |
+| openai-gpt-5-mini-medium | Invalid | N/A | 718 |
 | openai-o4-mini-medium |   -0.031 |    0.605 | 273 |
 | x-ai-grok-3-mini-medium |   -0.154* |    0.011 | 273 |
 
@@ -22,9 +22,12 @@
 | google-gemini-2.5-flash-lite | ITP2425/H01E01-Lectures |   -0.058 |    0.611 | 78 |
 | google-gemini-2.5-flash-lite | ITP2425/H02E02-Panic_at_Seal_Saloon |    0.062 |    0.608 | 72 |
 | google-gemini-2.5-flash-lite | ITP2425/H05E01-Space_Seal_Farm |    0.036 |    0.751 | 81 |
-| openai-gpt-5-mini-medium | ITP2425/H01E01-Lectures | Invalid | N/A | 90 |
-| openai-gpt-5-mini-medium | ITP2425/H02E02-Panic_at_Seal_Saloon | Invalid | N/A | 87 |
-| openai-gpt-5-mini-medium | ITP2425/H05E01-Space_Seal_Farm | Invalid | N/A | 96 |
+| openai-gpt-5-mini-medium | ISE22/H05E01-REST_Architectural_Style | Invalid | N/A | 64 |
+| openai-gpt-5-mini-medium | ISE22/H10E01-Containers | Invalid | N/A | 54 |
+| openai-gpt-5-mini-medium | ITP2425/H01E01-Lectures | Invalid | N/A | 180 |
+| openai-gpt-5-mini-medium | ITP2425/H02E02-Panic_at_Seal_Saloon | Invalid | N/A | 174 |
+| openai-gpt-5-mini-medium | ITP2425/H05E01-Space_Seal_Farm | Invalid | N/A | 192 |
+| openai-gpt-5-mini-medium | ITP2425/SE01E01-UML | Invalid | N/A | 54 |
 | openai-o4-mini-medium | ITP2425/H01E01-Lectures |   -0.039 |    0.718 | 90 |
 | openai-o4-mini-medium | ITP2425/H02E02-Panic_at_Seal_Saloon |   -0.314** |    0.003 | 87 |
 | openai-o4-mini-medium | ITP2425/H05E01-Space_Seal_Farm |   -0.264** |    0.009 | 96 |
