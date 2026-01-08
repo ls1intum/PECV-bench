@@ -1,0 +1,45 @@
+{
+  "case_id": "ISE22/H10E01-Containers/008",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-06-225237-008-7de623",
+  "timestamp": "2026-01-06T22:53:12.766207",
+  "issues": [
+    {
+      "description": "The template's PersonService declares a PersonRepository field but does not provide any injection (no constructor or @Autowired on the field). The problem statement and the provided tests expect PersonService methods (save, addParent, addChild, removeParent, removeChild) to call personRepository (e.g., personRepository.save(...)). As-is the template's personRepository will be null at runtime, causing NullPointerExceptions when students run tests or implement the TODO methods. The solution repository uses constructor injection (a PersonService(PersonRepository personRepository) constructor and a final field), which demonstrates the intended wiring. This mismatch between template (no wiring) and solution (constructor injection) is structural and will block students from executing and verifying their implementations.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 99,
+          "end_line": 106
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 13,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 36,
+          "end_line": 44
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 15,
+          "end_line": 19
+        }
+      ],
+      "suggested_fix": "Wire the PersonRepository in the template so the PersonService methods can call it. For example, add constructor injection (preferred) or annotate the field for field injection. Example (constructor injection):\n\npublic class PersonService {\n    private final PersonRepository personRepository;\n\n    public PersonService(PersonRepository personRepository) {\n        this.personRepository = personRepository;\n    }\n    // ...\n}\n\nAlternatively, annotate the field with @Autowired:\n\n@Autowired\nprivate PersonRepository personRepository;\n\nEither change will make personRepository available at runtime and align the template with the solution's structure."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-06T22:52:37.455200",
+    "end_time": "2026-01-06T22:53:12.766207",
+    "duration_s": 35.311007
+  },
+  "trace_id": "ee29f76d-06f3-4dfc-a73d-01cb5c5baa92"
+}

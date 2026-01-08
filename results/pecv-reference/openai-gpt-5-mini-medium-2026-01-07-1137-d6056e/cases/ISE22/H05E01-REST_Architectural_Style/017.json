@@ -1,0 +1,45 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/017",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-07-114118-017-bcc9ef",
+  "timestamp": "2026-01-07T11:41:41.643096",
+  "issues": [
+    {
+      "description": "Return type and implementation of PersonService.getAllPersons is inconsistent across artifacts. The problem statement and template define/getAllPersons as returning a List<Person> (the REST endpoint should return a list), and the PersonResource (solution) expects a List<Person> to be returned from the service. In the solution repository, PersonService.getAllPersons changes the method signature to return Stream<Person> and contains an invalid implementation using undefined variables (sortedList) and Stream operations in a way that does not produce a List. This mismatch will prevent the server endpoints and students' implementations from compiling and running as intended and conflicts with the exercise description that the GET /persons returns a list of persons.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 134,
+          "end_line": 136
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 37,
+          "end_line": 40
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 39,
+          "end_line": 63
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 27
+        }
+      ],
+      "suggested_fix": "Restore a List<Person> return type for PersonService.getAllPersons and implement sorting on the List before returning it. Concretely: keep the method signature public List<Person> getAllPersons(PersonSortingOptions sortingOptions), perform sorting by choosing a Comparator based on sortingOptions (compare by id, firstName, lastName or birthday and reverse when DESCENDING), create a new List (or unmodifiable List) with the sorted elements, and return that List. Ensure variable names are consistent (e.g. use sortedList) and remove incorrect Stream/undefined-variable usage so PersonResource and the REST endpoint receive a List<Person> as specified."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-07T11:41:18.696552",
+    "end_time": "2026-01-07T11:41:41.643096",
+    "duration_s": 22.946544
+  },
+  "trace_id": "50afb190-ac62-4e04-976d-1d97da5461b1"
+}

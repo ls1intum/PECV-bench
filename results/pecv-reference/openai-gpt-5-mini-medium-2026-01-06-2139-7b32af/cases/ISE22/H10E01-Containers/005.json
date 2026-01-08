@@ -1,0 +1,77 @@
+{
+  "case_id": "ISE22/H10E01-Containers/005",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-06-214826-005-c1a151",
+  "timestamp": "2026-01-06T21:49:05.598596",
+  "issues": [
+    {
+      "description": "The template PersonResource.updatePerson mapping includes a path variable in the URL (/{personId}) but the template method signature does not accept the corresponding @PathVariable parameter. The solution version adds the parameter and enforces that the updatedPerson.getId() matches the personId path variable. This mismatch between template and solution can confuse students about the intended endpoint contract (whether the path variable must be provided and validated) and may lead to inconsistent implementations or unexpected behavior when students compare their code to the reference solution.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 24
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 48
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 51
+        }
+      ],
+      "suggested_fix": "Make the template method signature match the intended endpoint contract. Change the template's updatePerson signature to include the path variable parameter and (optionally) the same validation as the solution, e.g.: public ResponseEntity<Person> updatePerson(@RequestBody Person updatedPerson, @PathVariable(\"personId\") Long personId) { if (!updatedPerson.getId().equals(personId)) { throw new ResponseStatusException(HttpStatus.BAD_REQUEST); } return ResponseEntity.ok(personService.save(updatedPerson)); } This preserves the educational intent and aligns template and solution structure."
+    },
+    {
+      "description": "The problem statement refers to the REST endpoints using an '/api' base path (e.g., PUT /api/persons/{personId}/parents), but both the template and the solution controllers expose the endpoints without that prefix (they map to '/persons/...'). This mismatch in the endpoint path naming (presence vs. absence of the '/api' prefix) can confuse students when they try to call endpoints exactly as described in the instructions or when they write integration tests following the problem text.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 17,
+          "end_line": 19
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 57,
+          "end_line": 62
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 17,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        }
+      ],
+      "suggested_fix": "Make the endpoint paths consistent. Either update the problem statement to refer to the endpoints without the '/api' prefix (e.g., PUT /persons/{personId}/parents), or change the controller mappings in the template and solution to include the '/api' base path (for example, set @RequestMapping(path = \"/api\", consumes = ..., produces = ...) on the controllers so endpoints become /api/persons/...)."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-06T21:48:26.695219",
+    "end_time": "2026-01-06T21:49:05.598596",
+    "duration_s": 38.903377
+  },
+  "trace_id": "ed3ebac6-8f2c-4f20-b059-17b35e5101b8"
+}

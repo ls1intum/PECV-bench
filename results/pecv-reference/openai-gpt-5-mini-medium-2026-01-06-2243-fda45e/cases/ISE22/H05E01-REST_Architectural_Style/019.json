@@ -1,0 +1,65 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/019",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-06-224915-019-ab34a8",
+  "timestamp": "2026-01-06T22:49:49.935660",
+  "issues": [
+    {
+      "description": "The problem statement (Part 2, description of the controller API) incorrectly states that each method takes a Consumer<List<Note>> parameter while the exercise and template expect Consumer<List<Person>> for the PersonController methods. This typo can confuse students about the expected generic type for the callback parameter when implementing PersonController.get/add/update/delete methods.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 151
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 38
+        }
+      ],
+      "suggested_fix": "Fix the problem statement text to reference Consumer<List<Person>> when describing the PersonController methods (Part 2). This aligns the textual description with the method signatures in the template and the solution and avoids confusion for students."
+    },
+    {
+      "description": "The template's PersonService declares the stored collection as a List<Person> and includes an explicit note 'do not change this'. The solution repository, however, changes that attribute to a Set<Person> (and changes the constructor accordingly). This is a structural mismatch between template and solution and violates the problem note, which may confuse students or graders and can lead to test/compatibility issues.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 206,
+          "end_line": 210
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 9,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 14,
+          "end_line": 18
+        }
+      ],
+      "suggested_fix": "Align the solution with the template and the problem instruction: revert the PersonService storage attribute in the solution to the same type used in the template (List<Person>) and adjust the sorting implementation to operate on a List. Alternatively, if Set<Person> is intended, update the template, the 'do not change this' note, and the problem statement to explicitly require a Set and explain why. Keeping the attribute type consistent across template, problem statement, and solution will avoid confusion and test failures."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-06T22:49:15.092587",
+    "end_time": "2026-01-06T22:49:49.935660",
+    "duration_s": 34.843073
+  },
+  "trace_id": "339c0ba0-fce1-4d21-a290-830fe2502e51"
+}

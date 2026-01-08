@@ -1,0 +1,51 @@
+{
+  "case_id": "ISE22/H10E01-Containers/006",
+  "issues": [
+    {
+      "description": "The problem statement instructs students to call `personRepository.save(..)` with a boolean `force` flag (i.e., `save(person, true)`), but the provided template and reference code only include the standard `save(Person)` method inherited from `JpaRepository`. There is no overload accepting a `boolean force` parameter, so students cannot follow this instruction.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 101,
+          "end_line": 102
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/repository/PersonRepository.java",
+          "start_line": 13,
+          "end_line": 22
+        }
+      ],
+      "suggested_fix": "Remove the reference to a `force` flag in the `save` call. Instruct students to simply call `personRepository.save(person)` (or `personService.save(person)`) as shown in the template, or update the instruction to match the existing `save(Person)` signature."
+    },
+    {
+      "description": "The problem statement instructs students to invoke endpoints at URLs prefixed with `/api` (e.g., `PUT /api/persons/{personId}/parents`), but the controller mappings in both the template and solution use paths like `\"persons/{personId}/parents\"` without the `/api` prefix. This mismatch will confuse students and cause their MockMVC tests or HTTP calls to target the wrong URL.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 128
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        }
+      ],
+      "suggested_fix": "Either update the controller’s base path to include `/api` (for example by adding `@RequestMapping(path = \"/api\", ...)` on the class or changing each mapping to `@PutMapping(\"/api/persons/{personId}/parents\")`), or remove the `/api` prefix from all example URLs in the problem statement so that they match the existing mappings."
+    }
+  ]
+}

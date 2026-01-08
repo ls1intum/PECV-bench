@@ -1,0 +1,85 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/022",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-06-214645-022-fd8f55",
+  "timestamp": "2026-01-06T21:47:33.275202",
+  "issues": [
+    {
+      "description": "The problem statement (Part 2) incorrectly says \u201cEach method takes a Consumer<List<Note>> parameter \u2026 This consumer takes the internal list of persons as a parameter\u201d. For the PersonController methods the template and solution use Consumer<List<Person>>. This mismatch in the problem text can confuse students about the correct generic type they should implement for PersonController methods and tests (i.e., whether to use List<Note> or List<Person>).",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 151
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 8,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 38
+        }
+      ],
+      "suggested_fix": "Update the problem statement text to refer to Consumer<List<Person>> (not Consumer<List<Note>>) when describing the PersonController methods. This ensures the description matches the template and expected implementation and avoids students mistakenly using the wrong generic type."
+    },
+    {
+      "description": "The template PersonResource RequestMapping declares only JSON media types (consumes/produces JSON), while the solution's PersonResource expands the mapping to accept and produce both JSON and XML. This is a structural difference between template and solution mapping annotations. Because the problem statement does not mention XML support, this divergence could cause minor confusion about allowed media types or expected request/response formats.",
+      "severity": "LOW",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 8,
+          "end_line": 10
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 13,
+          "end_line": 16
+        }
+      ],
+      "suggested_fix": "Make the consumed/produced media types consistent across template and solution and document the choice in the problem statement. Either (a) restrict both template and solution to JSON only (remove XML from the solution's RequestMapping), or (b) update the template to include XML support and mention in the problem statement that the server accepts/produces JSON and XML. Keeping them consistent avoids small surprises when testing endpoints."
+    },
+    {
+      "description": "The problem statement (Part 2) incorrectly refers to the callback parameter type as Consumer<List<Note>> for the PersonController methods, while both the template and the solution use Consumer<List<Person>>. This mismatched identifier ('Note' vs 'Person') for the same conceptual callback can confuse students about the expected generic type and which model is being manipulated when implementing the client-side PersonController.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 151
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 8,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 38
+        }
+      ],
+      "suggested_fix": "Correct the problem statement text in Part 2 to refer to Consumer<List<Person>> instead of Consumer<List<Note>> so it matches the template and solution and clearly indicates that the PersonController methods use a Consumer of Person lists."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-06T21:46:45.649093",
+    "end_time": "2026-01-06T21:47:33.275202",
+    "duration_s": 47.626109
+  },
+  "trace_id": "2ced4d68-fa8d-4f20-bcb0-7f83d7b1f323"
+}

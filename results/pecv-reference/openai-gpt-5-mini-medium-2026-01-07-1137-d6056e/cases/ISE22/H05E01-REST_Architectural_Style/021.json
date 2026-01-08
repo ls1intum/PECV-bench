@@ -1,0 +1,95 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/021",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-07-114242-021-85787d",
+  "timestamp": "2026-01-07T11:43:24.401351",
+  "issues": [
+    {
+      "description": "The solution repository changes PersonService from an instance-based Spring service (as provided in the template and described by the exercise) into a singleton with static fa\u00e7ade methods. PersonResource in the solution then mixes instance and static usages (the createPerson endpoint calls the static PersonService.savePerson(person) while other endpoints call the injected personService instance). This deviates from the instance-based dependency-injection pattern used elsewhere (e.g. NoteService/NoteResource) and contradicts the problem statement's explicit warning not to change the attributes of PersonService. Students following the template and the instructions will expect instance methods called via the injected personService; the solution's static/singleton approach is structurally different and will cause confusion about the intended design and how endpoints should call the service.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 206,
+          "end_line": 210
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 1,
+          "end_line": 41
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 1,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 20,
+          "end_line": 56
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/NoteResource.java",
+          "start_line": 30,
+          "end_line": 36
+        }
+      ],
+      "suggested_fix": "Restore a consistent instance-based service API: make PersonService use normal instance methods (public Person savePerson(Person), public void deletePerson(UUID), public List<Person> getAllPersons(PersonSortingOptions)) and remove the static fa\u00e7ade/singleton. Then ensure PersonResource uses the injected personService for all calls (e.g. personService.savePerson(person)), following the same pattern as NoteService/NoteResource. This keeps dependency injection intact and matches the template and problem statement guidance."
+    },
+    {
+      "description": "The problem statement and template expect the server-side PersonService to be used via the injected instance (forward actions to PersonService). In the template PersonService is implemented with instance methods (e.g., savePerson, deletePerson, getAllPersons). In the provided solution, PersonService exposes/uses static wrapper methods (e.g., public static savePerson(...) and public static getAllPersons(...)) and PersonResource calls the service inconsistently: createPerson calls the static PersonService.savePerson(...), while other places (getAllPersons, updatePerson) call the injected personService instance. This mixed use of the class name (static) and instance name for the same conceptual service breaks the consistent dependency-injection pattern used elsewhere (e.g., NoteResource) and creates confusion for students about how they should interact with the service (use injected instance vs static methods).",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 124,
+          "end_line": 136
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 18,
+          "end_line": 40
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 12,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
+          "end_line": 44
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 20,
+          "end_line": 56
+        }
+      ],
+      "suggested_fix": "Make the service usage consistent: revert PersonService to instance methods (remove or avoid public static wrappers) and have PersonResource always call the injected personService (e.g., personService.savePerson(...)). This aligns with the NoteResource pattern and the problem statement instruction to forward actions to the PersonService, reducing confusion about whether to use static methods or the injected instance."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-07T11:42:42.796219",
+    "end_time": "2026-01-07T11:43:24.401351",
+    "duration_s": 41.605132
+  },
+  "trace_id": "f2d3b1da-3d59-4d8a-b879-47ba54bd0cf1"
+}

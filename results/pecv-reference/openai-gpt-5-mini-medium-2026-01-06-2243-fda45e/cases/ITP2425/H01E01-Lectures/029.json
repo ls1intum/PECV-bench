@@ -1,0 +1,45 @@
+{
+  "case_id": "ITP2425/H01E01-Lectures/029",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-06-230446-029-abd867",
+  "timestamp": "2026-01-06T23:05:20.044471",
+  "issues": [
+    {
+      "description": "The UML in the problem statement specifies numberOfLecturers as type int, but the solution implementation declares the field numberOfLecturers as byte and exposes a setter that accepts a byte while the getter returns an int. This creates a cross-artifact type mismatch and an inner-artifact inconsistency: the attribute type (byte) in the solution does not match the UML/specified int, the constructor in the solution expects a byte for that parameter, and the setter uses byte whereas the getter returns int. Students following the UML (implementing numberOfLecturers as int and writing constructor/setter accordingly) will find the solution inconsistent and may be confused about the intended type/signature.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 63,
+          "end_line": 68
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 4,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 6,
+          "end_line": 13
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 46,
+          "end_line": 52
+        }
+      ],
+      "suggested_fix": "Make the type of numberOfLecturers consistent across artifacts. The simplest fix is to change the solution to use int for the field, the constructor parameter, and the setter parameter (i.e., declare private int numberOfLecturers; constructor parameter int numberOfLecturers; setNumberOfLecturers(int)). Alternatively, if byte was intentional, update the problem statement/UML to indicate byte and document that choice. Prefer aligning the solution with the UML (int) to avoid student confusion."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-06T23:04:46.532060",
+    "end_time": "2026-01-06T23:05:20.044471",
+    "duration_s": 33.512411
+  },
+  "trace_id": "2f649563-2050-4b68-ae86-ced74b97390e"
+}

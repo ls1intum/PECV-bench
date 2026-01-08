@@ -1,0 +1,65 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/013",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-06-224724-013-ff0ce0",
+  "timestamp": "2026-01-06T22:48:13.511294",
+  "issues": [
+    {
+      "description": "The problem statement (Part 2) says \"Each method takes a Consumer<List<Note>> parameter\" when describing the PersonController methods. This contradicts the template and solution code, which use Consumer<List<Person>> for PersonController methods. The typo refers to Note instead of Person and could confuse students about the expected parameter types when implementing the client-side controller methods.",
+      "severity": "LOW",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 151
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 65,
+          "end_line": 80
+        }
+      ],
+      "suggested_fix": "Fix the problem statement text to refer to Consumer<List<Person>> (not Consumer<List<Note>>) when describing the PersonController methods so the narrative matches the method signatures in the template and solution."
+    },
+    {
+      "description": "The problem statement warns students: \"Do not change the attributes of PersonService, this will lead to Artemis tests failing\", and the template's PersonService declares only a persons list and a no-arg constructor. The solution's PersonService, however, adds a PersonRepository field and changes the constructor to take a PersonRepository parameter. This is a structural divergence between template and solution (different attributes and constructor parameters) and contradicts the problem statement guidance. Students reading the solution or comparing artifacts could be confused about the intended structure and about whether adding/removing attributes or changing constructors is allowed.",
+      "severity": "MEDIUM",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 206,
+          "end_line": 210
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 11,
+          "end_line": 21
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 15,
+          "end_line": 21
+        }
+      ],
+      "suggested_fix": "Make the template, solution and problem statement consistent. Either (A) update the template (and problem statement) to include the PersonRepository field and a matching constructor so the solution's structure is reflected in the starter code, or (B) modify the solution to keep PersonService attributes and a no-arg constructor matching the template and problem statement note. Also update the problem statement to accurately state whether adding attributes is permitted. Choose the option that preserves the intended learning objectives and test setup."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-06T22:47:24.333091",
+    "end_time": "2026-01-06T22:48:13.511294",
+    "duration_s": 49.178203
+  },
+  "trace_id": "fbdef786-5c26-4297-a9cb-2b047e0fc83f"
+}

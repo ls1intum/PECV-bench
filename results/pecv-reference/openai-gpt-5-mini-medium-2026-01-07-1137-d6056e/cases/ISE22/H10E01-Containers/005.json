@@ -1,0 +1,59 @@
+{
+  "case_id": "ISE22/H10E01-Containers/005",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-07-114432-005-d6250d",
+  "timestamp": "2026-01-07T11:45:07.785877",
+  "issues": [
+    {
+      "description": "The template's PersonResource.updatePerson mapping declares a path variable in the route (\"persons/{personId}\") but the method signature does not accept the personId PathVariable. The solution's implementation adds a PathVariable parameter and validates that the id in the request body matches the path id (throwing BAD_REQUEST if not). This is a parameter/signature mismatch between template and solution that can confuse students: the route suggests the handler should use the path id, yet the template method ignores it. Students implementing integration tests or trying to follow the intended update semantics (ensuring path id and body id match) may be blocked or produce incorrect behavior when the template does not expose the path variable.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 48
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 51
+        }
+      ],
+      "suggested_fix": "Modify the template method signature to include the path variable and validate it against the ID in the request body. For example: add a parameter @PathVariable(\"personId\") Long personId to updatePerson, and (optionally) check that updatedPerson.getId().equals(personId), throwing ResponseStatusException(BAD_REQUEST) if they differ. This aligns the template with the solution and removes confusion about how the update endpoint should behave."
+    },
+    {
+      "description": "The problem statement instructs tests and integration examples to call endpoints under the path prefix '/api' (e.g., PUT /api/persons/{personId}/parents), but both the template and solution REST controllers expose the endpoints without that '/api' prefix (e.g., PUT /persons/{personId}/parents). This mismatch between the documented endpoint paths and the actual controller mappings is a naming inconsistency of the same conceptual entity (the Person REST API endpoint paths) and can confuse students when they try to invoke or test the endpoints described in the assignment.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 17,
+          "end_line": 62
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 17,
+          "end_line": 64
+        }
+      ],
+      "suggested_fix": "Make the endpoint paths consistent across all artifacts. Either (A) update the problem statement and any task/instruction text to refer to the actual paths used in code (e.g., PUT /persons/{personId}/parents), or (B) change the controller base mapping in the template and solution to include the '/api' prefix (for example add path = \"/api\" to the @RequestMapping on PersonResource or prepend '/api' to each @*Mapping). Also update any integration test examples in the problem description to match the chosen canonical path."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-07T11:44:32.187501",
+    "end_time": "2026-01-07T11:45:07.785877",
+    "duration_s": 35.598376
+  },
+  "trace_id": "f026572c-ba68-469d-bb7b-5640e2d4c3fd"
+}

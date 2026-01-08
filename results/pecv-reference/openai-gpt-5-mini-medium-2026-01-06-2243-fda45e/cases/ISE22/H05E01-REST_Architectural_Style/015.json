@@ -1,0 +1,71 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/015",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-06-224742-015-65f5f9",
+  "timestamp": "2026-01-06T22:48:35.688123",
+  "issues": [
+    {
+      "description": "The solution implementation of PersonService makes its core methods protected (savePerson, deletePerson, getAllPersons) while the template had them public. PersonResource (in package de.tum.in.ase.eist.rest) invokes these methods. Because PersonResource is in a different package and is not a subclass of PersonService, it cannot legally call protected methods of PersonService. This creates a visibility/access mismatch that will cause compilation errors and prevents the server-side REST endpoints from working as shown in the solution.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 20,
+          "end_line": 40
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 39,
+          "end_line": 63
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 49
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 18,
+          "end_line": 40
+        }
+      ],
+      "suggested_fix": "Restore appropriate visibility for the service methods so resources in other packages can call them. The simplest fix is to make PersonService.savePerson, PersonService.deletePerson and PersonService.getAllPersons public (as they are in the template), or keep them package-accessible and place PersonResource in the same package. Making the methods public matches the template, restores compile-time accessibility, and preserves the intended layering."
+    },
+    {
+      "description": "The problem statement text for Part 2 mistakenly says each PersonController method takes a Consumer<List<Note>> parameter (refers to Note instead of Person). The template and solution both use Consumer<List<Person>>. This is a wording/type inconsistency in the problem description that could confuse students about the expected consumer type.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 151
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 65,
+          "end_line": 80
+        }
+      ],
+      "suggested_fix": "Correct the problem statement text to refer to Consumer<List<Person>> for the PersonController methods. This makes the description consistent with the provided template and the intended API (the consumer receives the internal list of Person objects)."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-06T22:47:42.096780",
+    "end_time": "2026-01-06T22:48:35.688123",
+    "duration_s": 53.591343
+  },
+  "trace_id": "f2c29e01-7eab-49ab-8179-281fa8d17377"
+}

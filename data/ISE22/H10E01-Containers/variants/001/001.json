@@ -1,0 +1,51 @@
+{
+  "case_id": "ISE22/H10E01-Containers/001",
+  "issues": [
+    {
+      "description": "The method signature for addParent is inconsistent: the problem statement and template specify addParent(Person, Person) returns a Person, but the solution’s PersonService implements addParent with a void return type. This mismatch will cause compilation errors in PersonResource where the return value is assigned to a Person.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 100,
+          "end_line": 101
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 46
+        }
+      ],
+      "suggested_fix": "Change the solution’s addParent method to return a Person. For example, update its signature to `public Person addParent(Person person, Person parent)` and return `personRepository.save(person)` at the end."
+    },
+    {
+      "description": "The problem statement refers to REST endpoints with an `/api` prefix (e.g., `PUT /api/persons/{personId}/parents`), but both the template and solution code define these mappings without `/api` (e.g., `@PutMapping(\"persons/{personId}/parents\")`). This misalignment may confuse students when trying to follow the instructions against the actual code and tests.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 127
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        }
+      ],
+      "suggested_fix": "Either update the code to include the `/api` prefix on all mappings (for example, add `@RequestMapping(path = \"/api\", ...)` at the class level) or revise the problem statement to remove the `/api` prefix so that it matches the actual endpoint paths."
+    }
+  ]
+}

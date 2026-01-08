@@ -1,0 +1,45 @@
+{
+  "case_id": "ISE22/H10E01-Containers/003",
+  "issues": [
+    {
+      "description": "The template’s Person.getBirthday() method returns String, but PersonService.save calls person.getBirthday().isAfter(LocalDate.now()), which requires getBirthday() to return a LocalDate. This inconsistency prevents the code from compiling and blocks the core validation logic.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 77,
+          "end_line": 79
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 21,
+          "end_line": 26
+        }
+      ],
+      "suggested_fix": "Change the signature of Person.getBirthday() to return LocalDate (e.g. `public LocalDate getBirthday() { return birthday; }`) so that PersonService.save can correctly call isAfter(...) on the result."
+    },
+    {
+      "description": "The problem statement instructs students to call the REST endpoint at “PUT /api/persons/{personId}/parents”, but both the template and solution code define the mapping as \"/persons/{personId}/parents\" (no \"/api\" prefix). This mismatch will lead to 404 errors if students follow the problem text literally.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        }
+      ],
+      "suggested_fix": "Either remove the \"/api\" prefix in the problem description (use \"/persons/{personId}/parents\") or add a base path \"/api\" in PersonResource (e.g. change @RequestMapping to @RequestMapping(path = \"/api\", consumes=…, produces=…) so that endpoints become \"/api/persons/…\")."
+    }
+  ]
+}
