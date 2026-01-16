@@ -1,0 +1,71 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/001",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-07-113729-001-44cc98",
+  "timestamp": "2026-01-07T11:38:10.586091",
+  "issues": [
+    {
+      "description": "HTTP verb for creating a Person is inconsistent between the problem statement and the provided solution (and client). The problem statement explicitly lists POST /persons as the endpoint to create a new person (Problem statement lines 109-113). However, the solution implements creation with a PUT mapping on /persons (Server: PersonResource uses @PutMapping(\"persons\"); Solution client: PersonController.addPerson() sends a PUT request). This mismatch will confuse students: they will implement a POST endpoint (and a client sending POST) as described in the task, but the provided solution uses PUT, making direct comparisons, tests or provided reference behavior inconsistent. The template's PersonResource currently contains a TODO (no endpoints) so it does not resolve the ambiguity for students.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 113
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 37
+        }
+      ],
+      "suggested_fix": "Make the creation endpoint consistent across problem statement, server and client. Preferably align with the problem statement and use POST /persons for creation: change the server method mapping to @PostMapping(\"persons\") and update the client to use webClient.post() for addPerson. Alternatively, update the problem statement and task descriptions to require PUT /persons for creation (and clearly document this non-standard choice). Ensure both template and solution reflect the chosen verb so students are not confused."
+    },
+    {
+      "description": "The problem statement (Part 2, description of PersonController) incorrectly states that each PersonController method takes a Consumer<List<Note>> parameter. The template and solution code for PersonController declare and implement these methods with Consumer<List<Person>>. This mismatch between the textual requirement and the method signatures/types in the code can confuse students about the expected callback type and whether they should work with Note or Person objects in the PersonController.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 151
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 38
+        }
+      ],
+      "suggested_fix": "Update the problem statement (Part 2 description) to refer to Consumer<List<Person>> for the PersonController methods (and any UML/text that mentions Consumer<List<Note>> in that context). This aligns the textual requirements with the template and solution code and removes ambiguity about the expected callback type."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-07T11:37:29.849194",
+    "end_time": "2026-01-07T11:38:10.586091",
+    "duration_s": 40.736897
+  },
+  "trace_id": "2a0c7c99-e039-4f69-9957-9de1a4281d4a"
+}

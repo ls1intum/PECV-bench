@@ -1,0 +1,165 @@
+{
+  "case_id": "ITP2425/H01E01-Lectures/027",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-07-115711-027-8b3fb7",
+  "timestamp": "2026-01-07T11:57:42.827706",
+  "issues": [
+    {
+      "description": "The problem statement's UML and task text specify the attribute lectureName as a String, but the solution introduces a separate LectureName class and declares the lectureName field as type LectureName. This diverges from the specification the students are expected to follow and will confuse students about the intended type. It also forces changes to constructor and accessor signatures if the LectureName type is kept.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 18
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 63,
+          "end_line": 68
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 4,
+          "end_line": 6
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 6,
+          "end_line": 10
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/LectureName.java",
+          "start_line": 3,
+          "end_line": 8
+        }
+      ],
+      "suggested_fix": "Make the solution and template use String for lectureName to match the problem statement. Remove the LectureName wrapper class or adapt the problem statement/UML to explicitly require a LectureName type. The simplest fix: change the field in solution Lecture to 'private String lectureName;', adjust constructor and all getters/setters accordingly, and remove LectureName.java."
+    },
+    {
+      "description": "The solution's constructor takes a LectureName parameter (Lecture(LectureName, ...)) while the problem statement/UML and the intended student tasks expect the constructor to take a String lectureName. This constructor parameter mismatch prevents students from following the specified constructor signature/order and will cause confusion when comparing to the UML and task descriptions.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 19,
+          "end_line": 21
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 63,
+          "end_line": 70
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 12,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/LectureName.java",
+          "start_line": 6,
+          "end_line": 12
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 4,
+          "end_line": 8
+        }
+      ],
+      "suggested_fix": "Align the solution constructor with the UML: change the constructor parameter type to String for lectureName and keep the order of parameters per the UML. For example: public Lecture(String lectureName, int numberOfInscribedStudents, int numberOfGuestStudents, int numberOfLecturers, int numberOfTutors) { ... } If a LectureName wrapper is intentional, update the problem statement and template to document and require that type."
+    },
+    {
+      "description": "The solution's getter and setter for lectureName declare String types in their signatures but operate on a LectureName-typed field. Specifically, getLectureName() is declared to return String but returns a LectureName instance; setLectureName(String) assigns a String to a LectureName field. This creates a type/signature mismatch that leads to compilation errors and contradicts the UML which expects String accessors.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 21,
+          "end_line": 28
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 80,
+          "end_line": 82
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/LectureName.java",
+          "start_line": 14,
+          "end_line": 17
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 8,
+          "end_line": 16
+        }
+      ],
+      "suggested_fix": "Ensure accessor signatures and implementations use the same type. If lectureName should be a String, change the field to String and keep public String getLectureName() / public void setLectureName(String). If a LectureName type is required, change accessor signatures to return/accept LectureName and update the UML/problem statement accordingly. Also ensure implementations return the correct type (e.g., return lectureName.getValue() if returning String)."
+    },
+    {
+      "description": "The problem statement and UML expect the attribute 'lectureName' to be a String (lectureName: String). The solution repository introduces a new type LectureName and changes the Lecture field and constructor to use LectureName instead of String. This creates a cross-artifact mismatch: students reading the exercise and template (which expects a String for lectureName) will not see the LectureName wrapper type, so they cannot easily map the required 'lectureName' String to the solution's LectureName object. The mismatch also changes the constructor signature and the expected type for getters/setters, creating compilation/mapping confusion and extra cognitive load.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 18
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 63,
+          "end_line": 68
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 4,
+          "end_line": 8
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 6,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/LectureName.java",
+          "start_line": 3,
+          "end_line": 17
+        }
+      ],
+      "suggested_fix": "Align the solution with the UML/problem/template by using String for the lectureName attribute and constructor parameter. Concretely: change the Lecture field type 'private LectureName lectureName;' to 'private String lectureName;', update the constructor parameter and assignments to accept a String, and make getters/setters return/accept String. Remove the LectureName wrapper class (or keep it but do not use it for the lectureName attribute). Alternatively (less preferred), update the problem statement and template UML to explicitly document and require a LectureName wrapper type \u2014 but the simpler fix is to revert the solution to use String to match the exercise description."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-07T11:57:11.240538",
+    "end_time": "2026-01-07T11:57:42.827706",
+    "duration_s": 31.587168
+  },
+  "trace_id": "5e66d52b-4481-4222-90ab-3f1206071987"
+}

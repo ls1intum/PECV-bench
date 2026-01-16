@@ -1,0 +1,57 @@
+{
+  "case_id": "ISE22/H10E01-Containers/012",
+  "issues": [
+    {
+      "description": "The problem statement specifies that the `parents` attribute should be a List preserving insertion order, but both the template and solution declare it as a `Set<Person>` (backed by a `HashSet`), which neither matches the declared type nor preserves insertion order. This mismatch can confuse students when they try to use list-specific behavior or rely on insertion order.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 96,
+          "end_line": 97
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 33,
+          "end_line": 41
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 33,
+          "end_line": 41
+        }
+      ],
+      "suggested_fix": "Either update the problem statement to describe `parents` as a `Set<Person>` (or a `LinkedHashSet` if ordering is desired), or change the code in both the template and solution to use `List<Person>` (e.g., `private List<Person> parents = new ArrayList<>();`) to match the stated requirement."
+    },
+    {
+      "description": "Problem statement refers to endpoints under '/api/persons/...', but both template and solution define mappings at '/persons/...'. This mismatch can confuse students when testing or invoking the REST API, leading to 404 errors if they use the '/api' prefix as described in the instructions.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        }
+      ],
+      "suggested_fix": "Align the controller mappings with the problem statement by adding the '/api' prefix. For example, change the class-level @RequestMapping to @RequestMapping(path = \"/api\", consumes = {...}, produces = {...}) or prefix each @*Mapping with \"api/\" so that endpoints become '/api/persons/...'. Alternatively, update the problem statement to omit the '/api' prefix."
+    }
+  ]
+}

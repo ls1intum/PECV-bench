@@ -1,0 +1,92 @@
+plugins {
+    id 'org.springframework.boot' version '3.0.0-M3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+sourceCompatibility = 17
+version = '1.0.0'
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+}
+
+dependencies {
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5-jakarta:2.13.3'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.liquibase:liquibase-core'
+    implementation 'de.tum.in.ase:artemis-java-test-sandbox:1.10.1'
+    implementation 'org.postgresql:postgresql'
+    implementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation "com.h2database:h2:2.1.212"
+
+    testImplementation 'de.tum.in.ase:artemis-java-test-sandbox:1.10.1'
+    testImplementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    testImplementation 'org.mockito:mockito-core:4.6.1'
+    testImplementation 'net.bytebuddy:byte-buddy:1.12.12'
+
+    // testImplementation(':H10E01---Heroku-and-Docker')
+    // testImplementation(':H10E01---Heroku-and-Docker-Solution')
+}
+
+def assignmentSrcDir = "assignment/src/main/java"
+def studentOutputDir = sourceSets.main.java.destinationDirectory.get()
+
+sourceSets {
+    test {
+        java {
+            srcDir 'test'
+        }
+        resources {
+            srcDir 'test'
+        }
+    }
+    main {
+        java {
+            srcDirs = [assignmentSrcDir, "assignment/src/test/java"]
+        }
+        resources {
+            srcDirs = [assignmentSrcDir, "assignment/src/test/java"]
+        }
+    }
+}
+
+def forbiddenPackageFolders = [ //(2)
+                                "$studentOutputDir/ch/qos/logback/",
+                                "$studentOutputDir/com/intellij/",
+                                "$studentOutputDir/com/sun/",
+                                "$studentOutputDir/de/tum/in/test/api/",
+                                "$studentOutputDir/java/",
+                                "$studentOutputDir/javax/",
+                                "$studentOutputDir/jdk/",
+                                "$studentOutputDir/net/jqwik/",
+                                "$studentOutputDir/org/assertj/",
+                                "$studentOutputDir/org/apache/",
+                                "$studentOutputDir/org/eclipse/",
+                                "$studentOutputDir/org/gradle/",
+                                "$studentOutputDir/org/jacoco/",
+                                "$studentOutputDir/org/json/",
+                                "$studentOutputDir/org/junit/",
+                                "$studentOutputDir/org/opentest4j/",
+                                "$studentOutputDir/sun/",
+                                "$studentOutputDir/worker/org/gradle/"
+]
+test {
+    doFirst { //(1)
+        for (String packageFolder in forbiddenPackageFolders) {
+            assert !file(packageFolder).exists(): "$packageFolder must not exist within the submission."
+        }
+    }
+    defaultCharacterEncoding = 'UTF-8'
+    useJUnitPlatform()
+}
+
+
+
+

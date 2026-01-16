@@ -1,0 +1,65 @@
+{
+  "case_id": "ITP2425/H01E01-Lectures/014",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-06-230017-014-c1b13e",
+  "timestamp": "2026-01-06T23:00:48.312483",
+  "issues": [
+    {
+      "description": "The UML in the problem statement declares numberOfInscribedStudents and numberOfGuestStudents as double, but the solution implementation declares these fields as int and all related methods (e.g., getTotalNumberOfStudents()) use int. This inconsistency between the problem UML and the solution (and likely expected student implementation) can confuse students about the correct types to use for student counts and whether they must handle fractional students or cast/convert types when implementing methods.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 63,
+          "end_line": 73
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 3,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 6,
+          "end_line": 11
+        }
+      ],
+      "suggested_fix": "Make the attribute types consistent across the problem statement, template, and solution. Recommended: change the UML in problem_statement.md to declare numberOfInscribedStudents and numberOfGuestStudents as int (to match the solution and the integer-returning methods), or alternatively change the solution and related method return types to double if fractional students are intended. Update the template Lecture.java to use the chosen types so students have a clear, consistent specification."
+    },
+    {
+      "description": "The problem UML specifies getTotalNumberOfStudents(): int while the UML attributes for student counts are declared as double. This creates an inner-artifact contradiction in the problem statement: summing double attributes but returning an int is unclear (should the sum be cast/truncated/rounded?). The solution uses int attributes and returns int, but the UML's mixed types could mislead students about constructor and method parameter/return types.",
+      "severity": "MEDIUM",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 63,
+          "end_line": 73
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 13,
+          "end_line": 19
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 4,
+          "end_line": 8
+        }
+      ],
+      "suggested_fix": "Align constructor parameter types with the attribute types in the UML and the solution. If the intended design uses integers for student counts (as in the solution), update the UML and problem text so the constructor parameters are int in the specified order. If doubles were intended, change the solution constructor and methods to accept/return doubles and clarify how getTotalNumberOfStudents() should handle fractional values (return double or specify rounding behavior)."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-06T23:00:17.182500",
+    "end_time": "2026-01-06T23:00:48.312483",
+    "duration_s": 31.129983
+  },
+  "trace_id": "c25842e2-3151-4ce7-9603-082feab7d462"
+}

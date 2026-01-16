@@ -1,0 +1,51 @@
+{
+  "case_id": "ITP2425/H01E01-Lectures/026",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-06-215959-026-818b1a",
+  "timestamp": "2026-01-06T22:00:22.625602",
+  "issues": [
+    {
+      "description": "The problem statement and UML specify getTotalNumberOfStudents() should return an int (the UML shows +getTotalNumberOfStudents(): int and the task text tells students to check the UML). However, the solution implementation returns a StudentCount object (public StudentCount getTotalNumberOfStudents()) and adds a StudentCount helper class. This is a cross-artifact return-type mismatch: students following the specification/UML will implement getTotalNumberOfStudents() to return an int, while the solution uses a different return type and a custom class that is not mentioned in the problem statement or provided in the template. This can confuse students and prevents straightforward comparison between their work and the solution (or copying solution code directly into the template without also introducing StudentCount).",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 40,
+          "end_line": 41
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 70,
+          "end_line": 72
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 12,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 74,
+          "end_line": 77
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/StudentCount.java",
+          "start_line": 3,
+          "end_line": 12
+        }
+      ],
+      "suggested_fix": "Make the return type consistent across artifacts. Two viable fixes:\n1) Align the solution with the problem/UML: change the solution's getTotalNumberOfStudents() to return an int (e.g. public int getTotalNumberOfStudents() { return numberOfInscribedStudents + numberOfGuestStudents; }), update any callers in the solution accordingly, and remove the StudentCount helper class. This preserves the exercise's stated intent and the UML.\n2) If the StudentCount wrapper is intentional, update the problem statement and UML to declare getTotalNumberOfStudents(): StudentCount and document the StudentCount helper class in the template (add StudentCount.java to the template) so students know the expected type and can use it. Ensure the template includes the StudentCount type and examples of how to access the numeric value (e.g. getValue())."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-06T21:59:59.070847",
+    "end_time": "2026-01-06T22:00:22.625602",
+    "duration_s": 23.554755
+  },
+  "trace_id": "01e7c42a-35d8-43ff-83cf-62db80e5cdbe"
+}

@@ -1,0 +1,39 @@
+{
+  "case_id": "ITP2425/H01E01-Lectures/011",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-07-115222-011-c4f580",
+  "timestamp": "2026-01-07T11:52:50.364898",
+  "issues": [
+    {
+      "description": "The problem statement's UML specifies getNumberOfStudentsPerTutor() to return a double, but the solution implementation declares and returns an int. This mismatch in return type will confuse students about the expected return type and numeric semantics (integer division vs. floating-point division). Students following the UML will implement a double-returning method (and expect fractional values), while the solution uses integer division which discards fractional results \u2014 this can cause failing checks or unexpected behavior.",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 70,
+          "end_line": 72
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 16,
+          "end_line": 17
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 84,
+          "end_line": 87
+        }
+      ],
+      "suggested_fix": "Align the implementation with the UML in the problem statement: change the method signature in the solution (and template guidance) to return double (public double getNumberOfStudentsPerTutor()) and compute using floating-point division, e.g. return (double) getTotalNumberOfStudents() / getNumberOfTutors(); also consider handling the case when numberOfTutors == 0 (e.g. return 0.0 or throw an IllegalStateException) to avoid division-by-zero."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-07T11:52:22.102251",
+    "end_time": "2026-01-07T11:52:50.364898",
+    "duration_s": 28.262647
+  },
+  "trace_id": "2f0062b3-bf6a-4542-ba72-311481faa461"
+}

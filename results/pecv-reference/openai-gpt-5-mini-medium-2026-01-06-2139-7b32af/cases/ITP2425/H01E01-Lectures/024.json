@@ -1,0 +1,71 @@
+{
+  "case_id": "ITP2425/H01E01-Lectures/024",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-06-215918-024-cb7575",
+  "timestamp": "2026-01-06T21:59:43.814066",
+  "issues": [
+    {
+      "description": "The problem statement and UML specify addGuestStudents(int) (single int parameter) but the template declares addGuestStudents(int numberOfNewGuestStudents, boolean validateInput) with an extra boolean parameter. The solution implements addGuestStudents(int) (single parameter). This mismatch in method parameters in the template will confuse students and cause compilation/test failures: students following the specification will implement a single-parameter method while the template expects two parameters (or students may be unsure which signature to follow).",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 49,
+          "end_line": 51
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 73,
+          "end_line": 73
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 19,
+          "end_line": 21
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 90,
+          "end_line": 92
+        }
+      ],
+      "suggested_fix": "Change the template method signature to match the specification and the solution: public void addGuestStudents(int numberOfNewGuestStudents) { /* TODO */ }. If validation behavior is desired, implement validation inside that single-parameter method (or provide an overloaded private method) rather than changing the public signature, and update any comments to reflect the single-parameter API."
+    },
+    {
+      "description": "The problem statement (UML and tasks) and the solution expect a method addGuestStudents(int) (single int parameter). The template, however, provides a stub with the signature addGuestStudents(int numberOfNewGuestStudents, boolean validateInput) \u2014 i.e. an extra boolean parameter and different public API. This mismatch breaks the direct mapping from the exercise specification to the starter code and to the reference solution, and is likely to confuse students (and cause automated tests or expected usage to fail).",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 49,
+          "end_line": 73
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 18,
+          "end_line": 21
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 89,
+          "end_line": 92
+        }
+      ],
+      "suggested_fix": "Change the template stub to match the specified API: declare addGuestStudents with a single int parameter (public void addGuestStudents(int numberOfNewGuestStudents)). If input validation is required, perform it inside that method (or provide an overloaded private/helper method), but keep the public signature consistent with the UML and the solution so students can directly map the task to the starter code and tests."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-06T21:59:18.571668",
+    "end_time": "2026-01-06T21:59:43.814066",
+    "duration_s": 25.242398
+  },
+  "trace_id": "343e50fe-10fd-440d-8ec6-6f76ed83a81a"
+}

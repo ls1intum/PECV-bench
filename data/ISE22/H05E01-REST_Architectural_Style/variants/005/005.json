@@ -1,0 +1,51 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/005",
+  "issues": [
+    {
+      "description": "The `Person` class’s `birthday` attribute is declared as `LocalDate` in the template/common code and per the problem specification, but in the solution/common `Person.java` it is declared as `String`. This cross-artifact mismatch conflicts with the UML (which specifies `LocalDate`) and will confuse students when modeling and serializing dates.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 168,
+          "end_line": 175
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 6,
+          "end_line": 10
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 6,
+          "end_line": 10
+        }
+      ],
+      "suggested_fix": "In the solution’s common `Person.java`, change the `birthday` field and its getter/setter to use `LocalDate` (import `java.time.LocalDate`) so it matches the template and UML specification."
+    },
+    {
+      "description": "Within the solution code, `PersonScene` treats `birthday` as a `LocalDate` (calling `DatePicker.setValue(person.getBirthday())` and passing `DatePicker.getValue()` directly to `Person.setBirthday()`), but the solution’s `Person` class defines those methods to use `String`. This internal mismatch will cause compile-time errors.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
+          "start_line": 118,
+          "end_line": 126
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 37,
+          "end_line": 43
+        }
+      ],
+      "suggested_fix": "Either update the solution’s `PersonScene` to convert between `String` and `LocalDate` (e.g. using `LocalDate.parse()` and `toString()`), or—preferably—change the solution’s `Person` class to use `LocalDate` for `birthday`, matching the view code."
+    }
+  ]
+}

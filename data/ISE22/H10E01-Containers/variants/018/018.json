@@ -1,0 +1,103 @@
+{
+  "case_id": "ISE22/H10E01-Containers/018",
+  "issues": [
+    {
+      "description": "The problem statement refers to REST endpoints under the \"/api\" prefix (e.g. PUT /api/persons/{personId}/parents), but both the template and solution code (PersonResource) and the provided tests use endpoints without the \"/api\" prefix (e.g. PUT /persons/{personId}/parents). This mismatch will confuse students when implementing and testing the controllers.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 17,
+          "end_line": 19
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+          "start_line": 93,
+          "end_line": 98
+        }
+      ],
+      "suggested_fix": "Either remove the \"/api\" prefix from the problem statement when describing endpoints, or update the @RequestMapping in PersonResource to include \"/api\" so that mappings and tests align."
+    },
+    {
+      "description": "The problem statement describes the web layer class as `PersonController`, but the template and solution define that controller class as `PersonResource`. This naming mismatch may confuse students searching for or extending the correct class.",
+      "severity": "LOW",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 22,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Either rename the class `PersonResource` to `PersonController` in the template and solution, or update the problem statement to refer to `PersonResource` instead of `PersonController`."
+    },
+    {
+      "description": "The problem statement refers to a class named `PersonController` as the Web Layer entry point, but both the template and solution code define this REST controller as `PersonResource`. This mismatch may lead students to search for a non-existent `PersonController` and overlook the correct `PersonResource` class.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 23
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 17,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 17,
+          "end_line": 19
+        }
+      ],
+      "suggested_fix": "Rename references in the problem statement from `PersonController` to `PersonResource` (or rename the class in code to `PersonController`) so that the described component name matches the actual class name."
+    },
+    {
+      "description": "The problem statement and requirements specify REST endpoints under the path `/api/persons/...`, but the template and solution map endpoints to `/persons/...` (missing the `/api` prefix). This inconsistency can confuse students when calling or testing the endpoints.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 63
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 63
+        }
+      ],
+      "suggested_fix": "Unify the base path for all endpoints: either add the `/api` prefix in `@RequestMapping` (e.g., `@RequestMapping(path = \"/api\", ...)`) or update the problem statement to use `/persons/...` without `/api`."
+    }
+  ]
+}

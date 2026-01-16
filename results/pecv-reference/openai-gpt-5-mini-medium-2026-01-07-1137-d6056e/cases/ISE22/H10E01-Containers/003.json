@@ -1,0 +1,103 @@
+{
+  "case_id": "ISE22/H10E01-Containers/003",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-07-114408-003-214727",
+  "timestamp": "2026-01-07T11:44:40.570832",
+  "issues": [
+    {
+      "description": "Person.getBirthday() in the template returns String, but PersonService.save() expects getBirthday() to return a LocalDate (it calls isAfter(LocalDate.now())). This is a blocking type/signature mismatch: the template as provided will not compile/run because the service calls LocalDate methods on a String. The solution repository uses LocalDate as the return type for getBirthday(), which confirms the intended design.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 77,
+          "end_line": 83
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 21,
+          "end_line": 26
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 77,
+          "end_line": 83
+        }
+      ],
+      "suggested_fix": "Change the Person model getter signature in the template to return LocalDate (public LocalDate getBirthday()) and return the birthday field directly (not birthday.toString()). This matches PersonService.save() and the solution. Alternatively, if returning String is intentional, update PersonService.save() to use a LocalDate field (or parse the String) \u2014 but the straightforward fix is to make getBirthday() return LocalDate as in the solution."
+    },
+    {
+      "description": "The problem statement refers to endpoints under the /api prefix (e.g. PUT /api/persons/{personId}/parents), but the template and solution code and tests define and exercise endpoints without the /api prefix (e.g. PUT /persons/{personId}/parents). This mismatch between the written instructions and the provided code/tests can confuse students about which URL to call and which paths to use in their integration tests.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+          "start_line": 93,
+          "end_line": 97
+        }
+      ],
+      "suggested_fix": "Make the documentation and code consistent. Either update the problem statement to reference the actual paths used in the template/tests (e.g. /persons/...) or change the controller mappings to include the /api base path (for example add @RequestMapping(path = \"/api\", consumes = ..., produces = ...) at the class level) and update tests accordingly. Ensure the examples in the description match the code the students get."
+    },
+    {
+      "description": "The problem statement refers to REST endpoints using the path prefix \"/api\" (e.g. \"PUT /api/persons/{personId}/parents\"), but both the template and solution code expose the endpoints without that prefix (e.g. \"PUT /persons/{personId}/parents\" in PersonResource and the integration tests). This mismatch in the endpoint URI naming can confuse students about the exact URL they should call and may lead to failed requests when following the problem text.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 17,
+          "end_line": 71
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 17,
+          "end_line": 71
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+          "start_line": 48,
+          "end_line": 52
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+          "start_line": 49,
+          "end_line": 53
+        }
+      ],
+      "suggested_fix": "Make the endpoint paths consistent across artifacts. Either: (A) update the problem statement to reference the endpoints without the \"/api\" prefix (e.g. \"PUT /persons/{personId}/parents\") to match the template/solution and tests; or (B) change the controller base mapping in PersonResource to include the \"/api\" prefix (e.g. add @RequestMapping(path = \"/api\", consumes = ..., produces = ...)) so the implementation matches the problem text. Choose one approach and apply it consistently to all tests, documentation, and code."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-07T11:44:08.513456",
+    "end_time": "2026-01-07T11:44:40.570832",
+    "duration_s": 32.057376
+  },
+  "trace_id": "4a486eea-d976-4464-a468-4797e550ef92"
+}

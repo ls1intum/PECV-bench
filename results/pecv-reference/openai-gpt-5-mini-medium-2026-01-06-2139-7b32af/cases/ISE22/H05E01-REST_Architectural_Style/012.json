@@ -1,0 +1,91 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/012",
+  "run_id": "openai-gpt-5-mini-medium-2026-01-06-214300-012-ff904f",
+  "timestamp": "2026-01-06T21:44:02.605239",
+  "issues": [
+    {
+      "description": "The problem statement text for Part 2 incorrectly says \u201cEach method takes a Consumer<List<Note>> parameter\u201d (refers to Note) while the template and intended implementation use Consumer<List<Person>> for the PersonController methods. This is a copy-paste / wording mismatch in the specification and can confuse students about the expected generic type for the callbacks when implementing PersonController.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 151
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 37
+        }
+      ],
+      "suggested_fix": "Update the problem statement text to refer to Consumer<List<Person>> for the Person-related controller methods (or generically say 'a Consumer taking the internal list of the corresponding entity type'). This will align the textual description with the method signatures in the template and solution."
+    },
+    {
+      "description": "The solution implementation of PersonResource deviates from the problem specification in HTTP response semantics: getAllPersons returns 404 Not Found when the list is empty (should return 200 OK with an empty list), and createPerson uses incorrect status codes (returns 201 Created for the error case and 202 Accepted for the success case). These behaviors contradict the endpoint descriptions in the problem statement and the pattern used in NoteResource, and would confuse students using the solution as a reference.",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 32
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 34,
+          "end_line": 42
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 115
+        }
+      ],
+      "suggested_fix": "Align PersonResource with the problem specification and NoteResource behavior: - getAllPersons should always return 200 OK with the list (which may be empty). - createPerson should return a 400 Bad Request if the incoming Person already has an ID, and should return the saved Person in a 200 OK (or 201 Created) response on success (mirroring NoteResource which returns OK with the saved entity). Update the solution PersonResource accordingly so it does not introduce contradictory behavior."
+    },
+    {
+      "description": "The problem statement (Part 2, explanation of PersonController behavior) mistakenly refers to the callback parameter type as Consumer<List<Note>> when it should refer to Consumer<List<Person>>. The template and solution code for PersonController use Consumer<List<Person>>. This mismatch (mentioning Note instead of Person) can confuse students about the expected callback type and which entity the controller methods operate on, increasing extraneous cognitive load when mapping the textual requirements to the provided code stubs.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 151
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 80
+        }
+      ],
+      "suggested_fix": "In the problem statement text (Part 2), replace the incorrect occurrences of 'Consumer<List<Note>>' with 'Consumer<List<Person>>' so the textual description matches the method signatures in the template and solution. Example correction: 'Each method takes a Consumer<List<Person>> parameter, which has to be called after a response is received.'"
+    }
+  ],
+  "timing": {
+    "start_time": "2026-01-06T21:43:00.959890",
+    "end_time": "2026-01-06T21:44:02.605239",
+    "duration_s": 61.645349
+  },
+  "trace_id": "b35f12f6-59fe-4cea-9d95-c2f0e98d9bb1"
+}
