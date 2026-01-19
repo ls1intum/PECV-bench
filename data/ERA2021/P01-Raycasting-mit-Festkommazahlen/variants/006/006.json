@@ -1,0 +1,51 @@
+{
+  "case_id": "ERA2021/P01-Raycasting-mit-Festkommazahlen/006",
+  "issues": [
+    {
+      "description": "The problem statement specifies that fix_add takes three arguments (a destination register, first operand, second operand), but both the template and solution implementations of fix_add_asm actually expect four 32-bit arguments (two 64-bit operands passed as low/high words) and return the 64-bit result in EAX:EDX rather than writing to a specified register. This mismatch in the number and meaning of parameters will confuse students when trying to invoke or implement the function.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 26,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/assignment/fix_add.asm",
+          "start_line": 26,
+          "end_line": 29
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/assignment/fix_add.asm",
+          "start_line": 26,
+          "end_line": 29
+        }
+      ],
+      "suggested_fix": "Update the problem statement to describe that fix_add_asm takes two 64-bit operands passed as four 32-bit pushes (low then high word for each operand) and returns the 64-bit sum in EAX (low) and EDX (high). Alternatively, adjust the template to accept a destination register and three arguments if that was the original intent."
+    },
+    {
+      "description": "The problem statement refers to the function as `fix_add`, but both the template and solution code use the identifier `fix_add_asm`. This discrepancy can confuse students trying to locate and implement the documented function stub.",
+      "severity": "LOW",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 26,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "assignment/fix_add.asm",
+          "start_line": 82,
+          "end_line": 82
+        }
+      ],
+      "suggested_fix": "Align the names by updating the problem statement to refer to `fix_add_asm` instead of `fix_add`, so students can directly match the documented function name with the provided stub."
+    }
+  ]
+}

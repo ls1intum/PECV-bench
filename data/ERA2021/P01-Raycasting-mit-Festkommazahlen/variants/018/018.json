@@ -1,0 +1,51 @@
+{
+  "case_id": "ERA2021/P01-Raycasting-mit-Festkommazahlen/018",
+  "issues": [
+    {
+      "description": "In solution_repository/assignment/fix_vec_sub.asm, fix_vec_sub_asm is declared as an extern symbol rather than exported with a global directive, conflicting with the template (which uses global) and all other solution files. This will prevent the linker from exposing the student’s implementation.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "assignment/fix_vec_sub.asm",
+          "start_line": 11,
+          "end_line": 11
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "assignment/fix_vec_sub.asm",
+          "start_line": 11,
+          "end_line": 11
+        }
+      ],
+      "suggested_fix": "In solution_repository/assignment/fix_vec_sub.asm, replace the ‘extern fix_vec_sub_asm’ directive with ‘global fix_vec_sub_asm’ so that the symbol is correctly exported, matching the template and other solution files."
+    },
+    {
+      "description": "The problem statement refers to the function `fix_dot_product` to calculate the dot product of two vectors, but both the template and solution code define and use `fix_vec_dot_asm`. This naming mismatch can confuse students when they look for the function name to implement.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 26,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "assignment/fix_vec_dot.asm",
+          "start_line": 33,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "assignment/fix_vec_dot.asm",
+          "start_line": 32,
+          "end_line": 36
+        }
+      ],
+      "suggested_fix": "Align the names by either renaming the function in template and solution to `fix_dot_product`, or update the problem statement to refer to `fix_vec_dot_asm` for consistency."
+    }
+  ]
+}

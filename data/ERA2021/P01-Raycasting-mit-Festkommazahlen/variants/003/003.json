@@ -1,0 +1,51 @@
+{
+  "case_id": "ERA2021/P01-Raycasting-mit-Festkommazahlen/003",
+  "issues": [
+    {
+      "description": "The problem statement specifies that fix_vec_dot should return void and store the result via a third argument pointer, but both the template and solution implementations define fix_vec_dot_asm to take only two arguments (v1 and v2) and return the scalar result in EDX:EAX. This mismatch in expected parameters will block students from following the specification.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 26,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "assignment/fix_vec_dot.asm",
+          "start_line": 24,
+          "end_line": 27
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "assignment/fix_vec_dot.asm",
+          "start_line": 24,
+          "end_line": 27
+        }
+      ],
+      "suggested_fix": "Either update the template and solution to accept a third argument (output pointer) and write the dot product result there (with a void return), or change the problem statement to specify the two-argument signature and returning a 64-bit result in EDX:EAX."
+    },
+    {
+      "description": "The problem statement specifies the function name as `fix_vec_dot`, but both the template stub and the solution implement/use `fix_vec_dot_asm`. This mismatch may confuse students when they look for the stub to complete or call the function described in the problem.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "assignment/fix_vec_dot.asm",
+          "start_line": 9,
+          "end_line": 9
+        }
+      ],
+      "suggested_fix": "Either update the problem statement to refer to `fix_vec_dot_asm`, or rename the stub and global symbol in the template (and solution) from `fix_vec_dot_asm` to `fix_vec_dot` to keep the name consistent."
+    }
+  ]
+}
