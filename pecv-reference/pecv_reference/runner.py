@@ -197,6 +197,10 @@ def read_programming_language(start_path: Path) -> ProgrammingLanguage:
         return ProgrammingLanguage.JAVA
     if normalized == ProgrammingLanguage.PYTHON.value:
         return ProgrammingLanguage.PYTHON
+    if normalized == ProgrammingLanguage.ASSEMBLER.value:
+        return ProgrammingLanguage.ASSEMBLER
+    if normalized == ProgrammingLanguage.C.value:
+        return ProgrammingLanguage.C
 
     raise ValueError(
         f"Unsupported programming language '{language_raw}' in {details_path}"
