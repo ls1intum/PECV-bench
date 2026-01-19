@@ -29,6 +29,8 @@ class ProgrammingLanguage(str, Enum):
 
     JAVA = "java"
     PYTHON = "python"
+    ASSEMBLER = "assembler"
+    C = "c"
     # Future extensions can add more languages
 
 
@@ -72,6 +74,18 @@ LANGUAGE_CONFIGS: Dict[ProgrammingLanguage, LanguageConfig] = {
         file_extensions=[".py"],
         source_directories=["src", ".", "lib"],
         exclude_patterns=["**/__pycache__/**", "**/*.pyc", "**/venv/**", "**/env/**"],
+        max_file_size_kb=50,
+    ),
+    ProgrammingLanguage.ASSEMBLER: LanguageConfig(
+        file_extensions=[".asm", ".s", ".inc"],
+        source_directories=["*"],
+        exclude_patterns=["*.o", "*.obj", "bin/*", "build/*"],
+        max_file_size_kb=50,
+    ),
+    ProgrammingLanguage.C: LanguageConfig(
+        file_extensions=[".c", ".h"],
+        source_directories=["*"],
+        exclude_patterns=["*.o", "*.obj", "bin/*", "build/*"],
         max_file_size_kb=50,
     ),
 }
