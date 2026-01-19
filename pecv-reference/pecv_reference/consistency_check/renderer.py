@@ -199,11 +199,22 @@ def filter_files_by_language(
                 continue
 
             # Check if file is in a relevant source directory
-            path_parts = file_path.split("/")
-            in_source_dir = any(
-                any(part == src_dir for part in path_parts)
-                for src_dir in lang_config.source_directories
-            )
+            if "*" in lang_config.source_directories:
+                in_source_dir = True
+            else:
+                path_parts = file_path.split("/")
+                # Separate directory parts and filename
+                dir_parts = path_parts[:-1]
+
+                if not dir_parts:
+                    # File is at root
+                    in_source_dir = "." in lang_config.source_directories
+                else:
+                    # Check if any of the directory parts match the configured source directories
+                    in_source_dir = any(
+                        part in lang_config.source_directories for part in dir_parts
+                    )
+
             if not in_source_dir:
                 continue
 
