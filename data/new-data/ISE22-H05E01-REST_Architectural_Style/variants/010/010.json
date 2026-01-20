@@ -2,7 +2,7 @@
   "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/010",
   "issues": [
     {
-      "description": "Endpoint path mismatch between the problem statement/client and the provided solution server implementation. The problem statement (and the client-side controller in the solution) expect the persons endpoints to be available at /persons (POST /persons, GET /persons, PUT /persons/{id}, DELETE /persons/{id}). In the solution repository PersonResource, the GET and PUT mappings are registered under \"v2/persons\" while POST and DELETE use \"persons\". This inconsistent use of a versioned path (v2) for some endpoints will confuse students implementing the endpoints from the template and will break the client-server interaction expected by the assignment and tests.",
+      "description": "Endpoint path mismatch for the Persons REST endpoints: the problem statement specifies unversioned endpoints (POST /persons, GET /persons, PUT /persons/{personId}, DELETE /persons/{personId}) and the template leaves the endpoints for students to implement. The provided solution, however, uses a mix of versioned and unversioned paths: GET and PUT mappings are defined under \"v2/persons\" while POST and DELETE remain under \"persons\". This inconsistency between the problem statement and the solution will confuse students about the correct URI to use and may cause tests or client requests to fail if they follow the specification in the problem statement or the template.",
       "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
@@ -15,20 +15,20 @@
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 18,
+          "start_line": 1,
           "end_line": 19
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
           "start_line": 23,
-          "end_line": 37
+          "end_line": 49
         }
       ],
-      "suggested_fix": "Make the server endpoint paths consistent with the problem statement and client. Specifically, remove the accidental \"v2/\" prefix so that all person endpoints use the same base path \"persons\" (e.g. GET \"persons\", POST \"persons\", PUT \"persons/{personId}\", DELETE \"persons/{personId}\"). Alternatively, if versioned endpoints are desired intentionally, update the problem statement and all client code to consistently use the versioned path for every person endpoint. The simpler fix to preserve educational intent is to change the solution server mappings for GET and PUT from \"v2/persons\" to \"persons\"."
+      "suggested_fix": "Make the endpoint paths consistent with the problem statement and template. In the solution repository (and generally), use unversioned paths for all Person endpoints: change @GetMapping(\"v2/persons\") to @GetMapping(\"persons\") and @PutMapping(\"v2/persons/{personId}\") to @PutMapping(\"persons/{personId}\"). Alternatively, if versioning is intended, update the problem statement and template to document the versioned endpoints consistently (e.g., all endpoints under \"/v2/persons\") — but do not mix versioned and unversioned paths for the same resource."
     },
     {
-      "description": "Endpoint path names for the Person resource are inconsistent. The problem statement specifies the endpoints as /persons (POST, GET, PUT /persons/{personId}, DELETE /persons/{personId}). In the solution repository PersonResource, the GET and PUT handlers use a versioned path \"v2/persons\" while POST and DELETE use the unversioned \"persons\". Additionally, the solution's client-side PersonController issues requests to \"persons\" (unversioned). This mix of \"v2/persons\" and \"persons\" creates a broken mapping between the described API, the client implementation, and the server implementation, causing confusion and runtime mismatch for students attempting to map requirements to code.",
+      "description": "Endpoint path naming is inconsistent: the problem statement and client expect/describe unversioned endpoints under /persons (POST /persons, GET /persons, PUT /persons/{personId}, DELETE /persons/{personId}), but the solution implementation exposes some endpoints under a versioned path (GET and PUT use \"v2/persons\" while POST and DELETE use \"persons\"). This creates a semantic mismatch across artifacts (problem statement -> template -> solution) and within the solution itself, making it unclear which URI students should implement or call. Students mapping the problem requirements to the code (and writing the client requests) will encounter failing requests or be unsure whether to include the \"v2/\" prefix.",
       "severity": "HIGH",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
@@ -36,64 +36,52 @@
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
           "start_line": 109,
-          "end_line": 113
+          "end_line": 114
         },
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 18,
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 10,
           "end_line": 19
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
           "start_line": 23,
           "end_line": 27
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 37,
-          "end_line": 43
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
           "start_line": 29,
           "end_line": 35
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 37,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
           "start_line": 45,
           "end_line": 49
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
           "start_line": 27,
-          "end_line": 37
+          "end_line": 36
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 40,
-          "end_line": 51
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 53,
-          "end_line": 63
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
           "start_line": 65,
-          "end_line": 80
+          "end_line": 71
         }
       ],
-      "suggested_fix": "Make the Person endpoints use a single consistent path that matches the problem specification and the client. The simplest fix is to remove the \"v2/\" prefix from the server mappings so all endpoints use \"persons\": change @GetMapping(\"v2/persons\") -> @GetMapping(\"persons\") and @PutMapping(\"v2/persons/{personId}\") -> @PutMapping(\"persons/{personId}\"). Alternatively, if versioning is intended, update the problem statement and all client URIs to consistently use the versioned path (e.g., prefix all \"persons\" URIs with \"v2/\"). Aligning server and client to the same path will eliminate the cognitive and runtime mismatch."
+      "suggested_fix": "Make the persons endpoints consistent across all artifacts. Prefer matching the problem statement and client by using unversioned paths for all person endpoints. Concretely, change the server mappings to: @GetMapping(\"persons\") and @PutMapping(\"persons/{personId}\") (instead of \"v2/persons\"). Alternatively, if versioning is intended, apply the same \"v2/\" prefix consistently to all Person endpoints and update the client to call the versioned URIs. The simplest corrective action: remove the accidental \"v2/\" prefix in the solution server for GET and PUT so all endpoints uniformly use \"persons\"."
     }
   ]
 }

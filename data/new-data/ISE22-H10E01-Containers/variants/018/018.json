@@ -2,33 +2,7 @@
   "case_id": "new-data/ISE22-H10E01-Containers/018",
   "issues": [
     {
-      "description": "The problem statement refers to the REST endpoints as e.g. \"PUT /api/persons/{personId}/parents\" (and repeatedly refers to a controller named PersonController), but the template and solution use endpoint paths without the \"/api\" prefix (they register endpoints like \"/persons/...\" and the controller class is named PersonResource). This mismatch between the documented endpoint path (with \"/api\" prefix) and the actual paths provided in the template/solution (no \"/api\" prefix) will confuse students when they implement and test integration tests (the instructions/examples in the statement will not match the provided code and the tests), and may lead them to try the wrong URL or to add an unnecessary \"/api\" prefix.",
-      "severity": "MEDIUM",
-      "category": "METHOD_PARAMETER_MISMATCH",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 125,
-          "end_line": 126
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 60,
-          "end_line": 72
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 60,
-          "end_line": 72
-        }
-      ],
-      "suggested_fix": "Make the endpoint paths consistent across documentation and code. Either (A) update the problem statement (and all examples) to use the actual endpoints provided by the template/solution (e.g. \"PUT /persons/{personId}/parents\"), or (B) change the template/solution to expose endpoints under the \"/api\" prefix (e.g. add a class-level @RequestMapping(\"/api\") or change existing mapping paths). Also ensure example integration test instructions reference the same path convention."
-    },
-    {
-      "description": "The problem statement names the REST controller as \"PersonController\" (describing the Web Layer as containing PersonController), while the template and solution name the class PersonResource. This naming mismatch can cause minor confusion for students reading the description and then looking for the controller class in the template repository (they may search for PersonController as described but only find PersonResource).",
+      "description": "The problem statement refers to the web layer class as \"PersonController\" (describing the Web Layer as containing PersonController), but both the template and the solution provide the REST API class named PersonResource (PersonResource.java). This naming mismatch between the description and the provided code can confuse students who look for a class named PersonController to implement or inspect the REST endpoints.",
       "severity": "LOW",
       "category": "VISIBILITY_MISMATCH",
       "related_locations": [
@@ -51,11 +25,11 @@
           "end_line": 25
         }
       ],
-      "suggested_fix": "Either rename the controller class in the template/solution to PersonController to match the problem statement, or update the problem statement text to refer to \"PersonResource\" (or simply \"the REST controller (PersonResource)\") so the naming is consistent and students can readily locate the class referenced in the description."
+      "suggested_fix": "Make the naming consistent. Either update the problem statement to refer to the REST class as PersonResource (so it matches the template and solution), or rename the provided REST class in the template and solution to PersonController so it matches the description. Prefer updating the textual description to refer to PersonResource if the instructor intends to keep the current code names."
     },
     {
-      "description": "The problem statement refers to the web layer class as `PersonController` (conceptual name in the description), but both the template and solution code define the REST endpoint class as `PersonResource`. This mismatch can cause students to search for a `PersonController` class that does not exist in the provided code, adding unnecessary mapping effort when they try to connect the described architecture to the actual codebase.",
-      "severity": "LOW",
+      "description": "The problem statement describes the web layer class as `PersonController`, but both the template and solution repositories implement the REST endpoints in a class named `PersonResource`. This mismatch can cause students to search for or expect a `PersonController` class that does not exist in the provided code, producing unnecessary confusion when they try to map the problem description to the template implementation and tests.",
+      "severity": "MEDIUM",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
         {
@@ -77,7 +51,7 @@
           "end_line": 19
         }
       ],
-      "suggested_fix": "Make the naming consistent. Easiest fix: update the problem statement to refer to the REST component as `PersonResource` (instead of `PersonController`). Alternatively, rename the class in code to `PersonController` in both template and solution if you prefer the 'Controller' naming; ensure all references (tests, docs) are updated accordingly."
+      "suggested_fix": "Use a consistent identifier across artifacts. Either (A) update the problem statement to refer to `PersonResource` (recommended, minimal change) so it matches the template and solution code and tests, or (B) rename the REST class files in the template and solution to `PersonController` (and update their constructors/usages) if the project convention should be 'Controller'. Ensure tests and all references are updated accordingly."
     }
   ]
 }

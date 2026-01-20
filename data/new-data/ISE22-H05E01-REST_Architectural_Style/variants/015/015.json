@@ -2,56 +2,36 @@
   "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/015",
   "issues": [
     {
-      "description": "PersonService visibility differs between the template and the solution. In the template PersonService methods are public (e.g. public Person savePerson(...), public void deletePerson(...), public List<Person> getAllPersons(...)) while in the solution these same methods are declared protected. PersonResource (in package de.tum.in.ase.eist.rest) calls personService.getAllPersons/savePerson/deletePerson; because PersonResource is in a different package than PersonService (de.tum.in.ase.eist.service), the protected visibility in the solution prevents cross-package access and would cause compilation/access errors. This mismatch is structural and would confuse students examining the solution or trying to compile/run the combined code.",
+      "description": "Visibility mismatch for PersonService methods between the template and the solution. In the template PersonService methods are public (savePerson, deletePerson, getAllPersons), which is consistent with how the (template) PersonResource is expected to call them. In the solution these methods are declared protected. Because PersonResource is in a different package (de.tum.in.ase.eist.rest) than PersonService (de.tum.in.ase.eist.service), protected visibility prevents PersonResource from calling those methods and would cause compilation/access errors. This inconsistency is structural (access level changes) and will confuse students when comparing template and solution or when trying to run the provided solution/server code.",
       "severity": "HIGH",
       "category": "VISIBILITY_MISMATCH",
       "related_locations": [
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
           "start_line": 18,
           "end_line": 40
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
           "start_line": 20,
           "end_line": 63
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 23,
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
           "end_line": 49
-        }
-      ],
-      "suggested_fix": "Restore public visibility for the service methods so they are accessible from the resource in a different package. Concretely, change the solution's PersonService method declarations from protected to public (e.g. public Person savePerson(...), public void deletePerson(...), public List<Person> getAllPersons(...)). This matches the template and allows PersonResource to call the service methods across packages."
-    },
-    {
-      "description": "The problem statement contains a wording/type mistake in Part 2 describing controller method parameters: it says \"Each method takes a Consumer<List<Note>> parameter... This consumer takes the internal list of persons as a parameter\", which mixes Note and Person. The template and solution use Consumer<List<Person>> for PersonController methods. The contradictory mention of Consumer<List<Note>> in the problem description can confuse students about the expected parameter type for person-related controller methods.",
-      "severity": "MEDIUM",
-      "category": "METHOD_PARAMETER_MISMATCH",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 150,
-          "end_line": 152
         },
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 8,
-          "end_line": 24
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 14,
-          "end_line": 26
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
         }
       ],
-      "suggested_fix": "Fix the problem statement text to refer to Consumer<List<Person>> when describing the PersonController methods (or clarify the sentence to say that for person methods the consumer is Consumer<List<Person>>). This aligns the description with the template and solution signatures and avoids confusion."
+      "suggested_fix": "Restore public visibility for the PersonService methods (savePerson, deletePerson, getAllPersons) so they are accessible from PersonResource in the rest package. Concretely, change the solution's PersonService method declarations from protected back to public. Alternatively, move PersonResource into the same package as PersonService or provide public wrapper methods, but the simplest fix preserving the intended layered design is to make the service methods public."
     }
   ]
 }

@@ -2,7 +2,7 @@
   "case_id": "new-data/ISE22-H10E01-Containers/011",
   "issues": [
     {
-      "description": "The template's Person entity uses java.util.UUID for the id field, but the repository and service layers (and the solution) use Long as the entity id type (JpaRepository<Person, Long>, findWithParentsById(Long), getById(Long), controller path variables of type Long). This mismatch causes compilation errors and prevents students from using the provided repository/service/controller signatures as intended. It will block students from running and testing the starter project and confuses them about what the primary key type should be.",
+      "description": "The template's Person.id field is declared as java.util.UUID (Person#getId()/setId use UUID), but the rest of the codebase (PersonRepository generic type, repository query method parameters, service and REST layer) expect a Long id. This type mismatch will cause compilation errors and prevents students from building and running the project or implementing the intended features. The solution repository uses Long for Person.id, showing the intended design is Long.",
       "severity": "HIGH",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
@@ -10,7 +10,7 @@
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
           "start_line": 19,
-          "end_line": 23
+          "end_line": 22
         },
         {
           "type": "TEMPLATE_REPOSITORY",
@@ -20,15 +20,15 @@
         },
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
           "start_line": 32,
-          "end_line": 34
+          "end_line": 35
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
           "start_line": 19,
-          "end_line": 23
+          "end_line": 22
         },
         {
           "type": "SOLUTION_REPOSITORY",
@@ -37,10 +37,10 @@
           "end_line": 16
         }
       ],
-      "suggested_fix": "Align the entity id type in the template with the repository/service/controller signatures and the solution. The simplest fix is to change the id field in template/src/main/java/de/tum/in/ase/eist/model/Person.java from 'private java.util.UUID id;' to 'private Long id;' and update the getter/setter types accordingly. Keep the @GeneratedValue(strategy = GenerationType.IDENTITY) annotation. Alternatively, if UUIDs are desired, change the repository generic type and all service/controller method parameter types from Long to UUID consistently — but prefer Long to match the problem statement and solution."
+      "suggested_fix": "Make the Person.id type in the template consistent with the repository and REST/service signatures. Change the id field and its getter/setter in src/main/java/de/tum/in/ase/eist/model/Person.java from java.util.UUID to Long (and adjust imports) so it matches JpaRepository<Person, Long> and all method parameters expecting Long. Alternatively (less preferred), update repository/service/resource signatures to use UUID everywhere — but aligning the template to use Long (as in the solution) is the simplest fix that preserves the intended design."
     },
     {
-      "description": "The template defines the entity identifier field 'id' in Person.java as java.util.UUID, while the rest of the codebase (repository generics, service/controller method signatures and the provided solution) expect a Long id. This mismatches the same conceptual entity (the person's primary key / personId) across artifacts and will confuse students (and likely cause compilation/runtime issues). Students reading the problem (which refers to personId in endpoints and service/repository signatures) will not be able to consistently map the '/persons/{personId}' path variable and repository/service methods (which use Long) to the Person.getId() accessor (which returns UUID in the template).",
+      "description": "The Person entity in the template repository declares its id field as java.util.UUID, but the rest of the codebase (repository generics, repository query method parameters, controller path-variable types, and the solution implementation) uses Long for the Person id. This mismatch between the entity id type and the repository/controller signatures prevents a clear, consistent mapping from the problem description to the template code, will cause compilation/runtime errors (e.g., JpaRepository<Person, Long> with Person.id of type UUID and controller methods expecting Long personId), and forces students to resolve an unintended type/name conflict rather than focus on the exercise tasks.",
       "severity": "HIGH",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
@@ -59,14 +59,8 @@
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/repository/PersonRepository.java",
-          "start_line": 12,
-          "end_line": 16
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
-          "start_line": 32,
-          "end_line": 34
+          "start_line": 13,
+          "end_line": 13
         },
         {
           "type": "TEMPLATE_REPOSITORY",
@@ -77,11 +71,11 @@
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
-          "start_line": 19,
+          "start_line": 21,
           "end_line": 22
         }
       ],
-      "suggested_fix": "Make the identifier representation consistent across artifacts. The simplest fix is to change the template Person.id type from java.util.UUID to Long (update the field type and its getter/setter) so it matches the repository generic parameter and all service/controller method signatures (as done in the solution). Alternatively, if UUID was intended, update the repository generics and all method signatures to use UUID consistently—but align all files so the 'id' identifier has the same type everywhere."
+      "suggested_fix": "Make the id type consistent across artifacts. The least disruptive fix is to change the template Person entity's id field from java.util.UUID to Long (update the field declaration, getter/setter signatures, and any imports/usages in that file) so it matches JpaRepository<Person, Long>, controller path-variable types, and the solution. Alternatively, if UUID was intended, update PersonRepository generics and repository/controller method signatures (and tests) to use UUID consistently (e.g., JpaRepository<Person, UUID> and PathVariable UUID personId). Ensure all artifacts use the same id type so students are not required to resolve a cross-file type/name mismatch."
     }
   ]
 }

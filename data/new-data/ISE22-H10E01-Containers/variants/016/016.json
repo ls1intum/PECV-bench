@@ -2,8 +2,8 @@
   "case_id": "new-data/ISE22-H10E01-Containers/016",
   "issues": [
     {
-      "description": "The problem statement refers to the person's date-of-birth attribute as \"dob\", while the provided code (template and solution) names this attribute \"birthday\" (field, getter, and setter). This naming mismatch (problem text vs. code) may confuse students when they search the codebase for \"dob\" or follow textual instructions that mention \"dob\" instead of \"birthday\".",
-      "severity": "LOW",
+      "description": "The problem statement refers to the person's date-of-birth field as `dob` (line 3), but the code (both template and solution) uses the field name `birthday` (Person.java). This name mismatch between problem text and code can confuse students (e.g., when searching the codebase for `dob` or when reading the API description) and may lead them to look for a non-existent attribute.",
+      "severity": "MEDIUM",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
         {
@@ -16,31 +16,45 @@
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
           "start_line": 30,
-          "end_line": 32
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
-          "start_line": 77,
-          "end_line": 83
+          "end_line": 31
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
           "start_line": 30,
-          "end_line": 32
+          "end_line": 31
+        }
+      ],
+      "suggested_fix": "Make the terminology consistent: update the problem statement to refer to the field as `birthday` (or rename the code field to `dob`) and ensure examples/tests in the description use the same name. Prefer updating the problem text to `birthday` to match existing code and tests."
+    },
+    {
+      "description": "The problem statement's Part 4 description instructs students to call `save(..)` from `personDAO` (lines 100-106), but the template/service code provides and uses a `PersonRepository` field (`personRepository`) in PersonService. The identifier `personDAO` does not exist in the provided template, which may confuse students about which field to use when implementing the service methods.",
+      "severity": "LOW",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 100,
+          "end_line": 106
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 15,
+          "end_line": 19
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
-          "start_line": 77,
-          "end_line": 83
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 15,
+          "end_line": 19
         }
       ],
-      "suggested_fix": "Align wording between the problem statement and the code. Either change the problem statement to refer to the attribute as \"birthday\" (matching the provided Person class and its getters/setters) or rename the field and accessors in the template/solution to use \"dob\" consistently. Prefer updating the problem statement to mention \"birthday (date of birth)\" to minimize code churn."
+      "suggested_fix": "Clarify the naming in the problem statement: replace references to `personDAO` with `personRepository` (or explicitly state that the DAO is provided as a Spring Data `PersonRepository`) so students can directly use the provided field in PersonService."
     },
     {
-      "description": "The problem statement refers to the Person entity having an attribute named `dob` (date of birth), while both the template and solution code use the identifier `birthday` for this same attribute and its getters/setters. This creates a cross-artifact naming mismatch: students reading the problem may look for `dob` in the code and not find it, increasing extraneous cognitive load when mapping the requirement to the implementation.",
+      "description": "The problem statement refers to the person's date-of-birth using the identifier `dob` (problem_statement.md line 3), but both the template and solution Person entity use the field name `birthday` (Person.java, field and getters/setters). This creates a naming mismatch for the same conceptual attribute (date of birth) and may cause students to look for `dob` in the code or tests and not find it, adding unnecessary mapping effort.",
       "severity": "MEDIUM",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
@@ -63,7 +77,33 @@
           "end_line": 31
         }
       ],
-      "suggested_fix": "Make the name consistent across artifacts. Either update the problem statement to refer to the attribute as `birthday` (e.g., \"firstName, lastName, and birthday (date of birth)\") or rename the field/getters/setters in the code to `dob`/`getDob()`/`setDob()` so the problem text and code use the same identifier. Prefer updating the problem statement to `birthday` to match the existing code and tests."
+      "suggested_fix": "Unify the name used for the date-of-birth concept. Recommended: update the problem statement to refer to the attribute as `birthday` (matching Person.getBirthday()/setBirthday in code) or explicitly state that `dob` maps to the Person.birthday field (e.g., \"attributes such as firstName, lastName, and birthday (aka dob)\"). This keeps code and text consistent and reduces student confusion."
+    },
+    {
+      "description": "The problem statement refers to the persistence layer as `PersonDAO` (problem_statement.md line 24), whereas the template and solution use the Spring Data pattern `PersonRepository` (PersonRepository.java). This inconsistent identifier for the same persistence concept may confuse students about which class/interface they should use or modify.",
+      "severity": "LOW",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 24,
+          "end_line": 24
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/repository/PersonRepository.java",
+          "start_line": 13,
+          "end_line": 13
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/repository/PersonRepository.java",
+          "start_line": 13,
+          "end_line": 13
+        }
+      ],
+      "suggested_fix": "Replace `PersonDAO` with `PersonRepository` in the problem statement (or explicitly note that the persistence layer is implemented as a Spring Data repository named `PersonRepository`). This aligns terminology with the provided code and avoids small, avoidable confusion for students."
     }
   ]
 }

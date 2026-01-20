@@ -2,14 +2,14 @@
   "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/005",
   "issues": [
     {
-      "description": "Type mismatch for Person.birthday across artifacts: the problem statement and the template use java.time.LocalDate for Person.birthday, but the solution repository's common Person class declares birthday as String. This also creates an internal inconsistency inside the solution repository: client UI code (PersonScene) expects Person.getBirthday() to return a LocalDate (passes it to a DatePicker), but the solution's Person model returns a String. This will cause compilation/runtime errors and confuse students comparing template and solution.",
+      "description": "Attribute type mismatch for Person.birthday across artifacts. The problem statement's UML and the template's common model declare Person.birthday as java.time.LocalDate, but the solution repository's common model declares birthday as a String. This breaks consistency between client code (which expects LocalDate — e.g., PersonScene uses DatePicker.setValue(person.getBirthday())) and the solution's model, and would confuse students about the intended type and cause compilation/type errors if mixed versions are used.",
       "severity": "HIGH",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 169,
+          "start_line": 168,
           "end_line": 175
         },
         {
@@ -21,17 +21,37 @@
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
-          "start_line": 3,
+          "start_line": 7,
           "end_line": 11
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
           "start_line": 118,
-          "end_line": 120
+          "end_line": 121
         }
       ],
-      "suggested_fix": "Make the Person.birthday type consistent across all artifacts. Preferably change the solution repository's common Person.birthday from String back to java.time.LocalDate (matching the problem statement and template). Update imports in solution_repository/src/common/java/de/tum/in/ase/eist/model/Person.java to import java.time.LocalDate and change getter/setter signatures accordingly. Verify and, if necessary, adjust any code in the solution that assumed String (e.g., serialization/deserialization or UI code) so the client PersonScene and server/service code compile and operate correctly."
+      "suggested_fix": "Make the Person.birthday type consistent across all artifacts. Preferably revert the solution repository's common model to use java.time.LocalDate (with getBirthday()/setBirthday(LocalDate)) so it matches the problem statement UML and the template. Update any serialization configuration if necessary. Alternatively, if String is intended, update the problem statement, template code (Person model and all usages in client/view/service) to use String consistently — but using LocalDate matches the exercise description and UI DatePicker usage and is recommended."
+    },
+    {
+      "description": "Problem statement text incorrectly describes the method parameter type for PersonController callbacks: it states \"Each method takes a Consumer<List<Note>> parameter... This consumer takes the internal list of persons as a parameter\". The template and solution expect Consumer<List<Person>>. This textual mismatch (Note vs Person) in the problem description can confuse students about the expected callback type.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 152
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 5,
+          "end_line": 12
+        }
+      ],
+      "suggested_fix": "Fix the problem statement wording to say 'Consumer<List<Person>>' when describing the PersonController callback parameter so it matches the template and intended API. This prevents confusion about the callback types students must implement."
     }
   ]
 }

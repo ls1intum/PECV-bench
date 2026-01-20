@@ -2,7 +2,7 @@
   "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/004",
   "issues": [
     {
-      "description": "Inconsistent REST resource paths for Person endpoints across the artifacts. The problem statement (and the exercise description) specifies endpoints using the path /persons (POST /persons, GET /persons, PUT /persons/{personId}, DELETE /persons/{personId}). The solution server implements the endpoints under /people (e.g. @GetMapping(\"people\"), @PostMapping(\"people\"), etc.). The solution client is internally inconsistent: addPerson and updatePerson call /people, but getAllPersons and deletePerson call /persons. This mismatch will prevent the client and server from communicating correctly and conflicts with the API paths students are instructed to implement in the problem statement, causing significant confusion and blocking runtime integration tests.",
+      "description": "Resource path naming is inconsistent between the problem statement and the solution server: the problem statement specifies endpoints under /persons (POST /persons, GET /persons, PUT /persons/{personId}, DELETE /persons/{personId}), but the solution's server implementation exposes the endpoints under /people (e.g. @GetMapping(\"people\"), @PostMapping(\"people\")). This is a cross-artifact conflict that will confuse students about which path to implement and test against, and may cause students to implement endpoints at /persons while the reference server uses /people (or vice versa).",
       "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
@@ -13,54 +13,74 @@
           "end_line": 114
         },
         {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 49
+        },
+        {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
           "start_line": 18,
           "end_line": 19
-        },
+        }
+      ],
+      "suggested_fix": "Unify the resource path naming across problem statement, template, and solution. Preferably keep the problem statement and template as the source of truth for students: change the server (solution) endpoints to use /persons for all operations (GET, POST, PUT, DELETE) or change the problem statement to consistently use /people. Also update the client controller URIs accordingly so server and client use the same base path."
+    },
+    {
+      "description": "Internal inconsistency inside the solution repository: the solution client (PersonController) uses mixed resource paths — some methods call /people (addPerson, updatePerson) while others call /persons (deletePerson, getAllPersons). At the same time the solution server exposes /people. This mismatch between client and server inside the solution will cause the provided reference client to fail for some operations and is likely to confuse students who inspect the solution.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 23,
-          "end_line": 27
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
           "start_line": 27,
           "end_line": 37
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
           "start_line": 40,
-          "end_line": 50
+          "end_line": 51
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
           "start_line": 53,
           "end_line": 63
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
           "start_line": 65,
           "end_line": 80
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 49
         }
       ],
-      "suggested_fix": "Choose and use a single, consistent resource path for the Person endpoints across the problem statement, server, and client. Prefer aligning with the problem statement (/persons) to match the specified API or update the problem text to /people if that is desired. Concretely: update the server @RequestMapping methods to use \"persons\" (e.g. @GetMapping(\"persons\"), @PostMapping(\"persons\"), @PutMapping(\"persons/{personId}\"), @DeleteMapping(\"persons/{personId}\")) and ensure the client uses the same \"persons\" path for all operations (add, update, delete, get). If you prefer \"people\", update the problem statement accordingly and ensure both server and client consistently use \"people\" for every Person endpoint."
+      "suggested_fix": "Make client and server use the same, consistent resource path. Choose one canonical path (either /persons or /people) and update all uses in the solution client and server so that add/update/delete/getAll all use that path. Prefer updating to match the problem statement (/persons) so students following the text and template are not confused, and ensure the template client/controller examples (if present) use the same path as well."
     },
     {
-      "description": "Typographical / parameter-type inconsistency in the problem statement describing Part 2: the text says 'Each method takes a Consumer<List<Note>> parameter' when referring to the PersonController methods. The template and solution code correctly declare methods that accept Consumer<List<Person>>. This mismatch in the problem text may confuse students about the expected generic parameter type when implementing PersonController methods.",
-      "severity": "LOW",
-      "category": "METHOD_PARAMETER_MISMATCH",
+      "description": "Endpoint resource name for the Person entity is inconsistent across artifacts. The problem statement explicitly lists the REST paths as /persons (POST /persons, GET /persons, PUT /persons/{personId}, DELETE /persons/{personId}) but the solution server implements the endpoints under the path \"people\" (e.g. @GetMapping(\"people\"), @PostMapping(\"people\"), @PutMapping(\"people/{personId}\")). The solution client is also inconsistent: some client methods call the server under \"people\" (add/update use \"people/...\"), while others use \"persons\" (getAll and delete use \"persons/...\" in the provided client implementation). The template contains the PersonController/PersonResource stubs but no endpoints yet, which leaves students to map the problem description to the template — the differing names between problem and solution (and the mixed usage within the solution client) will create confusion and integration errors. Students following the problem statement and template would expect and implement /persons, but the server in the solution expects /people; additionally the mixed URIs in the solution client will lead to runtime mismatches. This inconsistent naming for the same conceptual entity (persons/people) creates a high cognitive and practical integration burden.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 150,
-          "end_line": 151
+          "start_line": 110,
+          "end_line": 113
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 18
         },
         {
           "type": "TEMPLATE_REPOSITORY",
@@ -70,48 +90,38 @@
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 14,
-          "end_line": 24
-        }
-      ],
-      "suggested_fix": "Correct the problem statement text to say 'Each method takes a Consumer<List<Person>> parameter' when describing PersonController behaviour. This clarifies the expected generic type and matches the template and solution code."
-    },
-    {
-      "description": "The problem statement specifies the REST endpoints using the path `/persons` (POST /persons, GET /persons, PUT /persons/{personId}, DELETE /persons/{personId}). The solution server implementation (PersonResource) exposes these endpoints under the path `people` (e.g. @GetMapping(\"people\"), @PostMapping(\"people\"), etc.). This mismatch between the problem description and the server implementation will confuse students about which endpoint they must implement/consume and prevents straightforward mapping from the written requirements to the server code.",
-      "severity": "HIGH",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 109,
-          "end_line": 114
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 27
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 23,
-          "end_line": 49
-        }
-      ],
-      "suggested_fix": "Unify the endpoint path naming. Either update the problem statement to require `/people` consistently, or (preferred) change the server mappings in PersonResource from `people` to `persons` (e.g. @GetMapping(\"persons\"), @PostMapping(\"persons\"), @PutMapping(\"persons/{personId}\"), @DeleteMapping(\"persons/{personId}\")). This keeps the server aligned with the documented requirements and avoids student confusion."
-    },
-    {
-      "description": "Within the solution repository the client-side PersonController uses both `people` and `persons` URIs inconsistently: addPerson() and updatePerson() send requests to `people` while deletePerson() and getAllPersons() use `persons`. This internal inconsistency in the client will cause mismatches with the server (which exposes `people`) and creates extra cognitive load for students trying to trace which path to use when implementing or debugging client-server interactions.",
-      "severity": "HIGH",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
+          "start_line": 29,
+          "end_line": 35
+        },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 27,
-          "end_line": 37
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 37,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 49
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 40,
+          "start_line": 28,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 41,
           "end_line": 50
         },
         {
@@ -123,17 +133,11 @@
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 65,
+          "start_line": 66,
           "end_line": 80
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 23,
-          "end_line": 49
         }
       ],
-      "suggested_fix": "Make the client use a single, consistent path that matches the server and the exercise description. Recommended actions:\n- Change addPerson() and updatePerson() URIs from \"people\" to \"persons\" (or change all to \"people\" if you prefer that naming, but be consistent across problem, client, and server).\n- Ensure getAllPersons() and deletePerson() use the exact same path string and parameter names.\n- After unifying the paths, run the client/server interaction to verify all requests reach the server endpoints.\nThis removes ambiguous mappings and prevents students having to reason about two different endpoint names for the same resource."
+      "suggested_fix": "Unify the endpoint resource name for the Person entity across all artifacts. Prefer matching the problem statement to avoid confusing students: change the server mappings from \"people\" to \"persons\" (e.g. @GetMapping(\"persons\"), @PostMapping(\"persons\"), @PutMapping(\"persons/{personId}\"), @DeleteMapping(\"persons/{personId}\")), and update the client to consistently use the same path (use \"persons\" for add/update/delete/get). Alternatively, if \"people\" is preferred, update the problem statement and all client code to use \"people\" consistently. Ensure all client methods use the same base path to avoid mixed usages."
     }
   ]
 }

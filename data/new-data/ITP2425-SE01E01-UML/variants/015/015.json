@@ -2,7 +2,7 @@
   "case_id": "new-data/ITP2425-SE01E01-UML/015",
   "issues": [
     {
-      "description": "The problem statement explicitly requires that every class/interface be declared public (problem_statement.md line 5). The reference solution declares the Pneumatic interface without the public modifier (solution_repository/src/de/tum/in/ase/Pneumatic.java lines 1-9), making it package-private. This contradicts the problem requirement and the UML's intention to expose the interface. Students reading the statement will expect Pneumatic to be public; the solution's package-private visibility is an unintentional structural inconsistency and violates the stated design constraint.",
+      "description": "The problem statement explicitly requires that \"Every class/interface has to be declared public\" (problem_statement.md), and the UML declares the Pneumatic interface. In the solution repository the Pneumatic interface is declared without the public modifier (package-private). This contradicts the explicit requirement and will confuse students comparing their (public) implementations with the reference solution or when inspecting the provided solution code.",
       "severity": "MEDIUM",
       "category": "VISIBILITY_MISMATCH",
       "related_locations": [
@@ -20,12 +20,18 @@
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/src/de/tum/in/ase/Pneumatic.java",
-          "start_line": 1,
+          "file_path": "src/de/tum/in/ase/Pneumatic.java",
+          "start_line": 3,
           "end_line": 9
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/de/tum/in/ase/Pneumatic.java",
+          "start_line": 1,
+          "end_line": 1
         }
       ],
-      "suggested_fix": "Declare the interface as public in the solution (and template if present). Change the interface declaration to: public interface Pneumatic { void raisePressure(int pressureIncrease); void openValve(); } This aligns the solution with the problem statement requirement that every class/interface be public."
+      "suggested_fix": "Declare the Pneumatic interface as public in the solution (and, if present, in the template) to match the problem statement requirement. Change the interface declaration to: public interface Pneumatic { void raisePressure(int pressureIncrease); void openValve(); }"
     }
   ]
 }

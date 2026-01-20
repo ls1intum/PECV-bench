@@ -2,7 +2,7 @@
   "case_id": "new-data/ISE22-H10E01-Containers/010",
   "issues": [
     {
-      "description": "The problem statement explicitly says the Person.birthday should be stored as an ISO-8601 formatted String, but the template and solution model, service, and tests all use java.time.LocalDate for the birthday field and related operations. This is a core type mismatch: code (and tests) rely on LocalDate methods (e.g., isAfter) and setBirthday(...) is invoked with LocalDate in tests, so a student following the problem text to use String would be unable to run or pass the provided tests and would be confused about which representation to implement.",
+      "description": "The problem statement says the Person.birthday should be stored as an ISO-8601 formatted String (problem_statement.md line 3), but both the template and the solution define the birthday attribute as java.time.LocalDate (template and solution Person.java, lines 30-31). This is an attribute type mismatch: students reading the problem may implement or serialize birthday as a String while the provided codebase and tests use LocalDate, causing confusion and failing integration with the provided repository and tests.",
       "severity": "HIGH",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
@@ -15,34 +15,22 @@
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
-          "start_line": 9,
-          "end_line": 33
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
-          "start_line": 21,
-          "end_line": 26
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
-          "start_line": 16,
-          "end_line": 46
+          "start_line": 30,
+          "end_line": 31
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
-          "start_line": 9,
-          "end_line": 33
+          "start_line": 30,
+          "end_line": 31
         }
       ],
-      "suggested_fix": "Align the specification with the code/tests. The least invasive fix is to update the problem statement to state that birthday is represented as java.time.LocalDate (and formatted as ISO-8601 when serialized), removing the sentence that says it must be stored as an ISO-8601 String. Alternatively, if the intent truly is to use String, change the template and solution model and tests: make Person.birthday a String, update getters/setters, update PersonService.save to parse/validate the ISO-8601 date string (or adjust validation logic accordingly), and update all tests to set and assert String values. Prefer updating the problem statement to LocalDate to match the provided template, solution, and tests."
+      "suggested_fix": "Make the specification and code agree. Either (A) update the problem statement to state that birthday is stored as a java.time.LocalDate (and serialized as ISO-8601 by ObjectMapper), or (B) change the model code (template and solution) to use a String birthday and adjust validation/tests accordingly. Option A is recommended because the template/solution and tests already use LocalDate."
     },
     {
-      "description": "The problem statement instructs students to call REST endpoints under the \"/api\" prefix (e.g. PUT /api/persons/{personId}/parents), but both the template and the solution implement the endpoints without that prefix (e.g. @PutMapping(\"persons/{personId}/parents\") -> available at /persons/{personId}/parents). This mismatch between the documented endpoint path and the actual controller mappings can confuse students about which URL to use when implementing or testing the feature and may lead them to search for non-existent routes or add unnecessary changes to the controller.",
+      "description": "The problem statement's tests/instructions refer to REST endpoints with an '/api' prefix (e.g., 'PUT /api/persons/{personId}/parents' in the task description), but the template and solution map endpoints under '/persons' (e.g., @PutMapping(\"persons/{personId}/parents\") -> '/persons/{personId}/parents'). This mismatch between documented endpoint paths and the actual controller mappings can confuse students when they try to call or test the endpoints using the '/api' prefix.",
       "severity": "MEDIUM",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
@@ -63,7 +51,59 @@
           "end_line": 65
         }
       ],
-      "suggested_fix": "Make the endpoint paths consistent across artifacts. Either update the problem statement to refer to endpoints without the /api prefix (e.g. PUT /persons/{personId}/parents), or change the controllers to include the /api base path (for example add a base mapping @RequestMapping(path = \"/api\", consumes = {...}, produces = {...}) at the controller class level or change each mapping to @PutMapping(\"/api/persons/{personId}/parents\")). Prefer the approach that aligns with existing tests and other documentation (adjust problem statement if tests and code use /persons)."
+      "suggested_fix": "Unify the documented endpoint paths and the controller mappings. Either (A) update the problem statement to use the actual paths ('/persons/...') used by the template and solution, or (B) change the controllers to include the '/api' prefix (for example add @RequestMapping(path = \"/api\", consumes = ..., produces = ...) at the class level) so the endpoints become '/api/persons/...'. Update any examples and tests in the description accordingly."
+    },
+    {
+      "description": "Problem statement describes the endpoint for adding parents/children as PUT /api/persons/{personId}/parents (and similarly for children), but both the template and solution controllers expose these endpoints at /persons/{personId}/parents (no /api prefix). This mismatch between the documented endpoint path and the actual controller mapping can cause students to call the wrong URL in integration tests or when manually testing, leading to 404s and confusion about where to implement/verify functionality.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 17,
+          "end_line": 65
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 17,
+          "end_line": 65
+        }
+      ],
+      "suggested_fix": "Align the documented endpoint path with the implementation. Either (A) update the problem statement and all exercise text to reference the actual endpoints without the /api prefix (e.g. PUT /persons/{personId}/parents), or (B) change the controllers to use a base path of /api (e.g. add @RequestMapping(\"/api\", ...) at class level) so the code matches the documentation. Option A is recommended because the tests and provided code already use the no-/api paths."
+    },
+    {
+      "description": "The problem statement explicitly instructs that the Person.birthday should be stored as an ISO-8601 formatted String, while both the template and the solution define the birthday field as java.time.LocalDate (and tests construct LocalDate values). This discrepancy between the documented data representation (String) and the actual implementation/tests (LocalDate) can mislead students about the expected field type and serialization behavior and could cause them to change the code incorrectly or fail tests.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 3,
+          "end_line": 3
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 30,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 30,
+          "end_line": 31
+        }
+      ],
+      "suggested_fix": "Make the representation consistent across documents and code. Since the codebase and tests already use LocalDate, update the problem statement to specify that birthday is stored as a LocalDate (and serialized as ISO-8601 when exchanged as JSON), e.g. \"The birthday should be stored as a LocalDate (serialized in ISO-8601 format)\". Alternatively, if the intent is to use String, change the Person model and tests to use a String typed birthday—but updating the problem statement to match the existing LocalDate implementation is the least disruptive and recommended fix."
     }
   ]
 }

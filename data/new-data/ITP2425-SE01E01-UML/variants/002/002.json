@@ -2,7 +2,7 @@
   "case_id": "new-data/ITP2425-SE01E01-UML/002",
   "issues": [
     {
-      "description": "The UML in the problem statement shows Ride with attribute 'name: String' but declares a getter '+getName(): char[]' (and omits a getter for 'abbreviation'). This contradicts the attribute type and the intended implementation (solution and expected student implementation use getName(): String and provide a getAbbreviation(): char). Students following the UML literally would implement a mismatching getter signature (char[]) or be unsure about the intended types, causing confusion and compilation/test failures.",
+      "description": "The UML in the problem statement declares Ride::getName() with return type char[] but the Ride attribute 'name' is of type String (and the solution implements getName() returning String). This internal contradiction in the problem statement (method return type vs. attribute type) will confuse students about the correct getter signature and cause implementations to mismatch the reference solution/tests.",
       "severity": "HIGH",
       "category": "METHOD_RETURN_TYPE_MISMATCH",
       "related_locations": [
@@ -15,43 +15,11 @@
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/de/tum/in/ase/Ride.java",
-          "start_line": 5,
-          "end_line": 19
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/src/de/tum/in/ase/Ride.java",
-          "start_line": 1,
-          "end_line": 1
-        }
-      ],
-      "suggested_fix": "Fix the UML in the problem statement so it matches the intended design: change '+getName(): char[]' to '+getName(): String' and add the missing getter '+getAbbreviation(): char'. This makes the method signatures consistent with the attribute types and with the solution/template expectations. (Alternatively, if the name was intended to be a char[] then change the 'name' attribute to char[] in the UML and problem text—prefer the first fix to align with common intent.)"
-    },
-    {
-      "description": "The UML in the problem statement declares Ride::getName() with return type char[] while the Ride attribute is declared as name: String and the solution implements getName() returning String. This is an internal inconsistency in the problem statement UML that can confuse students about the expected getter signature and the type of the 'name' attribute (should it be a String or char[]?).",
-      "severity": "MEDIUM",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 21,
-          "end_line": 25
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/src/de/tum/in/ase/Ride.java",
-          "start_line": 1,
-          "end_line": 1
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/src/de/tum/in/ase/Ride.java",
           "start_line": 13,
           "end_line": 15
         }
       ],
-      "suggested_fix": "Fix the UML in the problem statement so the getter return type matches the attribute type: change '+getName(): char[]' to '+getName(): String' (or change the attribute to a char[] consistently, but String is recommended). Ensure the problem statement, template comments, and solution use the same type/signature for getName()."
+      "suggested_fix": "Correct the UML / problem statement so the getter return type matches the attribute type. Change the UML entry '+getName(): char[]' to '+getName(): String' (and/or explicitly include '+getAbbreviation(): char' as a getter) so students implement getName() returning String and avoid mismatches with the provided solution/tests."
     }
   ]
 }

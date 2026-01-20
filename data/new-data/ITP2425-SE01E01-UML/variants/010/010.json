@@ -2,7 +2,7 @@
   "case_id": "new-data/ITP2425-SE01E01-UML/010",
   "issues": [
     {
-      "description": "The UML in the problem statement declares Ride.abbreviation as type String (problem expects abbreviation: String), but the solution implements Ride.abbreviation as type char and uses char parameters in all constructors and getters. This type mismatch between the specification (String) and the reference solution (char) is structural and will confuse students about the correct attribute type and constructor signatures (they may implement String-based constructors/getters while the solution/tests expect char or vice versa).",
+      "description": "Attribute type mismatch for Ride.abbreviation: the UML in the problem statement declares Ride.abbreviation as String, but the solution implementation declares it as char. This divergence means students implementing the UML-specified String type will produce a different class API than the provided solution, leading to signature/test mismatches and confusion about the intended type.",
       "severity": "HIGH",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
@@ -10,34 +10,54 @@
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
           "start_line": 21,
-          "end_line": 23
+          "end_line": 24
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "src/de/tum/in/ase/Ride.java",
           "start_line": 5,
           "end_line": 6
+        }
+      ],
+      "suggested_fix": "Make the type of 'abbreviation' consistent across artifacts. Either update the UML/problem statement to specify 'abbreviation: char' (if a single character is intended), or change the solution (and template) to use String for 'abbreviation' and update all constructors/getters accordingly. Ensure the template, problem text, and solution all use the same type."
+    },
+    {
+      "description": "Constructor parameter mismatch caused by inconsistent 'abbreviation' type: the problem requires public constructors matching the UML attribute types and order, but the solution constructors take a char for abbreviation while the UML specifies abbreviation as String. This affects the Ride constructor and all subclasses' constructors (RollerCoaster, LaunchedRollerCoaster, LaunchedDropdownTower), producing inconsistent constructor signatures versus the UML/specification.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 5,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/de/tum/in/ase/Ride.java",
+          "start_line": 8,
+          "end_line": 11
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "src/de/tum/in/ase/RollerCoaster.java",
           "start_line": 7,
-          "end_line": 9
+          "end_line": 10
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/de/tum/in/ase/LaunchedRollerCoaster.java",
+          "start_line": 5,
+          "end_line": 7
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "src/de/tum/in/ase/LaunchedDropdownTower.java",
           "start_line": 5,
           "end_line": 6
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/de/tum/in/ase/LaunchedRollerCoaster.java",
-          "start_line": 5,
-          "end_line": 6
         }
       ],
-      "suggested_fix": "Make the abbreviation type consistent across artifacts. Either (A) update the problem statement/UML to declare abbreviation: char to match the solution, or (B) change the solution to use String for abbreviation everywhere (Ride attribute, constructor parameters, getters, and all super(...) calls in subclasses and RollerCoaster). Recommended: change the solution to String to match the UML/specification — i.e., in Ride.java use 'private String abbreviation;', change the constructor parameter and getter to String, and update all subclass constructors and super(...) calls to accept and pass a String abbreviation."
+      "suggested_fix": "Align constructor parameter types with the chosen 'abbreviation' type across all artifacts. If 'abbreviation' should be String per UML, change the constructors in the solution and template to accept String (and update attribute types and getters). If a char is intended, update the UML/problem statement to list 'abbreviation: char' and explicitly mention this in the task description so students implement constructors with char parameters."
     }
   ]
 }

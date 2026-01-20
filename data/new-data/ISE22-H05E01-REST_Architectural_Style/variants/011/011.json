@@ -2,30 +2,56 @@
   "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/011",
   "issues": [
     {
-      "description": "The solution repository's PersonScene class introduces a direct dependency on the service layer (imports PersonService and declares a private final PersonService personService field) even though the template PersonScene (and the problem statement's MVC description) expects the view to interact only with the controller. Moreover, the solution's PersonScene declares the field as final but does not initialize it in the constructor, which will cause a compilation error. This deviates from the intended layered/MVC design described in the problem statement and is a structural error in the solution code that will confuse students comparing template and solution and will prevent the project from compiling.",
-      "severity": "HIGH",
-      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "description": "The problem statement (Part 2, description of PersonController behavior) says \"Each method takes a Consumer<List<Note>> parameter... This consumer takes the internal list of persons as a parameter.\" This is inconsistent: it refers to Consumer<List<Note>> but the controller methods operate on Person objects and the template and solution PersonController signatures use Consumer<List<Person>>. This typo/confusion in the problem text could mislead students about the expected parameter type for the controller methods.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 49,
-          "end_line": 86
+          "start_line": 150,
+          "end_line": 152
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 8,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 14,
+          "end_line": 24
+        }
+      ],
+      "suggested_fix": "Correct the problem statement text to refer to Consumer<List<Person>> (not Consumer<List<Note>>) so it matches the intended API and the method signatures in the template and solution. Example wording: \"Each method takes a Consumer<List<Person>> parameter, which is called with the controller's internal list of persons after a response is received.\""
+    },
+    {
+      "description": "The solution repository's PersonScene class imports PersonService and declares a private final PersonService personService field in the view. The template PersonScene (and the problem's MVC design) expects the view to interact only with the controller, not directly with a service. In the solution code the field is declared final but is not initialized in the constructor, which would cause a compilation error. This both violates the MVC separation described in the problem and introduces an obvious structural/compilation issue in the provided solution.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
+          "start_line": 6,
+          "end_line": 8
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
+          "start_line": 25,
+          "end_line": 28
         },
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
           "start_line": 24,
-          "end_line": 69
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
-          "start_line": 6,
           "end_line": 31
         }
       ],
-      "suggested_fix": "Remove the direct service dependency from the view in the solution: delete the import of de.tum.in.ase.eist.service.PersonService and the personService field, or (if the view truly needs access) obtain any required data via the PersonController and initialize any fields through the constructor. Preferably, restore strict MVC layering by letting the view communicate only with the controller (as described in the problem statement) to avoid violating the architecture and to ensure the code compiles."
+      "suggested_fix": "Remove the unused PersonService import and the personService field from the view (PersonScene) so the view communicates only with the controller as intended by the MVC design. If the service must be accessed, inject it through the controller and keep the view unaware of service classes. Also ensure no final fields are left uninitialized to avoid compilation errors."
     }
   ]
 }

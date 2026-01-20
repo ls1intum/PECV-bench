@@ -2,15 +2,15 @@
   "case_id": "new-data/ISE22-H10E01-Containers/002",
   "issues": [
     {
-      "description": "The problem statement states that the endpoint GET /persons returns a Set of all persons, but both the template and the solution implementations define the endpoint to return a List<Person> (ResponseEntity<List<Person>>). This mismatch between the described collection type (Set) and the actual method return type (List) can confuse students about the expected API shape and the intended usage (e.g., ordering, duplicates). It may also lead students to attempt to implement Set-based behavior while the provided repository and controller use List.",
-      "severity": "MEDIUM",
+      "description": "The problem statement explicitly says the endpoint GET /persons returns a Set of all persons, but both the template and solution implementation declare and return a List<Person> from the REST endpoint and service (PersonResource.getAllPersons returns ResponseEntity<List<Person>> and PersonService.getAll returns List<Person>). This is a cross-artifact type mismatch for the collection type returned by the GET /persons endpoint and may confuse students about the expected return type and how to implement/consume the endpoint.",
+      "severity": "LOW",
       "category": "METHOD_RETURN_TYPE_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
           "start_line": 21,
-          "end_line": 23
+          "end_line": 22
         },
         {
           "type": "TEMPLATE_REPOSITORY",
@@ -25,7 +25,7 @@
           "end_line": 30
         }
       ],
-      "suggested_fix": "Make the description and the code consistent. Preferably update the problem statement to state that GET /persons returns a List of persons (List<Person>), since the repository returns a List and the template/solution controller methods already use List. Alternatively, if the intention is truly to return a Set, change the controller method signatures to return ResponseEntity<Set<Person>> and convert the repository result to a Set (e.g., new HashSet<>(personRepository.findAll())) and update related tests and documentation accordingly."
+      "suggested_fix": "Make the wording in the problem statement match the code: either change the problem text to state that GET /persons returns a List of persons (List<Person>) or change the template and solution signatures to return a Set<Person> consistently. The simpler fix is to update the problem statement to refer to a List<Person>, since the template and solution already use List. Ensure any example code/snippets in the statement and tests reflect the chosen collection type."
     }
   ]
 }

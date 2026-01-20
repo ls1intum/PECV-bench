@@ -2,8 +2,8 @@
   "case_id": "new-data/ITP2425-SE01E01-UML/016",
   "issues": [
     {
-      "description": "The UML in the problem statement names Ride's second attribute shortCode (char), while the solution defines the corresponding attribute and getter using the name 'abbreviation' (char) and getAbbreviation(). This name mismatch between the UML/specification and the solution (and the empty template) can confuse students about the exact attribute/getter name they should implement (e.g., getShortCode() vs. getAbbreviation()).",
-      "severity": "LOW",
+      "description": "Attribute naming inconsistency for Ride.shortCode: the problem statement (UML) names the attribute shortCode (char) and therefore students will likely implement a getter getShortCode(). The solution implementation instead names the field abbreviation and provides getAbbreviation(). This deviates from the UML/requirements and can confuse students (and automated tests) about the expected getter name and attribute identity.",
+      "severity": "MEDIUM",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
         {
@@ -25,11 +25,11 @@
           "end_line": 19
         }
       ],
-      "suggested_fix": "Make the attribute name consistent across artifacts. Either (A) update the UML/problem statement to use 'abbreviation' (char) and document the getter name getAbbreviation(), or (B) rename the field and getter in the solution/template to shortCode (char) with getShortCode(). Ensuring consistent attribute names avoids student confusion about the expected getter name."
+      "suggested_fix": "Make the attribute name consistent across artifacts. Either rename the solution's field and getter to match the UML (private char shortCode; public char getShortCode()) or update the problem statement/UML to use 'abbreviation' and document the expected getter name. Aligning names will avoid student confusion and test mismatches."
     },
     {
-      "description": "The UML/problem statement names the Ride attribute as 'shortCode: char' (and thus students will expect a corresponding getter like getShortCode()), but the solution implementation uses the field name 'abbreviation' with getter getAbbreviation(). This is a naming mismatch for the same conceptual attribute (a short identifier for a Ride) and will confuse students who map the UML description to the code (and may also cause tests that expect the UML name to fail).",
-      "severity": "HIGH",
+      "description": "The UML/problem statement defines the Ride attribute as 'shortCode: char' (problem_statement.md line 23), but the solution implementation names the corresponding field 'abbreviation' with getter getAbbreviation() (solution_repository/src/de/tum/in/ase/Ride.java). Both represent the same conceptual entity (a single-character short identifier for a Ride) but are given different identifiers across artifacts. This mismatch can confuse students trying to map the UML specification to the provided/expected code (e.g., they may look for getShortCode() or a shortCode field when the solution uses 'abbreviation').",
+      "severity": "MEDIUM",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
         {
@@ -39,19 +39,13 @@
           "end_line": 24
         },
         {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/src/de/tum/in/ase/Ride.java",
-          "start_line": 1,
-          "end_line": 1
-        },
-        {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/de/tum/in/ase/Ride.java",
           "start_line": 5,
           "end_line": 19
         }
       ],
-      "suggested_fix": "Rename the Ride field and its accessor in the implementation to match the UML name. For example, change the field 'abbreviation' to 'shortCode', update the constructor parameter accordingly, and provide a getter getShortCode(). Also update all subclasses and usages (constructors in LaunchedDropdownTower, LaunchedRollerCoaster, etc.) to use 'shortCode' so names are consistent with the problem statement UML."
+      "suggested_fix": "Make the identifier consistent across artifacts. Either (A) change the solution code to use the UML name: rename the field and constructor parameter to 'shortCode' and provide getShortCode(), or (B) update the UML/problem statement to use the name 'abbreviation' (and getAbbreviation()) so all artifacts use the same identifier. Prefer aligning code to the UML when the UML is the exercise specification."
     }
   ]
 }

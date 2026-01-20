@@ -2,15 +2,21 @@
   "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/017",
   "issues": [
     {
-      "description": "Return-type mismatch for PersonService.getAllPersons across artifacts. The template declares getAllPersons(...) returning List<Person> (intended by the exercise and by PersonResource/PersonController), while the solution implementation has a signature returning Stream<Person> and contains code that uses undefined variables (sortedList, p1/p2). This creates a structural conflict: PersonResource in the solution expects a List<Person> to return from the controller method, but the solution's PersonService returns a Stream, which is incompatible with the declared ResponseEntity<List<Person>>. Students following the template/signature (List<Person>) will be confused by the solution's different return type, and the mismatch prevents a coherent implementation and compilation if the components are mixed.",
+      "description": "Cross-artifact return-type mismatch for PersonService.getAllPersons: the problem statement and the template expect getAllPersons to return a list of Person objects (List<Person>) and instruct students to implement sorting that returns a list. The solution repository changes the method signature to return a Stream<Person>. This divergence is structural (method return type) and will confuse students: they will implement logic expecting a List<Person> (as described and provided in the template), but the solution uses a different return type. It also causes type inconsistencies where the controller (PersonResource) expects a List<Person> response but the service in the solution provides a Stream<Person>.",
       "severity": "HIGH",
       "category": "METHOD_RETURN_TYPE_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 201,
+          "start_line": 206,
           "end_line": 208
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 134,
+          "end_line": 136
         },
         {
           "type": "TEMPLATE_REPOSITORY",
@@ -18,6 +24,26 @@
           "start_line": 37,
           "end_line": 40
         },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 39,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 27
+        }
+      ],
+      "suggested_fix": "Make the service method signature consistent with the problem statement and template. Preferably change the solution's PersonService.getAllPersons to return List<Person> (e.g., List<Person> getAllPersons(PersonSortingOptions sortingOptions)) and implement sorting to return an actual List. Alternatively, if returning Stream<Person> is desired, update the problem statement, template signatures, and the controller (PersonResource) to expect and handle a Stream consistently. The simplest fix: implement sorting using stream().sorted(...).collect(Collectors.toList()) and return that List<Person>."
+    },
+    {
+      "description": "Inner-artifact inconsistency inside the solution repository's PersonService: the method declared in the solution (public Stream<Person> getAllPersons(...)) contains an implementation that uses undefined variables (e.g., sortedList) and attempts to return a variable whose type does not match the declared return type. The method declares and partially uses a Stream<Person> (sortedStream) but then calls sortedList.sort(...) and returns sortedList. This inconsistency (undefined variables and mismatched return) makes the solution non-compilable and contradicts the intended behavior described in the problem (returning a sorted list of persons).",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
@@ -31,33 +57,7 @@
           "end_line": 27
         }
       ],
-      "suggested_fix": "Make the PersonService.getAllPersons(PersonSortingOptions) signature consistent across template, problem statement, and solution. Prefer keeping the original template signature returning List<Person> (public List<Person> getAllPersons(PersonSortingOptions sortingOptions)). Implement the sorting inside that method (e.g., copy persons to a new List, sort with a Comparator based on sortingOptions, and return an unmodifiable List or a new ArrayList). This preserves the intended controller/resource signatures and avoids changing other components. Alternatively, if Streams are desired, update all callers (PersonResource and PersonController) and the problem statement to consistently use Stream<Person>, but the simpler and less disruptive fix is to revert the solution to return List<Person> and correct the sorting implementation."
-    },
-    {
-      "description": "The problem statement incorrectly refers to the callback parameter type for PersonController methods as Consumer<List<Note>> (mentions 'Note') while both the template and the solution use Consumer<List<Person>>. This misnaming mixes the Note and Person concepts and can confuse students about the expected method signatures and the entity being manipulated (persons).",
-      "severity": "MEDIUM",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 150,
-          "end_line": 151
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 8,
-          "end_line": 24
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 27,
-          "end_line": 80
-        }
-      ],
-      "suggested_fix": "Fix the problem statement to refer to Consumer<List<Person>> (not Consumer<List<Note>>) when describing the PersonController methods. For example, replace 'Each method takes a `Consumer<List<Note>>` parameter' with 'Each method takes a `Consumer<List<Person>>` parameter' so the textual description matches the template and solution method signatures and avoids concept mixing."
+      "suggested_fix": "Fix the solution's PersonService implementation to match its declared signature and return a correct value. If keeping a Stream return type, ensure the method returns a Stream (do not reference undefined variables) and update calling code accordingly. Preferably, implement a clear List-based result: (1) determine Comparator based on sortingOptions (handle null and default options), (2) produce a sorted List via persons.stream().sorted(comparator).collect(Collectors.toList()), and (3) change the method signature to public List<Person> getAllPersons(PersonSortingOptions sortingOptions). Ensure PersonResource and other callers accept a List<Person>."
     }
   ]
 }

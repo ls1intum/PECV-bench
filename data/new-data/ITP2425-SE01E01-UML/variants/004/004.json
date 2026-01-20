@@ -2,7 +2,7 @@
   "case_id": "new-data/ITP2425-SE01E01-UML/004",
   "issues": [
     {
-      "description": "Parameter type of raisePressure is inconsistent between the UML in the problem statement and the implemented solution/remarks. The UML (problem_statement.md) declares raisePressure(pressure: double): void, but the problem remarks text refers to raisePressure(int pressureIncrease) and the solution implementation (Pneumatic interface and its overrides) uses an int parameter. This mismatch will confuse students which parameter type to use and will cause signature/test mismatches (students following the UML will implement raisePressure(double) while the reference solution and tests expect int, or vice versa).",
+      "description": "Parameter type mismatch for Pneumatic.raisePressure: the UML in the problem statement declares raisePressure(pressure: double) (problem_statement.md, UML lines), but the solution implements the interface with raisePressure(int pressureIncrease) (solution_repository/src/de/tum/in/ase/Pneumatic.java and overridden in LaunchedDropdownTower and LaunchedRollerCoaster). This cross-artifact inconsistency will confuse students: the tasks explicitly ask to \"declare Pneumatic according to the UML diagram\", so students will implement a double parameter while the reference code (and some textual parts) uses int. It also makes automated checks or provided solution code incompatible with an implementation following the UML.",
       "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
@@ -11,12 +11,6 @@
           "file_path": "problem_statement.md",
           "start_line": 16,
           "end_line": 19
-        },
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 71,
-          "end_line": 71
         },
         {
           "type": "SOLUTION_REPOSITORY",
@@ -37,11 +31,31 @@
           "end_line": 12
         }
       ],
-      "suggested_fix": "Align the parameter type across all artifacts. Either: (A) Change the UML and problem text to declare raisePressure(int pressureIncrease) so it matches the solution and remarks; or (B) Preferably (to match the UML), update the solution and the remark text to use double: change the Pneumatic interface signature to void raisePressure(double pressureIncrease) and update the overriding methods in LaunchedDropdownTower and LaunchedRollerCoaster accordingly, and correct the remark to mention raisePressure(double). Ensure tests and templates are updated to expect the chosen type."
+      "suggested_fix": "Unify the parameter type for raisePressure across all artifacts. Either (A) change the UML and problem text to declare raisePressure(pressure: int) so they match the solution and overrides, or (B) change the solution and template interface and all overrides to use double (void raisePressure(double pressureIncrease)) to match the UML. Recommended: pick one type and update the problem statement (UML and any textual references), the template Pneumatic.java (provide the correct signature), and all implementing classes accordingly so students and reference code are consistent."
     },
     {
-      "description": "The problem statement's UML declares Pneumatic.raisePressure(pressure: double) (problem_statement.md lines 16-19), but elsewhere in the same problem text the method is referenced as raisePressure(int pressureIncrease) (problem_statement.md lines 71-72). The solution implementation declares the interface method as void raisePressure(int pressureIncrease) (solution_repository/src/de/tum/in/ase/Pneumatic.java lines 3-7). This mismatch (parameter name and — importantly — parameter type) between the UML in the problem statement and the solution creates a mapping conflict: a student following the UML would implement raisePressure(double pressure) while the provided solution/tests expect raisePressure(int pressureIncrease). The inconsistency is likely unintentional and can cause compilation/test failures or extra cognitive load when students try to match the UML to the template/solution.",
+      "description": "Inner-artifact inconsistency within the problem statement: the UML declares raisePressure(pressure: double) (problem_statement.md UML lines), but the textual Remarks refer to raisePressure(int pressureIncrease) (problem_statement.md, remarks). This contradiction inside the problem statement itself will confuse students about the correct signature to implement.",
       "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 19
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 71,
+          "end_line": 71
+        }
+      ],
+      "suggested_fix": "Make the problem statement internally consistent: either update the UML to declare raisePressure(pressure: int) to match the remarks, or update the Remarks to reference raisePressure(double). After resolving this, ensure the template and solution match the chosen signature so students have a single, unambiguous API to implement."
+    },
+    {
+      "description": "The Pneumatic.raisePressure parameter is named and typed inconsistently across the artifacts. In the UML (problem_statement.md) the method is declared as raisePressure(pressure: double) (lines 16-19), but elsewhere in the problem text (remarks) and in the solution implementation the method is referenced/implemented as raisePressure(int pressureIncrease). This creates confusion about the expected parameter name and type: students reading the UML may expect a double parameter named 'pressure', while the solution and remarks use an int parameter named 'pressureIncrease'.",
+      "severity": "MEDIUM",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
         {
@@ -53,8 +67,8 @@
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 70,
-          "end_line": 72
+          "start_line": 71,
+          "end_line": 71
         },
         {
           "type": "TEMPLATE_REPOSITORY",
@@ -65,11 +79,11 @@
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/de/tum/in/ase/Pneumatic.java",
-          "start_line": 3,
-          "end_line": 7
+          "start_line": 1,
+          "end_line": 9
         }
       ],
-      "suggested_fix": "Unify the method signature for raisePressure across artifacts. Prefer updating the UML in problem_statement.md to match the implemented solution and remarks: change the UML declaration to raisePressure(pressureIncrease: int) (i.e., void raisePressure(int pressureIncrease)). Ensure the template Pneumatic.java (starter code) and any textual references use the same signature so students have a single, consistent target."
+      "suggested_fix": "Make the Pneumatic.raisePressure signature consistent across all artifacts. Either update the UML in problem_statement.md to match the implemented form (raisePressure(pressureIncrease: int)) and update the template Pneumatic.java to declare void raisePressure(int pressureIncrease), or change the solution/template to use the UML form (void raisePressure(double pressure)) and update the remarks accordingly. Prefer aligning the UML to the implementation (int pressureIncrease) since the remarks and solution already use that signature."
     }
   ]
 }
