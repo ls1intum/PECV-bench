@@ -1,0 +1,45 @@
+{
+  "case_id": "ISE22/H10E01-Containers/008",
+  "issues": [
+    {
+      "description": "The template's PersonService declares a private PersonRepository field but does not inject it (no constructor or @Autowired), leaving personRepository null. Thus any calls to repository methods (e.g., save(), addParent) will cause a NullPointerException. In contrast, the solution uses constructor injection to initialize this field. Students are not instructed to add injection, so they will be blocked from implementing the service methods.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 13,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 15,
+          "end_line": 20
+        }
+      ],
+      "suggested_fix": "In the template's PersonService, add a constructor that accepts and assigns PersonRepository (Spring will autowire it by constructor):\n\npublic PersonService(PersonRepository personRepository) {\n    this.personRepository = personRepository;\n}\n\nAlternatively, annotate the existing repository field with @Autowired to enable field injection."
+    },
+    {
+      "description": "The problem statement refers to REST endpoints using the path prefix \"/api/persons/...\" but both the template and solution code define and test the endpoints at \"/persons/...\" (no \"/api\" prefix). This mismatch may confuse students when mapping the described endpoints to the actual controller mappings.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 123,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 64
+        }
+      ],
+      "suggested_fix": "Align the endpoint paths by either removing the \"/api\" prefix in the problem statement (i.e., refer to \"/persons/{...}\") or adding \"/api\" to the controller’s base mapping (e.g., @RequestMapping(path = \"/api\", …)) so that problem description and code agree."
+    }
+  ]
+}

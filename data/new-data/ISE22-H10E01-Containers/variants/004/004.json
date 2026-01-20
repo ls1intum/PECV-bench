@@ -1,0 +1,51 @@
+{
+  "case_id": "ISE22/H10E01-Containers/004",
+  "issues": [
+    {
+      "description": "The solution's addParent method signature reverses the parameters compared to the template and problem specification. It declares addParent(Person parent, Person person) instead of addParent(Person person, Person parent), which will confuse students and break the intended logic of adding a parent to the specified person.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 100,
+          "end_line": 102
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 43,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 43,
+          "end_line": 43
+        }
+      ],
+      "suggested_fix": "In the solution repository, change the signature of addParent in PersonService to:\n\n    public Person addParent(Person person, Person parent) {\n        // ... implementation ...\n    }\n\nso that the first parameter is the child (person) and the second is the parent, matching the specification and template."
+    },
+    {
+      "description": "The method signature for addParent in PersonService is defined as addParent(Person person, Person parent) in the template and problem statement, but in the solution it is declared as addParent(Person parent, Person person), swapping the intended parameter order. This mismatch creates confusion about which argument represents the child (person) and which represents the parent.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 39,
+          "end_line": 45
+        }
+      ],
+      "suggested_fix": "Unify the parameter order to (Person person, Person parent) for addParent in PersonService across template and solution to match the problem specification."
+    }
+  ]
+}

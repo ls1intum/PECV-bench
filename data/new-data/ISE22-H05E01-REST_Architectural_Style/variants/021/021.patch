@@ -1,0 +1,58 @@
+diff -ruN a/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java b/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java
+--- a/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java	2025-07-11 08:16:28
++++ b/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java	2026-01-06 18:52:58
+@@ -31,7 +31,7 @@
+         if (person.getId() != null) {
+             return ResponseEntity.badRequest().build();
+         }
+-        return ResponseEntity.ok(personService.savePerson(person));
++        return ResponseEntity.ok(PersonService.savePerson(person));
+     }
+ 
+     @PutMapping("persons/{personId}")
+diff -ruN a/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java b/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java
+--- a/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java	2025-07-11 08:16:28
++++ b/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java	2026-01-06 18:52:58
+@@ -17,7 +17,18 @@
+         this.persons = new ArrayList<>();
+     }
+ 
+-    public Person savePerson(Person person) {
++    public static Person savePerson(Person person) {
++        // Static method violating dependency injection pattern
++        return getInstance().savePersonInternal(person);
++    }
++
++    private static PersonService instance = new PersonService();
++    
++    public static PersonService getInstance() {
++        return instance;
++    }
++
++    private Person savePersonInternal(Person person) {
+         var optionalPerson = persons.stream().filter(existingPerson -> existingPerson.getId().equals(person.getId())).findFirst();
+         if (optionalPerson.isEmpty()) {
+             person.setId(UUID.randomUUID());
+@@ -32,11 +43,19 @@
+         }
+     }
+ 
+-    public void deletePerson(UUID personId) {
++    public static void deletePerson(UUID personId) {
++        getInstance().deletePersonInternal(personId);
++    }
++
++    private void deletePersonInternal(UUID personId) {
+         this.persons.removeIf(person -> person.getId().equals(personId));
+     }
+ 
+-    public List<Person> getAllPersons(PersonSortingOptions sortingOptions) {
++    public static List<Person> getAllPersons(PersonSortingOptions sortingOptions) {
++        return getInstance().getAllPersonsInternal(sortingOptions);
++    }
++
++    private List<Person> getAllPersonsInternal(PersonSortingOptions sortingOptions) {
+         if (sortingOptions == null) {
+             return new ArrayList<>(this.persons);
+         }
+Binary files a/tests/gradle/wrapper/.!74143!gradle-wrapper.jar and b/tests/gradle/wrapper/.!74143!gradle-wrapper.jar differ

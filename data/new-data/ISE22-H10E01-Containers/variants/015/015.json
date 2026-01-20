@@ -1,0 +1,31 @@
+{
+  "case_id": "ISE22/H10E01-Containers/015",
+  "issues": [
+    {
+      "description": "Problem statement refers to REST endpoints with prefix `/api` (e.g., “PUT /api/persons/{personId}/parents”), but both template and solution code register these endpoints at `/persons/...` without the `/api` prefix, causing students to be unable to map the described paths to the actual implementation.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        }
+      ],
+      "suggested_fix": "Choose a single base path for the REST API across all artifacts. For example, add an `/api` prefix to the controller’s `@RequestMapping` (or remove `/api` from the problem statement) so that the endpoints truly match: `/api/persons/{personId}/parents`."
+    }
+  ]
+}

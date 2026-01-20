@@ -1,0 +1,45 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/002",
+  "issues": [
+    {
+      "description": "The solution’s deletePerson endpoint in PersonResource returns a ResponseEntity<Person> with HTTP 200 and a Person body, but the problem statement specifies DELETE /persons should return HTTP 204 No Content with no body. Furthermore, the client-side PersonController.deletePerson expects no body (toBodilessEntity()). This mismatch will break client-server integration and confuse students.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 113,
+          "end_line": 114
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 50
+        }
+      ],
+      "suggested_fix": "Change the deletePerson method in PersonResource to return ResponseEntity<Void> and use ResponseEntity.noContent().build() to align with the problem specification and client expectations."
+    },
+    {
+      "description": "PersonResource.deletePerson calls personService.getPersonById(personId), but neither the template nor the solution’s PersonService defines a getPersonById method. This will cause a compilation error and leaves students unclear on how to retrieve a person before deletion.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 48
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 31,
+          "end_line": 38
+        }
+      ],
+      "suggested_fix": "Add a public Person getPersonById(UUID personId) method to PersonService (e.g., lookup in the internal list) or remove the need to fetch the person in the delete endpoint to resolve the missing-method error."
+    }
+  ]
+}

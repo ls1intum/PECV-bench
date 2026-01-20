@@ -1,0 +1,51 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/010",
+  "issues": [
+    {
+      "description": "In the solution, the server’s PersonResource maps GET and PUT operations under “v2/persons” while POST and DELETE use “persons”, yet the client’s PersonController always sends requests to “persons” (and the problem statement never mentions a “v2” prefix). This mismatch between the server path mappings and the client/prompt will prevent any GET or PUT calls from reaching the server and will confuse students about the correct endpoint URLs.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 27
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 65,
+          "end_line": 71
+        }
+      ],
+      "suggested_fix": "Unify the endpoint mappings so that all PersonResource methods use the same base path (e.g. remove the “v2/” prefix and map GET and PUT to “persons” like POST and DELETE), matching the client’s URIs and the prompt’s specifications."
+    },
+    {
+      "description": "The solution’s PersonResource class inconsistently prefixes the GET and PUT endpoints with “v2/” (e.g. @GetMapping(\"v2/persons\") and @PutMapping(\"v2/persons/{personId}\")), whereas the problem statement and client code uniformly expect unversioned \"/persons\" endpoints. This mismatched naming prevents students’ client requests from reaching the server and creates confusion mapping the specified endpoints to their implementations.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 114
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 28
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 37,
+          "end_line": 43
+        }
+      ],
+      "suggested_fix": "Remove the “v2/” prefix so that all mappings use \"persons\" consistently (e.g. change @GetMapping(\"v2/persons\") to @GetMapping(\"persons\") and @PutMapping(\"v2/persons/{personId}\") to @PutMapping(\"persons/{personId}\"))."
+    }
+  ]
+}

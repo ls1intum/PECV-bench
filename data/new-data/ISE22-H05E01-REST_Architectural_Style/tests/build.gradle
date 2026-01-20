@@ -1,0 +1,167 @@
+plugins {
+    id 'checkstyle'
+    id 'pmd'
+    id 'com.github.spotbugs' version '5.0.6'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.12'
+    id 'org.springframework.boot' version '2.6.7'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "com.teamscale" version "23.0.0"
+}
+
+apply plugin: 'java'
+group = 'de.tum.in.ase.eist'
+sourceCompatibility = 17
+version = '1.0.0'
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    serverImplementation.extendsFrom(implementation)
+    clientImplementation.extendsFrom(implementation)
+}
+
+dependencies {
+    testImplementation 'de.tum.in.ase:artemis-java-test-sandbox:1.9.2'
+    testImplementation 'com.squareup.okhttp3:okhttp:4.10.0-RC1'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0-RC1'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.7'
+
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.13.2.2'
+    testImplementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.2'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-web:2.6.7'
+    testImplementation 'org.springframework.boot:spring-boot-starter-webflux:2.6.7'
+
+    testImplementation 'org.mockito:mockito-core:4.5.1'
+    testImplementation 'net.bytebuddy:byte-buddy:1.12.10'
+
+    serverImplementation 'org.springframework.boot:spring-boot-starter-web:2.6.7'
+    clientImplementation 'org.springframework.boot:spring-boot-starter-webflux:2.6.7'
+}
+
+javafx {
+    version = '17.0.2'
+    modules = [ 'javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.media' ]
+    configuration = 'clientImplementation'
+}
+
+def studentOutputDir = sourceSets.main.java.destinationDirectory.get()
+def scaConfigDirectory = "$projectDir/staticCodeAnalysisConfig"
+
+sourceSets {
+    common {
+        java {
+            srcDir 'assignment/src/common/java'
+        }
+    }
+    server {
+        java {
+            srcDir 'assignment/src/server/java'
+        }
+        resources {
+            srcDir 'assignment/src/server/resources'
+        }
+        compileClasspath += common.output
+        runtimeClasspath += common.output
+    }
+    client {
+        java {
+            srcDir 'assignment/src/client/java'
+        }
+        resources {
+            srcDir 'assignment/src/client/resources'
+        }
+        compileClasspath += common.output
+        runtimeClasspath += common.output
+    }
+
+    test {
+        java {
+            srcDir 'test'
+        }
+        resources {
+            srcDir 'test'
+        }
+        compileClasspath += common.output
+        runtimeClasspath += common.output
+        compileClasspath += server.output
+        runtimeClasspath += server.output
+        compileClasspath += client.output
+        runtimeClasspath += client.output
+    }
+}
+
+test {
+    defaultCharacterEncoding = 'UTF-8'
+    useJUnitPlatform()
+}
+
+
+checkstyle {
+    configFile = file("$scaConfigDirectory/checkstyle-configuration.xml")
+    ignoreFailures = true
+    // exclude the test files
+    checkstyleTest.enabled = false
+    checkstyleServer.reports {
+        xml {
+            enabled = true
+            outputLocation = file('target/checkstyle-result.xml')
+        }
+        html.enabled = false
+    }
+}
+
+spotbugs {
+    excludeFilter = file("$scaConfigDirectory/spotbugs-exclusions.xml")
+    ignoreFailures = true
+    // exclude the test files
+    spotbugsTest.enabled = false
+    spotbugsClient.reports {
+        add(spotbugsServer)
+        add(spotbugsCommon)
+        xml {
+            enabled = true
+            outputLocation = file('target/spotbugsXml.xml')
+        }
+        html.enabled = false
+    }
+}
+
+pmd {
+    ruleSets = ["$scaConfigDirectory/pmd-configuration.xml"]
+    rulesMinimumPriority = 5
+    ignoreFailures = true
+    // exclude the test files
+    pmdTest.enabled = false
+    pmdServer.reports {
+        xml {
+            enabled = true
+            outputLocation = file('target/pmd.xml')
+        }
+    }
+}
+
+
+processServerResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+tasks.register('tiaTests', com.teamscale.TestImpacted) {
+    systemProperty "ares.security.trustedpackages", "okhttp3,com.teamscale,retrofit2,shadow,com.squareup,okio"
+    useJUnitPlatform()
+    filter {
+        excludeTestsMatching "AttributeTest"
+        excludeTestsMatching "ConstructorTest"
+        excludeTestsMatching "ClassTest"
+        excludeTestsMatching "MethodTest"
+    }
+    jacoco {
+        includes = ["de.tum.in.ase.eist.*"]
+    }
+}
+

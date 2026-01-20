@@ -1,0 +1,45 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/014",
+  "issues": [
+    {
+      "description": "The solution’s PersonController defines only a constructor PersonController(String baseUrl, Duration timeout), yet the application and template both call new PersonController() with no arguments. This mismatch prevents the solution code from compiling and blocks students from running the intended client application.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/H05E01ClientApplication.java",
+          "start_line": 12,
+          "end_line": 13
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 21,
+          "end_line": 29
+        }
+      ],
+      "suggested_fix": "Provide a no-argument constructor in PersonController (or overload) in the solution so that new PersonController() compiles, matching the template and application usage."
+    },
+    {
+      "description": "Constructor signature mismatch: H05E01ClientApplication instantiates PersonController using a default no-arg constructor, but in the solution PersonController only defines a parameterized constructor (String baseUrl, Duration timeout). This breaks compilation and prevents students from mapping the application code to the controller implementation.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/H05E01ClientApplication.java",
+          "start_line": 13,
+          "end_line": 13
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 21,
+          "end_line": 23
+        }
+      ],
+      "suggested_fix": "Either add a no-argument constructor to PersonController (initializing webClient with the fixed base URL and a default timeout) or update H05E01ClientApplication to invoke the existing constructor by supplying the baseUrl and timeout parameters."
+    }
+  ]
+}

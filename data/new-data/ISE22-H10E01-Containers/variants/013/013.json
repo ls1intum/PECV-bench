@@ -1,0 +1,51 @@
+{
+  "case_id": "ISE22/H10E01-Containers/013",
+  "issues": [
+    {
+      "description": "In the template, PersonService.save(Person) is declared private, but PersonResource and the tests invoke personService.save(...). In the solution it is public. The private visibility in the template will cause compilation errors and confuse students, as they cannot call save() from outside the class.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 21,
+          "end_line": 26
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 21,
+          "end_line": 25
+        }
+      ],
+      "suggested_fix": "Change the visibility of the save(Person) method in PersonService from private to public so that PersonResource and the test classes can access it."
+    },
+    {
+      "description": "The problem statement refers to the Person API endpoints as “/api/persons/{personId}/parents”, but both the template and solution code (in PersonResource) expose these endpoints at “/persons/{personId}/parents” (no “/api” prefix). This mismatch will lead students to call the wrong path and encounter 404 errors.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        }
+      ],
+      "suggested_fix": "Either remove the “/api” prefix from the endpoint examples in the problem description (use “PUT /persons/{personId}/parents”) or add an “api” path segment in the @RequestMapping (e.g. @RequestMapping(\"/api\") at class level) so that code and documentation align."
+    }
+  ]
+}
