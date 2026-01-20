@@ -438,7 +438,7 @@ def register_subcommand(parser: argparse.ArgumentParser) -> None:
 	gen_parser = subparsers.add_parser("generate-annotation", help="Generate annotation via reference approach")
 	gen_parser.add_argument("--exercise", "-e", required=True)
 	gen_parser.add_argument("--variant", "-v", required=True)
-	gen_parser.add_argument("--model", default="openai:o4-mini")
+	gen_parser.add_argument("--model", default="openai:gpt-5-mini")
 	gen_parser.add_argument("--reasoning-effort", choices=["low", "medium", "high"], default="medium")
 	gen_parser.add_argument("--force-materialize", action="store_true", help="Re-materialize variant before running")
 	gen_parser.set_defaults(handler=handle_generate_annotation)
