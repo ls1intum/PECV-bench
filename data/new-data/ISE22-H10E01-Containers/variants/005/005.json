@@ -1,45 +1,25 @@
 {
-  "case_id": "ISE22/H10E01-Containers/005",
+  "case_id": "new-data/ISE22-H10E01-Containers/005",
   "issues": [
     {
-      "description": "The problem statement refers to REST endpoints using the \"/api\" prefix (e.g., PUT /api/persons/{personId}/parents), but the PersonResource controller in the template is mapped without any \"/api\" prefix (e.g., @PutMapping(\"persons/{personId}/parents\")). This mismatch will lead students to call or test endpoints that do not exist, causing confusion and broken tests.",
+      "description": "The @PutMapping for updating a person declares a path variable in the mapping (\"persons/{personId}\") but the template implementation of updatePerson does not accept the path variable as a method parameter; the solution implementation does accept the path variable and also validates that the id in the request body matches the path id. This is a parameter/signature mismatch between template and solution that can confuse students: the template mapping implies the method should handle the personId from the URL, but the template method signature omits it. Students may be uncertain whether to (a) add the path variable parameter and validate the id, or (b) keep the controller ignoring the path variable. Aligning the template with the intended solution avoids ambiguity and prevents students from implementing an update endpoint inconsistent with the reference implementation and common REST semantics.",
       "severity": "MEDIUM",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 125,
-          "end_line": 127
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 48
         },
         {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 17,
-          "end_line": 23
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 51
         }
       ],
-      "suggested_fix": "Either update the controller mappings to include the \"/api\" prefix (for example, add path=\"/api\" at the class-level @RequestMapping) or revise the problem statement to drop the \"/api\" prefix so that instructions align with the actual mappings."
-    },
-    {
-      "description": "The problem statement refers to the REST endpoints with a `/api` prefix (e.g. `PUT /api/persons/{personId}/parents`), but both the template and solution map those endpoints without the `/api` prefix (e.g. `@PutMapping(\"persons/{personId}/parents\")`). This mismatch can confuse students when calling the correct URI.",
-      "severity": "MEDIUM",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 125,
-          "end_line": 125
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 57,
-          "end_line": 62
-        }
-      ],
-      "suggested_fix": "Either add the `/api` prefix to the class‐level request mapping in `PersonResource` (e.g. `@RequestMapping(path=\"/api\", ...)`) or remove `/api` from the endpoint examples in the problem statement so that both match `/persons/...`."
+      "suggested_fix": "Make the template's updatePerson method signature consistent with the solution. Either (preferred) add the path variable parameter and the ID check to the template method: public ResponseEntity<Person> updatePerson(@RequestBody Person updatedPerson, @PathVariable(\"personId\") Long personId) { if (!updatedPerson.getId().equals(personId)) throw new ResponseStatusException(BAD_REQUEST); ... } Or, if the design intentionally omits the path id, remove the {personId} fragment from the @PutMapping to avoid implying a path variable. The preferred fix is to align the template with the solution and REST conventions by accepting and validating the path variable."
     }
   ]
 }

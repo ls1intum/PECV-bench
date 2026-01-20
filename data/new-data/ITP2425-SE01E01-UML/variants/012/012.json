@@ -1,25 +1,37 @@
 {
-  "case_id": "ITP2425/SE01E01-UML/012",
+  "case_id": "new-data/ITP2425-SE01E01-UML/012",
   "issues": [
     {
-      "description": "The attribute 'excellentEnough' is specified as boolean in the UML diagram and problem statement but implemented as String in the solution.",
+      "description": "The problem statement / UML declares ExcellenceLand.excellentEnough as a boolean, and the tasks explicitly state that ExcellenceLand has a private List<Ride> rides attribute. In the solution, the attribute 'excellentEnough' is implemented as a String (and the constructor and getter use String). This is a type mismatch for a core attribute and will confuse students and break tests that expect a boolean for 'excellentEnough' (and the constructor/getter signatures).",
       "severity": "HIGH",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 36,
-          "end_line": 36
+          "start_line": 34,
+          "end_line": 37
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 57,
+          "end_line": 59
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/de/tum/in/ase/ExcellenceLand.java",
-          "start_line": 8,
-          "end_line": 8
+          "file_path": "solution_repository/src/de/tum/in/ase/ExcellenceLand.java",
+          "start_line": 5,
+          "end_line": 15
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/in/ase/ExcellenceLand.java",
+          "start_line": 1,
+          "end_line": 3
         }
       ],
-      "suggested_fix": "In ExcellenceLand.java, change the type of 'excellentEnough' (and its getter) from String to boolean so it matches the UML specification."
+      "suggested_fix": "Change the type of 'excellentEnough' in the solution (and in any template/example code) from String to boolean, update the constructor parameter to accept a boolean (keeping parameter order: double excellencyLevel, boolean excellentEnough, List<Ride> rides), and change the getter getExcellentEnough() to return boolean. Ensure the 'rides' attribute is declared as private List<Ride> as described in the tasks."
     }
   ]
 }

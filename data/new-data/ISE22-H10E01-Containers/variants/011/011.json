@@ -1,8 +1,8 @@
 {
-  "case_id": "ISE22/H10E01-Containers/011",
+  "case_id": "new-data/ISE22-H10E01-Containers/011",
   "issues": [
     {
-      "description": "The `Person` entity in the template declares its `id` field as `java.util.UUID`, but the `PersonRepository` (and the REST controllers and tests) are parameterized with and expect a `Long` identifier. This mismatch prevents compilation and makes it impossible for students to implement or run the provided tests.",
+      "description": "The template's Person entity uses java.util.UUID for the id field, but the repository and service layers (and the solution) use Long as the entity id type (JpaRepository<Person, Long>, findWithParentsById(Long), getById(Long), controller path variables of type Long). This mismatch causes compilation errors and prevents students from using the provided repository/service/controller signatures as intended. It will block students from running and testing the starter project and confuses them about what the primary key type should be.",
       "severity": "HIGH",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
@@ -16,36 +16,72 @@
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "src/main/java/de/tum/in/ase/eist/repository/PersonRepository.java",
           "start_line": 12,
-          "end_line": 14
+          "end_line": 16
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 32,
+          "end_line": 34
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 19,
+          "end_line": 23
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/repository/PersonRepository.java",
+          "start_line": 12,
+          "end_line": 16
         }
       ],
-      "suggested_fix": "Change the type of the `id` field in `Person.java` from `java.util.UUID` to `Long` so that it matches the generic type parameter of `JpaRepository<Person, Long>` and the `Long personId` parameters used in controllers and tests."
+      "suggested_fix": "Align the entity id type in the template with the repository/service/controller signatures and the solution. The simplest fix is to change the id field in template/src/main/java/de/tum/in/ase/eist/model/Person.java from 'private java.util.UUID id;' to 'private Long id;' and update the getter/setter types accordingly. Keep the @GeneratedValue(strategy = GenerationType.IDENTITY) annotation. Alternatively, if UUIDs are desired, change the repository generic type and all service/controller method parameter types from Long to UUID consistently — but prefer Long to match the problem statement and solution."
     },
     {
-      "description": "The problem statement refers to the REST endpoints with an \"/api\" prefix (e.g. PUT /api/persons/{personId}/parents), but both the template and solution code define those mappings at \"/persons/...\" (no \"/api\"). This mismatch will confuse students when invoking or testing the API.",
+      "description": "The template defines the entity identifier field 'id' in Person.java as java.util.UUID, while the rest of the codebase (repository generics, service/controller method signatures and the provided solution) expect a Long id. This mismatches the same conceptual entity (the person's primary key / personId) across artifacts and will confuse students (and likely cause compilation/runtime issues). Students reading the problem (which refers to personId in endpoints and service/repository signatures) will not be able to consistently map the '/persons/{personId}' path variable and repository/service methods (which use Long) to the Person.getId() accessor (which returns UUID in the template).",
       "severity": "HIGH",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 123,
-          "end_line": 128
+          "start_line": 21,
+          "end_line": 24
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 19,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/repository/PersonRepository.java",
+          "start_line": 12,
+          "end_line": 16
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 32,
+          "end_line": 34
         },
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 60,
-          "end_line": 64
+          "start_line": 32,
+          "end_line": 35
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 60,
-          "end_line": 64
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 19,
+          "end_line": 22
         }
       ],
-      "suggested_fix": "Unify the path prefix by updating the code: add path=\"/api\" to the class-level @RequestMapping in PersonResource (e.g. @RequestMapping(path = \"/api\", consumes = ..., produces = ...)) so that all endpoints match the \"/api/persons/...\" usage in the problem statement."
+      "suggested_fix": "Make the identifier representation consistent across artifacts. The simplest fix is to change the template Person.id type from java.util.UUID to Long (update the field type and its getter/setter) so it matches the repository generic parameter and all service/controller method signatures (as done in the solution). Alternatively, if UUID was intended, update the repository generics and all method signatures to use UUID consistently—but align all files so the 'id' identifier has the same type everywhere."
     }
   ]
 }

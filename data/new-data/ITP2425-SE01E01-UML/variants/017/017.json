@@ -1,45 +1,75 @@
 {
-  "case_id": "ITP2425/SE01E01-UML/017",
+  "case_id": "new-data/ITP2425-SE01E01-UML/017",
   "issues": [
     {
-      "description": "The solution repository’s Pneumatic interface declares releasePressure() instead of openValve() as specified in the UML in the problem statement. This mismatch will confuse students and prevents them from implementing the intended interface method correctly.",
+      "description": "The problem statement UML defines the Pneumatic interface with two abstract methods: raisePressure(int pressureIncrease) and openValve(). In the solution repository, Pneumatic.java declares raisePressure(int) and releasePressure() (method name differs), while the implementing classes (LaunchedDropdownTower and LaunchedRollerCoaster) implement openValve() rather than releasePressure(). This creates a signature/name mismatch between the interface and its implementations and a contradiction with the UML/specification. As a result the solution as provided is internally inconsistent and would not compile; students comparing the UML/spec to the solution will be confused about the required method name/signature for the second pneumatic operation.",
       "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 17,
+          "start_line": 16,
           "end_line": 19
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/de/tum/in/ase/Pneumatic.java",
-          "start_line": 5,
-          "end_line": 8
+          "file_path": "solution_repository/src/de/tum/in/ase/Pneumatic.java",
+          "start_line": 3,
+          "end_line": 7
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/LaunchedDropdownTower.java",
+          "start_line": 9,
+          "end_line": 17
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/LaunchedRollerCoaster.java",
+          "start_line": 9,
+          "end_line": 17
         }
       ],
-      "suggested_fix": "Rename the releasePressure() method in the Pneumatic interface to openValve() (with no parameters, returning void) to match the UML specification, and remove the releasePressure() declaration."
+      "suggested_fix": "Make the Pneumatic interface match the UML/problem statement and the implementing classes. Replace releasePressure() in solution_repository/src/de/tum/in/ase/Pneumatic.java with openValve() (void openValve()), keeping raisePressure(int). Ensure LaunchedDropdownTower and LaunchedRollerCoaster implement raisePressure(int) and openValve() (or, alternatively, change the UML/problem statement to require releasePressure() instead of openValve()). The recommended fix is to update the solution Pneumatic interface to declare openValve() so it matches the UML and the implementing classes."
     },
     {
-      "description": "The UML diagram and problem statement specify an abstract method openValve() in the Pneumatic interface, but in the solution implementation the interface declares releasePressure() instead. This naming mismatch breaks the direct mapping from the specification to the provided code skeleton and will confuse students when they try to implement openValve().",
+      "description": "The problem statement (UML and tasks) defines the Pneumatic interface with an abstract method openValve(). In the solution repository, the Pneumatic interface instead declares releasePressure(), while the concrete classes (LaunchedRollerCoaster, LaunchedDropdownTower) implement an openValve() method. This naming mismatch between the problem specification, the interface, and the implementing classes prevents a clear mapping for students and is likely unintended (it also leads to an interface/implementation inconsistency).",
       "severity": "HIGH",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 17,
-          "end_line": 19
+          "start_line": 16,
+          "end_line": 18
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/in/ase/Pneumatic.java",
+          "start_line": 1,
+          "end_line": 1
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/de/tum/in/ase/Pneumatic.java",
-          "start_line": 5,
-          "end_line": 9
+          "file_path": "solution_repository/src/de/tum/in/ase/Pneumatic.java",
+          "start_line": 3,
+          "end_line": 7
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/LaunchedRollerCoaster.java",
+          "start_line": 9,
+          "end_line": 17
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/LaunchedDropdownTower.java",
+          "start_line": 9,
+          "end_line": 17
         }
       ],
-      "suggested_fix": "Rename the method releasePressure() in the Pneumatic interface to openValve() in the solution repository so that it matches the UML and problem statement, and adjust implementations accordingly."
+      "suggested_fix": "Align the Pneumatic API name across artifacts. Replace releasePressure() in solution_repository/src/de/tum/in/ase/Pneumatic.java with openValve() (matching the UML and the implementations), or alternatively rename the implementing classes' openValve() methods to releasePressure(). Prefer changing the interface to openValve() to match the problem statement and the concrete classes, and update any tests/documentation accordingly."
     }
   ]
 }

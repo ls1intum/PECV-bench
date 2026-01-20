@@ -1,4 +1,57 @@
 {
-  "case_id": "ISE22/H05E01-REST_Architectural_Style/008",
-  "issues": []
+  "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/008",
+  "issues": [
+    {
+      "description": "The problem statement (Part 2) says \"Each method takes a Consumer<List<Note>> parameter\" when describing the PersonController methods. This is inconsistent: the controller methods for persons should use Consumer<List<Person>>. The template and solution both declare method signatures that accept Consumer<List<Person>>. This typo in the problem statement may confuse students about the required generic type and which model class the consumer should handle.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 152
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 35
+        }
+      ],
+      "suggested_fix": "Correct the problem statement text to refer to Consumer<List<Person>> (not Consumer<List<Note>>) when describing PersonController methods so it matches the template and intended implementation."
+    },
+    {
+      "description": "The problem statement requires client HTTP requests to be asynchronous (Part 2: \"The HTTP requests need to happen asynchronously\"). In the solution repository, PersonController.addPerson uses WebClient and calls .block() to obtain the response synchronously before updating the internal list and calling the consumer. This behavior violates the stated requirement for asynchronous requests and conflicts with the expected non-blocking pattern used elsewhere (e.g., other controller methods use subscribe()). Students reading the solution may be misled about the required asynchronous design or about correct usage of WebClient in this exercise.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 144,
+          "end_line": 146
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 41
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 8,
+          "end_line": 24
+        }
+      ],
+      "suggested_fix": "Update the solution implementation of addPerson to follow the same non-blocking pattern used by the other methods: do not call .block(). Instead, use retrieve().bodyToMono(Person.class).onErrorStop().subscribe(newPerson -> { persons.add(newPerson); personsConsumer.accept(persons); }); This will align the solution with the stated asynchronous requirement and with the rest of the reactive usage in the codebase."
+    }
+  ]
 }

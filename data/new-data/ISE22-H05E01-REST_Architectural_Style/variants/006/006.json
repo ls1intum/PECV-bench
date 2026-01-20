@@ -1,16 +1,16 @@
 {
-  "case_id": "ISE22/H05E01-REST_Architectural_Style/006",
+  "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/006",
   "issues": [
     {
-      "description": "The template and problem specification define PersonService.getAllPersons(PersonSortingOptions) (Part 3), but the solution’s PersonService and PersonResource use getAllPersons(PersonSortingOptions, boolean includeInactive). This parameter mismatch prevents students from following the spec or compiling against the solution.",
+      "description": "The template and problem statement expect PersonService.getAllPersons to have the signature getAllPersons(PersonSortingOptions sortingOptions) (single parameter). The solution repository changes this signature to getAllPersons(PersonSortingOptions sortingOptions, boolean includeInactive) and updates PersonResource to call it with two arguments. This is a structural parameter mismatch: the service API in the solution no longer matches the template/problem specification. The problem statement even warns not to change the attributes of PersonService, so the solution's added boolean parameter contradicts the spec and will confuse students (and may break tests or instructional guidance).",
       "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 206,
-          "end_line": 210
+          "start_line": 199,
+          "end_line": 209
         },
         {
           "type": "TEMPLATE_REPOSITORY",
@@ -19,13 +19,63 @@
           "end_line": 40
         },
         {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
+        },
+        {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
           "start_line": 39,
-          "end_line": 41
+          "end_line": 67
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 27
         }
       ],
-      "suggested_fix": "Align the service signature with the specification by removing the extra boolean parameter (or updating the spec to include it). For example, change the solution’s getAllPersons to accept only PersonSortingOptions and handle filtering without a second parameter."
+      "suggested_fix": "Restore API compatibility by making PersonService.getAllPersons use the single-parameter signature required by the template/problem: public List<Person> getAllPersons(PersonSortingOptions sortingOptions). If the additional 'includeInactive' behavior is desired, implement it internally (default to including inactive entries) or provide an overloaded method while keeping the original signature. Update PersonResource to call the single-parameter method (pass a PersonSortingOptions instance). This keeps the template, problem statement, and solution structurally consistent and preserves the educational intent."
+    },
+    {
+      "description": "The problem statement and the template expect PersonService to expose getAllPersons(PersonSortingOptions) (single-parameter). The solution, however, changes the service API to getAllPersons(PersonSortingOptions, boolean includeInactive) and calls it from PersonResource with an extra boolean. This alters the method signature (an identifier/attribute of the service) and the expected usage. The discrepancy contradicts the problem note \"Do not change the attributes of PersonService\" and creates mapping confusion: students implementing the template according to the instructions will not find the extra-parameter variant in the template, and comparing to the solution will be unclear whether the extra parameter is required or intentionally added.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 206,
+          "end_line": 208
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 37,
+          "end_line": 40
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 39,
+          "end_line": 67
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 27
+        }
+      ],
+      "suggested_fix": "Keep the PersonService API consistent across artifacts. Options:\n1) Revert the solution to the single-parameter signature getAllPersons(PersonSortingOptions) and implement any \"includeInactive\" behavior internally (e.g., default to includeInactive = true when not specified), or provide an overloaded getAllPersons(PersonSortingOptions) that delegates to getAllPersons(PersonSortingOptions, boolean). Update PersonResource in the solution to call the single-parameter method (or the overload) so it matches the template and the problem statement.\n2) Alternatively, if the extra boolean is required, update the problem statement and the template to document and expose getAllPersons(PersonSortingOptions, boolean includeInactive) (including updating the TODOs), so all artifacts present the same service signature."
     }
   ]
 }

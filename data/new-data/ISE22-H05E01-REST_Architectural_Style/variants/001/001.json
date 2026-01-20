@@ -1,22 +1,16 @@
 {
-  "case_id": "ISE22/H05E01-REST_Architectural_Style/001",
+  "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/001",
   "issues": [
     {
-      "description": "The problem statement and template instruct using HTTP POST to create persons (POST /persons and webClient.post()), but the solution uses HTTP PUT for creation (@PutMapping(\"persons\") in PersonResource and webClient.put() in PersonController). This mismatch in HTTP methods will confuse students about which verb to implement and conflicts with the specified API design.",
+      "description": "HTTP verb for creating a Person is inconsistent between the problem statement and the provided solution. The problem statement (Application Functionality / Part 1) explicitly specifies POST /persons to create a new person. The reference solution, however, implements the creation endpoint with @PutMapping(\"persons\") on the server (PersonResource) and uses WebClient.put() for the client addPerson request. This mismatch will confuse students: if they implement the client and server according to the problem statement (POST), the provided reference solution (and its client) will not match, and if students follow the solution they will contradict the written specification. This is a structural API contract inconsistency that affects interoperability between client and server and the correctness of student implementations.",
       "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 110,
-          "end_line": 113
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 10,
-          "end_line": 12
+          "start_line": 109,
+          "end_line": 114
         },
         {
           "type": "SOLUTION_REPOSITORY",
@@ -27,43 +21,81 @@
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 28,
-          "end_line": 36
+          "start_line": 27,
+          "end_line": 37
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 8,
+          "end_line": 12
         }
       ],
-      "suggested_fix": "Use HTTP POST for the createPerson endpoint and client request: change @PutMapping(\"persons\") to @PostMapping(\"persons\") in PersonResource, and use webClient.post() instead of webClient.put() in PersonController.addPerson."
+      "suggested_fix": "Make the HTTP method consistent. Preferred fix to match the problem statement: change the server create endpoint to use POST (replace @PutMapping(\"persons\") with @PostMapping(\"persons\") in PersonResource) and change the client addPerson to use webClient.post() (instead of webClient.put()). Alternatively, if PUT is intended, update the problem statement and all references to indicate that creation is done with PUT /persons. Ensure both client and server use the same verb so students have a single, unambiguous API contract to implement."
     },
     {
-      "description": "The problem specification requires creating a new person via a POST request to /persons, but the solution implementation uses PUT for both the server endpoint (@PutMapping(\"persons\")) and the client-side addPerson (webClient.put()). This mismatch breaks the conceptual mapping from the problem (POST) to the code, leading students to implement the wrong HTTP verb.",
+      "description": "The problem statement's description of the PersonController method parameter types contains a copy-paste error: it says \"Each method takes a Consumer<List<Note>> parameter\" while the template and solution expect Consumer<List<Person>>. This mismatch in the textual specification vs. the code signatures is likely to confuse students about the correct generic type to use for callbacks when implementing PersonController methods.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 151
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 65,
+          "end_line": 80
+        }
+      ],
+      "suggested_fix": "Correct the problem statement text to say \"Each method takes a Consumer<List<Person>> parameter\" (replace Note with Person). This aligns the written instructions with the template method signatures and the solution implementation, removing ambiguity for students."
+    },
+    {
+      "description": "The problem statement specifies that creating a new person must use POST /persons (explicitly listed in the endpoints to implement), but the provided solution (both server and client) implements the create-person action with an HTTP PUT on /persons. This is a cross-artifact contract mismatch for the same conceptual entity \"create person endpoint\": students will read the task expecting to implement/consume POST, yet the reference implementation uses PUT. This divergence will cause confusion and likely failing tests or unexpected behavior if students follow the problem text but compare to (or run) the provided solution code.",
       "severity": "HIGH",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 110,
-          "end_line": 112
+          "start_line": 109,
+          "end_line": 114
         },
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 10,
-          "end_line": 12
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 8,
+          "end_line": 24
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 18
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
           "start_line": 27,
-          "end_line": 29
+          "end_line": 37
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
           "start_line": 29,
-          "end_line": 30
+          "end_line": 35
         }
       ],
-      "suggested_fix": "Align the createPerson implementation with the problem statement by using @PostMapping(\"persons\") on the server and webClient.post() in PersonController.addPerson instead of PUT."
+      "suggested_fix": "Align the creation endpoint across all artifacts. Two acceptable fixes (pick one for consistency):\n1) Conform to the problem statement REST convention: change the server create mapping to use @PostMapping(\"persons\") and update the client to call webClient.post().uri(\"persons\").bodyValue(person)... so students implement/observe POST /persons as documented.\n2) Or, if PUT-based creation was intended, update the problem statement to specify PUT /persons for creation and document this exception to standard REST semantics. Prefer fix (1) to match the stated requirements and common REST expectations."
     }
   ]
 }

@@ -1,25 +1,51 @@
 {
-  "case_id": "ISE22/H05E01-REST_Architectural_Style/016",
+  "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/016",
   "issues": [
     {
-      "description": "The Person model fields (id, firstName, lastName, birthday) are declared private in the template (and per the UML in the problem statement) but public in the solution. This visibility mismatch breaks encapsulation and conflicts with the intended design, potentially confusing students about field access.",
-      "severity": "MEDIUM",
+      "description": "The Person model's field visibility differs between template and solution. In the template repository Person.java declares fields as private (with getters/setters). In the solution repository Person.java the same fields are declared public (while still providing getters/setters). The problem statement's UML also presents the Person fields as private (prefixed with '-' in the UML). This visibility difference is an unintentional structural inconsistency that may confuse students who compare their template code with the provided solution or the UML in the problem description (and may encourage accessing fields directly instead of using accessors).",
+      "severity": "LOW",
       "category": "VISIBILITY_MISMATCH",
       "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 168,
+          "end_line": 175
+        },
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "template_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
           "start_line": 6,
-          "end_line": 10
+          "end_line": 16
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
           "start_line": 6,
-          "end_line": 10
+          "end_line": 16
         }
       ],
-      "suggested_fix": "Make the Person model fields private in the solution (keeping the existing getters/setters) so that they match the template and UML specification."
+      "suggested_fix": "Make the Person class field visibilities consistent across artifacts. Prefer keeping fields private (as in the template and UML) and use the provided getters/setters. Update the solution's Person.java to declare fields as private to match the template and the UML, or alternatively update the template and UML to reflect public fields if exposing them was intentional (private fields is the recommended approach)."
+    },
+    {
+      "description": "The problem statement text describing client controller method signatures incorrectly refers to Consumer<List<Note>> where it should refer to Consumer<List<Person>> for the PersonController methods. This is an internal wording inconsistency in the problem description and could confuse students about the expected parameter types for the PersonController methods (the template expects Consumer<List<Person>> signatures).",
+      "severity": "LOW",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 152
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 8,
+          "end_line": 24
+        }
+      ],
+      "suggested_fix": "Correct the problem statement wording to reference Consumer<List<Person>> when describing the PersonController methods. This aligns the textual description with the template method signatures and avoids ambiguity."
     }
   ]
 }

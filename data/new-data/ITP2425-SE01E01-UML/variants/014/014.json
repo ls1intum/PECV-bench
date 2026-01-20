@@ -1,11 +1,17 @@
 {
-  "case_id": "ITP2425/SE01E01-UML/014",
+  "case_id": "new-data/ITP2425-SE01E01-UML/014",
   "issues": [
     {
-      "description": "The `rides` attribute in `ExcellenceLand` is declared public in the solution, but the problem statement explicitly requires it to be private.",
+      "description": "The problem statement explicitly requires that ExcellenceLand has a private attribute 'rides' of type List<Ride> and that public getters are provided. In the solution repository, the 'rides' attribute is declared public (public List<Ride> rides;). This visibility mismatch contradicts the specification and may confuse students about the intended encapsulation (they are instructed to declare the field private). It also risks failing tests or encouraging incorrect implementations if students follow the solution instead of the specification.",
       "severity": "MEDIUM",
       "category": "VISIBILITY_MISMATCH",
       "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 34,
+          "end_line": 37
+        },
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
@@ -14,12 +20,12 @@
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/de/tum/in/ase/ExcellenceLand.java",
-          "start_line": 9,
-          "end_line": 9
+          "file_path": "solution_repository/src/de/tum/in/ase/ExcellenceLand.java",
+          "start_line": 7,
+          "end_line": 15
         }
       ],
-      "suggested_fix": "Change the visibility of the `rides` field in `ExcellenceLand` to private to match the specification, i.e., `private List<Ride> rides;`. Ensure the existing getter `getRides()` remains public."
+      "suggested_fix": "Change the visibility of the 'rides' attribute in ExcellenceLand to private (private List<Ride> rides;) and keep the public getter getRides(). Ensure the constructor still assigns this.rides = rides. This aligns the solution with the problem statement's requirement for encapsulation."
     }
   ]
 }

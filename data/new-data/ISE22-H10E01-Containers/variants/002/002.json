@@ -1,8 +1,8 @@
 {
-  "case_id": "ISE22/H10E01-Containers/002",
+  "case_id": "new-data/ISE22-H10E01-Containers/002",
   "issues": [
     {
-      "description": "The problem statement specifies that the GET /persons endpoint returns a Set of Person objects, but the template (and solution) code declares getAllPersons() to return a List<Person>. This type mismatch between the documented API signature and the provided method signature can confuse students about the expected return type.",
+      "description": "The problem statement states that the endpoint GET /persons returns a Set of all persons, but both the template and the solution implementations define the endpoint to return a List<Person> (ResponseEntity<List<Person>>). This mismatch between the described collection type (Set) and the actual method return type (List) can confuse students about the expected API shape and the intended usage (e.g., ordering, duplicates). It may also lead students to attempt to implement Set-based behavior while the provided repository and controller use List.",
       "severity": "MEDIUM",
       "category": "METHOD_RETURN_TYPE_MISMATCH",
       "related_locations": [
@@ -25,7 +25,7 @@
           "end_line": 30
         }
       ],
-      "suggested_fix": "Either update the problem statement to say that GET /persons returns a List<Person>, or change the return type of getAllPersons() (and PersonService.getAll()) in the template and solution to Set<Person> to match the documentation."
+      "suggested_fix": "Make the description and the code consistent. Preferably update the problem statement to state that GET /persons returns a List of persons (List<Person>), since the repository returns a List and the template/solution controller methods already use List. Alternatively, if the intention is truly to return a Set, change the controller method signatures to return ResponseEntity<Set<Person>> and convert the repository result to a Set (e.g., new HashSet<>(personRepository.findAll())) and update related tests and documentation accordingly."
     }
   ]
 }

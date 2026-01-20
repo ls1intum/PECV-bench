@@ -1,51 +1,37 @@
 {
-  "case_id": "ISE22/H05E01-REST_Architectural_Style/005",
+  "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/005",
   "issues": [
     {
-      "description": "The `Person` class’s `birthday` attribute is declared as `LocalDate` in the template/common code and per the problem specification, but in the solution/common `Person.java` it is declared as `String`. This cross-artifact mismatch conflicts with the UML (which specifies `LocalDate`) and will confuse students when modeling and serializing dates.",
+      "description": "Type mismatch for Person.birthday across artifacts: the problem statement and the template use java.time.LocalDate for Person.birthday, but the solution repository's common Person class declares birthday as String. This also creates an internal inconsistency inside the solution repository: client UI code (PersonScene) expects Person.getBirthday() to return a LocalDate (passes it to a DatePicker), but the solution's Person model returns a String. This will cause compilation/runtime errors and confuse students comparing template and solution.",
       "severity": "HIGH",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 168,
+          "start_line": 169,
           "end_line": 175
         },
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "template_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
-          "start_line": 6,
-          "end_line": 10
+          "start_line": 3,
+          "end_line": 11
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
-          "start_line": 6,
-          "end_line": 10
-        }
-      ],
-      "suggested_fix": "In the solution’s common `Person.java`, change the `birthday` field and its getter/setter to use `LocalDate` (import `java.time.LocalDate`) so it matches the template and UML specification."
-    },
-    {
-      "description": "Within the solution code, `PersonScene` treats `birthday` as a `LocalDate` (calling `DatePicker.setValue(person.getBirthday())` and passing `DatePicker.getValue()` directly to `Person.setBirthday()`), but the solution’s `Person` class defines those methods to use `String`. This internal mismatch will cause compile-time errors.",
-      "severity": "HIGH",
-      "category": "ATTRIBUTE_TYPE_MISMATCH",
-      "related_locations": [
+          "start_line": 3,
+          "end_line": 11
+        },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
           "start_line": 118,
-          "end_line": 126
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
-          "start_line": 37,
-          "end_line": 43
+          "end_line": 120
         }
       ],
-      "suggested_fix": "Either update the solution’s `PersonScene` to convert between `String` and `LocalDate` (e.g. using `LocalDate.parse()` and `toString()`), or—preferably—change the solution’s `Person` class to use `LocalDate` for `birthday`, matching the view code."
+      "suggested_fix": "Make the Person.birthday type consistent across all artifacts. Preferably change the solution repository's common Person.birthday from String back to java.time.LocalDate (matching the problem statement and template). Update imports in solution_repository/src/common/java/de/tum/in/ase/eist/model/Person.java to import java.time.LocalDate and change getter/setter signatures accordingly. Verify and, if necessary, adjust any code in the solution that assumed String (e.g., serialization/deserialization or UI code) so the client PersonScene and server/service code compile and operate correctly."
     }
   ]
 }

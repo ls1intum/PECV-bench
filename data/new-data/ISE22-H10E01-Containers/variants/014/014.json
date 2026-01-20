@@ -1,9 +1,9 @@
 {
-  "case_id": "ISE22/H10E01-Containers/014",
+  "case_id": "new-data/ISE22-H10E01-Containers/014",
   "issues": [
     {
-      "description": "The problem statement instructs students to access the children list via a public field (`person.children`), but in both the template and solution `Person.java`, the `children` field is declared private and only exposed via a getter. Students will be unable to follow the instruction to access the field directly.",
-      "severity": "MEDIUM",
+      "description": "The problem statement tells students to access a public 'children' list directly via 'person.children' (problem_statement.md line 3). However, in both the template and the solution Person class the children member is declared as a private Set<Person> with private visibility and accessed via getChildren()/setChildren() (template: template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java, line showing 'private Set<Person> children = new HashSet<>()'; solution: solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java same). This is a visibility mismatch that will confuse students because the public field the statement asks them to use does not exist in the provided codebase.",
+      "severity": "HIGH",
       "category": "VISIBILITY_MISMATCH",
       "related_locations": [
         {
@@ -15,37 +15,107 @@
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
-          "start_line": 49,
+          "start_line": 42,
           "end_line": 49
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
-          "start_line": 49,
+          "start_line": 42,
           "end_line": 49
         }
       ],
-      "suggested_fix": "Either make the `children` field public in `Person.java` so it can be accessed directly as described, or update the problem statement to instruct students to use the `getChildren()` method instead of direct field access."
+      "suggested_fix": "Align the problem statement with the code. Update the problem text to instruct students to use the provided accessor (person.getChildren()) rather than 'person.children', or (less preferable) change the Person class to expose a public children field. Recommended: change the problem statement to refer to getChildren() and the actual visibility to avoid encouraging poor encapsulation."
     },
     {
-      "description": "The problem statement specifies API endpoints with the `/api` prefix (e.g., `PUT /api/persons/{personId}/parents`), but the controller mappings in the starter code define these endpoints without `/api` (e.g., `@PutMapping(\"persons/{personId}/parents\")`). This mismatch between the documented paths and actual mappings can confuse students when testing or calling the endpoints.",
+      "description": "The problem statement refers to the 'children' as a \"list\" and instructs direct access via 'person.children' (problem_statement.md line 3). In the template and solution, the field is declared as a Set<Person> (not a List) in Person.java (template and solution lines around the children declaration). This type mismatch (List vs. Set) may confuse students about the expected collection type and the API they should use.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 3,
+          "end_line": 3
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 42,
+          "end_line": 49
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 42,
+          "end_line": 49
+        }
+      ],
+      "suggested_fix": "Update the problem statement to refer to the collection type actually used by the code (Set<Person>) and to use the provided getter (person.getChildren()) if applicable. For clarity, avoid calling it a \"list\" when the class uses a Set."
+    },
+    {
+      "description": "The problem statement (instructions for integration tests) tells students to invoke endpoints under '/api/persons' (e.g., PUT /api/persons/{personId}/parents — problem_statement.md lines ~123-126). The provided controller code and the included tests use endpoints under '/persons' (no '/api' prefix) — see PersonResource @RequestMapping and the @PutMapping(\"persons/{personId}/parents\") in the template and solution. This discrepancy between the documented endpoint path and the actual controller path will confuse students implementing integration tests or following endpoint examples.",
       "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 123,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 17,
+          "end_line": 19
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 17,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        }
+      ],
+      "suggested_fix": "Make the documentation and code consistent. Either: (a) update the problem statement to reference the actual endpoints (e.g., PUT /persons/{personId}/parents), or (b) change the controller to include the '/api' base path (for example, add @RequestMapping(path = \"/api\", consumes = ..., produces = ...\") at the class level) so the code matches the written instructions. Preferred: update the problem statement to match the provided controller and tests (use '/persons')."
+    },
+    {
+      "description": "The problem statement explicitly instructs students to access the children list directly via the public field syntax `person.children`. However, both the template and the solution define the children collection as a private field with a getter (private Set<Person> children; accessed via person.getChildren()). This creates a concrete mismatch: following the problem statement would lead students to attempt direct field access (which will not compile) or otherwise be confused why the provided code and tests use the getter. The inconsistency affects how students map the textual requirement to the actual code they must modify and test.",
+      "severity": "HIGH",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 125,
-          "end_line": 126
+          "start_line": 3,
+          "end_line": 3
         },
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 60,
-          "end_line": 64
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 42,
+          "end_line": 49
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 42,
+          "end_line": 49
         }
       ],
-      "suggested_fix": "Either remove the `/api` prefix from all endpoint examples in the problem statement or add it to the controller mappings. For example, annotate the class with `@RequestMapping(path = \"/api\", consumes = ..., produces = ...)` so that `@PutMapping(\"persons/{personId}/parents\")` becomes available at `/api/persons/{personId}/parents`."
+      "suggested_fix": "Align the problem statement with the code. Replace the instruction \"access the `children` list directly via `person.children` (public field) rather than using the getter\" with guidance to use the accessor method (e.g., \"use person.getChildren() to access the children set\"). Alternatively, if the intended exercise truly requires direct field access, change the Person class declarations in the template and tests to expose a public children field—however, the safer and more conventional fix is to update the problem statement to recommend the getter to match the template/solution and tests."
     }
   ]
 }

@@ -1,45 +1,31 @@
 {
-  "case_id": "ISE22/H05E01-REST_Architectural_Style/012",
+  "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/012",
   "issues": [
     {
-      "description": "The solution’s PersonResource.getAllPersons method returns HTTP 404 Not Found when the persons list is empty, but the problem statement and NoteResource behavior indicate that GET /persons should return 200 OK with an empty JSON array. Returning 404 will break the client controller (which expects at least an empty list) and contradicts the intended API contract.",
-      "severity": "HIGH",
-      "category": "METHOD_RETURN_TYPE_MISMATCH",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 109,
-          "end_line": 113
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 23,
-          "end_line": 31
-        }
-      ],
-      "suggested_fix": "Always return ResponseEntity.ok(persons) (even if the list is empty) instead of returning 404 when the list is empty, so that GET /persons consistently returns 200 OK with a JSON list."
-    },
-    {
-      "description": "The solution’s PersonResource.createPerson method uses HTTP 201 Created to signal an invalid request (when ID is non-null) and HTTP 202 Accepted for a successful creation, deviating from the problem statement and the NoteResource template which use 400 Bad Request for invalid input and 200 OK (or 201 Created) for successful POST. This mismatch may confuse students about the expected response codes and break client assumptions.",
+      "description": "The problem statement (Part 2) says “Each method takes a `Consumer<List<Note>>` parameter” for the PersonController methods, but both the template and the solution expect/declare `Consumer<List<Person>>`. This is a copy–paste / type typo in the problem text that can confuse students about the correct generic type they should use when implementing PersonController methods.",
       "severity": "MEDIUM",
-      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 109,
-          "end_line": 113
+          "start_line": 150,
+          "end_line": 152
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 8,
+          "end_line": 24
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 34,
-          "end_line": 42
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 14,
+          "end_line": 24
         }
       ],
-      "suggested_fix": "For person.getId()!=null, return ResponseEntity.badRequest().build(); for valid creation, return ResponseEntity.ok(personService.savePerson(person)) (or ResponseEntity.status(201).body(...)) to match the NoteResource pattern and the problem description."
+      "suggested_fix": "Update the problem statement text to refer to `Consumer<List<Person>>` (not `Consumer<List<Note>>`) when describing the PersonController method parameters. This ensures the description matches the template and solution method signatures and avoids confusion."
     }
   ]
 }

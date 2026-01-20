@@ -1,8 +1,28 @@
 {
-  "case_id": "ISE22/H10E01-Containers/015",
+  "case_id": "new-data/ISE22-H10E01-Containers/015",
   "issues": [
     {
-      "description": "Problem statement refers to REST endpoints with prefix `/api` (e.g., “PUT /api/persons/{personId}/parents”), but both template and solution code register these endpoints at `/persons/...` without the `/api` prefix, causing students to be unable to map the described paths to the actual implementation.",
+      "description": "The createPerson handler method in PersonResource has different visibility between the template and the solution. In the template the method is declared public (template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java, lines 37-43), while in the solution the same method is package-private (no access modifier) (solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java, lines 37-43). Although this does not change the method signature or parameters, it is a structural difference between the provided starter code and the reference implementation and may confuse students comparing both repositories about expected method visibility in controller classes.",
+      "severity": "LOW",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 37,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 37,
+          "end_line": 43
+        }
+      ],
+      "suggested_fix": "Make the visibility consistent. Prefer declaring the controller handler method as public (as in the template) to match typical examples and avoid confusion. Concretely, add the 'public' modifier to the createPerson method in the solution (or remove it in the template) so both repositories use the same visibility."
+    },
+    {
+      "description": "The problem statement refers to the REST endpoint as PUT /api/persons/{personId}/parents (includes an \"/api\" prefix), but both the template and solution controllers define and the tests exercise the endpoint as /persons/{personId}/parents (no \"/api\" prefix). This mismatch in the endpoint path can confuse students when they try to invoke the described endpoints or write integration tests against the provided template: they may call the non-existent /api/... path or add an unnecessary base path to the controller.",
       "severity": "MEDIUM",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
@@ -25,7 +45,7 @@
           "end_line": 65
         }
       ],
-      "suggested_fix": "Choose a single base path for the REST API across all artifacts. For example, add an `/api` prefix to the controller’s `@RequestMapping` (or remove `/api` from the problem statement) so that the endpoints truly match: `/api/persons/{personId}/parents`."
+      "suggested_fix": "Make the endpoint path consistent across artifacts. Either (A) update the problem statement to refer to PUT /persons/{personId}/parents (remove the \"/api\" prefix), or (B) add the \"/api\" base path to the controller (e.g., change the class-level @RequestMapping to @RequestMapping(path = \"/api\", consumes = {...}, produces = {...})) so that controller, tests, and problem description match. Prefer updating the problem statement if tests and template are intended to use \"/persons/...\"."
     }
   ]
 }

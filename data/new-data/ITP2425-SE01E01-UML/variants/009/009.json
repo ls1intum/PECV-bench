@@ -1,25 +1,37 @@
 {
-  "case_id": "ITP2425/SE01E01-UML/009",
+  "case_id": "new-data/ITP2425-SE01E01-UML/009",
   "issues": [
     {
-      "description": "The problem statement specifies that `LaunchedRollerCoaster`’s constructor should only accept `name` and `abbreviation`, but the intended design (and reference solution) requires a third parameter `numberOfLoopings` inherited from `RollerCoaster`. This mismatch will confuse students and cause signature conflicts.",
-      "severity": "MEDIUM",
+      "description": "The problem statement contains a contradictory requirement about the constructor parameters for LaunchedRollerCoaster. The general instruction (line 5 of the problem statement) requires that each class constructor takes all attributes defined in the UML in the same order, and the UML/RollerCoaster class requires numberOfLoopings (int). However, Task 6 (lines 63-64) explicitly requires that the constructor of LaunchedRollerCoaster must only accept name and abbreviation. The solution implementation contradicts Task 6: LaunchedRollerCoaster in the solution accepts (String name, char abbreviation, int numberOfLoopings). This inconsistency will confuse students: if they follow Task 6 literally they will produce a constructor that does not provide numberOfLoopings to the superclass RollerCoaster (which requires it), potentially causing compilation errors or forcing undocumented workarounds.",
+      "severity": "HIGH",
       "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 64,
+          "start_line": 5,
+          "end_line": 5
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 63,
           "end_line": 64
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/de/tum/in/ase/LaunchedRollerCoaster.java",
+          "file_path": "solution_repository/src/de/tum/in/ase/LaunchedRollerCoaster.java",
           "start_line": 5,
-          "end_line": 5
+          "end_line": 7
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/RollerCoaster.java",
+          "start_line": 7,
+          "end_line": 9
         }
       ],
-      "suggested_fix": "Update the problem statement to require the `LaunchedRollerCoaster` constructor to accept `name`, `abbreviation`, and `numberOfLoopings` (in that order), so it matches the UML design and reference solution."
+      "suggested_fix": "Resolve the contradiction by making the constructor requirement consistent across the UML, tasks, template, and solution. Two straightforward fixes: (a) Update Task 6 in the problem statement to require LaunchedRollerCoaster(String name, char abbreviation, int numberOfLoopings) so it matches the UML RollerCoaster attribute and the provided solution; or (b) change the UML/RollerCoaster design (and its constructor) to allow LaunchedRollerCoaster to supply only name and abbreviation (for example by giving RollerCoaster a constructor overload or a sensible default for numberOfLoopings) and update the solution accordingly. Option (a) is recommended because it preserves the UML attribute and avoids introducing implicit defaults."
     }
   ]
 }

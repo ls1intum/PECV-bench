@@ -1,29 +1,41 @@
 {
-  "case_id": "ISE22/H10E01-Containers/013",
+  "case_id": "new-data/ISE22-H10E01-Containers/013",
   "issues": [
     {
-      "description": "In the template, PersonService.save(Person) is declared private, but PersonResource and the tests invoke personService.save(...). In the solution it is public. The private visibility in the template will cause compilation errors and confuse students, as they cannot call save() from outside the class.",
+      "description": "The template PersonService declares the helper method save(Person) as private, but other classes and tests in the template call personService.save(...). Specifically, PersonResource (create and update endpoints) and PersonServiceTest call personService.save(...). With save(...) private, the template code will not compile and students will be blocked from running or testing the application. The solution repository exposes this method as public, indicating the intended visibility is public.",
       "severity": "HIGH",
       "category": "VISIBILITY_MISMATCH",
       "related_locations": [
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
           "start_line": 21,
           "end_line": 26
         },
         {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 37,
+          "end_line": 51
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 28,
+          "end_line": 38
+        },
+        {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
           "start_line": 21,
-          "end_line": 25
+          "end_line": 26
         }
       ],
-      "suggested_fix": "Change the visibility of the save(Person) method in PersonService from private to public so that PersonResource and the test classes can access it."
+      "suggested_fix": "Make the save(Person) method in PersonService public in the template (change 'private Person save(...)' to 'public Person save(...)') so that PersonResource and the unit tests can call it. This matches the solution repository and removes the compilation/runtime blockage while preserving the intended validation behavior in save(...)."
     },
     {
-      "description": "The problem statement refers to the Person API endpoints as “/api/persons/{personId}/parents”, but both the template and solution code (in PersonResource) expose these endpoints at “/persons/{personId}/parents” (no “/api” prefix). This mismatch will lead students to call the wrong path and encounter 404 errors.",
-      "severity": "HIGH",
+      "description": "The problem statement refers to the REST endpoints with an '/api' prefix (e.g. `PUT /api/persons/{personId}/parents`), but the template and solution code expose the endpoints without this prefix (e.g. `@PutMapping(\"persons/{personId}/parents\")` and tests call `put(\"/persons/.../parents\")`). This mismatch between the documented endpoint path and the actual controller mappings/tests may confuse students when they try to call or test the endpoints described in the exercise.",
+      "severity": "MEDIUM",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
         {
@@ -34,18 +46,18 @@
         },
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
           "start_line": 60,
           "end_line": 65
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 60,
-          "end_line": 65
+          "file_path": "solution_repository/src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+          "start_line": 93,
+          "end_line": 97
         }
       ],
-      "suggested_fix": "Either remove the “/api” prefix from the endpoint examples in the problem description (use “PUT /persons/{personId}/parents”) or add an “api” path segment in the @RequestMapping (e.g. @RequestMapping(\"/api\") at class level) so that code and documentation align."
+      "suggested_fix": "Make the endpoint paths consistent across artifacts. Either (A) update the problem statement to use the actual paths used in the template/solution (e.g. `PUT /persons/{personId}/parents`), or (B) add a common '/api' prefix to the controllers (for example change the controller RequestMapping to @RequestMapping(path = \"/api\", consumes = ..., produces = ...)) and update tests accordingly. Choose one approach and apply it to the problem text, controller(s), and all tests so students see a single, consistent endpoint naming scheme."
     }
   ]
 }

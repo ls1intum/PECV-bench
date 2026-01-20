@@ -1,11 +1,17 @@
 {
-  "case_id": "ITP2425/SE01E01-UML/006",
+  "case_id": "new-data/ITP2425-SE01E01-UML/006",
   "issues": [
     {
-      "description": "The constructor for ExcellenceLand in the solution includes an extra String name parameter that does not correspond to any attribute in the UML diagram or problem tasks and does not follow the specified parameter order. According to the UML and task description, the constructor should take (double excellencyLevel, boolean excellentEnough, List<Ride> rides).",
+      "description": "Constructor parameter mismatch for ExcellenceLand: The problem statement (UML and task text) declares ExcellenceLand with attributes 'excellencyLevel: double', 'excellentEnough: boolean' and a private 'rides: List<Ride>' attribute and instructs that the public constructor must take the class attributes as parameters in the same order. The solution implementation declares a constructor public ExcellenceLand(String name, double excellencyLevel, boolean excellentEnough, List<Ride> rides) — it includes an extra String 'name' parameter that is not an attribute of ExcellenceLand per the UML/tasks and thus violates the required constructor signature and parameter ordering. This inconsistency can confuse students about the expected constructor signature and will likely cause tests or student implementations (which will follow the spec) to mismatch the solution.",
       "severity": "HIGH",
       "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
       "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 34,
+          "end_line": 37
+        },
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
@@ -15,11 +21,49 @@
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/de/tum/in/ase/ExcellenceLand.java",
-          "start_line": 11,
+          "start_line": 5,
+          "end_line": 15
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/in/ase/ExcellenceLand.java",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Make the ExcellenceLand constructor match the UML and task requirements. Remove the extraneous String 'name' parameter so the constructor signature is: public ExcellenceLand(double excellencyLevel, boolean excellentEnough, List<Ride> rides) and assign these parameters to the corresponding private attributes. Alternatively, if a 'name' attribute was intended for ExcellenceLand, add it to the UML/task specification and declare it as a class attribute so the constructor parameter is justified. Prefer fixing the solution to match the existing UML/tasks."
+    },
+    {
+      "description": "The problem statement/UML defines ExcellenceLand with the attributes 'excellencyLevel' (double), 'excellentEnough' (boolean) and an associated private List<Ride> 'rides', and requires constructors to take the attributes in the same order as in the UML. In the solution implementation, the ExcellenceLand constructor incorrectly declares an extra parameter 'String name' as the first parameter (public ExcellenceLand(String name, double excellencyLevel, boolean excellentEnough, List<Ride> rides)) even though there is no corresponding 'name' attribute in the UML or the class fields. The 'name' parameter is not assigned to any field. This discrepancy between the UML/problem instructions and the solution constructor breaks the required parameter mapping and will confuse students about the expected constructor signature and parameter order.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 34,
+          "end_line": 37
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 45,
+          "end_line": 45
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/in/ase/ExcellenceLand.java",
+          "start_line": 1,
+          "end_line": 3
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/ExcellenceLand.java",
+          "start_line": 5,
           "end_line": 15
         }
       ],
-      "suggested_fix": "Remove the extra name parameter and define the ExcellenceLand constructor as:\npublic ExcellenceLand(double excellencyLevel, boolean excellentEnough, List<Ride> rides) { ... }"
+      "suggested_fix": "Remove the extraneous 'String name' parameter from the ExcellenceLand constructor in the solution. Change the constructor signature to match the UML and task requirement, for example: public ExcellenceLand(double excellencyLevel, boolean excellentEnough, List<Ride> rides) and assign the parameters to the corresponding fields. If a 'name' attribute was intended, instead add that attribute to the UML/problem statement and the class fields so all artifacts consistently include and document it."
     }
   ]
 }

@@ -1,31 +1,87 @@
 {
-  "case_id": "ISE22/H05E01-REST_Architectural_Style/003",
+  "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/003",
   "issues": [
     {
-      "description": "The solution’s server endpoint getAllPersons in PersonResource requires a mandatory `limit` query parameter, but the problem specification for GET /persons does not mention any `limit` parameter and the solution’s client code does not supply it. This mismatch between the server signature and both the problem statement and client implementation will result in missing-parameter errors and broken client-server communication.",
+      "description": "The solution's GET /persons endpoint requires an extra required query parameter 'limit' and returns only a subList(0, limit). The problem statement specifies GET /persons should return all persons and only describes optional sorting query parameters (sortField, sortingOrder). The template client PersonController.getAllPersons (and the template instructions) do not send any 'limit' parameter. This mismatch (server expecting 'limit' while client and specification do not) will prevent the client from successfully calling the server as shown in the solution/template and contradicts the problem specification.",
       "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 110,
-          "end_line": 114
+          "start_line": 109,
+          "end_line": 115
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 201,
+          "end_line": 208
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
           "start_line": 23,
           "end_line": 29
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
           "start_line": 65,
-          "end_line": 74
+          "end_line": 71
         }
       ],
-      "suggested_fix": "Remove the required `limit` parameter from the PersonResource.getAllPersons method (or make it optional with a default), so that GET /persons only accepts `sortField` and `sortingOrder` as specified. Update the implementation to return the full sorted list without slicing, aligning the server signature with the problem statement and client code."
+      "suggested_fix": "Align the server endpoint with the problem statement and client by removing the required 'limit' query parameter. Change PersonResource.getAllPersons to accept only the optional sortField and sortingOrder parameters (with suitable defaultValue) and return the full sorted list from PersonService. If a limit feature is desired, make the 'limit' parameter optional (provide a defaultValue or mark required = false) and update the client to send it when needed; otherwise remove the 'limit' handling (subList) so GET /persons returns all persons as specified."
+    },
+    {
+      "description": "The solution's server endpoint for GET /persons introduces a required query parameter named \"limit\" (PersonResource.getAllPersons) that is not present in the problem statement or in the template/client controller. The problem statement describes GET /persons returning all persons and Part 3 only specifies optional query parameters sortField and sortingOrder (with defaults). The template's client PersonController.getAllPersons stub does not send any \"limit\" parameter, and the solution's client implementation also does not include a \"limit\" query parameter. This mismatch means students following the problem and template will not provide the required \"limit\" when calling the solution server endpoint, creating unexpected runtime failures and confusion about the expected request shape.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 115
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 199,
+          "end_line": 205
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 22,
+          "end_line": 24
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 29
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 65,
+          "end_line": 71
+        }
+      ],
+      "suggested_fix": "Align the server endpoint with the problem statement and client: remove the required \"limit\" request parameter from PersonResource.getAllPersons (or make it optional with a sensible default). Recommended change: update the method signature to accept only the sorting params with default values (e.g. @RequestParam(value = \"sortField\", defaultValue = \"ID\") and @RequestParam(value = \"sortingOrder\", defaultValue = \"ASCENDING\") ), call personService.getAllPersons(...) and return the full sorted list. Alternatively, if a limit is desired, document it in the problem statement and have the client send it (or make it optional with a defaultValue) so all artifacts use the same identifier and behavior."
     }
   ]
 }

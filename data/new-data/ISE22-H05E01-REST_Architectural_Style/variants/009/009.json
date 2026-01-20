@@ -1,9 +1,9 @@
 {
-  "case_id": "ISE22/H05E01-REST_Architectural_Style/009",
+  "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/009",
   "issues": [
     {
-      "description": "In the problem statement’s description of the client‐side PersonController, it incorrectly says each method takes a Consumer<List<Note>> parameter even though the actual methods (in template and solution) use Consumer<List<Person>>. This mismatch between ‘Note’ and ‘Person’ in the parameter type can confuse students.",
-      "severity": "LOW",
+      "description": "The problem statement (Part 2) says \"Each method takes a `Consumer<List<Note>>` parameter... This consumer takes the internal list of persons as a parameter\" which mixes 'Note' and 'Person' in the parameter type. The client template and the intended design expect PersonController methods to take Consumer<List<Person>>. This textual/type mismatch in the problem statement can confuse students about the correct parameter type to implement for PersonController methods.",
+      "severity": "MEDIUM",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
@@ -16,10 +16,16 @@
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
           "start_line": 10,
-          "end_line": 12
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 37
         }
       ],
-      "suggested_fix": "Update the problem statement so that it refers to Consumer<List<Person>> (not List<Note>) for the PersonController methods."
+      "suggested_fix": "In the problem statement, replace the incorrect reference to Consumer<List<Note>> with Consumer<List<Person>> so the description matches the template and intended implementation. For example: \"Each method takes a Consumer<List<Person>> parameter, which has to be called after a response is received — this consumer takes the internal list of persons as a parameter.\""
     }
   ]
 }

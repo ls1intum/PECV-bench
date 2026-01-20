@@ -1,30 +1,10 @@
 {
-  "case_id": "ISE22/H10E01-Containers/007",
+  "case_id": "new-data/ISE22-H10E01-Containers/007",
   "issues": [
     {
-      "description": "The problem statement refers to REST endpoints under the path “/api/persons” (e.g. “PUT /api/persons/{personId}/parents”), but both the template and solution code define and test these endpoints at “/persons” (e.g., @PutMapping(\"persons/{personId}/parents\")). This mismatch between the documented paths and the actual mappings will confuse students when they implement and run the tests.",
+      "description": "The problem statement refers to the REST endpoints with an \"/api\" prefix (e.g. \"PUT /api/persons/{personId}/parents\"), while the template and solution controllers expose the endpoints without that prefix (e.g. \"/persons/{personId}/parents\"). This discrepancy can confuse students about which URL to call in integration tests or when manually exercising the API, and may lead them to implement or test against the wrong paths.",
       "severity": "MEDIUM",
       "category": "METHOD_PARAMETER_MISMATCH",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 124,
-          "end_line": 127
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 60,
-          "end_line": 65
-        }
-      ],
-      "suggested_fix": "Either update the problem statement to document the endpoints without the \"/api\" prefix (i.e. “/persons/...”) or add a base path of \"/api\" to the @RequestMapping in PersonResource (e.g. @RequestMapping(path = \"/api\", consumes = ..., produces = ...)) to align code with the documentation."
-    },
-    {
-      "description": "The problem statement refers to the parent‐adding endpoint as PUT /api/persons/{personId}/parents, but the starter code (and solution) map requests to /persons/{personId}/parents (no “/api” prefix). This mismatch in the same conceptual REST endpoint path can confuse students when writing tests or wiring the controller.",
-      "severity": "MEDIUM",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
@@ -34,12 +14,18 @@
         },
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 60,
-          "end_line": 67
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 17,
+          "end_line": 71
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 17,
+          "end_line": 71
         }
       ],
-      "suggested_fix": "Either remove the “/api” prefix in the problem statement so it matches “/persons/...”, or add a base path of “/api” in the controller’s @RequestMapping to align all descriptions, tests, and code."
+      "suggested_fix": "Make the endpoint paths consistent. Either (A) update the problem statement (and any task descriptions) to use the actual paths exposed by the controllers (e.g. \"/persons/...\") or (B) change the controllers to include the \"/api\" base path (for example add @RequestMapping(path = \"/api\", consumes = ..., produces = ...) at the class level or prefix each mapping with \"api/\"). Choose the option that matches project conventions and update tests/instructions accordingly."
     }
   ]
 }

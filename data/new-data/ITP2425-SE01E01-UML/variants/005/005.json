@@ -1,15 +1,21 @@
 {
-  "case_id": "ITP2425/SE01E01-UML/005",
+  "case_id": "new-data/ITP2425-SE01E01-UML/005",
   "issues": [
     {
-      "description": "The RollerCoaster constructor in the solution repository uses the parameter order (String name, int numberOfLoopings, char abbreviation), but the UML (and the LaunchedRollerCoaster super call) imply the order should be (String name, char abbreviation, int numberOfLoopings). This mismatch will cause compilation errors and confuses students about the correct constructor signature and parameter ordering.",
+      "description": "Constructor parameter order for RollerCoaster in the solution does not match the expected ordering implied by the UML/instructions and is inconsistent with LaunchedRollerCoaster's constructor/super call. The solution declares RollerCoaster(String name, int numberOfLoopings, char abbreviation) but LaunchedRollerCoaster provides a constructor LaunchedRollerCoaster(String name, char abbreviation, int numberOfLoopings) and calls super(name, abbreviation, numberOfLoopings). This mismatch (different parameter ordering) contradicts the requirement that constructors take attributes in the same order as in the UML (and causes a type/order mismatch when calling super), which will confuse students and can produce compilation errors.",
       "severity": "HIGH",
       "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 26,
+          "start_line": 5,
+          "end_line": 5
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
           "end_line": 28
         },
         {
@@ -25,7 +31,7 @@
           "end_line": 7
         }
       ],
-      "suggested_fix": "Change the RollerCoaster constructor signature to public RollerCoaster(String name, char abbreviation, int numberOfLoopings) and adjust the super(...) call in LaunchedRollerCoaster accordingly (super(name, abbreviation, numberOfLoopings)), so the parameter order matches the UML and is consistent across classes."
+      "suggested_fix": "Make the RollerCoaster constructor parameter ordering consistent with the UML/instructions and with LaunchedRollerCoaster. For example change RollerCoaster's constructor signature to: public RollerCoaster(String name, char abbreviation, int numberOfLoopings) { super(name, abbreviation); this.numberOfLoopings = numberOfLoopings; } and adjust any calls accordingly (or alternatively change LaunchedRollerCoaster to call super using the existing RollerCoaster parameter order). Prefer aligning RollerCoaster to (name, abbreviation, numberOfLoopings) so it follows the inherited Ride attribute order and the UML-based requirement."
     }
   ]
 }

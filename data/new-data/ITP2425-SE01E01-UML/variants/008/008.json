@@ -1,9 +1,9 @@
 {
-  "case_id": "ITP2425/SE01E01-UML/008",
+  "case_id": "new-data/ITP2425-SE01E01-UML/008",
   "issues": [
     {
-      "description": "The problem statement’s general instruction requires constructors to list attributes in the UML class box order (excellencyLevel then excellentEnough), but the solution’s ExcellenceLand constructor takes parameters in the order (rides, excellentEnough, excellencyLevel). This mismatch between the UML‐based ordering and the solution’s parameter order can confuse students when implementing the constructor.",
-      "severity": "MEDIUM",
+      "description": "ExcellenceLand's constructor parameter order in the solution does not follow the UML / problem statement requirement. The problem explicitly requires a public constructor that takes all attributes defined in the UML in the same order as they appear (first attribute on top => first parameter). The UML lists ExcellenceLand attributes as: 1) excellencyLevel: double, 2) excellentEnough: boolean, and the association 'rides' (List<Ride>) — therefore the constructor parameters should be (double excellencyLevel, boolean excellentEnough, List<Ride> rides). The solution, however, declares the constructor as (List<Ride> rides, boolean excellentEnough, double excellencyLevel). This mismatch contradicts the stated constructor-order requirement and will confuse students and/or cause automated tests that check parameter order to fail.",
+      "severity": "HIGH",
       "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
       "related_locations": [
         {
@@ -19,13 +19,19 @@
           "end_line": 36
         },
         {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/in/ase/ExcellenceLand.java",
+          "start_line": 1,
+          "end_line": 3
+        },
+        {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/de/tum/in/ase/ExcellenceLand.java",
-          "start_line": 11,
+          "start_line": 5,
           "end_line": 15
         }
       ],
-      "suggested_fix": "Clarify in the problem statement how to include and order the association attribute ‘rides’ in the constructor. Either update the UML to list ‘rides’ as the first attribute or adjust the general instruction to explicitly state that for ExcellenceLand the constructor signature should be (List<Ride> rides, boolean excellentEnough, double excellencyLevel)."
+      "suggested_fix": "Change the ExcellenceLand constructor parameter order to match the UML attribute order. For example: public ExcellenceLand(double excellencyLevel, boolean excellentEnough, List<Ride> rides) { this.excellencyLevel = excellencyLevel; this.excellentEnough = excellentEnough; this.rides = rides; } Ensure the constructor parameters are declared in the same sequence as the UML (excellencyLevel, excellentEnough, rides)."
     }
   ]
 }

@@ -1,11 +1,17 @@
 {
-  "case_id": "ISE22/H05E01-REST_Architectural_Style/018",
+  "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/018",
   "issues": [
     {
-      "description": "The no-argument constructor of common Person is declared public in the template but package-private in the solution. Since view and controller code (in de.tum.in.ase.eist.view and controller packages) instantiate Person via `new Person()`, the package-private constructor in the solution will cause a compilation error and block student code from running.",
-      "severity": "HIGH",
+      "description": "The no-argument constructor of the Person class differs in visibility between the template and the solution. In the template repository Person() is declared public, while in the solution repository it is package-private (no explicit modifier). This difference is structural (visibility) rather than pedagogical and may confuse students who compare their starting code to the reference solution. It can also affect (de-)serialization or reflective instantiation in some environments and therefore is a potential source of unexpected behavior.",
+      "severity": "LOW",
       "category": "VISIBILITY_MISMATCH",
       "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 168,
+          "end_line": 175
+        },
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "template_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
@@ -19,7 +25,7 @@
           "end_line": 12
         }
       ],
-      "suggested_fix": "Change the no-arg constructor in solution common Person to `public Person() {}` so it matches the template and allows instantiation from other packages."
+      "suggested_fix": "Make the no-argument constructor visibility consistent across template and solution. The simplest fix is to declare a public no-arg constructor in the solution (public Person() {}) to match the template. Alternatively, if the package-private constructor is intentional, add a short comment in the problem statement and template explaining the choice so students are not surprised."
     }
   ]
 }

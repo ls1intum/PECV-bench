@@ -1,45 +1,37 @@
 {
-  "case_id": "ISE22/H10E01-Containers/003",
+  "case_id": "new-data/ISE22-H10E01-Containers/003",
   "issues": [
     {
-      "description": "The template’s Person.getBirthday() method returns String, but PersonService.save calls person.getBirthday().isAfter(LocalDate.now()), which requires getBirthday() to return a LocalDate. This inconsistency prevents the code from compiling and blocks the core validation logic.",
-      "severity": "HIGH",
+      "description": "The getter for the birthday property has a different return type in the template than in the solution and than is implied by the tests: the template's Person.getBirthday() returns String (returns birthday.toString()), while the field and setter use java.time.LocalDate and the solution's getter returns LocalDate. Tests and examples create Persons with LocalDate (e.g. person.setBirthday(LocalDate.now())), so the getter's String return type in the template is inconsistent with the field/setter and with the solution. This mismatch is non-idiomatic (getter return type should match the field type) and may confuse students about the expected type for birthday and about (de-)serialization behavior.",
+      "severity": "MEDIUM",
       "category": "METHOD_RETURN_TYPE_MISMATCH",
       "related_locations": [
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
           "start_line": 77,
-          "end_line": 79
+          "end_line": 83
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 77,
+          "end_line": 83
         },
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
-          "start_line": 21,
-          "end_line": 26
-        }
-      ],
-      "suggested_fix": "Change the signature of Person.getBirthday() to return LocalDate (e.g. `public LocalDate getBirthday() { return birthday; }`) so that PersonService.save can correctly call isAfter(...) on the result."
-    },
-    {
-      "description": "The problem statement instructs students to call the REST endpoint at “PUT /api/persons/{personId}/parents”, but both the template and solution code define the mapping as \"/persons/{personId}/parents\" (no \"/api\" prefix). This mismatch will lead to 404 errors if students follow the problem text literally.",
-      "severity": "HIGH",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 125,
-          "end_line": 126
+          "file_path": "src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 30,
+          "end_line": 36
         },
         {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 60,
-          "end_line": 65
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 65,
+          "end_line": 71
         }
       ],
-      "suggested_fix": "Either remove the \"/api\" prefix in the problem description (use \"/persons/{personId}/parents\") or add a base path \"/api\" in PersonResource (e.g. change @RequestMapping to @RequestMapping(path = \"/api\", consumes=…, produces=…) so that endpoints become \"/api/persons/…\")."
+      "suggested_fix": "Change the template's getter to return LocalDate to match the field and setter (and the solution). For example: public LocalDate getBirthday() { return birthday; } Ensure Jackson's JavaTime module is used for JSON (as tests already register it). This keeps the property type consistent and avoids confusion about the expected type and serialization behavior."
     }
   ]
 }

@@ -1,31 +1,31 @@
 {
-  "case_id": "ISE22/H05E01-REST_Architectural_Style/011",
+  "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/011",
   "issues": [
     {
-      "description": "The solution’s PersonScene view class declares and imports a PersonService field, contradicting the MVC component diagram (where the view should only interact with the controller) and the template (which has no such field). Moreover, this field is never initialized or used, causing a compile error and confusing students about the intended layering.",
-      "severity": "MEDIUM",
+      "description": "The solution repository's PersonScene class introduces a direct dependency on the service layer (imports PersonService and declares a private final PersonService personService field) even though the template PersonScene (and the problem statement's MVC description) expects the view to interact only with the controller. Moreover, the solution's PersonScene declares the field as final but does not initialize it in the constructor, which will cause a compilation error. This deviates from the intended layered/MVC design described in the problem statement and is a structural error in the solution code that will confuse students comparing template and solution and will prevent the project from compiling.",
+      "severity": "HIGH",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 53,
-          "end_line": 54
+          "start_line": 49,
+          "end_line": 86
         },
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
-          "start_line": 1,
-          "end_line": 5
+          "start_line": 24,
+          "end_line": 69
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
           "start_line": 6,
-          "end_line": 7
+          "end_line": 31
         }
       ],
-      "suggested_fix": "Remove the import and declaration of PersonService from PersonScene so that the view only depends on PersonController as shown in the MVC diagram."
+      "suggested_fix": "Remove the direct service dependency from the view in the solution: delete the import of de.tum.in.ase.eist.service.PersonService and the personService field, or (if the view truly needs access) obtain any required data via the PersonController and initialize any fields through the constructor. Preferably, restore strict MVC layering by letting the view communicate only with the controller (as described in the problem statement) to avoid violating the architecture and to ensure the code compiles."
     }
   ]
 }

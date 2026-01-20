@@ -1,65 +1,83 @@
 {
-  "case_id": "ISE22/H10E01-Containers/017",
+  "case_id": "new-data/ISE22-H10E01-Containers/017",
   "issues": [
     {
-      "description": "The problem statement refers to a method named `linkParent(Person, Person)` but the template (and solution) declare the corresponding operation as `addParent(Person, Person)`. This naming inconsistency within the specification will confuse students about which method to implement.",
-      "severity": "MEDIUM",
+      "description": "The problem statement refers to a method named `linkParent(Person person, Person parent)` (description of expected behavior) while both the template and the solution use the method name `addParent(Person person, Person parent)` in PersonService. This naming inconsistency in the specification (linkParent vs addParent) may confuse students about which method they are expected to implement, although the template already exposes `addParent`.",
+      "severity": "LOW",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 99,
-          "end_line": 104
+          "start_line": 98,
+          "end_line": 106
         },
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
           "start_line": 40,
-          "end_line": 42
+          "end_line": 48
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 46
         }
       ],
-      "suggested_fix": "Update the problem statement to consistently refer to `addParent(Person, Person)` instead of `linkParent(Person, Person)`, matching the template and solution code."
+      "suggested_fix": "Make the problem statement use the same method name as the codebase (change `linkParent(...)` to `addParent(...)`) so the described behavior directly matches the method students will find in the template. Alternatively, explicitly note that `linkParent` refers to the `addParent` method in the template."
     },
     {
-      "description": "The problem statement refers to a method named linkParent(Person person, Person parent), but both the template and solution define this operation as addParent(Person person, Person parent). This naming mismatch can confuse students when locating and implementing the intended method.",
-      "severity": "HIGH",
+      "description": "The problem statement's task list includes names with a `Throws` suffix (e.g. `addChildThrows()`, `addParentThrows()`, etc.) which are not actual method names in the template or solution. This can be misread as methods students must implement, whereas they are likely referring to test cases that should assert exceptional behavior. The template/service does not define methods with these names, which may confuse students about expected artefacts to implement.",
+      "severity": "LOW",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 98,
+          "end_line": 99
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 18,
+          "end_line": 26
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 60,
+          "end_line": 73
+        }
+      ],
+      "suggested_fix": "Clarify the problem statement to avoid listing non-existent method names with `Throws`. If these refer to test cases (i.e., tests that should assert exceptions), state that clearly (e.g. \"implement tests that assert exceptional behavior for addParent/addChild/removeParent/removeChild\"). Remove or reword the `Throws`-suffixed identifiers so students are not led to expect methods with those exact names."
+    },
+    {
+      "description": "The problem statement refers to a method named `linkParent(Person person, Person parent)` when describing the required behavior, but both the template and solution implement and expect a method named `addParent(Person person, Person parent)`. This naming mismatch can confuse students about which method they must implement (they will find `addParent` in the starter code and tests, while the text mentions `linkParent`).",
+      "severity": "MEDIUM",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 100,
-          "end_line": 102
+          "start_line": 99,
+          "end_line": 106
         },
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
           "start_line": 40,
           "end_line": 43
-        }
-      ],
-      "suggested_fix": "Rename the description of linkParent in the problem statement to addParent to match the code stubs (or change the stub to linkParent) so that method names are consistent across all artifacts."
-    },
-    {
-      "description": "The problem statement instructs students to invoke endpoints under /api/persons/{personId}/parents, but the template and solution code (and existing tests) expose these endpoints at /persons/{personId}/parents (without the /api prefix). This inconsistency may lead students to call non-existent URLs.",
-      "severity": "HIGH",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 125,
-          "end_line": 126
         },
         {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 60,
-          "end_line": 64
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 46
         }
       ],
-      "suggested_fix": "Align the endpoint path in the problem statement with the code by removing the /api prefix (i.e., use /persons/…) or update the @RequestMapping and tests to include the /api prefix so paths match across artifacts."
+      "suggested_fix": "Update the problem statement to use the same identifier as the codebase: replace `linkParent(Person person, Person parent)` with `addParent(Person person, Person parent)` (or explicitly state that `linkParent` refers to the `addParent` method). This aligns the textual requirements with the template and solution and removes student confusion."
     }
   ]
 }

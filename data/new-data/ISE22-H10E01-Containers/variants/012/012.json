@@ -1,9 +1,9 @@
 {
-  "case_id": "ISE22/H10E01-Containers/012",
+  "case_id": "new-data/ISE22-H10E01-Containers/012",
   "issues": [
     {
-      "description": "The problem statement specifies that the `parents` attribute should be a List preserving insertion order, but both the template and solution declare it as a `Set<Person>` (backed by a `HashSet`), which neither matches the declared type nor preserves insertion order. This mismatch can confuse students when they try to use list-specific behavior or rely on insertion order.",
-      "severity": "MEDIUM",
+      "description": "The problem statement (Part 4) explicitly states: \"The `parents` attribute is a List that preserves insertion order.\" However, both the template and the solution implementations define the parents attribute as a Set<Person> (initialized as a HashSet) in Person.java. This is a structural/type mismatch: students reading the problem will expect to work with a List (and possibly rely on insertion-order semantics), while the provided code and tests use a Set. This can cause confusion (e.g., attempting to call List-specific methods, or expecting ordering guarantees) and prevents students from following the textual specification without modifying the provided code or tests.",
+      "severity": "HIGH",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
         {
@@ -25,33 +25,33 @@
           "end_line": 41
         }
       ],
-      "suggested_fix": "Either update the problem statement to describe `parents` as a `Set<Person>` (or a `LinkedHashSet` if ordering is desired), or change the code in both the template and solution to use `List<Person>` (e.g., `private List<Person> parents = new ArrayList<>();`) to match the stated requirement."
+      "suggested_fix": "Make the specification and code consistent. Preferred minimal fix: update the problem statement to state that the `parents` attribute is a Set<Person> (and remove the claim about preserving insertion order), since the template and solution use a HashSet. Alternative (bigger) fix: change the template and solution Person.java to use a List<Person> (e.g., List<Person> parents = new ArrayList<>();) and add the appropriate JPA annotation to preserve order (e.g., @OrderColumn) and update tests to reflect list semantics. The simplest, least-disruptive correction is to adapt the textual description to match the existing code/tests (i.e., describe `parents` as a Set)."
     },
     {
-      "description": "Problem statement refers to endpoints under '/api/persons/...', but both template and solution define mappings at '/persons/...'. This mismatch can confuse students when testing or invoking the REST API, leading to 404 errors if they use the '/api' prefix as described in the instructions.",
-      "severity": "HIGH",
+      "description": "The problem statement explicitly says \"The `parents` attribute is a List that preserves insertion order\" (problem-level requirement), but both the template and the solution declare the parents (and children) attributes as Set<Person> (HashSet). This mismatch between the described collection type (List) and the implemented type (Set) can confuse students about the expected data structure and its properties (ordering vs. uniqueness) when implementing or testing the feature.",
+      "severity": "MEDIUM",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 125,
-          "end_line": 126
+          "start_line": 96,
+          "end_line": 99
         },
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 60,
-          "end_line": 65
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 33,
+          "end_line": 41
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 60,
-          "end_line": 65
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 33,
+          "end_line": 41
         }
       ],
-      "suggested_fix": "Align the controller mappings with the problem statement by adding the '/api' prefix. For example, change the class-level @RequestMapping to @RequestMapping(path = \"/api\", consumes = {...}, produces = {...}) or prefix each @*Mapping with \"api/\" so that endpoints become '/api/persons/...'. Alternatively, update the problem statement to omit the '/api' prefix."
+      "suggested_fix": "Make the collection-type description consistent across artifacts. Preferred minimal change: update the problem statement to describe `parents` (and `children`) as Set<Person> (a collection that enforces uniqueness) instead of a List, and remove the note about preserving insertion order. If the intended requirement truly needs insertion order preserved, update template and solution to use an ordered collection (e.g., List<Person> or LinkedHashSet<Person>) and adjust tests accordingly. Align all three artifacts so they refer to the same collection type."
     }
   ]
 }

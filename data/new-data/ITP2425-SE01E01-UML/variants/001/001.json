@@ -1,25 +1,43 @@
 {
-  "case_id": "ITP2425/SE01E01-UML/001",
+  "case_id": "new-data/ITP2425-SE01E01-UML/001",
   "issues": [
     {
-      "description": "The Pneumatic interface’s raisePressure method is specified as returning void in the UML (problem statement) but is declared to return boolean in the solution, creating a signature mismatch.",
+      "description": "The UML in the problem statement declares Pneumatic.raisePressure(int) with return type void, and the LaunchedDropdownTower and LaunchedRollerCoaster classes in the solution implement raisePressure with a void signature. However, the Pneumatic interface in the solution declares raisePressure(int) returning boolean. This creates a structural mismatch between the interface and its implementations (and between the problem statement and the solution). As written this causes a compile-time conflict and will confuse students about the correct signature to implement.",
       "severity": "HIGH",
       "category": "METHOD_RETURN_TYPE_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 17,
-          "end_line": 17
+          "start_line": 16,
+          "end_line": 19
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/in/ase/Pneumatic.java",
+          "start_line": 1,
+          "end_line": 1
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/de/tum/in/ase/Pneumatic.java",
-          "start_line": 5,
-          "end_line": 5
+          "file_path": "solution_repository/src/de/tum/in/ase/Pneumatic.java",
+          "start_line": 1,
+          "end_line": 9
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/LaunchedRollerCoaster.java",
+          "start_line": 9,
+          "end_line": 12
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/LaunchedDropdownTower.java",
+          "start_line": 9,
+          "end_line": 12
         }
       ],
-      "suggested_fix": "Change the raisePressure method in the Pneumatic interface to return void instead of boolean to align with the UML specification."
+      "suggested_fix": "Make the Pneumatic.raisePressure method signature consistent with the UML and the implementing classes. Change the interface declaration to 'void raisePressure(int pressureIncrease);' (and keep openValve() as void). Alternatively, if the intended design is for raisePressure to return boolean, update the UML and all implementing classes to use 'boolean raisePressure(int pressureIncrease)'. The preferred fix (minimal changes) is to update the Pneumatic interface in template and solution to use 'void raisePressure(int pressureIncrease);' so it matches the problem statement and the current implementations."
     }
   ]
 }

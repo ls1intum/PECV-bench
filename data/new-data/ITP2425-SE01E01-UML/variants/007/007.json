@@ -1,25 +1,43 @@
 {
-  "case_id": "ITP2425/SE01E01-UML/007",
+  "case_id": "new-data/ITP2425-SE01E01-UML/007",
   "issues": [
     {
-      "description": "The solution’s Ride class lacks the required public constructor Ride(String name, char abbreviation) as specified in the problem statement. Without this constructor, subclasses’ calls to super(name, abbreviation) will fail and the design requirement to provide a constructor for each class is violated.",
+      "description": "The problem statement requires Ride to have attributes name:String and abbreviation:char and a public constructor taking these attributes (in that order). In the solution repository, Ride is declared without such a constructor, while its subclasses (RollerCoaster and LaunchedDropdownTower) call super(name, abbreviation) in their constructors. This makes the solution self-inconsistent and would cause compilation errors or confuse students who consult the solution: subclasses expect Ride(String, char) but no matching constructor exists.",
       "severity": "HIGH",
       "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 5,
+          "start_line": 21,
+          "end_line": 24
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/in/ase/Ride.java",
+          "start_line": 1,
+          "end_line": 1
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/Ride.java",
+          "start_line": 3,
+          "end_line": 14
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/RollerCoaster.java",
+          "start_line": 7,
           "end_line": 9
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/de/tum/in/ase/Ride.java",
-          "start_line": 1,
-          "end_line": 16
+          "file_path": "solution_repository/src/de/tum/in/ase/LaunchedDropdownTower.java",
+          "start_line": 5,
+          "end_line": 7
         }
       ],
-      "suggested_fix": "Add a public constructor in Ride:\n\n    public Ride(String name, char abbreviation) {\n        this.name = name;\n        this.abbreviation = abbreviation;\n    }"
+      "suggested_fix": "Add the required public constructor to Ride, e.g. public Ride(String name, char abbreviation) { this.name = name; this.abbreviation = abbreviation; }. This aligns the solution with the UML/problem statement and allows subclasses that call super(name, abbreviation) to compile correctly. If the intent was different, update the subclasses' constructors and the problem description consistently, but adding the Ride constructor is the simplest correction that preserves the educational intent."
     }
   ]
 }

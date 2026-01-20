@@ -1,31 +1,57 @@
 {
-  "case_id": "ISE22/H05E01-REST_Architectural_Style/013",
+  "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/013",
   "issues": [
     {
-      "description": "The template’s PersonController class is missing the WebClient and internal persons list fields, as well as the constructor that initializes them. The problem statement and UML explicitly call for a single WebClient instance and an internal list of Person objects, and the solution implements these fields and a constructor. Without them, students cannot compile or follow the intended design.",
-      "severity": "HIGH",
-      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "description": "Typo / type mismatch in the problem statement describing the client controller callbacks: the text says \"Each method takes a Consumer<List<Note>> parameter\" while the rest of the specification, the template, and the solution clearly use Consumer<List<Person>> for PersonController methods. This can confuse students about the expected generic type for PersonController methods.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 196,
-          "end_line": 198
+          "start_line": 149,
+          "end_line": 152
         },
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 1,
+          "start_line": 8,
           "end_line": 24
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
-          "start_line": 14,
-          "end_line": 25
+          "start_line": 27,
+          "end_line": 38
         }
       ],
-      "suggested_fix": "In PersonController.java, add private fields ‘WebClient webClient’ and ‘List<Person> persons’, then implement a public constructor that initializes webClient (with base URL and default JSON headers) and persons = new ArrayList<>(), mirroring NoteController’s setup."
+      "suggested_fix": "Update the problem statement text to refer to Consumer<List<Person>> (not Consumer<List<Note>>) when describing the callback parameter for PersonController methods so it matches the template and solution signatures and avoids confusion."
+    },
+    {
+      "description": "Structural mismatch between the template's PersonService and the solution's PersonService: the template defines a no-argument constructor and only the 'persons' attribute, while the solution adds a PersonRepository attribute and changes the constructor to require a PersonRepository parameter. The problem statement contains a note warning students not to change PersonService attributes; the solution itself changes them, causing an inconsistency between template, solution, and the stated constraint.",
+      "severity": "MEDIUM",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 14,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 18,
+          "end_line": 21
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/repository/PersonRepository.java",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "suggested_fix": "Make template and solution consistent. Either (A) revert the solution to use the same no-argument PersonService constructor and attributes as the template (so the solution does not introduce PersonRepository), or (B) add the PersonRepository interface and constructor injection to the template and update the problem statement to document this service attribute explicitly. Also ensure the problem note about not changing PersonService attributes is accurate with respect to the chosen approach."
     }
   ]
 }

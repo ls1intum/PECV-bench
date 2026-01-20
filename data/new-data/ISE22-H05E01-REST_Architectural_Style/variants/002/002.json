@@ -1,45 +1,83 @@
 {
-  "case_id": "ISE22/H05E01-REST_Architectural_Style/002",
+  "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/002",
   "issues": [
     {
-      "description": "The solution’s deletePerson endpoint in PersonResource returns a ResponseEntity<Person> with HTTP 200 and a Person body, but the problem statement specifies DELETE /persons should return HTTP 204 No Content with no body. Furthermore, the client-side PersonController.deletePerson expects no body (toBodilessEntity()). This mismatch will break client-server integration and confuse students.",
-      "severity": "HIGH",
+      "description": "Typo in the problem statement: it says \"Each method takes a Consumer<List<Note>> parameter\" while the exercise (and the template/solution) are about Person operations and the controller methods actually use Consumer<List<Person>>. This mismatch between the described parameter type and the actual expected type may confuse students about the correct generic type to use when implementing the PersonController methods.",
+      "severity": "LOW",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 147,
+          "end_line": 152
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 8,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 65,
+          "end_line": 80
+        }
+      ],
+      "suggested_fix": "Correct the problem statement to say: \"Each method takes a Consumer<List<Person>> parameter\" so the textual description matches the template and solution signatures and avoids confusion."
+    },
+    {
+      "description": "The problem statement specifies that DELETE /persons/{personId} should return HTTP 204 No Content on success, and NoteResource.deleteNote returns 204. However, the solution's PersonResource.deletePerson returns HTTP 200 OK with the deleted Person in the body. This is a behavioral/return-value inconsistency between the specification and the server implementation and may lead to mismatched expectations (clients expecting 204 but receiving 200 with a body).",
+      "severity": "MEDIUM",
       "category": "METHOD_RETURN_TYPE_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 113,
+          "start_line": 109,
           "end_line": 114
         },
         {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
+        },
+        {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
           "start_line": 45,
           "end_line": 50
         }
       ],
-      "suggested_fix": "Change the deletePerson method in PersonResource to return ResponseEntity<Void> and use ResponseEntity.noContent().build() to align with the problem specification and client expectations."
+      "suggested_fix": "Make the server behavior consistent with the specification. Either (A) change PersonResource.deletePerson to return ResponseEntity.noContent().build() (HTTP 204) like NoteResource.deleteNote, or (B) update the problem statement to state that DELETE returns 200 with the deleted Person in the body. Option (A) is recommended for consistency with the rest of the spec and NoteResource."
     },
     {
-      "description": "PersonResource.deletePerson calls personService.getPersonById(personId), but neither the template nor the solution’s PersonService defines a getPersonById method. This will cause a compilation error and leaves students unclear on how to retrieve a person before deletion.",
+      "description": "The solution's PersonResource.deletePerson invokes personService.getPersonById(personId) to obtain the deleted person before deletion, but there is no getPersonById(UUID) method defined in PersonService in the solution repository. This creates a structural inconsistency within the solution codebase (method call to a non-existent method) and will prevent the code from compiling or running as-is.",
       "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
           "start_line": 45,
-          "end_line": 48
+          "end_line": 50
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
-          "start_line": 31,
-          "end_line": 38
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 35,
+          "end_line": 63
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 33,
+          "end_line": 40
         }
       ],
-      "suggested_fix": "Add a public Person getPersonById(UUID personId) method to PersonService (e.g., lookup in the internal list) or remove the need to fetch the person in the delete endpoint to resolve the missing-method error."
+      "suggested_fix": "Either (A) add a public getPersonById(UUID personId) method to PersonService that returns the matching Person (or null/Optional if not found) and use it from PersonResource, or (B) modify PersonResource.deletePerson to not call a non-existent method (e.g., perform deletion and return noContent()). Recommended: add a getPersonById(UUID) method in PersonService, e.g.:\n\npublic Person getPersonById(UUID personId) {\n    return persons.stream().filter(p -> p.getId().equals(personId)).findFirst().orElse(null);\n}\n\nThen ensure the delete endpoint's return behavior matches the specification (see previous issue)."
     }
   ]
 }

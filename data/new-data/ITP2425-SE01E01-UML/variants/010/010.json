@@ -1,15 +1,15 @@
 {
-  "case_id": "ITP2425/SE01E01-UML/010",
+  "case_id": "new-data/ITP2425-SE01E01-UML/010",
   "issues": [
     {
-      "description": "The UML in the problem statement defines the attribute `abbreviation` in class `Ride` as type `String`, but the solution implementation uses `char` for `abbreviation`. This mismatch will confuse students following the UML (who will implement a `String`) versus the solution/tests (which expect a `char`).",
-      "severity": "MEDIUM",
+      "description": "The UML in the problem statement declares Ride.abbreviation as type String (problem expects abbreviation: String), but the solution implements Ride.abbreviation as type char and uses char parameters in all constructors and getters. This type mismatch between the specification (String) and the reference solution (char) is structural and will confuse students about the correct attribute type and constructor signatures (they may implement String-based constructors/getters while the solution/tests expect char or vice versa).",
+      "severity": "HIGH",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 22,
+          "start_line": 21,
           "end_line": 23
         },
         {
@@ -17,9 +17,27 @@
           "file_path": "src/de/tum/in/ase/Ride.java",
           "start_line": 5,
           "end_line": 6
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/de/tum/in/ase/RollerCoaster.java",
+          "start_line": 7,
+          "end_line": 9
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/de/tum/in/ase/LaunchedDropdownTower.java",
+          "start_line": 5,
+          "end_line": 6
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/de/tum/in/ase/LaunchedRollerCoaster.java",
+          "start_line": 5,
+          "end_line": 6
         }
       ],
-      "suggested_fix": "Align the UML type with the implementation by changing the UML (`-abbreviation: String`) to `-abbreviation: char`, or update the implementation/tests to use `String` for the abbreviation attribute."
+      "suggested_fix": "Make the abbreviation type consistent across artifacts. Either (A) update the problem statement/UML to declare abbreviation: char to match the solution, or (B) change the solution to use String for abbreviation everywhere (Ride attribute, constructor parameters, getters, and all super(...) calls in subclasses and RollerCoaster). Recommended: change the solution to String to match the UML/specification — i.e., in Ride.java use 'private String abbreviation;', change the constructor parameter and getter to String, and update all subclass constructors and super(...) calls to accept and pass a String abbreviation."
     }
   ]
 }
