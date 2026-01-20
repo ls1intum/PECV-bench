@@ -1,0 +1,83 @@
+{
+  "case_id": "new-data/ERA2021-P01-Raycasting-mit-Festkommazahlen/001",
+  "issues": [
+    {
+      "description": "Return-type mismatch for fix_mul: the template's header declares fix_mul as returning fix_t (expected), while the solution's header incorrectly declares it as returning void. The solution's implementation (math_fix.c) defines inline fix_t fix_mul(fix_t a, fix_t b) that returns a value. This inconsistency between the solution header and implementation (and between template header and solution header) will cause compilation/type errors and confuse students about the correct function contract (they expect a fix_t result).",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/math_fix.h",
+          "start_line": 40,
+          "end_line": 44
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/math_fix.h",
+          "start_line": 40,
+          "end_line": 44
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/math_fix.c",
+          "start_line": 38,
+          "end_line": 44
+        }
+      ],
+      "suggested_fix": "Make the solution header's prototype match the intended contract and implementation: change the prototype in solution/example_program/src/math_fix.h from 'void fix_mul(fix_t a, fix_t b);' to 'fix_t fix_mul(fix_t a, fix_t b);'. This aligns header and implementation and matches the template's declaration."
+    },
+    {
+      "description": "Symbol visibility mismatch for fix_vec_sub_asm in the assembly assignment file: the template declares the symbol as global (exported) so it can be linked (global fix_vec_sub_asm), but the solution's assignment/fix_vec_sub.asm contains an 'extern fix_vec_sub_asm' declaration instead of exporting the symbol. Even though the symbol label is defined later in the same file, declaring it extern (and omitting a global directive) changes its linkage/export visibility and can break linking or confuse students about how the symbol should be exposed.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "assignment/fix_vec_sub.asm",
+          "start_line": 9,
+          "end_line": 12
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "assignment/fix_vec_sub.asm",
+          "start_line": 9,
+          "end_line": 12
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "assignment/fix_vec_sub.asm",
+          "start_line": 34,
+          "end_line": 38
+        }
+      ],
+      "suggested_fix": "In solution/assignment/fix_vec_sub.asm, export the implemented symbol the same way the template does. Replace or remove the incorrect 'extern fix_vec_sub_asm' and add 'global fix_vec_sub_asm' (e.g. place 'global fix_vec_sub_asm' in the .data or .text section as in the template). Ensure the symbol is exported so other translation units/tests can link against it."
+    },
+    {
+      "description": "The function fix_mul is declared with different signatures in the artifacts: the template header declares fix_mul as returning fix_t (fix_t fix_mul(fix_t a, fix_t b);), while the solution example header erroneously declares it as returning void (void fix_mul(fix_t a, fix_t b);). The implementation (math_fix.c) uses an inline fix_mul that returns fix_t. This mismatch between the solution header and the implementation/template creates a semantic inconsistency: students reading the solution header may be confused about the expected return type and usage of fix_mul, and it can lead to compilation/signature confusion when linking the C code with the assembly implementations.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/math_fix.h",
+          "start_line": 40,
+          "end_line": 47
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/math_fix.h",
+          "start_line": 40,
+          "end_line": 47
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/math_fix.c",
+          "start_line": 38,
+          "end_line": 44
+        }
+      ],
+      "suggested_fix": "Make the function declaration for fix_mul consistent across artifacts. Update solution/example_program/src/math_fix.h to match the template and implementation: change the prototype from\n\n    void fix_mul(fix_t a, fix_t b);\n\nto\n\n    fix_t fix_mul(fix_t a, fix_t b);\n\nAlso verify that all headers (tests and example) declare fix_mul with the same return type and parameters so students see a single, consistent API."
+    }
+  ]
+}
