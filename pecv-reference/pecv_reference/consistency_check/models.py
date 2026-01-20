@@ -77,17 +77,24 @@ LANGUAGE_CONFIGS: Dict[ProgrammingLanguage, LanguageConfig] = {
         max_file_size_kb=50,
     ),
     ProgrammingLanguage.ASSEMBLER: LanguageConfig(
-        file_extensions=[".asm", ".s", ".inc"],
+        file_extensions=[".asm", ".s", ".inc", ".c", ".h", ".cpp", ".hpp", ".py"],
         source_directories=["*"],
-        exclude_patterns=["*.o", "*.obj", "bin/*", "build/*"],
+        exclude_patterns=[
+            "*.o", "*.obj", "bin/*", "build/*",
+            "Makefile*", "requirements.txt"
+        ],
         max_file_size_kb=50,
     ),
+
     ProgrammingLanguage.C: LanguageConfig(
-        file_extensions=[".c", ".h"],
+        file_extensions=[".c", ".h", ".asm", ".s", ".inc", ".cpp", ".hpp", ".py"],
         source_directories=["*"],
-        exclude_patterns=["*.o", "*.obj", "bin/*", "build/*"],
+        exclude_patterns=[
+            "*.o", "*.obj", "bin/*", "build/*",
+            "Makefile*", "requirements.txt"
+        ],
         max_file_size_kb=50,
-    ),
+    )
 }
 
 
