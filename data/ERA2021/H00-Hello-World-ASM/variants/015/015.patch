@@ -1,0 +1,42 @@
+diff -ruN a/solution/helloWorld.asm b/solution/helloWorld.asm
+--- a/solution/helloWorld.asm	2026-01-14 13:38:40
++++ b/solution/helloWorld.asm	2026-01-20 01:17:58
+@@ -1,19 +1,22 @@
+-;%include "io.inc" <-- Uncomment this for usage in SASM
++;-------- Do not change this section --------
++section .data
++    hello db "Hello World!", 10, 0
+ 
+-;--------Do not modify this section--------
+ section .text
+-global CMAIN
+-CMAIN:
+-;------------------------------------------
+-    
+-    ;SASM allows macros like below for easier debugging (uncomment for testing)
+-    ;Print a string:
+-    ;PRINT_STRING "Hallo"
+-    ;----------------------
+-    ;Print one byte of ecx:
+-    ;PRINT_DEC 1, ecx
+-    
+-    ;To make this compile, add the missing letter below
+-    add eax, ecx
++global main
++extern printf
++main:
++;--------------------------------------------
+ 
++    ;---------------------------------------------------------------------------;
++    ;TODO: ändern Sie ecc zu ecx um die Aufgabe erfolgreich zu kompilieren
++    add eax, ecx
++    ;---------------------------------------------------------------------------;
++    push hello
++    call _print_helper
++    add esp, 4
+     ret
++
++global _print_helper
++_print_helper:
++    jmp printf
+\ No newline at end of file
