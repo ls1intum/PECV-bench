@@ -1,0 +1,75 @@
+{
+  "case_id": "new-data/ERA2021-H03-Grafikspeicher/007",
+  "issues": [
+    {
+      "description": "The problem statement requires that the display memory be initialized to -1 (0xFFFFFFFF) at program start, but neither the template nor the solution actually perform this initialization. The main code prints the initial pixel value (expecting the area to be pre-filled), so students following the template will observe zeros (bss is zero-initialized) instead of the specified -1. This is an unintentional structural omission that will mislead students about the expected initial state and test behavior.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 23
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 112,
+          "end_line": 118
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 4,
+          "end_line": 6
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 94,
+          "end_line": 100
+        }
+      ],
+      "suggested_fix": "Initialize the display buffer to 0xFFFFFFFF at program start (before printing the initial pixel). Two options: (A) Add an explicit initialization loop in main right after setup (mov ebp, esp) and before any reads/prints, e.g.:\n\n    mov edi, display_start\n    mov eax, 0xFFFFFFFF\n    mov ecx, 2073600    ; number of pixels (1920*1080)\n    cld\n    rep stosd\n\nor (B) if you prefer byte-level reservation, change allocation and then initialize accordingly. Ensure the initialization runs before the code that prints the initial pixel value so the observed initial value matches the specification."
+    },
+    {
+      "description": "The buffer reservation size in the template/solution is inconsistent with the stated resolution. The template and solution reserve 'display_start RESD 8294400'. RESD reserves doublewords (4 bytes each), so RESD 8294400 would allocate 8294400 * 4 bytes — four times the required storage. For a 1920×1080 image with 4 bytes per pixel the correct reservation is either RESB 8294400 (bytes) or RESD 2073600 (dwords). This mismatch can confuse students about memory layout and sizes and is likely an unintended error in the template.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 17,
+          "end_line": 19
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 29,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 20,
+          "end_line": 21
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 4,
+          "end_line": 5
+        }
+      ],
+      "suggested_fix": "Reserve the correct amount of memory for the pixel buffer. Either:\n\n- Reserve dwords = number of pixels: replace 'display_start RESD 8294400' with 'display_start RESD 2073600' (2073600 = 1920*1080), or\n- Reserve bytes: replace with 'display_start RESB 8294400' (8294400 = 1920*1080*4).\n\nThen, pair that with the initialization suggested above (rep stosd if using RESD 2073600 or rep stosb if using RESB 8294400) so the memory layout and initialization match the problem statement exactly."
+    }
+  ]
+}

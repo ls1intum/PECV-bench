@@ -1,0 +1,57 @@
+{
+  "case_id": "new-data/ERA2021-H03-Grafikspeicher/008",
+  "issues": [
+    {
+      "description": "The buffer 'buf' is declared as 'resd 2' (2 doublewords = 8 bytes) but the code performs a read of up to 9 bytes into that buffer (mov edx, 9 / sys_read). This appears both in the template and the solution. Reading 9 bytes into an 8-byte buffer will overflow the buffer, leading to memory corruption or crashes and will confuse students when their program behaves unpredictably.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 20,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 130,
+          "end_line": 135
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 4,
+          "end_line": 6
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 112,
+          "end_line": 117
+        }
+      ],
+      "suggested_fix": "Make the buffer large enough for the maximum read. For example, declare the buffer as 'buf resb 16' or 'buf resb 9' (reserve bytes) instead of 'resd 2', or reduce the read size to match the existing 8-byte buffer. Prefer reserving a slightly larger buffer (e.g. 16 bytes) to avoid off-by-one issues."
+    },
+    {
+      "description": "The screen-start symbol 'display_start' is declared with 'RESD 8294400' in both template and solution. Given a 1920×1080 image with 4 bytes per pixel, the intended number of bytes is 8,294,400. Using 'RESD 8294400' reserves 8,294,400 doublewords (4× larger) rather than the intended bytes. This mismatch of allocation unit (dwords vs bytes) is likely unintentional and can confuse students about memory-sizing and addressing (units matter when reasoning about bytes-per-pixel).",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 20,
+          "end_line": 21
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 4,
+          "end_line": 5
+        }
+      ],
+      "suggested_fix": "Reserve the intended amount of memory using the correct unit. Either use 'display_start RESB 8294400' (reserve 8,294,400 bytes) or, if reserving doublewords, use 'display_start RESD 2073600' (2,073,600 dwords = number of pixels). Update any comments/docs to clarify units to avoid student confusion."
+    }
+  ]
+}

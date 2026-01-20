@@ -1,0 +1,31 @@
+{
+  "case_id": "new-data/ERA2021-H03-Grafikspeicher/013",
+  "issues": [
+    {
+      "description": "The problem statement requires the set_pixel label to be exported as `global` (so it is visible externally), but neither the template nor the solution export set_pixel as global. The template defines set_pixel (with a TODO) but only declares `global main`; the solution implements set_pixel but likewise does not include a `global set_pixel` directive. This contradicts the explicit requirement in the problem text and may confuse students about whether they must (or should) mark the symbol global, especially if they expect to call or link the routine from other modules or follow the instruction literally.",
+      "severity": "MEDIUM",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 29,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 153,
+          "end_line": 168
+        }
+      ],
+      "suggested_fix": "Add a `global set_pixel` directive in the template (next to `global main`) so the template demonstrates the required export, and add the same directive to the solution. For example, near the top of pixel.asm add: `global main` followed by `global set_pixel`. This makes the code match the problem statement's requirement while preserving the intended single-file behavior."
+    }
+  ]
+}
