@@ -1,0 +1,57 @@
+{
+  "case_id": "new-data/ERA2021-H00-Hello-World-ASM/014",
+  "issues": [
+    {
+      "description": "Template calls the external function printf (push hello; call printf) but the corresponding extern declaration is commented out in the template (line 7). Without declaring printf as extern, linking will fail when students try to build the provided template. The solution repository does not call printf at all (it omits the data section and the call), so students comparing template and solution will see inconsistent use of an external symbol and may be confused about what must be declared to compile successfully.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 1,
+          "end_line": 18
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 15,
+          "end_line": 18
+        }
+      ],
+      "suggested_fix": "Uncomment or add the extern declaration for printf in the template (e.g. add an explicit 'extern printf' line) so the template can be linked correctly, or modify the template and problem statement to use the same I/O approach as the solution (or document that the template expects an external printf and how to declare it). Ensure the README/Makefile (or problem description) states whether printf must be declared extern."
+    },
+    {
+      "description": "The template declares and exports the symbol 'main' (global main; main:) while the solution uses a different global entry symbol 'CMAIN' (global CMAIN; CMAIN:). This mismatch in the global/entry symbol name between template and solution can confuse students about which symbol the build expects (e.g. which label the toolchain/Makefile links against) and makes the solution less directly comparable to the template.",
+      "severity": "MEDIUM",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 5,
+          "end_line": 9
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 4,
+          "end_line": 6
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 19,
+          "end_line": 21
+        }
+      ],
+      "suggested_fix": "Make the entry symbol consistent between template and solution (choose either 'main' or 'CMAIN') and update the corresponding files and the Makefile/instructions accordingly. Alternatively, add a short note in the problem statement/README explaining why the solution uses a different entry symbol and how that maps to the template/build process so students are not confused."
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "case_id": "new-data/ERA2021-H00-Hello-World-ASM/005",
+  "issues": [
+    {
+      "description": "The problem statement explicitly requires that function arguments be passed in registers (EAX, EBX) (problem_statement.md line 16), but the template code uses the stack to pass an argument to printf (template_repository/helloWorld.asm lines 15-17: push hello; call printf; add esp, 4). This is a contradiction in the calling/parameter-passing convention students are told to follow versus what the template demonstrates. Students could be confused about the correct calling convention to use (register-based vs. stack-based) and whether the provided push/call sequence is acceptable or a mistake. Because standard C library functions (printf) expect arguments on the stack under the cdecl calling convention, the template's approach is inconsistent with the register-passing rule in the problem statement and with usual practices, creating a blocking conceptual mismatch.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 16
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 15,
+          "end_line": 17
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 16,
+          "end_line": 18
+        }
+      ],
+      "suggested_fix": "Either (A) update the problem statement to remove or clarify the strict requirement that arguments must be passed in EAX/EBX (explain that standard library calls like printf use the stack/cdecl), or (B) update the template to use a register-based calling convention consistently (and provide a matching runtime/printf wrapper or example that reads args from registers). The simplest fix preserving educational intent: clarify the problem statement to say students should prefer registers for their own functions but that calls to C library functions in the template use the cdecl stack convention (or adapt the template to avoid calling printf altogether)."
+    },
+    {
+      "description": "The template and the solution use different global entry labels and program structure. The template declares 'global main' and references extern printf (template_repository/helloWorld.asm lines 6-8 and label at line 8), while the solution declares 'global CMAIN' and defines CMAIN as the entry (solution_repository/helloWorld.asm lines 4-6). This naming/entry-point difference (main vs CMAIN) and the presence/absence of data/printf in template vs solution is a structural mismatch that could confuse students about which symbol/name the build expects and which conventions to follow when testing/compiling.",
+      "severity": "MEDIUM",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 5,
+          "end_line": 9
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 4,
+          "end_line": 7
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 2,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Make the entry symbol and program scaffolding consistent between template and solution. Either (1) change the solution to use 'global main' and include the same data/printf usage as the template, or (2) change the template to use 'global CMAIN' and match the simpler structure used by the solution (or provide a Makefile/README note explaining which global label the build expects). Also ensure both artifacts agree on whether printf and the data section are part of the exercise, to avoid confusion."
+    }
+  ]
+}

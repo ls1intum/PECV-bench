@@ -1,0 +1,77 @@
+{
+  "case_id": "new-data/ERA2021-H00-Hello-World-ASM/007",
+  "issues": [
+    {
+      "description": "The problem statement requires two changes: rename the operand 'ecc' to 'ecx' and initialize register eax with the value 10 before performing the addition. The solution only shows the rename (add eax, ecx) but does not initialize eax beforehand. A student comparing the solution to the task description may be confused whether the initialization step is required or omitted intentionally; the solution does not reflect the full, required final state.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 17,
+          "end_line": 17
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 12,
+          "end_line": 14
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 16,
+          "end_line": 18
+        }
+      ],
+      "suggested_fix": "Update the solution to perform the required initialization before the addition (for example, insert a mov eax, 10 instruction immediately before the add eax, ecx). Alternatively, if the initialization was intentionally omitted, update the problem statement to remove the initialization requirement or clarify the intended behavior."
+    },
+    {
+      "description": "The template and solution use different entry symbols and program structure. The template declares 'global main', 'extern printf', and provides a data section with a 'hello' string and a push/call to printf. The solution instead declares 'global CMAIN' and label 'CMAIN' and contains only an add and ret, with no data/printf usage. This mismatch in symbol names and overall structure may confuse students about which symbol name the build system expects and which calling/printing convention to follow.",
+      "severity": "MEDIUM",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 2,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 3,
+          "end_line": 18
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 19,
+          "end_line": 19
+        }
+      ],
+      "suggested_fix": "Make the solution use the same entry symbol and conventions as the template (e.g., 'global main', label 'main', include the data section and the push/call printf sequence) so it directly corresponds to the template and the Makefile expectations. If the solution intentionally targets a different assembler/runtime (e.g., SASM with CMAIN), document that clearly in the problem statement so students understand the difference."
+    },
+    {
+      "description": "The problem statement instructs students to both rename 'ecc' to 'ecx' and to initialize eax with 10 before the addition, but the template's inline TODO comment only mentions renaming 'ecc' to 'ecx' and does not call out the required initialization. This omission in the template comment may cause students to overlook the second required change.",
+      "severity": "LOW",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 17,
+          "end_line": 17
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 11,
+          "end_line": 14
+        }
+      ],
+      "suggested_fix": "Update the template's TODO comment to mention both required changes (rename ecc to ecx and initialize eax with 10) so students see both tasks clearly when they open the starter file."
+    }
+  ]
+}
