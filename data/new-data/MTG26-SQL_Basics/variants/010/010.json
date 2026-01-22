@@ -1,0 +1,115 @@
+{
+  "case_id": "new-data/MTG26-SQL_Basics/010",
+  "issues": [
+    {
+      "description": "Aufgabe 09 (Problem statement) explicitly says \"der Name des Landkreises soll aus Datenschutzgründen verborgen bleiben\" (so the county name must not be shown), but the solution query returns the column kreis (the Landkreis name) in the result. This contradicts the privacy requirement in the problem text and would cause the reference solution to fail the stated specification.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 148,
+          "end_line": 149
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe09.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Modify the solution to honor the privacy requirement. If the intent is to aggregate per Landkreis without revealing its name, either (a) group by an opaque identifier that does not reveal the name (and output that identifier instead), or (b) output only the aggregated averages without the kreis column (and document how the results map to Landkreise if needed for grading). Ensure the solution no longer selects the plaintext Landkreis name."
+    },
+    {
+      "description": "Table identifier casing is inconsistent across the solution files: aufgabe04.sql uses FROM gemeinde (lowercase), while other solution files use FROM Gemeinde (capital G). In a case-sensitive SQL environment this inconsistency can cause errors or confusion for students who copy the references or compare examples.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe04.sql",
+          "start_line": 2,
+          "end_line": 2
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe02.sql",
+          "start_line": 2,
+          "end_line": 2
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 112,
+          "end_line": 114
+        }
+      ],
+      "suggested_fix": "Use a consistent table identifier across all solution files (preferably matching the canonical name used in the problem statement and the database). For example, change FROM gemeinde to FROM Gemeinde in aufgabe04.sql, or document the exact identifier/casing students must use if the DB is case-sensitive."
+    },
+    {
+      "description": "String literals in multiple solution queries are written with double quotes (e.g. WHERE art=\"Freibad\", WHERE regierungsbezirk=\"Oberbayern\", WHERE gemeindeschluessel = \"09162000\"). Many SQL dialects (including standard SQL and PostgreSQL) require single quotes for string literals; double quotes denote identifiers. This may lead to syntax errors or unexpected behavior depending on the SQL engine used for the exercises.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe01.sql",
+          "start_line": 3,
+          "end_line": 3
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe02.sql",
+          "start_line": 3,
+          "end_line": 3
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe03.sql",
+          "start_line": 3,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Normalize string literal quoting to the dialect used by the exercise environment. If standard SQL/PostgreSQL is used, replace double quotes with single quotes (e.g. WHERE art = 'Freibad'). If the grader uses a dialect that accepts double quotes for literals, document that explicitly in the problem statement to avoid student confusion."
+    },
+    {
+      "description": "The same table/entity 'Gemeinde' is referenced with inconsistent capitalization across artifacts: the problem statement refers to the concept as 'Gemeinde' (capital G), while solution files sometimes use 'Gemeinde' and in at least one solution file the table name appears as 'gemeinde' (lowercase g). In SQL dialects or DBMS configurations where identifiers are case-sensitive this mismatch can confuse students mapping the problem description to the concrete table name in the solution or when running queries against the provided schema.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 111,
+          "end_line": 114
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe04.sql",
+          "start_line": 2,
+          "end_line": 2
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe05.sql",
+          "start_line": 2,
+          "end_line": 2
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe06.sql",
+          "start_line": 2,
+          "end_line": 2
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe09.sql",
+          "start_line": 2,
+          "end_line": 2
+        }
+      ],
+      "suggested_fix": "Use a single, consistent identifier for the table across all artifacts. Recommend standardizing on one form (either 'Gemeinde' or 'gemeinde') in the problem statement, all template files, and all solution files, and add a short note about identifier casing conventions for the students (e.g., 'Table names are case-insensitive in this environment' or 'Use the exact casing shown in the schema')."
+    }
+  ]
+}

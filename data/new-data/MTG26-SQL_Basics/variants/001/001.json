@@ -1,0 +1,95 @@
+{
+  "case_id": "new-data/MTG26-SQL_Basics/001",
+  "issues": [
+    {
+      "description": "The solution for Aufgabe 02 returns full rows from Gemeinde (SELECT *) instead of the requested count of Gemeinden in Regierungsbezirk 'Oberbayern'. The problem statement asks for how many municipalities exist in that district (a single aggregate/count value), but the solution returns the matching rows. This mismatch will confuse students about the expected result shape and will not satisfy automatic checks that expect a counted result.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 111,
+          "end_line": 114
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe02.sql",
+          "start_line": 1,
+          "end_line": 3
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe02.sql",
+          "start_line": 1,
+          "end_line": 1
+        }
+      ],
+      "suggested_fix": "Modify the solution to produce a single count value, e.g. SELECT COUNT(*) FROM Gemeinde WHERE regierungsbezirk = 'Oberbayern'; (optionally alias the column). Ensure the result is a single numeric row consistent with the task description and the automatic checker."
+    },
+    {
+      "description": "Inconsistent table name casing for the Gemeinde table between artifacts: the problem statement and most solutions use 'Gemeinde' (capital G), but solution_repository/aufgabe04.sql uses 'gemeinde' (lowercase g). This inner-repository inconsistency (and divergence from the problem wording) may lead to confusion or runtime errors on case-sensitive SQL systems.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 111,
+          "end_line": 126
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe04.sql",
+          "start_line": 1,
+          "end_line": 3
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe05.sql",
+          "start_line": 1,
+          "end_line": 4
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe06.sql",
+          "start_line": 1,
+          "end_line": 3
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe09.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Standardize the table name casing across all artifacts to match the schema and problem wording (e.g. use 'Gemeinde' everywhere). Update solution_repository/aufgabe04.sql to FROM Gemeinde (capital G) to avoid case-sensitivity issues and reduce student confusion."
+    },
+    {
+      "description": "The same table concept 'Gemeinde' is referenced with different identifier capitalization across artifacts: the problem statement uses 'Gemeinde' (capitalized), most solution files use 'Gemeinde' (capitalized) but solution_repository/aufgabe04.sql uses 'gemeinde' (lowercase) in the FROM clause. This inconsistent naming (same letters but different case) can create mapping confusion for students and may cause queries to fail or behave differently depending on the SQL engine's identifier case-sensitivity.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 111,
+          "end_line": 126
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe04.sql",
+          "start_line": 1,
+          "end_line": 3
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe05.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Use a single consistent table identifier across all artifacts. For example, change the FROM clause in solution_repository/aufgabe04.sql from 'FROM gemeinde' to 'FROM Gemeinde' (or normalize all occurrences to lowercase 'gemeinde' everywhere). Also document the chosen convention and ensure templates and all solution files use that exact identifier to avoid case-sensitivity issues in different SQL engines."
+    }
+  ]
+}
