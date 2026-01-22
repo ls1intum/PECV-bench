@@ -31,6 +31,7 @@ class ProgrammingLanguage(str, Enum):
     PYTHON = "python"
     ASSEMBLER = "assembler"
     C = "c"
+    SQL = "sql"
     # Future extensions can add more languages
 
 
@@ -71,9 +72,20 @@ LANGUAGE_CONFIGS: Dict[ProgrammingLanguage, LanguageConfig] = {
         max_file_size_kb=50,
     ),
     ProgrammingLanguage.PYTHON: LanguageConfig(
-        file_extensions=[".py"],
+        file_extensions=[".py", ".sql", ".md"],
         source_directories=["src", ".", "lib"],
-        exclude_patterns=["**/__pycache__/**", "**/*.pyc", "**/venv/**", "**/env/**"],
+        exclude_patterns=[
+            "**/__pycache__/**",
+            "**/*.pyc",
+            "**/venv/**",
+            "**/env/**",
+            "problem-statement.md",
+            "problem_statement.md",
+            "*/problem-statement.md",
+            "*/problem_statement.md",
+            "*.db",
+            "**/*.db",
+        ],
         max_file_size_kb=50,
     ),
     ProgrammingLanguage.ASSEMBLER: LanguageConfig(
@@ -92,6 +104,19 @@ LANGUAGE_CONFIGS: Dict[ProgrammingLanguage, LanguageConfig] = {
         exclude_patterns=[
             "*.o", "*.obj", "bin/*", "build/*",
             "Makefile*", "requirements.txt"
+        ],
+        max_file_size_kb=50,
+    ),
+    ProgrammingLanguage.SQL: LanguageConfig(
+        file_extensions=[".sql", ".md"],
+        source_directories=["*"],
+        exclude_patterns=[
+            "problem-statement.md",
+            "problem_statement.md",
+            "*/problem-statement.md",
+            "*/problem_statement.md",
+            "*.db",
+            "**/*.db",
         ],
         max_file_size_kb=50,
     )
