@@ -1,0 +1,34 @@
+diff -ruN a/solution/src/client/java/de/tum/in/ase/eist/controller/PersonController.java b/solution/src/client/java/de/tum/in/ase/eist/controller/PersonController.java
+--- a/solution/src/client/java/de/tum/in/ase/eist/controller/PersonController.java	2025-07-11 08:16:28
++++ b/solution/src/client/java/de/tum/in/ase/eist/controller/PersonController.java	2026-01-06 18:49:24
+@@ -25,16 +25,20 @@
+     }
+ 
+     public void addPerson(Person person, Consumer<List<Person>> personsConsumer) {
+-        webClient.post()
+-                .uri("persons")
+-                .bodyValue(person)
+-                .retrieve()
+-                .bodyToMono(Person.class)
+-                .onErrorStop()
+-                .subscribe(newPerson -> {
+-                    persons.add(newPerson);
+-                    personsConsumer.accept(persons);
+-                });
++        // ARCHITECTURAL VIOLATION: Using synchronous blocking call instead of async
++        try {
++            Person newPerson = webClient.post()
++                    .uri("persons")
++                    .bodyValue(person)
++                    .retrieve()
++                    .bodyToMono(Person.class)
++                    .block(); // BLOCKING CALL - violates async pattern
++            
++            persons.add(newPerson);
++            personsConsumer.accept(persons);
++        } catch (Exception e) {
++            System.err.println("Synchronous call failed: " + e.getMessage());
++        }
+     }
+ 
+     public void updatePerson(Person person, Consumer<List<Person>> personsConsumer) {

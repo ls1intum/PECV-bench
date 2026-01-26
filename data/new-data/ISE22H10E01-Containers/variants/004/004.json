@@ -1,0 +1,69 @@
+{
+  "case_id": "new-data/ISE22-H10E01-Containers/004",
+  "issues": [
+    {
+      "description": "The solution implementation of PersonService.addParent uses parameter names in an order that is inconsistent with the problem statement and the template. The problem statement and template define the method as addParent(Person person, Person parent) (child first, parent second). In the solution repository the method is declared as addParent(Person parent, Person person) (the parameter names are swapped). Although both parameters are of type Person (so the Java signature is still two Person parameters and code will compile), the swapped naming contradicts the documented/expected parameter semantics and the template's method declaration. This mismatch is likely to confuse students about which argument represents the child and which represents the parent when reading the solution code or comparing it to the problem description/tests.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 99,
+          "end_line": 106
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 46
+        }
+      ],
+      "suggested_fix": "Make the solution's addParent parameter naming match the problem statement and template: declare the method as addParent(Person person, Person parent) and use those parameter names in the implementation. Alternatively, add clear Javadoc comments to the solution method to document which parameter is the child and which is the parent. This preserves the intended semantics and prevents confusion when comparing template, tests, and solution."
+    },
+    {
+      "description": "The problem statement and the template define the service method as addParent(Person person, Person parent) (child first, parent second). In the solution implementation the parameter names/order in the declaration are swapped: addParent(Person parent, Person person). This creates a conceptual mismatch: callers (PersonResource and tests) invoke addParent(person, parent) expecting the first argument to be the child and the second to be the parent (as described in the exercise), but the solution's parameter names suggest the opposite. The inconsistent parameter naming/order across artifacts is likely to confuse students about which argument represents the child vs. the parent and may mask or introduce logic errors when implementing or reading the solution.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 100,
+          "end_line": 106
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 46
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        }
+      ],
+      "suggested_fix": "Make the parameter ordering and names consistent across all artifacts. Prefer aligning the solution with the problem and template by declaring the method as\npublic Person addParent(Person person, Person parent)\nand ensure the implementation treats the first parameter as the child (person) and the second as the parent. Update any internal references accordingly so callers (PersonResource and tests) keep passing (person, parent) without ambiguity."
+    }
+  ]
+}

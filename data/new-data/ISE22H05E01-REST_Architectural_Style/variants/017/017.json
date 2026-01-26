@@ -1,0 +1,63 @@
+{
+  "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/017",
+  "issues": [
+    {
+      "description": "Cross-artifact return-type mismatch for PersonService.getAllPersons: the problem statement and the template expect getAllPersons to return a list of Person objects (List<Person>) and instruct students to implement sorting that returns a list. The solution repository changes the method signature to return a Stream<Person>. This divergence is structural (method return type) and will confuse students: they will implement logic expecting a List<Person> (as described and provided in the template), but the solution uses a different return type. It also causes type inconsistencies where the controller (PersonResource) expects a List<Person> response but the service in the solution provides a Stream<Person>.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 206,
+          "end_line": 208
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 134,
+          "end_line": 136
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 37,
+          "end_line": 40
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 39,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 27
+        }
+      ],
+      "suggested_fix": "Make the service method signature consistent with the problem statement and template. Preferably change the solution's PersonService.getAllPersons to return List<Person> (e.g., List<Person> getAllPersons(PersonSortingOptions sortingOptions)) and implement sorting to return an actual List. Alternatively, if returning Stream<Person> is desired, update the problem statement, template signatures, and the controller (PersonResource) to expect and handle a Stream consistently. The simplest fix: implement sorting using stream().sorted(...).collect(Collectors.toList()) and return that List<Person>."
+    },
+    {
+      "description": "Inner-artifact inconsistency inside the solution repository's PersonService: the method declared in the solution (public Stream<Person> getAllPersons(...)) contains an implementation that uses undefined variables (e.g., sortedList) and attempts to return a variable whose type does not match the declared return type. The method declares and partially uses a Stream<Person> (sortedStream) but then calls sortedList.sort(...) and returns sortedList. This inconsistency (undefined variables and mismatched return) makes the solution non-compilable and contradicts the intended behavior described in the problem (returning a sorted list of persons).",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 39,
+          "end_line": 63
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 27
+        }
+      ],
+      "suggested_fix": "Fix the solution's PersonService implementation to match its declared signature and return a correct value. If keeping a Stream return type, ensure the method returns a Stream (do not reference undefined variables) and update calling code accordingly. Preferably, implement a clear List-based result: (1) determine Comparator based on sortingOptions (handle null and default options), (2) produce a sorted List via persons.stream().sorted(comparator).collect(Collectors.toList()), and (3) change the method signature to public List<Person> getAllPersons(PersonSortingOptions sortingOptions). Ensure PersonResource and other callers accept a List<Person>."
+    }
+  ]
+}

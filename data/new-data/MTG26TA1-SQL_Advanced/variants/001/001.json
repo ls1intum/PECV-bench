@@ -1,0 +1,25 @@
+{
+  "case_id": "new-data/MTG26-SQL_Advanced/001",
+  "issues": [
+    {
+      "description": "The problem statement for Aufgabe 06 explicitly asks to output the names of the Wanderwege that lead to Gemeinden with mehr als 500000 männlichen Einwohnern (problem_statement.md lines 41–44). The solution file solution_repository/aufgabe06.sql uses SELECT * (lines 1–4), which returns all columns from the joined tables instead of only the requested Wanderweg names. This contradicts the explicit instruction in the problem statement to \"Gib immer genau die geforderten Daten aus und nicht mehr.\" Students using the solution as a reference could be confused about the expected output shape and may copy a solution that violates the exercise constraints.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 41,
+          "end_line": 44
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe06.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Change the solution to select only the Wanderweg name column(s) instead of SELECT *. For example, join Wanderweg (or the table containing the wanderweg name) with Gemeinde and Wanderweg_zu_Gemeinde and use SELECT Wanderweg.name (or the correct column holding the walk name) and the join/filter conditions (Gemeinde.schluessel = Wanderweg_zu_Gemeinde.gemeindeschluessel AND Wanderweg.id = Wanderweg_zu_Gemeinde.wanderweg_id AND Gemeinde.einwohner_m > 500000). If the name is stored directly in Wanderweg_zu_Gemeinde, select that name column instead. Avoid SELECT * so the result matches the problem requirement exactly."
+    }
+  ]
+}

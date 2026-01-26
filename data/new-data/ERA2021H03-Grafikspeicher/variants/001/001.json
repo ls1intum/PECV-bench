@@ -1,0 +1,83 @@
+{
+  "case_id": "new-data/ERA2021-H03-Grafikspeicher/001",
+  "issues": [
+    {
+      "description": "The problem statement requires set_pixel to preserve all registers (\"Es dürfen keinerlei Registerinhalte (auch nicht eax) verändert werden\") and to return its result via the stack. The solution's set_pixel implementation (solution_repository/pixel.asm lines 153-168) modifies EAX (and ECX implicitly) and does not push a return value onto the stack. Main expects the return value on the stack (it does pop edx after the call to set_pixel). Because the solution neither preserves EAX nor returns via the stack, it contradicts the specified calling convention and will break main's use of the return value and the requirement to not clobber registers.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 32
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 153,
+          "end_line": 168
+        }
+      ],
+      "suggested_fix": "Make set_pixel implement the required calling convention: do not leave any registers modified (save/restore any registers you need, including EAX and ECX) and push the computed pixel address onto the stack before returning so main can pop it (e.g. compute address in a callee-saved register or on the stack, push address, restore registers, ret). Alternatively, if using mul (which clobbers EAX/EDX), explicitly push eax and edx at function start and pop them before returning, and at the end push the address (push eax_or_address) so main's pop gets it."
+    },
+    {
+      "description": "The template and solution reserve the display buffer with 'display_start RESD 8294400'. RESD reserves 8,294,400 doublewords (4 bytes each) which allocates 33,177,600 bytes, but for a 1920×1080 image with 4 bytes/pixel you only need 8,294,400 bytes (or 2,073,600 dwords). The mismatch in unit (RESB vs RESD) or the wrong numeric value is a structural allocation error that may cause confusion or excessive memory reservation.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 20,
+          "end_line": 21
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 4,
+          "end_line": 6
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 29,
+          "end_line": 31
+        }
+      ],
+      "suggested_fix": "Allocate the buffer with the correct size and unit. Either use RESB 8294400 to reserve 8,294,400 bytes, or use RESD 2073600 to reserve 2,073,600 dwords (2,073,600 * 4 bytes = 8,294,400 bytes). Document the intended choice in the template so students understand the unit used."
+    },
+    {
+      "description": "The problem description refers to inserting the formula at the \"first TODO\" and adding assembler code at the \"third TODO\", but the provided template does not clearly match this numbering (the template has a top 'INSERT FORMULA HERE: X' comment and a set_pixel TODO, plus a TODO in main). This mismatch between the textual reference to TODO positions and the actual template TODOs may confuse students about where to implement which parts.",
+      "severity": "LOW",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 20,
+          "end_line": 27
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 15,
+          "end_line": 17
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        }
+      ],
+      "suggested_fix": "Align the template TODO markers with the wording in the problem statement (or vice versa). Either renumber/label the TODOs in the template so they match the problem text (e.g. TODO 1, TODO 2, TODO 3) or update the problem statement to refer to the actual TODO positions to avoid student confusion."
+    }
+  ]
+}

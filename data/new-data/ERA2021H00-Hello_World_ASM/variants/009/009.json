@@ -1,0 +1,57 @@
+{
+  "case_id": "new-data/ERA2021-H00-Hello-World-ASM/009",
+  "issues": [
+    {
+      "description": "The problem statement requires the student function to create a new stack frame using the instruction `enter 0,0`, but neither the template nor the solution include this instruction. This is a cross-artifact mismatch: the specification enforces a calling-frame convention that the provided starter code and reference implementation do not follow. Students may be confused whether they must add `enter 0,0` (and where) or whether the requirement is optional; moreover, an automated Makefile or grader that expects that prologue could fail if the code does not include it.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 19,
+          "end_line": 21
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 4,
+          "end_line": 19
+        }
+      ],
+      "suggested_fix": "Either remove or relax the explicit `enter 0,0` requirement from the problem statement (if it is not enforced by the grader), or update both the template and the solution to include the required stack-frame prologue (e.g., insert `enter 0,0` immediately after the function label in the template and solution). Also clarify in the problem text whether different assemblers/linkers expect alternative prologues."
+    },
+    {
+      "description": "The template and the solution use different global entry labels: the template declares `global main` / `main:` while the solution declares `global CMAIN` / `CMAIN:`. This mismatch may confuse students about which symbol the build/Makefile and runtime expect and could cause students to change the wrong label or spend time debugging link/entry errors.",
+      "severity": "MEDIUM",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 9
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 4,
+          "end_line": 6
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 19,
+          "end_line": 21
+        }
+      ],
+      "suggested_fix": "Make the entry symbol consistent across artifacts. Either update the template to use `CMAIN` (and note this in the problem statement / Makefile), or update the solution to use `main`. Additionally, document in the problem statement which global label the Makefile expects so students know which label to keep or modify."
+    }
+  ]
+}

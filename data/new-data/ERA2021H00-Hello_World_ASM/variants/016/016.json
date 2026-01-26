@@ -1,0 +1,121 @@
+{
+  "case_id": "new-data/ERA2021-H00-Hello-World-ASM/016",
+  "issues": [
+    {
+      "description": "Problem statement refers to a variable named `msg` that students must ensure is defined (problem_statement.md line 17), but the template defines the data label as `hello` (template_repository/helloWorld.asm lines 2-3) and uses `push hello` (template_repository/helloWorld.asm line 15). This name mismatch between the specification text and the provided template will confuse students looking for `msg` and may lead them to suspect the template is incorrect or that they must create a new symbol `msg` instead of using the existing `hello` label.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 17,
+          "end_line": 17
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 2,
+          "end_line": 3
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 15,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 1,
+          "end_line": 1
+        }
+      ],
+      "suggested_fix": "Make the naming consistent: either change the problem statement to refer to the `hello` variable (e.g., \"Stellen Sie sicher, dass die Variable `hello` korrekt definiert ist\") or modify the template to define `msg` (and update uses of `hello` to `msg`). Prefer updating the problem text if the intended label in the template is `hello` to avoid touching starter code."
+    },
+    {
+      "description": "The template and problem expect a working program that declares a data section with a string and calls printf (template: section .data with `hello`, extern printf, global main, and push/call printf), but the solution repository is structurally different: it provides only a .text section, uses `global CMAIN` instead of `global main`, and omits the data/printf usage entirely (solution_repository/helloWorld.asm lines 3-7 and 16-18). This divergence in program structure and entry point name can confuse students who compare the template and solution to understand the intended final state (they may wonder which symbol is the correct entry point and why the solution lacks the data/printf setup present in the template).",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 2,
+          "end_line": 8
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 15,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 3,
+          "end_line": 7
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 16,
+          "end_line": 18
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 6,
+          "end_line": 12
+        }
+      ],
+      "suggested_fix": "Make the solution match the template's structure or document the difference clearly. Options: (a) Update the solution to include the .data section with the `hello` string, declare `extern printf`, and use `global main`/`main:` so it mirrors the template (but with the corrected `ecx`), or (b) add a note to the problem statement explaining that the solution is simplified (uses a different entry label `CMAIN` and omits the print-data) and that students should follow the template's calling/entry conventions when submitting. Prefer (a) so the solution is a direct, runnable reference for students."
+    },
+    {
+      "description": "The problem statement instructs students to ensure the variable `msg` is defined, but the template defines the output string as `hello` (section .data -> hello db ...) and the provided solution does not include a corresponding data/string variable. This creates a mapping mismatch: students reading the instructions will look for `msg` in the starter code and the reference solution but will not find it, producing unnecessary confusion about which symbol holds the message to be printed.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 17,
+          "end_line": 17
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 2,
+          "end_line": 3
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 4,
+          "end_line": 6
+        }
+      ],
+      "suggested_fix": "Make the identifier consistent across artifacts. Either (A) change the problem statement to refer to `hello` instead of `msg`, or (B) rename the template variable `hello` to `msg` and add the same `msg` data definition (and usage) in the solution so all three artifacts reference the same message identifier."
+    },
+    {
+      "description": "The template uses the entry point symbol `main` (global main / label main), while the solution uses `CMAIN` (global CMAIN / label CMAIN). Students comparing template and solution may search for `main` in the reference solution and not find it, causing minor mapping confusion about the program entry point.",
+      "severity": "LOW",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 8
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 4,
+          "end_line": 6
+        }
+      ],
+      "suggested_fix": "Use the same entry-point name across template and solution. Either change the solution label to `main` (and update any build scripts if needed) or change the template to use `CMAIN`, and add a short note in the problem statement explaining the chosen entry-point name so students are not misled."
+    }
+  ]
+}

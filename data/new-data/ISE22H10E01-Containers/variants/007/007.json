@@ -1,0 +1,31 @@
+{
+  "case_id": "new-data/ISE22-H10E01-Containers/007",
+  "issues": [
+    {
+      "description": "The problem statement refers to the REST endpoint path with an \"/api\" prefix (e.g. \"PUT /api/persons/{personId}/parents\"), but the provided template and solution controllers map the endpoints without the \"/api\" prefix (e.g. @PutMapping(\"persons/{personId}/parents\") resulting in \"/persons/{personId}/parents\"). This mismatch in the documented endpoint path vs. the actual code can confuse students when writing integration tests or when manually testing endpoints (they may try the wrong URL and think the service is broken).",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        }
+      ],
+      "suggested_fix": "Make the documentation and code consistent. Either (A) update the problem statement and any instructions/examples to use the actual paths implemented in the code (e.g. \"PUT /persons/{personId}/parents\"), or (B) add the \"/api\" base path to the controllers (for example, change the controller-level annotation to @RequestMapping(path = \"/api\", consumes = ..., produces = ...) so endpoints become \"/api/persons/...\"). Ensure the tests and example calls in the statement match the final chosen path."
+    }
+  ]
+}

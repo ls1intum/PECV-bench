@@ -1,0 +1,69 @@
+{
+  "case_id": "new-data/ISE22-H10E01-Containers/012",
+  "issues": [
+    {
+      "description": "The problem statement says the persons' \"parents\" attribute is a List that preserves insertion order (problem_statement.md lines 96-97), but both the template and the solution define parents (and children) as Set<Person> backed by HashSet in Person.java. This is a type/semantics mismatch: List allows duplicates and preserves insertion order (depending on implementation), while HashSet does not preserve insertion order and enforces uniqueness. Students may be confused whether they should implement parents as a List (as described) or a Set (as provided by the starter code and shown in the solution).",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 96,
+          "end_line": 97
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 33,
+          "end_line": 41
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 33,
+          "end_line": 41
+        }
+      ],
+      "suggested_fix": "Make the description and the code consistent. Two options (choose one depending on intended exercise semantics):\n\n1) If the intended model is to use a Set (as in template and solution): update the problem statement to say that parents (and children) are sets/collections enforcing uniqueness (e.g. \"The parents attribute is a Set<Person> (no duplicate parents)\") and remove the claim about List/insertion order.\n\n2) If insertion order must be preserved and List semantics are required: change the entity fields in Person.java to List<Person> (for example, private List<Person> parents = new ArrayList<>();) and annotate appropriately for JPA ordering (e.g. add @OrderColumn) and update tests/solution to work with List semantics. This requires code changes in template and solution, so option (1) is the minimal correction given the current repositories."
+    },
+    {
+      "description": "The problem statement explicitly says \"The `parents` attribute is a List that preserves insertion order\" (problem-level requirement), but both the template and the solution model declare parents (and children) as Set<Person> (HashSet). The tests in the solution also assert Set semantics (using Set.of(...)). This is a semantic mismatch: students reading the problem are told to treat parents as a List (ordered), while the provided code and tests use an unordered Set. This discrepancy can confuse students about the expected collection type and ordering guarantees, and may lead them to implement the wrong collection type or to try to change the provided model/tests unnecessarily.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 96,
+          "end_line": 96
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 33,
+          "end_line": 41
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 33,
+          "end_line": 41
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+          "start_line": 100,
+          "end_line": 104
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 76,
+          "end_line": 80
+        }
+      ],
+      "suggested_fix": "Align the problem statement and code/tests on the same collection semantics. Two options:\n1) If order is not required: change the problem statement to say the parents (and children) attribute is a Set (or a collection) rather than a List. This is the minimal change and matches the provided template and solution code and tests.\n2) If insertion order must be preserved as the requirements state: change the model and tests to use a List (e.g., List<Person> parents = new ArrayList<>()) and configure JPA to preserve order (for example add @OrderColumn on the relationship) and update tests to assert List semantics. Choose one of these consistent alternatives and update the problem statement, template, and tests accordingly so students have a single clear target."
+    }
+  ]
+}

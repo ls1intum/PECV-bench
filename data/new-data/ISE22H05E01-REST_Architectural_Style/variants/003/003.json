@@ -1,0 +1,37 @@
+{
+  "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/003",
+  "issues": [
+    {
+      "description": "The solution server endpoint for GET /persons requires a request parameter 'limit' (@RequestParam(value = \"limit\") int limit) while neither the problem statement nor the client implementation send such a parameter. The problem statement describes GET /persons as returning all persons (with optional sorting options) and does not mention any 'limit' query parameter. The solution client-side PersonController.getAllPersons builds a request with only 'sortField' and 'sortingOrder' query parameters and does not supply 'limit'. Because the server marks 'limit' as a required request parameter (no defaultValue), calls from the client will fail with a 400 Bad Request at runtime. This is an unintended cross-artifact inconsistency introduced in the solution and will prevent students from running the client-server flow or from following the exercise as described.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 114
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 29
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 65,
+          "end_line": 71
+        }
+      ],
+      "suggested_fix": "Make the server endpoint consistent with the problem statement and the client by removing the required 'limit' request parameter or making it optional with a sensible default. For example, remove the 'limit' parameter entirely and return the full sorted list, or change the annotation to @RequestParam(value = \"limit\", defaultValue = \"2147483647\") int limit so the endpoint works without the client providing a value. Alternatively, if a limit is intended, document it in the problem statement and update the client to send a limit parameter on requests."
+    }
+  ]
+}

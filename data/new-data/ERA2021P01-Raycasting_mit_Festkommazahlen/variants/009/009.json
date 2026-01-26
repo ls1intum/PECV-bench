@@ -1,0 +1,115 @@
+{
+  "case_id": "new-data/ERA2021-P01-Raycasting-mit-Festkommazahlen/009",
+  "issues": [
+    {
+      "description": "Mismatch between the Bitmap24 constructor declaration in the solution header and its definition in the solution implementation (and the template header). The solution header declares a three-argument constructor Bitmap24(int i_width, int i_height, int depth) while Bitmap24.cpp implements a two-argument constructor Bitmap24::Bitmap24(int p_width, int p_height). The template header and implementation use the two-argument constructor. This constructor-parameter mismatch will cause compilation/link errors and will confuse students about the correct API to implement/use.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 36,
+          "end_line": 40
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 36,
+          "end_line": 39
+        }
+      ],
+      "suggested_fix": "Make the header and implementation agree. Restore the solution header to declare the two-argument constructor (Bitmap24(int i_width, int i_height)) to match Bitmap24.cpp and the template, or update Bitmap24.cpp to implement the three-argument constructor and adjust all call sites accordingly. Prefer keeping the two-argument constructor to match the template and avoid breaking student code."
+    },
+    {
+      "description": "Conflicting / incorrect typedef and FIX_LEN definitions between math_fix.c and the corresponding header math_fix.h. math_fix.c defines FIX_LEN and then uses 'typedef int long long fix_t;' and 'typedef unsigned int long long fixu_t;' (which is syntactically incorrect and/or inconsistent), while math_fix.h declares typedefs conditionally (based on FIX_LEN) using a different, correct form. These duplicate and inconsistent type definitions inside the same translation unit (math_fix.c includes math_fix.h) create a structural/type mismatch that will likely cause compilation errors and confusion about the canonical fixed-point types.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/math_fix.c",
+          "start_line": 11,
+          "end_line": 17
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/math_fix.h",
+          "start_line": 11,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/math_fix.c",
+          "start_line": 11,
+          "end_line": 17
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/math_fix.h",
+          "start_line": 11,
+          "end_line": 19
+        }
+      ],
+      "suggested_fix": "Ensure there is a single, correct typedef of the fixed-point types. Remove or correct the duplicate typedefs in math_fix.c: either rely on the typedefs provided by math_fix.h (preferred) or correct the typedef syntax in math_fix.c to match the header (e.g. 'typedef long long fix_t;' and 'typedef unsigned long long fixu_t;'). Also keep FIX_LEN/FIX_FRAC definitions consistent and declared in one place (the header) to avoid conflicting definitions."
+    },
+    {
+      "description": "Symbol visibility inconsistency for the assembly symbol fix_vec_sub_asm between template and solution. The template declares the symbol as global ('global fix_vec_sub_asm'), which exports the function for linking, while the solution's assignment file uses 'extern fix_vec_sub_asm' in the same location. Using 'extern' instead of 'global' will prevent the symbol from being exported as a global label by that assembly file and thus will conflict with the expected exported symbol declared in test headers and the template. This inconsistency between template and solution will confuse students about the expected symbol visibility and can cause linkage failures.",
+      "severity": "MEDIUM",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "assignment/fix_vec_sub.asm",
+          "start_line": 10,
+          "end_line": 12
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "assignment/fix_vec_sub.asm",
+          "start_line": 10,
+          "end_line": 12
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "tests/src/fix_asm.h",
+          "start_line": 1,
+          "end_line": 9
+        }
+      ],
+      "suggested_fix": "Make the assembly files consistent and export the same symbol. Change the solution assignment file to use 'global fix_vec_sub_asm' (matching the template) so the function is exported for linking, or otherwise ensure that the symbol is declared/exported in a consistent manner across template, solution, and tests."
+    },
+    {
+      "description": "Inconsistency in the Bitmap24 constructor API between template and solution: the template declares Bitmap24(int i_width, int i_height) (two-argument constructor), the solution header declares Bitmap24(int i_width, int i_height, int depth) (three-argument constructor), but the solution implementation (Bitmap24.cpp) defines the two-argument constructor. This mismatch (different constructor signature in the solution header vs. solution implementation and vs. the template) creates confusion for students comparing template and solution, and may produce build errors or uncertainty about the intended API.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 39
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 39
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        }
+      ],
+      "suggested_fix": "Make the constructor API consistent. Either (A) change the solution header to declare the two-argument constructor Bitmap24(int i_width, int i_height); so it matches both the template and the implementation, or (B) implement a matching three-argument constructor Bitmap24(int i_width, int i_height, int depth) in Bitmap24.cpp (and update the template if students are expected to use the 3-arg signature). Option A (remove the unused 'depth' parameter from the solution header) is the least disruptive and will align template, implementation and solution docs."
+    }
+  ]
+}

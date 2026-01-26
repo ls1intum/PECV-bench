@@ -1,0 +1,81 @@
+{
+  "case_id": "new-data/ISE22-H10E01-Containers/006",
+  "issues": [
+    {
+      "description": "The problem statement instructs students that the PersonRepository save method \"accepts a boolean flag 'force' which you must set to true\" when persisting changes in addParent (and similar methods). No such save(Person, boolean) method exists in the template repository or in the solution: both repositories only expose the standard JpaRepository save(Person) method, and the solution's PersonService calls personRepository.save(person) (no boolean). This is a signature mismatch that will confuse students: they will attempt to call a non-existent repository method or search for a repository API that is not provided by the template.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 99,
+          "end_line": 106
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/repository/PersonRepository.java",
+          "start_line": 12,
+          "end_line": 23
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/repository/PersonRepository.java",
+          "start_line": 12,
+          "end_line": 23
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 46
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 46
+        }
+      ],
+      "suggested_fix": "Remove the reference to a save(Person, boolean) API from the problem statement (and instruct students to call the standard repository save(person)), OR make the repository API explicit by adding and documenting a custom repository method in the template (e.g., a custom saveWithForce(Person, boolean) and corresponding implementation). The simpler and less intrusive fix is to update the problem statement to require calling personRepository.save(person) (no boolean) so it matches the provided template and solution."
+    },
+    {
+      "description": "The problem statement and parts of the exercise text refer to REST endpoints with an \"/api\" prefix (e.g. PUT /api/persons/{personId}/parents), but the template and solution controllers expose endpoints without the \"/api\" prefix (e.g. PUT /persons/{personId}/parents). This mismatch between the example endpoint paths in the description and the actual paths in the template could confuse students when testing endpoints or writing integration tests.",
+      "severity": "LOW",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 17,
+          "end_line": 25
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 17,
+          "end_line": 25
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+          "start_line": 48,
+          "end_line": 52
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+          "start_line": 93,
+          "end_line": 97
+        }
+      ],
+      "suggested_fix": "Make the documentation consistent with the code: either update the problem statement to use the actual endpoint paths (e.g. PUT /persons/{personId}/parents) or change the controller mappings in the template to include the \"/api\" prefix (for example, add a class-level @RequestMapping(\"/api\") or adjust test expectations). Prefer updating the problem description to match the existing template endpoints unless an API prefix is intentionally required."
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "case_id": "new-data/ERA2021-P01-Raycasting-mit-Festkommazahlen/013",
+  "issues": [
+    {
+      "description": "Visibility of Bitmap24 member variables differs between template and solution. In the template, Bitmap24 declares width, height and data as public members; in the solution width and height are made private while data remains public. This is a structural change in the public API of the class and can confuse students who rely on direct member access (or when they compare their template-based solution to the provided reference). It also changes the intended encapsulation: if the solution intends to hide width/height, the template should reflect that (or provide accessors); if public access is intended, the solution should keep them public.",
+      "severity": "MEDIUM",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 30,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 30,
+          "end_line": 36
+        }
+      ],
+      "suggested_fix": "Make the class member visibility consistent between template and solution. Either (A) keep width and height public in the solution (change 'private:' back to 'public:' so width/height remain public, matching the template), or (B) change the template to make width and height private and add public accessor/getter methods (e.g. getWidth(), getHeight()) so both template and solution reflect the intentional encapsulation. Choose the approach that matches the teaching intent and apply it consistently in both repositories."
+    },
+    {
+      "description": "Linkage/export declaration for the fix_vec_sub_asm symbol is inconsistent between template and solution assembly files. In the template assembly file fix_vec_sub.asm the symbol is declared 'global fix_vec_sub_asm' (exported); in the solution assembly file the same symbol is declared 'extern fix_vec_sub_asm'. Marking the symbol 'extern' while also defining it in the same file is inconsistent and differs from other assignment files that export their symbols. This can cause confusion and may lead to linking/export problems when building the tests or the final program.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/assignment/fix_vec_sub.asm",
+          "start_line": 10,
+          "end_line": 12
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/assignment/fix_vec_sub.asm",
+          "start_line": 10,
+          "end_line": 12
+        }
+      ],
+      "suggested_fix": "Align the linkage declaration with the rest of the assignment files and the template: change the solution file declaration from 'extern fix_vec_sub_asm' to 'global fix_vec_sub_asm' so the symbol is exported consistently. Alternatively, if the intention was to not export it, update the template and build scripts accordingly and ensure all other assignment files use the intended convention; however the least disruptive fix is to make the solution file use 'global' like the template and other assignment files."
+    }
+  ]
+}

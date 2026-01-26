@@ -1,0 +1,37 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/021",
+  "issues": [
+    {
+      "description": "The solution repository changes PersonService.savePerson to a static method (using a singleton internally) and adapts PersonResource.createPerson to call that static method, conflicting with the template and problem design which use an injected instance (personService.savePerson). This breaks the intended dependency-injection pattern and would confuse students, since the template defines savePerson as an instance method on PersonService",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 18,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 20,
+          "end_line": 23
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
+          "end_line": 35
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
+        }
+      ],
+      "suggested_fix": "Use the injected PersonService instance consistently. Remove the static wrapper and in PersonResource.createPerson call personService.savePerson(person) instead of PersonService.savePerson(person)."
+    }
+  ]
+}

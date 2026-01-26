@@ -1,0 +1,109 @@
+{
+  "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/002",
+  "issues": [
+    {
+      "description": "The problem statement (Part 2) says “Each method takes a Consumer<List<Note>> parameter ... This consumer takes the internal list of persons as a parameter”, which mixes Note and Person. The intended controller methods for persons clearly operate on Consumer<List<Person>> (the template and solution method stubs use Consumer<List<Person>>). This typo in the problem description can confuse students about the parameter type they should implement for PersonController methods.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 151
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 80
+        }
+      ],
+      "suggested_fix": "Correct the problem statement to refer to Consumer<List<Person>> (not Consumer<List<Note>>) when describing the PersonController methods so it matches the template and intended implementation."
+    },
+    {
+      "description": "The problem statement's CRUD description (and NoteResource implementation) indicates DELETE /persons should return HTTP 204 No Content on success, but the solution's PersonResource.deletePerson returns a ResponseEntity<Person> with the deleted Person (HTTP 200 OK). This is inconsistent across artifacts: the statement and NoteResource imply no-content response, while the solution returns the deleted entity. Students may be unsure which behavior to implement.",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 114
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 50
+        }
+      ],
+      "suggested_fix": "Unify the expected behavior. Preferably change the solution's delete endpoint to mirror NoteResource and the problem statement by returning ResponseEntity<Void> with ResponseEntity.noContent().build() (HTTP 204). Alternatively, update the problem statement to state that DELETE returns the deleted Person (HTTP 200) if that is the intended API contract — but be consistent across examples and the other resource (notes)."
+    },
+    {
+      "description": "The solution's PersonResource.deletePerson method calls personService.getPersonById(personId) to retrieve the deleted person before deletion, but there is no getPersonById(UUID) (or equivalent) method defined in PersonService in either the template or the solution. This is a direct structural mismatch in the solution repository and causes the solution code to be incomplete/non-compilable as-is.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 49
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 20,
+          "end_line": 63
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 18,
+          "end_line": 41
+        }
+      ],
+      "suggested_fix": "Either add a getPersonById(UUID) (or getPerson(UUID): Optional<Person>) method to PersonService that returns the person with the given ID, or change PersonResource.deletePerson to not rely on a missing service method (e.g., perform deletion and return ResponseEntity.noContent().build()). Ensure the chosen approach is reflected consistently in problem text, template TODOs, and the solution code."
+    },
+    {
+      "description": "The problem statement (Part 2) instructs that the PersonController methods take a Consumer<List<Note>> parameter, while both the template and the solution PersonController implementations use Consumer<List<Person>>. This is a naming/type mismatch in the problem description: the conceptual entity is a list of persons, but the problem text incorrectly refers to notes. Students may be confused about the expected type for the PersonController callback and whether they should reuse the Note-related type instead of Person, increasing extraneous cognitive load and risking incorrect implementations.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 151
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 80
+        }
+      ],
+      "suggested_fix": "Correct the problem statement text to refer to Consumer<List<Person>> for the PersonController methods (replace 'Consumer<List<Note>>' with 'Consumer<List<Person>>') so the described API signature matches the template and solution code and avoids confusion."
+    }
+  ]
+}

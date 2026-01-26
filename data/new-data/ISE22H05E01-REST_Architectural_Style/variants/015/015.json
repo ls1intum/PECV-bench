@@ -1,0 +1,37 @@
+{
+  "case_id": "new-data/ISE22-H05E01-REST_Architectural_Style/015",
+  "issues": [
+    {
+      "description": "Visibility mismatch for PersonService methods between the template and the solution. In the template PersonService methods are public (savePerson, deletePerson, getAllPersons), which is consistent with how the (template) PersonResource is expected to call them. In the solution these methods are declared protected. Because PersonResource is in a different package (de.tum.in.ase.eist.rest) than PersonService (de.tum.in.ase.eist.service), protected visibility prevents PersonResource from calling those methods and would cause compilation/access errors. This inconsistency is structural (access level changes) and will confuse students when comparing template and solution or when trying to run the provided solution/server code.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 18,
+          "end_line": 40
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 20,
+          "end_line": 63
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
+          "end_line": 49
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
+        }
+      ],
+      "suggested_fix": "Restore public visibility for the PersonService methods (savePerson, deletePerson, getAllPersons) so they are accessible from PersonResource in the rest package. Concretely, change the solution's PersonService method declarations from protected back to public. Alternatively, move PersonResource into the same package as PersonService or provide public wrapper methods, but the simplest fix preserving the intended layered design is to make the service methods public."
+    }
+  ]
+}

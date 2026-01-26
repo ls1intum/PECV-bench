@@ -1,0 +1,31 @@
+{
+  "case_id": "new-data/ERA2021-P01-Raycasting-mit-Festkommazahlen/006",
+  "issues": [
+    {
+      "description": "The declaration of fix_vec_cross in solution_repository/example_program/src/math_fix.h uses the wrong parameter type for the output vector (declares a single fix_t named 'o' instead of a pointer fix_t *o). The implementation (math_fix.c) and the template header expect a pointer (fix_t *o) and the assembler/test code call the function with a pointer. This mismatch will lead to compilation errors or incorrect linkage and will confuse students about the correct function signature to implement or call.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/math_fix.h",
+          "start_line": 40,
+          "end_line": 50
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/math_fix.h",
+          "start_line": 40,
+          "end_line": 50
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/math_fix.c",
+          "start_line": 72,
+          "end_line": 79
+        }
+      ],
+      "suggested_fix": "Fix the prototype in example_program/src/math_fix.h to match the implementation and template: change the declaration to use a pointer for the output vector, i.e. 'void fix_vec_cross(const fix_t *v1, const fix_t *v2, fix_t *o);'. Ensure all headers (template and solution) and any callers use the same signature."
+    }
+  ]
+}
