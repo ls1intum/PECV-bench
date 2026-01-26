@@ -1,0 +1,81 @@
+{
+  "case_id": "newData/ERA2021-P01-Raycasting-mit-Festkommazahlen/014",
+  "issues": [
+    {
+      "description": "The problem statement requires that the conversion function fix_fix2float be for internal verification only, must be marked static, and must not be exposed in the public header. However, both the template and the solution expose fix_fix2float in the public header (math_fix.h) and provide a non-static inline definition in math_fix.c. This contradicts the API restriction in the problem statement and creates an unintended API/visibility conflict: students following the template/solution will have fix_fix2float available publicly (and linkable), whereas the spec intends it to be internal only. This can confuse students about which functions are part of the public API and which are internal, and it violates the stated requirement.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/math_fix.h",
+          "start_line": 40,
+          "end_line": 49
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/math_fix.c",
+          "start_line": 28,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/math_fix.h",
+          "start_line": 40,
+          "end_line": 49
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/math_fix.c",
+          "start_line": 28,
+          "end_line": 36
+        }
+      ],
+      "suggested_fix": "Make the conversion function internal only and remove its public declaration. Concretely: (1) Remove the prototype float fix_fix2float(fix_t) from the public header example_program/src/math_fix.h. (2) In example_program/src/math_fix.c change the definition to have internal linkage (e.g. static inline float fix_fix2float(fix_t f) or static float fix_fix2float(...)) so it is not exported. (3) If test code needs access to this conversion for diagnostics, keep the test-local math_fix.h (under tests/) providing its own inline implementation (as currently present) or provide a separate internal test header; do NOT expose the internal symbol in the public API. Updating both template and solution repos to follow this will align code with the problem statement and avoid student confusion."
+    },
+    {
+      "description": "The problem statement's API restriction explicitly requires the conversion function `fix_fix2float` to be internal (marked `static`) and not exposed in the public header. However, both the template and the solution repositories declare `fix_fix2float` in the public header (math_fix.h) and define it as a non-static inline function in math_fix.c. This contradicts the stated API restriction and creates a direct mismatch between the problem requirements and the provided code. Students will be confused about what the grading/verification expects (an internal/static helper) versus what the starter code exposes (a public symbol), which can cause wasted effort or incorrect modifications to satisfy grading rules.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/math_fix.h",
+          "start_line": 40,
+          "end_line": 46
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/math_fix.c",
+          "start_line": 28,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/math_fix.h",
+          "start_line": 40,
+          "end_line": 46
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/math_fix.c",
+          "start_line": 28,
+          "end_line": 31
+        }
+      ],
+      "suggested_fix": "Make the intent consistent across artifacts. Two viable options:\n\n1) Enforce the problem statement: remove the public prototype of `fix_fix2float` from math_fix.h and make the implementation internal in math_fix.c (e.g., change `inline float fix_fix2float(...)` to `static inline float fix_fix2float(...)` or `static float fix_fix2float(...)`). Also update any code that currently relies on a public `fix_fix2float` (tests or helpers) to use the intended public APIs (e.g., fix_vec_fix2float / fix_float2fix / other approved helpers) or provide per-translation-unit static helpers where needed.\n\n2) Adjust the problem statement: if `fix_fix2float` must be available across translation units (used by tests/helpers), update the API restriction in problem_statement.md to allow a public declaration and/or clarify the allowed linkage (for example: \"`fix_fix2float` may remain declared in the header as `inline` for convenience; graders will not penalize that\").\n\nEither approach aligns naming and API expectations and removes the contradictory guidance that would otherwise confuse students."
+    }
+  ]
+}

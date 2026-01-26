@@ -1,0 +1,31 @@
+{
+  "case_id": "newData/ISE22-H10E01-Containers/005",
+  "issues": [
+    {
+      "description": "The template's PersonResource.updatePerson handler does not accept the path variable personId (method signature: updatePerson(@RequestBody Person updatedPerson)), while the solution's handler requires the path variable and validates that the request-body id matches the path id (updatePerson(@RequestBody Person updatedPerson, @PathVariable(\"personId\") Long personId) and checks updatedPerson.getId().equals(personId)). This is a structural mismatch in method parameters and expected behavior: students following the template may not perform or be guided to perform the id/path consistency check the solution enforces. It may also confuse students about the intended request contract for the PUT /persons/{personId} endpoint.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 48
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 51
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 24
+        }
+      ],
+      "suggested_fix": "Make the template's updatePerson method signature match the intended contract used in the solution: add the @PathVariable(\"personId\") Long personId parameter and validate that updatedPerson.getId().equals(personId), throwing a BAD_REQUEST ResponseStatusException if they differ. This makes the endpoint's request contract explicit and aligns template, solution, and expected behavior."
+    }
+  ]
+}

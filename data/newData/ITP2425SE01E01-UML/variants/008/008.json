@@ -1,0 +1,37 @@
+{
+  "case_id": "newData/ITP2425-SE01E01-UML/008",
+  "issues": [
+    {
+      "description": "Constructor parameter order for ExcellenceLand is ambiguous/conflicting. The general instruction requires constructors to take attributes in the same order as in the UML (first attribute on top => first constructor parameter). The UML (problem statement lines 35-36) lists only two attributes for ExcellenceLand in this order: excellencyLevel (double) then excellentEnough (boolean). Separately, the Tasks (problem statement line 58) add an attribute rides of type List<Ride>. It is unclear where this additional attribute should appear in the constructor parameter order relative to the two UML-listed attributes. The solution implements a constructor with parameter order (List<Ride> rides, boolean excellentEnough, double excellencyLevel), which does not follow the explicit UML attribute order and conflicts with the stated rule about constructor parameter ordering. This ambiguity can confuse students about the required constructor signature and lead to mismatches with test expectations.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 35,
+          "end_line": 37
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 58,
+          "end_line": 58
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/in/ase/ExcellenceLand.java",
+          "start_line": 1,
+          "end_line": 3
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/ExcellenceLand.java",
+          "start_line": 5,
+          "end_line": 15
+        }
+      ],
+      "suggested_fix": "Make the attribute list and constructor parameter order unambiguous. Either (A) update the UML in the problem statement to list the rides attribute explicitly among ExcellenceLand attributes in the desired order (for example: excellencyLevel, excellentEnough, rides), and state that the constructor should follow that order; or (B) explicitly state in the Tasks that the constructor must have parameters in the order (List<Ride> rides, boolean excellentEnough, double excellencyLevel) if that is intended. Prefer updating the UML to include 'rides: List<Ride>' in the correct position so the general rule (constructor follows UML attribute order) remains consistent."
+    }
+  ]
+}

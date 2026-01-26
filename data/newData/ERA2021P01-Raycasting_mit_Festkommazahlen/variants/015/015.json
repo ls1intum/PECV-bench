@@ -1,0 +1,57 @@
+{
+  "case_id": "newData/ERA2021-P01-Raycasting-mit-Festkommazahlen/015",
+  "issues": [
+    {
+      "description": "Bitmap24::resize_buffer is declared public in the template header but is marked private in the solution header while main.cpp (both template and solution) calls bitmap.resize_buffer(...). This is a visibility contradiction inside the solution repository: the method is not accessible where it is used, which will prevent the program from compiling and confuses students about the intended API (template expects a public resize_buffer).",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 42,
+          "end_line": 46
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 42,
+          "end_line": 47
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/main.cpp",
+          "start_line": 36,
+          "end_line": 37
+        }
+      ],
+      "suggested_fix": "Restore resize_buffer as a public member in the solution header (move the declaration to the public section or remove the private specifier). Alternatively, if the intent is to make resize_buffer private, provide a public wrapper (e.g., an initialize or resize public method) and update all call sites (main.cpp) accordingly. Prefer making resize_buffer public to match the template and maintain consistency with the usage in main.cpp."
+    },
+    {
+      "description": "In the assignment file for vector subtraction, the template declares the symbol as global (exported) while the solution version declares it as extern in the data section. The template has 'global fix_vec_sub_asm' (exporting the implementation) but the solution file contains 'extern fix_vec_sub_asm' where a global/export is expected. This mismatch in symbol linkage between template and solution can confuse students about whether they should provide/expect the symbol implementation in that file and may affect linking behavior.",
+      "severity": "MEDIUM",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/assignment/fix_vec_sub.asm",
+          "start_line": 10,
+          "end_line": 12
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/assignment/fix_vec_sub.asm",
+          "start_line": 10,
+          "end_line": 12
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/assignment/fix_vec_sub.asm",
+          "start_line": 36,
+          "end_line": 37
+        }
+      ],
+      "suggested_fix": "Make the linkage consistent and explicit. If the function is defined in the same assembly file and should be exported for linking, change the 'extern' to 'global fix_vec_sub_asm' in the solution assignment file to match the template. If the intent is to reference a definition in another file, keep 'extern' and remove the local definition; but prefer matching the template (global) so students can implement the function in that file as expected."
+    }
+  ]
+}

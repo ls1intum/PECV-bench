@@ -1,0 +1,57 @@
+{
+  "case_id": "newData/MTG26-SQL_Advanced/009",
+  "issues": [
+    {
+      "description": "Aufgabe 01 (problem statement) requests the names of all zoos and the name and regierungsbezirk of the respective Gemeinde. The solution query (solution_repository/aufgabe01.sql) selects those three pieces of information but also includes an extra column Zoo.url that is not requested by the problem statement. This mismatch between the problem specification and the provided solution may confuse students about the expected result shape and encourages returning more columns than required.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 19
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 2
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Remove the extra column (Zoo.url) from the solution query so the SELECT list matches the problem requirement. The solution SELECT should only return Zoo.name, Gemeinde.name, and Gemeinde.regierungsbezirk (and keep the correct join condition)."
+    },
+    {
+      "description": "Aufgabe 06 (Zusatzübung) explicitly asks for the Anzahl (count) of Wanderwege leading to Gemeinden with more than 500,000 male inhabitants. The provided solution (solution_repository/aufgabe06.sql) uses SELECT * and returns row data instead of an aggregate count. This contradicts the problem requirement and would mislead students about the expected result form (a single numeric count).",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 41,
+          "end_line": 44
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe06.sql",
+          "start_line": 1,
+          "end_line": 1
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe06.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Change the solution query to return the count, e.g. SELECT COUNT(*) FROM Gemeinde, Wanderweg_zu_Gemeinde WHERE Gemeinde.schluessel = Wanderweg_zu_Gemeinde.gemeindeschluessel AND Gemeinde.einwohner_m > 500000. This aligns the solution output with the problem statement."
+    }
+  ]
+}

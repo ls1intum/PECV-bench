@@ -1,0 +1,57 @@
+{
+  "case_id": "newData/ERA2021-H03-Grafikspeicher/009",
+  "issues": [
+    {
+      "description": "Mismatch about the calling convention / register-preservation requirement for set_pixel. The problem statement explicitly requires that x and y are passed in EAX and EBX, the color in ECX, and that no registers other than EAX may be changed by set_pixel. The template, however, contains an instruction that says “save all registers you modify except eax, ebx and esi” which implies EBX (holding y) may be clobbered and need not be preserved. The solution implementation preserves EBX (push/pop) and therefore follows the requirement from the problem statement. The template comment is therefore contradictory and would likely confuse students about which registers they must preserve when implementing set_pixel.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 100,
+          "end_line": 102
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 153,
+          "end_line": 168
+        }
+      ],
+      "suggested_fix": "Align the template instructions with the problem statement: clearly state the calling convention and preservation requirement (e.g. “Parameters: x in EAX, y in EBX, color in ECX. Only EAX may be clobbered; all other registers must be restored to their incoming values.”). Update or remove the template comment that says EBX/ESI need not be saved so students are not led to incorrectly modify EBX."
+    },
+    {
+      "description": "Problem statement requires that display_start must be aligned to a 64-byte boundary, but the template (and solution) declare display_start in .bss without an explicit alignment directive. This is a mismatch between the problem requirement and the provided code: students may rely on the provided symbol and not ensure the requested alignment, or be confused whether they must change the declaration to satisfy the alignment requirement.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 17,
+          "end_line": 18
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 20,
+          "end_line": 22
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 4,
+          "end_line": 6
+        }
+      ],
+      "suggested_fix": "Make the alignment explicit in the template (and solution) .bss declaration. For example, add an alignment directive before the display_start symbol (assembler-dependent, e.g. use `align 64` / `resb` with appropriate label) so display_start is guaranteed to be 64-byte aligned. Also add a short comment explaining that this satisfies the problem requirement."
+    }
+  ]
+}

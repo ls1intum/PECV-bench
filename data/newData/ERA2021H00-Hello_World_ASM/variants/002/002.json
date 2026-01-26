@@ -1,0 +1,71 @@
+{
+  "case_id": "newData/ERA2021-H00-Hello-World-ASM/002",
+  "issues": [
+    {
+      "description": "The problem statement requires that the process exit/status code be returned in the EBX register (problem_statement.md line 22), but neither the template nor the solution set EBX before returning. The template's main simply returns (ret) after calling printf and the solution returns (ret) as well without placing a status in EBX. If the grader or testing infrastructure expects the status in EBX, students following the template will not meet that requirement and may be confused why their submission fails despite following the exercise (which is intended to be only a small textual fix).",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 22,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 4,
+          "end_line": 19
+        }
+      ],
+      "suggested_fix": "Either update the problem statement to match the conventional return mechanism used by the template/solution (e.g. document that no explicit EBX value is required or specify returning in EAX if that matches the build/grader), or modify both template and solution to explicitly place the intended status value into EBX before returning (for example, move the desired status into EBX and then ret). Ensure the grader and Makefile are aligned with whichever convention is chosen."
+    },
+    {
+      "description": "The template exports the symbol 'main' (global main) while the solution exports 'CMAIN' (global CMAIN). This mismatch in the declared global/entry symbol between template and solution may confuse students about which entry label to use or how the provided Makefile/build expects the entry point to be named. If the build or testing expects one specific symbol, the other artifact will not directly match that expectation.",
+      "severity": "MEDIUM",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 6
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 5,
+          "end_line": 5
+        }
+      ],
+      "suggested_fix": "Choose and document a single expected entry symbol in the problem statement and Makefile (e.g. 'main' or 'CMAIN'), and make the template and solution consistent with that choice. Update either the template to use 'CMAIN' or the solution to use 'main' (and adjust any build scripts) so students see a consistent entry point across artifacts."
+    },
+    {
+      "description": "The template includes a data section, a 'hello' string, and calls extern printf (i.e., it demonstrates printing), whereas the solution omits the data section/printf usage and instead contains only a minimal text section with arithmetic and a return. This cross-artifact difference in structure (I/O present in template but absent in solution) could confuse students reading the solution for reference — they may expect the solution to show the same I/O approach as the template or wonder why the solution omits the example code used in the template.",
+      "severity": "LOW",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 2,
+          "end_line": 17
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 1,
+          "end_line": 19
+        }
+      ],
+      "suggested_fix": "Make the solution and template consistent in their demonstration style: either include the data/printf usage in the solution (so it matches the template's I/O example) or simplify the template to match the minimal structure shown in the solution. At minimum, add a comment in the solution explaining why the I/O/data section is omitted (e.g., a reduced example focused on the intended fix) to avoid confusion."
+    }
+  ]
+}

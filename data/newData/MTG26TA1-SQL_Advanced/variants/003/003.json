@@ -1,0 +1,45 @@
+{
+  "case_id": "newData/MTG26-SQL_Advanced/003",
+  "issues": [
+    {
+      "description": "Aufgabe 04 in der Problemstellung fordert die Anzahl an Schwimmbädern in Gemeinden mit mehr als 2000 weiblichen Einwohnerinnen (Problem: 'mehr als 2000 weiblichen Einwohnerinnen'), aber die Lösung setzt die Bedingung auf 'Gemeinde.einwohner_w > 1000'. Dadurch gibt die Referenzlösung falsche Ergebnisse und widerspricht der Aufgabenbeschreibung; Schüler, die sich an der Lösung orientieren, würden die falsche Schwellzahl verwenden.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 31,
+          "end_line": 33
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe04.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Korrigiere die Bedingung in der Lösung so, dass sie mit der Aufgabenstellung übereinstimmt: setze 'AND Gemeinde.einwohner_w > 2000' (anstatt '> 1000')."
+    },
+    {
+      "description": "Aufgabe 06 in der Problemstellung verlangt die Anzahl der Wanderwege (COUNT) zu Gemeinden mit mehr als 500000 männlichen Einwohnern, die Referenzlösung gibt jedoch alle Zeilen zurück (SELECT *). Das Ergebnis der Referenzlösung entspricht nicht dem geforderten Aggregattyp und kann Schüler verwirren, da es nicht die geforderte aggregierte Zahl liefert.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 44,
+          "end_line": 44
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe06.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Passe die Referenzlösung an die Aufgabenstellung an, z. B. 'SELECT COUNT(*) FROM Gemeinde, Wanderweg_zu_Gemeinde WHERE Gemeinde.schluessel = Wanderweg_zu_Gemeinde.gemeindeschluessel AND einwohner_m > 500000' so dass ein einzelner Zähler zurückgegeben wird."
+    }
+  ]
+}

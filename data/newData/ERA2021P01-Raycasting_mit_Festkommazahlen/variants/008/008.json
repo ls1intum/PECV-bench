@@ -1,0 +1,63 @@
+{
+  "case_id": "newData/ERA2021-P01-Raycasting-mit-Festkommazahlen/008",
+  "issues": [
+    {
+      "description": "The solution repository's Bitmap24 header (example_program/src/Bitmap24.hpp) does not declare the default constructor Bitmap24(), but the solution's Bitmap24.cpp defines Bitmap24::Bitmap24() and the program (main.cpp) in both template and solution expects to default-construct a Bitmap24 object (Bitmap24 bitmap;). This mismatch (definition present but no declaration visible to users of the header) will cause compilation errors when compiling main.cpp and will confuse students because the template header declares the default constructor while the solution header does not.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 41
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 39
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 36,
+          "end_line": 41
+        }
+      ],
+      "suggested_fix": "Add the default constructor declaration to the solution header so it matches the implementation and the template. For example, in solution_repository/example_program/src/Bitmap24.hpp (public section) add the line: Bitmap24(); This will align the header with Bitmap24.cpp and with the template/main usage (Bitmap24 bitmap;) and avoid compilation errors."
+    },
+    {
+      "description": "The class constructor availability for Bitmap24 is inconsistent between template and solution artifacts. The template's header declares a default constructor (Bitmap24();) and the example template code (main.cpp) uses it (Bitmap24 bitmap;). In the solution repository the Bitmap24 implementation defines a default constructor, but the solution's Bitmap24.hpp header omits the default-constructor declaration and only declares the parameterized constructor. This mismatch breaks the clear mapping between template usage and solution API: students comparing template and solution (or trying to compile the example using the solution header) will be confused and may encounter compilation errors because the header presented in the solution does not expose the constructor used in the template/main code.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 33,
+          "end_line": 39
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 36,
+          "end_line": 37
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 39
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 36,
+          "end_line": 41
+        }
+      ],
+      "suggested_fix": "Restore a consistent class API: add the default constructor declaration 'Bitmap24();' to solution/example_program/src/Bitmap24.hpp (so the header matches the template usage and the implementation). This aligns template usage, solution header, and implementation and removes the compilation/confusion gap for students."
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "case_id": "newData/ERA2021-H03-Grafikspeicher/005",
+  "issues": [
+    {
+      "description": "The problem statement specifies that the RGB color parameter for set_pixel is passed in register EDX, while both the provided template and the reference solution pass the color in ECX and the solution's set_pixel implementation reads the color from ECX. This mismatch of which register carries the color will confuse students implementing set_pixel: if they follow the problem text (expecting color in EDX) their routine will not receive the color as provided by the template's main, and if they follow the template (ECX) they will violate the stated calling convention in the problem statement.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 141,
+          "end_line": 147
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 123,
+          "end_line": 129
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 153,
+          "end_line": 168
+        }
+      ],
+      "suggested_fix": "Make the calling convention consistent across all artifacts. Two reasonable options:\n\n1) Align the problem statement with the template/solution: change the problem text to state that the RGB color is passed in ECX (not EDX). This is the minimal change and keeps the provided template/solution unchanged.\n\n2) Align the template and solution to the problem statement: modify main to pass the color in EDX (e.g., replace 'mov ecx, eax' with 'mov edx, eax' before calling set_pixel) and update set_pixel to write the color from EDX (change 'mov [addr], ecx' to 'mov [addr], edx'). Ensure set_pixel preserves registers as required by the spec (save/restore any registers it uses except EAX if the spec allows only EAX to be clobbered).\n\nEither fix will resolve the inconsistency; prefer option 1 if you want minimal edits, or option 2 if the original intent truly was to use EDX for the color parameter."
+    },
+    {
+      "description": "The problem statement and the provided code disagree about which register holds the RGB color argument for set_pixel. The problem text (part b) states the RGB value is passed in register edx, while earlier in the problem (part a) and in both the template and solution code the color is read/held in ecx (e.g. mov ecx, [esi], mov ecx, eax before calling set_pixel, and the solution's set_pixel writes ecx to memory). This mismatch will confuse students about which register they must use/preserve and may lead to incorrect implementations or failing to meet the 'only eax may be changed' constraint.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 26
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 137,
+          "end_line": 147
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 123,
+          "end_line": 164
+        }
+      ],
+      "suggested_fix": "Align the problem statement with the template/solution by specifying that the RGB color is passed in ECX (not EDX), and update any register-preservation instructions accordingly. Concretely: change the sentence 'der zu setzende RGB-Wert im Register edx' to 'der zu setzende RGB-Wert im Register ecx' (and ensure any related constraints mention preserving ECX as appropriate). Alternatively, if the intended design is to use EDX for the color, modify the template and solution to place/read the color in EDX consistently (e.g. use mov edx, <color> and write [addr] from edx)."
+    }
+  ]
+}

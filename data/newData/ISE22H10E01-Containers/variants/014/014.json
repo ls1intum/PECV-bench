@@ -1,0 +1,83 @@
+{
+  "case_id": "newData/ISE22-H10E01-Containers/014",
+  "issues": [
+    {
+      "description": "The problem statement instructs students to access the children field directly via a public field (person.children). However, both the template and the solution define children as a private field with public getter/setter (private Set<Person> children; public Set<Person> getChildren()). This visibility mismatch will confuse students (they may try to access a nonexistent public field) and contradicts the provided code structure.",
+      "severity": "MEDIUM",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 3,
+          "end_line": 3
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 42,
+          "end_line": 49
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 42,
+          "end_line": 49
+        }
+      ],
+      "suggested_fix": "Either update the problem statement to instruct students to use the getter (person.getChildren()) and/or the setter (person.setChildren(...)) consistently with the provided code, or change the Person class in the template to expose a public children field if the exercise intentionally requires direct field access. The less intrusive fix is to correct the problem statement to reference person.getChildren()."
+    },
+    {
+      "description": "The problem statement refers to the 'children list' (implying a List type), while the template and solution declare children as a Set (private Set<Person> children). This mismatch in the described collection type may cause minor confusion about the expected collection semantics (ordering, duplicates) and available operations.",
+      "severity": "LOW",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 3,
+          "end_line": 3
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 42,
+          "end_line": 49
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 42,
+          "end_line": 49
+        }
+      ],
+      "suggested_fix": "Clarify the problem statement to use neutral/accurate terminology such as 'children collection' or explicitly state 'Set<Person>' (or change the model to use List<Person> if ordered/duplicate semantics are required). The recommended fix is to update the wording in the problem statement to match the template (Set<Person>) and to instruct use of the getter (person.getChildren())."
+    },
+    {
+      "description": "The problem statement instructs students to access the children list directly via the public field notation person.children, but both the template and the solution declare the children attribute as a private field with a getter (getChildren()). This mismatch between the expected access pattern in the problem text and the actual code will confuse students (they may try to access person.children and get a compile/error or be uncertain whether to use the getter).",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 3,
+          "end_line": 3
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 42,
+          "end_line": 49
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 42,
+          "end_line": 49
+        }
+      ],
+      "suggested_fix": "Align the problem statement with the code. Preferably update problem_statement.md to instruct students to use the provided getter (person.getChildren()) rather than direct field access. Alternatively (less recommended for encapsulation), change the children field in the template and solution to be public or remove the getter — but updating the problem text to reference getChildren() preserves standard Java encapsulation and avoids unnecessary confusion."
+    }
+  ]
+}

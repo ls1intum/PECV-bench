@@ -1,0 +1,63 @@
+{
+  "case_id": "newData/ITP2425-SE01E01-UML/006",
+  "issues": [
+    {
+      "description": "The solution's ExcellenceLand constructor signature does not match the attributes specified in the problem statement/tasks. The UML and task text define ExcellenceLand with attributes excellencyLevel: double, excellentEnough: boolean and (per task) a private rides: List<Ride>. The solution's constructor is declared as ExcellenceLand(String name, double excellencyLevel, boolean excellentEnough, List<Ride> rides) — i.e. it includes an unexpected extra String name parameter (unused) and thus does not take parameters in the order or set of attributes described. This contradicts the requirement that constructors must take all attributes defined in the UML (and tasks) as parameters in the same order and will confuse students about the expected constructor signature and parameter order (and might cause tests to fail).",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 34,
+          "end_line": 46
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/in/ase/ExcellenceLand.java",
+          "start_line": 1,
+          "end_line": 3
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/ExcellenceLand.java",
+          "start_line": 5,
+          "end_line": 15
+        }
+      ],
+      "suggested_fix": "Change the ExcellenceLand constructor to accept exactly the attributes specified (and in the correct order). For example, remove the extraneous String parameter and use:\n\npublic ExcellenceLand(double excellencyLevel, boolean excellentEnough, List<Ride> rides) {\n    this.excellencyLevel = excellencyLevel;\n    this.excellentEnough = excellentEnough;\n    this.rides = rides;\n}\n\nThis makes the constructor parameters correspond to the attributes and order described in the UML/tasks. If the intended design was to omit rides from the constructor, update the problem statement/tasks to clearly state that; otherwise ensure the solution matches the stated requirement."
+    },
+    {
+      "description": "The Solution implementation of ExcellenceLand defines a constructor with an unexpected first parameter `String name` (constructor: ExcellenceLand(String name, double excellencyLevel, boolean excellentEnough, List<Ride> rides)). The problem statement/UML for ExcellenceLand declares only the attributes `excellencyLevel: double`, `excellentEnough: boolean` (and — via the association — a `rides: List<Ride>`). There is no `name` attribute in the UML/problem statement. The constructor parameter `name` therefore does not map to any conceptual attribute from the exercise description and shifts the parameter order, conflicting with the explicit task requirement that constructors take exactly the UML attributes in the same order. This mismatch will confuse students mapping UML attributes to constructor parameters and may lead to incorrect implementations or failing tests.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 34,
+          "end_line": 37
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 45,
+          "end_line": 45
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/in/ase/ExcellenceLand.java",
+          "start_line": 1,
+          "end_line": 3
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/ExcellenceLand.java",
+          "start_line": 11,
+          "end_line": 15
+        }
+      ],
+      "suggested_fix": "Align the ExcellenceLand constructor with the UML attributes. Remove the unexpected `String name` parameter so the constructor signature becomes: ExcellenceLand(double excellencyLevel, boolean excellentEnough, List<Ride> rides) and assign those three attributes accordingly. Alternatively (if a name attribute was intended), update the UML/problem statement to include a `name` attribute and ensure attribute order and names match across all artifacts. The preferred fix is to remove the extraneous `name` parameter to preserve consistency with the exercise specification."
+    }
+  ]
+}

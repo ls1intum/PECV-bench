@@ -1,0 +1,43 @@
+{
+  "case_id": "newData/ITP2425-SE01E01-UML/005",
+  "issues": [
+    {
+      "description": "The RollerCoaster constructor parameter order in the solution does not match the subclass usage (LaunchedRollerCoaster) nor the constructor-order requirement in the problem statement. In solution_repository/src/de/tum/in/ase/RollerCoaster.java the constructor is declared as RollerCoaster(String name, int numberOfLoopings, char abbreviation) while solution_repository/src/de/tum/in/ase/LaunchedRollerCoaster.java calls super(name, abbreviation, numberOfLoopings) (types: String, char, int). This mismatch will cause a compile error and contradicts the problem instruction that constructors should list parameters in the same order as the UML attributes (and confuses students about the intended parameter ordering for subclass constructors).",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 5,
+          "end_line": 5
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 26,
+          "end_line": 28
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/in/ase/RollerCoaster.java",
+          "start_line": 1,
+          "end_line": 1
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/RollerCoaster.java",
+          "start_line": 7,
+          "end_line": 10
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/LaunchedRollerCoaster.java",
+          "start_line": 5,
+          "end_line": 7
+        }
+      ],
+      "suggested_fix": "Make the RollerCoaster constructor parameter ordering consistent with the UML/instruction and the subclass super call. For example, change RollerCoaster's constructor signature to: public RollerCoaster(String name, char abbreviation, int numberOfLoopings) { super(name, abbreviation); this.numberOfLoopings = numberOfLoopings; } This aligns the parameter order (name, abbreviation, numberOfLoopings) with the subclass call super(name, abbreviation, numberOfLoopings) and with the expectation that inherited Ride attributes (name, abbreviation) precede the subclass attribute numberOfLoopings. Alternatively, change the LaunchedRollerCoaster constructor to call super(name, numberOfLoopings, abbreviation) to match the current RollerCoaster signature, but the first option better follows the problem statement's constructor-order rule."
+    }
+  ]
+}

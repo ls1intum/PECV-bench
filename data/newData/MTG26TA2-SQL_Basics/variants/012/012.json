@@ -1,0 +1,97 @@
+{
+  "case_id": "newData/MTG26-SQL_Basics/012",
+  "issues": [
+    {
+      "description": "Solution uses a column alias for the name column (name AS bezeichnung) although the problem statement explicitly instructs students not to rename columns with AS unless requested. This creates a mismatch between the specified output format and the reference solution: students who follow the instruction exactly (i.e., do not rename) will produce a different column name than the solution, and students copying the solution may violate the stated rule.",
+      "severity": "LOW",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 101,
+          "end_line": 109
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 1
+        }
+      ],
+      "suggested_fix": "Either remove the alias from the reference solution (use SELECT id, name, art, url ...) so the solution matches the problem instruction, or update the problem statement to permit the specific alias used in the solution. Preferable fix: adjust solution_repository/aufgabe01.sql to SELECT id, name, art, url ... without AS."
+    },
+    {
+      "description": "The template for Aufgabe 01 uses a blanket SELECT * FROM Schwimmbad. The problem explicitly requires students to output exactly id, name, art and url for Freibäder. Providing SELECT * in the starter template can encourage students to return extra/unrequired columns and omit the WHERE filter for Freibad, which contradicts the task specification and may lead to failing tests or confusion about the required output.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 2
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 101,
+          "end_line": 109
+        }
+      ],
+      "suggested_fix": "Adjust the template to match the expected output columns and include the required WHERE condition as a starter (e.g. a commented placeholder or partial query like -- SELECT id, name, art, url FROM Schwimmbad WHERE art = 'Freibad' or prefill SELECT id, name, art, url FROM Schwimmbad WHERE art = ''). This keeps the template pedagogical while avoiding a misleading SELECT *."
+    },
+    {
+      "description": "The problem asks for ID, Name, Art and URL of Freibäder (student-facing column names: ID, Name, Art, URL). The solution query for Aufgabe 01 renames the column name to bezeichnung (SELECT id, name AS bezeichnung, art, url). This creates a mapping mismatch between the problem's requested column label \"Name\" and the solution's aliased label \"bezeichnung\" and also conflicts with the exercise instruction that students should not rename columns with AS unless asked. Students may be confused which column label is expected and automatic checks that verify selected columns/labels may fail or appear inconsistent.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 106,
+          "end_line": 109
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 2
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Remove the alias and return the column with its original name (use SELECT id, name, art, url FROM Schwimmbad WHERE art = 'Freibad') so the output column label matches the problem statement. Alternatively, if renaming was intentional, update the problem text to request the column be named 'bezeichnung' and note the aliasing explicitly."
+    },
+    {
+      "description": "The solution repository uses inconsistent casing for the same table name 'Gemeinde' across files (e.g. solution_repository/aufgabe04.sql uses FROM gemeinde (lowercase) while other solution files use FROM Gemeinde (capitalized)). While SQL identifier case-sensitivity depends on the DB, inconsistent naming across solution artifacts can create unnecessary confusion for students reading and adapting examples.",
+      "severity": "LOW",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 120,
+          "end_line": 126
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe04.sql",
+          "start_line": 1,
+          "end_line": 3
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe05.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Standardize the table identifier across solution files to match the schema and problem wording (e.g. use 'Gemeinde' consistently in all solution queries), or add a brief note in the problem statement that identifiers are case-insensitive in the target DB if that is the intended behavior."
+    }
+  ]
+}

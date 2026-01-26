@@ -1,0 +1,63 @@
+{
+  "case_id": "newData/ERA2021-H03-Grafikspeicher/011",
+  "issues": [
+    {
+      "description": "The problem statement requires the temporary input buffer 'buf' to be 16 bytes (problem_statement.md line 16), but both the template and the solution reserve only 2 doublewords (resd 2 = 8 bytes). The code reads up to 9 bytes for the colour and up to 5 bytes for coordinates which can overflow the declared buffer. This is a structural issue that can cause runtime memory corruption or incorrect behavior and will confuse students (they are explicitly told buf must be 16 bytes).",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 16
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 5,
+          "end_line": 6
+        }
+      ],
+      "suggested_fix": "Increase the buffer allocation to 16 bytes in the template and solution. For example, replace 'buf resd 2' (8 bytes) with either 'buf resb 16' or 'buf resd 4' (4 doublewords = 16 bytes). This matches the problem statement and prevents overflow when reading up to 9 bytes."
+    },
+    {
+      "description": "The problem describes a screen of resolution 1920×1080 with 4 bytes per pixel (resulting in 8294400 bytes of screen memory). However, both the template and the solution reserve display_start using 'RESD 8294400', which allocates 8294400 doublewords (4× larger than intended). The intended total is 8,294,400 bytes; using RESD 8,294,400 incorrectly reserves 33,177,600 bytes. This mismatch between the intended byte count and the assembler directive is a structural error (and can lead to excessive/invalid memory reservation or assembler failures).",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 18,
+          "end_line": 19
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 31,
+          "end_line": 34
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 20,
+          "end_line": 21
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 4,
+          "end_line": 5
+        }
+      ],
+      "suggested_fix": "Adjust the reservation to reflect bytes or the correct number of doublewords. Options:\n- Reserve bytes explicitly: 'display_start resb 8294400' (allocates 8,294,400 bytes), or\n- Reserve dwords for the number of pixels: 'display_start resd 2073600' (2,073,600 dwords × 4 bytes = 8,294,400 bytes).\nApply the change in both the template and the solution so they match the problem statement's intended screen memory size."
+    }
+  ]
+}

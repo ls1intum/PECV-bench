@@ -1,0 +1,133 @@
+{
+  "case_id": "newData/ERA2021-P01-Raycasting-mit-Festkommazahlen/005",
+  "issues": [
+    {
+      "description": "The problem statement describes fix_vec_add(v1, v2) as a function that takes two vectors and returns the resulting sum vector and explicitly states it does not accept a third pointer argument. However, the template and solution expect an assembly function fix_vec_add_asm that is called with three arguments (push o; push v2; push v1) — i.e. two input vectors and a third output pointer where the result is written. This parameter mismatch will confuse students about the required function signature and how they should produce the result (return value vs. output pointer). The tests and provided starter assembly call the three-argument form, so following the problem statement's two-argument description would leave students unable to run the provided tests or link against the template/solution code.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/assignment/fix_vec_add.asm",
+          "start_line": 35,
+          "end_line": 39
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/tests/src/fix_asm.h",
+          "start_line": 5,
+          "end_line": 6
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/assignment/fix_vec_add.asm",
+          "start_line": 35,
+          "end_line": 39
+        }
+      ],
+      "suggested_fix": "Make the problem statement match the template/tests/solution by specifying that the assembly routine uses the three-argument convention: fix_vec_add_asm(v1, v2, o) (two input vector pointers and a third pointer o where the result is stored). Alternatively, if the pedagogical intent is to use a two-argument function that returns a vector, update the template/tests/solution to provide and call a two-argument function that returns the result (and update all extern declarations and calls accordingly). Prefer the first option for minimal disruption to tests."
+    },
+    {
+      "description": "The problem statement implies fix_vec_add returns a resulting sum vector (i.e., a return value containing the vector), but the template and solution implement/use an output-pointer style (no vector return; the result is written to a supplied pointer). This is a return-type / result-communication mismatch: the problem statement implies a return-based API, while the codebase uses an out-parameter-based API. Students will be unsure whether to implement a returning function or an out-parameter function and may implement code incompatible with the provided tests or linking conventions.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/assignment/fix_vec_add.asm",
+          "start_line": 61,
+          "end_line": 62
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/tests/src/test.c",
+          "start_line": 56,
+          "end_line": 59
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/assignment/fix_vec_add.asm",
+          "start_line": 61,
+          "end_line": 62
+        }
+      ],
+      "suggested_fix": "Clarify in the problem statement that the vector addition uses an out-parameter (third pointer) and does not return the vector, e.g. describe the function as void fix_vec_add(const fix_t *v1, const fix_t *v2, fix_t *o) or fix_vec_add_asm(v1, v2, o) to match the template/tests. If the learning goal requires returning a vector, refactor the template/tests to expect/handle a returned vector and update all externs and assembly call sites."
+    },
+    {
+      "description": "Within the provided codebase there is an internal inconsistency about the declared return type of the assembly symbol: template/example math_fix.c declares extern fix_t fix_vec_add_asm(const fix_t*, const fix_t*, fix_t*); (returning fix_t), but the tests header (tests/src/fix_asm.h) declares extern void fix_vec_add_asm(fix_t *, fix_t *, fix_t *); (returning void). The inline wrapper fix_vec_add in math_fix.c treats the call as if it returns nothing. This mismatch between declarations (fix_t vs void) is a structural inconsistency that can cause confusion about the expected symbol type and may lead to incorrect prototypes or compiler warnings/errors.",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/math_fix.c",
+          "start_line": 19,
+          "end_line": 21
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/tests/src/fix_asm.h",
+          "start_line": 5,
+          "end_line": 6
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/math_fix.c",
+          "start_line": 19,
+          "end_line": 21
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/tests/src/fix_asm.h",
+          "start_line": 5,
+          "end_line": 6
+        }
+      ],
+      "suggested_fix": "Make the extern declaration consistent across the codebase. Since the tests and the inline wrapper treat fix_vec_add_asm as writing its result into the third pointer (i.e., no meaningful return is used), change the extern in math_fix.c to extern void fix_vec_add_asm(const fix_t* v0, const fix_t* v1, fix_t* o); and ensure all headers use the same prototype. If a return value is actually intended, update all headers, wrappers, and call sites so they consistently use that return type."
+    },
+    {
+      "description": "The problem statement describes the vector-add function as fix_vec_add(v1, v2) that \"takes two vectors as input and returns the resulting sum vector\" and explicitly says it \"does not accept a third pointer argument\". The template, tests, and solution code instead expect/declare an assembly function that receives two input vector pointers plus a third pointer for the output (fix_vec_add_asm / fix_vec_add with signature like (const fix_t *v1, const fix_t *v2, fix_t *o)). This is a semantic API/signature mismatch for the same conceptual entity (vector addition). Students following the problem text will attempt to implement/verify a two-argument, return-by-value function, but the provided template/test harness requires a three-argument implementation that writes the result into a supplied output pointer. This will create direct confusion and failing tests even for correct conceptual implementations.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/assignment/fix_vec_add.asm",
+          "start_line": 35,
+          "end_line": 63
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/tests/src/test.c",
+          "start_line": 54,
+          "end_line": 59
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/assignment/fix_vec_add.asm",
+          "start_line": 61,
+          "end_line": 62
+        }
+      ],
+      "suggested_fix": "Align the problem statement with the template/tests/solution by updating the description to specify the actual function signature used in the codebase. For example: \"The vector-add function is fix_vec_add_asm (and the exposed wrapper fix_vec_add) and has the signature fix_vec_add(const fix_t *v1, const fix_t *v2, fix_t *o): it takes two input vectors v1 and v2 and a third pointer o where the resulting sum is stored (the function does not return the result by value).\" Alternatively, change the template/tests to match the two-argument return-by-value API, but the simpler/actionable fix is to correct the problem statement to document the three-argument output-pointer API."
+    }
+  ]
+}

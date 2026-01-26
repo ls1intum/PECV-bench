@@ -1,0 +1,51 @@
+{
+  "case_id": "newData/ISE22-H05E01-REST_Architectural_Style/013",
+  "issues": [
+    {
+      "description": "The solution's PersonService adds a new field (PersonRepository) and changes the constructor to accept a PersonRepository parameter, while the template PersonService has no such field or constructor parameter and the problem statement explicitly warns students not to change the attributes of PersonService. This is a structural mismatch between template, problem statement, and solution that can confuse students (and automated tests) because the solution does not preserve the 'do not change attributes' constraint present in the exercise instructions and in the template class.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 206,
+          "end_line": 209
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 11,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 15,
+          "end_line": 21
+        }
+      ],
+      "suggested_fix": "Make the solution's PersonService consistent with the template and problem statement: either (A) remove the PersonRepository field and revert the constructor to a no-arg constructor so PersonService only uses the internal List (matching the template and the 'do not change attributes' instruction), or (B) update the problem statement and template to explicitly include and document the PersonRepository dependency (add the field and constructor parameter to the template and remove/adjust the 'do not change the attributes' note). Choose one approach and apply it consistently across problem text, template, and reference solution."
+    },
+    {
+      "description": "The problem statement text in Part 2 incorrectly says 'Each method takes a Consumer<List<Note>> parameter' when describing the PersonController methods; the template and UML and code clearly expect Consumer<List<Person>>. This documentation typo can confuse students about the expected method parameter types for person-related controller methods.",
+      "severity": "LOW",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 152
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 8,
+          "end_line": 12
+        }
+      ],
+      "suggested_fix": "Fix the problem statement text to refer to Consumer<List<Person>> (not Consumer<List<Note>>). This small correction will align the prose with the UML and the template method signatures and avoid student confusion."
+    }
+  ]
+}

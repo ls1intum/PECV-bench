@@ -1,0 +1,57 @@
+{
+  "case_id": "newData/ISE22-H05E01-REST_Architectural_Style/011",
+  "issues": [
+    {
+      "description": "The problem statement (Part 2, description of PersonController behavior) says \"Each method takes a Consumer<List<Note>> parameter... This consumer takes the internal list of persons as a parameter.\" This is inconsistent: it refers to Consumer<List<Note>> but the controller methods operate on Person objects and the template and solution PersonController signatures use Consumer<List<Person>>. This typo/confusion in the problem text could mislead students about the expected parameter type for the controller methods.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 152
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 8,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 14,
+          "end_line": 24
+        }
+      ],
+      "suggested_fix": "Correct the problem statement text to refer to Consumer<List<Person>> (not Consumer<List<Note>>) so it matches the intended API and the method signatures in the template and solution. Example wording: \"Each method takes a Consumer<List<Person>> parameter, which is called with the controller's internal list of persons after a response is received.\""
+    },
+    {
+      "description": "The solution repository's PersonScene class imports PersonService and declares a private final PersonService personService field in the view. The template PersonScene (and the problem's MVC design) expects the view to interact only with the controller, not directly with a service. In the solution code the field is declared final but is not initialized in the constructor, which would cause a compilation error. This both violates the MVC separation described in the problem and introduces an obvious structural/compilation issue in the provided solution.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
+          "start_line": 6,
+          "end_line": 8
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
+          "start_line": 25,
+          "end_line": 28
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
+          "start_line": 24,
+          "end_line": 31
+        }
+      ],
+      "suggested_fix": "Remove the unused PersonService import and the personService field from the view (PersonScene) so the view communicates only with the controller as intended by the MVC design. If the service must be accessed, inject it through the controller and keep the view unaware of service classes. Also ensure no final fields are left uninitialized to avoid compilation errors."
+    }
+  ]
+}

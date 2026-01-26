@@ -1,0 +1,31 @@
+{
+  "case_id": "newData/ERA2021-H03-Grafikspeicher/003",
+  "issues": [
+    {
+      "description": "The template's set_pixel comment and stub indicate the subroutine \"returns\" the calculated address in ESI (template: \"Returns: Calculated address in ESI\"), but the problem statement for part b) requires that set_pixel set the pixel while preserving all registers except EAX (i.e., it should not modify other registers). The provided solution implements set_pixel by computing the target address in EAX and writing the pixel there while preserving other registers (it does not leave the address in ESI). This is a structural mismatch between the template documentation/stub and the problem specification/solution: students could be confused whether set_pixel must leave the address in ESI or must preserve ESI unchanged. The intended behaviour (per the problem statement and solution) is that set_pixel writes the pixel and preserves registers except EAX; the template comment suggesting a return value in ESI contradicts this.",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 39
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 153,
+          "end_line": 168
+        }
+      ],
+      "suggested_fix": "Make the expected behaviour consistent and explicit. Two options (choose one):\n1) Update the template comment/stub to match the problem statement and solution: state that set_pixel must write the pixel color, may modify EAX, and must preserve all other registers (including ESI). Remove the note that it \"returns\" the address in ESI. Provide a brief calling-convention note: inputs in EAX (x), EBX (y), ECX (color), and no return value required.\n2) OR, if you intend set_pixel to return the address in ESI, update the problem statement and the solution so that set_pixel is allowed to place the calculated address in ESI (and adjust the register-preservation requirement accordingly). Ensure main and the rest of the template/solution are updated to expect ESI as the returned address.\nPrefer option 1 to preserve the original register-preservation requirement from the problem statement and match the solution implementation."
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "case_id": "newData/ERA2021-H00-Hello-World-ASM/004",
+  "issues": [
+    {
+      "description": "The problem statement states that printf here expects two arguments (format first, then the string) (problem_statement.md line 16), but the template calls printf with only one pushed argument (template_repository/helloWorld.asm lines 15-16: 'push hello' then 'call printf'). This mismatch can confuse students about the correct calling convention to use and may lead to runtime/formatting errors. The template should either push a format string before calling printf (and declare that format in the .data section) or the problem statement should clarify that the provided call intentionally uses the string as the format.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 16
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 12,
+          "end_line": 17
+        }
+      ],
+      "suggested_fix": "Make the template and the problem statement agree on printf usage. Preferred fix: add a format string in .data (e.g. fmt db \"%s\", 10, 0) and change the call sequence to push the string then push the format before calling printf (push hello; push fmt; call printf). Alternatively, if the intent was to use the string itself as the format, update the problem statement to state that only one argument is used in this template."
+    },
+    {
+      "description": "The solution uses a different entry point and a different program structure than the template and the problem description. The template declares 'global main' and uses extern printf and a .data section (template_repository/helloWorld.asm lines 6-8 and 2-3), while the solution declares 'global CMAIN' and contains no data or printf usage (solution_repository/helloWorld.asm lines 4-6 and 16-18). This discrepancy may confuse students when they compare their modified template to the provided solution (they may look for a 'main' label or printf usage that the solution does not show).",
+      "severity": "LOW",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 4,
+          "end_line": 8
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 4,
+          "end_line": 6
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 15,
+          "end_line": 18
+        }
+      ],
+      "suggested_fix": "Align the solution with the template/problem statement or explicitly document the intended differences. Preferred fix: provide a solution variant that uses the same entry label ('main'), includes the same .data section and extern printf, and demonstrates the corrected instruction (add eax, ecx). If the solution intentionally uses a different entry point (CMAIN) or omits printf for simplification, add a note in the problem statement explaining this to avoid confusion."
+    }
+  ]
+}

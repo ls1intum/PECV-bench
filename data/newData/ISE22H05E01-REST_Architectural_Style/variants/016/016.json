@@ -1,0 +1,57 @@
+{
+  "case_id": "newData/ISE22-H05E01-REST_Architectural_Style/016",
+  "issues": [
+    {
+      "description": "The visibility of the Person model fields differs between artifacts. The problem statement's UML shows Person fields as private (indicated with '-' in the UML). The template's Person class declares the fields as private (e.g. private UUID id;), while the solution's Person class declares the same fields as public (e.g. public UUID id;). This is a structural visibility mismatch that contradicts the UML and the template and may confuse students about the intended encapsulation of the model (and whether they should access fields directly or via getters/setters).",
+      "severity": "MEDIUM",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 168,
+          "end_line": 175
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 6,
+          "end_line": 11
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 6,
+          "end_line": 10
+        }
+      ],
+      "suggested_fix": "Make the Person model field visibilities consistent. Prefer reverting the solution's Person fields to private (matching the template and UML) and rely on the existing public getters/setters for field access. Alternatively, if public fields are intentional, update the UML in the problem statement and the template Person.java to document the fields as public so all artifacts match."
+    },
+    {
+      "description": "The Problem Statement (Part 2) refers to the callback parameter type as Consumer<List<Note>> when describing the PersonController methods. This conflicts with the actual implementation in both the template and solution repositories where the controller methods take Consumer<List<Person>>. This incorrect reference to Note instead of Person in the exercise instructions/UML creates a mapping confusion: students reading the instructions may expect to work with List<Note> when implementing or using PersonController methods, increasing extraneous cognitive load and risking misunderstandings about the required types.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 152
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 8,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 80
+        }
+      ],
+      "suggested_fix": "Update the Problem Statement (and any related UML/text) to refer to Consumer<List<Person>> when describing the PersonController callback parameter. This aligns the instructions with the template and solution implementations and removes the misleading cross-entity reference to Note."
+    }
+  ]
+}

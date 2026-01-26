@@ -1,0 +1,69 @@
+{
+  "case_id": "newData/ISE22-H10E01-Containers/003",
+  "issues": [
+    {
+      "description": "The Person.getBirthday() accessor in the template repository returns String (public String getBirthday()) while PersonService.save(...) calls person.getBirthday().isAfter(LocalDate.now()), which requires getBirthday() to return a LocalDate. This causes a method return-type mismatch that will produce a compile-time error and prevents students from running tests or implementing service logic. The solution repository corrects this by making getBirthday() return LocalDate. Students will be blocked/confused because the template's Person API does not match how the model is used in the service and in the tests (which set the birthday using LocalDate).",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 77,
+          "end_line": 79
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 21,
+          "end_line": 26
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 77,
+          "end_line": 83
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 30,
+          "end_line": 36
+        }
+      ],
+      "suggested_fix": "Change the Person.getBirthday() method in the template to return a LocalDate (public LocalDate getBirthday()) and return the birthday field directly (return birthday;). This aligns the model API with PersonService.save(...) and the tests. Ensure JSON (de)serialization still works by keeping the registered Jackson modules (as in EistHerokuConfiguration)."
+    },
+    {
+      "description": "The Person::getBirthday accessor is inconsistently typed across artifacts. In the template repository Person.getBirthday() is declared to return String (returning birthday.toString()), while the PersonService.save(...) method and the unit/integration tests treat the birthday as a LocalDate (calling person.getBirthday().isAfter(LocalDate.now()) and using setBirthday(LocalDate.now())). The solution repository uses a LocalDate-returning getter. This mismatch makes it unclear to students whether the 'birthday' concept is a LocalDate or a serialized String, and it will cause compilation/type errors when students try to run or extend the template code.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 77,
+          "end_line": 79
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 21,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 30,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 77,
+          "end_line": 79
+        }
+      ],
+      "suggested_fix": "Make the representation of 'birthday' consistent by changing the template Person.getBirthday() to return a LocalDate (matching the field type and usage in service/tests). For example: public LocalDate getBirthday() { return birthday; } This aligns template, tests, and the solution and removes the type/confusion barrier."
+    }
+  ]
+}

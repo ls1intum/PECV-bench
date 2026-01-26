@@ -1,0 +1,31 @@
+{
+  "case_id": "newData/ERA2021-H00-Hello-World-ASM/006",
+  "issues": [
+    {
+      "description": "The solution implementation diverges structurally from the problem statement and the template: the template and problem expect a conventional NASM-style program with 'section .data' containing the 'hello' string, 'section .text', 'global main' and linking against printf (extern printf) with push hello / call printf. The solution instead declares only 'section .text', uses a different global label 'CMAIN' (not 'main'), omits the data section and the extern printf / push/call sequence, and appears tailored for a different assembler/runtime (SASM). This mismatch can confuse students who look at the solution to verify the intended final state — they may copy or compare against the solution and find the program does not print 'Hello World!' or uses a different entry symbol, leading to uncertainty about which symbol name and linking conventions are required for the course Makefile and environment.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 15,
+          "end_line": 18
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 2,
+          "end_line": 17
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 4,
+          "end_line": 18
+        }
+      ],
+      "suggested_fix": "Make the solution mirror the template/problem environment so students can use it as a direct reference. Specifically, in solution_repository/helloWorld.asm replace 'global CMAIN' / 'CMAIN:' with 'global main' / 'main:', add a 'section .data' with the hello string and the 'extern printf' declaration, and use the push hello / call printf / add esp, 4 sequence (while keeping the corrected instruction 'add eax, ecx'). Alternatively, if the solution intentionally targets a different assembler/environment (SASM), clarify this in the problem statement and label the solution as an environment-specific example so students are not misled."
+    }
+  ]
+}

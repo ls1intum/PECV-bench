@@ -1,0 +1,69 @@
+{
+  "case_id": "newData/ISE22-H10E01-Containers/008",
+  "issues": [
+    {
+      "description": "The template's PersonService does not provide any way for Spring to inject the PersonRepository dependency (the field 'personRepository' is declared but never initialized nor annotated). As a result, calling methods such as save(...) or the methods students are asked to implement (addParent/addChild/removeParent/removeChild) will cause a NullPointerException at runtime when they attempt to use personRepository. The solution repository uses constructor injection (a constructor taking PersonRepository and assigning it to a final field), so students following the template will be unable to run tests or implement the required behavior unless they also add injection. This is a structural mismatch between the template and the intended (solution) implementation and will block progress.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 13,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 36,
+          "end_line": 54
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 15,
+          "end_line": 19
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 24
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 96,
+          "end_line": 107
+        }
+      ],
+      "suggested_fix": "Allow Spring to inject PersonRepository into PersonService to match the solution. For example, add a constructor that accepts PersonRepository and assigns it to the field (constructor injection), or annotate the field with @Autowired. Preferred fix (matches solution):\n- Make the repository field final and add a constructor: public PersonService(PersonRepository personRepository) { this.personRepository = personRepository; }\nThis resolves the null repository, aligns template structure with the solution, and lets students implement and run the required methods and tests."
+    },
+    {
+      "description": "The problem statement refers to the REST endpoints with an \"/api\" prefix (e.g. PUT /api/persons/{personId}/parents), but both the template and solution controllers expose the endpoints without the \"/api\" prefix (e.g. PUT /persons/{personId}/parents). This mismatch can mislead students when they follow the textual examples in the problem and try to invoke or test endpoints — using /api will not match the provided controller mappings and may cause failing requests/tests or wasted debugging time.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        }
+      ],
+      "suggested_fix": "Make the endpoint paths consistent across artifacts. Either (A) update the problem statement examples to use the actual paths used in the code (e.g. PUT /persons/{personId}/parents), or (B) add the \"/api\" prefix to the controllers by changing the controller-level mapping to include the base path (for example: @RequestMapping(path = \"/api\", consumes = ..., produces = ...)) so that code and documentation match. Prefer updating the problem text if tests and template already expect /persons (to avoid changing many files/tests)."
+    }
+  ]
+}

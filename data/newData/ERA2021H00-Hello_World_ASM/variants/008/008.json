@@ -1,0 +1,63 @@
+{
+  "case_id": "newData/ERA2021-H00-Hello-World-ASM/008",
+  "issues": [
+    {
+      "description": "Contradictory guidance about ECX initialization: the problem statement explicitly tells students to ensure ECX is explicitly set to 0 before it is used (so students must add an initialization), whereas the template file contains a comment that states \"Note: ECX is assumed to be pre-initialized by the loader.\" The solution also does not initialize ECX. This contradiction can confuse students about whether they must add initialization (and may lead to incorrect or non-portable code if they rely on an uninitialized register).",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 18
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 12,
+          "end_line": 15
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 16,
+          "end_line": 18
+        }
+      ],
+      "suggested_fix": "Make the requirement consistent across all artifacts. Either (A) update the template and solution to explicitly initialize ECX (for example insert a line like 'xor ecx, ecx' or 'mov ecx, 0' before it's used) and remove the \"assumed pre-initialized\" comment, or (B) if the intention is that ECX is pre-initialized, remove the sentence in the problem statement that instructs students to set ECX to 0. Preferred: initialize ECX in template and solution so the exercise is robust across toolchains."
+    },
+    {
+      "description": "Mismatch in program entry symbol and surrounding scaffold between template and solution: the template provides a .data section, a 'global main' declaration and uses extern printf/push hello/call printf, while the solution uses a different entry symbol ('global CMAIN' / label CMAIN), no data section or printf usage, and assembler-specific comments (SASM). This structural difference means the solution is not a straightforward corrected version of the template and may confuse students about the expected final program structure or how to test it with the provided Makefile.",
+      "severity": "MEDIUM",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 2,
+          "end_line": 9
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 16,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 3,
+          "end_line": 6
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 16,
+          "end_line": 18
+        }
+      ],
+      "suggested_fix": "Align the solution to the template's program scaffold (or explicitly document differences). Concretely, produce a solution that keeps 'global main', includes the .data section and the printf usage (so students can directly apply the one-letter fix in the template), or add a note in the problem statement explaining that the provided reference solution uses a different assembler/entry symbol (CMAIN) and omits I/O scaffolding for brevity. Preferred: adapt the solution to match the template's entry symbol and I/O so it's a direct, runnable fix for the starter code."
+    }
+  ]
+}

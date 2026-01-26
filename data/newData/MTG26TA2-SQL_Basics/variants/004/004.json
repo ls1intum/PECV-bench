@@ -1,0 +1,77 @@
+{
+  "case_id": "newData/MTG26-SQL_Basics/004",
+  "issues": [
+    {
+      "description": "Problem statement for Aufgabe 03 asks for Zoos in the Gemeinde with key `09162999`, but the solution uses a different Gemeindeschluessel value (`\"09162000\"`) in the WHERE clause. This mismatch will cause students who follow the problem text to produce a different result than the provided solution and will likely make automated checks fail or confuse students about which key is correct.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 116,
+          "end_line": 119
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe03.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Make the Gemeindeschluessel consistent. Either update solution_repository/aufgabe03.sql to use WHERE gemeindeschluessel = \"09162999\" to match the problem statement, or if the intended key is 09162000, correct the problem statement text to reference 09162000. Ensure the chosen key is used consistently in tests and examples."
+    },
+    {
+      "description": "The solution queries use inconsistent capitalization for the Gemeinde table name: some solution files use `Gemeinde` (capital G) while aufgabe04.sql uses `gemeinde` (lowercase g). Depending on the SQL dialect and identifier quoting, this inconsistency can cause confusion or runtime errors for students (some DBMS are case-sensitive for identifiers).",
+      "severity": "LOW",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe02.sql",
+          "start_line": 2,
+          "end_line": 2
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe04.sql",
+          "start_line": 2,
+          "end_line": 2
+        }
+      ],
+      "suggested_fix": "Use a consistent table identifier across all examples and solutions (e.g., `Gemeinde`) or, if identifiers must be quoted and case-sensitive, quote them consistently (e.g., \"Gemeinde\"). Update aufgabe04.sql to match the casing used elsewhere to avoid accidental mismatches on case-sensitive systems."
+    },
+    {
+      "description": "The solution repository uses inconsistent capitalization for the same table name 'Gemeinde' (e.g. 'Gemeinde' in aufgabe02.sql / aufgabe05.sql vs 'gemeinde' in aufgabe04.sql). The problem statement consistently refers to the concept as 'Gemeinde'. While SQL identifiers are often case-insensitive, this inconsistent naming across artifacts can create unnecessary confusion for students mapping the problem text to the provided solutions and templates.",
+      "severity": "LOW",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 111,
+          "end_line": 126
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe02.sql",
+          "start_line": 2,
+          "end_line": 2
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe04.sql",
+          "start_line": 2,
+          "end_line": 2
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe05.sql",
+          "start_line": 2,
+          "end_line": 2
+        }
+      ],
+      "suggested_fix": "Standardize the table identifier across all artifacts. For clarity, choose one form (e.g. 'Gemeinde') and update solution_repository/aufgabe04.sql to use the same capitalization (replace 'FROM gemeinde' with 'FROM Gemeinde'), or alternatively normalize all references to lowercase 'gemeinde' consistently in problem text, templates, and solutions. This removes minor cognitive friction for students without changing SQL semantics."
+    }
+  ]
+}

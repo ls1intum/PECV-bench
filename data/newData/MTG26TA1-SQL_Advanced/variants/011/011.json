@@ -1,0 +1,25 @@
+{
+  "case_id": "newData/MTG26-SQL_Advanced/011",
+  "issues": [
+    {
+      "description": "Problem statement (Aufgabe 06) asks for the Anzahl (count) of Wanderwege that lead to Gemeinden with mehr than 500000 männlichen Einwohnern, i.e. a single numeric result. The solution file solution_repository/aufgabe06.sql uses `SELECT *` and thus returns rows/columns instead of a single count. This makes the solution inconsistent with the specified expected output and will confuse students (and automated tests) about the required result shape.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 44,
+          "end_line": 44
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe06.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Change the SELECT in solution_repository/aufgabe06.sql to return a single count value. For example:\n\nSELECT COUNT(*)\nFROM Wanderweg_zu_Gemeinde, Gemeinde\nWHERE Gemeinde.schluessel = Wanderweg_zu_Gemeinde.gemeindeschluessel\n  AND Gemeinde.einwohner_m > 500000;\n\n(If the intention is to count distinct Wanderweg IDs rather than rows, use COUNT(DISTINCT Wanderweg_zu_Gemeinde.wanderweg_id) instead.)"
+    }
+  ]
+}

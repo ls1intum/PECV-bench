@@ -1,0 +1,113 @@
+{
+  "case_id": "newData/ERA2021-P01-Raycasting-mit-Festkommazahlen/004",
+  "issues": [
+    {
+      "description": "In the solution repository, Bitmap24::set declaration in the header has the parameter order (int i_x, int i_y, char i_r, char i_g, char i_b) while the implementation defines Bitmap24::set as (int i_y, int i_x, char i_r, char i_g, char i_b). The rest of the code (main.cpp) calls bitmap.set(i, j, ...) with the intent (y, x). This mismatch between declaration and definition will cause a signature mismatch (linkage/name-mangling problem) and prevent the program from compiling/linking correctly, confusing students about the correct parameter order.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 51,
+          "end_line": 57
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 45,
+          "end_line": 56
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/main.cpp",
+          "start_line": 42,
+          "end_line": 44
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/main.cpp",
+          "start_line": 213,
+          "end_line": 216
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 51,
+          "end_line": 57
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 45,
+          "end_line": 56
+        }
+      ],
+      "suggested_fix": "Make the declaration in Bitmap24.hpp and the definition in Bitmap24.cpp consistent. Since main.cpp (and the implementation) use bitmap.set(i, j, ... ) where i represents y and j x, the header should declare set(int i_y, int i_x, char i_r, char i_g, char i_b). Alternatively, change the implementation and all call sites to match the header, but prefer repairing the header to match the existing implementation and usage to avoid cascading edits."
+    },
+    {
+      "description": "In the template repository the assembler file assignment/fix_vec_sub.asm declares 'global fix_vec_sub_asm' (exporting the symbol), while in the solution repository the corresponding file contains 'extern fix_vec_sub_asm' at the same location instead of declaring the symbol global. Declaring the symbol extern (and omitting global) is inconsistent with other assignment files and with the intended export of the function symbol, and may prevent other translation units from linking to fix_vec_sub_asm.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/assignment/fix_vec_sub.asm",
+          "start_line": 10,
+          "end_line": 12
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/assignment/fix_vec_sub.asm",
+          "start_line": 10,
+          "end_line": 12
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/tests/src/fix_asm.h",
+          "start_line": 1,
+          "end_line": 9
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/tests/src/fix_asm.h",
+          "start_line": 1,
+          "end_line": 9
+        }
+      ],
+      "suggested_fix": "Restore the intended symbol visibility in fix_vec_sub.asm by declaring the symbol global (e.g. 'global fix_vec_sub_asm') so it is exported for linking, matching the template and other assignment files. Remove or correct the 'extern' directive if it was introduced accidentally."
+    },
+    {
+      "description": "Parameter-name / parameter-order mismatch for Bitmap24::set across template and solution artifacts. The template's Bitmap24.hpp declares set as taking (int i_y, int i_x, char i_r, char i_g, char i_b) (row then column), and the Bitmap24.cpp implementation in both template and solution uses i_y then i_x. However, the solution's Bitmap24.hpp declares the parameters in the opposite order (int i_x, int i_y, ...). This creates a confusing mismatch between the header (API) and the implementation / example usage (calls use bitmap.set(i, j) where i is the row/y and j is the column/x). Students reading the header in the solution repository will likely mis-map arguments (x vs y) and be uncertain which order to use, increasing extraneous cognitive load and risking incorrect usage or compilation mismatches.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 51,
+          "end_line": 57
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 51,
+          "end_line": 57
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 45,
+          "end_line": 56
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 45,
+          "end_line": 56
+        }
+      ],
+      "suggested_fix": "Make the Bitmap24::set declaration consistent between header and implementation across repositories. Either: (A) Change the solution header signature to match the implementation and template (int i_y, int i_x, char i_r, char i_g, char i_b), or (B) decide on a canonical parameter order (preferably documented as row (y), column (x)) and update both the header(s) and the implementation(s) and any example calls to use that same order. Add a brief comment in the header documenting the parameter order (e.g., \"// i_y: row, i_x: column\") to avoid future ambiguity."
+    }
+  ]
+}

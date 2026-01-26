@@ -1,0 +1,31 @@
+{
+  "case_id": "newData/MTG26-SQL_Advanced/006",
+  "issues": [
+    {
+      "description": "Aufgabe 06 (Problem statement) asks for the COUNT of Wanderwege that lead to Gemeinden with mehr als 500000 männlichen Einwohnern, but the solution (solution_repository/aufgabe06.sql) uses SELECT * and returns rows instead of a count. This contradicts the stated expected result type/shape and will confuse students about what output is required and how to aggregate the data. It also fails to clarify whether distinct Wanderwege should be counted (COUNT(*) vs COUNT(DISTINCT ...)).",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 42,
+          "end_line": 44
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe06.sql",
+          "start_line": 1,
+          "end_line": 1
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe06.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Update the solution to return a single numeric count as requested. For example, to count distinct Wanderwege that lead to such Gemeinden use:\n\nSELECT COUNT(DISTINCT Wanderweg_zu_Gemeinde.radweg_id)\nFROM Wanderweg_zu_Gemeinde\nJOIN Gemeinde ON Gemeinde.schluessel = Wanderweg_zu_Gemeinde.gemeindeschluessel\nWHERE Gemeinde.einwohner_m > 500000;\n\nIf the intended interpretation is to count row-mappings (not distinct Wanderwege), use SELECT COUNT(*) with the same FROM/JOIN/WHERE. Also ensure the template hints (if any) reflect the counting requirement so students are not left to infer the expected output shape."
+    }
+  ]
+}

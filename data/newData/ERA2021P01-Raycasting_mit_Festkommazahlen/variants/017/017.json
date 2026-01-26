@@ -1,0 +1,113 @@
+{
+  "case_id": "newData/ERA2021-P01-Raycasting-mit-Festkommazahlen/017",
+  "issues": [
+    {
+      "description": "The problem statement asks students to implement a function named `calculate_intersection` to test whether a ray hits a sphere (problem_statement.md lines 25-26). Neither the template repository nor the solution repository provide or refer to a `calculate_intersection` function; instead both provide a function named `ray_sphere_intersect` (template & solution: example_program/src/ray_sphere_intersect.h/cpp). This name mismatch is structural: students told to implement one symbol will not find it in the starter code and may be confused which function to implement or modify.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 10
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 10,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 10
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 10,
+          "end_line": 35
+        }
+      ],
+      "suggested_fix": "Make the wording in the problem statement match the code: either (A) change the problem statement to instruct students to implement/complete `ray_sphere_intersect` (and describe its signature/semantics), or (B) add a `calculate_intersection` wrapper in the template that calls `ray_sphere_intersect` (with correct parameter semantics). This ensures students can find and implement the intended function without confusion."
+    },
+    {
+      "description": "The function parameter semantics for the sphere test are ambiguous: the header declaration (ray_sphere_intersect.h) names the last parameter `radius` while the implementation (ray_sphere_intersect.cpp) and the calling code in main.cpp compute and pass a squared radius value (`radius2`). The header's parameter name (`radius`) and the implementation's variable name (`radius2`) differ in meaning; without explicit documentation a student may assume the function expects the geometric radius (not squared radius), causing semantic confusion or incorrect implementations.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 10
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 10,
+          "end_line": 35
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/main.cpp",
+          "start_line": 184,
+          "end_line": 196
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 10
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 10,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/main.cpp",
+          "start_line": 184,
+          "end_line": 196
+        }
+      ],
+      "suggested_fix": "Clarify the parameter semantics consistently: either (1) rename the header parameter to `radius2` and document that the function expects the squared radius, or (2) keep `radius` (the geometric radius) and update the implementation and callers to pass sqrt(radius2) / compute squared quantities internally. Update the header comment (or add a short docstring) so students know whether to pass radius or squared radius."
+    },
+    {
+      "description": "The problem statement instructs students to implement a function named `calculate_intersection` (problem_statement.md lines 25-26). However, both the template and solution code define and use a function named `ray_sphere_intersect` (example_program/src/ray_sphere_intersect.cpp/.h). This is a same-concept naming mismatch: the problem describes the sphere-ray intersection routine with the name `calculate_intersection`, while the provided codebase exposes/expects `ray_sphere_intersect`. Students searching for or trying to implement `calculate_intersection` in the template will not find that symbol and may be confused about where/how to implement the required logic.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 10,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 10,
+          "end_line": 35
+        }
+      ],
+      "suggested_fix": "Align the identifier across artifacts. Either (A) update the problem statement to refer to the existing function name and signature (e.g., \"Implement ray_sphere_intersect(const float *origin, const float *dir, const float *center, const float radius2)\"), or (B) add a small wrapper function named `calculate_intersection` in the template (and solution) that delegates to `ray_sphere_intersect` (or rename `ray_sphere_intersect` to `calculate_intersection` in template and solution). Option A is simplest: change the task text to mention `ray_sphere_intersect` so students can directly find and implement the expected routine."
+    }
+  ]
+}

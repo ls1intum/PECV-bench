@@ -1,0 +1,51 @@
+{
+  "case_id": "newData/ITP2425-SE01E01-UML/011",
+  "issues": [
+    {
+      "description": "The UML in the problem statement declares RollerCoaster.numberOfLoopings as type int (problem_statement.md lines 26-28), but the reference solution declares the attribute and its getter as double in RollerCoaster.java. This is a type mismatch for the core attribute and its accessor: students reading the UML expect an int, while the solution API exposes a double. This will confuse students about the correct attribute type and the expected return type of getNumberOfLoopings().",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 26,
+          "end_line": 28
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/RollerCoaster.java",
+          "start_line": 5,
+          "end_line": 14
+        }
+      ],
+      "suggested_fix": "Make the type of numberOfLoopings consistent with the UML (int). Update RollerCoaster.numberOfLoopings to int, change the constructor parameter and the return type of getNumberOfLoopings() to int. Alternatively, if double is desired, update the UML and problem text to specify double consistently."
+    },
+    {
+      "description": "The constructors/signatures for numberOfLoopings are inconsistent across artifacts: the UML specifies numberOfLoopings as int, the solution's LaunchedRollerCoaster constructor takes an int parameter while RollerCoaster's constructor in the solution takes a double. This creates a constructor/parameter type mismatch in the solution (LaunchedRollerCoaster passes an int to a super constructor expecting double), and conflicts with the UML expectation that numberOfLoopings is an int parameter in RollerCoaster's constructor.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 26,
+          "end_line": 28
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/LaunchedRollerCoaster.java",
+          "start_line": 5,
+          "end_line": 7
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/RollerCoaster.java",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "suggested_fix": "Choose a single primitive type for numberOfLoopings and apply it consistently to all constructors and super-calls. Recommended: change RollerCoaster's constructor parameter to int (matching the UML and LaunchedRollerCoaster) and update related signatures/fields/getters accordingly. If double is required for some reason, update LaunchedRollerCoaster and the UML/problem text to use double consistently."
+    }
+  ]
+}

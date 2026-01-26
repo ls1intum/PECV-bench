@@ -1,0 +1,57 @@
+{
+  "case_id": "newData/ERA2021-H03-Grafikspeicher/017",
+  "issues": [
+    {
+      "description": "Calling-convention / register-preservation expectation is inconsistent between the problem statement and the template comments. The problem statement (part b) requires that, except for EAX, no other registers' contents may be changed by set_pixel (i.e. callers expect EBX, ECX, ESI, etc. to be preserved). However the template contains an inline comment near the position-calculation TODO that says \"Attention: save all registers you modify except eax,ebx and esi\" — which implies EBX and ESI need not be preserved. The provided solution implements set_pixel by saving/restoring EBX and ESI (via push/pop), which matches the problem statement's requirement to preserve registers other than EAX. This mismatch in the template comment can confuse students about which registers they are allowed to modify (and whether they must save/restore EBX/ESI), and could lead to incorrect implementations that violate the intended calling convention.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 100,
+          "end_line": 102
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 153,
+          "end_line": 168
+        }
+      ],
+      "suggested_fix": "Clarify and align the register-preservation contract in the template to match the problem statement. Replace or edit the template comment (around the position-calculation TODO) to state that only EAX may be modified by set_pixel and that all other registers (including EBX and ESI) must be preserved (saving/restoring via push/pop is acceptable). This removes ambiguity and matches the solution's behavior."
+    },
+    {
+      "description": "The problem statement refers to the start of video memory as 'screen_memory', whereas the template and solution use the identifier 'display_start' for the same conceptual entity (the base address of the framebuffer). This mismatch can cause students to search for a 'screen_memory' label in the provided code and fail to find it, creating unnecessary mapping effort between the requirement and the code they must modify.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 21,
+          "end_line": 21
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 5,
+          "end_line": 5
+        }
+      ],
+      "suggested_fix": "Use a single consistent name for the framebuffer base across all artifacts. Either (A) update the problem statement to refer to 'display_start' instead of 'screen_memory', or (B) rename the label in the template and solution from 'display_start' to 'screen_memory' (or add an equivalent alias/label like 'screen_memory equ display_start' or a duplicate label) so the name in the text matches the code students receive."
+    }
+  ]
+}

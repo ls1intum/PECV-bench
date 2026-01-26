@@ -1,0 +1,135 @@
+{
+  "case_id": "newData/MTG26-SQL_Basics/006",
+  "issues": [
+    {
+      "description": "Solution for Aufgabe 08 queries from table name \"Kommunen\" while the problem statement refers to the data as \"Gemeinden\" (and other solution files use table name \"Gemeinde\"). This mismatch in table naming (Kommunen vs. Gemeinde) is likely unintentional and will confuse students about which table to use and may make the provided solution fail against the intended schema.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 141,
+          "end_line": 144
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe08.sql",
+          "start_line": 1,
+          "end_line": 2
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe05.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Use the same table name throughout artifacts. Change the solution to query the table name that matches the schema/problem statement (likely \"Gemeinde\" or the exact table name shown in the schema image). If the database actually uses \"Kommunen\", update the problem statement/schema to mention that name so both are consistent."
+    },
+    {
+      "description": "Inconsistent casing of the same table appears across solutions: aufgabe04 uses FROM gemeinde (lowercase) while other solution files use FROM Gemeinde (capitalized). This inconsistent naming may confuse students (and may be problematic on case-sensitive DBMSs).",
+      "severity": "LOW",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe04.sql",
+          "start_line": 1,
+          "end_line": 3
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe02.sql",
+          "start_line": 1,
+          "end_line": 3
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 111,
+          "end_line": 119
+        }
+      ],
+      "suggested_fix": "Standardize the table name casing across all solution files and the problem statement (e.g., use \"Gemeinde\" everywhere) or add a note clarifying that the SQL engine is case-insensitive. Prefer matching the exact identifier as shown in the schema image."
+    },
+    {
+      "description": "SQL solutions use double quotes for string literals (e.g., WHERE art=\"Freibad\", WHERE gemeindeschluessel = \"09162000\"). In many SQL dialects (e.g., standard SQL, SQLite) string literals must use single quotes; double quotes denote identifiers. Because the problem statement doesn't fix a specific SQL dialect, these double-quoted strings may lead to syntax errors or unexpected behavior for students.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 3
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe03.sql",
+          "start_line": 1,
+          "end_line": 3
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe02.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Use single quotes for string literals in the solution files (e.g., WHERE art = 'Freibad') or explicitly state the target SQL dialect in the problem so students know which quoting rules apply. Update solution files to match the declared dialect."
+    },
+    {
+      "description": "The problem statement and most solution queries refer to the table/entity as \"Gemeinde\" (or talk about \"Gemeinden\"), but solution_repository/aufgabe08.sql uses the table name \"Kommunen\". This introduces an identifier/name mismatch for the same conceptual entity (municipalities) and may confuse students which table to use (Gemeinde vs. Kommunen).",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 141,
+          "end_line": 144
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe08.sql",
+          "start_line": 2,
+          "end_line": 2
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe09.sql",
+          "start_line": 2,
+          "end_line": 2
+        }
+      ],
+      "suggested_fix": "Use a single, consistent table name for the municipality entity across artifacts. Either change solution_repository/aufgabe08.sql to FROM Gemeinde (if the canonical table is Gemeinde) or update the problem statement and other solution files to refer to \"Kommunen\" consistently. Prefer aligning to the actual dataset/schema used by the exercises (most files use 'Gemeinde')."
+    },
+    {
+      "description": "Inconsistent casing of the same table name: solution_repository/aufgabe02.sql and several other files use \"Gemeinde\" (capital G) while solution_repository/aufgabe04.sql uses \"gemeinde\" (lowercase). This inconsistent identifier casing for the same conceptual table can cause confusion or errors depending on the DBMS's case-sensitivity.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 120,
+          "end_line": 124
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe02.sql",
+          "start_line": 1,
+          "end_line": 3
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe04.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Standardize the table name casing across all solution files and the problem statement. Choose the canonical identifier (e.g., 'Gemeinde') that matches the dataset/schema and update solution_repository/aufgabe04.sql to FROM Gemeinde (or change all to lowercase if the schema requires lowercase). Ensure consistency so students can map requirements to table names without ambiguity."
+    }
+  ]
+}

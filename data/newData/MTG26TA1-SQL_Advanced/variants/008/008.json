@@ -1,0 +1,31 @@
+{
+  "case_id": "newData/MTG26-SQL_Advanced/008",
+  "issues": [
+    {
+      "description": "Aufgabe 06 in der Problemstellung verlangt explizit die Anzahl der Wanderwege (ein einzelner numerischer Wert). Die Referenzlösung (solution_repository/aufgabe06.sql) gibt jedoch SELECT * zurück (alle Zeilen der Join-Tabelle) statt eine Aggregation/COUNT. Das führt dazu, dass die Lösung nicht das in der Aufgabenstellung geforderte Ergebnisformat liefert (ein COUNT), was Studierende verwirrt: sie sehen keine Referenzimplementierung für die geforderte Aggregation und können nicht eindeutig erkennen, ob ein COUNT oder COUNT(DISTINCT ...) erwartet wird.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 41,
+          "end_line": 44
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe06.sql",
+          "start_line": 1,
+          "end_line": 1
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe06.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Ändere die Referenzlösung so, dass sie tatsächlich die Anzahl der Wanderwege zurückgibt. Beispiel (zählt Einträge in der Zuordnungstabelle):\n\nSELECT COUNT(*)\nFROM Wanderweg_zu_Gemeinde\nJOIN Gemeinde ON Gemeinde.schluessel = Wanderweg_zu_Gemeinde.gemeindeschluessel\nWHERE Gemeinde.einwohner_m > 500000;\n\nWenn die Aufgabe eindeutig die Anzahl unterschiedlicher Wanderwege (ohne doppelte Zählung bei mehreren Gemeinde-Verknüpfungen) meint, verwende stattdessen:\n\nSELECT COUNT(DISTINCT Wanderweg_zu_Gemeinde.radweg_id)\nFROM Wanderweg_zu_Gemeinde\nJOIN Gemeinde ON Gemeinde.schluessel = Wanderweg_zu_Gemeinde.gemeindeschluessel\nWHERE Gemeinde.einwohner_m > 500000;\n\nAktualisiere solution_repository/aufgabe06.sql entsprechend und dokumentiere kurz in der Lösung, ob Doppelzählungen beabsichtigt sind oder ob DISTINCT gewünscht ist."
+    }
+  ]
+}

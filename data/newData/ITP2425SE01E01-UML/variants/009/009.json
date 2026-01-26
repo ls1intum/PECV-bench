@@ -1,0 +1,43 @@
+{
+  "case_id": "newData/ITP2425-SE01E01-UML/009",
+  "issues": [
+    {
+      "description": "The problem statement's task text requires that LaunchedRollerCoaster's constructor \"must only accept name and abbreviation as parameters\" (problem statement task text), but the UML in the same problem shows LaunchedRollerCoaster as a subclass of RollerCoaster (which declares numberOfLoopings:int). The solution implements LaunchedRollerCoaster with a constructor that accepts (String name, char abbreviation, int numberOfLoopings). This is an internal contradiction in the problem specification and a mismatch between the problem text and the provided solution. Students will be confused which constructor signature is expected and tests may assert the differing signature, preventing a correct implementation without clarification.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 26,
+          "end_line": 28
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 39,
+          "end_line": 41
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 63,
+          "end_line": 65
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/LaunchedRollerCoaster.java",
+          "start_line": 5,
+          "end_line": 7
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/RollerCoaster.java",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "suggested_fix": "Resolve the contradiction by making the intended design explicit. Two reasonable fixes:\n- Preferred: Update the task text to require LaunchedRollerCoaster(String name, char abbreviation, int numberOfLoopings) (i.e., include numberOfLoopings) so the constructor matches the UML (LaunchedRollerCoaster extends RollerCoaster) and the solution. Also update any tests accordingly.\n- Alternatively: If the intention was that LaunchedRollerCoaster only has name and abbreviation, modify the UML so LaunchedRollerCoaster extends Ride (not RollerCoaster) and remove the need for numberOfLoopings from that subclass. Ensure the solution and tests are updated to reflect that change.\nDocument the chosen correction in the problem statement so students have a single, consistent specification."
+    }
+  ]
+}
