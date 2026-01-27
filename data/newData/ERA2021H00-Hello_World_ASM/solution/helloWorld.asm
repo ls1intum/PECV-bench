@@ -1,19 +1,17 @@
-;%include "io.inc" <-- Uncomment this for usage in SASM
+;-------- Do not change this section --------
+section .data
+    hello db "Hello World!", 10, 0
 
-;--------Do not modify this section--------
 section .text
-global CMAIN
-CMAIN:
-;------------------------------------------
-    
-    ;SASM allows macros like below for easier debugging (uncomment for testing)
-    ;Print a string:
-    ;PRINT_STRING "Hallo"
-    ;----------------------
-    ;Print one byte of ecx:
-    ;PRINT_DEC 1, ecx
-    
-    ;To make this compile, add the missing letter below
+global main
+extern printf
+main:
+;--------------------------------------------
+
+    ; Solution: Correct register usage
     add eax, ecx
 
+    push hello
+    call printf
+    add esp, 4
     ret
