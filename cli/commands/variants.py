@@ -215,7 +215,15 @@ class VariantManager:
 		patch_file = variant_dir / f"{variant_id}.patch"
 		if copied_any and patch_file.exists() and patch_file.stat().st_size > 0:
 			result = subprocess.run(
-				["patch", "-p1", "--forward", "--batch"],
+				# ["patch", "-p1", "--forward", "--batch"],
+# 				I have successfully replaced the patch command with git apply in cli/commands/variants.py. This change addresses the environment-specific failures you were experiencing, as git apply is more robust and handles file application more reliably without the same dependencies on system temporary directories. I have also verified that the new implementation works correctly
+#   in the local environment.
+
+#   The issue likely stemmed from the patch utility failing to create or access temporary files in your remote environment (as indicated by the Can't create ... No such file or directory error in your logs), which then caused the "No file to patch" error. Switching to git apply avoids this dependency.
+
+#   Changes Summary
+#    - Modified cli/commands/variants.py: Replaced subprocess.run(["patch", ...]) with subprocess.run(["git", "apply", ...]).
+				["git", "apply", "-p1", "--verbose", "-"],
 				cwd=variant_dir,
 				text=True,
 				input=patch_file.read_text(encoding="utf-8"),
