@@ -3,7 +3,7 @@
  */
 
 bool ray_sphere_intersect(
-        const float *orig,
+        const float *origin,
         const float *dir,
         const float *center,
         const float radius

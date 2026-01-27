@@ -11,14 +11,14 @@ bool ray_sphere_intersect(
 		const float *origin,
 		const float *dir,
 		const float *center,
-		const float radius2
+		const float radius
 )
 {
 	const float *o = origin;
 	const float *u = dir;
 	const float *c = center;
 
-	const float r2 = radius2;
+	const float r2 = radius;
 
 	// https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection
 	float oc[3];

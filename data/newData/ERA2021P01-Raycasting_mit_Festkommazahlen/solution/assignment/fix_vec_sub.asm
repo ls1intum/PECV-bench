@@ -8,7 +8,7 @@ section .bss
     o: resd 6
 
 section .data
-extern fix_vec_sub_asm
+global fix_vec_sub_asm
 
 %ifndef era
 global main
