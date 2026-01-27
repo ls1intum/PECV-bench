@@ -2,8 +2,8 @@
 
 ;-------Do not modify this section-------
 section .bss
-    display_start RESD 8294400
-    buf resd 2
+    display_start RESB 8294400
+    buf resb 16
 section .data 
     message db "Wert in Speicherzelle (0x%08X, 0x%08X) = 0x%08X", 10, 10, 0
     value db "Wert: 0x%08X", 10, 0
