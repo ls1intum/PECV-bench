@@ -147,7 +147,7 @@ The Controller should work like this:
 - It has an internal list of all persons
     - If a person is created, updated or deleted this has to be updated in the list
     - If all persons are retrieved from the server the list has to be updated accordingly
-- Each method takes a `Consumer<List<Note>>` parameter, which has to be called after a response is received
+- Each method takes a `Consumer<List<Person>>` parameter, which has to be called after a response is received
     - This consumer takes the internal list of persons as a parameter
 
 ### UML Diagram
