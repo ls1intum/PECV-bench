@@ -1,3 +1,3 @@
 SELECT regierungsbezirk, SUM(einwohner_w), SUM(einwohner_m)
-FROM gemeinde
+FROM Gemeinde
 GROUP BY regierungsbezirk
