@@ -19,7 +19,7 @@ public class BehaviorTest {
 	final String chainSpeedMessage = "getChainSpeed return value";
 	final String getNumberOfLoopingsMessage = "getNumberOfLoopings return value";
 	final String getRidesMessage = "getRides return value";
-	final String isExcellentEnoughMessage = "iExcellentEnough return value";
+	final String isExcellentEnoughMessage = "isExcellentEnough return value";
 	final String getExcellencyLevelMessage = "getExcellencyLevel return value";
 
 	@HiddenTest
@@ -42,7 +42,7 @@ public class BehaviorTest {
 
 	@HiddenTest
 	void checkLaunchedRollerCoasterConstructorAndGetters() {
-		String name = "LaunchRollerCoaster";
+		String name = "LaunchedRollerCoaster";
 		char abbreviation = 'L';
 		int numberOfLoopings = 5;
 

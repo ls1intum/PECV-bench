@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static java.lang.annotation.ElementType.*;
 
-@WhitelistPath(value = "../testinfunexam23e01v01**", type = PathType.GLOB) // for manual assessment and development
+@WhitelistPath(value = "../testinfunexam24e01v01**", type = PathType.GLOB) // for manual assessment and development
 @WhitelistPath("target") // mainly for Artemis
 @WhitelistClass(BehaviorTest.class)
 @WhitelistClass(HelperClass.class)
@@ -14,7 +14,7 @@ import static java.lang.annotation.ElementType.*;
 @MirrorOutput
 @Retention(RUNTIME)
 @Target({TYPE, ANNOTATION_TYPE})
-@Deadline("2023-02-28 20:00 Europe/Berlin")
-@ActivateHiddenBefore("2023-02-28 18:00 Europe/Berlin")
+@Deadline("2024-12-13 10:40 Europe/Berlin")
+@ActivateHiddenBefore("2024-12-13 10:40 Europe/Berlin")
 public @interface E01V01 {
 }
