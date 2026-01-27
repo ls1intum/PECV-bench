@@ -1,0 +1,58 @@
+diff -ruN a/solution/src/client/java/de/tum/in/ase/eist/controller/PersonController.java b/solution/src/client/java/de/tum/in/ase/eist/controller/PersonController.java
+--- a/solution/src/client/java/de/tum/in/ase/eist/controller/PersonController.java	2025-07-11 10:16:28
++++ b/solution/src/client/java/de/tum/in/ase/eist/controller/PersonController.java	2025-07-23 15:26:32
+@@ -26,7 +26,7 @@
+ 
+     public void addPerson(Person person, Consumer<List<Person>> personsConsumer) {
+         webClient.post()
+-                .uri("persons")
++                .uri("people")
+                 .bodyValue(person)
+                 .retrieve()
+                 .bodyToMono(Person.class)
+@@ -39,7 +39,7 @@
+ 
+     public void updatePerson(Person person, Consumer<List<Person>> personsConsumer) {
+         webClient.put()
+-                .uri("persons/" + person.getId())
++                .uri("people/" + person.getId())
+                 .bodyValue(person)
+                 .retrieve()
+                 .bodyToMono(Person.class)
+diff -ruN a/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java b/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java
+--- a/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java	2025-07-11 10:16:28
++++ b/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java	2025-07-23 15:26:01
+@@ -20,13 +20,13 @@
+         this.personService = personService;
+     }
+ 
+-    @GetMapping("persons")
++    @GetMapping("people")
+     public ResponseEntity<List<Person>> getAllPersons(@RequestParam(value = "sortField", defaultValue = "ID") PersonSortingOptions.SortField sortField,
+                                                       @RequestParam(value = "sortingOrder", defaultValue = "ASCENDING") PersonSortingOptions.SortingOrder sortingOrder) {
+         return ResponseEntity.ok(personService.getAllPersons(new PersonSortingOptions(sortingOrder, sortField)));
+     }
+ 
+-    @PostMapping("persons")
++    @PostMapping("people")
+     public ResponseEntity<Person> createPerson(@RequestBody Person person) {
+         if (person.getId() != null) {
+             return ResponseEntity.badRequest().build();
+@@ -34,7 +34,7 @@
+         return ResponseEntity.ok(personService.savePerson(person));
+     }
+ 
+-    @PutMapping("persons/{personId}")
++    @PutMapping("people/{personId}")
+     public ResponseEntity<Person> updatePerson(@RequestBody Person updatedPerson, @PathVariable("personId") UUID personId) {
+         if (!updatedPerson.getId().equals(personId)) {
+             return ResponseEntity.badRequest().build();
+@@ -42,7 +42,7 @@
+         return ResponseEntity.ok(personService.savePerson(updatedPerson));
+     }
+ 
+-    @DeleteMapping("persons/{personId}")
++    @DeleteMapping("people/{personId}")
+     public ResponseEntity<Void> deletePerson(@PathVariable("personId") UUID personId) {
+         personService.deletePerson(personId);
+         return ResponseEntity.noContent().build();

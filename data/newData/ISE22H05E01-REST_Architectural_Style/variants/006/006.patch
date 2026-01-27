@@ -1,0 +1,32 @@
+diff -ruN a/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java b/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java
+--- a/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java	2025-07-11 10:16:28
++++ b/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java	2025-07-23 15:31:36
+@@ -23,7 +23,7 @@
+     @GetMapping("persons")
+     public ResponseEntity<List<Person>> getAllPersons(@RequestParam(value = "sortField", defaultValue = "ID") PersonSortingOptions.SortField sortField,
+                                                       @RequestParam(value = "sortingOrder", defaultValue = "ASCENDING") PersonSortingOptions.SortingOrder sortingOrder) {
+-        return ResponseEntity.ok(personService.getAllPersons(new PersonSortingOptions(sortingOrder, sortField)));
++        return ResponseEntity.ok(personService.getAllPersons(new PersonSortingOptions(sortingOrder, sortField), true));
+     }
+ 
+     @PostMapping("persons")
+diff -ruN a/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java b/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java
+--- a/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java	2025-07-11 10:16:28
++++ b/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java	2025-07-23 15:31:20
+@@ -36,11 +36,15 @@
+         this.persons.removeIf(person -> person.getId().equals(personId));
+     }
+ 
+-    public List<Person> getAllPersons(PersonSortingOptions sortingOptions) {
++    public List<Person> getAllPersons(PersonSortingOptions sortingOptions, boolean includeInactive) {
+         if (sortingOptions == null) {
+             return new ArrayList<>(this.persons);
+         }
+         var sortedList = new ArrayList<>(this.persons);
++        // Filter inactive persons if not included
++        if (!includeInactive) {
++            sortedList.removeIf(person -> person.getFirstName().startsWith("INACTIVE_"));
++        }
+         sortedList.sort((p1, p2) -> {
+             Person person1;
+             Person person2;

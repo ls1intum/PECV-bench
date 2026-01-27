@@ -1,0 +1,52 @@
+{
+  "exercise_path": "ISE22/H05E01-REST_Architectural_Style/variants/022",
+  "programming_language": "ProgrammingLanguage.JAVA",
+  "issues": [
+    {
+      "description": "The default constructor of Person in the solution code is package-private, but client code in PersonScene (and the template) calls new Person() from a different package. This constructor visibility mismatch will cause compilation errors and blocks students from instantiating Person objects as intended.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/common/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 12,
+          "end_line": 12
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/common/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 12,
+          "end_line": 12
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
+          "start_line": 123,
+          "end_line": 123
+        }
+      ],
+      "suggested_fix": "Declare the Person default constructor as public in the solution code (and ensure the template’s constructor remains public) so that client-side code can instantiate Person objects as intended."
+    },
+    {
+      "description": "In the problem statement (lines 150–152) the methods for the PersonController are said to take a `Consumer<List<Note>>`, but in both the template and solution the methods actually use `Consumer<List<Person>>`. This mismatch will confuse students when they try to implement PersonController based on the instructions.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 152
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 16
+        }
+      ],
+      "suggested_fix": "In the problem statement, replace `Consumer<List<Note>>` with `Consumer<List<Person>>` when describing the PersonController methods so it matches the template and expected implementation."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "exercise_path": "ISE22/H05E01-REST_Architectural_Style/variants/001",
+  "programming_language": "ProgrammingLanguage.JAVA",
+  "issues": [
+    {
+      "description": "The create-person endpoint is documented as POST /persons in the problem statement, but in the solution the server uses @PutMapping(\"persons\") and the client uses webClient.put() when adding a new Person. This mismatch between POST and PUT will confuse students and breaks the specified API contract.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 114
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 34
+        }
+      ],
+      "suggested_fix": "Align the create-person endpoint to use POST in both server and client. Change the server annotation to @PostMapping(\"persons\") and in the client use webClient.post() for addPerson(..)."
+    }
+  ]
+}
