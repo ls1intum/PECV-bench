@@ -1,5 +1,83 @@
 {
-  "exercise_path": "ISE22/H05E01-REST_Architectural_Style/variants/012",
-  "programming_language": "ProgrammingLanguage.JAVA",
-  "issues": []
+  "case_id": "newData/ISE22H05E01-REST_Architectural_Style/012",
+  "issues": [
+    {
+      "description": "The solution's GET /persons endpoint returns 404 Not Found when the returned list is empty (ResponseEntity.notFound()), while the problem statement describes the endpoint returning the list of persons (and the NoteResource returns 200 OK with an empty list for zero entries). Returning 404 for an empty collection is inconsistent with the behavior students will observe/implement for notes and with usual REST expectations described in the exercise. This mismatch in response semantics between NoteResource (and the problem description) and the solution's PersonResource can confuse students about the expected behavior and tests.",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 116
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 32
+        }
+      ],
+      "suggested_fix": "Change the GET /persons implementation to always return 200 OK with the list body (even when the list is empty), matching NoteResource and the exercise description. For example: return ResponseEntity.ok(persons); and remove the special-case 404 for empty lists."
+    },
+    {
+      "description": "The solution's POST /persons endpoint uses incorrect HTTP status semantics: it returns 201 (Created) when rejecting a request with a non-null ID (an error case) and returns 202 (Accepted) on success. This contradicts the behavior in NoteResource (which returns 200 OK with the saved entity) and typical REST semantics described by the exercise. These nonstandard status usages are inconsistent across artifacts and will confuse students about the expected server response for successful creation and validation failures.",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 116
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 34,
+          "end_line": 42
+        }
+      ],
+      "suggested_fix": "Align the POST /persons behavior with NoteResource and standard REST semantics: return a 400 Bad Request (ResponseEntity.badRequest().build()) when the provided Person already has an ID, and return 200 OK (or 201 Created with the saved entity) on successful creation. Example: if (person.getId() != null) return ResponseEntity.badRequest().build(); return ResponseEntity.ok(personService.savePerson(person));"
+    },
+    {
+      "description": "The problem statement (Part 2, method contract description) incorrectly refers to Consumer<List<Note>> as the callback type for PersonController methods, while both the template and the solution implementations use Consumer<List<Person>>. This mixes the Note and Person conceptual entities and can confuse students about the expected method signatures and domain model (they may search for or try to implement Note-based callbacks when the task and code operate on Person objects).",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 150,
+          "end_line": 152
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 80
+        }
+      ],
+      "suggested_fix": "Edit the problem statement so the callback type for PersonController methods is Consumer<List<Person>> (not Consumer<List<Note>>). For example, replace the sentence 'Each method takes a `Consumer<List<Note>>` parameter, which has to be called after a response is received' with 'Each method takes a `Consumer<List<Person>>` parameter, which has to be called after a response is received (the consumer receives the controller's internal list of Person objects)'. This aligns the textual specification with the template and solution code and removes the Note/Person naming confusion."
+    }
+  ]
 }
