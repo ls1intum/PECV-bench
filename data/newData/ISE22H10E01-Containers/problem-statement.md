@@ -98,8 +98,8 @@ Now that you have deployed the first version of your application, you decide to 
 ### Adding a feature
 [task][Implement PersonService](addChild(),addChildThrows(),addParent(),addParentThrows(),removeChild(),removeChildThrows(),removeParent(),removeParentThrows())
 You have to complete the implementation of some methods in `PersonService`. In case the following respective condition is not fulfilled, each method should throw an exception of type `ResponseStatusException` with status code 400 (Bad Request):
-- `addParent(Person person, Person parent)`: After adding `parent` to `person`, `person` has to have 2 parents at most. `parent` should be added to the `person`'s list of parents. Afterward, `person` should be saved to the database by calling `save(..)` from `personRepository`. `addParent` should return the result of this method call.
-- `addChild(Person person, Person child)`: `child` has to have two parents at most before adding a child. Add `child` to the `parent`'s list of children. Save and return the changed and persisted `person`.
+- `addParent(Person person, Person parent)`: `person` has to have less than 2 parents before adding the parent. `parent` should be added to the `person`'s list of parents. Afterward, `person` should be saved to the database by calling `save(..)` from `personRepository`. `addParent` should return the result of this method call.
+- `addChild(Person person, Person child)`: `child` has to have less than 2 parents before adding the child. Add `child` to the `parent`'s list of children. Save and return the changed and persisted `person`.
 - `removeParent(Person person, Person parent)`: `person` has to have a number of parents greater than 1 before removing the parent. Remove `parent` from the `person`'s list of parents. Save and return the changed and persisted `person`.
 - `removeChild(Person person, Person child)`: `child` has to have a number of parents greater than 1 before removing the child. Remove `child` from the `person`'s list of children. Save and return the changed and persisted `person`.
  
@@ -122,8 +122,8 @@ Writing test cases should be part of implementating a new feature to test and en
 
 To make sure that the whole system works correctly, you should write two integration tests in `PersonIntegrationTest`. These tests basically test the same functionality, but at the full scope of the system (instead of only the service and repository). Therefore, instead of invoking the methods of `PersonService` directly, we will invoke the REST endpoints of `PersonResource`. You should use [Spring MockMVC](https://www.baeldung.com/integration-testing-in-spring#Writing) to invoke the endpoints.
 `PersonIntegrationTests` already contains two test cases that you can use as a reference, and in which you should implement the following test cases:
-- `testAddParent`: Perform the same test setup and assertions as in `PersonServiceTest`, but instead of invoking `PersonService::addParent`, you should invoke the endpoint `PUT /api/persons/{personId}/parents` and pass the respective parent as the content.
-- `testAddThreeParents`: Instead of invoking `PersonService::addParent`, you should invoke the endpoint `PUT /api/persons/{personId}/parents` and pass the respective parent as a the content.
+- `testAddParent`: Perform the same test setup and assertions as in `PersonServiceTest`, but instead of invoking `PersonService::addParent`, you should invoke the endpoint `PUT /persons/{personId}/parents` and pass the respective parent as the content.
+- `testAddThreeParents`: Instead of invoking `PersonService::addParent`, you should invoke the endpoint `PUT /persons/{personId}/parents` and pass the respective parent as the content.
 
 
 ## Part 5: Deploy the updated version
