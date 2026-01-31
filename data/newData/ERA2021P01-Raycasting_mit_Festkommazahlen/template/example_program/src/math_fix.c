@@ -16,9 +16,9 @@ typedef unsigned int long long fixu_t;
 typedef int long long fix64_t;
 typedef unsigned int long long fixu64_t;
 
-extern fix_t fix_vec_add_asm(const fix_t* v0,const fix_t* v1, fix_t* o);
-extern fix_t fix_vec_sub_asm(const fix_t* v0,const fix_t* v1, fix_t* o);
-    
+extern void fix_vec_add_asm(const fix_t* v0,const fix_t* v1, fix_t* o);
+extern void fix_vec_sub_asm(const fix_t* v0,const fix_t* v1, fix_t* o);
+
 
 /*
  * How many bits for fraction
