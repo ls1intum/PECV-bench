@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
 public class NoteResource {
 
     private final NoteService noteService;
@@ -37,7 +37,7 @@ public class NoteResource {
 
     @PutMapping("notes/{noteId}")
     public ResponseEntity<Note> updateNote(@RequestBody Note updatedNote, @PathVariable("noteId") UUID noteId) {
-        if (!updatedNote.getId().equals(noteId)) {
+        if (updatedNote.getId() == null || !updatedNote.getId().equals(noteId)) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(noteService.saveNote(updatedNote));

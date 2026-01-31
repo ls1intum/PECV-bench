@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
 public class PersonResource {
 
     private final PersonService personService;
@@ -36,7 +36,7 @@ public class PersonResource {
 
     @PutMapping("persons/{personId}")
     public ResponseEntity<Person> updatePerson(@RequestBody Person updatedPerson, @PathVariable("personId") UUID personId) {
-        if (!updatedPerson.getId().equals(personId)) {
+        if (updatedPerson.getId() == null || !updatedPerson.getId().equals(personId)) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(personService.savePerson(updatedPerson));
