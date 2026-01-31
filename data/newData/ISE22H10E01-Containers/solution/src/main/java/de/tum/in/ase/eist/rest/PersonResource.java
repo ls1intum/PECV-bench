@@ -15,7 +15,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
-@RequestMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
 public class PersonResource {
 
     private final PersonService personService;
@@ -34,7 +34,7 @@ public class PersonResource {
         return ResponseEntity.ok(personService.getById(personId).orElseThrow(() -> new ResponseStatusException(NOT_FOUND)));
     }
 
-    @PostMapping("persons")
+    @PostMapping(path = "persons", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Person> createPerson(@RequestBody Person person) {
         if (person.getId() != null) {
             throw new ResponseStatusException(BAD_REQUEST);
@@ -42,9 +42,9 @@ public class PersonResource {
         return ResponseEntity.ok(personService.save(person));
     }
 
-    @PutMapping("persons/{personId}")
+    @PutMapping(path = "persons/{personId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Person> updatePerson(@RequestBody Person updatedPerson, @PathVariable("personId") Long personId) {
-        if (!updatedPerson.getId().equals(personId)) {
+        if (updatedPerson.getId() == null || !updatedPerson.getId().equals(personId)) {
             throw new ResponseStatusException(BAD_REQUEST);
         }
         return ResponseEntity.ok(personService.save(updatedPerson));
@@ -57,14 +57,14 @@ public class PersonResource {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("persons/{personId}/parents")
+    @PutMapping(path = "persons/{personId}/parents", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Person> addParent(@RequestBody Person parent, @PathVariable("personId") Long personId) {
         var person = personService.getById(personId).orElseThrow(() -> new ResponseStatusException(NOT_FOUND));
         person = personService.addParent(person, parent);
         return ResponseEntity.ok(person);
     }
 
-    @PutMapping("persons/{personId}/children")
+    @PutMapping(path = "persons/{personId}/children", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Person> addChild(@RequestBody Person child, @PathVariable("personId") Long personId) {
         var person = personService.getById(personId).orElseThrow(() -> new ResponseStatusException(NOT_FOUND));
         person = personService.addChild(person, child);

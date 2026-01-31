@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * Do not change this class. It is used to test your Heroku deployment
  */
 @RestController
-@RequestMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
 public class TestingResource {
 
     @Value("${spring.datasource.url}")
