@@ -1,3 +1,3 @@
-SELECT Freizeitpark.name as Park_name, Gemeinde.name as Gemeinde_name, Freizeitpark.strasse
+SELECT Freizeitpark.name, Freizeitpark.strasse, Gemeinde.name
 FROM Freizeitpark, Gemeinde
 WHERE Gemeinde.schluessel = Freizeitpark.gemeindeschluessel
