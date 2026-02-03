@@ -203,6 +203,8 @@ def read_programming_language(start_path: Path) -> ProgrammingLanguage:
         return ProgrammingLanguage.C
     if normalized == ProgrammingLanguage.SQL.value:
         return ProgrammingLanguage.SQL
+    if normalized == ProgrammingLanguage.SWIFT.value:
+        return ProgrammingLanguage.SWIFT
 
     raise ValueError(
         f"Unsupported programming language '{language_raw}' in {details_path}"
