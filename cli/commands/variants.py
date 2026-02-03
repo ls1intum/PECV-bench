@@ -215,7 +215,9 @@ class VariantManager:
 		patch_file = variant_dir / f"{variant_id}.patch"
 		if copied_any and patch_file.exists() and patch_file.stat().st_size > 0:
 			result = subprocess.run(
-				["patch", "-p1", "--forward", "--batch"],
+				# ["patch", "-p1", "--forward", "--batch"],
+				#git apply is more robust and handles file application more reliably without the same dependencies on system temporary directories.
+				["git", "apply", "-p1", "--verbose", "-"],
 				cwd=variant_dir,
 				text=True,
 				input=patch_file.read_text(encoding="utf-8"),
