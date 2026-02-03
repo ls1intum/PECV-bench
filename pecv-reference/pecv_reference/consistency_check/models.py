@@ -32,6 +32,7 @@ class ProgrammingLanguage(str, Enum):
     ASSEMBLER = "assembler"
     C = "c"
     SQL = "sql"
+    SWIFT = "swift"
     # Future extensions can add more languages
 
 
@@ -117,6 +118,19 @@ LANGUAGE_CONFIGS: Dict[ProgrammingLanguage, LanguageConfig] = {
             "*/problem_statement.md",
             "*.db",
             "**/*.db",
+        ],
+        max_file_size_kb=50,
+    ),
+    ProgrammingLanguage.SWIFT: LanguageConfig(
+        file_extensions=[".swift"],
+        source_directories=["Sources", "Tests", "."],
+        exclude_patterns=[
+            ".build/*",
+            ".swiftpm/*",
+            "Package.resolved",
+            ".git/*",
+            ".DS_Store",
+            ".swiftlint.yml"
         ],
         max_file_size_kb=50,
     )
