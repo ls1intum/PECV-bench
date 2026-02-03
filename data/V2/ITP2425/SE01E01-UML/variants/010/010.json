@@ -1,0 +1,69 @@
+{
+  "case_id": "ITP2425/SE01E01-UML/010",
+  "issues": [
+    {
+      "description": "The UML in the problem statement declares Ride.abbreviation as type String (problem_statement.md: Ride class shows \"-abbreviation: String\"), but the solution implements Ride.abbreviation as a char (solution_repository/src/de/tum/in/ase/Ride.java: line declaring \"private char abbreviation\"). This mismatch propagates to all subclasses and constructors/getters (e.g. LaunchedRollerCoaster and LaunchedDropdownTower constructors accept a char abbreviation in the solution). The exercise instructions require students to implement attributes and constructors exactly as in the UML; following the UML (String) will produce code that differs from the provided solution and likely fail any tests expecting the solution's char-based signatures.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 24
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/in/ase/Ride.java",
+          "start_line": 1,
+          "end_line": 1
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/Ride.java",
+          "start_line": 5,
+          "end_line": 19
+        }
+      ],
+      "suggested_fix": "Make the type of Ride.abbreviation consistent across artifacts. Either (A) update the UML and problem statement to declare abbreviation as a char (and mention that getters/constructors use char), or (B) change the solution (and any tests) so Ride.abbreviation is a String and adjust all constructors/getters/subclasses accordingly. Ensure the template (Ride.java) includes the same attribute type/signature to guide students."
+    },
+    {
+      "description": "The UML in the problem statement declares Ride.abbreviation as type String, but the solution uses a char for the abbreviation attribute and constructor parameters (Ride.abbreviation: char, and subclasses' constructors take char). This type mismatch (String vs. char) creates an unintended naming/typing inconsistency: students following the UML will implement constructors/getters accepting/returning String while the solution/template code expects char (and vice versa), causing confusion about the correct attribute type and constructor signatures.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/Ride.java",
+          "start_line": 5,
+          "end_line": 6
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/Ride.java",
+          "start_line": 8,
+          "end_line": 11
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/LaunchedDropdownTower.java",
+          "start_line": 3,
+          "end_line": 7
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/LaunchedRollerCoaster.java",
+          "start_line": 3,
+          "end_line": 7
+        }
+      ],
+      "suggested_fix": "Make the abbreviation type consistent across artifacts. Either (A) update the problem statement UML to declare abbreviation: char, or (B) change the solution (and template) to use String for Ride.abbreviation and update all constructors and getters to accept/return String (e.g., private String abbreviation; public Ride(String name, String abbreviation); subclasses' constructors call super(name, abbreviation)). Prefer updating the solution/template to match the UML (String) unless the course intends abbreviation to be a single character, in which case update the UML to char to avoid student confusion."
+    }
+  ]
+}

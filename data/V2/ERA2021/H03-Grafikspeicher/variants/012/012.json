@@ -1,5 +1,5 @@
 {
-  "case_id": "newData/ERA2021H03-Grafikspeicher/012",
+  "case_id": "ERA2021/H03-Grafikspeicher/012",
   "issues": [
     {
       "description": "The problem statement says pixels are rounded to 32 bits per pixel (lines 17-18) but then states \"Die Pixel sind als Array von 64-Bit Werten (Quadwords) organisiert.\" (lines 21-22). The template and solution both treat pixels as 32-bit (4 bytes) each: display_start is allocated as 8,294,400 bytes (which matches 1920×1080×4) in the template (display_start RESB 8294400), and the solution multiplies coordinates by 4 (mov edx, 4; mul edx / mov edi, 4; mul edi / uses 7680 = 1920*4) and writes a 32-bit value (mov [addr], ecx). This contradiction (problem says 64-bit but code uses 32-bit) will directly confuse students when they compute addresses (using *8 for quadwords vs *4 used in provided code) and can cause incorrect implementations or wrong answers.",
