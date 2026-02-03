@@ -1,0 +1,63 @@
+{
+  "case_id": "newData/ERA2021H00-Hello_World_ASM/009",
+  "issues": [
+    {
+      "description": "The solution modifies the .data section that the template marks as \"Do not change\" (template: hello db \"Hello World!\", 0) by adding a newline byte (solution: hello db \"Hello World!\", 10, 0). The problem statement instructs students to only change the register name (ecc -> ecx). Changing the protected data section in the solution contradicts the template's \"Do not change this section\" guidance and the explicit student instruction to only edit the register; this can confuse students about what is allowed or required to fix the exercise.",
+      "severity": "LOW",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "helloWorld.asm",
+          "start_line": 1,
+          "end_line": 4
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "helloWorld.asm",
+          "start_line": 11,
+          "end_line": 14
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "helloWorld.asm",
+          "start_line": 1,
+          "end_line": 4
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 15,
+          "end_line": 18
+        }
+      ],
+      "suggested_fix": "Either revert the solution's change to the protected .data line so the solution preserves the original \"Do not change\" section (keep hello db \"Hello World!\", 0) and only change the register (ecc -> ecx), or update the problem statement and template comment to explicitly permit modifying the .data line (and explain why adding the newline is desirable). This keeps instructions and the reference solution consistent."
+    },
+    {
+      "description": "The template code uses the nonexistent/typo register name 'ecc' (add eax, ecc) while the problem statement explicitly instructs students to change 'ecc' to 'ecx' and the solution uses the correct register 'ecx' (add eax, ecx). This inconsistent identifier (typo) in the template creates an avoidable compilation error and minor mapping confusion: students must recognize that 'ecc' is wrong and that the intended conceptual entity is the CPU register 'ecx'.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 18
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 12,
+          "end_line": 14
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 11,
+          "end_line": 13
+        }
+      ],
+      "suggested_fix": "Fix the typo in the template by replacing 'ecc' with the correct register name 'ecx' (change the line to: '    add eax, ecx') so the template, problem statement, and solution consistently reference the same register."
+    }
+  ]
+}

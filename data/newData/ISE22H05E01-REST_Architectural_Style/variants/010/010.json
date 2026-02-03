@@ -1,0 +1,99 @@
+{
+  "case_id": "newData/ISE22H05E01-REST_Architectural_Style/010",
+  "issues": [
+    {
+      "description": "Inconsistent endpoint paths for persons across problem statement, client, and server. The problem statement and the client expect the endpoints to be under /persons (e.g. GET /persons, PUT /persons/{personId}). In the provided solution, the server implements some endpoints under a different path prefix (GET mapped to v2/persons and PUT mapped to v2/persons/{personId}) while POST and DELETE remain under /persons. This mismatch (server using a \"v2\" prefix for some methods but not others) will prevent the client (and students following the spec) from reaching the GET and PUT endpoints and contradicts the API specified in the problem statement.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 115
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 65,
+          "end_line": 71
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 40,
+          "end_line": 46
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 27
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 37,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
+          "end_line": 35
+        }
+      ],
+      "suggested_fix": "Make the server endpoints consistent with the problem specification and the client. Either remove the \"v2/\" prefix in the server mappings so that GET and PUT are mapped to \"persons\" and \"persons/{personId}\" (matching POST and DELETE and the problem statement), or change the client and the problem statement to call/use the v2-prefixed paths consistently. Preferred fix: change the server mappings to @GetMapping(\"persons\") and @PutMapping(\"persons/{personId}\") so all CRUD endpoints live under /persons as described in the exercise."
+    },
+    {
+      "description": "Endpoint path naming is inconsistent between the problem statement, the client code, and the server implementation in the solution: the problem (and client) expect GET and PUT on /persons and /persons/{personId}, but the solution's server maps the GET and PUT methods to endpoints prefixed with \"v2\" (\"v2/persons\" and \"v2/persons/{personId}\"). This mismatch creates a concrete mapping barrier: students following the problem specification (or the client code) will implement or call /persons but the server will expose /v2/persons, causing requests to miss the intended handlers and producing confusing failures unrelated to the exercise learning goals.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 114
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 8,
+          "end_line": 24
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 65,
+          "end_line": 71
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 27
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 37,
+          "end_line": 43
+        }
+      ],
+      "suggested_fix": "Make the endpoint paths consistent across problem statement, client, and server. Either (A) remove the \"v2\" prefix on the server mappings so they are @GetMapping(\"persons\") and @PutMapping(\"persons/{personId}\"), matching the problem statement and client, or (B) update the problem statement and all client calls to use the \"v2/persons\" and \"v2/persons/{personId}\" paths. Preferred fix: change the server mappings to use \"persons\" (no \"v2\") so they directly match the stated exercise endpoints and the client code."
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "case_id": "newData/ERA2021P01-Raycasting_mit_Festkommazahlen/018",
+  "issues": [
+    {
+      "description": "The solution repository's Bitmap24 header declares the bitmap dimensions with different member names (w, h) than the implementation and the template header (width, height). Bitmap24.cpp (implementation) and the template's Bitmap24.hpp use members named width and height. This name mismatch in the solution header is an inner-artifact structural inconsistency that will cause compilation errors and confuse students about the intended class interface.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 33,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 33,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        }
+      ],
+      "suggested_fix": "Make the Bitmap24 class members consistent. Restore the solution header to use the member names expected by the implementation and the template (int width; int height; char *data;), or alternatively update the implementation (Bitmap24.cpp) and the template to consistently use w and h. The simplest fix: change solution_repository/example_program/src/Bitmap24.hpp to declare 'int width;' and 'int height;' to match Bitmap24.cpp and the template."
+    },
+    {
+      "description": "The Bitmap24 class member names differ between template and solution. In the template, the class uses members named 'width' and 'height' (and Bitmap24.cpp accesses these names throughout). In the solution, Bitmap24.hpp declares the members as 'w' and 'h' while the solution's Bitmap24.cpp still accesses 'width' and 'height'. This naming mismatch (header vs. implementation) is likely unintentional, will cause compilation errors, and creates a confusing mapping for students who compare template and solution: the template consistently uses 'width'/'height', but the solution header uses different identifiers ('w'/'h') for the same conceptual fields.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 33,
+          "end_line": 36
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 71
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 33,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 71
+        }
+      ],
+      "suggested_fix": "Make the member names consistent. E.g., in solution/example_program/src/Bitmap24.hpp change 'int w;' and 'int h;' to 'int width;' and 'int height;' (and keep 'char *data;') so the header matches the implementation. Alternatively, update Bitmap24.cpp to use 'w' and 'h' everywhere, but the least disruptive fix (and the one consistent with the template) is to rename w/h → width/height in the solution header."
+    }
+  ]
+}

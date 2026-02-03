@@ -1,0 +1,31 @@
+diff -ruN a/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java b/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java
+--- a/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java	2026-01-22 21:09:58
++++ b/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java	2026-02-01 18:21:42
+@@ -10,11 +10,18 @@
+ 
+ @Service
+ public class PersonService {
+-  	// do not change this
++    private static final PersonService INSTANCE = new PersonService();
+     private final List<Person> persons;
+ 
+-    public PersonService() {
++    private PersonService() {
+         this.persons = new ArrayList<>();
++    }
++    
++    public static PersonService getInstance() { return INSTANCE; }
++    
++    // Converted to static access (requires removing instance context or accessing via instance)
++    public static List<Person> getAllPersonsStatic() {
++        return INSTANCE.persons;
+     }
+ 
+     public Person savePerson(Person person) {
+@@ -61,4 +68,4 @@
+         });
+         return sortedList;
+     }
+-}
++}
+\ No newline at end of file

@@ -1,0 +1,69 @@
+{
+  "case_id": "newData/ERA2021P01-Raycasting_mit_Festkommazahlen/017",
+  "issues": [
+    {
+      "description": "The solution repository's ray_sphere_intersect header declares a different function name than the implementation and callers. In solution_repository/example_program/src/ray_sphere_intersect.h the prototype is declared as intersect_ray_sphere(...), but the implementation (solution_repository/example_program/src/ray_sphere_intersect.cpp) and the caller in main.cpp use ray_sphere_intersect(...). This name/signature mismatch will cause compilation errors or confusion when students compare template vs solution (the template header uses the correct name).",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 10
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 10
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 6,
+          "end_line": 15
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 193,
+          "end_line": 197
+        }
+      ],
+      "suggested_fix": "Make the function declaration in solution_repository/example_program/src/ray_sphere_intersect.h match the implementation and callers. Replace intersect_ray_sphere(...) with the prototype for ray_sphere_intersect(const float *origin, const float *dir, const float *center, const float radius) (or alternatively rename the implementation and all callers to intersect_ray_sphere consistently). This restores a consistent public API and avoids compilation/link errors."
+    },
+    {
+      "description": "The sphere-intersection function is referenced with two different identifiers across the template and solution artifacts: the template header and implementation declare/define ray_sphere_intersect(...), while the solution header declares intersect_ray_sphere(...) but the solution implementation still defines ray_sphere_intersect(...). This mismatch breaks the one-to-one mapping of the same conceptual entity (ray-sphere intersection routine) across artifacts, risks build/link confusion, and forces students to resolve an unintended naming difference rather than focusing on the algorithmic learning goal.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/ray_sphere_intersect.h",
+          "start_line": 6,
+          "end_line": 11
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 10,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/ray_sphere_intersect.h",
+          "start_line": 6,
+          "end_line": 11
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 10,
+          "end_line": 35
+        }
+      ],
+      "suggested_fix": "Make the function name consistent across header and implementation in all artifacts. Preferred quick fixes: (A) Change solution header declaration intersect_ray_sphere(...) to ray_sphere_intersect(...) to match the implementation and the template, or (B) rename the function definition in the solution .cpp to intersect_ray_sphere(...) and update all callers accordingly. Aligning the name removes accidental cognitive load and prevents build/link errors."
+    }
+  ]
+}

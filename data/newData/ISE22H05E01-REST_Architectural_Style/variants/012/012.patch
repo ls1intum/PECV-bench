@@ -1,0 +1,13 @@
+diff -ruN a/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java b/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java
+--- a/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java	2026-01-31 13:02:59
++++ b/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java	2026-02-01 18:21:17
+@@ -29,7 +29,8 @@
+     @PostMapping("persons")
+     public ResponseEntity<Person> createPerson(@RequestBody Person person) {
+         if (person.getId() != null) {
+-            return ResponseEntity.badRequest().build();
++            // Returning 201 Created for a Bad Request scenario
++            return ResponseEntity.status(201).build();
+         }
+         return ResponseEntity.ok(personService.savePerson(person));
+     }

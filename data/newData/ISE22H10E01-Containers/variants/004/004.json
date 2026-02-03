@@ -1,0 +1,57 @@
+{
+  "case_id": "newData/ISE22H10E01-Containers/004",
+  "issues": [
+    {
+      "description": "The problem statement and the template define the addParent method as addParent(Person person, Person parent) (child first, parent second). The solution implementation declares the method with the parameters reversed (addParent(Person parent, Person person)). Although both parameters share the same type (Person) so the code compiles, this flips the semantic roles of the arguments and is inconsistent across artifacts. This mismatch will confuse students comparing template/problem with the provided solution and can lead to incorrect reasoning about which argument is the child vs. the parent.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 99,
+          "end_line": 106
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 46
+        }
+      ],
+      "suggested_fix": "Make the solution method signature consistent with the problem statement and template by declaring addParent(Person person, Person parent) (child first, parent second) and update the method body to treat the first parameter as the person (child) and the second as the parent (e.g., check person.getParents().size(), person.getParents().add(parent), return personRepository.save(person)). This preserves the intended semantics and removes confusion."
+    },
+    {
+      "description": "The problem statement and the template define the method signature addParent(Person person, Person parent) (person first, parent second). The solution implementation uses a different parameter order: addParent(Person parent, Person person) (parent first, person second). This swap of parameter positions for the same conceptual method is an unintended identifier/parameter naming inconsistency that will confuse students: calls in PersonResource and the tests use the (person, parent) order, but the solution's signature binds those arguments to the opposite formal parameters, changing the semantics and making it hard for students to map the requirement to the implementation.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 99,
+          "end_line": 106
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 46
+        }
+      ],
+      "suggested_fix": "Make the solution's addParent method signature and parameter names match the problem statement and template: change the solution method to public Person addParent(Person person, Person parent) and update the implementation to operate on the 'person' (child) and add the 'parent' to person.getParents() before saving. This preserves the intended semantics and removes the misleading parameter ordering."
+    }
+  ]
+}

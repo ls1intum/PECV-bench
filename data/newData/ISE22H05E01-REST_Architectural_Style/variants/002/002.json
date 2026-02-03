@@ -1,0 +1,31 @@
+{
+  "case_id": "newData/ISE22H05E01-REST_Architectural_Style/002",
+  "issues": [
+    {
+      "description": "Problem statement specifies that DELETE /persons/{personId} should return HTTP 204 No Content when successful (so controller should respond with an empty body). The solution implementation of PersonResource.deletePerson instead returns the deleted Person wrapped in a 200 OK response (ResponseEntity.ok(personToDelete)). This contradicts the stated API contract in the problem description and the style used in NoteResource (which returns ResponseEntity.noContent()). Students following the specification or the NoteResource example would implement a 204 No Content response and be confused by the solution returning the deleted entity with 200 OK. It may also cause test mismatches if tests expect 204 No Content.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 114
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 10,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 54
+        }
+      ],
+      "suggested_fix": "Make the solution conform to the problem specification and the NoteResource example: change PersonResource.deletePerson to return ResponseEntity.noContent().build() (i.e., HTTP 204 No Content with an empty body). Alternatively, if returning the deleted Person is intentional, update the problem statement and any references (and tests) to state that DELETE returns 200 OK with the deleted entity in the body. Prefer the first option (204) to keep the API consistent with the Note endpoints and the exercise description."
+    }
+  ]
+}

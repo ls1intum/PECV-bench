@@ -1,0 +1,69 @@
+{
+  "case_id": "newData/ISE22H05E01-REST_Architectural_Style/003",
+  "issues": [
+    {
+      "description": "The server's GET /persons endpoint in the solution requires an additional mandatory 'limit' query parameter that is neither described in the problem statement nor sent by the client. The problem statement (Part 1 / Part 3) specifies that GET /persons should return all persons and that optional sorting options 'sortField' and 'sortingOrder' are accepted (with defaults). The client (solution) sends only 'sortField' and 'sortingOrder' and does not include any 'limit' parameter. Because the server method requires a mandatory 'limit' parameter, client requests will fail (400/400-like behavior) or the endpoint will be unreachable from the provided client, preventing students from implementing and testing the intended functionality.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 114
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 201,
+          "end_line": 206
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 29
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 65,
+          "end_line": 71
+        }
+      ],
+      "suggested_fix": "Make the server GET /persons endpoint accept only the sorting parameters (sortField and sortingOrder) with the documented defaults, and return the full list. Concretely, remove the mandatory 'limit' @RequestParam or make it optional (e.g. @RequestParam(value = \"limit\", required = false) Integer limit) with sensible default behavior (if null return full list). Alternatively, if limiting is desired, document the 'limit' parameter in the problem statement and ensure the client sends it. This keeps server and client aligned and matches the exercise description."
+    },
+    {
+      "description": "GET /persons endpoint in the solution adds a mandatory request parameter named 'limit' that is not mentioned in the problem statement nor present in the template/client implementation. The problem statement and client expect GET /persons to accept only optional sorting query parameters (sortField, sortingOrder). Introducing a required 'limit' parameter in the solution creates an API contract mismatch — students implementing the client as described by the problem/template will not send 'limit', causing confusion and failing requests. This is a cross-artifact identifier/parameter inconsistency for the same conceptual endpoint.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 114
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 1,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 29
+        }
+      ],
+      "suggested_fix": "Align the server API with the problem statement and client by removing the mandatory 'limit' parameter from the GET /persons endpoint or make it optional with a sensible default. For example, change the method signature to accept only sortField and sortingOrder (with defaultValue set) and return the full sorted list: public ResponseEntity<List<Person>> getAllPersons(@RequestParam(value = \"sortField\", defaultValue = \"ID\") PersonSortingOptions.SortField sortField, @RequestParam(value = \"sortingOrder\", defaultValue = \"ASCENDING\") PersonSortingOptions.SortingOrder sortingOrder) { var persons = personService.getAllPersons(new PersonSortingOptions(sortingOrder, sortField)); return ResponseEntity.ok(persons); } If a limit is required, document it in the problem statement and ensure the client sends it (or make it @RequestParam(value = \"limit\", required = false, defaultValue = \"<n>\") int limit)."
+    }
+  ]
+}

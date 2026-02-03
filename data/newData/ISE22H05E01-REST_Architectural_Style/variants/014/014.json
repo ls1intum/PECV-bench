@@ -1,0 +1,31 @@
+{
+  "case_id": "newData/ISE22H05E01-REST_Architectural_Style/014",
+  "issues": [
+    {
+      "description": "Constructor mismatch for PersonController: the solution repository implements PersonController with a constructor that requires a String baseUrl parameter, but both the template and solution H05E01ClientApplication (and the problem statement expectation) instantiate PersonController with the no-argument constructor (new PersonController()). This is a structural inconsistency in the solution: as-is the application code will not compile/run because there is no matching no-arg constructor. Students will be confused about which constructor to implement and whether the controller should accept a base URL parameter.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 18,
+          "end_line": 25
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/H05E01ClientApplication.java",
+          "start_line": 12,
+          "end_line": 14
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/H05E01ClientApplication.java",
+          "start_line": 12,
+          "end_line": 14
+        }
+      ],
+      "suggested_fix": "Restore consistency by providing a no-argument constructor for PersonController (for example: public PersonController() { this(\"http://localhost:8080/\"); }) so existing instantiation (new PersonController()) remains valid. Alternatively, update H05E01ClientApplication to call the parameterized constructor (new PersonController(\"http://localhost:8080/\")) everywhere. The recommended fix is to add the no-arg constructor to PersonController to preserve backward compatibility with the template and the exercise instructions."
+    }
+  ]
+}

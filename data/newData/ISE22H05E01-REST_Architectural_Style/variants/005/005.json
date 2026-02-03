@@ -1,0 +1,43 @@
+{
+  "case_id": "newData/ISE22H05E01-REST_Architectural_Style/005",
+  "issues": [
+    {
+      "description": "The Person.birthday attribute is declared as LocalDate in the problem statement and in the template repository, but in the solution repository Person.birthday is declared as String. This creates a structural inconsistency: many parts of the code (e.g., PersonScene, PersonService, and client/server interactions) expect a LocalDate and will not compile or will behave unexpectedly against the solution model. This is an internal contradiction in the solution repository and contradicts the specified model in the problem/template, and thus would confuse students (and break compilation/serialization).",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 168,
+          "end_line": 175
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 3,
+          "end_line": 11
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 3,
+          "end_line": 11
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
+          "start_line": 118,
+          "end_line": 121
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 55,
+          "end_line": 61
+        }
+      ],
+      "suggested_fix": "Make the Person.birthday type consistent with the problem statement and template by changing the solution repository's Person.birthday to use java.time.LocalDate (update getter/setter accordingly). Ensure all usages (PersonScene, PersonService, serialization/deserialization) operate on LocalDate so the client/server code compiles and behaves as intended."
+    }
+  ]
+}

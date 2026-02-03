@@ -1,0 +1,69 @@
+{
+  "case_id": "newData/ERA2021P01-Raycasting_mit_Festkommazahlen/003",
+  "issues": [
+    {
+      "description": "The problem statement states that fix_mul has no return value and writes the result via a pointer third parameter (void fix_mul(fix_t a, fix_t b, fix_t* res);). However, both the template and the solution declare and use fix_mul (and the assembly entry fix_mul_asm) as functions that return a fix_t value (signature: fix_t fix_mul(fix_t a, fix_t b); and extern fix_t fix_mul_asm(fix_t a, fix_t b);). This is a direct mismatch in function signature (return type and parameter list) and will confuse students about which API to implement and test against — they may implement the pointer-based void API described in the problem text while the provided code and tests expect a return-value API.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/math_fix.c",
+          "start_line": 38,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/math_fix.c",
+          "start_line": 38,
+          "end_line": 43
+        }
+      ],
+      "suggested_fix": "Make the API consistent across artifacts. The simplest fix is to correct the problem statement to match the code/tests: state that fix_mul returns a fix_t (signature: fix_t fix_mul(fix_t a, fix_t b); and that the assembler entry is fix_mul_asm with the same signature). If instead you prefer the pointer-based void API, update all code (math_fix.h/.c, tests, and assembly stubs) to the pointer-based signature and adjust calls/tests accordingly. Prefer updating the problem statement because the template/tests/solution already consistently use the return-value API."
+    },
+    {
+      "description": "Problem statement states that fix_mul has no return value and returns the result via a pointer third argument (void fix_mul(fix_t a, fix_t b, fix_t* res)), but both the template and solution code declare and use fix_mul/fix_mul_asm as returning a fix_t (64-bit result returned in EDX:EAX). This is a contract/signature mismatch for the same conceptual operation 'fixed-point multiplication' and will confuse students implementing the assembly function: they may implement the void/third-argument variant described in the problem, while tests and code expect a returning fix_t value.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/math_fix.c",
+          "start_line": 38,
+          "end_line": 43
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/assignment/fix_mul.asm",
+          "start_line": 19,
+          "end_line": 27
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/math_fix.c",
+          "start_line": 38,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/assignment/fix_mul.asm",
+          "start_line": 31,
+          "end_line": 35
+        }
+      ],
+      "suggested_fix": "Make the API description consistent across artifacts. Preferred: update the problem statement hint to match the code (and tests) by describing that fix_mul / fix_mul_asm return a fix_t (64-bit result returned in EDX:EAX) — e.g. replace the hint with: \"Die Funktion fix_mul gibt ein fix_t zurück; die asm-Funktion fix_mul_asm liefert das 64-bit Ergebnis in edx:eax.\" Alternatively (less recommended): modify the template & solution to provide the void signature described in the problem (void fix_mul(fix_t a, fix_t b, fix_t* res)) and adapt all call sites/tests accordingly. The simplest fix to reduce student confusion is to correct the problem statement to reflect the existing returning-fix_t API."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "case_id": "newData/IOS26TC1-Bookstore/009",
+  "issues": [
+    {
+      "description": "The problem statement specifies that a Genre struct consists of a String `name` and an optional String `subgenre` (no other fields). The solution repository's Genre struct declares an extra `id: Int` property that is not mentioned in the problem statement or template. Furthermore, the solution's Client constructs Genre instances using only `name` and `subgenre` (no `id`), which is internally inconsistent and would prevent the solution from compiling as shown. This mismatch between the specification and the solution (and the self-contradiction within the solution) can confuse students about the intended shape of Genre and about constructor requirements.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 19,
+          "end_line": 21
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 13,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 39,
+          "end_line": 46
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 34,
+          "end_line": 49
+        }
+      ],
+      "suggested_fix": "Make the Genre struct match the problem statement: remove the extra `id: Int` property from the solution's Genre definition so it only contains `let name: String` and `let subgenre: String?`. Alternatively, if an `id` is intentionally required, update the problem statement and template to declare the `id` (and ensure all Genre initializers in the solution/template accept or default that field). Ensure the Client constructions are updated to match the final Genre initializer signature."
+    }
+  ]
+}

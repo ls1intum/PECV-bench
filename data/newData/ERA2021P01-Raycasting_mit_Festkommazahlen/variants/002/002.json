@@ -1,0 +1,37 @@
+{
+  "case_id": "newData/ERA2021P01-Raycasting_mit_Festkommazahlen/002",
+  "issues": [
+    {
+      "description": "The ray_sphere_intersect function has inconsistent return types between artifacts: the template header declares the function as returning bool, the solution header declares it as returning int, while both template and solution implementations (ray_sphere_intersect.cpp) return a bool. This mismatch between header prototypes and implementation will cause confusion and likely compiler warnings/errors (or undefined behavior when linked) and makes it unclear which API students should implement/use.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 10
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 10,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 10
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 6,
+          "end_line": 35
+        }
+      ],
+      "suggested_fix": "Unify the function prototype and implementation. Change the solution header declaration to return bool (to match the implementation and the template header):\n\nIn solution_repository/example_program/src/ray_sphere_intersect.h, replace 'int ray_sphere_intersect(...)' with 'bool ray_sphere_intersect(...)'.\n\nAlternatively, if an integer return was intended, update both implementations and the template header to use int consistently. Prefer bool here since the implementation returns true/false and the template uses bool."
+    }
+  ]
+}

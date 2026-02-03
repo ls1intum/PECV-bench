@@ -1,0 +1,25 @@
+{
+  "case_id": "newData/MTG26TA2-SQL_Basics/001",
+  "issues": [
+    {
+      "description": "The problem statement for Aufgabe 04 asks for the average (Durchschnitt) of female and male inhabitants grouped by Regierungsbezirk, but the solution query uses SUM(einwohner_w) and SUM(einwohner_m) instead of AVG(...). This is a semantic/structural mismatch in the aggregate operation: students following the problem will implement AVG but the provided solution uses SUM, which will cause confusion and failing equivalence checks.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 122,
+          "end_line": 123
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe04.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Make the solution match the problem specification by using AVG for the aggregates. For example: SELECT regierungsbezirk, AVG(einwohner_w), AVG(einwohner_m) FROM Gemeinde GROUP BY regierungsbezirk. Alternatively, if sums were intended, update the problem text to request the SUM instead of the Durchschnitt."
+    }
+  ]
+}

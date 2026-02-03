@@ -1,0 +1,31 @@
+{
+  "case_id": "newData/IOS26TC1-Bookstore/005",
+  "issues": [
+    {
+      "description": "The problem statement describes Genre as \"an optional String subgenre followed by a String name\" (implying property order subgenre then name), while the reference solution defines Genre with the non-optional name first and the optional subgenre second (struct Genre { let name: String; let subgenre: String? }). This discrepancy in the described vs. implemented property ordering may confuse students about the intended memberwise initializer parameter order (Genre(subgenre:name:) vs. Genre(name:subgenre:)), and therefore about how to inline-initialize Genre instances as asked in the client tasks.",
+      "severity": "LOW",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 19,
+          "end_line": 21
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 13,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 39,
+          "end_line": 45
+        }
+      ],
+      "suggested_fix": "Clarify and align the property order in the problem statement and the solution. Preferred fixes: either (A) Update the problem statement to state that Genre has a non-optional String name and an optional String subgenre (e.g. \"A struct Genre consists of a String name and an optional String subgenre\"), or (B) change the reference solution to declare the properties in the order described in the statement (subgenre then name). Alternatively, clarify in the problem that property declaration order is not important and give the exact member names and types so students know they can initialize Genres using named parameters (Genre(name:..., subgenre:...))."
+    }
+  ]
+}

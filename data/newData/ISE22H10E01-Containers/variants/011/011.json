@@ -1,0 +1,43 @@
+{
+  "case_id": "newData/ISE22H10E01-Containers/011",
+  "issues": [
+    {
+      "description": "The Person entity in the solution repository declares the id field as type String but the getter and setter use Long (and the PersonRepository/JpaRepository is parameterized with Long). This is an internal type mismatch in the solution (field type vs. accessor signatures) and conflicts with the repository generic type. This will cause compilation errors and/or JPA mapping problems and prevents the code from working as intended. The template defines the id as Long and repository interfaces throughout the project use Long as the entity id type, so the String field in the solution is likely an unintended mistake.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 19,
+          "end_line": 23
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 53,
+          "end_line": 59
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/repository/PersonRepository.java",
+          "start_line": 12,
+          "end_line": 13
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 19,
+          "end_line": 23
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/repository/PersonRepository.java",
+          "start_line": 12,
+          "end_line": 13
+        }
+      ],
+      "suggested_fix": "Make the id type consistent across entity, accessors, and repository generics. The simplest fix is to change the field declaration in the solution's Person.java from 'private String id;' to 'private Long id;' so it matches the getId()/setId(Long) methods and JpaRepository<Person, Long>. Ensure equals()/hashCode() remain consistent with the Long id type."
+    }
+  ]
+}

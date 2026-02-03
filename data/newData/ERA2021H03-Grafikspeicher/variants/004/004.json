@@ -1,0 +1,75 @@
+{
+  "case_id": "newData/ERA2021H03-Grafikspeicher/004",
+  "issues": [
+    {
+      "description": "The problem statement gives two conflicting descriptions of which registers hold the x and y pixel coordinates. In Teilaufgabe a) it explicitly states x is in EAX and y in EBX, and the template code's TODO comment (and the solution) follow that convention (EAX = x, EBX = y). However, in Teilaufgabe b) the problem text says \"Die Pixelkoordinaten x und y werden in den Registern ebx und eax übergeben\", which reads as x in EBX and y in EAX. This contradiction can confuse students about which register holds which coordinate and may cause them to implement set_pixel with reversed parameters, producing incorrect results or failing tests.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 26
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 100,
+          "end_line": 102
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 34
+        }
+      ],
+      "suggested_fix": "Make the register convention explicit and consistent across the problem statement, template, and solution. For example, change the sentence in Teilaufgabe b) to: \"Die Pixelkoordinaten x und y werden in den Registern EAX bzw. EBX übergeben (x in EAX, y in EBX), der zu setzende RGB-Wert im Register ECX.\" Alternatively, if the intent is x in EBX and y in EAX, update the template TODO comment and the solution implementation to match that mapping. Ensure all places (text and code comments) use the same mapping."
+    },
+    {
+      "description": "The problem statement contains conflicting descriptions of which CPU registers hold the pixel coordinates x and y. In part (a) the text explicitly says x is in EAX and y in EBX, which matches the template comments and the solution implementation (both use EAX for x and EBX for y). However, in part (b) the problem statement later says \"Die Pixelkoordinaten x und y werden in den Registern ebx und eax übergeben\" (i.e. x in EBX and y in EAX), reversing the mapping. This contradiction between the problem text and itself (and the code) creates a mapping error: students may implement code with swapped register usage and therefore produce incorrect behavior or waste time debugging register ordering instead of focusing on the learning goal.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 26
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 100,
+          "end_line": 106
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 34
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 94,
+          "end_line": 101
+        }
+      ],
+      "suggested_fix": "Make the register-to-coordinate mapping consistent across the problem statement and code. Preferably update the problem statement so it consistently reads that EAX holds x and EBX holds y (this matches the template comments and the solution). Concretely, change the sentence in part (b) that currently says the coordinates are in \"ebx und eax\" to state \"x in EAX und y in EBX\" (and ensure any other textual occurrences follow the same mapping). Alternatively, if you intended the reverse mapping, update the template and solution code/comments to match that intended mapping — but keep all three artifacts consistent."
+    }
+  ]
+}

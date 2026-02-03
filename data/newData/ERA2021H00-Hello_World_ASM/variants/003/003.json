@@ -1,0 +1,31 @@
+{
+  "case_id": "newData/ERA2021H00-Hello_World_ASM/003",
+  "issues": [
+    {
+      "description": "The problem statement instructs students that the return value of printf (number of printed characters) is returned in eax and \"must be stored afterwards\", but neither the template nor the solution save that return value after the call to printf. This is a cross-artifact mismatch: the specification requires an action (storing printf's return), yet the provided template and the reference solution do not demonstrate or provide storage for that return value. Students following the problem text may try to implement saving the return value but will find no guidance/placeholders in the template and will see a solution that does not perform the required storage, causing confusion about whether storing the value is actually required for the exercise.",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 18
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 11,
+          "end_line": 17
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 11,
+          "end_line": 16
+        }
+      ],
+      "suggested_fix": "Either remove or reword the requirement in the problem statement (if storing the printf return is not part of the exercise), or update the template and solution to show and support storing the return value. Concretely, to preserve the teaching point, add a storage location in the data section (e.g. in NASM syntax: add a symbol 'result dd 0' to the .data section) and, after the call to printf, store eax into that location (e.g. 'mov dword [result], eax'). Update both the template and the solution to include these lines so the code matches the stated requirement."
+    }
+  ]
+}

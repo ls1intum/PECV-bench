@@ -1,0 +1,75 @@
+{
+  "case_id": "newData/ISE22H10E01-Containers/001",
+  "issues": [
+    {
+      "description": "The problem statement states that addParent(Person person, Person parent) “should return nothing (void)” (problem_statement.md lines 96–106). However, both the template and the solution declare and use addParent as returning a Person: the template PersonService.addParent signature returns Person (template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java lines 40–43) and the solution implements and returns a Person (solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java lines 40–46). PersonResource in the template also expects addParent to return a Person (template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java lines 60–65). This contradiction between the problem text and the code is likely to confuse students about the correct return type and would lead to incorrect implementations if they follow the problem text (or confusion when reading provided code/tests).",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 96,
+          "end_line": 106
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 43
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 46
+        }
+      ],
+      "suggested_fix": "Align the problem statement with the code: change the description for addParent in the problem statement to indicate it should return the changed and persisted Person (i.e., return a Person), matching the template and solution. For example, replace “addParent … should return nothing (void)” with “addParent … should save and return the changed and persisted Person.” Alternatively, if the intent is to have addParent be void, update the template, PersonResource, and tests to use the void signature consistently — but the simpler and less disruptive fix is to update the problem text to expect a Person return value."
+    },
+    {
+      "description": "The problem statement says the service method addParent(Person person, Person parent) \"should return nothing (void)\" but both the template and the solution implement addParent as returning a Person and the controller (PersonResource) expects and uses that returned Person. This creates a contradiction between the written requirements and the provided code: students following the problem text may implement a void service method (or expect void) which will not match the template/controller and will cause confusion or compile/runtime errors.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 99,
+          "end_line": 106
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 43
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 46
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 65
+        }
+      ],
+      "suggested_fix": "Align the problem statement with the code. Update the description of addParent in problem_statement.md to indicate that it returns the changed and persisted Person (like addChild/removeParent/removeChild), e.g.: \"addParent(Person person, Person parent): ... Save and return the changed and persisted person.\" Alternatively, if the pedagogical intent was for addParent to be void, update the template and controller to not expect a returned Person (adjust PersonResource to call personService.addParent(person, parent); then fetch and return the updated person if needed). The least disruptive fix: change the problem text to state that addParent returns Person."
+    }
+  ]
+}

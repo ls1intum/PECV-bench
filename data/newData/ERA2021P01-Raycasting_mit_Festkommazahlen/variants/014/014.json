@@ -1,0 +1,49 @@
+{
+  "case_id": "newData/ERA2021P01-Raycasting_mit_Festkommazahlen/014",
+  "issues": [
+    {
+      "description": "The Bitmap24 class header in the solution repository declares the methods resize_buffer, save and set as private, but those methods are defined in Bitmap24.cpp and are used publicly by main.cpp (calls to bitmap.resize_buffer(...) and bitmap.set(...)). The template repository's Bitmap24.hpp declares these methods as public. This visibility mismatch will cause compilation errors (main.cpp cannot access private methods) and confuses students about the intended public API for Bitmap24.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 31,
+          "end_line": 58
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 42,
+          "end_line": 59
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 45,
+          "end_line": 56
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 58,
+          "end_line": 71
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 213,
+          "end_line": 216
+        }
+      ],
+      "suggested_fix": "Make the Bitmap24 API consistent by declaring resize_buffer, save and set as public in Bitmap24.hpp (move their declarations from private to public). This matches the template header and the usage in main.cpp and preserves the intended public interface students should implement/use."
+    }
+  ]
+}

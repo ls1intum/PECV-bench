@@ -1,0 +1,75 @@
+{
+  "case_id": "newData/ISE22H10E01-Containers/006",
+  "issues": [
+    {
+      "description": "The Person model's birthday setter signature differs between the template/tests and the solution. In the template (and in all tests) Person.setBirthday(LocalDate) exists and is used (e.g. person.setBirthday(LocalDate.now())). However, the solution's Person class replaces that setter with setBirthday(int year, int month, int day) and no setBirthday(LocalDate) overload is provided. This method-parameter mismatch will cause compilation errors for the tests (and confuses students who expect to use LocalDate setters as shown in the problem and template).",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 77,
+          "end_line": 83
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 81,
+          "end_line": 83
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+          "start_line": 44,
+          "end_line": 49
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+          "start_line": 79,
+          "end_line": 86
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 33,
+          "end_line": 38
+        }
+      ],
+      "suggested_fix": "Restore the LocalDate-based setter to the Person class so it matches the template and tests. For example, add a method public void setBirthday(LocalDate birthday) { this.birthday = birthday; } (or provide an overload that accepts LocalDate and delegates to the existing int-based setter). This keeps the API consistent with the problem statement, template, and test code."
+    },
+    {
+      "description": "The Person model exposes a different setBirthday(...) signature in the solution than in the template and tests. The template Person.java (and the provided tests) use setBirthday(LocalDate) to set a person's birthday, but the solution's Person.java replaces that setter with setBirthday(int year, int month, int day). This breaks the clear mapping between the model and the test usage (and would cause compilation / usage confusion) because students and tests expect a setBirthday(LocalDate) method but the solution class no longer provides it.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 77,
+          "end_line": 83
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 77,
+          "end_line": 83
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 28,
+          "end_line": 37
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 32,
+          "end_line": 38
+        }
+      ],
+      "suggested_fix": "Restore compatibility by adding an overloaded setter setBirthday(LocalDate birthday) to the solution's Person class (or keep the original setBirthday(LocalDate) signature). This preserves the API expected by the template and tests and avoids confusing students. Alternatively, if the int-based setter is preferred, update all tests and template usages to call the int-based setter consistently (less recommended because it increases changes across artifacts)."
+    }
+  ]
+}

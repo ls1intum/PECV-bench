@@ -1,0 +1,31 @@
+{
+  "case_id": "newData/ERA2021H03-Grafikspeicher/002",
+  "issues": [
+    {
+      "description": "The problem statement requires the subroutine set_pixel to return 1 in EAX on success (otherwise 0). The solution's set_pixel implementation performs the write to memory but does not set EAX to 1 before returning. The template's stub also does not implement this (intentional), but the reference solution failing to set the specified return value contradicts the stated behavior and could confuse students who expect a defined return value from the routine.",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 34
+        }
+      ],
+      "suggested_fix": "Ensure the reference implementation sets the return value in EAX to 1 on success (and 0 on failure if applicable) before returning. For example, after writing the pixel value to memory add an instruction to set eax to 1 (mov eax, 1) and then pop saved registers and ret. This preserves the specified contract from the problem statement and avoids student confusion."
+    }
+  ]
+}

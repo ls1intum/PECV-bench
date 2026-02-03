@@ -1,0 +1,31 @@
+{
+  "case_id": "newData/ERA2021P01-Raycasting_mit_Festkommazahlen/013",
+  "issues": [
+    {
+      "description": "The problem statement explicitly requires that the attribute `data` of class Bitmap24 be private and accessed only via setter methods, but both the template and the solution declare `data` as a public member (char *data;). This is a visibility mismatch: students reading the template will see a public `data` member and may either (a) use it directly (contradicting the spec) or (b) be confused whether they must change the visibility. If the grader/enforcement expects `data` to be private, the provided template/solution will mislead students and may lead to incorrect submissions or unnecessary changes.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 25
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 33,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 33,
+          "end_line": 36
+        }
+      ],
+      "suggested_fix": "Make the class attribute `data` private in the template (and update the solution to match the spec). For example, move or change the declaration to a private section (e.g. 'private: char *data;') and keep the public setter methods (set, resize_buffer, etc.) for all external access. Update any external code that currently relies on direct public access (if any) to use the provided setters. This preserves the pedagogical intent while keeping template and solution consistent with the problem statement."
+    }
+  ]
+}

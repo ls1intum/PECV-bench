@@ -1,0 +1,31 @@
+{
+  "case_id": "newData/ERA2021H03-Grafikspeicher/014",
+  "issues": [
+    {
+      "description": "The problem statement explicitly says the framebuffer start is at a \"global exportierte Speicherstelle display_start\" (i.e. an exported/global symbol), but neither the template nor the solution declare display_start as a global/exported symbol (they only define it in .bss). This mismatch can confuse students who expect an explicitly exported/global symbol (for example when linking modules or following the wording).",
+      "severity": "LOW",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 29,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 20,
+          "end_line": 22
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 4,
+          "end_line": 6
+        }
+      ],
+      "suggested_fix": "Either declare the symbol as global in the template and solution (e.g. add a line 'global display_start' near the top of the .asm files) so the code matches the problem wording, or adjust the problem statement to remove/soften the wording about 'global exportierte' if the exercise is intended to be a single-file program. Adding 'global display_start' in the template (and solution) will preserve the educational intent while removing the visibility mismatch."
+    }
+  ]
+}

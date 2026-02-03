@@ -1,0 +1,37 @@
+{
+  "case_id": "newData/ERA2021H03-Grafikspeicher/012",
+  "issues": [
+    {
+      "description": "The problem statement says pixels are rounded to 32 bits per pixel (lines 17-18) but then states \"Die Pixel sind als Array von 64-Bit Werten (Quadwords) organisiert.\" (lines 21-22). The template and solution both treat pixels as 32-bit (4 bytes) each: display_start is allocated as 8,294,400 bytes (which matches 1920×1080×4) in the template (display_start RESB 8294400), and the solution multiplies coordinates by 4 (mov edx, 4; mul edx / mov edi, 4; mul edi / uses 7680 = 1920*4) and writes a 32-bit value (mov [addr], ecx). This contradiction (problem says 64-bit but code uses 32-bit) will directly confuse students when they compute addresses (using *8 for quadwords vs *4 used in provided code) and can cause incorrect implementations or wrong answers.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 17,
+          "end_line": 24
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 20,
+          "end_line": 22
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 23,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 96,
+          "end_line": 101
+        }
+      ],
+      "suggested_fix": "Resolve the mismatch between the text and the code. The least disruptive fix is to correct the problem statement to state that pixels are 32-bit (4 bytes, doublewords) rather than 64-bit quadwords — e.g. change \"Die Pixel sind als Array von 64-Bit Werten (Quadwords) organisiert.\" to \"Die Pixel sind als Array von 32-Bit Werten (Doublewords) organisiert.\" Alternatively, if the intent was truly 64-bit pixels, update the template and solution to allocate display_start for 1920×1080×8 bytes and change address calculations to multiply by 8 (and adjust constants accordingly) and store 64-bit values — but this is a larger change and also requires adjusting how color values (ecx) are handled."
+    }
+  ]
+}

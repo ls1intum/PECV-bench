@@ -1,0 +1,57 @@
+{
+  "case_id": "newData/ERA2021H03-Grafikspeicher/001",
+  "issues": [
+    {
+      "description": "The problem statement instructs students to place the computed pixel memory address in EDI and to read the pixel with \"mov ecx, [edi]\" (part a), but the template and the provided solution compute and expect the address in ESI and read with \"mov ecx, [esi]\". This register mismatch (EDI vs ESI) is a cross-artifact inconsistency: following the problem text will make the student's code inconsistent with the template's calling/usage convention and with the reference solution, causing incorrect behavior or confusing debugging.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 24,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 99,
+          "end_line": 106
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 92,
+          "end_line": 101
+        }
+      ],
+      "suggested_fix": "Make register usage consistent across all artifacts. Either (A) update the problem statement to instruct students to place the computed address in ESI and to use \"mov ecx, [esi]\" (preferred, since template and solution already use ESI), or (B) modify the template and solution to use EDI everywhere (compute address into EDI and load with \"mov ecx, [edi]\"). Update the problem text or code comments accordingly so all references use the same register name."
+    },
+    {
+      "description": "The problem statement instructs students to place the computed pixel memory address in register EDI and then read the pixel with 'mov ecx, [edi]'. The template and the provided solution, however, expect/use ESI as the register holding the computed address (comments and code compute the address into ESI and use '[esi]'). This mismatch (EDI vs ESI) refers to the same conceptual entity — the computed pixel memory address — with different identifiers across artifacts and will confuse students about which register they must produce/inspect.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 100,
+          "end_line": 100
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 94,
+          "end_line": 101
+        }
+      ],
+      "suggested_fix": "Make the register usage consistent across artifacts. Either update the problem statement to refer to ESI (change 'Ergebnis nach EDI' and 'mov ecx, [edi]' to 'Ergebnis nach ESI' and 'mov ecx, [esi]') or change the template/solution to use EDI consistently. The simplest fix: edit the problem text to require the result in ESI and to use 'mov ecx, [esi]' so it matches the template comments and solution code."
+    }
+  ]
+}

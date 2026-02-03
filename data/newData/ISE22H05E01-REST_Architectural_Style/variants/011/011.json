@@ -1,0 +1,37 @@
+{
+  "case_id": "newData/ISE22H05E01-REST_Architectural_Style/011",
+  "issues": [
+    {
+      "description": "The solution repository's client-side PersonScene.java (solution_repository/src/client/java/de/tum/in/ase/eist/view/PersonScene.java) introduces an import and a final field of the server-side type PersonService (de.tum.in.ase.eist.service.PersonService). This both (a) violates the layered architecture described in the problem statement (client should interact with the server via the Network/Application layers and via PersonController, not by referencing server-side service classes directly) and (b) leaves a final field (personService) uninitialized in the PersonScene class, which will cause a compilation error. The template version of PersonScene does not declare or import PersonService and relies solely on PersonController, which matches the problem statement. Having the solution introduce a server-side dependency into client UI code is an unintentional structural inconsistency that will confuse students and prevent using the solution as a correct reference.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
+          "start_line": 24,
+          "end_line": 32
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
+          "start_line": 26,
+          "end_line": 31
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
+          "start_line": 31,
+          "end_line": 39
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 20,
+          "end_line": 41
+        }
+      ],
+      "suggested_fix": "Remove the import and the final PersonService field from the client-side PersonScene in the solution. The client view should interact only with the PersonController (as in the template) and not reference server-side service classes. If server-side functionality is needed, use the existing controller + WebClient flow. Also ensure any fields declared as final are properly initialized in the constructor (or not final) so the code compiles."
+    }
+  ]
+}

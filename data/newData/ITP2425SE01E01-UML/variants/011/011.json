@@ -1,0 +1,51 @@
+{
+  "case_id": "newData/ITP2425SE01E01-UML/011",
+  "issues": [
+    {
+      "description": "The UML/problem statement declares RollerCoaster.numberOfLoopings as type int, but the solution implements this attribute and its getter/constructor using long (private long numberOfLoopings; constructor parameter long numberOfLoopings; getter returns long). This is a type inconsistency between the specification and the reference implementation and can confuse students about which type to use and cause mismatches in constructor/getter signatures expected by tests.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 26,
+          "end_line": 28
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/RollerCoaster.java",
+          "start_line": 5,
+          "end_line": 10
+        }
+      ],
+      "suggested_fix": "Make the type of numberOfLoopings consistent across artifacts. Recommended: change the solution implementation to use int for the RollerCoaster field, constructor parameter, and getter (private int numberOfLoopings; constructor parameter int numberOfLoopings; getter returns int) so it matches the UML/problem statement. Alternatively, if long is intended, update the UML/problem statement to indicate long instead of int and document the change."
+    },
+    {
+      "description": "The LaunchedRollerCoaster constructor in the solution declares numberOfLoopings as int, but the RollerCoaster superclass constructor in the solution accepts a long. This mismatch of constructor parameter types between subclass and superclass (int vs long) is structurally inconsistent and may confuse students implementing constructors according to the UML which specifies an int for numberOfLoopings.",
+      "severity": "MEDIUM",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/LaunchedRollerCoaster.java",
+          "start_line": 5,
+          "end_line": 7
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/RollerCoaster.java",
+          "start_line": 7,
+          "end_line": 9
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 26,
+          "end_line": 28
+        }
+      ],
+      "suggested_fix": "Ensure constructor parameter types are consistent between subclasses and superclasses and match the UML. Preferred fix: change the RollerCoaster field and constructor parameter to int (so both RollerCoaster and LaunchedRollerCoaster use int). Alternatively, change LaunchedRollerCoaster's constructor parameter to long if long is chosen as the canonical type—then update UML accordingly."
+    }
+  ]
+}

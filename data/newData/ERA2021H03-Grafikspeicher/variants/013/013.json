@@ -1,0 +1,37 @@
+{
+  "case_id": "newData/ERA2021H03-Grafikspeicher/013",
+  "issues": [
+    {
+      "description": "The problem statement explicitly requires that the helper routine set_pixel must not be exported (\"Es darf nicht global exportiert werden (kein 'global' Keyword)\"), but the solution file declares the symbol as global (\"global set_pixel\"). This contradicts the specification and may confuse students about the intended visibility of the routine (whether they must or must not add a 'global' directive). It also changes the linkage/visibility behavior compared to the template (which does not export set_pixel).",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 15,
+          "end_line": 15
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 20,
+          "end_line": 35
+        }
+      ],
+      "suggested_fix": "Remove the 'global set_pixel' directive from the solution so the function is not exported, matching the problem statement and the template. If exporting set_pixel was intentional for testing, instead update the problem statement to explicitly allow exporting and explain why; otherwise ensure the solution keeps set_pixel local (no 'global' keyword)."
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "case_id": "newData/ERA2021H03-Grafikspeicher/007",
+  "issues": [
+    {
+      "description": "Resolution / framebuffer-size mismatch between problem statement and provided code. The problem text explicitly requires the 1024 × 768 resolution (and earlier explains 32-bit pixels = 4 bytes each), but both the template and the solution reserve a framebuffer of 8,294,400 bytes and compute row stride using 7,680 bytes. 8,294,400 bytes and a row stride of 7,680 correspond to a 1920 × 1080 framebuffer at 4 bytes/pixel (1920*1080*4 = 8,294,400; 1920*4 = 7,680). This contradicts the requirement 1024 × 768 (which would require 1024*768*4 = 3,145,728 bytes and a row stride of 4,096). Students following the problem statement (using width = 1024) will compute different offsets than the template/solution code uses, causing confusion and incorrect memory accesses.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 29,
+          "end_line": 33
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 20,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 20,
+          "end_line": 22
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 4,
+          "end_line": 6
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 24,
+          "end_line": 30
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 94,
+          "end_line": 100
+        }
+      ],
+      "suggested_fix": "Make the resolution consistent across problem statement, template, and solution. Either: (A) Change the problem text to require 1920 × 1080 (so the existing RESB 8294400 and row stride 7680 are correct), or (B) Adjust template and solution to the specified 1024 × 768: set display_start RESB 3145728 (1024*768*4) and use per-row byte stride 4096 (multiply y by 4096) and x-bytes 4 (multiply x by 4). This ensures calculated addresses match the stated resolution and avoids student confusion."
+    }
+  ]
+}

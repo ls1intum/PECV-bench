@@ -1,0 +1,55 @@
+{
+  "case_id": "newData/ERA2021H03-Grafikspeicher/010",
+  "issues": [
+    {
+      "description": "Pixel format / bytes-per-pixel mismatch between the problem statement and the provided template/solution. The problem text explicitly states “High Color Modus mit 16 Bit pro Pixel (5 Bit Rot, 6 Bit Grün, 5 Bit Blau)”, but the template and the solution treat pixels as 32-bit (4 bytes) — e.g. buffer size display_start = RESB 8294400 (1920*1080*4), address arithmetic multiplies x by 4 and uses a scanline stride of 7680, and stores/loads a full 32-bit value with instructions like mov [addr], ecx / mov ecx, [esi]. The problem statement also instructs mov ecx, [esi] (a 32-bit load) while simultaneously stating 16-bit pixels. This contradiction will confuse students about how to compute the address (bytes-per-pixel and stride) and how to read/write pixel values, and will lead to incorrect implementations if they follow the problem text but use the template.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 17,
+          "end_line": 25
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 3,
+          "end_line": 6
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 21,
+          "end_line": 21
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 100,
+          "end_line": 110
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 4,
+          "end_line": 6
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 23,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 96,
+          "end_line": 101
+        }
+      ],
+      "suggested_fix": "Make the pixel format consistent across all artifacts. Two viable fixes:\n1) If the intent is 32-bit pixels (as in template/solution): update the problem statement to describe True Color / 32 bits per pixel (and adjust any textual mentions of '16 Bit' and the 5-6-5 description). Update the example input description to match a 32-bit value (e.g. 0xAARRGGBB or 0x00RRGGBB) if relevant.\n2) If the intent is 16-bit 5-6-5 High Color (as the problem currently states): change the template and solution to use 2 bytes per pixel — set display_start RESB to 1920*1080*2 (4147200), compute addresses using bytes-per-pixel = 2 (stride = 1920*2 = 3840), multiply x by 2 (or use addressing tricks), and read/write 16-bit values (e.g. use mov [addr], cx or mov word [addr], cx / mov cx, [addr]). Apply the same change to any input/output examples and comments so students have a single, consistent specification."
+    }
+  ]
+}

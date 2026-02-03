@@ -1,0 +1,57 @@
+{
+  "case_id": "newData/ERA2021H00-Hello_World_ASM/001",
+  "issues": [
+    {
+      "description": "The problem statement requires the program to set the return value 0 in the eax register before exiting (so the program returns success), but neither the template nor the solution explicitly set eax to 0. The template/solution only perform arithmetic on eax (add eax, ecc / add eax, ecx) and call printf. Because printf and earlier instructions can leave eax non-zero, students following only the template change (ecc → ecx) may still fail the stated requirement and be confused why their submission does not report a successful return value.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 12,
+          "end_line": 14
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 11,
+          "end_line": 14
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 11,
+          "end_line": 13
+        }
+      ],
+      "suggested_fix": "Make the requirement and code consistent by explicitly setting eax to 0 before returning. For example, add an instruction such as 'xor eax, eax' (or 'mov eax, 0') immediately before the final 'ret' in both the template and the solution (i.e., after 'add esp, 4' and before 'ret'). Alternatively, if the return-value requirement is not intended for this exercise, update the problem statement to remove or clarify the eax=0 requirement."
+    },
+    {
+      "description": "The template code uses the identifier `ecc` (add eax, ecc) while the problem statement and the solution use the register name `ecx`. `ecc` is a typo/invalid register name that prevents successful compilation and forces students to fix a naming error rather than focus on the intended learning task. This is an unintended identifier naming inconsistency between template and solution/problem artifacts and creates unnecessary cognitive and debugging overhead.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 19,
+          "end_line": 21
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 11,
+          "end_line": 14
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 11,
+          "end_line": 13
+        }
+      ],
+      "suggested_fix": "In the template file template_repository/helloWorld.asm, replace the mistaken identifier `ecc` with the correct register name `ecx` (i.e., change `add eax, ecc` to `add eax, ecx`) and update the surrounding comment if necessary. This aligns the template with the problem statement and the provided solution so students are not impeded by a typo."
+    }
+  ]
+}

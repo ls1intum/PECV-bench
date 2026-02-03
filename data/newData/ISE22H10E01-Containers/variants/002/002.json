@@ -1,0 +1,81 @@
+{
+  "case_id": "newData/ISE22H10E01-Containers/002",
+  "issues": [
+    {
+      "description": "The problem statement and the template expect PersonService.addChild(...) to return a Person (the changed & persisted person) and PersonResource assigns the return value of addChild(...) to a variable (person = personService.addChild(...)). However, in the solution repository PersonService.addChild(...) is declared to return void. This creates a compile-time/signature mismatch and prevents the Resource and tests (which expect a returned Person) from working with the solution implementation.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 101,
+          "end_line": 104
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 45,
+          "end_line": 48
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 67,
+          "end_line": 72
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 48,
+          "end_line": 54
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 67,
+          "end_line": 72
+        }
+      ],
+      "suggested_fix": "Make the solution's PersonService.addChild(Person person, Person child) return a Person (the persisted/updated person) to match the problem statement and PersonResource. For example, change its signature to 'public Person addChild(Person person, Person child)' and return 'personRepository.save(person);'. This keeps the API consistent with addParent and with how PersonResource and tests use the method."
+    },
+    {
+      "description": "The problem statement (Part 4) and the template declare that PersonService::addChild(Person person, Person child) should return the changed and persisted Person. The template's PersonResource also calls person = personService.addChild(person, child) and expects a Person return. In the solution repository, PersonService::addChild is implemented with a void return type (does not return the persisted Person). This mismatch between the required/templated signature and the solution's signature breaks the conceptual mapping (and would break usage in PersonResource), creates confusion about the expected behavior, and is inconsistent with the exercise description.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 100,
+          "end_line": 104
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 45,
+          "end_line": 48
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 67,
+          "end_line": 71
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 48,
+          "end_line": 54
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 67,
+          "end_line": 72
+        }
+      ],
+      "suggested_fix": "Align the solution with the problem/template: change PersonService::addChild in the solution to return Person (signature: public Person addChild(Person person, Person child)) and return the persisted instance, e.g. add the child to person, then return personRepository.save(person). This preserves the expected contract used by PersonResource and matches the requirement in the problem statement."
+    }
+  ]
+}

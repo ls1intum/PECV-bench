@@ -1,0 +1,31 @@
+{
+  "case_id": "newData/ERA2021P01-Raycasting_mit_Festkommazahlen/010",
+  "issues": [
+    {
+      "description": "The problem statement explicitly states that the attributes width and height in class Bitmap24 are of type unsigned int to prevent negative image sizes, but both the template and the solution declare width and height as int. This mismatch between the specification and the provided code can confuse students (should they implement/expect unsigned types?) and may lead to subtle type/overflow/implicit-conversion issues when students follow the sheet vs. the code base.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 25
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 33,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 33,
+          "end_line": 35
+        }
+      ],
+      "suggested_fix": "Make the specification and code consistent. Either update the problem statement to reflect that width and height are int, or change the declaration and related function signatures in both template and solution to unsigned int. Recommended (to match the spec):\n- In template and solution, change Bitmap24::width and Bitmap24::height from int to unsigned int.\n- Update constructors and resize_buffer parameter types to unsigned int (and any call sites) to match the attribute types.\n- Review uses of width/height where signed arithmetic is assumed and add casts if necessary (e.g., indexing and loops) to avoid compilation warnings. This preserves the educational intent (prevent negative sizes) and removes the cross-artifact inconsistency."
+    }
+  ]
+}

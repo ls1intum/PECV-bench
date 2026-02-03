@@ -1,0 +1,15 @@
+diff -ruN a/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java b/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java
+--- a/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java	2026-01-22 21:09:58
++++ b/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java	2026-02-01 18:20:57
+@@ -38,9 +38,9 @@
+ 
+     public List<Person> getAllPersons(PersonSortingOptions sortingOptions) {
+         if (sortingOptions == null) {
+-            return new ArrayList<>(this.persons);
++            return this.persons; // Direct reference leak
+         }
+-        var sortedList = new ArrayList<>(this.persons);
++        var sortedList = this.persons; // Direct reference usage
+         sortedList.sort((p1, p2) -> {
+             Person person1;
+             Person person2;

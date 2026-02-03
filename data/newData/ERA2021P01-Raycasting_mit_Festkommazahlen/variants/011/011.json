@@ -1,0 +1,63 @@
+{
+  "case_id": "newData/ERA2021P01-Raycasting_mit_Festkommazahlen/011",
+  "issues": [
+    {
+      "description": "The Bitmap24::data member has inconsistent types between template and solution: the template's header declares 'char *data' (matching the implementation in Bitmap24.cpp), but the solution header declares 'int *data'. The solution implementation (Bitmap24.cpp) still treats data as a char* (allocation with new char[], element accesses as char). This mismatch will cause type conflicts or compile errors and will confuse students about the intended data representation for the bitmap buffer. Because the problem statement requires the project to compile, this inconsistency is blocking.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 31,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 31,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 56
+        }
+      ],
+      "suggested_fix": "Make the Bitmap24::data declaration consistent with the implementation. Change the solution header to declare 'char *data;' (rather than 'int *data') so it matches Bitmap24.cpp, or alternatively change the implementation to use 'int' consistently. Preferably use 'char *data' (bytes) for a 24-bit bitmap buffer and update the header in the solution repository accordingly."
+    },
+    {
+      "description": "The typedef declarations for fixed-point types are malformed in both header and source: lines such as 'typedef int long long fix_t;' and 'typedef unsigned int long long fixu_t;' are syntactically incorrect and do not define the intended types. These incorrect typedefs appear in math_fix.c and math_fix.h (both template and solution). This will prevent correct compilation and confuses students about the intended fixed-point base types (e.g. 32-bit vs 64-bit).",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/math_fix.c",
+          "start_line": 11,
+          "end_line": 17
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/math_fix.h",
+          "start_line": 15,
+          "end_line": 20
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/math_fix.c",
+          "start_line": 11,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/math_fix.h",
+          "start_line": 15,
+          "end_line": 21
+        }
+      ],
+      "suggested_fix": "Correct the typedefs to valid, unambiguous declarations. For 64-bit fixed-point types use, e.g.:\n- 'typedef long long fix_t;' and\n- 'typedef unsigned long long fixu_t;'\nEnsure the header and source use the same, correct typedefs so students have a consistent, compilable type definition for fixed-point arithmetic."
+    }
+  ]
+}

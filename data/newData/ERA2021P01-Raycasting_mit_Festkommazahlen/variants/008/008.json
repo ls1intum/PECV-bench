@@ -1,0 +1,37 @@
+{
+  "case_id": "newData/ERA2021P01-Raycasting_mit_Festkommazahlen/008",
+  "issues": [
+    {
+      "description": "The solution repository's Bitmap24 class header declares a default constructor (Bitmap24()), and client code (main.cpp) in the solution creates a Bitmap24 object with the default constructor (Bitmap24 bitmap;). However the solution's Bitmap24.cpp explicitly removed the default constructor implementation (comment: \"Default constructor removed\") while still providing the parameterized constructor. This creates a structural mismatch between the header/usage and the source: the declared default constructor has no definition, so the program will fail to link. Students following the solution (or trying to compile it) will encounter a linker error and be confused whether the default ctor is intended to be present or omitted.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 33,
+          "end_line": 37
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 36,
+          "end_line": 41
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 39
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 36,
+          "end_line": 37
+        }
+      ],
+      "suggested_fix": "Restore (re-add) the default constructor implementation in example_program/src/Bitmap24.cpp to match the declaration in Bitmap24.hpp and the usage in main.cpp. For example, add:\n\nBitmap24::Bitmap24() : width(0), height(0) { data = NULL; }\n\nAlternatively, if removal was intentional, update Bitmap24.hpp (remove the default ctor declaration) and change all call sites (e.g., use the parameterized constructor in main.cpp) so declarations, definitions, and usages are consistent. Restoring the constructor is the least intrusive fix and preserves the original template behavior."
+    }
+  ]
+}

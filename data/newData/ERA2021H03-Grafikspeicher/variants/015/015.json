@@ -1,0 +1,37 @@
+{
+  "case_id": "newData/ERA2021H03-Grafikspeicher/015",
+  "issues": [
+    {
+      "description": "The problem statement explicitly requires using only local buffers for input and forbids global symbols for buffers (lines 35-36). Both the template and the solution declare a global input buffer in .bss (buf resb 16) and the template even exports it with a 'global buf' directive (template: line 31). This contradicts the requirement and may confuse students: they are told not to use global buffers but are given one in the template/solution (and the template's explicit 'global' export makes the buffer a global symbol). Students may follow the template and violate the exercise constraints, or be unsure whether the global buffer is allowed.",
+      "severity": "MEDIUM",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 35,
+          "end_line": 36
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 20,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 31,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 4,
+          "end_line": 6
+        }
+      ],
+      "suggested_fix": "Make the artifacts consistent with the specification. Either (A) remove the global input buffer and the 'global buf' export from the template and solution, and change code to allocate a local buffer on the stack (e.g. reserve 16 bytes in main via sub esp,16 or use [ebp-16]) and pass its address to fgets/atoi; or (B) if providing a global buffer is intentional, update the problem statement to allow a global input buffer. Option A preserves the original educational intent (forcing use of local buffers) and avoids exporting 'buf' as a global symbol."
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "case_id": "newData/IOS26TC1-Bookstore/016",
+  "issues": [
+    {
+      "description": "The problem statement asks students to \"Create a class BookRepository\" (with an initializer init(books: [Book])), while the rest of the problem, the template, and the solution use the name `Bookstore`. This naming mismatch (BookRepository vs Bookstore) is structural: students following the problem text may implement `BookRepository` and then find that the template, tests, and example client expect a `Bookstore` type, causing compilation/test failures and confusion about which class to create.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 7,
+          "end_line": 12
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 31,
+          "end_line": 38
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 3,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 9,
+          "end_line": 16
+        }
+      ],
+      "suggested_fix": "Make the name consistent across artifacts. Either (a) change the problem statement to require a class named `Bookstore` (referring to init(books: [Book]) as described elsewhere), or (b) rename the class in the template and solution to `BookRepository` (and update all references such as assembleBookstore and tests). Preferably update the problem statement to use `Bookstore` so it matches the template and solution and avoids breaking existing tests."
+    },
+    {
+      "description": "The problem statement asks for a class named `BookRepository` (including the init signature) but the template and the reference solution consistently use the name `Bookstore`. This naming mismatch for the same core entity (the class that holds the collection of books) creates mapping confusion: students will look for `BookRepository` per the instructions but the starter code, filenames, and tests expect `Bookstore`. This can cause students to implement the wrong identifier or be unable to connect the requirement to the provided template, leading to unnecessary confusion and failing tests.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 7,
+          "end_line": 12
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 3,
+          "end_line": 16
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 16,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 9,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 31,
+          "end_line": 57
+        }
+      ],
+      "suggested_fix": "Make the class name consistent across all artifacts. Prefer changing the problem statement to refer to `Bookstore` (to match file names, template, and solution). Replace the phrase `class BookRepository` with `class Bookstore` and keep the required initializer signature `init(books: [Book])`. Alternatively, if you intend the name `BookRepository`, update the template files and solution to use `BookRepository` everywhere, but keeping `Bookstore` is recommended for consistency with existing filenames and package naming."
+    }
+  ]
+}

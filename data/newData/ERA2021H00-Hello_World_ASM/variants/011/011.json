@@ -1,0 +1,31 @@
+{
+  "case_id": "newData/ERA2021H00-Hello_World_ASM/011",
+  "issues": [
+    {
+      "description": "The template defines the data label 'hello' using 'dd' (double words) and includes a comment noting a \"Type Mismatch: Defined as Double Words instead of Bytes\" (template: lines 3-4), while the solution uses 'db' (bytes) and a single contiguous string (solution: line 3). The problem statement only instructs students to change the register name (ecc -> ecx) and does not mention the data-definition issue. This cross-artifact mismatch (template vs solution) and the stray comment in the template can confuse students about whether they must also change the data definition to complete the task or whether the dd usage is intentional. It is an unintended structural inconsistency in the provided starter code.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 3,
+          "end_line": 4
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 3,
+          "end_line": 3
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 18
+        }
+      ],
+      "suggested_fix": "Align the template's data declaration with the solution to avoid confusion: replace the template's 'hello dd \"Hell\", \"o Wo\", \"rld!\", 10, 0' with a byte declaration such as 'hello db \"Hello World!\", 10, 0' and remove or correct the misleading comment. This preserves the exercise focus (changing 'ecc' to 'ecx') and removes an unrelated ambiguity for students."
+    }
+  ]
+}

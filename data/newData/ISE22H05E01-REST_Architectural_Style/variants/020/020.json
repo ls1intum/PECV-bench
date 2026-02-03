@@ -1,0 +1,37 @@
+{
+  "case_id": "newData/ISE22H05E01-REST_Architectural_Style/020",
+  "issues": [
+    {
+      "description": "The solution's PersonResource class declares @RequestMapping with produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, while the template's PersonResource and the problem statement only mention JSON responses. Introducing XML in the solution is an unannounced structural difference (a different content-type capability) that is not documented in the problem description or present in the template. This discrepancy can confuse students about the expected response formats and whether they need to handle XML in their client/server code. It is a minor/optional difference but still an unintended structural inconsistency.",
+      "severity": "LOW",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 114
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 201,
+          "end_line": 205
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 8,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 13,
+          "end_line": 16
+        }
+      ],
+      "suggested_fix": "Make the produced media types consistent across artifacts. Either remove MediaType.APPLICATION_XML_VALUE from the solution's @RequestMapping so both template and solution only produce JSON (recommended to match the problem statement), or update the problem statement and template to explicitly state that XML responses are supported and required so students are aware of the extra content type."
+    }
+  ]
+}

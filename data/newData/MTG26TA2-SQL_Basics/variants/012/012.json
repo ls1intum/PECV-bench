@@ -1,0 +1,25 @@
+{
+  "case_id": "newData/MTG26TA2-SQL_Basics/012",
+  "issues": [
+    {
+      "description": "Task 06 in the problem statement asks for communities whose male and female population \"dem Textwert 'Hunderttausend' entspricht\" (i.e. equals the textual value 'Hunderttausend'), which implies a string comparison or that the column stores spelled-out numbers. The solution, however, uses numeric comparisons (einwohner_m > 100000 AND einwohner_w > 100000). This is a mismatch between the expected data/content type described in the task and the solution's implementation and can confuse students about whether the columns are textual or numeric and whether to use equality vs. numeric comparison.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 131,
+          "end_line": 134
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe06.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Clarify the intention in the problem statement and make problem and solution consistent. Either: (a) if the intent is to match the literal text 'Hunderttausend', update the solution to use string equality (e.g. WHERE einwohner_m = 'Hunderttausend' AND einwohner_w = 'Hunderttausend') or explain how to compare textual spelled-out numbers; or (b) if the intent is to test numeric populations around 100000, change the problem wording to refer to the numeric value (e.g. \"die Einwohnerzahl 100000\" or \"mehr als 100000\"), and keep or adjust the solution to use numeric comparison (e.g. = 100000 or > 100000) accordingly."
+    }
+  ]
+}

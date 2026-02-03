@@ -1,0 +1,31 @@
+{
+  "case_id": "newData/ISE22H05E01-REST_Architectural_Style/017",
+  "issues": [
+    {
+      "description": "The Problem Statement explicitly instructs students not to change the attributes of PersonService. In the template PersonService the field is declared as a List<Person> (private final List<Person> persons;). In the solution PersonService this attribute has been changed to a Set<Person> (private final Set<Person> persons;). This is a cross-artifact attribute-type mismatch: the template (and the explicit instruction) expect a List, while the solution uses a Set. This contradiction can confuse students (they are warned not to change attributes but the reference solution does) and may lead to uncertainty which data structure is intended or required by the tests.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 206,
+          "end_line": 210
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 11,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 14,
+          "end_line": 18
+        }
+      ],
+      "suggested_fix": "Make the PersonService attribute consistent across artifacts. Either (A) change the solution to use the same List<Person> field as the template (private final List<Person> persons; initialized as new ArrayList<>()) and adjust its implementation accordingly, or (B) update the template and the problem statement note to use Set<Person> consistently if uniqueness semantics are required. Prefer keeping List<Person> in the solution to match the template and the explicit student instruction not to change attributes."
+    }
+  ]
+}

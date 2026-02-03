@@ -1,0 +1,31 @@
+{
+  "case_id": "newData/ISE22H05E01-REST_Architectural_Style/008",
+  "issues": [
+    {
+      "description": "The problem statement requires that all HTTP requests from the client happen asynchronously (each method should only send a single HTTP request and the response should be handled via the provided Consumer). In the solution, PersonController.addPerson uses WebClient.block() to retrieve the created Person synchronously (blocking), which contradicts the asynchronous design requirement described in the problem statement. This behavioral difference is likely unintentional and could confuse students who rely on the solution as a reference for the intended reactive / non-blocking pattern.",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 142,
+          "end_line": 152
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 8,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 40
+        }
+      ],
+      "suggested_fix": "Change the solution's addPerson implementation to use the non-blocking reactive pattern (like the other methods) — i.e., avoid .block() and use .retrieve().bodyToMono(Person.class).onErrorStop().subscribe(newPerson -> { persons.add(newPerson); personsConsumer.accept(persons); }); — so the method performs a single asynchronous WebClient request and invokes the Consumer upon receiving the response. Remove the synchronous blocking call and the comment that acknowledges the violation."
+    }
+  ]
+}

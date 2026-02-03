@@ -1,0 +1,25 @@
+{
+  "case_id": "newData/MTG26TA2-SQL_Basics/010",
+  "issues": [
+    {
+      "description": "The problem statement refers to the Gemeindeschlüssel with leading zero (`09162000`) while the solution uses the numeric literal without the leading zero (9162000). This creates an ambiguity about the data type/representation of the gemeindeschluessel column (string vs numeric) and may confuse students whether to compare with a quoted string ('09162000') or an integer (9162000). It can lead to mismatches in tests or unexpected query results depending on the column's actual type in the database.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 118,
+          "end_line": 118
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe03.sql",
+          "start_line": 3,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Make the representation of the Gemeindeschlüssel consistent across artifacts. Either (a) change the problem statement to use the numeric form (9162000) and clarify that gemeindeschluessel is a numeric column, or (b) change the solution to compare against the string '09162000' and clarify that the column is stored as text. Prefer explicitly documenting the column data type in the problem statement (e.g. \"gemeindeschluessel (integer) = 9162000\" or \"gemeindeschluessel (text) = '09162000'\") so students know whether to quote the value."
+    }
+  ]
+}

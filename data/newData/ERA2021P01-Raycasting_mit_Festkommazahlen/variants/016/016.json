@@ -1,0 +1,93 @@
+{
+  "case_id": "newData/ERA2021P01-Raycasting_mit_Festkommazahlen/016",
+  "issues": [
+    {
+      "description": "The problem statement instructs students to use a method named `saveImage(filename)` to write the resulting image (problem_statement.md line 25). However, both the template and the solution provide a Bitmap class with a method named `save(const std::string &i_filename)` (Bitmap24::save declared in Bitmap24.hpp and used as bitmap.save(outfile) in main.cpp). There is no `saveImage` symbol in the template or solution. This name/signature mismatch will confuse students (they may look for a non-existent saveImage function) and could lead to incorrect implementations or needless search for the intended API.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 25
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 47,
+          "end_line": 49
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/main.cpp",
+          "start_line": 225,
+          "end_line": 229
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 47,
+          "end_line": 49
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/main.cpp",
+          "start_line": 225,
+          "end_line": 229
+        }
+      ],
+      "suggested_fix": "Make the API naming consistent. Either (A) change the problem statement to instruct students to call Bitmap24::save(filename) (or refer to the exact signature e.g. save(const std::string&)) so it matches the provided code, or (B) add a small wrapper named saveImage(const std::string& filename) in the template (and solution) that forwards to bitmap.save(filename). Prefer (A) if the intended API is Bitmap24::save, as it avoids adding redundant wrappers and matches main.cpp usage."
+    },
+    {
+      "description": "The problem statement instructs students to call a method named `saveImage(filename)` to write the resulting image to disk, but both the template and solution code expose a method named `save(const std::string &i_filename)` (class Bitmap24) and use `bitmap.save(outfile)`. This is an identifier naming mismatch: students following the problem text may implement or call `saveImage(...)` (which does not exist) and get compilation errors or become confused mapping the required API to the provided code.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 25
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 47,
+          "end_line": 49
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 78,
+          "end_line": 160
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 225,
+          "end_line": 229
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 47,
+          "end_line": 49
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 78,
+          "end_line": 160
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 225,
+          "end_line": 229
+        }
+      ],
+      "suggested_fix": "Make the API name consistent across artifacts. Either (a) update the problem statement to refer to the existing method (e.g. \"Verwenden Sie die Methode Bitmap24::save(filename) / save(filename)\") or (b) add a `saveImage(const std::string &filename)` wrapper/alias in Bitmap24 (and forward it to the existing save) in the template/solution so the name referenced in the task exists. Prefer updating the problem text if the intended API is Bitmap24::save to avoid introducing redundant wrappers."
+    }
+  ]
+}

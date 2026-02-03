@@ -1,0 +1,31 @@
+{
+  "case_id": "newData/IOS26TC1-Bookstore/015",
+  "issues": [
+    {
+      "description": "The problem statement requires the Book struct to have its properties be private (\"two private Strings title and author as well as a private optional array of Genre named genres\") but the reference solution and the intended usage in Client access those properties directly (e.g. Client prints book.title, book.author and inspects book.genres). If students make the properties private as stated, code in Client (which is in a different file/module scope) will not be able to access them and the project will not compile or the tests will fail. The solution implements these properties with internal visibility (no access modifier) so they are accessible to Client and the tests.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 24,
+          "end_line": 33
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Client.swift",
+          "start_line": 10,
+          "end_line": 16
+        }
+      ],
+      "suggested_fix": "Remove the 'private' requirement from the problem description for Book's properties (title, author, genres) so they are declared as constant properties (let) with default/internal visibility, or explicitly require them to be public/internal (e.g. 'let title: String', 'let author: String', 'let genres: [Genre]?'). Alternatively, if the intention is to hide fields, change the Client and tests to use public accessor methods to read these values — but the simpler fix is to update the problem text to not demand 'private' for these properties so students implement them as accessible constants as shown in the solution."
+    }
+  ]
+}

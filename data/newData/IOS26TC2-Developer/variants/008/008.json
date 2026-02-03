@@ -1,0 +1,37 @@
+{
+  "case_id": "newData/IOS26TC2-Developer/008",
+  "issues": [
+    {
+      "description": "Constructor parameter type for Developer is inconsistent between artifacts: the problem statement and the template expect monthsOfSwiftExperience to be optional (Int?), but the Solution's Developer initializer declares monthsOfSwiftExperience as non-optional (Int). The Solution's Client calls Developer(name: ..., monthsOfSwiftExperience: nil), which does not match the non-optional initializer and would not compile. This is a structural contradiction (constructor signature mismatch) that will confuse students and break the provided solution example.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 31,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/DeveloperLib/Developer.swift",
+          "start_line": 12,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Developer.swift",
+          "start_line": 12,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Client.swift",
+          "start_line": 17,
+          "end_line": 19
+        }
+      ],
+      "suggested_fix": "Make the Solution's Developer initializer accept an optional Int to match the problem statement and template. Change the initializer signature in solution_repository/Sources/DeveloperLib/Developer.swift to init(name: String, monthsOfSwiftExperience: Int?) and assign self.monthsOfSwiftExperience = monthsOfSwiftExperience. This will match Client usage (passing nil) and align all artifacts."
+    }
+  ]
+}

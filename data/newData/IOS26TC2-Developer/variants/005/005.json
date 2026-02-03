@@ -1,0 +1,69 @@
+{
+  "case_id": "newData/IOS26TC2-Developer/005",
+  "issues": [
+    {
+      "description": "The problem statement (Task 2.3) instructs students to implement attend(courseName:) taking a String argument (courseName), but the template and solution use a method attend(course:) that takes an optional Course? parameter. This is an inner contradiction in the problem statement as well: Part 3 (the client instructions) clearly expects calling attend with a Course instance (myself.attend(course: swiftCourse)). The mismatch is structural because printing the course instructor (required by the spec) requires access to the Course object; implementing attend(courseName: String) would not provide the instructor unless students introduce extra lookups or change the Client code. This will confuse students about the correct method signature and prevent straightforward implementation of the required behavior.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 43,
+          "end_line": 47
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 52,
+          "end_line": 57
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "Sources/DeveloperLib/Developer.swift",
+          "start_line": 33,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/DeveloperLib/Developer.swift",
+          "start_line": 41,
+          "end_line": 51
+        }
+      ],
+      "suggested_fix": "Align the problem statement with the template and solution. Update Task 2.3 in the problem statement to require attend(course:) (or attend(course: Course?)) that accepts a Course (optionally nil) rather than a String. Also update the textual description to refer to the Course parameter (so students know they can access course.name and course.instructor) and ensure the example in Part 3 remains calling myself.attend(course: swiftCourse). Alternatively, if the intent was to accept only a course name string, update the template and solution (and the client) to provide an instructor lookup or change Client to pass the instructor separately — however the simpler and recommended fix is to change the problem text to expect attend(course: Course?) to match the provided template and solution."
+    },
+    {
+      "description": "The problem statement asks for an instance method attend(courseName:) that takes a String, but both the template and solution implement attend(course:) that takes an optional Course (Course?). The client code in the solution also calls myself.attend(course: swiftCourse). This mismatch (method name and parameter type) creates a mapping barrier: students reading the textual task may implement attend(courseName: String) while the starter code and expected usage require attend(course: Course?). The difference affects required behavior (accessing course.name and course.instructor) and can lead to compilation/test failures or wasted time reconciling the two variants.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 43,
+          "end_line": 47
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "Sources/DeveloperLib/Developer.swift",
+          "start_line": 33,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/DeveloperLib/Developer.swift",
+          "start_line": 41,
+          "end_line": 51
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/DeveloperLib/Client.swift",
+          "start_line": 19,
+          "end_line": 19
+        }
+      ],
+      "suggested_fix": "Align the problem statement with the code: change the textual task to require attend(course:) that accepts an optional Course (e.g. attend(course: Course?)) and describe checking course.name.lowercased().contains(\"swift\") and using course.instructor in the success message. Alternatively, change the template/solution to match attend(courseName: String) and update client code — but the simpler and clearer fix is to update the problem statement to match the existing template/solution signature (attend(course: Course?))."
+    }
+  ]
+}

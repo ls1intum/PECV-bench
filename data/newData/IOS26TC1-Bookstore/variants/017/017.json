@@ -1,0 +1,75 @@
+{
+  "case_id": "newData/IOS26TC1-Bookstore/017",
+  "issues": [
+    {
+      "description": "The problem statement requires a Book struct with properties named `title`, `author`, and optional `genres`. In the solution repository the Book struct defines the title property as `bookTitle` (solution_repository/Sources/BookstoreLib/Bookstore.swift lines 24-33), but the solution's Client uses `Book(title: ...)` and accesses `book.title` (solution_repository/Sources/BookstoreLib/Client.swift lines 10-11 and 34-36). This creates an internal inconsistency in the solution: the Book definition, its initializer usage, and property access do not agree. As written, the solution code would not compile and will confuse students about the expected property names for Book.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 21
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 24,
+          "end_line": 33
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Client.swift",
+          "start_line": 10,
+          "end_line": 11
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Client.swift",
+          "start_line": 34,
+          "end_line": 36
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 3,
+          "end_line": 16
+        }
+      ],
+      "suggested_fix": "Make the Book struct property names match the specification and usage. Rename `bookTitle` to `title` in the Book definition (and keep `author` and `genres`), so the memberwise initializer and property access (e.g., `Book(title:..., author:..., genres:...)` and `book.title`) are consistent. Alternatively, if `bookTitle` is preferred, update all Client code to use `book.bookTitle` and initializers that use `bookTitle:`. Prefer aligning the Book struct with the problem statement (`title`) to avoid student confusion."
+    },
+    {
+      "description": "The problem statement specifies that a Book struct should have a String property named `title` (and `author`) and an optional `genres` array. In the solution, the Book struct declares the title field as `bookTitle` (let bookTitle: String) while other parts of the solution (Client) and the example usage expect/construct Books using `title` (e.g. Book(title: ..., author: ..., genres: ...) and access via book.title). This inconsistent identifier naming for the same core concept (the book's title) breaks the direct mapping from the problem description to the implementation and introduces confusion for students about the expected property name and initializer.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 24,
+          "end_line": 33
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 10,
+          "end_line": 12
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 34,
+          "end_line": 41
+        }
+      ],
+      "suggested_fix": "Rename the Book struct's property from `bookTitle` to `title` (e.g. `let title: String`) so it matches the problem statement and the usages in Client (and memberwise initializers). Alternatively, update all usages and initializers to consistently use `bookTitle`, but the simpler and clearer fix is to use `title` to align with the problem description and expected API."
+    }
+  ]
+}

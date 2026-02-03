@@ -1,0 +1,23 @@
+diff -ruN a/problem-statement.md b/problem-statement.md
+--- a/problem-statement.md	2026-01-22 21:09:58
++++ b/problem-statement.md	2026-02-01 17:45:03
+@@ -32,5 +32,7 @@
+ keine anderen Registerinhalte verändert werden. Der Wertebereich von x und y soll nicht
+ überprüft werden.
+ 
++Verwenden Sie für die Eingabe nur lokale Puffer, keine globalen Symbole für Puffer.
++
+ Versuchen Sie so wenig wie möglich Multiplikationen zu verwenden, indem Sie von der
+ indirekten Adressierung Gebrauch machen.
+\ No newline at end of file
+diff -ruN a/template/pixel.asm b/template/pixel.asm
+--- a/template/pixel.asm	2026-01-31 12:30:20
++++ b/template/pixel.asm	2026-02-01 17:45:03
+@@ -28,6 +28,7 @@
+     get_color db "Bitte RGB-Wert für neue Farbe eingeben", 10, 0
+ section .text
+ global main
++global buf ; Inconsistency injected
+ extern printf
+ extern atoi
+ extern fgets

@@ -1,0 +1,63 @@
+{
+  "case_id": "newData/ERA2021P01-Raycasting_mit_Festkommazahlen/015",
+  "issues": [
+    {
+      "description": "Visibility mismatch for Bitmap24::save and Bitmap24::set between the template and the solution, and usage in the solution that contradicts the solution header. In the template repository Bitmap24::save() and Bitmap24::set(...) are declared public (students expect to call them from main), while in the solution repository header these methods are declared under protected. This is a structural problem because main.cpp in both template and solution calls bitmap.set(...) (to initialize pixels) and bitmap.save(...) (to write output). Declaring these methods protected prevents those calls from compiling and confuses students about the intended API (should these be public or not?).",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 42,
+          "end_line": 57
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 47,
+          "end_line": 59
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 42,
+          "end_line": 45
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 225,
+          "end_line": 229
+        }
+      ],
+      "suggested_fix": "Restore a consistent public API: declare Bitmap24::set(...) and Bitmap24::save(...) as public in the solution header (match the template). Alternatively, if the intent is to make them non-public, adjust main.cpp to use a public wrapper or different public API to set pixels and save the image. The simplest fix to preserve student expectations and make the solution compile is to move save() and set(...) back to the public section of example_program/src/Bitmap24.hpp."
+    },
+    {
+      "description": "Inner-artifact contradiction in the solution repository: Bitmap24 methods are declared protected in the header but are used as public by the solution code. The solution's header places save() and set(...) under protected, while solution main.cpp calls these methods on a Bitmap24 instance. This is an implementation/visibility error in the solution and will cause compilation failures, making the provided reference solution unusable as a working example for students.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 47,
+          "end_line": 59
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 45,
+          "end_line": 71
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 225,
+          "end_line": 229
+        }
+      ],
+      "suggested_fix": "Fix the solution so its header, implementation, and usage agree. Either: (a) make set(...) and save(...) public in example_program/src/Bitmap24.hpp (recommended), or (b) change the code that uses them (main.cpp) to call a supported public API. Ensure the header and implementation consistently declare the same visibility for these methods so the solution compiles and serves as a correct reference."
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "case_id": "newData/ISE22H10E01-Containers/005",
+  "issues": [
+    {
+      "description": "The problem statement shows conflicting parameter order for addParent. In the bullet list it is written as addParent(Person parent, Person person) (which implies parent first, child second), but elsewhere in the problem statement (the explanatory example) it refers to addParent(person: Person, parent: Person) and both the template and solution implementations use the signature addParent(Person person, Person parent). This contradiction in the problem text can confuse students about which argument is the target person to update and which is the parent being added, and may lead to incorrect calls to the service or confusion when implementing tests or REST calls.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 100,
+          "end_line": 106
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 46
+        }
+      ],
+      "suggested_fix": "Make the parameter order consistent in the problem statement to match the template and solution: use addParent(Person person, Person parent) everywhere (and update the explanatory example and bullets accordingly). Clarify in the text that the first parameter is the person being modified (child) and the second is the parent to add. This removes ambiguity for students implementing and calling the method."
+    },
+    {
+      "description": "The problem statement describes the addParent method with the parameter order addParent(Person parent, Person person) (parent first, person second), while both the template and the solution define the service method as addParent(Person person, Person parent) (person first, parent second). This mismatch in parameter ordering for the same conceptual operation (adding a parent to a person) can cause minor confusion: students reading the textual specification may assume the first parameter is the parent, but the code they must implement/use expects the first parameter to be the child/person.",
+      "severity": "LOW",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 100,
+          "end_line": 104
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 46
+        }
+      ],
+      "suggested_fix": "Align the textual signature in the problem statement with the code. Change the example in the problem statement to use addParent(Person person, Person parent) (child/person first, parent second), or explicitly state the parameter order used in the template (i.e., clarify that the first parameter is the person/child and the second is the parent). This keeps the written requirements and the code consistent and avoids needless confusion."
+    }
+  ]
+}

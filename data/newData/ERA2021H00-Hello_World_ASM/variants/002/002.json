@@ -1,0 +1,45 @@
+{
+  "case_id": "newData/ERA2021H00-Hello_World_ASM/002",
+  "issues": [
+    {
+      "description": "The problem statement requires implementing get_status to return a simple boolean (1 byte) in AL (\"Implementieren Sie `get_status`, welche einen simplen Boolean (1 Byte) in `al` zurückgibt\"). The template provides a get_status implementation that moves the address of the hello string into EAX (32-bit) — i.e. `mov eax, hello` — which does not match the required 1-byte boolean-in-AL behavior and will confuse students about the expected return convention.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 22,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 21,
+          "end_line": 23
+        }
+      ],
+      "suggested_fix": "Replace the incorrect implementation in the template with a clear stub that matches the specification (return a boolean in AL). For example, make get_status a one-byte-return stub such as `xor al, al` / `mov al, 1` (depending on intended truth value) followed by `ret`, or leave a TODO stub with the correct register comment. Add a comment clarifying that AL should contain the boolean result. This prevents students from being misled by the current `mov eax, hello` implementation."
+    },
+    {
+      "description": "The solution repository's reference implementation does not include a get_status implementation at all (solution file only contains main and fixes the ecc→ecx issue). Because the problem explicitly asks students to implement get_status and to return a boolean in AL, the absence of get_status in the solution means the solution does not demonstrate the required behavior, creating a cross-artifact inconsistency and denying students a correct reference.",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 22,
+          "end_line": 22
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 1,
+          "end_line": 17
+        }
+      ],
+      "suggested_fix": "Add a correct get_status implementation to the solution repository that returns the boolean in AL as specified (e.g., `mov al, 1` / `xor al, al` then `ret`), or explicitly document in the solution that get_status is intentionally omitted (with a note explaining expected AL semantics). Preferably include a short comment showing the intended calling convention and returned value so students have an accurate reference."
+    }
+  ]
+}

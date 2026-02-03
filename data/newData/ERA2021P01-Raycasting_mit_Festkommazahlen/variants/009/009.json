@@ -1,0 +1,63 @@
+{
+  "case_id": "newData/ERA2021P01-Raycasting_mit_Festkommazahlen/009",
+  "issues": [
+    {
+      "description": "The Bitmap24 constructor implementation in the solution swaps the constructor parameter names/roles compared to the template/header. In the template the constructor is defined as Bitmap24::Bitmap24(int p_width, int p_height) and initializes width(p_width), height(p_height). In the solution the implementation is Bitmap24::Bitmap24(int p_height, int p_width) and initializes width(p_width), height(p_height) — i.e. the first parameter is treated as height and the second as width in the initializer. This is a semantic mismatch with the header declaration (Bitmap24(int i_width, int i_height)) and with the template implementation, and can cause incorrect width/height assignment at runtime and confuse students comparing template and solution code.",
+      "severity": "MEDIUM",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 39
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 39
+        }
+      ],
+      "suggested_fix": "Make the solution implementation match the header and the template by using the same parameter ordering and initializer. Change the solution constructor to: Bitmap24::Bitmap24(int p_width, int p_height) : width(p_width), height(p_height) { ... } (or, alternatively, update the header to match the intended parameter order, but keeping header and implementation consistent is required). This resolves the semantic mismatch and avoids confusing students."
+    },
+    {
+      "description": "The Bitmap24 constructor's parameter names/order differ between the header/template and the solution implementation. The header (and template implementation) declare/define the ctor as width then height (e.g. Bitmap24(int i_width, int i_height) / Bitmap24::Bitmap24(int p_width, int p_height)) while the solution's implementation uses the parameters in reversed positions (Bitmap24::Bitmap24(int p_height, int p_width)) and initializes members as width(p_width), height(p_height). This mismatch effectively swaps width and height when the ctor is called with (width, height) and creates a semantic discrepancy between template, header and solution that will confuse students mapping the API declaration to the provided solution code (and may cause incorrect behavior).",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 39
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        }
+      ],
+      "suggested_fix": "Make the solution implementation match the header/template naming and ordering. For example change the solution constructor to: Bitmap24::Bitmap24(int i_width, int i_height) : width(i_width), height(i_height) { } — or, if keeping the parameter names p_width/p_height, ensure their order and member initialization correspond to the header (first parameter = width, second = height). This ensures a consistent mapping between declaration, template and solution and avoids swapped width/height semantics."
+    }
+  ]
+}

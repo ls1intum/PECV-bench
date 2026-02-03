@@ -1,0 +1,57 @@
+{
+  "case_id": "newData/IOS26TC2-Developer/010",
+  "issues": [
+    {
+      "description": "The problem statement and template define Course.ratings as an array of Int (ratings: [Int]), but the solution repository declares Course.ratings as an array of Double (ratings: [Double]) and its initializer expects [Double]. This is a cross-artifact attribute type mismatch: students following the problem and template will expect and implement ratings as [Int], but the solution uses a different element type. This divergence is likely to confuse students comparing their work to the reference solution and may lead to misconceptions about the intended type for ratings.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 6,
+          "end_line": 11
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 8,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 9,
+          "end_line": 16
+        }
+      ],
+      "suggested_fix": "Make the type of ratings consistent across artifacts. Preferably change the solution repository to use ratings: [Int] (matching the problem statement and template) and keep the initializer parameter as [Int]. Update any code in the solution that assumes Double accordingly (e.g. convert to Double only when computing the average). Alternatively, if the intent is to store fractional ratings, update the problem statement and template to specify [Double] and ensure template signatures match."
+    },
+    {
+      "description": "The solution repository's Course implementation is internally inconsistent: ratings is declared as [Double], but addRating(stars:) appends an Int (ratings.append(stars)) and getAverageRating() uses an Int accumulator (var starSum = 0) and adds rating values directly to it. These operations mix Int and Double without conversions and would not compile. This is an inner-artifact attribute/type usage mismatch in the solution code and makes the provided reference implementation incorrect and unusable as a model for students.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 11,
+          "end_line": 17
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 24,
+          "end_line": 30
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 36,
+          "end_line": 48
+        }
+      ],
+      "suggested_fix": "Fix the solution implementation so types are used consistently. Two straightforward options: (A) Change ratings to [Int] and keep addRating(stars: Int) appending Ints; change starSum to Int and compute average with Double(starSum)/Double(totalRatings). Or (B) keep ratings as [Double], but append Double(stars) in addRating and use a Double accumulator (e.g. var starSum: Double = 0.0) and perform arithmetic in Double. Ensure all additions and conversions are explicit so the code compiles and matches the chosen ratings element type."
+    }
+  ]
+}

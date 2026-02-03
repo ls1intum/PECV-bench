@@ -1,0 +1,43 @@
+{
+  "case_id": "newData/ISE22H05E01-REST_Architectural_Style/021",
+  "issues": [
+    {
+      "description": "Return-type inconsistency for PersonService.getAllPersons: the template declares getAllPersons(PersonSortingOptions) to return List<Person>, and the client (both template and solution) and PersonResource expect the endpoint to return a List<Person> (JSON array). However, the solution's PersonService.getAllPersons implementation returns a java.util.stream.Stream<Person>. This mismatch (Stream vs List) is structural and prevents PersonResource from returning the expected List<Person> or will require additional collection/serialization steps; it will confuse students and may lead to compilation errors or incorrect server responses.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 37,
+          "end_line": 40
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 39,
+          "end_line": 63
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 27
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 22,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 65,
+          "end_line": 80
+        }
+      ],
+      "suggested_fix": "Align the PersonService.getAllPersons signature and return type with the rest of the code and the problem description. Two reasonable fixes:\n1) Change PersonService.getAllPersons to return List<Person> (as in the template). Implement sorting on a copy of the internal list and return a List (e.g., Collections.unmodifiableList(sortedList) or new ArrayList<>(sortedList)). Update implementation accordingly. This keeps the server endpoint returning a JSON array matching the client expectations.\n2) Alternatively, if a Stream return is desired, update PersonResource to collect the Stream into a List before returning (e.g., personService.getAllPersons(...).collect(Collectors.toList())) and ensure the service interface in template/documentation is updated to indicate Stream<Person>. Option (1) is preferred because the template and client already expect List<Person>."
+    }
+  ]
+}

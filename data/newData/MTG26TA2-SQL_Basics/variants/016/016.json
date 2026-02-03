@@ -1,0 +1,51 @@
+{
+  "case_id": "newData/MTG26TA2-SQL_Basics/016",
+  "issues": [
+    {
+      "description": "Solution SQL for Aufgabe 10 is internally inconsistent with the problem requirement and contains an invalid column alias reference. The problem asks for the count in a column named `Anzahl` and sorted descending by that count. The solution selects COUNT(*) AS count_paths but then orders by `Anzahl` (ORDER BY Anzahl DESC) — `Anzahl` does not exist in the query, causing a runtime error and contradicting the requested column name. This will confuse students and prevent the query from running as intended.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 151,
+          "end_line": 153
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe10.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Make the alias and ORDER BY consistent with the problem statement. For example: SELECT gemeindeschluessel, COUNT(*) AS Anzahl FROM Wanderweg_zu_Gemeinde GROUP BY gemeindeschluessel ORDER BY Anzahl DESC. (Alternatively, keep alias count_paths and change ORDER BY to ORDER BY count_paths DESC, but ensure the column name matches the problem requirement if tests expect `Anzahl`.)"
+    },
+    {
+      "description": "The problem statement explicitly requires the count column to be named 'Anzahl' and the results to be sorted by that column (Aufgabe 10). The solution uses a different alias ('count_paths') for the COUNT(*) and then refers to 'Anzahl' in the ORDER BY. This creates a naming mismatch between the problem requirement and the solution (and an internal inconsistency in the solution itself), which will confuse students and break any automated checks that expect the column name 'Anzahl'.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 151,
+          "end_line": 153
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe10.sql",
+          "start_line": 1,
+          "end_line": 1
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe10.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Make the solution use the exact alias requested in the problem statement and ensure ORDER BY uses that alias. For example: SELECT gemeindeschluessel, COUNT(*) AS Anzahl FROM Wanderweg_zu_Gemeinde GROUP BY gemeindeschluessel ORDER BY Anzahl DESC. Alternatively, update the problem statement to accept the alias used in the solution, but prefer aligning the solution to the required name 'Anzahl' to avoid automated test failures."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "case_id": "newData/ISE22H10E01-Containers/003",
+  "issues": [
+    {
+      "description": "The controller method for creating a person (POST /persons) has different return types in the template and the solution. In the template PersonResource.createPerson returns ResponseEntity<Person> and returns the saved Person object, whereas in the solution PersonResource.createPerson returns ResponseEntity<Long> and returns only the saved person's id. This mismatch is structural (method return type/signature differs) and may confuse students about the intended API contract and about what their REST endpoint should return. It can also lead to inconsistent tests or example usage between template and solution.",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 37,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 37,
+          "end_line": 43
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+          "start_line": 48,
+          "end_line": 56
+        }
+      ],
+      "suggested_fix": "Standardize the createPerson endpoint contract across template and solution. Either: (A) change the template implementation to match the solution by returning ResponseEntity<Long> and returning personService.save(person).getId(), and update any tests/documentation accordingly; or (B) change the solution to return ResponseEntity<Person> (the saved Person) to match the template. Also update any integration tests or the problem statement to explicitly document the expected response body for POST /persons so students are not confused."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "case_id": "newData/MTG26TA2-SQL_Basics/003",
+  "issues": [
+    {
+      "description": "Task description (Aufgabe 09) requests the maximal (MAX) male and female population per Landkreis for Gemeinden with flaeche > 100 km², but the solution uses AVG(einwohner_m) and AVG(einwohner_w). This is a semantic/structural mismatch in the aggregate function: the solution returns averages instead of the required maxima. Students or automated checks will be confused or marked incorrect because the solution does not implement the aggregate operation specified in the problem statement.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 146,
+          "end_line": 149
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe09.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Update the solution to use MAX(...) instead of AVG(...). For example: SELECT kreis, MAX(einwohner_m), MAX(einwohner_w) FROM Gemeinde WHERE flaeche > 100 GROUP BY kreis. This makes the solution match the problem statement's requirement to report the maximal male and female population per Landkreis."
+    }
+  ]
+}

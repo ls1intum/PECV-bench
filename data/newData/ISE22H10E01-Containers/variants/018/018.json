@@ -1,0 +1,83 @@
+{
+  "case_id": "newData/ISE22H10E01-Containers/018",
+  "issues": [
+    {
+      "description": "The problem statement text says clients invoke HTTP requests via the `/user` API endpoints (problem_statement.md line 21), but both the template and the solution implement and document endpoints under `/persons` (PersonResource.java: multiple mappings such as GET/POST/PUT/DELETE on \"persons\"). This inconsistency in the described base path may confuse students about which endpoints they must use and test against.",
+      "severity": "LOW",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 21
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 27,
+          "end_line": 72
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 27,
+          "end_line": 72
+        }
+      ],
+      "suggested_fix": "Correct the problem statement to refer to the `/persons` endpoints (or conversely change the REST controller paths to `/user` if that was intended). Ensure all places in the text and any examples use the same base path as the provided controllers so students are not confused about which endpoints to call."
+    },
+    {
+      "description": "The problem statement instructs students to put the Heroku app name into a file named `heroku-app-name.txt` (problem_statement.md lines 36-37), but this file is not present in the template repository root. The missing file referenced by the instructions can block students who follow the step-by-step tasks expecting that file to exist in the starter project.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "heroku-app-name.txt",
+          "start_line": 1,
+          "end_line": 1
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "heroku-app-name.txt",
+          "start_line": 1,
+          "end_line": 1
+        }
+      ],
+      "suggested_fix": "Add a `heroku-app-name.txt` file to the template repository (containing an example placeholder or left empty) and document its expected contents, or update the problem statement to remove or change this step if the file is not required. If the file is required by the automated tests, ensure it exists in the template so students can edit it as instructed."
+    },
+    {
+      "description": "The problem statement refers to the HTTP API endpoints as `/user` (line 21), while both the template and solution code expose endpoints under `/persons` (e.g. @GetMapping(\"persons\") and the parent/child endpoints). This naming mismatch between the problem description and the code can confuse students about which endpoints to call and where to implement or test the described functionality.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 21
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 71
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 71
+        }
+      ],
+      "suggested_fix": "Edit the problem statement to reference the `/persons` API endpoints (instead of `/user`) so the textual description matches the actual REST paths in the template and solution code (e.g., replace `/user` with `/persons` at the mentioned location)."
+    }
+  ]
+}
