@@ -20,7 +20,7 @@ from cli.reporting import (
     load_gold_issues,
     summarise_dataset,
 )
-from cli.utils import DATA_ROOT, PROJECT_ROOT, RESULTS_ROOT, RUNS_ROOT
+from cli.utils import DATA_ROOT, PROJECT_ROOT, RESULTS_ROOT, RUNS_ROOT, add_version_flags, get_version, get_data_root
 
 
 MetricValue = Optional[float]
@@ -276,9 +276,10 @@ def _resolve_case_parts(cases_dir: Path, case_path: Path) -> Optional[Tuple[str,
     return course, exercise, variant
 
 
-def _collect_run_stats(cases_dir: Path) -> tuple[StatsAccumulator, dict[str, StatsAccumulator]]:
+def _collect_run_stats(cases_dir: Path, version: str) -> tuple[StatsAccumulator, dict[str, StatsAccumulator]]:
     overall = StatsAccumulator()
     per_exercise: dict[str, StatsAccumulator] = defaultdict(StatsAccumulator)
+    data_root = get_data_root(version)
 
     for case_path in _iter_case_files(cases_dir):
         try:
@@ -309,11 +310,11 @@ def _collect_run_stats(cases_dir: Path) -> tuple[StatsAccumulator, dict[str, Sta
         if course_exercise_variant is not None:
             course, exercise, variant = course_exercise_variant
             gold_issues, gold_path = load_gold_issues(
-                course, exercise, variant, DATA_ROOT
+                course, exercise, variant, data_root
             )
             if gold_issues is None:
                 _log_warning(
-                    f"Gold annotations missing for {course}/{exercise}/{variant} at {gold_path}"
+                    f"Gold annotations missing for {course}/{exercise}/{variant} at {gold_path} (version {version})"
                 )
         else:
             _log_warning(
@@ -460,13 +461,14 @@ class GroupAccumulator:
 
 
 def report_command(args: argparse.Namespace) -> int:
+    version = get_version(args)
     benchmark = args.benchmark
     results_root = _resolve_path(args.results_dir, RESULTS_ROOT)
     runs_root = _resolve_path(args.runs_dir, RUNS_ROOT)
 
-    benchmark_root = results_root / benchmark
+    benchmark_root = results_root / version / benchmark
     if not benchmark_root.exists():
-        raise FileNotFoundError(f"Benchmark results not found: {benchmark_root}")
+        raise FileNotFoundError(f"Benchmark results not found: {benchmark_root} (version {version})")
 
     aggregate_dir_name = args.aggregate_dir
     aggregate_root: Optional[Path] = None
@@ -477,7 +479,7 @@ def report_command(args: argparse.Namespace) -> int:
     group_accumulators: dict[str, GroupAccumulator] = {}
     run_reports: list[dict[str, Any]] = []
 
-    dataset_summary = summarise_dataset(DATA_ROOT)
+    dataset_summary = summarise_dataset(get_data_root(version))
 
     for run_dir in sorted(p for p in benchmark_root.iterdir() if p.is_dir()):
         if aggregate_root is not None and run_dir == aggregate_root:
@@ -491,10 +493,10 @@ def report_command(args: argparse.Namespace) -> int:
         if not case_files:
             continue
 
-        overall_stats, per_exercise_stats = _collect_run_stats(cases_dir)
+        overall_stats, per_exercise_stats = _collect_run_stats(cases_dir, version)
 
         run_id = run_dir.name
-        metadata_path = runs_root / benchmark / f"{run_id}.yaml"
+        metadata_path = runs_root / version / benchmark / f"{run_id}.yaml"
         metadata = _load_run_metadata(metadata_path)
         args_meta = metadata.get("args") if isinstance(metadata, dict) else {}
         if not isinstance(args_meta, dict):
@@ -823,11 +825,34 @@ def report_command(args: argparse.Namespace) -> int:
 
 
 def register_subcommand(parser: argparse.ArgumentParser) -> None:
+    import textwrap
+
+    # Add version flags first so they appear prominently in help/usage
+    add_version_flags(parser)
+
     parser.set_defaults(handler=report_command)
+    parser.formatter_class = argparse.RawDescriptionHelpFormatter
+    parser.description = textwrap.dedent("""
+    Generate aggregate reports (JSON, Markdown, LaTeX) from benchmark execution results.
+
+    Examples:
+      # Report for default V1 dataset and pecv-reference benchmark
+      pecv-bench report
+
+      # Report for V2 dataset
+      pecv-bench report --V2
+
+      # Report for a specific benchmark name (e.g., 'my-experiment' located in results/V1/my-experiment)
+      pecv-bench report --benchmark my-experiment
+
+      # Report specifying the runs directory explicitly
+      pecv-bench report --runs-dir runs/V1 --V1
+    """)
+
     parser.add_argument(
         "--benchmark",
         default="pecv-reference",
-        help="Benchmark name under results/ (default: pecv-reference)",
+        help="Benchmark name (directory name) under results/V{version}/. Do NOT provide a full path. (default: pecv-reference)",
     )
     parser.add_argument(
         "--results-dir",

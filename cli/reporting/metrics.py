@@ -7,6 +7,8 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple
 from collections import defaultdict
 
+from cli.utils import get_data_root
+
 
 def unify_path(path: str | None) -> str:
     if not path:
@@ -177,7 +179,7 @@ def unify_model_name(model_name: str) -> str:
     return short
 
 
-def analyse_variants_runs(results_dir: str) -> None:
+def analyse_variants_runs(results_dir: str, version: str = "V1") -> None:
     """
     Iterate through all result files in results_dir
 
@@ -201,6 +203,7 @@ def analyse_variants_runs(results_dir: str) -> None:
             f"Results directory {results_dir} does not exist or is not a directory."
         )
 
+    data_root = get_data_root(version)
     total_analysed_files = 0
     results_by_model = defaultdict(list)
 
@@ -248,10 +251,11 @@ def analyse_variants_runs(results_dir: str) -> None:
                     # be missing from the internal JSON run_id.
                     model_name = run_id
 
-                    unified_model_name = unify_model_name(model_name)                    # Find corresponding gold standard file
+                    unified_model_name = unify_model_name(model_name)
+                    # Find corresponding gold standard file
                     # Assume gold standard is in data/<course>/<exercise>/variants/<variant>/<variant>.json
-                    project_root = Path(__file__).resolve().parents[2]
-                    gold_standard_path = project_root / "data" / course / exercise / "variants" / variant / f"{variant}.json"
+                    
+                    gold_standard_path = data_root / course / exercise / "variants" / variant / f"{variant}.json"
 
                     if not os.path.isfile(gold_standard_path):
                         print(f"Warning: Gold standard not found for {case_id}: {gold_standard_path}")
@@ -262,7 +266,7 @@ def analyse_variants_runs(results_dir: str) -> None:
                         course=course,
                         exercise=exercise,
                         variant=variant,
-                        data_root=project_root / "data"
+                        data_root=data_root
                     )
 
                     if gold_issues is None:

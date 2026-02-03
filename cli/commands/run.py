@@ -29,6 +29,8 @@ from cli.utils import (
     RESULTS_ROOT,
     RUNS_ROOT,
     iter_exercises,
+    add_version_flags,
+    get_version,
 )
 
 
@@ -261,7 +263,7 @@ def run_entrypoint(
         )
 
 
-def resolve_exercises(values: list[str] | None) -> Iterable[ExerciseIdentifier]:
+def resolve_exercises(values: list[str] | None, version: str) -> Iterable[ExerciseIdentifier]:
     if values:
         seen: set[str] = set()
         for value in values:
@@ -272,7 +274,7 @@ def resolve_exercises(values: list[str] | None) -> Iterable[ExerciseIdentifier]:
             seen.add(key)
             yield identifier
         return
-    yield from iter_exercises()
+    yield from iter_exercises(version=version)
 
 
 def determine_variants(
@@ -303,9 +305,10 @@ def write_run_metadata(
     run_id: str,
     approach_args: dict[str, Any],
     config_path: Path,
+    version: str,
     stats: RunStats | None = None,
 ) -> Path:
-    runs_dir = RUNS_ROOT / approach_id
+    runs_dir = RUNS_ROOT / version / approach_id
     runs_dir.mkdir(parents=True, exist_ok=True)
     target = runs_dir / f"{run_id}.yaml"
 
@@ -320,6 +323,7 @@ def write_run_metadata(
         "args": {**approach_args},
         "config_path": relative_config,
         "generated_at": datetime.now(timezone.utc).isoformat(),
+        "version": version,
     }
     if stats is not None:
         payload["cases_executed"] = stats.executed
@@ -334,6 +338,7 @@ def write_run_metadata(
 
 
 def run_benchmark(args: argparse.Namespace) -> int:
+    version = get_version(args)
     config_path = Path(args.config)
     config = load_config(config_path)
 
@@ -348,6 +353,7 @@ def run_benchmark(args: argparse.Namespace) -> int:
         else:
             inferred = (
                 RUNS_ROOT
+                / version
                 / (
                     args.approach
                     or getattr(args, "approach_name", None)
@@ -365,7 +371,7 @@ def run_benchmark(args: argparse.Namespace) -> int:
         resume_dir = (
             args.approach or getattr(args, "approach_name", None) or default_approach
         )
-        candidate = RUNS_ROOT / resume_dir / f"{resume_run_id}.yaml"
+        candidate = RUNS_ROOT / version / resume_dir / f"{resume_run_id}.yaml"
         if candidate.exists():
             resume_path = candidate
         else:
@@ -381,6 +387,9 @@ def run_benchmark(args: argparse.Namespace) -> int:
         raise ValueError(
             "--approach conflicts with the approach recorded in the run metadata"
         )
+
+    if resume_metadata and resume_metadata.get("version") and resume_metadata.get("version") != version:
+        pass
 
     if resume_metadata:
         config_hint = resume_metadata.get("config_path")
@@ -460,7 +469,7 @@ def run_benchmark(args: argparse.Namespace) -> int:
 
     run_id = args.run_id or default_run_id
 
-    results_dir = RESULTS_ROOT / approach_id / run_id / "cases"
+    results_dir = RESULTS_ROOT / version / approach_id / run_id / "cases"
     results_dir.mkdir(parents=True, exist_ok=True)
 
     stats = RunStats()
@@ -475,6 +484,7 @@ def run_benchmark(args: argparse.Namespace) -> int:
         run_id=run_id,
         approach_args=approach_args,
         config_path=config_path,
+        version=version,
     )
 
     errors: list[str] = []
@@ -491,8 +501,8 @@ def run_benchmark(args: argparse.Namespace) -> int:
 
     tasks: list[CaseTask] = []
 
-    for exercise in resolve_exercises(requested_exercises):
-        manager = VariantManager(exercise)
+    for exercise in resolve_exercises(requested_exercises, version):
+        manager = VariantManager(exercise, version=version)
         variants_to_run = determine_variants(manager, variant_filter)
         if not variants_to_run:
             continue
@@ -522,7 +532,7 @@ def run_benchmark(args: argparse.Namespace) -> int:
         raise ValueError("--max-concurrency must be at least 1")
 
     def execute_case(task: CaseTask) -> tuple[bool, str | None]:
-        manager = VariantManager(task.exercise)
+        manager = VariantManager(task.exercise, version=version)
         try:
             materialized_dir = manager.materialize_variant(
                 task.variant_id,
@@ -580,6 +590,7 @@ def run_benchmark(args: argparse.Namespace) -> int:
             run_id=run_id,
             approach_args=approach_args,
             config_path=config_path,
+            version=version,
             stats=stats,
         )
 
@@ -601,7 +612,28 @@ def run_benchmark(args: argparse.Namespace) -> int:
 
 
 def register_subcommand(parser: argparse.ArgumentParser) -> None:
+    # Add version flags first so they appear prominently in help/usage
+    add_version_flags(parser)
+
     parser.set_defaults(handler=run_benchmark)
+    parser.formatter_class = argparse.RawDescriptionHelpFormatter
+    parser.description = """
+    Execute benchmark runs for specific exercises or approaches.
+
+    Examples:
+      # Run the default approach (pecv-reference) on a specific exercise (V1 default)
+      pecv-bench run-benchmark --exercise ITP2425/H01E01-Lectures
+
+      # Run on V2 dataset
+      pecv-bench run-benchmark --V2 --exercise IOS26/TC1-Bookstore
+
+      # Run a specific approach configuration
+      pecv-bench run-benchmark --config configs/my-approach.yaml --exercise ITP2425/H01E01-Lectures
+
+      # Run with a specific run ID and max concurrency
+      pecv-bench run-benchmark --exercise ITP2425/H01E01-Lectures --run-id my-custom-run --max-concurrency 4
+    """
+
     parser.add_argument(
         "approach_name",
         nargs="?",
@@ -610,7 +642,7 @@ def register_subcommand(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--config",
         default=str(DEFAULT_CONFIG),
-        help="Approach configuration file (YAML)",
+        help=f"Approach configuration file (YAML) (default: {DEFAULT_CONFIG})",
     )
     parser.add_argument(
         "--approach",
@@ -628,7 +660,7 @@ def register_subcommand(parser: argparse.ArgumentParser) -> None:
     )
     parser.add_argument(
         "--run-id",
-        help="Explicit run identifier (if omitted, one is generated)",
+        help="Explicit run identifier (if omitted, one is generated based on timestamp and args)",
     )
     parser.add_argument(
         "--skip-existing",
