@@ -225,7 +225,7 @@ class StatsAccumulator:
             "span_f1": span_avg,
             "iou": iou_avg,
             "time_s": time_avg,
-            "cost_usd": cost_avg,
+            "cost_eur": cost_avg,
         }
 
     def merge(self, other: "StatsAccumulator") -> None:
@@ -305,7 +305,11 @@ def _collect_run_stats(cases_dir: Path, version: str) -> tuple[StatsAccumulator,
         duration = _safe_number(timing_data.get("duration_s") or timing_data.get("durationS"))
 
         cost_data = case_data.get("cost") or case_data.get("costs") or {}
-        cost = _safe_number(cost_data.get("total_usd") or cost_data.get("totalUsd"))
+        cost = _safe_number(
+            cost_data.get("total_eur") or
+            cost_data.get("totalEur") or
+            0
+        )
 
         case_relative = None
         try:
@@ -630,7 +634,7 @@ def report_command(args: argparse.Namespace) -> int:
         "Span F1",
         "IoU",
         "Avg Time (s)",
-        "Avg Cost ($)",
+        "Avg Cost (€)",
     ]
 
     markdown_lines.extend(
@@ -660,7 +664,7 @@ def report_command(args: argparse.Namespace) -> int:
                     _format_number(averages["span_f1"], 3),
                     _format_number(averages["iou"], 3),
                     _format_number(averages["time_s"], 3),
-                    _format_number(averages["cost_usd"], 4),
+                    _format_number(averages["cost_eur"], 4),
                 ]
             )
             + " |"
@@ -678,7 +682,7 @@ def report_command(args: argparse.Namespace) -> int:
         markdown_lines.append("")
         markdown_lines.append(f"### {row['benchmark']} :: {display_key}")
         markdown_lines.append(
-            "| Exercise | TP | FP | FN | Precision | Recall | F1 | Span F1 | IoU | Avg Time (s) | Avg Cost ($) |"
+            "| Exercise | TP | FP | FN | Precision | Recall | F1 | Span F1 | IoU | Avg Time (s) | Avg Cost (€) |"
         )
         markdown_lines.append(
             "| " + " | ".join(["---"] * 11) + " |"
@@ -700,7 +704,7 @@ def report_command(args: argparse.Namespace) -> int:
                         _format_number(averages.get("span_f1"), 3),
                         _format_number(averages.get("iou"), 3),
                         _format_number(averages.get("time_s"), 3),
-                        _format_number(averages.get("cost_usd"), 4),
+                        _format_number(averages.get("cost_eur"), 4),
                     ]
                 )
                 + " |"
@@ -765,7 +769,7 @@ def report_command(args: argparse.Namespace) -> int:
 
     latex_main_lines = [
         f"\\begin{{tabular}}{{{column_spec}}}",
-        "Benchmark & Config Key & N runs & TP & FP & FN & Precision & Recall & F1 & Span F1 & IoU & Avg Time (s) & Avg Cost ($) "
+        "Benchmark & Config Key & N runs & TP & FP & FN & Precision & Recall & F1 & Span F1 & IoU & Avg Time (s) & Avg Cost (€) "
         + "\\\\",
         "\\hline",
     ]
@@ -786,7 +790,7 @@ def report_command(args: argparse.Namespace) -> int:
             _format_number(averages["span_f1"], 3),
             _format_number(averages["iou"], 3),
             _format_number(averages["time_s"], 3),
-            _format_number(averages["cost_usd"], 4),
+            _format_number(averages["cost_eur"], 4),
         ]
         latex_main_lines.append(" & ".join(latex_values) + " " + "\\\\")
 
@@ -803,7 +807,7 @@ def report_command(args: argparse.Namespace) -> int:
         latex_lines = [
             f"% Per-exercise breakdown for {row['benchmark']} :: {display_key}",
             f"\\begin{{tabular}}{{{exercise_column_spec}}}",
-            "Exercise & TP & FP & FN & Precision & Recall & F1 & Span F1 & IoU & Avg Time (s) & Avg Cost ($) "
+            "Exercise & TP & FP & FN & Precision & Recall & F1 & Span F1 & IoU & Avg Time (s) & Avg Cost (€) "
             + "\\\\",
             "\\hline",
         ]
@@ -821,7 +825,7 @@ def report_command(args: argparse.Namespace) -> int:
                 _format_number(averages.get("span_f1"), 3),
                 _format_number(averages.get("iou"), 3),
                 _format_number(averages.get("time_s"), 3),
-                _format_number(averages.get("cost_usd"), 4),
+                _format_number(averages.get("cost_eur"), 4),
             ]
             latex_lines.append(" & ".join(latex_values) + " " + "\\\\")
         latex_lines.append("\\end{tabular}")

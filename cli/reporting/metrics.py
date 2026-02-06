@@ -310,7 +310,11 @@ def analyse_variants_runs(results_dir: str, version: str = "V1") -> None:
                         duration_s = timing_data.get("duration_s") or timing_data.get("durationS") or 0
 
                         cost_data = result_data.get("cost") or result_data.get("costs") or {}
-                        total_cost = cost_data.get("total_usd") or cost_data.get("totalUsd") or 0
+                        total_cost = (
+                            cost_data.get("total_eur") or
+                            cost_data.get("totalEur") or
+                            0
+                        )
 
                         # Store result grouped by model
                         results_by_model[unified_model_name].append({
@@ -325,7 +329,7 @@ def analyse_variants_runs(results_dir: str, version: str = "V1") -> None:
                             "span_f1": avg_span_f1,
                             "iou": avg_iou,
                             "duration_s": duration_s,
-                            "cost_usd": total_cost,
+                            "cost_eur": total_cost,
                             "tp": tp,
                             "fp": fp,
                             "fn": fn
