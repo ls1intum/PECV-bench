@@ -680,11 +680,17 @@ class ModelPerformancePlotter:
             # Group by exercise
             runs_by_exercise = defaultdict(list)
             for run in runs:
-                # Extract exercise from case_id (Course/Exercise/Variant)
+                # Extract exercise from case_id (Course/Exercise/Variant or Version/Course/Exercise/Variant)
                 parts = run["case_id"].split("/")
-                if len(parts) >= 2:
+                if len(parts) >= 4: # Versioned: e.g., V2/Course/Exercise/Variant
+                    exercise_name = f"{parts[0]}/{parts[1]}/{parts[2]}"
+                elif len(parts) == 3: # Standard: e.g., Course/Exercise/Variant
                     exercise_name = f"{parts[0]}/{parts[1]}"
-                    runs_by_exercise[exercise_name].append(run)
+                elif len(parts) == 2:
+                    exercise_name = parts[0]
+                else:
+                    exercise_name = "unknown"
+                runs_by_exercise[exercise_name].append(run)
 
             for exercise_name in sorted(runs_by_exercise.keys()):
                 ex_runs = runs_by_exercise[exercise_name]

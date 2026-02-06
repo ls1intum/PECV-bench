@@ -247,19 +247,30 @@ def _iter_case_files(cases_dir: Path) -> Iterator[Path]:
     yield from sorted(cases_dir.rglob("*.json"))
 
 
-def _derive_exercise(case_data: dict[str, Any], case_path: Path, cases_dir: Path) -> str | None:
+def _derive_exercise(case_data: dict[str, Any], case_path: Path, cases_dir: Path, version: str) -> str | None:
     case_id = case_data.get("case_id")
     if isinstance(case_id, str):
         parts = [part for part in case_id.split("/") if part]
+        # If it already starts with version (e.g. V1, V2), take up to 3 parts
+        if parts and parts[0] == version:
+            if len(parts) >= 3:
+                return f"{parts[0]}/{parts[1]}/{parts[2]}"
+
+        # If it starts with another version prefix, also take up to 3 parts
+        if parts and parts[0].startswith("V") and parts[0][1:].isdigit():
+            if len(parts) >= 3:
+                return f"{parts[0]}/{parts[1]}/{parts[2]}"
+
+        # Otherwise prepend the current version
         if len(parts) >= 2:
-            return f"{parts[0]}/{parts[1]}"
+            return f"{version}/{parts[0]}/{parts[1]}"
     try:
         relative = case_path.relative_to(cases_dir)
     except ValueError:
         return None
     parts = list(relative.parts)
     if len(parts) >= 2:
-        return f"{parts[0]}/{parts[1]}"
+        return f"{version}/{parts[0]}/{parts[1]}"
     return None
 
 
@@ -269,6 +280,9 @@ def _resolve_case_parts(cases_dir: Path, case_path: Path) -> Optional[Tuple[str,
     except ValueError:
         return None
     parts = list(relative.parts)
+    # Skip version prefix if present in the path
+    if parts and parts[0].startswith("V") and parts[0][1:].isdigit():
+        parts = parts[1:]
     if len(parts) < 3:
         return None
     course, exercise = parts[0], parts[1]
@@ -299,7 +313,7 @@ def _collect_run_stats(cases_dir: Path, version: str) -> tuple[StatsAccumulator,
         except ValueError:
             case_relative = case_path.name
 
-        exercise_key = _derive_exercise(case_data, case_path, cases_dir)
+        exercise_key = _derive_exercise(case_data, case_path, cases_dir, version)
         accumulator_targets = [overall]
         if exercise_key:
             accumulator_targets.append(per_exercise[exercise_key])

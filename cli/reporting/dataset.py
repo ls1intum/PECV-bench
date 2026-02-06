@@ -96,6 +96,7 @@ def _analyze_patch_file(patch_path: Path) -> dict:
 
 def summarise_dataset(data_root: Path | str, included_exercises: Optional[set[str]] = None) -> dict:
     root = Path(data_root)
+    version_name = root.name
     course_counts: Dict[str, Dict[str, int]] = {}
     ex_counts: Dict[str, int] = {}
     cat_counts: Counter[str] = Counter()
@@ -127,7 +128,7 @@ def summarise_dataset(data_root: Path | str, included_exercises: Optional[set[st
             if not variants_dir.is_dir():
                 continue
 
-            exercise_key = f"{course_dir.name}/{exercise_dir.name}"
+            exercise_key = f"{version_name}/{course_dir.name}/{exercise_dir.name}"
 
             for variant_dir in sorted(p for p in variants_dir.iterdir() if p.is_dir()):
                 variant_id = variant_dir.name

@@ -237,8 +237,12 @@ def analyse_variants_runs(results_dir: str, version: str = "V1") -> None:
                         continue
 
                     # Extract course, exercise, variant from case_id
-                    # case_id format: "ITP2425/H01E01-Lectures/003"
+                    # case_id format: "ITP2425/H01E01-Lectures/003" or "V2/ERA2021/H00-Hello_World_ASM/007"
                     parts = case_id.split("/")
+                    # Skip version prefix if present (e.g., V1, V2)
+                    if parts and parts[0].startswith("V") and parts[0][1:].isdigit():
+                        parts = parts[1:]
+
                     if len(parts) != 3:
                         print(f"Warning: Unexpected case_id format: {case_id}")
                         continue
@@ -254,7 +258,7 @@ def analyse_variants_runs(results_dir: str, version: str = "V1") -> None:
                     unified_model_name = unify_model_name(model_name)
                     # Find corresponding gold standard file
                     # Assume gold standard is in data/<course>/<exercise>/variants/<variant>/<variant>.json
-                    
+
                     gold_standard_path = data_root / course / exercise / "variants" / variant / f"{variant}.json"
 
                     if not os.path.isfile(gold_standard_path):
@@ -311,7 +315,7 @@ def analyse_variants_runs(results_dir: str, version: str = "V1") -> None:
                         # Store result grouped by model
                         results_by_model[unified_model_name].append({
                             "variant": variant,
-                            "exercise": f"{course}/{exercise}",
+                            "exercise": f"{version}/{course}/{exercise}",
                             "case_id": case_id,
                             "run_id": result_data.get("run_id"),
                             "prompt_tokens": prompt_tokens,
