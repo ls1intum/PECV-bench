@@ -2,17 +2,11 @@
   "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/001",
   "issues": [
     {
-      "description": "The problem statement requires Bitmap24::save to return true on success and false on error, but both the template and the solution declare and implement save as void. This is a return-type/signature mismatch that will confuse students: they are told to implement a function returning a boolean, yet the provided header and implementation use void. It also prevents students from following the specification or from using the provided solution as a correct reference.",
+      "description": "The template's Bitmap24 class header declares save(const std::string&) to return int, but the template implementation defines Bitmap24::save(...) with return type void. The solution repository (intended final state) declares save(...) as void in the header. This mismatch (header vs. implementation in the template) is a structural inconsistency that will cause compilation errors or confusing diagnostics for students (declaration/definition mismatch) and contradicts the solution's API.",
       "severity": "HIGH",
       "category": "METHOD_RETURN_TYPE_MISMATCH",
       "related_locations": [
         {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 25,
-          "end_line": 25
-        },
-        {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "example_program/src/Bitmap24.hpp",
           "start_line": 47,
@@ -29,53 +23,9 @@
           "file_path": "example_program/src/Bitmap24.hpp",
           "start_line": 47,
           "end_line": 49
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.cpp",
-          "start_line": 78,
-          "end_line": 160
         }
       ],
-      "suggested_fix": "Align the code with the problem statement by changing the save signature to return a bool and updating its implementation and callers. Specifically: (1) change the declaration in Bitmap24.hpp from 'void save(const std::string &i_filename);' to 'bool save(const std::string &i_filename);'. (2) Change the definition in Bitmap24.cpp to 'bool Bitmap24::save(...)', replace throwing behavior on fopen failure with returning false, and return true at the end on success (instead of void). (3) Update callers (for example main.cpp) to optionally check the returned boolean (e.g. 'if (!bitmap.save(outfile)) { /* handle error */ }'). This preserves the educational intent and removes the blocking mismatch between spec and code."
-    },
-    {
-      "description": "The problem statement explicitly requires that the method save of class Bitmap24 returns true on success and false on error, but both the template and the solution implement save with a void return type (and throw on error). This is a semantic mismatch of the same conceptual entity (Bitmap24::save) across artifacts: students reading the problem expect a boolean-returning API to check success/failure, while the provided code uses a void API that reports errors by throwing. This mismatch will confuse students about the required signature/behavior and may lead to failing tests or unnecessary changes to the template code.",
-      "severity": "HIGH",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 25,
-          "end_line": 25
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
-          "start_line": 47,
-          "end_line": 49
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/example_program/src/Bitmap24.cpp",
-          "start_line": 78,
-          "end_line": 160
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
-          "start_line": 47,
-          "end_line": 49
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/example_program/src/Bitmap24.cpp",
-          "start_line": 78,
-          "end_line": 160
-        }
-      ],
-      "suggested_fix": "Align the API and description. Two options (pick one):\n1) Change the code (recommended to match the problem): modify Bitmap24::save declaration and definition to return bool (bool save(const std::string &i_filename)), replace the current error throw with returning false on failure, and return true at the end on success. Update any call sites as needed to check the boolean return. \n2) Or change the problem statement to match the code: state that save is void and signals errors by throwing an exception (and remove the requirement that it returns true/false). Prefer option 1 if tests or grading expect a boolean return."
+      "suggested_fix": "Make the template header's signature match the implementation and the solution: change the declaration in example_program/src/Bitmap24.hpp from 'int save(const std::string &i_filename);' to 'void save(const std::string &i_filename);'. Then rebuild to verify the header and implementation are consistent."
     }
   ]
 }

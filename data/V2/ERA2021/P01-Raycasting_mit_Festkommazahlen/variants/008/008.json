@@ -2,36 +2,68 @@
   "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/008",
   "issues": [
     {
-      "description": "The solution repository's Bitmap24 class header declares a default constructor (Bitmap24()), and client code (main.cpp) in the solution creates a Bitmap24 object with the default constructor (Bitmap24 bitmap;). However the solution's Bitmap24.cpp explicitly removed the default constructor implementation (comment: \"Default constructor removed\") while still providing the parameterized constructor. This creates a structural mismatch between the header/usage and the source: the declared default constructor has no definition, so the program will fail to link. Students following the solution (or trying to compile it) will encounter a linker error and be confused whether the default ctor is intended to be present or omitted.",
+      "description": "Constructor parameter mismatch for Bitmap24: the template header declares a three-parameter constructor Bitmap24(int i_width, int i_height, int depth) but the implementation (in the template .cpp) defines a two-parameter constructor Bitmap24::Bitmap24(int p_width, int p_height). The solution repository uses the two-parameter constructor in both header and implementation. This inconsistency in the template (header vs implementation) will cause compile-time errors and confuse students about the intended constructor signature.",
       "severity": "HIGH",
       "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
       "related_locations": [
         {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 38
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        },
+        {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.cpp",
-          "start_line": 33,
-          "end_line": 37
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        }
+      ],
+      "suggested_fix": "Make the template header and implementation consistent. Either (A) change template_repository/example_program/src/Bitmap24.hpp to declare Bitmap24(int i_width, int i_height) to match the .cpp implementation, or (B) implement a matching three-parameter constructor Bitmap24::Bitmap24(int i_width, int i_height, int depth) in Bitmap24.cpp. Prefer option (A) because the solution and existing implementation expect the two-parameter constructor."
+    },
+    {
+      "description": "The Bitmap24 constructor declaration in the template header disagrees with its implementation and with the solution header: template_repository/example_program/src/Bitmap24.hpp declares Bitmap24(int i_width, int i_height, int depth) (an extra 'depth' parameter) while the implementation in Bitmap24.cpp defines a two-argument constructor Bitmap24::Bitmap24(int p_width, int p_height). The solution repository uses the two-argument declaration (Bitmap24(int i_width, int i_height)). This mismatch (extra parameter name/presence) creates confusion for students: the header in the template does not match the implementation they must work with and differs from the reference solution, which can prevent compilation and force students to spend time reconciling the inconsistent API rather than focusing on the assignment logic.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 36,
+          "end_line": 39
         },
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "example_program/src/Bitmap24.cpp",
-          "start_line": 36,
-          "end_line": 41
+          "start_line": 26,
+          "end_line": 31
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "example_program/src/Bitmap24.hpp",
-          "start_line": 37,
+          "start_line": 36,
           "end_line": 39
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "example_program/src/main.cpp",
-          "start_line": 36,
-          "end_line": 37
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
         }
       ],
-      "suggested_fix": "Restore (re-add) the default constructor implementation in example_program/src/Bitmap24.cpp to match the declaration in Bitmap24.hpp and the usage in main.cpp. For example, add:\n\nBitmap24::Bitmap24() : width(0), height(0) { data = NULL; }\n\nAlternatively, if removal was intentional, update Bitmap24.hpp (remove the default ctor declaration) and change all call sites (e.g., use the parameterized constructor in main.cpp) so declarations, definitions, and usages are consistent. Restoring the constructor is the least intrusive fix and preserves the original template behavior."
+      "suggested_fix": "Make the template header match the implementation and the solution: change the constructor declaration in template_repository/example_program/src/Bitmap24.hpp to Bitmap24(int i_width, int i_height); (remove the extraneous 'int depth' parameter). This aligns template, implementation, and solution and avoids compilation/API confusion for students."
     }
   ]
 }

@@ -2,30 +2,24 @@
   "case_id": "ERA2021/H00-Hello_World_ASM/012",
   "issues": [
     {
-      "description": "The problem statement requires that the label `hello` be implemented as a pointer that points to the actual string (it says the label must be a pointer, not the string itself), but both the template and the solution define `hello` as the string data itself (`hello db \"Hello World!\", 10, 0`). This is a cross-artifact contradiction: students are told to create a pointer, yet the provided starter code and reference solution use a direct byte string label. This could confuse students about the expected data layout and how to push the address for printf (and may lead some students to change the data incorrectly).",
+      "description": "The problem statement explicitly requires defining `status_flag` as a single byte (db). The solution repository instead defines `status_flag` using `dd` (a 4-byte double word). This is a direct type/size mismatch for the same symbol and will confuse students: they are instructed to create a one-byte flag but the provided reference solution uses a four-byte definition. Students comparing their work with the solution may be uncertain which is correct and could introduce bugs related to data size/alignment.",
       "severity": "MEDIUM",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 15,
-          "end_line": 16
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/helloWorld.asm",
-          "start_line": 2,
-          "end_line": 3
+          "start_line": 21,
+          "end_line": 22
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/helloWorld.asm",
-          "start_line": 2,
-          "end_line": 3
+          "start_line": 3,
+          "end_line": 5
         }
       ],
-      "suggested_fix": "Make the specification and code consistent. Either (A) change the problem statement to state that `hello` is the string data whose address is pushed (i.e. keep `hello db \"...\"`), or (B) change template and solution to provide an explicit pointer label and a separate string label (for example: `hello_ptr dd message` and `message db \"Hello World!\", 10, 0`) and update the code to `push [hello_ptr]` or otherwise use the pointer as intended. Prefer option (A) if the exercise is intended to be simple (pushing the label address), or (B) if the goal is to teach indirect pointers; ensure the instructions and all provided files reflect the chosen design."
+      "suggested_fix": "Update the solution to define the flag as a single byte to match the specification: replace `status_flag dd 1` with `status_flag db 1`. If the intention was to use a 4-byte value, update the problem statement to state that `status_flag` should be a 4-byte word instead."
     }
   ]
 }

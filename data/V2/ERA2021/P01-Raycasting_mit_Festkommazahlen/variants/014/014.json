@@ -2,48 +2,36 @@
   "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/014",
   "issues": [
     {
-      "description": "The Bitmap24 class header in the solution repository declares the methods resize_buffer, save and set as private, but those methods are defined in Bitmap24.cpp and are used publicly by main.cpp (calls to bitmap.resize_buffer(...) and bitmap.set(...)). The template repository's Bitmap24.hpp declares these methods as public. This visibility mismatch will cause compilation errors (main.cpp cannot access private methods) and confuses students about the intended public API for Bitmap24.",
+      "description": "The class Bitmap24 has methods used publicly in main.cpp (bitmap.set(...) and bitmap.save(...)), but in the template's class declaration these methods are placed under the private section. This is an inner-template visibility contradiction: the implementation (Bitmap24.cpp) and example usage (main.cpp) assume set() and save() are callable from outside the class, while the header marks them private. The solution repository's Bitmap24.hpp exposes these methods as public, so the template header is inconsistent with both its own example code and the solution. This will cause compilation errors and confuse students (they will see example code calling private methods), preventing them from building and running the provided example and from starting their assignments smoothly.",
       "severity": "HIGH",
       "category": "VISIBILITY_MISMATCH",
       "related_locations": [
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.hpp",
-          "start_line": 31,
-          "end_line": 58
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.hpp",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
           "start_line": 42,
           "end_line": 59
         },
         {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.cpp",
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/main.cpp",
+          "start_line": 42,
+          "end_line": 44
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.cpp",
           "start_line": 45,
           "end_line": 56
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.cpp",
-          "start_line": 58,
-          "end_line": 71
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "example_program/src/main.cpp",
-          "start_line": 36,
-          "end_line": 38
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "example_program/src/main.cpp",
-          "start_line": 213,
-          "end_line": 216
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 42,
+          "end_line": 58
         }
       ],
-      "suggested_fix": "Make the Bitmap24 API consistent by declaring resize_buffer, save and set as public in Bitmap24.hpp (move their declarations from private to public). This matches the template header and the usage in main.cpp and preserves the intended public interface students should implement/use."
+      "suggested_fix": "Make the Bitmap24::set(...) and Bitmap24::save(...) declarations public in the template header so they match their usage in main.cpp and the definitions in Bitmap24.cpp (i.e., move the declarations to the public section or remove the private label). This aligns the template with the solution and avoids compilation errors while preserving the intended exercise (students still implement/inspect other parts)."
     }
   ]
 }

@@ -2,17 +2,11 @@
   "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/004",
   "issues": [
     {
-      "description": "The problem statement asserts that Bitmap24::set expects parameters in order: x-coordinate, y-coordinate, R, G, B. However both the template and solution code (declaration, implementation and all call sites) use the order (y, x, r, g, b). This mismatch will confuse students about the correct parameter order and produce swapped coordinates / incorrect images if they follow the problem text rather than the code. It can also cause test failures or unexpected behavior.",
+      "description": "The Bitmap24::set method has inconsistent parameter order between the template header and the implementation in the template repository. In the template header (Bitmap24.hpp) the declaration lists parameters as (int i_x, int i_y, ...), but the implementation in Bitmap24.cpp defines the method as set(int i_y, int i_x, ...). This mismatch will cause a linker/compile error and confuses students about the expected row/column ordering (y vs x). The solution repository uses the (i_y, i_x) order (consistent with usage in main.cpp where bitmap.set(i, j, ...) is called), so the template header appears to be incorrect/unintentionally swapped.",
       "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 25,
-          "end_line": 25
-        },
-        {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "example_program/src/Bitmap24.hpp",
           "start_line": 51,
@@ -29,27 +23,15 @@
           "file_path": "example_program/src/Bitmap24.hpp",
           "start_line": 51,
           "end_line": 57
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.cpp",
-          "start_line": 45,
-          "end_line": 56
         }
       ],
-      "suggested_fix": "Make the parameter order consistent across artifacts. Either: (A) Correct the problem statement to state the order used in code: \"Die Methode set der Klasse Bitmap24 erwartet die Parameter in der Reihenfolge: y-Koordinate, x-Koordinate, Rot, Grün, Blau.\" —or— (B) Change the method declaration and implementation to accept (int i_x, int i_y, char i_r, char i_g, char i_b) and update all call sites (e.g. main and tests) accordingly so the code matches the problem text. Option (A) is the minimal fix and preserves existing code/tests."
+      "suggested_fix": "Make the template header declaration match the implementation and usages by declaring Bitmap24::set with the same parameter order used in Bitmap24.cpp and main.cpp: void set(int i_y, int i_x, char i_r, char i_g, char i_b); (i.e., swap the parameters in the template header). This preserves the intended API and avoids compilation errors."
     },
     {
-      "description": "The problem statement explicitly says: \"Die Methode `set` der Klasse `Bitmap24` erwartet die Parameter in der Reihenfolge: x-Koordinate, y-Koordinate, Rot, Grün, Blau.\" (x, y, r, g, b). However, both the template and the solution implement Bitmap24::set with the parameter order (i_y, i_x, i_r, i_g, i_b) — i.e. y then x — and the implementation and example calls in main.cpp use that y,x ordering. This is a cross-artifact mismatch between the documented API in the problem statement and the actual API in the provided code. Students following the problem statement will expect to call set(x,y,...) and to implement code accordingly, which will lead to swapped coordinates / incorrect behavior relative to the provided example program and solution code. This inconsistency creates unnecessary confusion mapping the requirement (problem text) to the template/solution API.",
+      "description": "Parameter-name order for Bitmap24::set is inconsistent between the template header and the implementation/solution. The template header declares set(int i_x, int i_y, char i_r, char i_g, char i_b) while the implementation (Bitmap24.cpp) and the solution header use set(int i_y, int i_x, char i_r, char i_g, char i_b). Although the parameter types are the same (two ints) so the code still compiles, the header in the template implies a different semantic ordering (x then y) than the implementation (y then x). This can confuse students reading the header to understand how to call the method (should callers pass x,y or y,x?), increasing extraneous cognitive load and risking incorrect usage.",
       "severity": "MEDIUM",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 25,
-          "end_line": 25
-        },
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "template_repository/example_program/src/Bitmap24.hpp",
@@ -67,15 +49,9 @@
           "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
           "start_line": 51,
           "end_line": 57
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/example_program/src/Bitmap24.cpp",
-          "start_line": 45,
-          "end_line": 56
         }
       ],
-      "suggested_fix": "Make the API consistent across all artifacts. Two possible safe fixes (pick one):\n\n1) Align code with the problem statement (recommended if the intended API is x,y):\n   - Change the declaration in Bitmap24.hpp to: void set(int i_x, int i_y, char i_r, char i_g, char i_b);\n   - Change the definition in Bitmap24.cpp to: void Bitmap24::set(int i_x, int i_y, char i_r, char i_g, char i_b) { data[(i_y*width + i_x)*3 + 0] = i_r; ... }\n   - Update all callers (e.g. in main.cpp) to call set(j, i, r, g, b) if loops use i for row and j for column, or adjust loop argument order so calls match (set(x,y,...)).\n\n2) Align the problem statement with the code (if y,x was intended):\n   - Update the problem text to state that Bitmap24::set expects parameters in order: y-Koordinate, x-Koordinate, Rot, Grün, Blau.\n\nWhichever option is chosen, update both template_repository and solution_repository (header and implementation) and the problem statement so all three artifacts consistently document and implement the same parameter order."
+      "suggested_fix": "Make the template header's parameter names match the implementation/solution to remove ambiguity. Update template_repository/example_program/src/Bitmap24.hpp to declare: void set(int i_y, int i_x, char i_r, char i_g, char i_b); (or, alternatively, change the implementation to match the header). Also add a short comment in the header clarifying the parameter order (row/column or y/x) so callers know which coordinate is expected."
     }
   ]
 }

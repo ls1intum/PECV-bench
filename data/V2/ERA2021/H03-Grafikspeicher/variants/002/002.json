@@ -2,30 +2,30 @@
   "case_id": "ERA2021/H03-Grafikspeicher/002",
   "issues": [
     {
-      "description": "The problem statement requires the subroutine set_pixel to return 1 in EAX on success (otherwise 0). The solution's set_pixel implementation performs the write to memory but does not set EAX to 1 before returning. The template's stub also does not implement this (intentional), but the reference solution failing to set the specified return value contradicts the stated behavior and could confuse students who expect a defined return value from the routine.",
+      "description": "The problem statement (and the template's print sequence) instructs students to read the pixel value into ECX (mov ecx, [esi]) after computing the pixel address in ESI so that the value can be printed (format expects args: x, y, pixel-value in ECX). The provided solution instead does mov eax, [esi] (loads the pixel into EAX) and then restores EAX (via later pops), so the actual pixel value is not placed in ECX before the print. This deviates from the explicit register usage taught in the task and from the template's expected behavior, which will confuse students comparing their expected steps (mov ecx, [esi]) with the reference solution and causes the printed \"initial value\" to be incorrect or unpredictable.",
       "severity": "MEDIUM",
-      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 30,
-          "end_line": 33
+          "start_line": 24,
+          "end_line": 26
         },
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "template_repository/pixel.asm",
-          "start_line": 36,
-          "end_line": 38
+          "start_line": 99,
+          "end_line": 118
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/pixel.asm",
-          "start_line": 19,
-          "end_line": 34
+          "start_line": 98,
+          "end_line": 102
         }
       ],
-      "suggested_fix": "Ensure the reference implementation sets the return value in EAX to 1 on success (and 0 on failure if applicable) before returning. For example, after writing the pixel value to memory add an instruction to set eax to 1 (mov eax, 1) and then pop saved registers and ret. This preserves the specified contract from the problem statement and avoids student confusion."
+      "suggested_fix": "Make the solution follow the instruction and template expectation by loading the pixel value into ECX (replace mov eax, [esi] with mov ecx, [esi]) before restoring registers / popping saved values so the printf call prints the correct initial pixel value. Alternatively, if the solution intentionally uses EAX, update the problem statement and template comments to reflect that the pixel should be read into EAX and adjust the printf argument order accordingly — but the simpler fix is to change the solution to mov ecx, [esi]."
     }
   ]
 }

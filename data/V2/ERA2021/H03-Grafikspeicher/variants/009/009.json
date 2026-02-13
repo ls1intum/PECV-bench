@@ -1,4 +1,49 @@
 {
   "case_id": "ERA2021/H03-Grafikspeicher/009",
-  "issues": []
+  "issues": [
+    {
+      "description": "The solution's set_pixel subroutine computes the target address differently than the address computed in main: set_pixel adds an extra +4 bytes (instruction `add eax, 4`) before storing the color, while main computes the pixel address as display_start + x*4 + 7680*y (and uses that saved address to read/print the new value). This means set_pixel writes to the address of the next pixel, so the main routine's subsequent read of the saved address will not reflect the written color. Students will be confused because the program will print an unchanged value after calling set_pixel even though the subroutine appears to write a color. The intended contract in the problem statement is that set_pixel sets the pixel at the coordinates passed (x in EAX, y in EBX) and the computed address should match the one used in main (result in ESI).",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 26
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 99,
+          "end_line": 111
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 93,
+          "end_line": 103
+        }
+      ],
+      "suggested_fix": "Remove the extra `add eax, 4` in the solution's set_pixel implementation (or otherwise ensure both main and set_pixel use the exact same address formula). The correct address should be display_start + (y * 1920 + x) * 4 (equivalently display_start + 7680*y + 4*x). Ensure set_pixel writes to that address (mov [addr], ecx) so the main routine's saved address and subsequent read reflect the updated pixel."
+    }
+  ]
 }

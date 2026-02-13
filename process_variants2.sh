@@ -3,7 +3,7 @@
 # Configuration
 # Make sure this matches the ID you used during 'init'.
 
-EXERCISE="ERA2021/H00-Hello_World_ASM"
+EXERCISE="V2/ERA2021/H03-Grafikspeicher"
 # Loop through variant IDs 001 to 018
 
 # for i in {1..18}; do
@@ -32,8 +32,8 @@ EXERCISE="ERA2021/H00-Hello_World_ASM"
 # echo "All variants finalized successfully."
 
 #9, 12, 20
-for i in 5; do
-#for i in {1..18}; do
+#for i in 5; do
+for i in {1..18}; do
     VAR_ID=$(printf "%03d" $i)
 
     echo "------------------------------------------------"
@@ -41,7 +41,7 @@ for i in 5; do
 
     #pecv-bench variants clean -e "$EXERCISE" -v "$VAR_ID" --V2
     # materialize the variant (applies the patch to create the variant)
-    #pecv-bench variants materialize -e "$EXERCISE" -v "$VAR_ID" --V2
+    pecv-bench variants materialize -e "$EXERCISE" -v "$VAR_ID" --V2
 
     # calls AI to generate ground truth fix annotation
     pecv-bench variants generate-annotation -e "$EXERCISE" -v "$VAR_ID" --V2

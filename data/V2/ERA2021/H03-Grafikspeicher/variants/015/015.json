@@ -2,36 +2,56 @@
   "case_id": "ERA2021/H03-Grafikspeicher/015",
   "issues": [
     {
-      "description": "The problem statement explicitly requires using only local buffers for input and forbids global symbols for buffers (lines 35-36). Both the template and the solution declare a global input buffer in .bss (buf resb 16) and the template even exports it with a 'global buf' directive (template: line 31). This contradicts the requirement and may confuse students: they are told not to use global buffers but are given one in the template/solution (and the template's explicit 'global' export makes the buffer a global symbol). Students may follow the template and violate the exercise constraints, or be unsure whether the global buffer is allowed.",
+      "description": "The solution file declares a different program entry symbol (global _start) than the template (global main). The template expects 'main' as the global entry point while the solution adds 'global _start' (but still contains a 'main' label). This difference could confuse students about which symbol to use/run and about the expected project entry point (especially when assembling/running with different toolchains).",
+      "severity": "LOW",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 30,
+          "end_line": 30
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 14,
+          "end_line": 14
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 36
+        }
+      ],
+      "suggested_fix": "Make the solution use the same global directive as the template (remove or change 'global _start' to 'global main') or update the template and instructions to consistently expect the same entry symbol. Ensure the repository and any run instructions/documentation consistently reference the same entry point."
+    },
+    {
+      "description": "There is an ambiguity / conflicting guidance about which registers are allowed to be clobbered. The problem statement (subtask b) explicitly requires that set_pixel must not change any register contents except EAX. However, the template's comment at the calculation TODO says: 'save all registers you modify except eax,ebx and esi', which could be read as allowing code to clobber EBX or ESI without saving. This inconsistency between the problem specification and the template comment may confuse students about whether ESI/EBX must be preserved by subroutines (in particular set_pixel).",
       "severity": "MEDIUM",
       "category": "VISIBILITY_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 35,
-          "end_line": 36
+          "start_line": 30,
+          "end_line": 33
         },
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "template_repository/pixel.asm",
-          "start_line": 20,
-          "end_line": 22
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/pixel.asm",
-          "start_line": 31,
-          "end_line": 31
+          "start_line": 100,
+          "end_line": 101
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/pixel.asm",
-          "start_line": 4,
-          "end_line": 6
+          "start_line": 19,
+          "end_line": 34
         }
       ],
-      "suggested_fix": "Make the artifacts consistent with the specification. Either (A) remove the global input buffer and the 'global buf' export from the template and solution, and change code to allocate a local buffer on the stack (e.g. reserve 16 bytes in main via sub esp,16 or use [ebp-16]) and pass its address to fgets/atoi; or (B) if providing a global buffer is intentional, update the problem statement to allow a global input buffer. Option A preserves the original educational intent (forcing use of local buffers) and avoids exporting 'buf' as a global symbol."
+      "suggested_fix": "Clarify the template comment so it is unambiguous which scope it applies to (the main/calculation code vs. the set_pixel subroutine). Explicitly state that the set_pixel subroutine must preserve all registers except EAX (or explicitly list which registers it may clobber) and that any temporary registers used in main's address calculation should be saved/restored as needed. Update the template comment near the TODO to reflect this requirement to avoid student confusion."
     }
   ]
 }

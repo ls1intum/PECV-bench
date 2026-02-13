@@ -2,28 +2,10 @@
   "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/006",
   "issues": [
     {
-      "description": "In the solution repository the Bitmap24::resize_buffer declaration in the header does not match its definition and uses in the code. Bitmap24.hpp declares resize_buffer with three parameters (int i_width, int i_height, int stride) while the corresponding Bitmap24.cpp defines resize_buffer with two parameters (int i_width, int i_height). The example main() calls bitmap.resize_buffer(width, height) with two arguments. This mismatch (header vs. implementation vs. call sites) will cause compilation/linker errors and confuses students about the intended API.",
+      "description": "The Bitmap24::resize_buffer method has a parameter type mismatch between its declaration in the template header and its definition in the template implementation, which will cause a compilation error. In the template repository the Bitmap24.hpp declaration uses 'long i_width, long i_height' but the Bitmap24.cpp definition uses 'int i_width, int i_height'. The solution repository uses 'int' consistently in both header and implementation. Because the assignment requires the project to compile to be graded, this mismatch in the template is a blocking structural issue for students.",
       "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.hpp",
-          "start_line": 42,
-          "end_line": 46
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.cpp",
-          "start_line": 58,
-          "end_line": 71
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "example_program/src/main.cpp",
-          "start_line": 36,
-          "end_line": 37
-        },
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "example_program/src/Bitmap24.hpp",
@@ -35,38 +17,12 @@
           "file_path": "example_program/src/Bitmap24.cpp",
           "start_line": 58,
           "end_line": 71
-        }
-      ],
-      "suggested_fix": "Make the header, implementation and usages consistent. Preferred minimal fix: change the declaration in example_program/src/Bitmap24.hpp to match the implementation and calls (remove the extra 'int stride' parameter) so it reads: void resize_buffer(int i_width, int i_height); Alternatively, if a stride parameter is intended, update the implementation and all call sites (e.g. main.cpp and template code) to accept/pass the stride, or provide a default value in the header (int stride = 0) and implement the parameter in the .cpp accordingly. Ensure header and .cpp signatures exactly match."
-    },
-    {
-      "description": "API/signature mismatch for the Bitmap24::resize_buffer routine across template and solution: the template and the implementation define/expect resize_buffer(int i_width, int i_height) (calls in main use two arguments), but the solution's header (Bitmap24.hpp) declares resize_buffer(int i_width, int i_height, int stride). This inconsistent declaration vs. definition/usage will confuse students (which signature is correct) and likely break compilation when using the solution header, creating an unnecessary mapping burden between the API and its implementation/usage.",
-      "severity": "HIGH",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.hpp",
-          "start_line": 42,
-          "end_line": 46
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.cpp",
-          "start_line": 58,
-          "end_line": 71
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "example_program/src/main.cpp",
-          "start_line": 36,
-          "end_line": 38
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "example_program/src/Bitmap24.hpp",
           "start_line": 42,
-          "end_line": 46
+          "end_line": 45
         },
         {
           "type": "SOLUTION_REPOSITORY",
@@ -75,13 +31,13 @@
           "end_line": 71
         },
         {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "example_program/src/main.cpp",
-          "start_line": 36,
-          "end_line": 38
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 18,
+          "end_line": 19
         }
       ],
-      "suggested_fix": "Make the API consistent: update the solution header to match the implementation and usage (remove the extra 'int stride' parameter) or update the implementation and all call sites to accept/use the third parameter. Preferred minimal fix: change solution/example_program/src/Bitmap24.hpp to declare void resize_buffer(int i_width, int i_height); so declaration, definition and calls all match and students have a consistent target."
+      "suggested_fix": "Make the declaration and the definition use the same parameter types. Update the template header (example_program/src/Bitmap24.hpp) to 'void resize_buffer(int i_width, int i_height);' so it matches the implementation (Bitmap24.cpp) and the solution. Alternatively, change the implementation to take 'long' — but prefer changing the header to 'int' to match the solution and avoid surprising type-width differences."
     }
   ]
 }

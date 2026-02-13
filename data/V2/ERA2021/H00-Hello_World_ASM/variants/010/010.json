@@ -2,30 +2,24 @@
   "case_id": "ERA2021/H00-Hello_World_ASM/010",
   "issues": [
     {
-      "description": "The template uses the identifier 'ecc' as a CPU register in the instruction 'add eax, ecc' (template_repository/helloWorld.asm), while the problem statement explicitly instructs students to change 'ecc' to 'ecx' and the solution uses 'ecx'. This is an unintended naming/typo inconsistency of the same conceptual entity (the ECX register). It creates unnecessary confusion and a compile failure for students trying to map the problem instructions to the starter code.",
-      "severity": "MEDIUM",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "description": "The problem statement requires a variable `global_count` defined as a 32-bit integer, but the solution repository defines `global_count` with the directive `db` (define byte), which allocates an 8-bit value. This is a type/size mismatch: students following the problem will expect a 32-bit (doubleword) definition (e.g., `dd` in NASM). Presenting `db` in the solution contradicts the specification and may confuse students about the required storage size or lead to incorrect behavior when the variable is used as a 32-bit value.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 17,
-          "end_line": 17
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/helloWorld.asm",
-          "start_line": 12,
-          "end_line": 14
+          "start_line": 21,
+          "end_line": 22
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/helloWorld.asm",
-          "start_line": 11,
-          "end_line": 13
+          "start_line": 4,
+          "end_line": 4
         }
       ],
-      "suggested_fix": "In the template (template_repository/helloWorld.asm) replace the incorrect register name 'ecc' with 'ecx' (change the line 'add eax, ecc' to 'add eax, ecx') so the template, problem statement, and solution consistently refer to the same register."
+      "suggested_fix": "In the solution (and/or template if you wish to provide a starter), define `global_count` as a 32-bit value using the correct NASM directive. For example: `global_count dd 0` (replace `db` with `dd`) and update any accompanying comment to state it's a 32-bit integer."
     }
   ]
 }

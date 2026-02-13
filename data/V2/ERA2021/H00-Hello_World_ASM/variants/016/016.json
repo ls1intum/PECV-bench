@@ -2,80 +2,44 @@
   "case_id": "ERA2021/H00-Hello_World_ASM/016",
   "issues": [
     {
-      "description": "The problem statement instructs students to use a predefined variable named `greetingText` for output, but both the template and the solution define and use a variable named `hello` (no `greetingText` exists). This name mismatch can confuse students about which variable to use and where to make their changes.",
+      "description": "The problem statement instructs students to store the result in a variable named `score_counter` (problem_statement.md lines 21-22). The solution repository, however, declares a variable named `score_cnt` (solution_repository/helloWorld.asm line 4). This name mismatch can confuse students about the required variable name and may cause automated checks or manual grading that expect `score_counter` to fail. The template does not declare any score variable (template_repository/helloWorld.asm has no such declaration), which is acceptable as students likely must add it, but the reference solution's different name remains inconsistent with the specification.",
       "severity": "MEDIUM",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 15,
-          "end_line": 18
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/helloWorld.asm",
-          "start_line": 3,
-          "end_line": 3
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/helloWorld.asm",
-          "start_line": 15,
-          "end_line": 15
+          "start_line": 21,
+          "end_line": 22
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/helloWorld.asm",
-          "start_line": 3,
-          "end_line": 3
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/helloWorld.asm",
-          "start_line": 14,
-          "end_line": 15
+          "start_line": 4,
+          "end_line": 4
         }
       ],
-      "suggested_fix": "Make the variable name consistent across all artifacts. Either update the problem statement to refer to the predefined `hello` variable, or change the template and solution to define and use `greetingText` (e.g. `greetingText db \"Hello World!\", 10, 0`) so the name in the instructions matches the code."
+      "suggested_fix": "Make the variable name consistent with the problem statement. Rename the solution's `score_cnt` to `score_counter` (e.g., change `score_cnt dd 0` to `score_counter dd 0`) and, if helpful, add a comment in the template indicating students should declare `score_counter` so expectations are explicit."
     },
     {
-      "description": "The problem statement tells students to use a predefined variable named `greetingText` for output, but both the template and the solution define and use a variable named `hello` (e.g., `hello db \"Hello World!\"` and `push hello`). This mismatch means a student following the problem text will look for `greetingText` in the starter code and not find it, creating unnecessary confusion and extra work to map the intended output variable to the actual identifier in the code.",
-      "severity": "MEDIUM",
+      "description": "The problem statement requires students to store the result in a variable named `score_counter`, but the solution repository defines the variable as `score_cnt`. This names the same conceptual entity (the score storage variable) with different identifiers, which will confuse students and likely break any automated checks that expect `score_counter`.",
+      "severity": "HIGH",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 17,
-          "end_line": 17
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/helloWorld.asm",
-          "start_line": 3,
-          "end_line": 3
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/helloWorld.asm",
-          "start_line": 15,
-          "end_line": 16
+          "start_line": 22,
+          "end_line": 22
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/helloWorld.asm",
-          "start_line": 3,
-          "end_line": 3
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/helloWorld.asm",
-          "start_line": 14,
-          "end_line": 15
+          "start_line": 4,
+          "end_line": 4
         }
       ],
-      "suggested_fix": "Make the identifier consistent across artifacts. Either (A) change the variable name in template_repository/helloWorld.asm and solution_repository/helloWorld.asm from `hello` to `greetingText` (update the label and all uses, e.g., `push greetingText`), or (B) update the problem statement to reference `hello` instead of `greetingText`. Choice (A) is preferable to match the problem text while keeping the variable name descriptive."
+      "suggested_fix": "Rename the variable in the solution (and any template/example files if present) to `score_counter` so it matches the explicit requirement in the problem statement (e.g., change `score_cnt dd 0` to `score_counter dd 0`). Alternatively, if `score_cnt` is preferred, update the problem statement to instruct using `score_cnt`—but the names must be aligned to avoid student confusion and grading errors."
     }
   ]
 }

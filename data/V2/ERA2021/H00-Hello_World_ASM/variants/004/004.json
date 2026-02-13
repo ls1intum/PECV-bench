@@ -2,30 +2,24 @@
   "case_id": "ERA2021/H00-Hello_World_ASM/004",
   "issues": [
     {
-      "description": "The problem statement claims the environment's printf expects two parameters on the stack (first the string length, then the string pointer), but both the template and the solution push only a single parameter (the string pointer) and adjust the stack by 4 bytes (add esp, 4). This is a cross-artifact parameter/stack convention mismatch that can confuse students about how to call printf and how much stack space to clean up (should be 4 vs. 8).",
-      "severity": "MEDIUM",
+      "description": "The solution pushes two items onto the stack (push 123; push hello) but only cleans up 4 bytes after the call (add esp, 4). This mismatches the number of bytes pushed and will leave the stack unbalanced at runtime. The template correctly pushes one value (hello) and cleans up 4 bytes, but the solution's mismatch is a structural bug that could lead to runtime errors and will confuse students trying to learn correct stack management around calls.",
+      "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 16,
-          "end_line": 16
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/helloWorld.asm",
-          "start_line": 13,
-          "end_line": 17
-        },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/helloWorld.asm",
           "start_line": 14,
-          "end_line": 16
+          "end_line": 14
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
         }
       ],
-      "suggested_fix": "Either update the problem statement to remove or correct the incorrect hint about printf expecting two parameters (reflecting that the provided template/solution use a single pointer parameter and clean up 4 bytes), or modify the template and solution to actually push both parameters (push length; push pointer) and adjust the stack cleanup to add esp, 8. The simpler fix (and least disruptive to the exercise) is to correct the problem statement so it matches the code in the template/solution."
+      "suggested_fix": "Fix the solution so the stack cleanup matches the number of pushed bytes. If the extra 'push 123' is removed, leave 'add esp, 4' as in the template. If the extra argument is intended, change the cleanup to 'add esp, 8' (or appropriate byte count for the pushed arguments) and ensure the pushes follow the intended calling convention and are clearly documented in the problem text."
     }
   ]
 }

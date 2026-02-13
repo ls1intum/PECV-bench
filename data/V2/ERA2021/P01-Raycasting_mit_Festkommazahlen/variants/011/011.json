@@ -2,62 +2,62 @@
   "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/011",
   "issues": [
     {
-      "description": "The Bitmap24::data member has inconsistent types between template and solution: the template's header declares 'char *data' (matching the implementation in Bitmap24.cpp), but the solution header declares 'int *data'. The solution implementation (Bitmap24.cpp) still treats data as a char* (allocation with new char[], element accesses as char). This mismatch will cause type conflicts or compile errors and will confuse students about the intended data representation for the bitmap buffer. Because the problem statement requires the project to compile, this inconsistency is blocking.",
+      "description": "Attribute type mismatch for the bitmap pixel buffer: in the template repository the Bitmap24 class declares the member 'data' as 'int *data' (Bitmap24.hpp) but the implementation (Bitmap24.cpp) allocates and uses it as a char array (new char[...], indexed and assigned with char values). The solution repository uses 'char *data' in the header (matching the implementation). This mismatch in the template will cause compilation/type errors (assigning char* to int* and incompatible indexing/assignments) and will confuse or block students working from the template.",
       "severity": "HIGH",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "template_repository/example_program/src/Bitmap24.hpp",
-          "start_line": 31,
-          "end_line": 38
+          "start_line": 33,
+          "end_line": 36
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 29,
+          "end_line": 31
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 52,
+          "end_line": 56
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
-          "start_line": 31,
+          "start_line": 33,
           "end_line": 36
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/example_program/src/Bitmap24.cpp",
-          "start_line": 26,
-          "end_line": 56
         }
       ],
-      "suggested_fix": "Make the Bitmap24::data declaration consistent with the implementation. Change the solution header to declare 'char *data;' (rather than 'int *data') so it matches Bitmap24.cpp, or alternatively change the implementation to use 'int' consistently. Preferably use 'char *data' (bytes) for a 24-bit bitmap buffer and update the header in the solution repository accordingly."
+      "suggested_fix": "Change the member declaration in the template header to match the implementation and the solution: replace 'int *data;' with 'char *data;' (or use 'unsigned char *' if you prefer explicitly unsigned pixel bytes). Update the comment to note 3 bytes per pixel. This preserves the pedagogical intent while fixing the compilation/type error."
     },
     {
-      "description": "The typedef declarations for fixed-point types are malformed in both header and source: lines such as 'typedef int long long fix_t;' and 'typedef unsigned int long long fixu_t;' are syntactically incorrect and do not define the intended types. These incorrect typedefs appear in math_fix.c and math_fix.h (both template and solution). This will prevent correct compilation and confuses students about the intended fixed-point base types (e.g. 32-bit vs 64-bit).",
+      "description": "The Bitmap24 class's 'data' field is declared with a different type in the template header than in the example implementation and in the solution header. In template_repository/example_program/src/Bitmap24.hpp the member is declared as 'int *data;' but the implementation (template/example/src/Bitmap24.cpp) allocates and treats 'data' as a byte buffer (new char[...]) and the solution header declares the member as 'char *data;'. This mismatch makes it unclear which type students should use and will cause compilation/type errors when building the provided template (violating the 'must compile' requirement).",
       "severity": "HIGH",
-      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/example_program/src/math_fix.c",
-          "start_line": 11,
-          "end_line": 17
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 35,
+          "end_line": 35
         },
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/example_program/src/math_fix.h",
-          "start_line": 15,
-          "end_line": 20
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/example_program/src/math_fix.c",
-          "start_line": 11,
-          "end_line": 18
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/example_program/src/math_fix.h",
-          "start_line": 15,
-          "end_line": 21
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 35,
+          "end_line": 35
         }
       ],
-      "suggested_fix": "Correct the typedefs to valid, unambiguous declarations. For 64-bit fixed-point types use, e.g.:\n- 'typedef long long fix_t;' and\n- 'typedef unsigned long long fixu_t;'\nEnsure the header and source use the same, correct typedefs so students have a consistent, compilable type definition for fixed-point arithmetic."
+      "suggested_fix": "Make the Bitmap24::data member declaration consistent with the implementation and solution by changing the template header declaration to 'char *data;'. This aligns the conceptual entity (the image byte buffer) across template and solution and prevents compilation/type errors. (If a different representation is intended, update both the implementation and solution consistently and document the choice in the problem/template.)"
     }
   ]
 }

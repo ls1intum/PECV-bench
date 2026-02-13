@@ -2,56 +2,24 @@
   "case_id": "ERA2021/H00-Hello_World_ASM/001",
   "issues": [
     {
-      "description": "The problem statement requires the program to set the return value 0 in the eax register before exiting (so the program returns success), but neither the template nor the solution explicitly set eax to 0. The template/solution only perform arithmetic on eax (add eax, ecc / add eax, ecx) and call printf. Because printf and earlier instructions can leave eax non-zero, students following only the template change (ecc → ecx) may still fail the stated requirement and be confused why their submission does not report a successful return value.",
+      "description": "The problem statement requires the main function to return 0 to indicate successful execution (problem_statement.md lines 21-22), but the solution explicitly sets eax to 1 before returning (solution_repository/helloWorld.asm line 17: 'mov eax, 1'). This contradicts the stated requirement and can cause automated checks or student expectations to fail. The template also does not initialize the return value (template_repository/helloWorld.asm ends with 'ret' without setting eax), leaving students uncertain whether they must set eax themselves. The solution demonstrating a non-zero return value is therefore an unintentional structural inconsistency that can confuse students and break the acceptance criterion.",
       "severity": "HIGH",
       "category": "METHOD_RETURN_TYPE_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 12,
-          "end_line": 14
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/helloWorld.asm",
-          "start_line": 11,
-          "end_line": 14
+          "start_line": 21,
+          "end_line": 22
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/helloWorld.asm",
-          "start_line": 11,
-          "end_line": 13
+          "start_line": 17,
+          "end_line": 17
         }
       ],
-      "suggested_fix": "Make the requirement and code consistent by explicitly setting eax to 0 before returning. For example, add an instruction such as 'xor eax, eax' (or 'mov eax, 0') immediately before the final 'ret' in both the template and the solution (i.e., after 'add esp, 4' and before 'ret'). Alternatively, if the return-value requirement is not intended for this exercise, update the problem statement to remove or clarify the eax=0 requirement."
-    },
-    {
-      "description": "The template code uses the identifier `ecc` (add eax, ecc) while the problem statement and the solution use the register name `ecx`. `ecc` is a typo/invalid register name that prevents successful compilation and forces students to fix a naming error rather than focus on the intended learning task. This is an unintended identifier naming inconsistency between template and solution/problem artifacts and creates unnecessary cognitive and debugging overhead.",
-      "severity": "HIGH",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 19,
-          "end_line": 21
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/helloWorld.asm",
-          "start_line": 11,
-          "end_line": 14
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/helloWorld.asm",
-          "start_line": 11,
-          "end_line": 13
-        }
-      ],
-      "suggested_fix": "In the template file template_repository/helloWorld.asm, replace the mistaken identifier `ecc` with the correct register name `ecx` (i.e., change `add eax, ecc` to `add eax, ecx`) and update the surrounding comment if necessary. This aligns the template with the problem statement and the provided solution so students are not impeded by a typo."
+      "suggested_fix": "Ensure the solution and/or template conform to the requirement that main returns 0. For example, in the solution change 'mov eax, 1' to 'mov eax, 0' (or remove the incorrect mov and add 'mov eax, 0' before 'ret'). Alternatively, make the template explicitly set 'mov eax, 0' before 'ret' so students clearly see the expected return value. If the intention was to require a non-zero return, update the problem statement to reflect that."
     }
   ]
 }

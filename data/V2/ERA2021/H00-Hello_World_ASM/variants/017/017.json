@@ -2,56 +2,44 @@
   "case_id": "ERA2021/H00-Hello_World_ASM/017",
   "issues": [
     {
-      "description": "The template declares the program entry symbol as 'start' (global start / start:) while the solution uses 'main' (global main / main:). The problem statement instructs students only to change the register typo (ecc -> ecx) and does not mention any entry-point naming. This mismatch can confuse students about what the correct entry label should be and may cause linking/runtime differences depending on the build setup (Makefile/crt expectations).",
-      "severity": "MEDIUM",
-      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "description": "The problem statement requires implementing a function named `print_newline` (problem_statement.md: line 22), but the solution repository defines a function labeled `print_nl` (solution_repository/helloWorld.asm: lines 6-7) and the template repository does not provide a `print_newline` stub. This name/signature mismatch means students following the problem text (or automated checks expecting `print_newline`) will not find the corresponding implementation in the solution and may be confused about the correct symbol to implement or call. It also risks automated grading or example code using a different name than the specification.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 16,
-          "end_line": 18
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/helloWorld.asm",
-          "start_line": 6,
-          "end_line": 8
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/helloWorld.asm",
-          "start_line": 12,
-          "end_line": 14
+          "start_line": 21,
+          "end_line": 22
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/helloWorld.asm",
           "start_line": 6,
-          "end_line": 8
+          "end_line": 7
         }
       ],
-      "suggested_fix": "Make the entry-point naming consistent across artifacts. Either (A) update the template to use 'global main' and 'main:' to match the solution, or (B) update the solution and (optionally) the problem statement so that both use 'start'. Also clarify in the problem statement which entry label students should keep, so students only need to fix the intended register typo (ecc -> ecx) without being uncertain about the expected label name."
+      "suggested_fix": "Make the function name consistent across artifacts. Rename the solution label `print_nl` to `print_newline` (and, if needed, add a corresponding stub in the template repository) so the solution, template, and problem statement all reference the same function name. Alternatively, update the problem statement to request `print_nl` if that name is intended. Ensure the function is declared/placed where students expect to find and call it (or clearly document that they should create it)."
     },
     {
-      "description": "The template defines the program entry label as 'start' (global start / start:) while the solution uses 'main' (global main / main:). The problem statement does not reference the entry-label name, so this cross-artifact difference is likely an unintended naming mismatch that can confuse students when they compare template and solution (they may wonder whether they must rename the entry point in addition to the instructed register fix).",
+      "description": "The problem statement explicitly asks students to implement a function named `print_newline`, but the solution repository defines a label `print_nl` instead and the template repository does not provide a `print_newline` stub. This naming mismatch (print_newline vs print_nl) creates a mapping barrier: students following the problem will implement `print_newline` while the reference solution uses a differently named symbol, causing confusion about the expected identifier.",
       "severity": "MEDIUM",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
         {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/helloWorld.asm",
-          "start_line": 6,
-          "end_line": 8
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/helloWorld.asm",
           "start_line": 6,
-          "end_line": 8
+          "end_line": 7
         }
       ],
-      "suggested_fix": "Use the same entry-point identifier in both artifacts. Prefer changing the template to match the solution: replace 'global start' with 'global main' and rename the label 'start:' to 'main:'. This keeps the template aligned with the solution and removes unnecessary student confusion."
+      "suggested_fix": "Make the identifier consistent across artifacts. Recommended: rename the solution label `print_nl` to `print_newline` (and update any internal comments) and add a `print_newline:` stub in the template file so students have the exact symbol the problem requests. Alternatively, if `print_nl` is preferred, change the problem text to request `print_nl` instead — but keep names identical across problem, template, and solution."
     }
   ]
 }

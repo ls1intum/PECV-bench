@@ -2,30 +2,44 @@
   "case_id": "ERA2021/H00-Hello_World_ASM/015",
   "issues": [
     {
-      "description": "The template file exports the data symbol 'hello' (line declares 'global hello') while the solution keeps that symbol private (no 'global' directive). The template also includes a 'Do not change this section' comment above the data declarations, which would tell students not to alter visibility. This creates a visibility mismatch between template and solution and is likely to confuse students: either the data is meant to be private (as in the solution) and the template incorrectly exports it, or the solution removed an export that students are told not to change.",
-      "severity": "MEDIUM",
+      "description": "Problem statement requires the function 'start_app' to be the global entry point, but the template exposes 'main' as the global symbol (global main / main:). The provided solution also declares 'global main' while defining a non-global 'start_app' label. This mismatch (expected global start_app vs. template/solution using global main or an unexported start_app) will confuse students about which symbol they must implement and may prevent the exercise harness from recognizing the correct entry point.",
+      "severity": "HIGH",
       "category": "VISIBILITY_MISMATCH",
       "related_locations": [
         {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/helloWorld.asm",
-          "start_line": 1,
-          "end_line": 4
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/helloWorld.asm",
-          "start_line": 1,
-          "end_line": 4
-        },
+          "start_line": 6,
+          "end_line": 9
+        }
+      ],
+      "suggested_fix": "Make the entry-point symbol consistent with the problem statement. For example, in the template replace or augment 'global main' with 'global start_app' and ensure a 'start_app:' label is present (or rename the existing 'main:' label to 'start_app:'). Similarly, update the solution to declare 'global start_app' (instead of or in addition to 'global main') so that the global entry point is unambiguously 'start_app'. This preserves the pedagogical intent while removing the naming/visibility mismatch."
+    },
+    {
+      "description": "The problem statement explicitly requires the function start_app to be the global entry point, but the template declares and exposes main (global main / main:) rather than start_app. The solution contains a start_app label but does not declare it global (it still declares global main), so across artifacts the intended entry-point identifier is referenced inconsistently. This creates a mapping barrier: students are told to provide a global start_app but the starter code uses main and the reference solution fails to mark start_app as global, making it unclear which symbol must be exported as the program entry point.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 15,
-          "end_line": 18
-        }
+          "start_line": 22,
+          "end_line": 22
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 9
+        },
       ],
-      "suggested_fix": "Make visibility consistent: either remove the 'global hello' from the template so the data is private (matching the solution), or add 'global hello' to the solution and update the repository comments. Also update the 'Do not change this section' comment or the problem statement to clarify whether students are expected to change visibility so there is no contradiction between template and solution."
+      "suggested_fix": "Make the entry-point identifier consistent across all artifacts. Option A (preferred): change the template to declare and use start_app as the global entry point — replace 'global main' with 'global start_app' and rename the 'main:' label to 'start_app:'. Update the solution to also declare 'global start_app' (or remove/rename the separate 'main' symbol) so the solution matches the problem requirement. Option B: if 'main' is the intended exported symbol, update the problem statement to require 'main' instead of 'start_app'. Ensure only one canonical global entry label is used in template and solution to avoid student confusion."
     }
   ]
 }

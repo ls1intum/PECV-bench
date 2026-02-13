@@ -2,24 +2,30 @@
   "case_id": "ERA2021/H00-Hello_World_ASM/008",
   "issues": [
     {
-      "description": "Inner-template contradiction about the 'setup' routine's parameters: template_repository/helloWorld.asm contains the comment 'Setup routine taking no parameters (PS requires 1 arg)' which asserts both that the routine takes no parameters and that the PS requires 1 argument. This is internally contradictory and can confuse students about whether 'setup' expects an argument. The solution implementation does not include a 'setup' label at all, which makes the parenthetical remark ('PS requires 1 arg') in the template look incorrect or outdated.",
-      "severity": "LOW",
+      "description": "The problem statement explicitly instructs students to call setup_env() with no parameters (problem_statement.md lines 21-22). The solution implementation, however, calls setup_env after pushing a single argument (solution_repository/helloWorld.asm: push 1; call setup_env), which contradicts the specified no-parameter signature. In addition, the template does not declare extern setup_env (template_repository/helloWorld.asm declares extern printf but not extern setup_env), so students who follow the problem text and add a call to setup_env() may be unsure whether and how to declare the external symbol. Together these differences (solution using one parameter, template lacking an extern declaration while the problem asks for a no-arg call) create confusion about the intended signature and the correct way to reference the environment helper.",
+      "severity": "MEDIUM",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/helloWorld.asm",
-          "start_line": 9,
-          "end_line": 11
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/helloWorld.asm",
           "start_line": 8,
-          "end_line": 13
+          "end_line": 8
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 13,
+          "end_line": 15
         }
       ],
-      "suggested_fix": "Clarify or remove the contradictory parenthetical in the template. Either (a) state unambiguously that 'setup' takes no parameters (e.g. 'Setup routine taking no parameters') and remove '(PS requires 1 arg)'; or (b) if a parameter is actually required in some contexts, document that clearly and ensure the solution/template consistently include and use the setup label. Given the solution omits 'setup', the simplest fix is to remove the '(PS requires 1 arg)' text so the comment reads that the routine takes no parameters."
+      "suggested_fix": "Make the signature and usage of setup_env consistent across all artifacts. Options: (A) If setup_env takes no parameters (as the problem states), update the solution to remove the pushed argument (remove 'push 1') and keep 'extern setup_env' if needed; and add 'extern setup_env' to the template so students know how to reference it. OR (B) If setup_env really requires one parameter, update the problem statement to document the required parameter and calling convention, and adjust the template to declare 'extern setup_env' so students can follow the intended calling pattern."
     }
   ]
 }

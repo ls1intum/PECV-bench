@@ -2,8 +2,8 @@
   "case_id": "ERA2021/H03-Grafikspeicher/006",
   "issues": [
     {
-      "description": "The problem statement requires that the set_pixel subroutine receive the alpha channel in EDX (\"der Alpha-Kanal in edx\"), but the provided template/main does not set EDX before calling set_pixel and the solution implementation does not consume the alpha value from EDX. This is a parameter/contract mismatch: students are told to supply an alpha value via a register, yet neither the template supplies it nor the solution uses it. This can confuse students about whether they must provide an alpha value and how to pass it, and whether set_pixel is expected to use it.",
-      "severity": "MEDIUM",
+      "description": "The solution's set_pixel implementation violates the subroutine contract specified in the problem statement. The problem requires that set_pixel receives x in EAX, y in EBX and RGB in ECX and that no registers other than EAX are changed by the routine. The solution's set_pixel uses and modifies EDI (it executes `or edi, edi` and branches on it) but does not save/restore EDI, so it clobbers a register that must be preserved. This contradicts the problem description and would confuse students (and break callers that expect registers other than EAX to be preserved).",
+      "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
@@ -19,25 +19,13 @@
           "end_line": 38
         },
         {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/pixel.asm",
-          "start_line": 143,
-          "end_line": 147
-        },
-        {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/pixel.asm",
           "start_line": 19,
-          "end_line": 34
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/pixel.asm",
-          "start_line": 143,
-          "end_line": 147
+          "end_line": 37
         }
       ],
-      "suggested_fix": "Make the register contract consistent across artifacts. Either (A) remove the requirement that the alpha channel be passed in EDX from the problem statement (and document that set_pixel only uses ECX for RGB), or (B) update the template (and example solution) so main obtains/initializes an alpha value and stores it into EDX before calling set_pixel, and update the solution to use EDX if intended. Choose (A) if alpha is not part of the exercise, or (B) if alpha handling is required."
+      "suggested_fix": "Adjust the solution implementation so it adheres to the specified calling/side-effect contract: do not rely on or modify EDI (remove the alpha-channel check that uses EDI), or save and restore any registers you use (e.g., push edi at entry and pop edi before ret). Prefer computing x*4 via shifts (SHL EAX,2) or using saved temporaries and ensure all registers except EAX are restored before returning. This preserves the intended design and avoids confusing students."
     }
   ]
 }

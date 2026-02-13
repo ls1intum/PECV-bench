@@ -2,62 +2,74 @@
   "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/018",
   "issues": [
     {
-      "description": "The solution repository's Bitmap24 header declares the bitmap dimensions with different member names (w, h) than the implementation and the template header (width, height). Bitmap24.cpp (implementation) and the template's Bitmap24.hpp use members named width and height. This name mismatch in the solution header is an inner-artifact structural inconsistency that will cause compilation errors and confuse students about the intended class interface.",
+      "description": "The template's ray_sphere_intersect header declares a function named check_sphere_hit(), but the implementation (ray_sphere_intersect.cpp) defines ray_sphere_intersect(). The rest of the code (main.cpp) calls ray_sphere_intersect(), and the solution repository's header declares ray_sphere_intersect() as well. This name/signature mismatch in the template header will cause compile-time errors and confuse students about the intended API (they will see a declaration that does not match the implementation or the calls elsewhere).",
       "severity": "HIGH",
-      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
-          "start_line": 33,
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 10
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 10,
           "end_line": 35
         },
         {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
-          "start_line": 33,
-          "end_line": 35
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/main.cpp",
+          "start_line": 190,
+          "end_line": 198
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/example_program/src/Bitmap24.cpp",
-          "start_line": 26,
-          "end_line": 31
+          "file_path": "solution_repository/example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 10
         }
       ],
-      "suggested_fix": "Make the Bitmap24 class members consistent. Restore the solution header to use the member names expected by the implementation and the template (int width; int height; char *data;), or alternatively update the implementation (Bitmap24.cpp) and the template to consistently use w and h. The simplest fix: change solution_repository/example_program/src/Bitmap24.hpp to declare 'int width;' and 'int height;' to match Bitmap24.cpp and the template."
+      "suggested_fix": "Make the header declaration match the implementation and usage. Replace the declaration of check_sphere_hit(...) in template_repository/example_program/src/ray_sphere_intersect.h with the function prototype: bool ray_sphere_intersect(const float *origin, const float *dir, const float *center, const float radius); (or alternatively rename the implementation to check_sphere_hit and update all callers). Prefer matching the solution's ray_sphere_intersect name so template, implementation, and main.cpp are consistent."
     },
     {
-      "description": "The Bitmap24 class member names differ between template and solution. In the template, the class uses members named 'width' and 'height' (and Bitmap24.cpp accesses these names throughout). In the solution, Bitmap24.hpp declares the members as 'w' and 'h' while the solution's Bitmap24.cpp still accesses 'width' and 'height'. This naming mismatch (header vs. implementation) is likely unintentional, will cause compilation errors, and creates a confusing mapping for students who compare template and solution: the template consistently uses 'width'/'height', but the solution header uses different identifiers ('w'/'h') for the same conceptual fields.",
+      "description": "The template header declares the sphere-intersection function as check_sphere_hit(...) while the implementation and all usages expect ray_sphere_intersect(...). The solution repository consistently uses ray_sphere_intersect(...). This naming mismatch in the template (declaration vs. implementation/usage) creates a direct mapping and compilation problem: students including the header will not find a matching declaration for ray_sphere_intersect, causing build errors and confusion about which function name to implement or call.",
       "severity": "HIGH",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.hpp",
-          "start_line": 33,
-          "end_line": 36
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 10
         },
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.cpp",
-          "start_line": 26,
-          "end_line": 71
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 10,
+          "end_line": 35
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/main.cpp",
+          "start_line": 195,
+          "end_line": 195
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.hpp",
-          "start_line": 33,
-          "end_line": 36
+          "file_path": "solution_repository/example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 10
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.cpp",
-          "start_line": 26,
-          "end_line": 71
+          "file_path": "solution_repository/example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 10,
+          "end_line": 35
         }
       ],
-      "suggested_fix": "Make the member names consistent. E.g., in solution/example_program/src/Bitmap24.hpp change 'int w;' and 'int h;' to 'int width;' and 'int height;' (and keep 'char *data;') so the header matches the implementation. Alternatively, update Bitmap24.cpp to use 'w' and 'h' everywhere, but the least disruptive fix (and the one consistent with the template) is to rename w/h → width/height in the solution header."
+      "suggested_fix": "In the template header (template_repository/example_program/src/ray_sphere_intersect.h) rename the declaration check_sphere_hit(...) to ray_sphere_intersect(...) with the same signature so it matches the implementation and usages (and aligns with the solution). This removes ambiguity and prevents compilation/lookup errors. Example: replace 'bool check_sphere_hit(...);' with 'bool ray_sphere_intersect(...);'."
     }
   ]
 }

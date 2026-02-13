@@ -2,74 +2,30 @@
   "case_id": "ERA2021/H03-Grafikspeicher/004",
   "issues": [
     {
-      "description": "The problem statement gives two conflicting descriptions of which registers hold the x and y pixel coordinates. In Teilaufgabe a) it explicitly states x is in EAX and y in EBX, and the template code's TODO comment (and the solution) follow that convention (EAX = x, EBX = y). However, in Teilaufgabe b) the problem text says \"Die Pixelkoordinaten x und y werden in den Registern ebx und eax übergeben\", which reads as x in EBX and y in EAX. This contradiction can confuse students about which register holds which coordinate and may cause them to implement set_pixel with reversed parameters, producing incorrect results or failing tests.",
+      "description": "The problem statement specifies that set_pixel receives x in EAX and y in EBX and should set the pixel at address base + (y*width + x)*4. The solution's set_pixel swaps EAX and EBX (xchg eax, ebx) and then computes address as base + (x*width + y*4) (i.e. it treats EAX as y and EBX as x). This is a parameter-role mismatch between the specification and the solution: the solution interprets the registers in the opposite roles, producing an incorrect mapping of (x,y) to memory and contradicting the problem description and template expectation. This will confuse students and lead to incorrect behavior if they follow the solution or compare it to the spec.",
       "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 21,
-          "end_line": 26
-        },
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
           "start_line": 30,
           "end_line": 33
         },
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "template_repository/pixel.asm",
-          "start_line": 100,
-          "end_line": 102
+          "start_line": 36,
+          "end_line": 38
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/pixel.asm",
           "start_line": 19,
-          "end_line": 34
+          "end_line": 35
         }
       ],
-      "suggested_fix": "Make the register convention explicit and consistent across the problem statement, template, and solution. For example, change the sentence in Teilaufgabe b) to: \"Die Pixelkoordinaten x und y werden in den Registern EAX bzw. EBX übergeben (x in EAX, y in EBX), der zu setzende RGB-Wert im Register ECX.\" Alternatively, if the intent is x in EBX and y in EAX, update the template TODO comment and the solution implementation to match that mapping. Ensure all places (text and code comments) use the same mapping."
-    },
-    {
-      "description": "The problem statement contains conflicting descriptions of which CPU registers hold the pixel coordinates x and y. In part (a) the text explicitly says x is in EAX and y in EBX, which matches the template comments and the solution implementation (both use EAX for x and EBX for y). However, in part (b) the problem statement later says \"Die Pixelkoordinaten x und y werden in den Registern ebx und eax übergeben\" (i.e. x in EBX and y in EAX), reversing the mapping. This contradiction between the problem text and itself (and the code) creates a mapping error: students may implement code with swapped register usage and therefore produce incorrect behavior or waste time debugging register ordering instead of focusing on the learning goal.",
-      "severity": "HIGH",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 25,
-          "end_line": 26
-        },
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 30,
-          "end_line": 33
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/pixel.asm",
-          "start_line": 100,
-          "end_line": 106
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/pixel.asm",
-          "start_line": 19,
-          "end_line": 34
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/pixel.asm",
-          "start_line": 94,
-          "end_line": 101
-        }
-      ],
-      "suggested_fix": "Make the register-to-coordinate mapping consistent across the problem statement and code. Preferably update the problem statement so it consistently reads that EAX holds x and EBX holds y (this matches the template comments and the solution). Concretely, change the sentence in part (b) that currently says the coordinates are in \"ebx und eax\" to state \"x in EAX und y in EBX\" (and ensure any other textual occurrences follow the same mapping). Alternatively, if you intended the reverse mapping, update the template and solution code/comments to match that intended mapping — but keep all three artifacts consistent."
+      "suggested_fix": "Make set_pixel use the registers exactly as specified (EAX = x, EBX = y, ECX = color). Remove the xchg eax, ebx and compute the address as base + (y*7680 + x*4). For example (preserving other registers):\n\npush ebx\npush esi\npush edx\nmov edx, 4\nmul edx        ; EAX = x * 4\nmov esi, eax   ; save x*4\nmov eax, 7680\nmul ebx        ; EAX = 7680 * y\nadd eax, esi   ; EAX = 7680*y + x*4\nadd eax, display_start\nmov [eax], ecx\npop edx\npop esi\npop ebx\nret\n\nThis preserves all registers except EAX (as the spec allows) and matches the problem statement and template expectations."
     }
   ]
 }

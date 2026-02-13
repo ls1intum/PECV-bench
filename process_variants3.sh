@@ -1,6 +1,6 @@
 #!/bin/bash
 
-EXERCISE="IOS26/TC2-Developer"
+EXERCISE="V2/ERA2021/P01-Raycasting_mit_Festkommazahlen"
 #pecv-bench variants generate-annotation -e newData/ERA2021-H00-Hello-World-ASM -v 007 --V1
 
 # for i in {1..18}; do
@@ -33,7 +33,7 @@ for i in {1..18}; do
     echo "------------------------------------------------"
     echo "Processing Variant $VAR_ID..."
 
-    pecv-bench variants clean -e "$EXERCISE" -v "$VAR_ID" --V2
+    #pecv-bench variants clean -e "$EXERCISE" -v "$VAR_ID" --V2
     # materialize the variant (applies the patch to create the variant)
     pecv-bench variants materialize -e "$EXERCISE" -v "$VAR_ID" --V2
 

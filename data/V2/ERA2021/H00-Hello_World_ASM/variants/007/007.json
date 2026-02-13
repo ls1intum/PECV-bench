@@ -2,30 +2,24 @@
   "case_id": "ERA2021/H00-Hello_World_ASM/007",
   "issues": [
     {
-      "description": "The problem statement (line 16) instructs that the output string buffer must be pre-initialized with 0xFF before copying text, but neither the template nor the solution provide such a buffer or any code to perform this initialization. This discrepancy may confuse students about whether they must add a buffer and initialization code (and where/how to do it) for this trivial Hello World task.",
-      "severity": "LOW",
-      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "description": "The problem statement requires implementing init_world(width, height) to set dimensions (problem_statement.md lines 21-22), but the template repository (template_repository/helloWorld.asm) contains no stub or reference to init_world. The provided solution (solution_repository/helloWorld.asm) does add an init_world label, but its implementation only reads a single parameter (only handles width via [esp+4]) rather than two parameters (width and height) as described. This mismatch can confuse students about whether they must implement init_world at all, what its expected parameters are, and how to access them in the template code.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 16,
-          "end_line": 16
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/helloWorld.asm",
-          "start_line": 2,
-          "end_line": 4
+          "start_line": 21,
+          "end_line": 22
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/helloWorld.asm",
-          "start_line": 2,
-          "end_line": 4
+          "start_line": 6,
+          "end_line": 8
         }
       ],
-      "suggested_fix": "Either remove the (irrelevant) instruction about pre-filling an output buffer from the problem statement or update the template (and solution) to include an explicit buffer and initialization code. For example, add a reserved buffer in .bss and show code that fills it with 0xFF before copying the string, or clarify in the statement that this step is not required for this Hello World exercise."
+      "suggested_fix": "Make the specification and templates consistent. Either remove the init_world(width, height) requirement from the problem statement if it's not part of this exercise, or (preferably) add a clear init_world stub to the template with the expected two-parameter calling convention and document how parameters are passed on the stack. Also update the solution to match the documented signature (read both width and height, e.g. [esp+4] and [esp+8]) so students have a consistent example and a working starter file."
     }
   ]
 }

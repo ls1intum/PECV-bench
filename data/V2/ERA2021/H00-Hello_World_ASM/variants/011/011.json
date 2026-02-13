@@ -2,30 +2,24 @@
   "case_id": "ERA2021/H00-Hello_World_ASM/011",
   "issues": [
     {
-      "description": "The template defines the data label 'hello' using 'dd' (double words) and includes a comment noting a \"Type Mismatch: Defined as Double Words instead of Bytes\" (template: lines 3-4), while the solution uses 'db' (bytes) and a single contiguous string (solution: line 3). The problem statement only instructs students to change the register name (ecc -> ecx) and does not mention the data-definition issue. This cross-artifact mismatch (template vs solution) and the stray comment in the template can confuse students about whether they must also change the data definition to complete the task or whether the dd usage is intentional. It is an unintended structural inconsistency in the provided starter code.",
-      "severity": "MEDIUM",
+      "description": "The problem statement explicitly requires defining `user_name` as a string buffer (Problem statement, line 22), but the solution repository defines `user_name` as a 32-bit integer (`user_name dd 0`) in the .data section (solution_repository/helloWorld.asm line 4). The template does not declare `user_name` at all. This is a structural type mismatch: students following the problem text will create a byte/character buffer for user_name, while the provided solution uses a double-word integer. This inconsistency can confuse students about the expected data layout and how to pass `user_name` (pointer vs. integer) to routines like printf, and it prevents direct comparison between a student's data declaration and the reference solution.",
+      "severity": "HIGH",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
         {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/helloWorld.asm",
-          "start_line": 3,
-          "end_line": 4
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/helloWorld.asm",
           "start_line": 3,
-          "end_line": 3
-        },
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 16,
-          "end_line": 18
+          "end_line": 5
         }
       ],
-      "suggested_fix": "Align the template's data declaration with the solution to avoid confusion: replace the template's 'hello dd \"Hell\", \"o Wo\", \"rld!\", 10, 0' with a byte declaration such as 'hello db \"Hello World!\", 10, 0' and remove or correct the misleading comment. This preserves the exercise focus (changing 'ecc' to 'ecx') and removes an unrelated ambiguity for students."
+      "suggested_fix": "Make the solution's data declaration match the problem statement by declaring `user_name` as a string buffer in the .data section. For example, replace `user_name dd 0` with a byte buffer reservation appropriate for NASM, e.g.:\n\nuser_name: times 32 db 0    ; reserve 32 bytes for a null-terminated string\n\nAlternatively, if the reference intentionally used an integer, update the problem statement to clarify that `user_name` should be an integer and explain why. Prefer making the solution match the problem (string buffer) to preserve the exercise intent."
     }
   ]
 }

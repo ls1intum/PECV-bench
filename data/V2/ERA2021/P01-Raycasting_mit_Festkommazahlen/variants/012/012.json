@@ -2,80 +2,30 @@
   "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/012",
   "issues": [
     {
-      "description": "The problem statement claims that the type `fix_t` is an alias for `float` (problem_statement.md line 25). However, both the template and solution code treat `fix_t` as a fixed-point integer type (typedefs and FIX_LEN/FIX_FRAC macros in math_fix.h / math_fix.c). This is a direct type/semantic contradiction: students reading the problem will expect to use floats for `fix_t`, but the provided code, tests and assembly stubs all expect fixed-point integer semantics and conversion helpers (fix_float2fix / fix_fix2float). This mismatch will confuse students about the intended numeric representation and prevent correct implementation of the assembly routines (which operate on integer fixed-point values).",
+      "description": "In the template repository the fixed-point word size macro FIX_LEN differs between the example program and the tests. The example program headers (and example code) use FIX_LEN = 8 (64-bit fix_t), while the tests in the template set FIX_LEN = 4 (32-bit fix_t). This is an inner-repository structural inconsistency: different translation units will compile with different assumptions about the underlying fix_t size and representation, causing confusing behavior, mismatched expected values in tests, and likely compile / runtime errors or incorrect test results for students. The solution repository consistently uses FIX_LEN = 8, indicating the intended setup is 8-byte fixed-point numbers.",
       "severity": "HIGH",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
         {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 25,
-          "end_line": 25
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "tests/src/math_fix.h",
+          "start_line": 7,
+          "end_line": 9
         },
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/example_program/src/math_fix.h",
+          "file_path": "example_program/src/math_fix.h",
           "start_line": 11,
-          "end_line": 23
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/example_program/src/math_fix.c",
-          "start_line": 11,
-          "end_line": 17
+          "end_line": 13
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/example_program/src/math_fix.h",
-          "start_line": 11,
-          "end_line": 23
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/example_program/src/math_fix.c",
-          "start_line": 11,
-          "end_line": 17
+          "file_path": "tests/src/math_fix.h",
+          "start_line": 7,
+          "end_line": 9
         }
       ],
-      "suggested_fix": "Fix the problem statement to reflect the actual numeric type used in the code: state that `fix_t` is a fixed-point integer type (whose underlying integer width is controlled by FIX_LEN and whose fractional bits are FIX_FRAC) and that helper functions (fix_float2fix, fix_fix2float, etc.) convert between float and the fixed-point representation. Example wording: \"Für die Berechnungen wird der Typ `fix_t` verwendet. `fix_t` ist ein ganzzahliger Festkomma-Typ (abhängig von FIX_LEN/FIX_FRAC), nicht ein `float`. Verwenden Sie die bereitgestellten Hilfsfunktionen zur Umwandlung zwischen float und fix_t.\" This preserves the educational intent and avoids student confusion."
-    },
-    {
-      "description": "The problem statement declares that the type `fix_t` is an alias for `float` (problem_statement.md), but the template and solution code define `fix_t` as an integer fixed-point type (typedef int long long / controlled by FIX_LEN and FIX_FRAC in math_fix.h / math_fix.c). This is a direct naming/meaning mismatch for the same identifier `fix_t` across artifacts and will confuse students about whether they should treat `fix_t` values as floats or as fixed-point integers (affecting conversions, expected function signatures, and arithmetic).",
-      "severity": "HIGH",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 25,
-          "end_line": 25
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/example_program/src/math_fix.h",
-          "start_line": 11,
-          "end_line": 23
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/example_program/src/math_fix.c",
-          "start_line": 11,
-          "end_line": 16
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/example_program/src/math_fix.h",
-          "start_line": 11,
-          "end_line": 23
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/example_program/src/math_fix.c",
-          "start_line": 11,
-          "end_line": 17
-        }
-      ],
-      "suggested_fix": "Align the wording and type definitions. Preferred fix: correct the problem statement to say that `fix_t` is a fixed-point integer type (e.g. typedef int64_t when FIX_LEN==8) with FIX_FRAC fractional bits, and that helper conversions fix_float2fix / fix_fix2float must be used. Example replacement sentence: \"Für die Berechnungen wird der Typ `fix_t` verwendet; dies ist ein ganzzahliger Fixed‑Point‑Typ (nicht float) — die Genauigkeit wird durch FIX_FRAC bestimmt. Verwenden Sie fix_float2fix und fix_fix2float zur Konversion.\" Alternatively (if the original intent was floats) change the code typedefs so `fix_t` is an alias for float — but pick one consistent definition across problem, template, and solution."
+      "suggested_fix": "Make FIX_LEN consistent across the repository so all translation units use the same fixed-point width. Concretely, update the template tests header (tests/src/math_fix.h) to define FIX_LEN = 8 (matching example_program and the solution), or centralize FIX_LEN into a single project-level header and #include it everywhere. Ensure tests, example program and headers all compile with the same FIX_LEN and typedefs for fix_t/fixu_t."
     }
   ]
 }

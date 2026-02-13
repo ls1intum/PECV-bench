@@ -2,80 +2,30 @@
   "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/007",
   "issues": [
     {
-      "description": "The problem statement requires that class Bitmap24 has a constructor accepting three parameters: width, height and a background color (as char). However both the template and the solution only declare and define two constructors: a default constructor and a two-parameter constructor Bitmap24(int i_width, int i_height). There is no three-parameter constructor declared in the header or implemented in the .cpp. This mismatch will confuse students: the specification asks for a 3-argument constructor but the provided header does not expose such a constructor to implement/override, and the reference solution does not demonstrate the intended signature/behavior.",
+      "description": "The template's class header for Bitmap24 does not declare a default (no-argument) constructor, while Bitmap24.cpp in the template defines one and main.cpp instantiates Bitmap24 with the default constructor (Bitmap24 bitmap;). The solution repository's Bitmap24.hpp does declare the default constructor. This mismatch (header vs. implementation and header vs. usage in main) will cause compilation failures or confusion for students: main expects a publicly-declared default constructor but the template class declaration omits it.",
       "severity": "HIGH",
       "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
       "related_locations": [
         {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 25,
-          "end_line": 25
-        },
-        {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
-          "start_line": 37,
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 26,
           "end_line": 39
         },
         {
           "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/example_program/src/Bitmap24.cpp",
-          "start_line": 26,
-          "end_line": 31
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 36,
+          "end_line": 41
         },
         {
           "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "file_path": "example_program/src/Bitmap24.hpp",
           "start_line": 37,
           "end_line": 39
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/example_program/src/Bitmap24.cpp",
-          "start_line": 26,
-          "end_line": 31
         }
       ],
-      "suggested_fix": "Align the code with the problem statement by adding a three-parameter constructor to the Bitmap24 class and implementing it. For example, add the declaration in Bitmap24.hpp:\n\n    Bitmap24(int i_width, int i_height, char i_background);\n\nand implement in Bitmap24.cpp something that allocates the data buffer and initializes every pixel to the background color (e.g. set all three color channels per pixel to i_background or otherwise document the meaning). Alternatively, if the educational intent was to only require width and height, update the problem statement to request the existing two-parameter constructor instead. Ensure both template and solution are updated so the header, implementation, and the spec are consistent."
-    },
-    {
-      "description": "The problem statement requires the class Bitmap24 to provide a constructor that accepts three parameters: width, height and a background colour (as char). However both the template and the solution repositories only declare/implement a two-parameter constructor Bitmap24(int i_width, int i_height) (and a default constructor). This is an API/signature mismatch: students are told to implement/expect a 3-parameter constructor but the starter code and reference code expose only a 2-parameter signature. This will confuse students (which constructor to implement/use), may cause compile errors or unnecessary edits to unrelated code (e.g. main), and increases extraneous cognitive load when mapping the requirement to the provided code.",
-      "severity": "HIGH",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 25,
-          "end_line": 25
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
-          "start_line": 37,
-          "end_line": 39
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/example_program/src/Bitmap24.cpp",
-          "start_line": 26,
-          "end_line": 31
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
-          "start_line": 37,
-          "end_line": 39
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/example_program/src/Bitmap24.cpp",
-          "start_line": 26,
-          "end_line": 31
-        }
-      ],
-      "suggested_fix": "Align the code with the problem statement by providing a constructor that accepts (int width, int height, char background). To minimize disruption, add an overloaded constructor rather than replacing the existing one:\n\n- In Bitmap24.hpp add a prototype: Bitmap24(int i_width, int i_height, char i_bg);\n- In Bitmap24.cpp implement Bitmap24::Bitmap24(int p_width, int p_height, char p_bg) to allocate data = new char[width*height*3]; and initialize every pixel triplet to p_bg (or to an appropriate RGB triplet derived from p_bg), or interpret the single char as desired and document it. Keep the existing two-parameter constructor as-is (or implement it to call the three-parameter one with a default background value) so existing code paths (e.g. resize_buffer usage) remain valid.\n\nAlternatively, if the intended requirement was only two parameters, update the problem statement to require a two-parameter constructor. Prefer the first option (adding a 3-parameter overload) because it preserves the stated exercise requirement and avoids forcing students to change multiple files."
+      "suggested_fix": "Add a declaration for the default constructor to the template header so the class declaration matches its implementation and usage. For example, in example_program/src/Bitmap24.hpp add 'Bitmap24();' (public) above or alongside the existing parameterized constructor declaration. This will align the template with the solution and allow 'Bitmap24 bitmap;' in main.cpp to compile."
     }
   ]
 }

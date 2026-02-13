@@ -2,13 +2,19 @@
   "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/005",
   "issues": [
     {
-      "description": "The solution implementation of ray_sphere_intersect has its parameter order swapped compared to the function declaration in the header (and compared to the template implementation). The header (and template) declare: (const float *origin, const float *dir, const float *center, const float radius) but the solution's .cpp defines the function as (const float *dir, const float *origin, const float *center, const float radius). This mismatch is a structural inconsistency that will cause a linker/compile-time mismatch (or at least confusion) and leads to incorrect local variable mapping (e.g. the implementation assigns const float *o = origin; const float *u = dir; but with swapped parameters those point to different arguments). Students comparing template and solution (or building the solution) will be blocked or confused by this discrepancy.",
+      "description": "The template repository's declaration of ray_sphere_intersect in ray_sphere_intersect.h lists only three parameters (origin, dir, center), but the implementation in ray_sphere_intersect.cpp (same template) defines the function with a fourth parameter (radius). The solution repository's header declares the correct four-parameter signature (including radius). This mismatch in the template (header vs. implementation) will cause compilation/signature errors and confusion for students: calls in main.cpp pass four arguments (including radius), but the template header's prototype does not match, so code that includes the header may not compile or will have an inconsistent declaration compared to the definition.",
       "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/example_program/src/ray_sphere_intersect.cpp",
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 9
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.cpp",
           "start_line": 10,
           "end_line": 15
         },
@@ -17,21 +23,21 @@
           "file_path": "solution_repository/example_program/src/ray_sphere_intersect.h",
           "start_line": 5,
           "end_line": 10
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/example_program/src/ray_sphere_intersect.cpp",
-          "start_line": 10,
-          "end_line": 15
         }
       ],
-      "suggested_fix": "Make the function definition in solution_repository/example_program/src/ray_sphere_intersect.cpp match the header (and the template) parameter order: use (const float *origin, const float *dir, const float *center, const float radius). Update local variable usage accordingly (e.g. const float *o = origin; const float *u = dir;). Alternatively, if the swapped order was intentional, update the header (and template) to match and document the change — but the simplest fix is to restore the parameter order in the .cpp to match the header and template so the code compiles and behaves as expected."
+      "suggested_fix": "Make the function prototype in the template header match the implementation (and the solution) by adding the radius parameter. Concretely, change the declaration in template_repository/example_program/src/ray_sphere_intersect.h to:\n\nbool ray_sphere_intersect(\n    const float *origin,\n    const float *dir,\n    const float *center,\n    const float radius\n);\n\nThis aligns the header with the implementation and with the solution repository, preventing compile-time signature mismatches and removing student confusion."
     },
     {
-      "description": "The ray_sphere_intersect function's parameter identifiers are inconsistent between the header/template and the solution implementation. The header (and the template .cpp) declare the parameters as (origin, dir, center, radius), but the solution implementation's definition names the first two parameters as (dir, origin, center, radius). This swaps the parameter identifier names across artifacts and makes it harder for students to map the documented API (header/template) to the solution implementation: a student reading the header or the template test will expect the first argument to be 'origin' and the second to be 'dir', while the solution .cpp uses the reversed names, creating unnecessary cognitive load and potential confusion when tracing the code.",
-      "severity": "MEDIUM",
+      "description": "The function ray_sphere_intersect represents the same conceptual operation (ray–sphere intersection) but is declared with different parameter lists across artifacts. In the template repository header the function is declared with three parameters (origin, dir, center) while the template implementation (.cpp) defines it with a fourth parameter (radius). The solution repository declares/defines the function including the radius parameter. This signature mismatch (missing 'radius' in the template header) breaks the conceptual/implementation mapping and can cause student confusion and compilation/link errors when they rely on the header declaration in the template.",
+      "severity": "HIGH",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 9
+        },
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "example_program/src/ray_sphere_intersect.cpp",
@@ -42,7 +48,7 @@
           "type": "SOLUTION_REPOSITORY",
           "file_path": "example_program/src/ray_sphere_intersect.h",
           "start_line": 5,
-          "end_line": 9
+          "end_line": 10
         },
         {
           "type": "SOLUTION_REPOSITORY",
@@ -51,7 +57,7 @@
           "end_line": 15
         }
       ],
-      "suggested_fix": "Make the parameter identifiers consistent across header, template and implementation. For example, change the solution implementation signature to: bool ray_sphere_intersect(const float *origin, const float *dir, const float *center, const float radius) { ... } (and keep the existing local uses). Alternatively, update the header to match the implementation, but the least disruptive fix is to align the .cpp definition with the header/template naming so students can directly map 'origin' and 'dir' between declaration and implementation."
+      "suggested_fix": "Make the header declaration in the template match the implementation by adding the missing radius parameter. For example, change the template header declaration to: bool ray_sphere_intersect(const float *origin, const float *dir, const float *center, const float radius); Ensure both header and .cpp use the same parameter list (and mirror the solution), so students can map the function concept to its implementation and compile the project without signature mismatch errors."
     }
   ]
 }

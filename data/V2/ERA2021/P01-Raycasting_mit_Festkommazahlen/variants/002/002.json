@@ -2,7 +2,7 @@
   "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/002",
   "issues": [
     {
-      "description": "The ray_sphere_intersect function has inconsistent return types between artifacts: the template header declares the function as returning bool, the solution header declares it as returning int, while both template and solution implementations (ray_sphere_intersect.cpp) return a bool. This mismatch between header prototypes and implementation will cause confusion and likely compiler warnings/errors (or undefined behavior when linked) and makes it unclear which API students should implement/use.",
+      "description": "The template header declaration for ray_sphere_intersect declares an int return type, but the implementation (CPP) defines the function returning bool. The solution repository uses bool in the header and implementation. This return-type mismatch in the template (header vs implementation) will cause a compile-time / linkage error and prevents the provided template from compiling as-is — contradicting the exercise requirement that the assignment must compile. Students will be confused which return type to use and will be blocked by the type conflict when building the example program.",
       "severity": "HIGH",
       "category": "METHOD_RETURN_TYPE_MISMATCH",
       "related_locations": [
@@ -27,11 +27,11 @@
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/example_program/src/ray_sphere_intersect.cpp",
-          "start_line": 6,
+          "start_line": 10,
           "end_line": 35
         }
       ],
-      "suggested_fix": "Unify the function prototype and implementation. Change the solution header declaration to return bool (to match the implementation and the template header):\n\nIn solution_repository/example_program/src/ray_sphere_intersect.h, replace 'int ray_sphere_intersect(...)' with 'bool ray_sphere_intersect(...)'.\n\nAlternatively, if an integer return was intended, update both implementations and the template header to use int consistently. Prefer bool here since the implementation returns true/false and the template uses bool."
+      "suggested_fix": "Change the function declaration in the template header to match the implementation and solution: declare ray_sphere_intersect as returning bool (not int). Specifically, update template_repository/example_program/src/ray_sphere_intersect.h to:\n\nbool ray_sphere_intersect(\n    const float *origin,\n    const float *dir,\n    const float *center,\n    const float radius\n);\n\nThis makes header and implementation consistent and matches the solution, restoring compileability and removing student confusion."
     }
   ]
 }

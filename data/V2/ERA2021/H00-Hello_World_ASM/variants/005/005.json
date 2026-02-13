@@ -1,4 +1,25 @@
 {
   "case_id": "ERA2021/H00-Hello_World_ASM/005",
-  "issues": []
+  "issues": [
+    {
+      "description": "The problem statement requires implementing sum(a, b) to add two integers passed on the stack. The reference solution provides a sum function that only reads the first argument (mov eax, [esp+4]) and immediately returns, thus ignoring the second parameter and not performing any addition. This contradicts the specification and would mislead students who consult the solution as the intended implementation.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 8
+        }
+      ],
+      "suggested_fix": "Correct the reference solution's sum implementation so it reads both arguments from the stack and returns their sum (e.g., mov eax, [esp+4]; add eax, [esp+8]; ret), or else update the problem statement if a different calling convention/parameter layout was intended. Ensure the solution demonstrates the intended behavior of sum(a, b)."
+    }
+  ]
 }
