@@ -2,8 +2,8 @@
   "case_id": "ERA2021/H00-Hello_World_ASM/001",
   "issues": [
     {
-      "description": "The problem statement requires the main function to return 0 to indicate successful execution (problem_statement.md lines 21-22), but the solution explicitly sets eax to 1 before returning (solution_repository/helloWorld.asm line 17: 'mov eax, 1'). This contradicts the stated requirement and can cause automated checks or student expectations to fail. The template also does not initialize the return value (template_repository/helloWorld.asm ends with 'ret' without setting eax), leaving students uncertain whether they must set eax themselves. The solution demonstrating a non-zero return value is therefore an unintentional structural inconsistency that can confuse students and break the acceptance criterion.",
-      "severity": "HIGH",
+      "description": "The problem statement requires that main return 0 to indicate successful execution (problem_statement.md line 21), but the provided solution explicitly sets eax to 1 before returning (solution_repository/helloWorld.asm line 17). This makes the solution inconsistent with the specification and will confuse students about the intended return value (and may cause automated checks that expect 0 to fail).",
+      "severity": "MEDIUM",
       "category": "METHOD_RETURN_TYPE_MISMATCH",
       "related_locations": [
         {
@@ -19,7 +19,27 @@
           "end_line": 17
         }
       ],
-      "suggested_fix": "Ensure the solution and/or template conform to the requirement that main returns 0. For example, in the solution change 'mov eax, 1' to 'mov eax, 0' (or remove the incorrect mov and add 'mov eax, 0' before 'ret'). Alternatively, make the template explicitly set 'mov eax, 0' before 'ret' so students clearly see the expected return value. If the intention was to require a non-zero return, update the problem statement to reflect that."
+      "suggested_fix": "Modify the solution so main returns 0 (e.g., replace 'mov eax, 1' with 'mov eax, 0' or remove the incorrect mov and ensure eax is 0 before ret). This brings the solution into agreement with the problem requirement."
+    },
+    {
+      "description": "The template code does not explicitly set the return value for main (template_repository/helloWorld.asm ends with 'ret' without setting eax). The problem statement states that main must return 0; the absence of an explicit 'mov eax, 0' in the template can leave students uncertain whether they must add a return-value instruction in addition to fixing the register typo.",
+      "severity": "LOW",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 15,
+          "end_line": 18
+        }
+      ],
+      "suggested_fix": "Add an explicit return-value instruction in the template (e.g., insert 'mov eax, 0' before 'ret') or include a clear comment in the template indicating that main must return 0. This avoids student confusion about whether to change only the register typo or also set the return value."
     }
   ]
 }

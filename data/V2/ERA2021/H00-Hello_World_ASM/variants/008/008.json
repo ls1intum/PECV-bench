@@ -2,8 +2,8 @@
   "case_id": "ERA2021/H00-Hello_World_ASM/008",
   "issues": [
     {
-      "description": "The problem statement explicitly instructs students to call setup_env() with no parameters (problem_statement.md lines 21-22). The solution implementation, however, calls setup_env after pushing a single argument (solution_repository/helloWorld.asm: push 1; call setup_env), which contradicts the specified no-parameter signature. In addition, the template does not declare extern setup_env (template_repository/helloWorld.asm declares extern printf but not extern setup_env), so students who follow the problem text and add a call to setup_env() may be unsure whether and how to declare the external symbol. Together these differences (solution using one parameter, template lacking an extern declaration while the problem asks for a no-arg call) create confusion about the intended signature and the correct way to reference the environment helper.",
-      "severity": "MEDIUM",
+      "description": "The problem statement explicitly instructs students to call setup_env() with no parameters (problem_statement.md lines 21-22). The solution, however, declares extern setup_env and invokes it after pushing a value (push 1; call setup_env), implying it expects one argument (solution_repository/helloWorld.asm lines 8,13-14). The template does not declare or reference setup_env at all (template_repository/helloWorld.asm lines 1-19). This mismatch (no-parameter vs. one-parameter usage, and missing declaration in the template) can confuse students about the correct calling convention for setup_env and whether they must add an extern declaration or push an argument. It could lead to incorrect student solutions or failing tests if the intended signature differs.",
+      "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
         {
@@ -13,19 +13,19 @@
           "end_line": 22
         },
         {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/helloWorld.asm",
-          "start_line": 8,
-          "end_line": 8
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 7,
+          "end_line": 19
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/helloWorld.asm",
-          "start_line": 13,
-          "end_line": 15
+          "start_line": 8,
+          "end_line": 16
         }
       ],
-      "suggested_fix": "Make the signature and usage of setup_env consistent across all artifacts. Options: (A) If setup_env takes no parameters (as the problem states), update the solution to remove the pushed argument (remove 'push 1') and keep 'extern setup_env' if needed; and add 'extern setup_env' to the template so students know how to reference it. OR (B) If setup_env really requires one parameter, update the problem statement to document the required parameter and calling convention, and adjust the template to declare 'extern setup_env' so students can follow the intended calling pattern."
+      "suggested_fix": "Make the intended signature and usage of setup_env consistent across artifacts. Options:\n1) If setup_env takes no parameters (as the problem text states): remove the push 1 from the solution and call setup_env with no arguments; add an extern setup_env declaration to the template (and optionally a TODO comment) so students know to call it. \n2) If setup_env is intended to take one parameter: update the problem statement to document the required parameter(s) and calling convention, and add an extern setup_env declaration to the template so students can call it correctly. Ensure the solution and template match the documented signature."
     }
   ]
 }

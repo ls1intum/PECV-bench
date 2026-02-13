@@ -2,8 +2,8 @@
   "case_id": "ERA2021/H00-Hello_World_ASM/012",
   "issues": [
     {
-      "description": "The problem statement explicitly requires defining `status_flag` as a single byte (db). The solution repository instead defines `status_flag` using `dd` (a 4-byte double word). This is a direct type/size mismatch for the same symbol and will confuse students: they are instructed to create a one-byte flag but the provided reference solution uses a four-byte definition. Students comparing their work with the solution may be uncertain which is correct and could introduce bugs related to data size/alignment.",
-      "severity": "MEDIUM",
+      "description": "The problem statement explicitly requires defining `status_flag` as a single byte (a byte-sized data item). The provided solution declares `status_flag` as `dd 1`, which defines a 4-byte doubleword, not a single byte. This size/type mismatch between the specification and the solution can confuse students about the correct declaration and may cause grading or runtime inconsistencies if the flag size matters.",
+      "severity": "HIGH",
       "category": "ATTRIBUTE_TYPE_MISMATCH",
       "related_locations": [
         {
@@ -13,13 +13,19 @@
           "end_line": 22
         },
         {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 2,
+          "end_line": 5
+        },
+        {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/helloWorld.asm",
-          "start_line": 3,
-          "end_line": 5
+          "start_line": 4,
+          "end_line": 4
         }
       ],
-      "suggested_fix": "Update the solution to define the flag as a single byte to match the specification: replace `status_flag dd 1` with `status_flag db 1`. If the intention was to use a 4-byte value, update the problem statement to state that `status_flag` should be a 4-byte word instead."
+      "suggested_fix": "Change the solution's declaration of status_flag to a single byte to match the problem statement, e.g. use `status_flag db 1` (instead of `status_flag dd 1`). Also update any comments or documentation to reflect the byte-sized requirement."
     }
   ]
 }

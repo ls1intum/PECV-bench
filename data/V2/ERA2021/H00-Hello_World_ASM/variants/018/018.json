@@ -2,35 +2,21 @@
   "case_id": "ERA2021/H00-Hello_World_ASM/018",
   "issues": [
     {
-      "description": "The problem statement instructs students to mark the end of the main loop with the label `loop_end` (problem_statement.md lines 21-22). The solution implementation uses a different label name `end_loop:` (solution_repository/helloWorld.asm line 17) and the template does not provide a `loop_end` label placeholder. This name mismatch between the spec and the solution can confuse students (and any automatic checks) about the required label name and where to place it.",
-      "severity": "MEDIUM",
-      "category": "VISIBILITY_MISMATCH",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 21,
-          "end_line": 22
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/helloWorld.asm",
-          "start_line": 17,
-          "end_line": 17
-        }
-      ],
-      "suggested_fix": "Make the label name consistent. Preferred fix: rename the solution label `end_loop:` to `loop_end:` (update solution_repository/helloWorld.asm line 17). Optionally, add a commented placeholder label `loop_end:` in the template so students see where to put it, or update the problem statement to accept `end_loop` if that name was intended."
-    },
-    {
-      "description": "The problem statement requires students to mark the end of the main loop with the label `loop_end` but the solution repository uses the label `end_loop`. The template does not include the required `loop_end` label either. This naming mismatch (loop_end vs end_loop) refers to the same conceptual entity (the end-of-loop label) and may confuse students comparing their work to the reference solution or when checking for the required label name.",
+      "description": "The problem statement instructs students to mark the end of the main loop with the label `loop_end`, but the solution repository uses the label `end_loop`. The template repository does not contain the requested label (students are expected to add it). This inconsistent identifier naming for the same conceptual entity (the loop end label) will confuse students when they compare their code with the solution or the instructions — they may not recognize `end_loop` as the required `loop_end` label.",
       "severity": "MEDIUM",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 21,
-          "end_line": 21
+          "start_line": 22,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 15,
+          "end_line": 18
         },
         {
           "type": "SOLUTION_REPOSITORY",
@@ -39,7 +25,7 @@
           "end_line": 17
         }
       ],
-      "suggested_fix": "Rename the label in the solution from `end_loop` to `loop_end` (or vice versa update the problem statement to require `end_loop`/`end_loop` consistently). Also, ensure the template includes the `loop_end` label at the intended location so students see the expected identifier in starter code."
+      "suggested_fix": "Align the label name across artifacts. Recommended: change the solution label from `end_loop:` to `loop_end:`, and add the label `loop_end:` at the end of the main loop in the template (where students are instructed to mark it). Alternatively, update the problem statement to request `end_loop` instead of `loop_end` — but prefer making the solution/template match the documented `loop_end` to minimize student confusion."
     }
   ]
 }

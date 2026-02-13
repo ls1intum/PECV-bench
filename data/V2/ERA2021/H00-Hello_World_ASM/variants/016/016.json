@@ -2,27 +2,7 @@
   "case_id": "ERA2021/H00-Hello_World_ASM/016",
   "issues": [
     {
-      "description": "The problem statement instructs students to store the result in a variable named `score_counter` (problem_statement.md lines 21-22). The solution repository, however, declares a variable named `score_cnt` (solution_repository/helloWorld.asm line 4). This name mismatch can confuse students about the required variable name and may cause automated checks or manual grading that expect `score_counter` to fail. The template does not declare any score variable (template_repository/helloWorld.asm has no such declaration), which is acceptable as students likely must add it, but the reference solution's different name remains inconsistent with the specification.",
-      "severity": "MEDIUM",
-      "category": "ATTRIBUTE_TYPE_MISMATCH",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 21,
-          "end_line": 22
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/helloWorld.asm",
-          "start_line": 4,
-          "end_line": 4
-        }
-      ],
-      "suggested_fix": "Make the variable name consistent with the problem statement. Rename the solution's `score_cnt` to `score_counter` (e.g., change `score_cnt dd 0` to `score_counter dd 0`) and, if helpful, add a comment in the template indicating students should declare `score_counter` so expectations are explicit."
-    },
-    {
-      "description": "The problem statement requires students to store the result in a variable named `score_counter`, but the solution repository defines the variable as `score_cnt`. This names the same conceptual entity (the score storage variable) with different identifiers, which will confuse students and likely break any automated checks that expect `score_counter`.",
+      "description": "The problem statement requires the student to store the result in a variable named `score_counter`, but the solution repository declares the variable as `score_cnt`. This is an unintended identifier naming mismatch for the same conceptual entity (the result counter) and will confuse students who follow the problem text or any automated checks that expect `score_counter`.",
       "severity": "HIGH",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
@@ -33,13 +13,19 @@
           "end_line": 22
         },
         {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 3,
+          "end_line": 19
+        },
+        {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/helloWorld.asm",
           "start_line": 4,
           "end_line": 4
         }
       ],
-      "suggested_fix": "Rename the variable in the solution (and any template/example files if present) to `score_counter` so it matches the explicit requirement in the problem statement (e.g., change `score_cnt dd 0` to `score_counter dd 0`). Alternatively, if `score_cnt` is preferred, update the problem statement to instruct using `score_cnt`—but the names must be aligned to avoid student confusion and grading errors."
+      "suggested_fix": "Rename the identifier in the solution to match the problem statement: change the declaration `score_cnt dd 0` to `score_counter dd 0`. Alternatively, if `score_cnt` was intended, update the problem statement to request `score_cnt` — but aligning the solution to `score_counter` is the preferred fix to avoid student confusion."
     }
   ]
 }

@@ -2,7 +2,7 @@
   "case_id": "ERA2021/H00-Hello_World_ASM/014",
   "issues": [
     {
-      "description": "The problem statement requires a variable named `shared_data` to be globally visible for tests, but the template repository does not declare `shared_data` at all, and the solution repository declares `shared_data` in the .data section without exporting it as a global symbol. This is a structural/visibility mismatch: students receive a template that lacks the required shared symbol (so they have no starting point), and the provided solution would not satisfy the stated requirement because it fails to mark `shared_data` as global. As a result tests that expect a globally visible `shared_data` symbol may fail and students will be confused about where/how to provide it.",
+      "description": "Problem statement requires a globally visible variable `shared_data` for tests, but the solution file defines `shared_data` in the .data section without exporting it (no `global shared_data` declaration). As a result, automated tests that expect the symbol to be globally visible may fail even though the solution defines the data. This is a structural visibility mismatch between the specification and the solution.",
       "severity": "HIGH",
       "category": "VISIBILITY_MISMATCH",
       "related_locations": [
@@ -13,13 +13,19 @@
           "end_line": 22
         },
         {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 3,
+          "end_line": 18
+        },
+        {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/helloWorld.asm",
           "start_line": 4,
           "end_line": 4
         }
       ],
-      "suggested_fix": "Ensure the `shared_data` symbol exists in the template and is exported as global in both template and solution. For example, in template_repository/helloWorld.asm add inside the .data section:  \n    shared_data dd 0\nand add at top-level (near other global declarations):  \n    global shared_data\nAlso update the solution (or ensure it already matches) so it declares the same symbol and includes `global shared_data` (e.g. add `global shared_data` and keep `shared_data dd 100`). This makes the requirement explicit in the starter code and ensures the reference solution satisfies the problem statement."
+      "suggested_fix": "Export the symbol in the solution by adding a `global shared_data` directive (for example near the top of the file with other global declarations). Alternatively, if tests do not require the symbol, remove or clarify the requirement in the problem statement. Ensure both template and solution consistently declare `shared_data` as global if the tests depend on it."
     }
   ]
 }

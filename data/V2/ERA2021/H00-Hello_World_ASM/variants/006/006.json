@@ -2,7 +2,7 @@
   "case_id": "ERA2021/H00-Hello_World_ASM/006",
   "issues": [
     {
-      "description": "The problem statement requires calling an external function `exit_func` with an integer status code (problem_statement.md lines 21-22). The solution repository calls `exit_func` (solution_repository/helloWorld.asm line 18) but does not push any integer status code before the call, so the function is invoked without the required parameter. This contradicts the exercise requirement and will either cause incorrect behavior or compile/run-time errors and confuse students about how to satisfy the \"Beendigung\" requirement.",
+      "description": "Problem statement requires calling an external function `exit_func` with an integer status code on termination, but the solution calls `exit_func` without passing any argument (no push of a status code). This makes the solution inconsistent with the specification and could confuse students who expect the reference implementation to demonstrate the required call convention/argument passing.",
       "severity": "HIGH",
       "category": "METHOD_PARAMETER_MISMATCH",
       "related_locations": [
@@ -13,19 +13,19 @@
           "end_line": 22
         },
         {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/helloWorld.asm",
-          "start_line": 8,
-          "end_line": 8
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 18
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/helloWorld.asm",
-          "start_line": 18,
+          "start_line": 8,
           "end_line": 18
         }
       ],
-      "suggested_fix": "Ensure the solution (and any template guidance) pushes an integer status code before calling exit_func. For example, insert a line before the call: `push 0` (or `push dword 0` as appropriate for the assembler/ABI), then `call exit_func`. Also keep the `extern exit_func` declaration (already present in the solution). This makes the solution satisfy the problem statement unambiguously."
+      "suggested_fix": "Update the solution so it passes an integer status code according to the calling convention before calling exit_func. For example, add a push of a status code (e.g. `push dword 0`) immediately before `call exit_func`, and keep the `extern exit_func` declaration. This ensures the solution matches the problem requirement to call exit_func with an integer status code."
     }
   ]
 }

@@ -2,7 +2,7 @@
   "case_id": "ERA2021/H00-Hello_World_ASM/002",
   "issues": [
     {
-      "description": "The problem statement requires implementing calc_val to return the value 42 in the EAX register (problem_statement.md lines 21-22). The solution repository implements calc_val but moves 42 into EBX (solution_repository/helloWorld.asm lines 9-11: \"mov ebx, 42\"), so the solution does not place the return value in the specified register. This contradicts the specification and would confuse students (and any automated checks) about which register should contain the result.",
+      "description": "The problem statement requires implementing a function `calc_val` that returns the value 42 in the EAX register. In the solution implementation, `calc_val` places 42 into EBX (`mov ebx, 42`) and even comments that it 'Returns in EBX, not EAX'. This directly contradicts the specification in the problem statement and could mislead students or make the reference solution appear incorrect with respect to the required calling/return convention.",
       "severity": "HIGH",
       "category": "METHOD_RETURN_TYPE_MISMATCH",
       "related_locations": [
@@ -13,13 +13,19 @@
           "end_line": 22
         },
         {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 7,
+          "end_line": 18
+        },
+        {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/helloWorld.asm",
           "start_line": 9,
           "end_line": 11
         }
       ],
-      "suggested_fix": "Modify the solution implementation of calc_val so it places 42 into EAX before returning (e.g. change 'mov ebx, 42' to 'mov eax, 42'). Update the comment to reflect the correct return register."
+      "suggested_fix": "Change the solution's `calc_val` to place the value 42 into EAX (e.g., `mov eax, 42`) so it complies with the problem statement. Update or remove the misleading comment ('Returns in EBX, not EAX'). Optionally, if intended for demonstration, ensure the solution also shows a call to `calc_val` from `main` so students can see how the returned value in EAX is used."
     }
   ]
 }

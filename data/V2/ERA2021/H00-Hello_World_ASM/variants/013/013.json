@@ -2,7 +2,7 @@
   "case_id": "ERA2021/H00-Hello_World_ASM/013",
   "issues": [
     {
-      "description": "The problem statement explicitly requires implementing a private helper function internal_calc (\"nicht global\"). The reference solution, however, exports internal_calc by declaring it global (line 'global internal_calc') in solution_repository/helloWorld.asm. This contradicts the specification and may confuse students about whether internal_calc should be a private/local symbol or an exported/global one.",
+      "description": "Problem statement requires implementing internal_calc as a private helper (explicitly: \"nicht global\"), but the solution repository exports internal_calc with a global directive. This contradicts the visibility requirement and may confuse students about whether the helper should be visible/exported or remain local. It also sets a different example than the assignment text, so students comparing their work to the provided solution might adopt the wrong visibility.",
       "severity": "MEDIUM",
       "category": "VISIBILITY_MISMATCH",
       "related_locations": [
@@ -10,26 +10,6 @@
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
           "start_line": 21,
-          "end_line": 21
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/helloWorld.asm",
-          "start_line": 6,
-          "end_line": 9
-        }
-      ],
-      "suggested_fix": "Make the solution match the specification by removing the 'global internal_calc' directive from solution_repository/helloWorld.asm so internal_calc remains a private/local symbol. Alternatively, if exporting the function was intentional, update the problem statement to allow/internal_calc to be global and explain why."
-    },
-    {
-      "description": "The problem statement explicitly requires implementing `internal_calc` as a private helper (\"nicht global\"), but the solution repository exports `internal_calc` as a global symbol (`global internal_calc`) and defines it at top-level. This mismatch between the expected visibility (private) and the solution's exported/global declaration can confuse students about the intended scope/visibility of `internal_calc` and whether they should declare it global or keep it private.",
-      "severity": "MEDIUM",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 22,
           "end_line": 22
         },
         {
@@ -39,7 +19,21 @@
           "end_line": 9
         }
       ],
-      "suggested_fix": "Make the artifacts consistent: either (A) update the solution to keep `internal_calc` private (remove the `global internal_calc` export so it is not exported), or (B) if exporting is intended, update the problem statement to allow/mention a globally exported `internal_calc`. Preferred fix: remove `global internal_calc` from solution_repository/helloWorld.asm so the implementation matches the problem instruction that `internal_calc` be a private helper."
+      "suggested_fix": "Make the solution match the assignment intent by removing the 'global internal_calc' directive from solution_repository/helloWorld.asm so internal_calc remains non-exported (private). Alternatively, if exporting is intended, update the problem statement to permit a global/internal_calc export."
+    },
+    {
+      "description": "The template declares 'extern printf' (making the external symbol available), but the solution repository omits this extern declaration while still calling printf. This discrepancy is a structural/linkage mismatch: the solution may fail to assemble/link or at least differs in how external symbols are declared compared to the template, which can confuse students and prevent a straightforward build of the solution.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 7,
+          "end_line": 7
+        }
+      ],
+      "suggested_fix": "Add the missing 'extern printf' declaration to solution_repository/helloWorld.asm (matching the template) so external linkage is declared consistently and the solution assembles/links in the same manner as the template expects."
     }
   ]
 }
