@@ -1,0 +1,37 @@
+{
+  "case_id": "IOS26/TC1-Bookstore/015",
+  "issues": [
+    {
+      "description": "The solution makes Genre.name private (private let name: String) but the Client implementation reads genre.name to print the genre name. This is an internal visibility conflict: with name declared private in Bookstore.swift, code in Client.swift (a different file) cannot access it, which would cause a compilation error and prevent students from following the example output requirements. The problem statement requires that Genre exposes a name (used for printing), but the solution's private modifier blocks that usage.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 19,
+          "end_line": 20
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 42,
+          "end_line": 55
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 39,
+          "end_line": 45
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Client.swift",
+          "start_line": 18,
+          "end_line": 23
+        }
+      ],
+      "suggested_fix": "Make the Genre name accessible to other files in the module. Remove the private modifier (use the default internal visibility) or declare it as public/fileprivate as appropriate. For example, change 'private let name: String' to 'let name: String' (or 'public let name: String') so the Client can read and print the genre name."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "case_id": "IOS26/TC1-Bookstore/014",
+  "issues": [
+    {
+      "description": "The solution declares Book.title as 'private let title: String' but Client.main() (in a different file) accesses book.title for printing. In Swift, 'private' restricts access to the enclosing declaration (not other source files), so this visibility prevents Client from reading the title and will cause a compilation error. The problem statement expects a Book with accessible 'title' and 'author' properties (and does not require 'title' to be private).",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 17
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 24,
+          "end_line": 33
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 10,
+          "end_line": 12
+        }
+      ],
+      "suggested_fix": "Make the Book.title property accessible outside its declaring file. For example, remove the 'private' modifier and declare it as 'let title: String' (or use 'internal'/'public' as appropriate). This aligns the Book definition with the problem statement and allows Client to read and print the title."
+    }
+  ]
+}

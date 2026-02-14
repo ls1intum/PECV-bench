@@ -1,0 +1,37 @@
+{
+  "case_id": "IOS26/TC1-Bookstore/012",
+  "issues": [
+    {
+      "description": "The problem statement requires Book.genres to be an optional array of Genre (so books can have genres == nil). The solution code is inconsistent about this: Bookstore.swift declares Book.genres as a non-optional [Genre] (let genres: [Genre]) while Client.swift treats it as optional (uses `guard let genres = book.genres else { ... }`) and constructs a Book with `genres: nil` for an uncategorized book. This mismatch (and the contradictory comment in Bookstore.swift stating genres should be nil for uncategorized books) will confuse students and cause compilation errors.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 29,
+          "end_line": 33
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Client.swift",
+          "start_line": 10,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Client.swift",
+          "start_line": 52,
+          "end_line": 55
+        }
+      ],
+      "suggested_fix": "Make the Book.genres property optional to match the problem specification and its usage in Client. For example change the declaration in Bookstore.swift to `let genres: [Genre]?`. Ensure any comments reflect that genres can be nil, and keep Client.swift's unwrapping and the assembleBookstore uses of `genres: nil` unchanged so all artifacts are consistent."
+    }
+  ]
+}

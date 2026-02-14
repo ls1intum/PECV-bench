@@ -1,0 +1,31 @@
+{
+  "case_id": "IOS26/TC1-Bookstore/013",
+  "issues": [
+    {
+      "description": "The solution declares the Bookstore's books property as `private let books: [Book]` (Solution: Bookstore.swift lines 9-16), but Client.swift iterates over `bookstore.books` (Solution: Client.swift lines 10-11). In Swift, `private` restricts access to the enclosing declaration/file and prevents other source files in the same module from accessing the property. This mismatch will cause a compilation error and prevents the Client from accessing the books as shown in the solution. The problem statement expects a Bookstore that \"holds an array of `Book`s named `books`\" and shows client code that accesses that array (Problem Statement lines 8-12 and 31-38), so the `private` visibility on the property is inconsistent with the intended usage.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 9,
+          "end_line": 17
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 10,
+          "end_line": 11
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 8,
+          "end_line": 12
+        }
+      ],
+      "suggested_fix": "Make the books property accessible to Client by removing the `private` modifier (e.g. `let books: [Book]`) or by using an appropriate access level such as `internal`/`public` depending on intended encapsulation. Alternatively provide a public accessor or method on Bookstore to expose the books collection. This will align the implementation with the problem statement and the Client usage."
+    }
+  ]
+}

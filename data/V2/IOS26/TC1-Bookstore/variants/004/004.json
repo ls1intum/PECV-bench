@@ -1,0 +1,69 @@
+{
+  "case_id": "IOS26/TC1-Bookstore/004",
+  "issues": [
+    {
+      "description": "The solution's assembleBookstore function signature does not match the template/problem expectation. The problem statement (and the commented prototype in the template) expect a zero-argument function: private static func assembleBookstore() -> Bookstore, and Client.main() calls assembleBookstore() with no arguments. In the solution the function is implemented as private static func assembleBookstore(check: Bool) -> Bookstore (i.e. it requires a Bool parameter) while main() still calls assembleBookstore() without an argument. This mismatch will cause a compile-time error and is inconsistent with the template and problem specification, which is likely to confuse students and break the provided example solution.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 31,
+          "end_line": 38
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 16,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 5,
+          "end_line": 5
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 31,
+          "end_line": 58
+        }
+      ],
+      "suggested_fix": "Make the solution's assembleBookstore function signature match the problem/template by removing the parameter. Change the solution to: private static func assembleBookstore() -> Bookstore { ... } so that the existing call in main() (assembleBookstore()) compiles. Alternatively, if a parameter is intentionally required, update the problem statement/template and the call site in main() to pass an appropriate argument — however, removing the unused parameter in the solution is the simpler fix and preserves the intended exercise API."
+    },
+    {
+      "description": "The problem statement and the template expect a no-argument function named `assembleBookstore()` that returns a `Bookstore`. In the solution repository the same conceptual function is defined as `assembleBookstore(check: Bool) -> Bookstore` (introducing a parameter named `check`) which is not mentioned in the problem or template. This divergence (an extra parameter identifier) creates a mapping confusion: students will implement or look for a no-argument `assembleBookstore()` as requested, while the solution's definition introduces an unexpected parameter name and signature mismatch.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 31,
+          "end_line": 38
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 16,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 31,
+          "end_line": 58
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 4,
+          "end_line": 6
+        }
+      ],
+      "suggested_fix": "Make the function signature consistent across artifacts. Remove the extraneous parameter from the solution so the function is `private static func assembleBookstore() -> Bookstore` (and ensure calls use no arguments). Alternatively, if a parameter is required intentionally, update the problem statement and template to document the parameter name and purpose and provide a default value so calls without arguments remain valid. The recommended fix is to remove the `check: Bool` parameter from the solution to match the exercise specification."
+    }
+  ]
+}
