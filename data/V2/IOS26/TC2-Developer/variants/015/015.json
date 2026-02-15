@@ -1,0 +1,37 @@
+{
+  "case_id": "IOS26/TC2-Developer/015",
+  "issues": [
+    {
+      "description": "Visibility mismatch for Course.addRating(stars:). The problem statement (and the template) expect an instance method addRating(stars:) declared in an extension and callable from client code. The template provides an extension with func addRating(stars: Int) (internal by default). However, the solution implementation marks this method as private (solution_repository/Sources/DeveloperLib/Course.swift lines 24-29) while the client code calls swiftCourse.addRating(stars:) (solution_repository/Sources/DeveloperLib/Client.swift lines 14-15). Declaring addRating as private prevents the Client (in a different file) from calling it and would cause a compile-time access control error. This contradicts the intended design and will block students or break the provided solution when run.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 15,
+          "end_line": 19
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 23,
+          "end_line": 27
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 24,
+          "end_line": 30
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Client.swift",
+          "start_line": 14,
+          "end_line": 15
+        }
+      ],
+      "suggested_fix": "Make addRating(stars:) accessible to the client code by removing the private modifier in the solution (i.e., declare it as func addRating(stars: Int) { ... } or mark it public/fileprivate as appropriate). The simplest fix is to remove 'private' so the method has internal visibility like the template, matching the problem statement and allowing Client to call it."
+    }
+  ]
+}

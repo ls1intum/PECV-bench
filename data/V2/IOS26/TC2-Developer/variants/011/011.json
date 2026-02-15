@@ -1,0 +1,31 @@
+{
+  "case_id": "IOS26/TC2-Developer/011",
+  "issues": [
+    {
+      "description": "The problem statement and the template define the Developer.monthsOfSwiftExperience property and the Developer initializer parameter as Int? (optional Int), but the solution implementation uses Double? for that property and the initializer parameter. This is a type mismatch across artifacts and affects the methods that operate on the property (the switch in swiftExperienceDescription and the increment in attend). Students reading the solution (or tests referencing the solution) may be confused about whether monthsOfSwiftExperience should be an Int or a Double, and using Double in the solution deviates from the exercise specification.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 32
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "Sources/DeveloperLib/Developer.swift",
+          "start_line": 8,
+          "end_line": 17
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/DeveloperLib/Developer.swift",
+          "start_line": 8,
+          "end_line": 17
+        }
+      ],
+      "suggested_fix": "Make the solution match the problem and template by changing monthsOfSwiftExperience from Double? to Int? in the Developer class and the initializer parameter. Update all usages accordingly: the switch in swiftExperienceDescription should switch on an Int (case 1 remains valid), and the attend(course:) method should increment the Int value by 1 (or set it to 1 when nil). This aligns all artifacts and avoids student confusion."
+    }
+  ]
+}

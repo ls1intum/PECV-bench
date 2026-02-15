@@ -1,0 +1,37 @@
+{
+  "case_id": "IOS26/TC2-Developer/018",
+  "issues": [
+    {
+      "description": "The problem statement and the template expect a Developer instance method named attend(course:), but the solution implementation defines this method as participateIn(course:). This creates a direct naming mismatch: students read the requirement for attend(course:) and find a stub called attend in the template, but the reference solution implements the same behavior under a different identifier (participateIn). Additionally, the solution's Client code calls attend(course:), while the Developer implementation is participateIn(course:), making the intended mapping ambiguous and likely to confuse students or cause failures when comparing to the template/tests.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 43,
+          "end_line": 47
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/DeveloperLib/Developer.swift",
+          "start_line": 33,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Developer.swift",
+          "start_line": 41,
+          "end_line": 52
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Client.swift",
+          "start_line": 19,
+          "end_line": 19
+        }
+      ],
+      "suggested_fix": "Align the identifier across artifacts. The least disruptive fix is to rename the solution method participateIn(course:) to attend(course:) (and preserve its implementation and behavior). Ensure any internal calls and the Client code reference attend(course:). Alternatively, if participateIn is preferred, update the problem statement and template to use participateIn(course:) consistently — but prefer matching the current problem/template (attend) to avoid changing student-facing instructions."
+    }
+  ]
+}

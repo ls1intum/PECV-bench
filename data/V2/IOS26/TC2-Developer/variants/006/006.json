@@ -1,0 +1,37 @@
+{
+  "case_id": "IOS26/TC2-Developer/006",
+  "issues": [
+    {
+      "description": "The Developer.attend method's parameter list is inconsistent across artifacts. The problem statement (and the template) specify attend(course:) taking a single optional Course parameter (Course?), and the template provides an empty stub with that exact signature. However, the solution implementation declares attend(course: Course?, forCredit: Bool) — adding an extra unused Boolean parameter — while the solution's Client calls myself.attend(course: swiftCourse) with only one argument. This makes the solution internally inconsistent and conflicts with the problem/template API students are expected to implement. Students consulting the solution will be confused about the correct signature to implement and the solution as provided will not compile due to the mismatched call and method signature.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 43,
+          "end_line": 47
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/DeveloperLib/Developer.swift",
+          "start_line": 33,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Developer.swift",
+          "start_line": 42,
+          "end_line": 51
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Client.swift",
+          "start_line": 19,
+          "end_line": 19
+        }
+      ],
+      "suggested_fix": "Make the solution's Developer.attend method match the problem statement and template by removing the extra parameter. Change the method signature in solution_repository/Sources/DeveloperLib/Developer.swift to func attend(course: Course?) { ... } and keep the existing implementation body (incrementing/setting monthsOfSwiftExperience and printing the success message). Alternatively, if the extra parameter was intentional, update the problem statement, the template stub, and all calls (Client.main) to include and use the new parameter consistently; but the simpler fix is to remove the unused forCredit parameter from the solution so all artifacts use attend(course: Course?)."
+    }
+  ]
+}

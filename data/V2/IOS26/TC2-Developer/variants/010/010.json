@@ -1,0 +1,37 @@
+{
+  "case_id": "IOS26/TC2-Developer/010",
+  "issues": [
+    {
+      "description": "The problem statement and the template expect Course.ratings to be an array of Int, but the solution defines Course.ratings as [Double] and then uses it as if it contained Int values (appending Int in addRating and summing into an Int accumulator in getAverageRating). This creates a type conflict between artifacts and makes the solution internally inconsistent (would not compile) and contradicts the exercise specification that ratings are Int values.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 6,
+          "end_line": 11
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 7,
+          "end_line": 17
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 8,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 24,
+          "end_line": 49
+        }
+      ],
+      "suggested_fix": "Align the ratings type across all artifacts. The simplest fix is to change the solution to use ratings: [Int] (matching the problem statement and template). Update the initializer signature to accept [Int], ensure addRating(stars:) appends Int values, and have getAverageRating() sum Ints and return Double(sum) / Double(count). Alternatively, if you prefer Double ratings, update the problem statement and template to declare ratings as [Double] and adapt addRating and getAverageRating accordingly — but keep the type consistent in all three artifacts."
+    }
+  ]
+}

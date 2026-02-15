@@ -1,0 +1,37 @@
+{
+  "case_id": "IOS26/TC2-Developer/004",
+  "issues": [
+    {
+      "description": "The problem statement and the template expect an instance method addRating(stars:) (external parameter label 'stars'), but the solution's Course implementation declares the method as addRating(rating:) (external label 'rating'). At the same time the solution's Client calls addRating(stars:). This mismatch of the method parameter label is structural: it will cause compilation errors and confusion because callers (and the template) use the 'stars' label while the solution's method exposes 'rating'.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 13,
+          "end_line": 19
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 23,
+          "end_line": 27
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 25,
+          "end_line": 29
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Client.swift",
+          "start_line": 14,
+          "end_line": 15
+        }
+      ],
+      "suggested_fix": "Make the parameter label consistent across artifacts. Change the solution's Course method signature to expose the 'stars' label (for example: func addRating(stars: Int) { ... } ), or explicitly provide an external label matching the template and client (for example: func addRating(stars rating: Int) { ... }). Ensure the Client code and any references use the same label."
+    }
+  ]
+}

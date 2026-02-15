@@ -1,0 +1,31 @@
+{
+  "case_id": "IOS26/TC2-Developer/005",
+  "issues": [
+    {
+      "description": "The problem statement and the template specify Developer.attend(course:) should accept an optional Course? (students are instructed to use optional binding and tests reference a nil case), but the solution implementation uses a non-optional parameter (func attend(course: Course)). This is a method parameter mismatch: the solution's signature prevents the nil-check behavior described in the task and contradicts the template and tests that expect an optional parameter.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 44,
+          "end_line": 46
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "Sources/DeveloperLib/Developer.swift",
+          "start_line": 33,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/DeveloperLib/Developer.swift",
+          "start_line": 42,
+          "end_line": 51
+        }
+      ],
+      "suggested_fix": "Align the solution with the problem and template by changing the solution's attend signature to accept an optional Course? (func attend(course: Course?)) and implement optional binding inside the method (if let course = course { ... }). Alternatively, if the intended design is non-optional, update the problem statement and template to require a non-optional Course and remove references to optional binding and the nil test cases. The preferred fix is to update the solution to accept Course? so it matches the task description and template and supports the nil test case."
+    }
+  ]
+}

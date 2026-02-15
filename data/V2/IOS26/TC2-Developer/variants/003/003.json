@@ -1,0 +1,31 @@
+{
+  "case_id": "IOS26/TC2-Developer/003",
+  "issues": [
+    {
+      "description": "The template and solution differ in the return type of Course.addRating(stars:). The problem statement describes only the behavior (validate and add rating) and does not specify a return type. In the template the method is declared as a Void function (func addRating(stars: Int) { ... }) while the solution implements it as returning a Bool (func addRating(stars: Int) -> Bool { ... }). This mismatch is structural (different signatures) and can confuse students about whether they should return a success flag or not; it can also lead to subtle test/signature mismatches if the tests or reference use the Bool return in the future.",
+      "severity": "LOW",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 13,
+          "end_line": 19
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 23,
+          "end_line": 27
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 24,
+          "end_line": 32
+        }
+      ],
+      "suggested_fix": "Make the addRating(stars:) signature consistent across artifacts. Either: (A) Update the template to declare the method as returning Bool (func addRating(stars: Int) -> Bool) and document in the problem statement that the method should return true on successful addition and false on invalid input, or (B) change the solution to a Void return (func addRating(stars: Int)) so it matches the template and problem statement. Prefer option A if you want to keep the informative success/failure return value used in the solution; otherwise explicitly state in the problem that no return value is required to avoid ambiguity."
+    }
+  ]
+}
