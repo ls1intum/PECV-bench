@@ -1,0 +1,25 @@
+{
+  "case_id": "MTG26/TA2-SQL_Basics/017",
+  "issues": [
+    {
+      "description": "The problem statement requires grouping and output by 'regierungsbezirk' and explicitly instructs not to rename columns with AS unless requested. The solution query aliases the column to an English name ('regierungsbezirk AS District'), introducing a different identifier for the same conceptual entity. This creates unnecessary naming inconsistency (and violates the 'no AS' instruction), which can confuse students about which column name is expected in the output and may interfere with automated checks that expect the original column name.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 102,
+          "end_line": 123
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe04.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Remove the alias and select the column using its original name (regierungsbezirk) so the output column name matches the problem statement. Example correction: SELECT regierungsbezirk, SUM(einwohner_w), SUM(einwohner_m) FROM Gemeinde GROUP BY regierungsbezirk"
+    }
+  ]
+}

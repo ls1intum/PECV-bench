@@ -1,0 +1,25 @@
+{
+  "case_id": "MTG26/TA2-SQL_Basics/008",
+  "issues": [
+    {
+      "description": "The solution for Aufgabe 09 selects the column `kreis` but groups by `regierungsbezirk` (GROUP BY regierungsbezirk). The problem statement asks for averages per Landkreis (per `kreis`) and the name of the respective Landkreis. Grouping by `regierungsbezirk` while selecting `kreis` is a structural mismatch: in standard SQL you must either group by every non-aggregated selected column or aggregate it. This will either cause an SQL error in strict SQL modes or yield incorrect / nondeterministic results, and it does not implement the requested grouping \"per Landkreis\".",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 146,
+          "end_line": 149
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe09.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Group by the Landkreis column to match the requested aggregation per Landkreis. For example: SELECT kreis, AVG(einwohner_m), AVG(einwohner_w) FROM Gemeinde WHERE flaeche > 100 GROUP BY kreis; Ensure that every non-aggregated column in the SELECT appears in the GROUP BY so the query returns the averages per Landkreis as requested."
+    }
+  ]
+}

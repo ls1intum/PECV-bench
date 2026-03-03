@@ -1,0 +1,25 @@
+{
+  "case_id": "MTG26/TA2-SQL_Basics/011",
+  "issues": [
+    {
+      "description": "Solution for Aufgabe 05 returns the Landkreis name as the column avg_flaeche instead of computing the average area. The problem statement asks for the average area per Landkreis (a numeric value) plus the Landkreis name and Regierungsbezirk. The solution_repository/aufgabe05.sql selects 'kreis as avg_flaeche' which yields a text value (kreis) in the avg_flaeche column rather than AVG(flaeche). This is a structural mismatch between the problem specification and the provided solution and would mislead students about the intended aggregation and column types.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 124,
+          "end_line": 129
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe05.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Replace the incorrect selection of 'kreis as avg_flaeche' with an aggregation of the numeric area column. For example:\n\nSELECT regierungsbezirk, kreis, AVG(flaeche) AS avg_flaeche\nFROM Gemeinde\nGROUP BY regierungsbezirk, kreis\nORDER BY kreis;\n\nThis returns the requested numeric average area per Landkreis along with the Landkreis name and Regierungsbezirk, matching the problem statement."
+    }
+  ]
+}

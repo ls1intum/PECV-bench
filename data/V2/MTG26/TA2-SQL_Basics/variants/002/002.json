@@ -1,0 +1,25 @@
+{
+  "case_id": "MTG26/TA2-SQL_Basics/002",
+  "issues": [
+    {
+      "description": "Task 'Aufgabe 02' in the problem statement asks for the number of Gemeinden in the Regierungsbezirk 'Oberbayern' (i.e. an aggregate COUNT), but the solution file returns all Gemeinde rows for that Regierungsbezirk (SELECT * FROM Gemeinde WHERE regierungsbezirk='Oberbayern'). This is a structural mismatch between the expected result shape (a single numeric aggregate) and the provided solution (multiple rows with full columns). It will confuse students about the expected output and break automatic correctness checks that expect a count.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 111,
+          "end_line": 114
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe02.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Change the solution to return the count of Gemeinden, for example: SELECT COUNT(*) FROM Gemeinde WHERE regierungsbezirk = 'Oberbayern'; (optionally alias the column, e.g. SELECT COUNT(*) AS Anzahl ...). Ensure the solution matches the problem's requested aggregate result."
+    }
+  ]
+}

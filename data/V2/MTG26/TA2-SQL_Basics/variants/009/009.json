@@ -1,0 +1,25 @@
+{
+  "case_id": "MTG26/TA2-SQL_Basics/009",
+  "issues": [
+    {
+      "description": "Aufgabe 10 verlangt die Anzahl von Wanderwegen, die zu einer Gemeinde führen. Die Lösung zählt jedoch Zeilen in der Tabelle Gemeinde (COUNT(*) FROM Gemeinde GROUP BY gemeindeschluessel). Gruppieren/Counten der Gemeinde-Tabelle liefert typischerweise 1 pro Gemeindeschlüssel (oder sonst nicht die Anzahl der Wanderwege) und entspricht nicht der im Problem geforderten Größe (Anzahl Wanderwege). Dadurch widerspricht die Lösung der Aufgabenbeschreibung und würde Studierende verwirren, weil die verwendete Tabelle/Spalte nicht der semantisch korrekte Ort ist, um Wanderwege zu zählen.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 151,
+          "end_line": 153
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe10.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Ändere die Lösung so, dass die Anzahl der Wanderwege gezählt wird — z.B. COUNT(*) auf der Wanderweg-Tabelle (oder durch Join von Wanderweg zu Gemeinde über den Gemeindeschlüssel). Beispiel: SELECT w.gemeindeschluessel, COUNT(*) AS Anzahl FROM Wanderweg w GROUP BY w.gemeindeschluessel ORDER BY Anzahl DESC; Falls die Wanderwege-Tabelle anders heißt oder eine Join-Tabelle nötig ist, passe FROM/JOIN entsprechend an."
+    }
+  ]
+}
