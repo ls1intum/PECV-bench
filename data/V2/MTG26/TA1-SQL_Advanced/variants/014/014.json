@@ -1,0 +1,25 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/014",
+  "issues": [
+    {
+      "description": "Problem statement for Aufgabe 07 requests a list of the names of all Gemeinden (municipalities) that have a 'Freibad' and the names of the respective Freibäder (i.e., Gemeinde.name and Schwimmbad.name). The reference solution (solution_repository/aufgabe07.sql) instead returns Gemeinde.schluessel and Schwimmbad.id (identifiers). This is a clear mismatch between the requested output columns (names) and the solution's returned columns (IDs). Students comparing the solution to the task or using the solution as a model will be confused about which fields to select; automatic checks expecting names will not match the solution output.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 46,
+          "end_line": 49
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe07.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Modify the solution to return the municipality and Freibad names as requested. For example: SELECT Gemeinde.name, Schwimmbad.name FROM Gemeinde, Schwimmbad WHERE Gemeinde.schluessel = Schwimmbad.gemeindeschluessel AND Schwimmbad.art = 'Freibad'; This aligns the solution output with the problem description and prevents student confusion or grading mismatches."
+    }
+  ]
+}

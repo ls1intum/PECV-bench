@@ -1,0 +1,25 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/002",
+  "issues": [
+    {
+      "description": "The problem statement for Aufgabe 04 asks for the number (count) of swimming pools in Gemeinden with more than 1000 female inhabitants, but the solution query (solution_repository/aufgabe04.sql) selects Schwimmbad.name (a list of names) instead of returning an aggregate count. This contradicts the required output type/shape and would confuse students about whether they should produce an aggregate result (single numeric value) or a list of names.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 31,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe04.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Modify the solution query to return an aggregate count as requested by the problem statement. For example, replace SELECT Schwimmbad.name with SELECT COUNT(*) (optionally with an alias, e.g. SELECT COUNT(*) AS anzahl_schwimmbaeder) and keep the existing JOIN/WHERE condition (Gemeinde.schluessel = Schwimmbad.gemeindeschluessel AND Gemeinde.einwohner_w > 1000)."
+    }
+  ]
+}

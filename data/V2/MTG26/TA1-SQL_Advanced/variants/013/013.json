@@ -1,0 +1,31 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/013",
+  "issues": [
+    {
+      "description": "Solution for Aufgabe 01 selects all columns (SELECT Zoo.*, Gemeinde.*) which returns far more fields than the problem statement requires. The problem explicitly instructs students to output the zoo names and internet addresses (url) and the Gemeinde name and Regierungsbezirk (\"Gib immer genau die geforderten Daten aus und nicht mehr\"). The solution's use of SELECT * contradicts that requirement and could confuse students about the exact expected output and column order/contents.",
+      "severity": "MEDIUM",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 18,
+          "end_line": 18
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 2
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Adjust the solution query to select exactly the requested columns (e.g. SELECT Zoo.name, Zoo.url, Gemeinde.name, Gemeinde.regierungsbezirk FROM Zoo JOIN Gemeinde ON Zoo.gemeindeschluessel = Gemeinde.schluessel). This makes the solution consistent with the problem instructions and avoids returning extra/unexpected columns."
+    }
+  ]
+}

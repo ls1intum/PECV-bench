@@ -1,0 +1,25 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/003",
+  "issues": [
+    {
+      "description": "The problem statement for Aufgabe 10 requests the IDs of all Radwege that lead to Gemeinden in Oberfranken or Unterfranken. The solution implementation (solution_repository/aufgabe10.sql) instead selects Radweg_zu_Gemeinde.name (a name column) rather than any ID column. This is a cross-artifact mismatch between the exercise requirement and the provided reference solution and would confuse students about which column to output (name vs. ID) and produce incorrect reference results.",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 59,
+          "end_line": 61
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe10.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Update the solution query to select the Radweg ID column instead of the name. For example, if the Radweg ID column in Radweg_zu_Gemeinde is named radweg_id, change the SELECT to:  SELECT Radweg_zu_Gemeinde.radweg_id  FROM Radweg_zu_Gemeinde, Gemeinde  WHERE Gemeinde.schluessel = Radweg_zu_Gemeinde.gemeindeschluessel  AND (Gemeinde.regierungsbezirk = 'Oberfranken' OR Gemeinde.regierungsbezirk = 'Unterfranken');  Ensure the query does not apply DISTINCT (since the problem explicitly says duplicates should not be removed). If the actual ID column has a different name (e.g., radwegschluessel or radweg_id), use that column name accordingly."
+    }
+  ]
+}
