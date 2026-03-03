@@ -26,32 +26,6 @@
         }
       ],
       "suggested_fix": "Make the template header declaration match the implementation and usages by declaring Bitmap24::set with the same parameter order used in Bitmap24.cpp and main.cpp: void set(int i_y, int i_x, char i_r, char i_g, char i_b); (i.e., swap the parameters in the template header). This preserves the intended API and avoids compilation errors."
-    },
-    {
-      "description": "Parameter-name order for Bitmap24::set is inconsistent between the template header and the implementation/solution. The template header declares set(int i_x, int i_y, char i_r, char i_g, char i_b) while the implementation (Bitmap24.cpp) and the solution header use set(int i_y, int i_x, char i_r, char i_g, char i_b). Although the parameter types are the same (two ints) so the code still compiles, the header in the template implies a different semantic ordering (x then y) than the implementation (y then x). This can confuse students reading the header to understand how to call the method (should callers pass x,y or y,x?), increasing extraneous cognitive load and risking incorrect usage.",
-      "severity": "MEDIUM",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
-          "start_line": 51,
-          "end_line": 57
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/example_program/src/Bitmap24.cpp",
-          "start_line": 45,
-          "end_line": 56
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
-          "start_line": 51,
-          "end_line": 57
-        }
-      ],
-      "suggested_fix": "Make the template header's parameter names match the implementation/solution to remove ambiguity. Update template_repository/example_program/src/Bitmap24.hpp to declare: void set(int i_y, int i_x, char i_r, char i_g, char i_b); (or, alternatively, change the implementation to match the header). Also add a short comment in the header clarifying the parameter order (row/column or y/x) so callers know which coordinate is expected."
     }
   ]
 }

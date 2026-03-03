@@ -2,9 +2,9 @@
   "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/016",
   "issues": [
     {
-      "description": "Class name mismatch between header and implementation in the template repository: the header file example_program/src/Bitmap24.hpp declares the class as \"Image24\" but the implementation (Bitmap24.cpp) defines constructors and a destructor for \"Bitmap24\". The solution repository uses the class name \"Bitmap24\" in its header. This mismatch will cause immediate compilation/link errors (undefined symbols or duplicate/absent constructors) and will confuse students about the intended class name and API.",
+      "description": "The template header declares the image class as 'Image24' while the implementation and the solution use the name 'Bitmap24'. This mismatch (header: Image24 vs. implementation/solution: Bitmap24) breaks the conceptual mapping for the single image/bitmap entity: students reading the header will expect to use Image24, but all example code (main, Bitmap24.cpp) constructs and uses Bitmap24. This will cause compilation failure and unnecessary debugging time as students try to reconcile two different identifiers for the same entity.",
       "severity": "HIGH",
-      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
       "related_locations": [
         {
           "type": "TEMPLATE_REPOSITORY",
@@ -29,32 +29,6 @@
           "file_path": "example_program/src/Bitmap24.hpp",
           "start_line": 30,
           "end_line": 58
-        }
-      ],
-      "suggested_fix": "Make the type/name consistent. Update the template header to declare the class as 'Bitmap24' (instead of 'Image24') so its class name matches the implementation (constructors/destructor) and matches the solution. Concretely, change 'class Image24' to 'class Bitmap24' in example_program/src/Bitmap24.hpp and ensure constructor/destructor declarations there are 'Bitmap24()','Bitmap24(int,int)', and '~Bitmap24()'. This preserves the intended API and removes a compile-blocking structural error."
-    },
-    {
-      "description": "The template header declares the image class as 'Image24' while the implementation and the solution use the name 'Bitmap24'. This mismatch (header: Image24 vs. implementation/solution: Bitmap24) breaks the conceptual mapping for the single image/bitmap entity: students reading the header will expect to use Image24, but all example code (main, Bitmap24.cpp) constructs and uses Bitmap24. This will cause compilation failure and unnecessary debugging time as students try to reconcile two different identifiers for the same entity.",
-      "severity": "HIGH",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.hpp",
-          "start_line": 30,
-          "end_line": 38
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.cpp",
-          "start_line": 26,
-          "end_line": 31
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.hpp",
-          "start_line": 30,
-          "end_line": 38
         }
       ],
       "suggested_fix": "In the template header (example_program/src/Bitmap24.hpp) rename the class declaration from 'class Image24' to 'class Bitmap24' (and ensure include guards and any forward declarations match). This aligns the header with the implementation (Bitmap24.cpp) and the solution, removes the compilation/name-mapping mismatch, and makes the intended entity name consistent for students."

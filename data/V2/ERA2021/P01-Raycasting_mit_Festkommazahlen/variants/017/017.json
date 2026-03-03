@@ -2,32 +2,6 @@
   "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/017",
   "issues": [
     {
-      "description": "The Bitmap24 class header in the template declares a method named write(const std::string&), but the implementation (Bitmap24.cpp) defines Bitmap24::save(const std::string&). This name/signature mismatch exists in the template repository (header vs. cpp) and the solution repository uses save consistently. As a result, students who include the provided header and try to compile will get undefined reference / missing symbol errors (or a compile-time mismatch), preventing the example program from compiling and causing confusion about which API to implement/use.",
-      "severity": "HIGH",
-      "category": "METHOD_PARAMETER_MISMATCH",
-      "related_locations": [
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.hpp",
-          "start_line": 47,
-          "end_line": 49
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.cpp",
-          "start_line": 78,
-          "end_line": 160
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "example_program/src/Bitmap24.hpp",
-          "start_line": 47,
-          "end_line": 49
-        }
-      ],
-      "suggested_fix": "Make the header and implementation agree on the method name. Change the declaration in example_program/src/Bitmap24.hpp from write(const std::string&) to save(const std::string&) so it matches the implementation (Bitmap24::save) and the solution repository. Alternatively, rename the implementation to Bitmap24::write if you prefer that API, but prefer 'save' to match the solution and avoid confusing students."
-    },
-    {
       "description": "The Bitmap24 class method is declared as write(...) in the template header but implemented as save(...) in the template implementation (Bitmap24.cpp). The solution repository consistently uses save(...) in both header and implementation, and main.cpp calls bitmap.save(...). This naming mismatch in the template (write vs save) creates a practical compilation/linking error and prevents students from mapping the intended API (used in main.cpp and in the solution) to the template header — an avoidable and confusing inconsistency.",
       "severity": "HIGH",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",
