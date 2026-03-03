@@ -1,0 +1,37 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/008",
+  "issues": [
+    {
+      "description": "The solution's PersonResource constructor does not match the template/problem expectation: it takes a NoteService and sets the personService field to null. The template and the problem statement expect PersonResource to be constructed with a PersonService and assign it to the personService field. This mismatch will prevent proper wiring/usage of personService (NPEs or Spring bean injection failures) and confuses students comparing template code and the provided solution.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 124,
+          "end_line": 136
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 201,
+          "end_line": 208
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 10,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 19,
+          "end_line": 21
+        }
+      ],
+      "suggested_fix": "In the solution repository, change the PersonResource constructor to accept a PersonService and assign it to the personService field. For example:\n\npublic PersonResource(PersonService personService) {\n    this.personService = personService;\n}\n\nEnsure the correct import for PersonService is present. This will align the solution with the template and the problem statement and allow proper bean injection and usage of personService."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+diff -ruN a/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java b/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java
+--- a/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java	2026-02-03 13:05:18
++++ b/solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java	2026-02-16 12:26:47
+@@ -20,13 +20,13 @@
+         this.personService = personService;
+     }
+ 
+-    @GetMapping("persons")
++    @GetMapping("people")
+     public ResponseEntity<List<Person>> getAllPersons(@RequestParam(value = "sortField", defaultValue = "ID") PersonSortingOptions.SortField sortField,
+                                                       @RequestParam(value = "sortingOrder", defaultValue = "ASCENDING") PersonSortingOptions.SortingOrder sortingOrder) {
+         return ResponseEntity.ok(personService.getAllPersons(new PersonSortingOptions(sortingOrder, sortField)));
+     }
+ 
+-    @PostMapping("persons")
++    @PostMapping("people")
+     public ResponseEntity<Person> createPerson(@RequestBody Person person) {
+         if (person.getId() != null) {
+             return ResponseEntity.badRequest().build();
+@@ -34,7 +34,7 @@
+         return ResponseEntity.ok(personService.savePerson(person));
+     }
+ 
+-    @PutMapping("persons/{personId}")
++    @PutMapping("people/{personId}")
+     public ResponseEntity<Person> updatePerson(@RequestBody Person updatedPerson, @PathVariable("personId") UUID personId) {
+         if (updatedPerson.getId() == null || !updatedPerson.getId().equals(personId)) {
+             return ResponseEntity.badRequest().build();
+@@ -42,7 +42,7 @@
+         return ResponseEntity.ok(personService.savePerson(updatedPerson));
+     }
+ 
+-    @DeleteMapping("persons/{personId}")
++    @DeleteMapping("people/{personId}")
+     public ResponseEntity<Void> deletePerson(@PathVariable("personId") UUID personId) {
+         personService.deletePerson(personId);
+         return ResponseEntity.noContent().build();

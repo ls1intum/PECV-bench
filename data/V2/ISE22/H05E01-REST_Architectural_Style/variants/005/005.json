@@ -1,0 +1,31 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/005",
+  "issues": [
+    {
+      "description": "The problem statement and the NoteResource use UUID path variables for resource IDs, but the solution's PersonResource.updatePerson uses a String for the @PathVariable personId. The problem statement explicitly refers to UUIDs for persons (e.g. \"Updates a valid Person based on the UUID\") and the NoteResource's update method accepts a UUID parameter. This inconsistency (UUID vs String) across comparable endpoints can confuse students about the expected type for the path variable and how to perform the ID comparison/validation; students will reasonably follow the NoteResource example and use UUID in their implementation, while the solution accepts a String, creating a mismatch in expectations and examples.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 128,
+          "end_line": 135
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 10,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 37,
+          "end_line": 43
+        }
+      ],
+      "suggested_fix": "Make the PersonResource.updatePerson endpoint use UUID for the @PathVariable (consistent with NoteResource and the problem statement). For example: change the method signature to updatePerson(@RequestBody Person updatedPerson, @PathVariable(\"personId\") UUID personId) and validate with updatedPerson.getId().equals(personId). This keeps endpoint typing consistent across resources and aligns with the exercise description."
+    }
+  ]
+}

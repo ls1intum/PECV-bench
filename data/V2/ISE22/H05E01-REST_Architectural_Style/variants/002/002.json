@@ -1,0 +1,31 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/002",
+  "issues": [
+    {
+      "description": "Return type inconsistency for the POST /persons endpoint: the problem statement specifies that creating a person returns the saved person in the HTTP response body (and the NoteResource follows the pattern of using ResponseEntity for endpoints). In the solution, PersonResource#createPerson is implemented as `public Person createPerson(@RequestBody Person person)` and returns `null` on invalid input instead of returning a ResponseEntity with an appropriate HTTP status (e.g. 400 Bad Request). This deviates from the style and response handling used for NoteResource (which returns ResponseEntity and uses ResponseEntity.badRequest().build() for invalid input). The inconsistency can confuse students about the expected controller method signature and response handling (ResponseEntity vs raw entity), and it may lead to different HTTP status behavior than shown elsewhere in the repository.",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 114
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/NoteResource.java",
+          "start_line": 30,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
+          "end_line": 35
+        }
+      ],
+      "suggested_fix": "Make the createPerson endpoint consistent with the other resource methods and the described behavior: change the method signature to return ResponseEntity<Person> and return ResponseEntity.badRequest().build() on invalid input (when person.getId() != null), otherwise return ResponseEntity.ok(personService.savePerson(person)). This aligns the POST /persons implementation with the NoteResource pattern and clarifies expected HTTP status handling."
+    }
+  ]
+}

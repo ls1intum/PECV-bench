@@ -1,0 +1,43 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/014",
+  "issues": [
+    {
+      "description": "The solution repository changes the visibility of PersonService.savePerson(...) from public (as in the template) to private, while PersonResource in the solution still calls personService.savePerson(...). This is a structural visibility mismatch: a private method cannot be called from another class, so the solution as shown is internally inconsistent and contradicts the template/problem expectation that REST resources forward actions to the service. Students comparing template and solution will be confused (and the solution code, as presented, would not compile).",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 124,
+          "end_line": 136
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 206,
+          "end_line": 210
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 18,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 20,
+          "end_line": 33
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
+          "end_line": 43
+        }
+      ],
+      "suggested_fix": "Make the savePerson(Person) method in PersonService public (restore its visibility to match the template and allow other classes, such as PersonResource, to call it), or alternatively expose a public method in PersonService that PersonResource can call. This will restore consistency between template, problem statement (which expects resources to forward to the service), and the solution implementation and avoid compilation errors."
+    }
+  ]
+}

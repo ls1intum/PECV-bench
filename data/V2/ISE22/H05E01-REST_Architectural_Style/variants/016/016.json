@@ -1,0 +1,43 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/016",
+  "issues": [
+    {
+      "description": "The conceptual Person attribute 'first name' is referred to with different identifiers across artifacts. The Problem Statement and the Template Repository define the Person attribute as 'firstName' (with corresponding getFirstName/setFirstName semantics), while the Solution Repository's Person model uses the identifier 'givenName' (getGivenName/setGivenName). This inconsistency breaks the one-to-one mapping students expect between the described domain (Person.firstName), the starter code, and the reference solution; it also leads to internal mismatches inside the solution (services and controllers call setFirstName/getFirstName while the solution Person model exposes setGivenName/getGivenName), creating unnecessary confusion and likely compilation/runtime issues if students compare template and solution.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 168,
+          "end_line": 175
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 6,
+          "end_line": 11
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 6,
+          "end_line": 11
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 27,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
+          "start_line": 123,
+          "end_line": 126
+        }
+      ],
+      "suggested_fix": "Unify the identifier for the Person 'first name' across all artifacts. Preferably rename the Solution Repository's field and accessors from 'givenName' / getGivenName()/setGivenName(...) to 'firstName' / getFirstName()/setFirstName(...), so the solution matches the Problem Statement and the Template. Alternatively, change template and problem references to 'givenName' everywhere (less desirable). Ensure all usages in services, controllers, and views use the same accessor names."
+    }
+  ]
+}

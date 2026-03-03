@@ -1,0 +1,31 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/017",
+  "issues": [
+    {
+      "description": "The problem statement (Part 1) explicitly asks students to implement a method named `createPerson` on the server side, but the solution's server REST controller implements the POST handler under the name `addPerson`. The template PersonResource is a stub (no method), so students following the textual instruction looking for or implementing `createPerson` may find a mismatch when comparing to the reference solution. This inconsistent naming (createPerson vs addPerson) for the same conceptual operation (POST /persons — create a new Person) can cause unnecessary confusion when students map the written tasks to the server implementation and to the provided solution (especially since the Note endpoints use `createNote` on the server).",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 128,
+          "end_line": 129
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/NoteResource.java",
+          "start_line": 30,
+          "end_line": 36
+        }
+      ],
+      "suggested_fix": "Align the identifier used for the server-side POST handler across artifacts. Either (A) rename the solution's `addPerson` method to `createPerson` to match the problem statement (and keep `createNote` for notes), or (B) update the problem statement to instruct implementing `addPerson` instead of `createPerson`. Apply the same naming convention consistently for similar operations (e.g., use `createX` or `addX` uniformly) to reduce cognitive load."
+    }
+  ]
+}

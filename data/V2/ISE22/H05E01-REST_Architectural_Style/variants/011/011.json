@@ -1,0 +1,55 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/011",
+  "issues": [
+    {
+      "description": "Mismatch in the data type of Person.id across artifacts. The problem statement's UML and the template repository define Person.id as a UUID, and the server-side services/controllers expect UUID (e.g. PersonService and PersonResource use UUID and UUID.randomUUID()). However, the solution repository's common Person class defines id as Long. This creates a compile-time/type incompatibility (e.g., PersonService in the solution calls person.setId(UUID.randomUUID()) while Person.setId expects a Long) and would confuse students about the intended id type and how to implement/consume the API.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 110,
+          "end_line": 114
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 168,
+          "end_line": 175
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 6,
+          "end_line": 20
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 18,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 6,
+          "end_line": 20
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 20,
+          "end_line": 33
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 37,
+          "end_line": 46
+        }
+      ],
+      "suggested_fix": "Unify the Person.id type across all artifacts. Prefer aligning with the problem statement and template (UUID): change the solution repository's common Person class to use UUID for id (private UUID id; with corresponding getter/setter). Ensure all usages (PersonService, PersonResource, client-side code) work with UUID. Alternatively, if Long was intentional, update the template and problem statement to state Long and change all server/client code to use Long consistently — but the least disruptive and clearer fix is to make the solution Person.id a UUID to match the template and specification."
+    }
+  ]
+}

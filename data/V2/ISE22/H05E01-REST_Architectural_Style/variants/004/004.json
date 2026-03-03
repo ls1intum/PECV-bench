@@ -1,0 +1,43 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/004",
+  "issues": [
+    {
+      "description": "In the solution repository, PersonService.deletePerson accepts a Person object (public void deletePerson(Person person)), but the server-side API (and the problem statement) define the DELETE endpoint as DELETE /persons/{personId} which passes a UUID path variable. The solution's PersonResource.deletePerson method calls personService.deletePerson(personId) (passing a UUID). This creates a parameter-type mismatch between the controller and the service in the solution, and also conflicts with the template/service expectation (template PersonService.deletePerson(UUID)). Students following the problem statement and template would implement and call deletePerson(UUID), but the solution shows a different service signature. This inconsistency is structural and would cause compilation/runtime errors or confusion when comparing template, problem description, and the reference solution.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 112,
+          "end_line": 113
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 132,
+          "end_line": 135
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 33,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 35,
+          "end_line": 37
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 49
+        }
+      ],
+      "suggested_fix": "Make the service signature consistent with the API and template. Change PersonService.deletePerson in the solution to accept a UUID (public void deletePerson(UUID personId)) and remove the person by ID (e.g., persons.removeIf(p -> p.getId().equals(personId))). Alternatively, change PersonResource.deletePerson to resolve a Person instance and pass that to the service, but the simpler and clearer fix is to revert the service method to accept UUID so it aligns with DELETE /persons/{personId} and the template."
+    }
+  ]
+}

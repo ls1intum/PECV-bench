@@ -1,0 +1,35 @@
+diff -ruN a/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java b/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java
+--- a/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java	2026-02-03 13:05:18
++++ b/solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java	2026-02-16 12:25:20
+@@ -36,29 +36,7 @@
+         this.persons.removeIf(person -> person.getId().equals(personId));
+     }
+ 
+-    public List<Person> getAllPersons(PersonSortingOptions sortingOptions) {
+-        if (sortingOptions == null) {
+-            return new ArrayList<>(this.persons);
+-        }
+-        var sortedList = new ArrayList<>(this.persons);
+-        sortedList.sort((p1, p2) -> {
+-            Person person1;
+-            Person person2;
+-            if (sortingOptions.getSortingOrder() == ASCENDING) {
+-                person1 = p1;
+-                person2 = p2;
+-            } else {
+-                person1 = p2;
+-                person2 = p1;
+-            }
+-
+-            return switch (sortingOptions.getSortField()) {
+-                case ID -> person1.getId().compareTo(person2.getId());
+-                case FIRST_NAME -> person1.getFirstName().compareTo(person2.getFirstName());
+-                case LAST_NAME -> person1.getLastName().compareTo(person2.getLastName());
+-                case BIRTHDAY -> person1.getBirthday().compareTo(person2.getBirthday());
+-            };
+-        });
+-        return sortedList;
++    public List<Person> getAllPersons() {
++        return new ArrayList<>(this.persons);
+     }
+ }
