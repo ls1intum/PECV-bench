@@ -2,44 +2,6 @@
   "case_id": "ERA2021/H03-Grafikspeicher/017",
   "issues": [
     {
-      "description": "The solution file declares the screen buffer under the symbol 'screen_buffer' but the code in the solution (and the problem statement/template) refer to 'display_start'. This name mismatch creates an undefined symbol (display_start) in the solution, preventing the program from assembling/linking and confusing students about which symbol to use for the screen base address. The problem statement and template expect the label display_start, while the solution's .bss uses a different name.",
-      "severity": "HIGH",
-      "category": "ATTRIBUTE_TYPE_MISMATCH",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 30,
-          "end_line": 33
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/pixel.asm",
-          "start_line": 20,
-          "end_line": 21
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/pixel.asm",
-          "start_line": 4,
-          "end_line": 6
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/pixel.asm",
-          "start_line": 29,
-          "end_line": 30
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/pixel.asm",
-          "start_line": 94,
-          "end_line": 99
-        }
-      ],
-      "suggested_fix": "Make the symbol name consistent. Change the declaration in the solution .bss from 'screen_buffer RESB 8294400' to 'display_start RESB 8294400' (or conversely change all references of 'display_start' to 'screen_buffer' in solution and template and update the problem statement). Prefer aligning the solution to the template/problem by renaming 'screen_buffer' -> 'display_start' so the declared base label matches the expected name."
-    },
-    {
       "description": "The problem statement and the template refer to the framebuffer start as 'display_start', but the solution's .bss section defines the buffer as 'screen_buffer'. This names the same conceptual entity (start of the screen/display memory) differently across artifacts. Additionally, the solution code still references 'display_start' in instructions (e.g. add eax, display_start and mov esi, display_start) while its .bss defines 'screen_buffer', which is inconsistent and likely to confuse students and may cause build/link errors. This mismatch makes it harder for students to map the problem description to the provided solution and template.",
       "severity": "HIGH",
       "category": "IDENTIFIER_NAMING_INCONSISTENCY",

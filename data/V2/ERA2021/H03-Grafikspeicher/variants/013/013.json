@@ -4,32 +4,6 @@
     {
       "description": "The solution defines the subroutine with the label \".set_pixel:\" (leading dot) but the program calls set_pixel (no leading dot). The template provides a set_pixel: stub while the solution uses a differently named label. This name mismatch will prevent the call from resolving correctly (assembler/linker will not find the expected symbol), making the solution non-working and confusing students who compare template and solution.",
       "severity": "HIGH",
-      "category": "METHOD_PARAMETER_MISMATCH",
-      "related_locations": [
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/pixel.asm",
-          "start_line": 36,
-          "end_line": 38
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/pixel.asm",
-          "start_line": 19,
-          "end_line": 34
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/pixel.asm",
-          "start_line": 143,
-          "end_line": 148
-        }
-      ],
-      "suggested_fix": "Use the same symbol name in solution and template. Rename the solution label to set_pixel: (remove the leading dot) or change the call sites to call .set_pixel consistently and ensure symbol visibility (add a matching global directive if needed). This keeps the solution consistent with the template and the main routine."
-    },
-    {
-      "description": "The problem statement requires that only EAX may be changed by the set_pixel subroutine (\"Außer dem Register eax dürfen keine anderen Registerinhalte verändert werden\"). The template contains a comment near the position-calculation TODO that says to save all registers you modify except eax, ebx and esi (i.e. implying eax, ebx and esi need not be preserved). This contradicts the problem text about which registers must be preserved and could confuse students about whether EBX/ESI must be preserved across the call.",
-      "severity": "MEDIUM",
       "category": "VISIBILITY_MISMATCH",
       "related_locations": [
         {
@@ -41,26 +15,6 @@
         {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "template_repository/pixel.asm",
-          "start_line": 99,
-          "end_line": 102
-        }
-      ],
-      "suggested_fix": "Make the register-preservation requirement consistent. Either update the template comment to match the problem statement (clarify that only EAX may be changed and all other registers must be preserved, so save/restore EBX/ESI if you modify them) or adjust the problem statement if the intended rule allows preserving/excluding EBX/ESI. Prefer keeping the problem statement wording and correcting the template comment to avoid student confusion."
-    },
-    {
-      "description": "The problem statement and the template refer to a subroutine named 'set_pixel' (students are instructed to implement set_pixel). In the solution the subroutine is defined as '.set_pixel' (leading dot). This is an identifier-name mismatch for the same conceptual entity (the pixel-setting subroutine). The difference is likely unintentional and will confuse students mapping the requirement to the solution (and may cause the 'call set_pixel' sites to not clearly correspond to the defined label).",
-      "severity": "HIGH",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 30,
-          "end_line": 33
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/pixel.asm",
           "start_line": 36,
           "end_line": 38
         },
@@ -69,9 +23,21 @@
           "file_path": "solution_repository/pixel.asm",
           "start_line": 19,
           "end_line": 34
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 147,
+          "end_line": 147
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 100,
+          "end_line": 101
         }
       ],
-      "suggested_fix": "Make the subroutine name consistent across all artifacts. Rename the solution label '.set_pixel' to 'set_pixel' (remove the leading dot), or alternatively update all call sites and the template/problem to use '.set_pixel'—prefer the former so the solution matches the problem/template. Also ensure the symbol visibility (add global if needed) so calls resolve correctly."
+      "suggested_fix": "Use the same symbol name in solution and template. Rename the solution label to set_pixel: (remove the leading dot) or change the call sites to call .set_pixel consistently and ensure symbol visibility (add a matching global directive if needed). This keeps the solution consistent with the template and the main routine."
     }
   ]
 }

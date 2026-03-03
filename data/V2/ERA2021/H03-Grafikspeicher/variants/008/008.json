@@ -1,4 +1,19 @@
 {
   "case_id": "ERA2021/H03-Grafikspeicher/008",
-  "issues": []
+  "issues": [
+    {
+      "description": "The test utility macro ALIGN_STACK introduces an extra 'sub esp, 4' offset. This causes the stack to be misaligned relative to the standard 16-byte alignment expected by the system and described in the macro comments, leading to potential crashes during C library calls like printf.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TESTS_REPOSITORY",
+          "file_path": "tests/io.inc",
+          "start_line": 50,
+          "end_line": 50
+        }
+      ],
+      "suggested_fix": "Remove the 'sub esp, 4' instruction within the ALIGN_STACK macro to restore proper 16-byte alignment."
+    }
+  ]
 }

@@ -2,32 +2,6 @@
   "case_id": "ERA2021/H03-Grafikspeicher/015",
   "issues": [
     {
-      "description": "The solution file declares a different program entry symbol (global _start) than the template (global main). The template expects 'main' as the global entry point while the solution adds 'global _start' (but still contains a 'main' label). This difference could confuse students about which symbol to use/run and about the expected project entry point (especially when assembling/running with different toolchains).",
-      "severity": "LOW",
-      "category": "VISIBILITY_MISMATCH",
-      "related_locations": [
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/pixel.asm",
-          "start_line": 30,
-          "end_line": 30
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/pixel.asm",
-          "start_line": 14,
-          "end_line": 14
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/pixel.asm",
-          "start_line": 36,
-          "end_line": 36
-        }
-      ],
-      "suggested_fix": "Make the solution use the same global directive as the template (remove or change 'global _start' to 'global main') or update the template and instructions to consistently expect the same entry symbol. Ensure the repository and any run instructions/documentation consistently reference the same entry point."
-    },
-    {
       "description": "There is an ambiguity / conflicting guidance about which registers are allowed to be clobbered. The problem statement (subtask b) explicitly requires that set_pixel must not change any register contents except EAX. However, the template's comment at the calculation TODO says: 'save all registers you modify except eax,ebx and esi', which could be read as allowing code to clobber EBX or ESI without saving. This inconsistency between the problem specification and the template comment may confuse students about whether ESI/EBX must be preserved by subroutines (in particular set_pixel).",
       "severity": "MEDIUM",
       "category": "VISIBILITY_MISMATCH",
@@ -47,8 +21,8 @@
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/pixel.asm",
-          "start_line": 19,
-          "end_line": 34
+          "start_line": 14,
+          "end_line": 14
         }
       ],
       "suggested_fix": "Clarify the template comment so it is unambiguous which scope it applies to (the main/calculation code vs. the set_pixel subroutine). Explicitly state that the set_pixel subroutine must preserve all registers except EAX (or explicitly list which registers it may clobber) and that any temporary registers used in main's address calculation should be saved/restored as needed. Update the template comment near the TODO to reflect this requirement to avoid student confusion."
