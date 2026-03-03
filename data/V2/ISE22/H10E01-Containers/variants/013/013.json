@@ -1,0 +1,49 @@
+{
+  "case_id": "ISE22/H10E01-Containers/013",
+  "issues": [
+    {
+      "description": "The visibility of PersonService::addParent differs between template and solution: the template and the problem statement expect addParent to be a public service method (students are instructed to implement it and tests/controllers call it), but the solution repository declares addParent as private. This is a structural inconsistency because both the REST controller (PersonResource) and unit tests call personService.addParent(...) — making the method private would prevent compilation/use and confuses students about the intended visibility of the API they must implement.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 99,
+          "end_line": 107
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 43
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 66
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 46
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 66
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 72,
+          "end_line": 76
+        }
+      ],
+      "suggested_fix": "Make the addParent method public in the solution (change 'private Person addParent(...)' to 'public Person addParent(...)') so its visibility matches the template, the problem description, the REST controller, and the tests. Ensure the method signature remains identical (parameters and return type) across template and solution."
+    }
+  ]
+}

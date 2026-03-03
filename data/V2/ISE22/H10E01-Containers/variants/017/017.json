@@ -1,0 +1,55 @@
+{
+  "case_id": "ISE22/H10E01-Containers/017",
+  "issues": [
+    {
+      "description": "The problem statement and the template code refer to a PersonService method named addParent(Person, Person) (this is the API students are expected to implement and call). In the solution implementation the method is named registerParent(Person, Person) instead of addParent. Meanwhile the REST resource and the solution tests still call addParent. This naming divergence between the solution implementation and the expected API (problem + template + tests) creates a direct mapping/confusion for students and may cause compilation/test failures or uncertainty about which method to implement/override.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 98,
+          "end_line": 106
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 46
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 66
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 74,
+          "end_line": 74
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+          "start_line": 93,
+          "end_line": 97
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 107,
+          "end_line": 112
+        }
+      ],
+      "suggested_fix": "Make the solution's service API name consistent with the problem statement and template. Rename registerParent(Person, Person) in solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java to addParent(Person, Person) (keeping the same behavior and signature). Alternatively, add a public addParent(Person, Person) method that delegates to registerParent(...) so that PersonResource and the tests can call addParent while preserving any internal naming preference."
+    }
+  ]
+}

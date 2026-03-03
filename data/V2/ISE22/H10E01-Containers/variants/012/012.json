@@ -1,0 +1,43 @@
+{
+  "case_id": "ISE22/H10E01-Containers/012",
+  "issues": [
+    {
+      "description": "The Person.firstName attribute has conflicting types between the template and the solution. In the template Person.java the field is declared as String (e.g., private String firstName;), and all tests and the problem description treat firstName as a String (setFirstName(\"Max\")). However, in the solution repository Person.java the firstName field is declared as an int (private int firstName;), while its getter/setter and other code still expect a String. This is a structural type mismatch that will cause compilation errors in the solution, and will confuse students because the solution does not match the template/tests' expected data type for firstName.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 24,
+          "end_line": 26
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 24,
+          "end_line": 27
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 30,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 34,
+          "end_line": 37
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+          "start_line": 80,
+          "end_line": 88
+        }
+      ],
+      "suggested_fix": "Make the Person.firstName attribute type consistent with the template and tests by changing the solution's declaration from int to String (private String firstName;). Ensure the getter and setter signatures and their return/parameter types match String, and update equals/hashCode if necessary. This aligns the solution with the template/tests and resolves the compilation mismatch."
+    }
+  ]
+}

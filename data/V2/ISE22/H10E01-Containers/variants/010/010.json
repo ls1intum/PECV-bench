@@ -1,0 +1,49 @@
+{
+  "case_id": "ISE22/H10E01-Containers/010",
+  "issues": [
+    {
+      "description": "Attribute type mismatch for Person.birthday in the solution repository: the field is declared as String in solution/src/main/java/.../Person.java, while the template and tests expect LocalDate (template field is LocalDate; getters/setters and service/tests use LocalDate). Within the solution Person class the field type (String) conflicts with the getter/setter signatures (which use LocalDate), and other solution classes (PersonService and tests) call LocalDate methods on person.getBirthday(). This will cause compilation errors and prevents students from running or following the intended implementation.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 77,
+          "end_line": 83
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 77,
+          "end_line": 83
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 21,
+          "end_line": 26
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+          "start_line": 79,
+          "end_line": 89
+        }
+      ],
+      "suggested_fix": "Make the birthday attribute type consistent with the template and tests by changing the field in solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java from String to java.time.LocalDate (i.e., 'private LocalDate birthday;'). Ensure the getter and setter signatures return/accept LocalDate and imports remain correct. This aligns the solution code with the template and tests and fixes the compile/runtime errors."
+    }
+  ]
+}

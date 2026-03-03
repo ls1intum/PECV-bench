@@ -1,0 +1,25 @@
+{
+  "case_id": "ISE22/H10E01-Containers/007",
+  "issues": [
+    {
+      "description": "The no-arg constructor 'public Person() {}' is explicitly declared in the template's Person class (template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java line 51), but has been removed from the solution repository's Person class (solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java). A student using the solution as the authoritative reference for their implementation would not include an explicit no-arg constructor. This is especially problematic because the @Entity annotation requires a no-arg constructor for JPA/Hibernate to instantiate objects, and Jackson requires it for JSON deserialization — both of which are active in this Spring Boot application. Although Java implicitly provides a default no-arg constructor when no other constructors are defined (so no immediate compilation failure occurs), the inconsistency between the template (which correctly documents this JPA requirement) and the solution (which omits it) leaves students confused about whether the constructor is needed and undermines the pedagogical intent of making the JPA constraint visible.",
+      "severity": "MEDIUM",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 51,
+          "end_line": 51
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 49,
+          "end_line": 51
+        }
+      ],
+      "suggested_fix": "Restore the explicit no-arg constructor in solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java by inserting 'public Person() {}' after the children field declaration (between the closing of the children Set field and the getId() method), matching the template. This aligns with JPA/Hibernate and Jackson requirements for @Entity classes."
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "case_id": "ISE22/H10E01-Containers/018",
+  "issues": [
+    {
+      "description": "The GET endpoint for listing persons is mapped to different path strings across artifacts: the template PersonResource defines the GET mapping as \"persons\" (GET /persons), while the solution PersonResource defines it as \"people\" (GET /people). The problem statement and the tests refer to endpoints under \"/persons\" (e.g., PUT /persons/{personId}/parents). This mismatch of the same conceptual endpoint name (list all Person resources) creates mapping confusion for students: they will expect to use /persons based on the problem description and tests but the solution implementation uses /people, or vice versa.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 24
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 126
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 27,
+          "end_line": 30
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 27,
+          "end_line": 30
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+          "start_line": 49,
+          "end_line": 53
+        }
+      ],
+      "suggested_fix": "Make the endpoint path consistent across all artifacts. The least intrusive fix is to change the solution PersonResource @GetMapping from \"people\" to \"persons\" so it matches the template, the problem statement, and the tests (i.e., use @GetMapping(\"persons\")). Alternatively, update the problem statement and tests to use \"/people\" everywhere, but prefer aligning the solution to the existing templates/tests to avoid extra student confusion."
+    }
+  ]
+}

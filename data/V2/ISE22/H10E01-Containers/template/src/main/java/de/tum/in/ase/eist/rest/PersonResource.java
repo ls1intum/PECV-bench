@@ -60,14 +60,16 @@ public class PersonResource {
     @PutMapping(path = "persons/{personId}/parents", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Person> addParent(@RequestBody Person parent, @PathVariable("personId") Long personId) {
         var person = personService.getById(personId).orElseThrow(() -> new ResponseStatusException(NOT_FOUND));
-        person = personService.addParent(person, parent);
+        var persistedParent = personService.getById(parent.getId()).orElseThrow(() -> new ResponseStatusException(NOT_FOUND));
+        person = personService.addParent(person, persistedParent);
         return ResponseEntity.ok(person);
     }
 
     @PutMapping(path = "persons/{personId}/children", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Person> addChild(@RequestBody Person child, @PathVariable("personId") Long personId) {
         var person = personService.getById(personId).orElseThrow(() -> new ResponseStatusException(NOT_FOUND));
-        person = personService.addChild(person, child);
+        var persistedChild = personService.getById(child.getId()).orElseThrow(() -> new ResponseStatusException(NOT_FOUND));
+        person = personService.addChild(person, persistedChild);
         return ResponseEntity.ok(person);
     }
 

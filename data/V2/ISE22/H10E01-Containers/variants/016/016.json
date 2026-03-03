@@ -1,0 +1,49 @@
+{
+  "case_id": "ISE22/H10E01-Containers/016",
+  "issues": [
+    {
+      "description": "The template Person entity uses the field name 'firstName' to represent a person's given name, while the solution Person entity declares this attribute as 'forename'. This is a direct identifier mismatch for the same conceptual property (the person's first/given name). The inconsistency is visible because other code (getters/setters and tests) in the solution still reference 'firstName' while the field is declared as 'forename', increasing confusion and likely causing compilation/runtime errors. Students reading the problem/template expect and use 'firstName' but the solution repository introduces a different identifier for the same concept.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 24,
+          "end_line": 25
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 24,
+          "end_line": 25
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 61,
+          "end_line": 67
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+          "start_line": 45,
+          "end_line": 47
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 101,
+          "end_line": 112
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 62,
+          "end_line": 74
+        }
+      ],
+      "suggested_fix": "Make the identifier consistent across artifacts. Rename the field 'forename' in solution_repository/src/main/java/de/tum/in/ase/eist/model/Person.java to 'firstName' (and update any internal references) so it matches the template, getters/setters, and tests. Alternatively (less recommended), update all uses of 'firstName' (getters/setters/tests) to consistently use 'forename' across template, tests, and documentation — but the simpler fix is to align the solution field name to 'firstName'."
+    }
+  ]
+}

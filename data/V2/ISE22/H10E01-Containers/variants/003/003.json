@@ -1,0 +1,25 @@
+{
+  "case_id": "ISE22/H10E01-Containers/003",
+  "issues": [
+    {
+      "description": "The controller method for creating a person (POST /persons) has a different return type in the template and the solution. In the template PersonResource.createPerson returns ResponseEntity<Person> and returns the saved entity (lines 37-43). In the solution PersonResource.createPerson is declared void and does not return the saved Person (lines 37-43). This mismatch can confuse students when they compare their controller implementation to the reference solution and when they expect a saved Person object in the HTTP response body (e.g., in integration tests or when chaining requests).",
+      "severity": "LOW",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 37,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 37,
+          "end_line": 43
+        }
+      ],
+      "suggested_fix": "Align the controller method signatures between template and solution. Choose one consistent return type and use it in both repositories. Recommended: have createPerson return ResponseEntity<Person> (the saved entity) in both template and solution so clients/tests can consume the created resource. Alternatively, document the void behavior clearly and update the template and tests accordingly."
+    }
+  ]
+}
