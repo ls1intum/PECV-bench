@@ -22,7 +22,7 @@
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
           "start_line": 20,
-          "end_line": 31
+          "end_line": 33
         },
         {
           "type": "SOLUTION_REPOSITORY",
@@ -32,38 +32,6 @@
         }
       ],
       "suggested_fix": "Make the service API consistent with the controller and the problem statement. Restore PersonService.savePerson to return a Person (similar to NoteService.saveNote) and return the created or updated Person. Concretely, change the signature in PersonService to 'public Person savePerson(Person person)' and at the end of the method return the newly created person (when adding) or the updated existingPerson (when updating). This aligns the service with PersonResource.createPerson (which returns the saved Person) and matches the exercise description."
-    },
-    {
-      "description": "The PersonService.savePerson API is inconsistent across artifacts: the template defines savePerson(Person) returning a Person (template/service), the problem statement and endpoint spec require POST /persons to return the saved Person (problem_statement.md), but the solution's PersonService implements savePerson(Person) as void while PersonResource in the solution still calls personService.savePerson(...) in a context that expects a returned Person. This mismatches the expected data flow (service should return the saved Person) and creates confusion for students about what the service method should return and how the controller should use it. It may also lead to compilation/runtime mismatch in the solution code and prevents a clear mapping from the POST /persons requirement to the service implementation.",
-      "severity": "HIGH",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
-        {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 109,
-          "end_line": 114
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
-          "start_line": 18,
-          "end_line": 31
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
-          "start_line": 20,
-          "end_line": 31
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
-          "start_line": 29,
-          "end_line": 35
-        }
-      ],
-      "suggested_fix": "Make the PersonService.savePerson method consistent with the template and the endpoint contract: change its signature in the solution to return a Person (e.g., public Person savePerson(Person person)) and return the newly created or updated Person. This aligns the service API with the POST /persons requirement (response body contains saved person) and removes the mismatch with PersonResource which expects a returned Person."
     }
   ]
 }
