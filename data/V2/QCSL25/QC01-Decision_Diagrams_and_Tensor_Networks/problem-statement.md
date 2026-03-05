@@ -26,7 +26,7 @@ You have the following tasks:
 
 [task][1. Create zero state](test_dd_zero_state)
 
-Implement the function '`create_zero_state`' that returns a DD corresponding to the zero state $$|0\dots0\rangle$$ of an $$N$$-qubit system.
+Implement the function '`dd_create_zero_state`' that returns a DD corresponding to the zero state $$|0\dots0\rangle$$ of an $$N$$-qubit system.
 
 [task][2. Create single qubit gate](test_single_qubit_gate)
 
@@ -47,15 +47,15 @@ Implement the function '`multiply`' to multiply two given DDs.
 
 [task][6. Get amplitude](test_dd_get_amplitude)
 
-Implement the function '`get_amplitude`' to return the amplitude corresponding to the given bitstring.
+Implement the function '`dd_get_amplitude`' to return the amplitude corresponding to the given bitstring.
 
 [task][7. Measure](test_dd_measure_all)
 
-Implement the function '`measure`' to measure all qubits in the computational basis repeatedly and to return the number of times each result was measured.
+Implement the function '`dd_measure_all`' to measure all qubits in the computational basis repeatedly and to return the number of times each result was measured.
 
 [task][8. Simulate the GHZ state](test_dd_simulate_ghz_state)
 
-Implement the function '`simulate_ghz_state`' to simulate a circuit to create an $$N$$-qubit $$GHZ$$ state.
+Implement the function '`dd_simulate_ghz_state`' to simulate a circuit to create an $$N$$-qubit $$GHZ$$ state.
 
 # Tensor Networks
 
@@ -79,8 +79,7 @@ Implement the function `create_zero_state` to return an $$MPS$$ corresponding to
 
 [task][2. Create nearest-neighbor two qubit gate](test_nearest_neighbor_two_qubit_gate)
 
-Implement the function `create_nearest_neighbor_two_qubit_gate` to create a tensor representation of a two-qubit gate on the
-specified qubits with the specified gate matrix. Use `np.reshape` here.
+Implement the function `create_nearest_neighbor_two_qubit_gate` that creates a two-qubit gate `W` from a given gate matrix. Use `np.reshape` here.
 
 [task][3. Apply single qubit gate](test_apply_single_qubit_gate)
 
@@ -88,7 +87,7 @@ Implement the function `apply_single_qubit_gate` to apply a single-qubit gate to
 
 [task][4. Apply two qubit gate](test_apply_two_qubit_gate)
 
-Implement the function `apply_single_qubit_gate` to apply a two-qubit gate to an $$MPS$$. It should act directly on the $$MPS$$ list. Use `np.einsum` as explained in the lecture.
+Implement the function `apply_two_qubit_gate` to apply a two-qubit gate to an $$MPS$$. It should act directly on the $$MPS$$ list. Use `np.einsum` as explained in the lecture.
 
 [task][5. Get amplitude](test_get_amplitude)
 

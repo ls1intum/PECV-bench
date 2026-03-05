@@ -1,123 +1,122 @@
 {
-	"type": "programming",
-	"id": 16972,
-	"title": "QC01 - Decision Diagrams and Tensor Networks",
-	"shortName": "ddandtn",
-	"maxPoints": 50.0,
-	"bonusPoints": 0.0,
-	"assessmentType": "AUTOMATIC",
-	"releaseDate": "2025-06-04T09:00:00Z",
-	"startDate": "2025-06-04T09:00:00Z",
-	"dueDate": "2025-06-10T21:59:00Z",
-	"difficulty": "MEDIUM",
-	"mode": "INDIVIDUAL",
-	"allowComplaintsForAutomaticAssessments": false,
-	"allowFeedbackRequests": false,
-	"includedInOverallScore": "INCLUDED_COMPLETELY",
-	"problemStatement": "# Decision Diagrams Simulation\n\nThroughout this exercise, we will be implementing a statevector simulator for\nquantum circuits. This simulator will be based on decision diagrams, and will\nimplement the basic functionality of a quantum computer. This will be used\nto simulate the creation of GHZ states, which are generalizations of the Bell\nstates.\n\nNote:\n\n- The qubit ordering is assumed to be $$q_{N-1} \\dots q_1 q_0$$, i.e., the least\nsignificant qubit is the rightmost one. Any computational basis state $$|i\\rangle$$\nis represented by the bitstring $$i$$ in big-endian form. For example, the\nstate |100> would be represented by the bitstring '$$100$$', i.e., the value $$4$$.\nIn that case, $$q_2 = 1$$, $$q_1 = 0$$, and $$q_0 = 0$$.\n\n- The basic functionality for working with decision diagrams is already\nimplemented in `dd.py`. You should not need to modify that file. However,\nyou should read it carefully to understand the basic functionality of\ndecision diagrams.\nThroughout this exercise, you should use the functions defined in `dd.py`\nto create and manipulate decision diagrams. You should not directly\nmanipulate the `DD` class or the `DDNode` class.\n\nYou have the following tasks:\n\n[task][1. Create zero state](test_dd_zero_state)\n\nImplement the function '`create_zero_state`' that returns a DD corresponding to the zero state $$|0\\dots0\\rangle$$ of an $$N$$-qubit system.\n\n[task][2. Create single qubit gate](test_single_qubit_gate)\n\nImplement the function '`create_single_qubit_gate`' \nto create a DD representation of a single-qubit gate on the specified target qubit with the specified gate matrix in an $$N$$-qubit system.\n\n[task][3. Create controlled single qubit gate](test_controlled_gate)\n\nImplement the function '`create_controlled_single_qubit_gate`' to create a DD representation of the controlled version of a single-qubit gate on the specified control and target qubits with the specified gate matrix in an $$N$$-qubit system.\n\n[task][4. Add two DDs](test_addition)\n\nImplement the function '`add`' to add two given DDs. This is required as part of multiplying DDs.\n\n[task][5. Multiply two DDs](test_multiplication)\n\nImplement the function '`multiply`' to multiply two given DDs.\n\n[task][6. Get amplitude](test_dd_get_amplitude)\n\nImplement the function '`get_amplitude`' to return the amplitude corresponding to the given bitstring.\n\n[task][7. Measure](test_dd_measure_all)\n\nImplement the function '`measure`' to measure all qubits in the computational basis repeatedly and to return the number of times each result was measured.\n\n[task][8. Simulate the GHZ state](test_dd_simulate_ghz_state)\n\nImplement the function '`simulate_ghz_state`' to simulate a circuit to create an $$N$$-qubit $$GHZ$$ state.\n\n# Tensor Networks\n\nThroughout this exercise, we will be implementing a tensor network simulator for\nquantum circuits. This will be used to simulate the creation of $$GHZ$$ states,\nwhich are generalizations of the Bell states.\n\n*Note*:\n    \n- The qubit ordering is assumed to be $$q_{N-1} \\dots q_1 q_0$$, i.e., the least\nsignificant qubit is the rightmost one. Any computational basis state $$|i\\rangle$$\nis represented by the bitstring $$i$$ in big-endian form. For example, the\nstate |100> would be represented by the bitstring '$$100$$', i.e., the value $$4$$.\nIn that case, $$q_2 = 1$$, $$q_1 = 0$$, and $$q_0 = 0$$.\n\nYou have the following tasks:\n\n[task][1. Create zero state](test_zero_state)\n\nImplement the function `create_zero_state` to return an $$MPS$$ corresponding to the zero state $$|0\\dots0\\rangle$$ of an $$n$$-qubit system. Note that the final shape of a site should be (1,2,1), i.e. trivial bond dimension and the physical dimension in the middle.\n\n[task][2. Create nearest-neighbor two qubit gate](test_nearest_neighbor_two_qubit_gate)\n\nImplement the function `create_nearest_neighbor_two_qubit_gate` to create a tensor representation of a two-qubit gate on the\nspecified qubits with the specified gate matrix. Use `np.reshape` here.\n\n[task][3. Apply single qubit gate](test_apply_single_qubit_gate)\n\nImplement the function `apply_single_qubit_gate` to apply a single-qubit gate to an $$MPS$$. It should act directly on the $$MPS$$ list. Use `np.einsum` as explained in the lecture.\n\n[task][4. Apply two qubit gate](test_apply_two_qubit_gate)\n\nImplement the function `apply_single_qubit_gate` to apply a two-qubit gate to an $$MPS$$. It should act directly on the $$MPS$$ list. Use `np.einsum` as explained in the lecture.\n\n[task][5. Get amplitude](test_get_amplitude)\n\nImplement the function `get_amplitude` to return the amplitude corresponding to a given bitstring.\n\n[task][6. Measure all](test_measure_all)\n\nImplement the function `measure_all` to measure all qubits in the computational basis repeatedly and\n    return the number of times each result was measured.\n\n[task][7. Simulate GHZ](test_simulate_ghz_state)\n\nImplement the function `simulate_ghz_state` to simulate a circuit to create an $$n$$-qubit $$GHZ$$ state.",
-	"presentationScoreEnabled": false,
-	"secondCorrectionEnabled": false,
-	"course": {
-		"id": 437,
-		"title": "Quantum Computing Software Lab",
-		"shortName": "qcsl25",
-		"studentGroupName": "artemis-qcsl25-students",
-		"teachingAssistantGroupName": "artemis-qcsl25-tutors",
-		"editorGroupName": "artemis-qcsl25-editors",
-		"instructorGroupName": "artemis-qcsl25-instructors",
-		"startDate": "2025-03-31T22:00:00Z",
-		"endDate": "2025-09-30T21:59:00Z",
-		"semester": "SS25",
-		"testCourse": false,
-		"defaultProgrammingLanguage": "PYTHON",
-		"onlineCourse": false,
-		"courseInformationSharingConfiguration": "COMMUNICATION_AND_MESSAGING",
-		"courseInformationSharingMessagingCodeOfConduct": "<!-- Code of Conduct Template: Adapt to your demands -->\n<!-- Important: This template will directly be shown on the iOS and Android client if a course has no explicit code of conduct set. -->\n\nWe as students, tutors, and instructors pledge to make participation in our course a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.\n\nWe pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.\n\n## Our Standards\n\n### Examples of behavior that contributes to a positive environment for our community include:\n\n- Demonstrating empathy and kindness toward other people\n- Being respectful of differing opinions, viewpoints, and experiences\n- Giving and gracefully accepting constructive feedback\n- Accepting responsibility and apologizing to those affected by our mistakes, and learning from the experience\n- Focusing on what is best not just for us as individuals, but for the overall community\n\n### Examples of unacceptable behavior include:\n\n- The use of sexualized language or imagery, and sexual attention or advances of any kind\n- Trolling, insulting or derogatory comments, and personal or political attacks\n- Public or private harassment\n- Publishing others' private information, such as a physical or email address, without their explicit permission\n- Other conduct which could reasonably be considered inappropriate in a professional setting\n\n## Scope\n\nThis Code of Conduct applies within all messages channels.\n\n## Reporting\n\nEach course is represented by instructors. If you see inappropriate behavior or content, please report it.\nYou may find a list of contacts responsible for this course below.\n\n<!-- The responsible users are automatically compiled from the course's instructors -->\n",
-		"maxComplaints": 3,
-		"maxTeamComplaints": 3,
-		"maxComplaintTimeDays": 7,
-		"maxRequestMoreFeedbackTimeDays": 7,
-		"maxComplaintTextLimit": 2000,
-		"maxComplaintResponseTextLimit": 2000,
-		"color": "#ffd014",
-		"enrollmentEnabled": false,
-		"unenrollmentEnabled": false,
-		"faqEnabled": true,
-		"presentationScore": 0,
-		"accuracyOfScores": 1,
-		"restrictedAthenaModulesAccess": false,
-		"learningPathsEnabled": false,
-		"studentCourseAnalyticsDashboardEnabled": false,
-		"requestMoreFeedbackEnabled": true,
-		"complaintsEnabled": true,
-		"trainingEnabled": false
-	},
-	"plagiarismDetectionConfig": {
-		"continuousPlagiarismControlEnabled": false,
-		"continuousPlagiarismControlPostDueDateChecksEnabled": false,
-		"continuousPlagiarismControlPlagiarismCaseStudentResponsePeriod": 7,
-		"similarityThreshold": 90,
-		"minimumScore": 0,
-		"minimumSize": 50
-	},
-	"testRepositoryUri": "https://artemis.tum.de/git/QCSL25DDANDTN/qcsl25ddandtn-tests.git",
-	"allowOnlineEditor": true,
-	"allowOfflineIde": true,
-	"allowOnlineIde": false,
-	"staticCodeAnalysisEnabled": false,
-	"programmingLanguage": "PYTHON",
-	"showTestNamesToStudents": true,
-	"testCasesChanged": true,
-	"projectKey": "QCSL25DDANDTN",
-	"releaseTestsWithExampleSolution": false,
-	"buildConfig": {
-		"id": 16166,
-		"sequentialTestRuns": false,
-		"branch": "main",
-		"buildPlanConfiguration": "{\"api\":\"v0.0.1\",\"metadata\":{\"docker\":{\"image\":\"munichquantumtoolkit/teaching-gra-cycle-accurate:0.19\",\"parameters\":[\"--cpus\",\"\\\"2\\\"\",\"--memory\",\"\\\"2g\\\"\",\"--memory-swap\",\"\\\"2g\\\"\",\"--pids-limit\",\"\\\"1000\\\"\"]}},\"actions\":[{\"name\":\"build_and_test_the_code\",\"runAlways\":false,\"results\":[{\"name\":\"junit_test-reports/*results.xml\",\"path\":\"test-reports/*results.xml\",\"type\":\"junit\",\"before\":true}],\"parameters\":{},\"script\":\"python3 -m compileall . -q || error=true\\nif [ ! $error ]\\nthen\\n    pytest --junitxml=test-reports/results.xml\\nfi\"}]}",
-		"buildScript": "#!/usr/bin/env bash\nset -e\nexport AEOLUS_INITIAL_DIRECTORY=${PWD}\nbuild_and_test_the_code () {\n  echo '⚙️ executing build_and_test_the_code'\n  pip install --root-user-action=ignore -r requirements.txt\n  pip install --root-user-action=ignore pytest\n  python3 -m compileall . -q || error=true\n  if [ ! $error ]\n  then\n      pytest --junitxml=test-reports/results.xml\n  else\n      exit 1\n  fi\n}\n\njunit () {\n  echo '⚙️ executing junit'\n  #empty script action, just for the results\n}\n\nfinal_aeolus_post_action () {\n  set +e # from now on, we don't exit on errors\n  echo '⚙️ executing final_aeolus_post_action'\n  cd \"${AEOLUS_INITIAL_DIRECTORY}\"\n  junit\n}\n\nmain () {\n  if [[ \"${1}\" == \"aeolus_sourcing\" ]]; then\n    return 0 # just source to use the methods in the subshell, no execution\n  fi\n  local _script_name\n  _script_name=${BASH_SOURCE[0]:-$0}\n  trap final_aeolus_post_action EXIT\n\n  cd \"${AEOLUS_INITIAL_DIRECTORY}\"\n  bash -c \"source ${_script_name} aeolus_sourcing; build_and_test_the_code\"\n}\n\nmain \"${@}\"",
-		"checkoutSolutionRepository": false,
-		"timeoutSeconds": 0,
-		"allowBranching": false,
-		"windfile": {
-			"api": "v0.0.1",
-			"metadata": {
-				"docker": {
-					"image": "munichquantumtoolkit/teaching-gra-cycle-accurate:0.19",
-					"parameters": [
-						"--cpus",
-						"\"2\"",
-						"--memory",
-						"\"2g\"",
-						"--memory-swap",
-						"\"2g\"",
-						"--pids-limit",
-						"\"1000\""
-					]
-				}
-			},
-			"actions": [
-				{
-					"name": "build_and_test_the_code",
-					"results": [
-						{
-							"name": "junit_test-reports/*results.xml",
-							"path": "test-reports/*results.xml",
-							"type": "junit",
-							"before": true
-						}
-					],
-					"runAlways": false,
-					"script": "python3 -m compileall . -q || error=true\nif [ ! $error ]\nthen\n    pytest --junitxml=test-reports/results.xml\nfi"
-				}
-			]
-		}
-	},
-	"type": "programming",
-	"exerciseType": "programming",
-	"defaultTestCaseVisibility": "ALWAYS",
-	"studentAssignedTeamIdComputed": false,
-	"gradingInstructionFeedbackUsed": false,
-	"visibleToStudents": true,
-	"teamMode": false
+    "type": "programming",
+    "id": null,
+    "title": "0 - QC01 - Decision Diagrams and Tensor Networks",
+    "shortName": "QC01DecisionDiagramsandTensorNetworks0",
+    "maxPoints": 50.0,
+    "bonusPoints": 0.0,
+    "assessmentType": "AUTOMATIC",
+    "releaseDate": "2025-06-04T09:00:00Z",
+    "startDate": "2025-06-04T09:00:00Z",
+    "dueDate": "2025-06-10T21:59:00Z",
+    "difficulty": "MEDIUM",
+    "mode": "INDIVIDUAL",
+    "allowComplaintsForAutomaticAssessments": false,
+    "allowFeedbackRequests": false,
+    "includedInOverallScore": "INCLUDED_COMPLETELY",
+    "problemStatement": "# Decision Diagrams Simulation\n\nThroughout this exercise, we will be implementing a statevector simulator for\nquantum circuits. This simulator will be based on decision diagrams, and will\nimplement the basic functionality of a quantum computer. This will be used\nto simulate the creation of GHZ states, which are generalizations of the Bell\nstates.\n\nNote:\n\n- The qubit ordering is assumed to be $$q_{N-1} \\dots q_1 q_0$$, i.e., the least\nsignificant qubit is the rightmost one. Any computational basis state $$|i\\rangle$$\nis represented by the bitstring $$i$$ in big-endian form. For example, the\nstate |100> would be represented by the bitstring '$$100$$', i.e., the value $$4$$.\nIn that case, $$q_2 = 1$$, $$q_1 = 0$$, and $$q_0 = 0$$.\n\n- The basic functionality for working with decision diagrams is already\nimplemented in `dd.py`. You should not need to modify that file. However,\nyou should read it carefully to understand the basic functionality of\ndecision diagrams.\nThroughout this exercise, you should use the functions defined in `dd.py`\nto create and manipulate decision diagrams. You should not directly\nmanipulate the `DD` class or the `DDNode` class.\n\nYou have the following tasks:\n\n[task][1. Create zero state](test_dd_zero_state)\n\nImplement the function '`dd_create_zero_state`' that returns a DD corresponding to the zero state $$|0\\dots0\\rangle$$ of an $$N$$-qubit system.\n\n[task][2. Create single qubit gate](test_single_qubit_gate)\n\nImplement the function '`create_single_qubit_gate`' \nto create a DD representation of a single-qubit gate on the specified target qubit with the specified gate matrix in an $$N$$-qubit system.\n\n[task][3. Create controlled single qubit gate](test_controlled_gate)\n\nImplement the function '`create_controlled_single_qubit_gate`' to create a DD representation of the controlled version of a single-qubit gate on the specified control and target qubits with the specified gate matrix in an $$N$$-qubit system.\n\n[task][4. Add two DDs](test_addition)\n\nImplement the function '`add`' to add two given DDs. This is required as part of multiplying DDs.\n\n[task][5. Multiply two DDs](test_multiplication)\n\nImplement the function '`multiply`' to multiply two given DDs.\n\n[task][6. Get amplitude](test_dd_get_amplitude)\n\nImplement the function '`dd_get_amplitude`' to return the amplitude corresponding to the given bitstring.\n\n[task][7. Measure](test_dd_measure_all)\n\nImplement the function '`dd_measure_all`' to measure all qubits in the computational basis repeatedly and to return the number of times each result was measured.\n\n[task][8. Simulate the GHZ state](test_dd_simulate_ghz_state)\n\nImplement the function '`dd_simulate_ghz_state`' to simulate a circuit to create an $$N$$-qubit $$GHZ$$ state.\n\n# Tensor Networks\n\nThroughout this exercise, we will be implementing a tensor network simulator for\nquantum circuits. This will be used to simulate the creation of $$GHZ$$ states,\nwhich are generalizations of the Bell states.\n\n*Note*:\n    \n- The qubit ordering is assumed to be $$q_{N-1} \\dots q_1 q_0$$, i.e., the least\nsignificant qubit is the rightmost one. Any computational basis state $$|i\\rangle$$\nis represented by the bitstring $$i$$ in big-endian form. For example, the\nstate |100> would be represented by the bitstring '$$100$$', i.e., the value $$4$$.\nIn that case, $$q_2 = 1$$, $$q_1 = 0$$, and $$q_0 = 0$$.\n\nYou have the following tasks:\n\n[task][1. Create zero state](test_zero_state)\n\nImplement the function `create_zero_state` to return an $$MPS$$ corresponding to the zero state $$|0\\dots0\\rangle$$ of an $$n$$-qubit system. Note that the final shape of a site should be (1,2,1), i.e. trivial bond dimension and the physical dimension in the middle.\n\n[task][2. Create nearest-neighbor two qubit gate](test_nearest_neighbor_two_qubit_gate)\n\nImplement the function `create_nearest_neighbor_two_qubit_gate` that creates a two-qubit gate `W` from a given gate matrix. Use `np.reshape` here.\n\n[task][3. Apply single qubit gate](test_apply_single_qubit_gate)\n\nImplement the function `apply_single_qubit_gate` to apply a single-qubit gate to an $$MPS$$. It should act directly on the $$MPS$$ list. Use `np.einsum` as explained in the lecture.\n\n[task][4. Apply two qubit gate](test_apply_two_qubit_gate)\n\nImplement the function `apply_two_qubit_gate` to apply a two-qubit gate to an $$MPS$$. It should act directly on the $$MPS$$ list. Use `np.einsum` as explained in the lecture.\n\n[task][5. Get amplitude](test_get_amplitude)\n\nImplement the function `get_amplitude` to return the amplitude corresponding to a given bitstring.\n\n[task][6. Measure all](test_measure_all)\n\nImplement the function `measure_all` to measure all qubits in the computational basis repeatedly and\n    return the number of times each result was measured.\n\n[task][7. Simulate GHZ](test_simulate_ghz_state)\n\nImplement the function `simulate_ghz_state` to simulate a circuit to create an $$n$$-qubit $$GHZ$$ state.",
+    "presentationScoreEnabled": false,
+    "secondCorrectionEnabled": false,
+    "course": {
+        "id": 1,
+        "title": "Quantum Computing Software Lab",
+        "shortName": "qcsl25",
+        "studentGroupName": "artemis-qcsl25-students",
+        "teachingAssistantGroupName": "artemis-qcsl25-tutors",
+        "editorGroupName": "artemis-qcsl25-editors",
+        "instructorGroupName": "artemis-qcsl25-instructors",
+        "startDate": "2025-03-31T22:00:00Z",
+        "endDate": "2025-09-30T21:59:00Z",
+        "semester": "SS25",
+        "testCourse": false,
+        "defaultProgrammingLanguage": "PYTHON",
+        "onlineCourse": false,
+        "courseInformationSharingConfiguration": "COMMUNICATION_AND_MESSAGING",
+        "courseInformationSharingMessagingCodeOfConduct": "<!-- Code of Conduct Template: Adapt to your demands -->\n<!-- Important: This template will directly be shown on the iOS and Android client if a course has no explicit code of conduct set. -->\n\nWe as students, tutors, and instructors pledge to make participation in our course a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.\n\nWe pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.\n\n## Our Standards\n\n### Examples of behavior that contributes to a positive environment for our community include:\n\n- Demonstrating empathy and kindness toward other people\n- Being respectful of differing opinions, viewpoints, and experiences\n- Giving and gracefully accepting constructive feedback\n- Accepting responsibility and apologizing to those affected by our mistakes, and learning from the experience\n- Focusing on what is best not just for us as individuals, but for the overall community\n\n### Examples of unacceptable behavior include:\n\n- The use of sexualized language or imagery, and sexual attention or advances of any kind\n- Trolling, insulting or derogatory comments, and personal or political attacks\n- Public or private harassment\n- Publishing others' private information, such as a physical or email address, without their explicit permission\n- Other conduct which could reasonably be considered inappropriate in a professional setting\n\n## Scope\n\nThis Code of Conduct applies within all messages channels.\n\n## Reporting\n\nEach course is represented by instructors. If you see inappropriate behavior or content, please report it.\nYou may find a list of contacts responsible for this course below.\n\n<!-- The responsible users are automatically compiled from the course's instructors -->\n",
+        "maxComplaints": 3,
+        "maxTeamComplaints": 3,
+        "maxComplaintTimeDays": 7,
+        "maxRequestMoreFeedbackTimeDays": 7,
+        "maxComplaintTextLimit": 2000,
+        "maxComplaintResponseTextLimit": 2000,
+        "color": "#ffd014",
+        "enrollmentEnabled": false,
+        "unenrollmentEnabled": false,
+        "faqEnabled": true,
+        "presentationScore": 0,
+        "accuracyOfScores": 1,
+        "restrictedAthenaModulesAccess": false,
+        "learningPathsEnabled": false,
+        "studentCourseAnalyticsDashboardEnabled": false,
+        "requestMoreFeedbackEnabled": true,
+        "complaintsEnabled": true,
+        "trainingEnabled": false
+    },
+    "plagiarismDetectionConfig": {
+        "continuousPlagiarismControlEnabled": false,
+        "continuousPlagiarismControlPostDueDateChecksEnabled": false,
+        "continuousPlagiarismControlPlagiarismCaseStudentResponsePeriod": 7,
+        "similarityThreshold": 90,
+        "minimumScore": 0,
+        "minimumSize": 50
+    },
+    "testRepositoryUri": "https://artemis.tum.de/git/QCSL25DDANDTN/qcsl25ddandtn-tests.git",
+    "allowOnlineEditor": true,
+    "allowOfflineIde": true,
+    "allowOnlineIde": false,
+    "staticCodeAnalysisEnabled": false,
+    "programmingLanguage": "PYTHON",
+    "showTestNamesToStudents": true,
+    "testCasesChanged": true,
+    "projectKey": "0qcsl25QC01DecisionDiagramsandTensorNetworks0",
+    "releaseTestsWithExampleSolution": false,
+    "buildConfig": {
+        "id": 16166,
+        "sequentialTestRuns": false,
+        "branch": "main",
+        "buildPlanConfiguration": "{\"api\":\"v0.0.1\",\"metadata\":{\"docker\":{\"image\":\"munichquantumtoolkit/teaching-gra-cycle-accurate:0.19\",\"parameters\":[\"--cpus\",\"\\\"2\\\"\",\"--memory\",\"\\\"2g\\\"\",\"--memory-swap\",\"\\\"2g\\\"\",\"--pids-limit\",\"\\\"1000\\\"\"]}},\"actions\":[{\"name\":\"build_and_test_the_code\",\"runAlways\":false,\"results\":[{\"name\":\"junit_test-reports/*results.xml\",\"path\":\"test-reports/*results.xml\",\"type\":\"junit\",\"before\":true}],\"parameters\":{},\"script\":\"python3 -m compileall . -q || error=true\\nif [ ! $error ]\\nthen\\n    pytest --junitxml=test-reports/results.xml\\nfi\"}]}",
+        "buildScript": "#!/usr/bin/env bash\nset -e\nexport AEOLUS_INITIAL_DIRECTORY=${PWD}\nbuild_and_test_the_code () {\n  echo '\u2699\ufe0f executing build_and_test_the_code'\n  pip install --root-user-action=ignore -r requirements.txt\n  pip install --root-user-action=ignore pytest\n  python3 -m compileall . -q || error=true\n  if [ ! $error ]\n  then\n      pytest --junitxml=test-reports/results.xml\n  else\n      exit 1\n  fi\n}\n\njunit () {\n  echo '\u2699\ufe0f executing junit'\n  #empty script action, just for the results\n}\n\nfinal_aeolus_post_action () {\n  set +e # from now on, we don't exit on errors\n  echo '\u2699\ufe0f executing final_aeolus_post_action'\n  cd \"${AEOLUS_INITIAL_DIRECTORY}\"\n  junit\n}\n\nmain () {\n  if [[ \"${1}\" == \"aeolus_sourcing\" ]]; then\n    return 0 # just source to use the methods in the subshell, no execution\n  fi\n  local _script_name\n  _script_name=${BASH_SOURCE[0]:-$0}\n  trap final_aeolus_post_action EXIT\n\n  cd \"${AEOLUS_INITIAL_DIRECTORY}\"\n  bash -c \"source ${_script_name} aeolus_sourcing; build_and_test_the_code\"\n}\n\nmain \"${@}\"",
+        "checkoutSolutionRepository": false,
+        "timeoutSeconds": 0,
+        "allowBranching": false,
+        "windfile": {
+            "api": "v0.0.1",
+            "metadata": {
+                "docker": {
+                    "image": "munichquantumtoolkit/teaching-gra-cycle-accurate:0.19",
+                    "parameters": [
+                        "--cpus",
+                        "\"2\"",
+                        "--memory",
+                        "\"2g\"",
+                        "--memory-swap",
+                        "\"2g\"",
+                        "--pids-limit",
+                        "\"1000\""
+                    ]
+                }
+            },
+            "actions": [
+                {
+                    "name": "build_and_test_the_code",
+                    "results": [
+                        {
+                            "name": "junit_test-reports/*results.xml",
+                            "path": "test-reports/*results.xml",
+                            "type": "junit",
+                            "before": true
+                        }
+                    ],
+                    "runAlways": false,
+                    "script": "python3 -m compileall . -q || error=true\nif [ ! $error ]\nthen\n    pytest --junitxml=test-reports/results.xml\nfi"
+                }
+            ]
+        }
+    },
+    "exerciseType": "programming",
+    "defaultTestCaseVisibility": "ALWAYS",
+    "studentAssignedTeamIdComputed": false,
+    "gradingInstructionFeedbackUsed": false,
+    "visibleToStudents": true,
+    "teamMode": false
 }

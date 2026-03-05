@@ -1,0 +1,37 @@
+{
+  "case_id": "QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/005",
+  "issues": [
+    {
+      "description": "Parameter order for create_controlled_single_qubit_gate is inconsistent between the template implementation and the problem/specification/solution. The top-level docstring/specification and the reference solution use the order (num_qubits, control, target, gate_matrix), but the template function is declared as (num_qubits, target, control, gate_matrix). This mismatch will confuse students (which argument is control vs target) and will cause assertion checks and internal logic to use the wrong qubit indices if they follow the specification or the solution examples.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd_simulation.py",
+          "start_line": 13,
+          "end_line": 13
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd_simulation.py",
+          "start_line": 153,
+          "end_line": 155
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/dd_simulation.py",
+          "start_line": 164,
+          "end_line": 166
+        }
+      ],
+      "suggested_fix": "Make the template function signature match the specification and the solution: change the template declaration to def create_controlled_single_qubit_gate(num_qubits: int, control: int, target: int, gate_matrix: NDArray[np.complex128]) -> DD: and update any internal references accordingly (e.g., asserts and variable usage). Alternatively, update the top-level docstring/specification to use (num_qubits, target, control, ...) if the template's order was intentional — but prefer changing the template to (num_qubits, control, target, ...) to align with the problem description and reference solution."
+    }
+  ]
+}

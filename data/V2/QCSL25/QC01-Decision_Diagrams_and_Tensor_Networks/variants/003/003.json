@@ -1,0 +1,31 @@
+{
+  "case_id": "QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/003",
+  "issues": [
+    {
+      "description": "The problem statement (top-level tasks) instructs students that dd_get_amplitude should \"return the probability corresponding to the given bitstring as a float\" (a real probability), while both the template dd_simulation.py and the solution implement/describe dd_get_amplitude as returning the amplitude (a complex number). This is a return-type / semantic mismatch: students reading the problem text will implement/expect a probability (float), but the template function and the reference solution operate with complex amplitudes. This discrepancy can confuse students and lead to incorrect implementations or failing tests.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 48,
+          "end_line": 50
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd_simulation.py",
+          "start_line": 355,
+          "end_line": 386
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/dd_simulation.py",
+          "start_line": 381,
+          "end_line": 422
+        }
+      ],
+      "suggested_fix": "Make the specification consistent with the template and solution. Either (A) change the problem statement to request that dd_get_amplitude return the complex amplitude for the given bitstring (and note that the measurement probability is |amplitude|^2), or (B) if the intent was to return a probability, update the template and solution to return a float probability (e.g., np.abs(amplitude)**2) and adjust all uses/tests accordingly. Option A is recommended because the template and reference solution already implement and use amplitudes."
+    }
+  ]
+}

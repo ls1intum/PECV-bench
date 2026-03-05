@@ -121,7 +121,7 @@ def apply_two_qubit_gate(state: list[NDArray[np.complex128]], gate: NDArray[np.c
     # Create new tensors and update MPS
 
 
-def get_amplitude(state: list[NDArray[np.complex128]], bitstring: str) -> NDArray[np.complex128]:
+def get_amplitude(state: list[NDArray[np.complex128]], bitstring: str) -> np.complex128:
     """
     This function returns the amplitude corresponding to a given bitstring.
 

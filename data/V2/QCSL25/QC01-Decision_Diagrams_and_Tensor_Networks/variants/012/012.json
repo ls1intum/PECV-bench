@@ -1,0 +1,25 @@
+{
+  "case_id": "QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/012",
+  "issues": [
+    {
+      "description": "In the template dd.py, the ComputeTable.table attribute is annotated as a list type (list[tuple[DD, DD, DDOperation, DD]]) but the implementation initializes and uses it as a dictionary (self.table = {}; lookup/insert expect dict semantics). This annotation is inconsistent with the code and with the reference solution, where ComputeTable.table is correctly annotated as dict[tuple[DD, DD, DDOperation], DD]. The incorrect annotation in the template can confuse students reading type hints and may lead to static type-checker warnings.",
+      "severity": "LOW",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd.py",
+          "start_line": 226,
+          "end_line": 230
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/dd.py",
+          "start_line": 226,
+          "end_line": 230
+        }
+      ],
+      "suggested_fix": "Update the template annotation to match the intended dictionary usage. Change the ComputeTable.table annotation in template_repository/dd.py from list[tuple[DD, DD, DDOperation, DD]] to dict[tuple[DD, DD, DDOperation], DD] (as in the solution). This aligns type hints with the runtime behavior and the reference solution, avoiding confusion and static type-checker errors."
+    }
+  ]
+}

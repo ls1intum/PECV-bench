@@ -1,0 +1,49 @@
+{
+  "case_id": "QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/007",
+  "issues": [
+    {
+      "description": "The template's dd.py dataclass for DDNode declares the fields in the order (successors, v) but the rest of the template (and the solution) construct DDNode using positional arguments in the order (v, successors) and also instantiate the terminal as DDNode(-1, []). This mismatch between the dataclass field order and how the class is used (including TERM = DDNode(-1, []), and make_dd calling DDNode(v, successors)) will assign incorrect types to the fields, break assumptions (e.g., node.v being an int), and cause runtime/type errors. Students will be blocked or confused because the provided foundational file dd.py is internally inconsistent and cannot be used as intended without correction.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "dd.py",
+          "start_line": 137,
+          "end_line": 138
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "dd.py",
+          "start_line": 269,
+          "end_line": 274
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "dd.py",
+          "start_line": 372,
+          "end_line": 411
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "dd.py",
+          "start_line": 137,
+          "end_line": 138
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "dd.py",
+          "start_line": 269,
+          "end_line": 274
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 17,
+          "end_line": 23
+        }
+      ],
+      "suggested_fix": "Make the DDNode dataclass field order consistent with its usage. Change the DDNode declaration in the template to list the qubit index first and successors second (e.g., 'v: int' then 'successors: list[DD]'), matching how DDNode(v, successors) and TERM = DDNode(-1, []) are used elsewhere. Alternatively, use keyword arguments for all DDNode constructions (e.g., DDNode(v=-1, successors=[])) throughout the file. The simplest fix is to reorder the dataclass fields to match the solution's declaration so dd.py is internally consistent and aligns with the exercise text that students should not need to modify dd.py."
+    }
+  ]
+}
