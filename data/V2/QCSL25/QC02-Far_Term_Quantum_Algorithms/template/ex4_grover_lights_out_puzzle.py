@@ -56,7 +56,7 @@ class GroverLightsOutPuzzle:
         tile_register: QuantumRegister,
         auxiliary_register: QuantumRegister,
     ) -> QuantumCircuit:
-        """Exercise 4.3: Apply the oracle for the 2 x 2 Kakuro riddle
+        """Exercise 4.3: Apply the oracle for the 2 x 2 Lights Out puzzle
         Args:
             qc: The quantum circuit
             flip_register: The flip register

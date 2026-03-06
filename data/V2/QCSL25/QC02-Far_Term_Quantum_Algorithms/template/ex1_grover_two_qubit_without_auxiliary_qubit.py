@@ -64,5 +64,5 @@ class GroverTwoQubitWithoutAuxiliaryQubit:
         """
         self.qc = self.grover_circuit(self.qc, self.query_register)
         print(self.qc.draw("text"), "\n")
-        outputstate = self.simulate(self.qc, self.query_register)
+        outputstate = self.simulate(self.qc)
         print(f"Ψ: {outputstate}")

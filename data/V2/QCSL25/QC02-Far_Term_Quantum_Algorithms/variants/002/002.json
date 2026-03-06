@@ -1,0 +1,31 @@
+{
+  "case_id": "QCSL25/QC02-Far_Term_Quantum_Algorithms/002",
+  "issues": [
+    {
+      "description": "Return type annotation for the simulate() method in the Exercise 2 template (GroverMultiQubitWithAuxiliaryQubit) conflicts with the problem statement and the solution. The problem statement (Exercise 2.6) asks students to return simulation counts (a histogram/dictionary of measurement results). The template's simulate() method is annotated to return list[complex], which suggests a statevector, and therefore is inconsistent with the stated task and with the solution implementation that returns a dict[str,int]. This mismatch can confuse students about what to implement and may lead to type errors or incorrect test expectations (and affects subclasses that inherit this method).",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 136,
+          "end_line": 137
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+          "start_line": 89,
+          "end_line": 94
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+          "start_line": 125,
+          "end_line": 135
+        }
+      ],
+      "suggested_fix": "Update the template's simulate() method signature and docstring to match the problem statement and the solution: change the return type annotation from list[complex] to dict[str, int] (or typing.Mapping[str,int]) and document that students should reverse bits (qc = qc.reverse_bits()) and return measurement counts. Optionally, clarify which simulator to use (qasm_simulator for counts) or explicitly allow using statevector with a subsequent conversion to counts, and ensure the example solution uses a backend consistent with the documented return type."
+    }
+  ]
+}

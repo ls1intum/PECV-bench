@@ -9,7 +9,7 @@ class GroverKakuro:
         """Exercise 5.1: Initialize the quantum circuit with the correct number of qubits
         
         Think about how many qubits you need to represent all possible 2x2 Kakuro combinations 
-        (assume values 1–4 per cell) and what’s required for Grover’s algorithm to function properly. 
+        (assume binary values 0 or 1 per cell, one qubit per cell) and what’s required for Grover’s algorithm to function properly.
         Use a minimal number of qubits for the auxiliary register and enough classical bits to read out 
         the state of your solution candidates.
         

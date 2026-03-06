@@ -1,0 +1,31 @@
+{
+  "case_id": "QCSL25/QC02-Far_Term_Quantum_Algorithms/001",
+  "issues": [
+    {
+      "description": "Exercise 1 (two-qubit Grover) in the problem statement explicitly asks students to simulate the circuit and return the statevector (Exercise 1.6). The template's simulate method for this exercise is annotated to return dict[str, int] (counts) and its signature/docstring contradict this (it says return statevector in the docstring but the type hint suggests measurement counts). The reference solution's simulate actually returns a statevector (list[complex]). This mismatch between the template's type signature and the stated/expected return value can confuse students about what to implement (counts vs. statevector) and may lead to incorrect implementations or failing tests.",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 116,
+          "end_line": 116
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex1_grover_two_qubit_without_auxiliary_qubit.py",
+          "start_line": 52,
+          "end_line": 57
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex1_grover_two_qubit_without_auxiliary_qubit.py",
+          "start_line": 61,
+          "end_line": 70
+        }
+      ],
+      "suggested_fix": "Make the template's simulate method signature and docstring consistent with the problem statement and solution. Either change the type annotation to reflect a statevector return (e.g. -> list[complex] or -> Statevector) and update the docstring to state 'return the statevector', or if counts were intended, update the problem statement and the solution to request/return counts. Preferably update the template to: def simulate(self, qc: QuantumCircuit) -> list[complex]: and ensure the docstring clearly states 'return the statevector'."
+    }
+  ]
+}
