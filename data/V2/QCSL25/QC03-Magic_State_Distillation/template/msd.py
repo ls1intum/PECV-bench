@@ -118,7 +118,7 @@ def detect_errors(measurements: npt.NDArray[np.int8], checks: npt.NDArray[np.int
     raise NotImplementedError("detect_errors is not implemented.")
 
 
-def simulate_msd_one_round(n_shots, p: float):
+def simulate_msd_one_round(n_shots: int, p: float) -> tuple[float, float]:
     """Simulate one round of the |Y> state distillation protocol.
 
     Args:
@@ -131,7 +131,7 @@ def simulate_msd_one_round(n_shots, p: float):
     raise NotImplementedError("simulate_msd_one_round is not implemented.")
 
 
-def simulate_msd_two_rounds(n_shots, p: float, batch_size=1000000):
+def simulate_msd_two_rounds(n_shots: int, p: float, batch_size: int = 1000000) -> tuple[float, float]:
     """
     Simulate two rounds of the |Y> state distillation protocol in batches.
 

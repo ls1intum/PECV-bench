@@ -1,0 +1,37 @@
+{
+  "case_id": "QCSL25/QC03-Magic_State_Distillation/007",
+  "issues": [
+    {
+      "description": "The intended parameter order for correct_teleportation (teleportation_measurements, x_measurements) described in the problem statement and the template docstring is inconsistent with how the solution calls the function. The problem statement and template specify that the first argument is the array of teleportation measurements and the second is the X-basis measurements of the data qubit. In the solution, calls to correct_teleportation pass measurements[:, final] as the first argument and measurements[:, tele] as the second (i.e. the arguments are swapped). Although the current solution's implementation (XOR) happens to be symmetric and thus works despite the swap, this mismatch between the specification and usage is a structural inconsistency that can confuse students about the meaning and ordering of the inputs and how to use the function correctly.",
+      "severity": "MEDIUM",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 183,
+          "end_line": 186
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 123,
+          "end_line": 136
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 222,
+          "end_line": 236
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 292,
+          "end_line": 300
+        }
+      ],
+      "suggested_fix": "Make the parameter ordering unambiguous and consistent across all artifacts. Two options: (A) Keep the documented order (teleportation_measurements, x_measurements) and change all calls in the solution to call correct_teleportation(measurements[:, tele], measurements[:, final]); or (B) change the function docstring/signature to (x_measurements, teleportation_measurements) and update the template/problem text accordingly. Ensure the docstring, template signature, and all call sites in both simulate_msd_one_round and simulate_msd_two_rounds use the same order so students are not confused."
+    }
+  ]
+}

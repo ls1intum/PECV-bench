@@ -1,0 +1,37 @@
+{
+  "case_id": "QCSL25/QC03-Magic_State_Distillation/017",
+  "issues": [
+    {
+      "description": "The problem statement and solution use the function name simulate_msd_one_round(...) for simulating one round of MSD, but the template repository defines a stub named simulate_one_round(...). This cross-artifact name mismatch (simulate_one_round vs simulate_msd_one_round) breaks the conceptual mapping: students reading the problem will implement/expect simulate_msd_one_round, but the starter code exposes simulate_one_round and the template's plot_msd even calls simulate_msd_one_round (which doesn't exist in the template). This will cause confusion and likely runtime/name errors or failing tests, and forces students to reconcile two different names for the same core functionality.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 149,
+          "end_line": 151
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 121,
+          "end_line": 131
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 155,
+          "end_line": 155
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 198,
+          "end_line": 207
+        }
+      ],
+      "suggested_fix": "Make the function name consistent across all artifacts. Rename the template stub simulate_one_round(...) to simulate_msd_one_round(...) (matching the problem statement and solution). Also ensure plot_msd in the template calls the same name; alternatively, update the problem statement and solution to use simulate_one_round if that is preferred. Prefer keeping simulate_msd_one_round for clarity."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "case_id": "QCSL25/QC03-Magic_State_Distillation/003",
+  "issues": [
+    {
+      "description": "The template's detect_errors function signature returns list[int] whereas the problem statement and the solution expect/return a numpy ndarray of dtype int8. The template's docstring further claims it returns an npt.NDArray[np.int8], creating an internal contradiction in the template and a cross-artifact mismatch with the solution and spec. This mismatch can confuse students about the expected return type and may cause type/shape errors when students write code that interfaces with tests or other functions (which expect numpy arrays).",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 126,
+          "end_line": 133
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 109,
+          "end_line": 118
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 186,
+          "end_line": 195
+        }
+      ],
+      "suggested_fix": "Make the template's detect_errors signature and docstring consistent with the problem statement and solution. Change the return annotation to npt.NDArray[np.int8] (and adjust any docstring text accordingly), e.g.:\n\ndef detect_errors(measurements: npt.NDArray[np.int8], checks: npt.NDArray[np.int8]) -> npt.NDArray[np.int8]:\n    \"\"\"... Returns: npt.NDArray[np.int8] ... \"\"\"\n\nThis aligns the template with the specification and the reference implementation and avoids student confusion."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "case_id": "QCSL25/QC03-Magic_State_Distillation/006",
+  "issues": [
+    {
+      "description": "The problem statement (and the reference solution) specify simulate_msd_two_rounds should accept an optional batch_size parameter (simulate_msd_two_rounds(n_shots:int, p: float, batch_size:int = 1000000) -> tuple[float, float]). The template's function signature for simulate_msd_two_rounds omits the batch_size parameter (def simulate_msd_two_rounds(n_shots:int, p: float) -> tuple[float, float]). This parameter mismatch will confuse students implementing two-round simulation (the docstring in the template even documents batch_size), and prevents them from following the intended batching design expected by the problem and solution.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 167,
+          "end_line": 175
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 134,
+          "end_line": 146
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 240,
+          "end_line": 251
+        }
+      ],
+      "suggested_fix": "Make the template function signature match the problem statement and solution by adding the batch_size parameter with a default value. For example: def simulate_msd_two_rounds(n_shots: int, p: float, batch_size: int = 1000000) -> tuple[float, float]:. Alternatively, update the problem statement and solution to remove the batch_size parameter if batching is not intended."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "case_id": "QCSL25/QC03-Magic_State_Distillation/010",
+  "issues": [
+    {
+      "description": "The declared parameter order for correct_teleportation (teleportation_measurements, x_measurements) in the problem statement and template does not match how the function is invoked in the solution. The problem statement and template define the function as correct_teleportation(teleportation_measurements, x_measurements) (teleportation measurements first, X-basis measurements second), but the solution calls it with the arguments swapped (passing X-basis measurements first, teleportation measurements second). While the particular implementation in the solution (bitwise XOR) happens to be symmetric so it does not change runtime behavior, the mismatch between the declared parameter ordering and the call sites is an unintentional structural inconsistency that can confuse students implementing or using the function (they may implement the logic assuming one ordering and then see code using the other).",
+      "severity": "LOW",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 171,
+          "end_line": 173
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 134,
+          "end_line": 146
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 198,
+          "end_line": 207
+        }
+      ],
+      "suggested_fix": "Make the parameter ordering unambiguous across all artifacts. Either (A) update the problem statement and template docstring to indicate the order used in the solution (or state that ordering is irrelevant), and update the solution call sites to pass arguments in the declared order, or (B) change all call sites in the solution to pass (teleportation_measurements, x_measurements) to match the declared signature. If the operation is commutative (e.g. XOR), add a clarifying comment in the docstring stating this to avoid confusion."
+    }
+  ]
+}
