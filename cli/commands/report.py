@@ -20,7 +20,7 @@ from cli.reporting import (
     load_gold_issues,
     summarise_dataset,
 )
-from cli.utils import DATA_ROOT, PROJECT_ROOT, RESULTS_ROOT, RUNS_ROOT, add_version_flags, get_version, get_data_root
+from cli.utils import DATA_ROOT, PROJECT_ROOT, RESULTS_ROOT, RUNS_ROOT, get_data_root, infer_version_from_path
 
 
 MetricValue = Optional[float]
@@ -308,6 +308,8 @@ def _collect_run_stats(cases_dir: Path, version: str) -> tuple[StatsAccumulator,
         cost = _safe_number(
             cost_data.get("total_eur") or
             cost_data.get("totalEur") or
+            cost_data.get("total_usd") or
+            cost_data.get("totalUsd") or
             0
         )
 
@@ -479,14 +481,27 @@ class GroupAccumulator:
 
 
 def report_command(args: argparse.Namespace) -> int:
-    version = get_version(args)
-    benchmark = args.benchmark
-    results_root = _resolve_path(args.results_dir, RESULTS_ROOT)
-    runs_root = _resolve_path(args.runs_dir, RUNS_ROOT)
-
-    benchmark_root = results_root / version / benchmark
+    # --results-dir is the direct path to the benchmark directory
+    # e.g. results/V2/pecv-reference
+    benchmark_root = _resolve_path(args.results_dir, RESULTS_ROOT / "V1" / "pecv-reference")
     if not benchmark_root.exists():
-        raise FileNotFoundError(f"Benchmark results not found: {benchmark_root} (version {version})")
+        raise FileNotFoundError(f"Benchmark results not found: {benchmark_root}")
+
+    version = infer_version_from_path(benchmark_root)
+    benchmark = benchmark_root.name
+
+    # runs-dir: if not provided, derive from benchmark_root path
+    # e.g. results/V2/pecv-reference → runs/V2/pecv-reference
+    if args.runs_dir:
+        runs_root = _resolve_path(args.runs_dir, RUNS_ROOT)
+        runs_benchmark_dir = runs_root
+    else:
+        # Replace leading "results" component with "runs" in the path
+        try:
+            rel = benchmark_root.relative_to(RESULTS_ROOT)
+            runs_benchmark_dir = RUNS_ROOT / rel
+        except ValueError:
+            runs_benchmark_dir = RUNS_ROOT / version / benchmark
 
     aggregate_dir_name = args.aggregate_dir
     aggregate_root: Optional[Path] = None
@@ -514,7 +529,7 @@ def report_command(args: argparse.Namespace) -> int:
         overall_stats, per_exercise_stats = _collect_run_stats(cases_dir, version)
 
         run_id = run_dir.name
-        metadata_path = runs_root / version / benchmark / f"{run_id}.yaml"
+        metadata_path = runs_benchmark_dir / f"{run_id}.yaml"
         metadata = _load_run_metadata(metadata_path)
         args_meta = metadata.get("args") if isinstance(metadata, dict) else {}
         if not isinstance(args_meta, dict):
@@ -845,42 +860,41 @@ def report_command(args: argparse.Namespace) -> int:
 def register_subcommand(parser: argparse.ArgumentParser) -> None:
     import textwrap
 
-    # Add version flags first so they appear prominently in help/usage
-    add_version_flags(parser)
-
     parser.set_defaults(handler=report_command)
     parser.formatter_class = argparse.RawDescriptionHelpFormatter
     parser.description = textwrap.dedent("""
     Generate aggregate reports (JSON, Markdown, LaTeX) from benchmark execution results.
 
+    --results-dir is the full path to the benchmark results directory.
+    The version (V1, V2, …) is inferred from the path.
+
     Examples:
-      # Report for default V1 dataset and pecv-reference benchmark
+      # Report for V1 pecv-reference (default)
       pecv-bench report
 
-      # Report for V2 dataset
-      pecv-bench report --V2
+      # Report for V2 pecv-reference
+      pecv-bench report --results-dir results/V2/pecv-reference
 
-      # Report for a specific benchmark name (e.g., 'my-experiment' located in results/V1/my-experiment)
-      pecv-bench report --benchmark my-experiment
-
-      # Report specifying the runs directory explicitly
-      pecv-bench report --runs-dir runs/V1 --V1
+      # Report for a custom benchmark
+      pecv-bench report --results-dir results/V1/my-experiment
     """)
 
     parser.add_argument(
-        "--benchmark",
-        default="pecv-reference",
-        help="Benchmark name (directory name) under results/V{version}/. Do NOT provide a full path. (default: pecv-reference)",
-    )
-    parser.add_argument(
         "--results-dir",
-        default="results",
-        help="Root directory that holds benchmark results (default: results)",
+        default=None,
+        help=(
+            "Path to benchmark results directory, e.g. results/V2/pecv-reference "
+            "(default: results/V1/pecv-reference)"
+        ),
     )
     parser.add_argument(
         "--runs-dir",
-        default="runs",
-        help="Directory containing run metadata (default: runs)",
+        default=None,
+        help=(
+            "Directory containing run metadata. "
+            "If omitted, derived automatically from --results-dir "
+            "(e.g. results/V2/pecv-reference → runs/V2/pecv-reference)"
+        ),
     )
     parser.add_argument(
         "--aggregate-dir",

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import argparse
 import sys
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -26,7 +25,7 @@ def timestamp_slug(dt: datetime | None = None) -> str:
 
 
 def get_data_root(version: str = "V1") -> Path:
-    """Resolve the data root for a specific version (V1, V2)."""
+    """Resolve the data root for a specific version (V1, V2, ...)."""
     return DATA_ROOT / version
 
 
@@ -47,44 +46,69 @@ def ensure_runs_root() -> Path:
     return RUNS_ROOT
 
 
-def add_version_flags(parser: argparse.ArgumentParser) -> None:
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument("--V1", action="store_true", help="Use V1 dataset (default)")
-    group.add_argument("--V2", action="store_true", help="Use V2 dataset")
+def infer_version_from_path(path: Path) -> str:
+    """Extract a version token (V1, V2, ...) from any component of the path.
 
-
-def get_version(args: argparse.Namespace) -> str:
-    if hasattr(args, "V2") and args.V2:
-        return "V2"
+    Falls back to 'V1' if none is found.
+    """
+    for part in path.parts:
+        if part.startswith("V") and part[1:].isdigit():
+            return part
     return "V1"
 
 
 @dataclass
 class ExerciseIdentifier:
+    version: str
     course: str
     exercise: str
 
     @property
     def relative(self) -> str:
+        """Course/exercise path without version. Used for case_id construction."""
         return f"{self.course}/{self.exercise}"
+
+    @property
+    def full_path(self) -> str:
+        """Version/course/exercise path. Used for display."""
+        return f"{self.version}/{self.course}/{self.exercise}"
 
     @classmethod
     def parse(cls, exercise_path: str) -> "ExerciseIdentifier":
         parts = [part for part in Path(exercise_path).parts if part]
-        # Remove empty parts or parts that might be "V1"/"V2" if mistakenly passed
-        # But generally we expect COURSE/EXERCISE here.
-        if len(parts) < 2:
-            raise ValueError(
-                "Exercise path must include course and exercise, e.g. "
-                "ITP2425/H01E01-Lectures"
-            )
-        # If the path happens to be absolute or relative to something else, we just take the last two parts
-        # This handles cases like "data/V1/COURSE/EXERCISE" passed in by mistake, though we should encourage relative paths.
-        return cls(course=parts[-2], exercise=parts[-1])
+        if len(parts) == 3:
+            return cls(version=parts[0], course=parts[1], exercise=parts[2])
+        if len(parts) == 2:
+            # Backward-compat: COURSE/EXERCISE with no version defaults to V1
+            return cls(version="V1", course=parts[0], exercise=parts[1])
+        raise ValueError(
+            "Exercise path must be VERSION/COURSE/EXERCISE or COURSE/EXERCISE, "
+            "e.g. V2/IOS26/TC1-Bookstore or ITP2425/H01E01-Lectures"
+        )
 
 
-def iter_exercises(version: str = "V1") -> Iterable[ExerciseIdentifier]:
-    root = ensure_data_root(version)
-    for course_dir in sorted(p for p in root.iterdir() if p.is_dir()):
-        for exercise_dir in sorted(p for p in course_dir.iterdir() if p.is_dir()):
-            yield ExerciseIdentifier(course=course_dir.name, exercise=exercise_dir.name)
+def iter_exercises(version: str | None = None) -> Iterable[ExerciseIdentifier]:
+    """Iterate over all exercise directories.
+
+    If *version* is given, only that version is scanned.
+    If *version* is None, all version directories (V1, V2, …) are scanned.
+    """
+    if version:
+        versions = [version]
+    else:
+        versions = sorted(
+            p.name
+            for p in DATA_ROOT.iterdir()
+            if p.is_dir() and p.name.startswith("V") and p.name[1:].isdigit()
+        )
+    for ver in versions:
+        root = DATA_ROOT / ver
+        if not root.exists():
+            continue
+        for course_dir in sorted(p for p in root.iterdir() if p.is_dir()):
+            for exercise_dir in sorted(p for p in course_dir.iterdir() if p.is_dir()):
+                yield ExerciseIdentifier(
+                    version=ver,
+                    course=course_dir.name,
+                    exercise=exercise_dir.name,
+                )

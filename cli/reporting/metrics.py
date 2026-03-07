@@ -194,7 +194,7 @@ def analyse_variants_runs(results_dir: str, version: str = "V1") -> None:
     - run_id: the full run identifier
     - issues: array of detected issues
     - [OPTIONAL] tokens: {prompt, completion, total}
-    - [OPTIONAL] cost: {total_usd}
+    - [OPTIONAL] cost: {total_usd} or {total_eur}
     - [OPTIONAL] timing: {duration_s}
     """
 
@@ -313,6 +313,8 @@ def analyse_variants_runs(results_dir: str, version: str = "V1") -> None:
                         total_cost = (
                             cost_data.get("total_eur") or
                             cost_data.get("totalEur") or
+                            cost_data.get("total_usd") or
+                            cost_data.get("totalUsd") or
                             0
                         )
 

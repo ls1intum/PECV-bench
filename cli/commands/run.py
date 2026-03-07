@@ -29,8 +29,6 @@ from cli.utils import (
     RESULTS_ROOT,
     RUNS_ROOT,
     iter_exercises,
-    add_version_flags,
-    get_version,
 )
 
 
@@ -263,18 +261,18 @@ def run_entrypoint(
         )
 
 
-def resolve_exercises(values: list[str] | None, version: str) -> Iterable[ExerciseIdentifier]:
+def resolve_exercises(values: list[str] | None) -> Iterable[ExerciseIdentifier]:
     if values:
         seen: set[str] = set()
         for value in values:
             identifier = ExerciseIdentifier.parse(value)
-            key = identifier.relative
+            key = identifier.full_path
             if key in seen:
                 continue
             seen.add(key)
             yield identifier
         return
-    yield from iter_exercises(version=version)
+    yield from iter_exercises()
 
 
 def determine_variants(
@@ -338,7 +336,6 @@ def write_run_metadata(
 
 
 def run_benchmark(args: argparse.Namespace) -> int:
-    version = get_version(args)
     config_path = Path(args.config)
     config = load_config(config_path)
 
@@ -351,31 +348,25 @@ def run_benchmark(args: argparse.Namespace) -> int:
         if candidate.is_file():
             resume_path = candidate
         else:
-            inferred = (
-                RUNS_ROOT
-                / version
-                / (
-                    args.approach
-                    or getattr(args, "approach_name", None)
-                    or default_approach
-                )
-                / f"{args.resume_run}.yaml"
+            # Search across all version directories for a matching run metadata file
+            approach_hint = (
+                args.approach
+                or getattr(args, "approach_name", None)
+                or default_approach
             )
-            if inferred.exists():
-                resume_path = inferred
+            found = list(RUNS_ROOT.glob(f"*/{approach_hint}/{args.resume_run}.yaml"))
+            if found:
+                resume_path = found[0]
             else:
                 raise FileNotFoundError(
-                    f"Unable to locate resume metadata at {candidate} or {inferred}"
+                    f"Unable to locate resume metadata at {candidate} or under {RUNS_ROOT}"
                 )
     elif resume_run_id:
         resume_dir = (
             args.approach or getattr(args, "approach_name", None) or default_approach
         )
-        candidate = RUNS_ROOT / version / resume_dir / f"{resume_run_id}.yaml"
-        if candidate.exists():
-            resume_path = candidate
-        else:
-            resume_path = None
+        found = list(RUNS_ROOT.glob(f"*/{resume_dir}/{resume_run_id}.yaml"))
+        resume_path = found[0] if found else None
 
     resume_metadata = load_resume_metadata(resume_path) if resume_path else None
 
@@ -387,9 +378,6 @@ def run_benchmark(args: argparse.Namespace) -> int:
         raise ValueError(
             "--approach conflicts with the approach recorded in the run metadata"
         )
-
-    if resume_metadata and resume_metadata.get("version") and resume_metadata.get("version") != version:
-        pass
 
     if resume_metadata:
         config_hint = resume_metadata.get("config_path")
@@ -469,6 +457,22 @@ def run_benchmark(args: argparse.Namespace) -> int:
 
     run_id = args.run_id or default_run_id
 
+    errors: list[str] = []
+
+    requested_exercises = args.exercise
+    if not requested_exercises and stored_args.get("exercises"):
+        requested_exercises = list(stored_args["exercises"])
+
+    variant_filter = args.variant or None
+    if variant_filter and len(requested_exercises or []) != 1:
+        raise ValueError("--variant requires exactly one --exercise to be specified")
+
+    # Collect all exercises first so we can derive the version for metadata
+    all_exercises = list(resolve_exercises(requested_exercises))
+
+    # Derive version from the first exercise (all exercises in a run should share one version)
+    version = all_exercises[0].version if all_exercises else resume_metadata.get("version", "V1") if resume_metadata else "V1"
+
     results_dir = RESULTS_ROOT / version / approach_id / run_id / "cases"
     results_dir.mkdir(parents=True, exist_ok=True)
 
@@ -487,22 +491,12 @@ def run_benchmark(args: argparse.Namespace) -> int:
         version=version,
     )
 
-    errors: list[str] = []
-
-    requested_exercises = args.exercise
-    if not requested_exercises and stored_args.get("exercises"):
-        requested_exercises = list(stored_args["exercises"])
-
-    variant_filter = args.variant or None
-    if variant_filter and len(requested_exercises or []) != 1:
-        raise ValueError("--variant requires exactly one --exercise to be specified")
-
     skip_existing = args.skip_existing or bool(resume_metadata) or bool(resume_run_id)
 
     tasks: list[CaseTask] = []
 
-    for exercise in resolve_exercises(requested_exercises, version):
-        manager = VariantManager(exercise, version=version)
+    for exercise in all_exercises:
+        manager = VariantManager(exercise)
         variants_to_run = determine_variants(manager, variant_filter)
         if not variants_to_run:
             continue
@@ -532,7 +526,7 @@ def run_benchmark(args: argparse.Namespace) -> int:
         raise ValueError("--max-concurrency must be at least 1")
 
     def execute_case(task: CaseTask) -> tuple[bool, str | None]:
-        manager = VariantManager(task.exercise, version=version)
+        manager = VariantManager(task.exercise)
         try:
             materialized_dir = manager.materialize_variant(
                 task.variant_id,
@@ -612,26 +606,25 @@ def run_benchmark(args: argparse.Namespace) -> int:
 
 
 def register_subcommand(parser: argparse.ArgumentParser) -> None:
-    # Add version flags first so they appear prominently in help/usage
-    add_version_flags(parser)
-
     parser.set_defaults(handler=run_benchmark)
     parser.formatter_class = argparse.RawDescriptionHelpFormatter
     parser.description = """
     Execute benchmark runs for specific exercises or approaches.
 
-    Examples:
-      # Run the default approach (pecv-reference) on a specific exercise (V1 default)
-      pecv-bench run-benchmark --exercise ITP2425/H01E01-Lectures
+    The exercise path must include the version prefix: VERSION/COURSE/EXERCISE
 
-      # Run on V2 dataset
-      pecv-bench run-benchmark --V2 --exercise IOS26/TC1-Bookstore
+    Examples:
+      # Run on a specific V1 exercise
+      pecv-bench run-benchmark --exercise V1/ITP2425/H01E01-Lectures
+
+      # Run on a V2 exercise
+      pecv-bench run-benchmark --exercise V2/IOS26/TC1-Bookstore
 
       # Run a specific approach configuration
-      pecv-bench run-benchmark --config configs/my-approach.yaml --exercise ITP2425/H01E01-Lectures
+      pecv-bench run-benchmark --config configs/my-approach.yaml --exercise V1/ITP2425/H01E01-Lectures
 
       # Run with a specific run ID and max concurrency
-      pecv-bench run-benchmark --exercise ITP2425/H01E01-Lectures --run-id my-custom-run --max-concurrency 4
+      pecv-bench run-benchmark --exercise V1/ITP2425/H01E01-Lectures --run-id my-custom-run --max-concurrency 4
     """
 
     parser.add_argument(
@@ -651,7 +644,7 @@ def register_subcommand(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--exercise",
         action="append",
-        help="Exercise path (course/exercise). Repeatable.",
+        help="VERSION/COURSE/EXERCISE path (e.g. V2/IOS26/TC1-Bookstore). Repeatable.",
     )
     parser.add_argument(
         "--variant",

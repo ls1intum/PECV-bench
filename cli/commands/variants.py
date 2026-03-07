@@ -15,8 +15,6 @@ from cli.utils import (
     ExerciseIdentifier,
     get_data_root,
     iter_exercises,
-    add_version_flags,
-    get_version,
 )
 
 from pecv_reference.consistency_check.models import (  # type: ignore[import]
@@ -57,12 +55,11 @@ class VariantStatus:
 
 
 class VariantManager:
-    def __init__(self, exercise: ExerciseIdentifier, version: str = "V1") -> None:
+    def __init__(self, exercise: ExerciseIdentifier) -> None:
         self.exercise = exercise
-        self.version = version
-        self.exercise_path = get_data_root(version) / exercise.relative
+        self.exercise_path = get_data_root(exercise.version) / exercise.relative
         if not self.exercise_path.exists():
-            raise FileNotFoundError(f"Exercise not found in {version}: {exercise.relative}")
+            raise FileNotFoundError(f"Exercise not found: {exercise.full_path}")
         self.variants_path = self.exercise_path / "variants"
         self.variants_path.mkdir(parents=True, exist_ok=True)
 
@@ -70,7 +67,7 @@ class VariantManager:
         path = self.variants_path / variant_id
         if not path.exists():
             raise FileNotFoundError(
-                f"Variant {variant_id} missing under {self.exercise.relative} ({self.version})"
+                f"Variant {variant_id} missing under {self.exercise.full_path}"
             )
         return path
 
@@ -222,8 +219,6 @@ class VariantManager:
         patch_file = variant_dir / f"{variant_id}.patch"
         if copied_any and patch_file.exists() and patch_file.stat().st_size > 0:
             result = subprocess.run(
-                # ["patch", "-p1", "--forward", "--batch"],
-                #git apply is more robust and handles file application more reliably without the same dependencies on system temporary directories.
                 ["git", "apply", "-p1", "--verbose", "-"],
                 cwd=variant_dir,
                 text=True,
@@ -302,24 +297,38 @@ class VariantManager:
         return annotation_path
 
 
-def resolve_exercises(value: str | None, version: str) -> list[ExerciseIdentifier]:
-    if value:
-        identifier = ExerciseIdentifier.parse(value)
-        data_root = get_data_root(version)
-        if not (data_root / identifier.relative).exists():
-            raise FileNotFoundError(f"Exercise directory not found in {version}: {identifier.relative}")
-        return [identifier]
-    return list(iter_exercises(version))
+def resolve_exercises(value: str | None) -> list[ExerciseIdentifier]:
+    """Resolve an exercise argument to a list of ExerciseIdentifiers.
+
+    Accepts:
+    - None → all exercises across all versions
+    - "V2" → all exercises in V2
+    - "V2/COURSE/EXERCISE" → one specific exercise
+    - "COURSE/EXERCISE" → one specific exercise in V1 (backward compat)
+    """
+    if not value:
+        return list(iter_exercises())
+
+    parts = [p for p in Path(value).parts if p]
+
+    # Single component: treat as version filter (e.g. -e V2)
+    if len(parts) == 1 and parts[0].startswith("V") and parts[0][1:].isdigit():
+        return list(iter_exercises(version=parts[0]))
+
+    identifier = ExerciseIdentifier.parse(value)
+    data_root = get_data_root(identifier.version)
+    if not (data_root / identifier.relative).exists():
+        raise FileNotFoundError(f"Exercise not found: {identifier.full_path}")
+    return [identifier]
 
 
 def handle_list(args: argparse.Namespace) -> int:
-    version = get_version(args)
-    exercises = resolve_exercises(args.exercise, version)
+    exercises = resolve_exercises(args.exercise)
     for idx, exercise in enumerate(exercises):
-        manager = VariantManager(exercise, version=version)
+        manager = VariantManager(exercise)
         statuses = manager.list_variants()
         if idx or len(exercises) > 1:
-            print(f"== {exercise.relative} ({version}) ==")
+            print(f"== {exercise.full_path} ==")
         if not statuses:
             print("No variants yet.")
         for status in statuses:
@@ -338,24 +347,20 @@ def handle_list(args: argparse.Namespace) -> int:
 
 
 def handle_init(args: argparse.Namespace) -> int:
-    version = get_version(args)
     exercise = ExerciseIdentifier.parse(args.exercise)
-    manager = VariantManager(exercise, version=version)
+    manager = VariantManager(exercise)
     variant_id = manager.init_variant(args.category, args.description, args.variant)
     if not args.skip_materialize:
         manager.materialize_variant(variant_id, force=args.force_materialize)
-        print(
-            f"Initialized and materialized variant {variant_id} under {exercise.relative} ({version})"
-        )
+        print(f"Initialized and materialized variant {variant_id} under {exercise.full_path}")
     else:
-        print(f"Initialized variant {variant_id} under {exercise.relative} ({version})")
+        print(f"Initialized variant {variant_id} under {exercise.full_path}")
     return 0
 
 
 def handle_create_patch(args: argparse.Namespace) -> int:
-    version = get_version(args)
     exercise = ExerciseIdentifier.parse(args.exercise)
-    manager = VariantManager(exercise, version=version)
+    manager = VariantManager(exercise)
     path = manager.create_patch(args.variant)
     if path.read_text(encoding="utf-8").strip():
         print(f"Generated patch at {path}")
@@ -365,20 +370,18 @@ def handle_create_patch(args: argparse.Namespace) -> int:
 
 
 def handle_materialize(args: argparse.Namespace) -> int:
-    version = get_version(args)
     exercise = ExerciseIdentifier.parse(args.exercise)
-    manager = VariantManager(exercise, version=version)
+    manager = VariantManager(exercise)
     manager.materialize_variant(args.variant, force=args.force)
-    print(f"Materialized variant {args.variant} under {exercise.relative} ({version})")
+    print(f"Materialized variant {args.variant} under {exercise.full_path}")
     return 0
 
 
 def handle_materialize_all(args: argparse.Namespace) -> int:
-    version = get_version(args)
-    exercises = resolve_exercises(args.exercise, version)
+    exercises = resolve_exercises(args.exercise)
     for exercise in exercises:
-        manager = VariantManager(exercise, version=version)
-        print(f"==> {exercise.relative} ({version})")
+        manager = VariantManager(exercise)
+        print(f"==> {exercise.full_path}")
         for status in manager.list_variants():
             try:
                 manager.materialize_variant(status.variant_id, force=args.force)
@@ -389,20 +392,18 @@ def handle_materialize_all(args: argparse.Namespace) -> int:
 
 
 def handle_clean(args: argparse.Namespace) -> int:
-    version = get_version(args)
     exercise = ExerciseIdentifier.parse(args.exercise)
-    manager = VariantManager(exercise, version=version)
+    manager = VariantManager(exercise)
     manager.clean_variant(args.variant, keep_outputs=args.keep_outputs)
-    print(f"Cleaned materialized artefacts for variant {args.variant} ({version})")
+    print(f"Cleaned materialized artefacts for variant {args.variant} ({exercise.full_path})")
     return 0
 
 
 def handle_clean_all(args: argparse.Namespace) -> int:
-    version = get_version(args)
-    exercises = resolve_exercises(args.exercise, version)
+    exercises = resolve_exercises(args.exercise)
     for exercise in exercises:
-        manager = VariantManager(exercise, version=version)
-        print(f"==> {exercise.relative} ({version})")
+        manager = VariantManager(exercise)
+        print(f"==> {exercise.full_path}")
         for status in manager.list_variants():
             manager.clean_variant(status.variant_id, keep_outputs=args.keep_outputs)
             print(f"  cleaned {status.variant_id}")
@@ -410,9 +411,8 @@ def handle_clean_all(args: argparse.Namespace) -> int:
 
 
 def handle_generate_annotation(args: argparse.Namespace) -> int:
-    version = get_version(args)
     exercise = ExerciseIdentifier.parse(args.exercise)
-    manager = VariantManager(exercise, version=version)
+    manager = VariantManager(exercise)
     annotation = manager.generate_annotation(
         args.variant,
         model=args.model,
@@ -427,33 +427,40 @@ def register_subcommand(parser: argparse.ArgumentParser) -> None:
     parser.set_defaults(handler=lambda _args: parser.print_help() or 0)
     parser.description = textwrap.dedent("""
     Manage dataset variants (list, init, materialize, clean, etc.).
-    
-    Note: Subcommands accept --V1 (default) or --V2 to select the dataset version.
+
+    The exercise path (-e) must include the version prefix: VERSION/COURSE/EXERCISE
+    e.g. V2/IOS26/TC1-Bookstore or V1/ITP2425/H01E01-Lectures
 
     Examples:
-      # List all variants for all exercises in V1
+      # List all variants across all versions
       pecv-bench variants list
 
-      # List variants for a specific exercise in V2
-      pecv-bench variants list --V2 --exercise IOS26/TC1-Bookstore
+      # List all variants in V2
+      pecv-bench variants list -e V2
 
-      # Materialize a variant to inspect its files
-      pecv-bench variants materialize --exercise ITP2425/H01E01-Lectures --variant 001
+      # List variants for a specific exercise
+      pecv-bench variants list -e V2/IOS26/TC1-Bookstore
+
+      # Materialize a variant
+      pecv-bench variants materialize -e V1/ITP2425/H01E01-Lectures -v 001
 
       # Clean up materialized files
-      pecv-bench variants clean --exercise ITP2425/H01E01-Lectures --variant 001
+      pecv-bench variants clean -e V1/ITP2425/H01E01-Lectures -v 001
     """)
     parser.formatter_class = RawAndDefaults
-    
+
     subparsers = parser.add_subparsers(dest="variants_command")
 
     list_parser = subparsers.add_parser("list", help="List variants and their status")
-    list_parser.add_argument("--exercise", "-e", help="Course/exercise path")
-    add_version_flags(list_parser)
+    list_parser.add_argument(
+        "--exercise", "-e",
+        help="VERSION/COURSE/EXERCISE path, a version (e.g. V2), or omit for all",
+    )
     list_parser.set_defaults(handler=handle_list)
 
     init_parser = subparsers.add_parser("init", help="Initialise a new variant stub")
-    init_parser.add_argument("--exercise", "-e", required=True)
+    init_parser.add_argument("--exercise", "-e", required=True,
+                             help="VERSION/COURSE/EXERCISE, e.g. V2/IOS26/TC1-Bookstore")
     init_parser.add_argument("--category", "-c", required=True, choices=sorted(ALL_CATEGORIES))
     init_parser.add_argument("--description", "-d", required=True)
     init_parser.add_argument("--variant", "-v")
@@ -467,46 +474,49 @@ def register_subcommand(parser: argparse.ArgumentParser) -> None:
         action="store_true",
         help="Recreate artefacts even if they already exist",
     )
-    add_version_flags(init_parser)
     init_parser.set_defaults(handler=handle_init)
 
     patch_parser = subparsers.add_parser("create-patch", help="Create a git-style patch for the variant")
-    patch_parser.add_argument("--exercise", "-e", required=True)
+    patch_parser.add_argument("--exercise", "-e", required=True,
+                              help="VERSION/COURSE/EXERCISE, e.g. V2/IOS26/TC1-Bookstore")
     patch_parser.add_argument("--variant", "-v", required=True)
-    add_version_flags(patch_parser)
     patch_parser.set_defaults(handler=handle_create_patch)
 
     gen_parser = subparsers.add_parser("generate-annotation", help="Generate annotation via reference approach")
-    gen_parser.add_argument("--exercise", "-e", required=True)
+    gen_parser.add_argument("--exercise", "-e", required=True,
+                            help="VERSION/COURSE/EXERCISE, e.g. V2/IOS26/TC1-Bookstore")
     gen_parser.add_argument("--variant", "-v", required=True)
     gen_parser.add_argument("--model", default="openai:gpt-5-mini")
     gen_parser.add_argument("--reasoning-effort", choices=["low", "medium", "high"], default="medium")
     gen_parser.add_argument("--force-materialize", action="store_true", help="Re-materialize variant before running")
-    add_version_flags(gen_parser)
     gen_parser.set_defaults(handler=handle_generate_annotation)
 
     materialize_parser = subparsers.add_parser("materialize", help="Materialize a single variant")
-    materialize_parser.add_argument("--exercise", "-e", required=True)
+    materialize_parser.add_argument("--exercise", "-e", required=True,
+                                    help="VERSION/COURSE/EXERCISE, e.g. V2/IOS26/TC1-Bookstore")
     materialize_parser.add_argument("--variant", "-v", required=True)
     materialize_parser.add_argument("--force", action="store_true")
-    add_version_flags(materialize_parser)
     materialize_parser.set_defaults(handler=handle_materialize)
 
     materialize_all_parser = subparsers.add_parser("materialize-all", help="Materialize all variants")
-    materialize_all_parser.add_argument("--exercise", "-e", help="Restrict to a specific exercise")
+    materialize_all_parser.add_argument(
+        "--exercise", "-e",
+        help="VERSION/COURSE/EXERCISE path, a version (e.g. V2), or omit for all",
+    )
     materialize_all_parser.add_argument("--force", action="store_true")
-    add_version_flags(materialize_all_parser)
     materialize_all_parser.set_defaults(handler=handle_materialize_all)
 
     clean_parser = subparsers.add_parser("clean", help="Remove materialised artefacts for a variant")
-    clean_parser.add_argument("--exercise", "-e", required=True)
+    clean_parser.add_argument("--exercise", "-e", required=True,
+                              help="VERSION/COURSE/EXERCISE, e.g. V2/IOS26/TC1-Bookstore")
     clean_parser.add_argument("--variant", "-v", required=True)
     clean_parser.add_argument("--keep-outputs", action="store_true", help="Preserve outputs directory")
-    add_version_flags(clean_parser)
     clean_parser.set_defaults(handler=handle_clean)
 
     clean_all_parser = subparsers.add_parser("clean-all", help="Remove materialised artefacts for all variants")
-    clean_all_parser.add_argument("--exercise", "-e", help="Restrict to a specific exercise")
+    clean_all_parser.add_argument(
+        "--exercise", "-e",
+        help="VERSION/COURSE/EXERCISE path, a version (e.g. V2), or omit for all",
+    )
     clean_all_parser.add_argument("--keep-outputs", action="store_true")
-    add_version_flags(clean_all_parser)
     clean_all_parser.set_defaults(handler=handle_clean_all)
