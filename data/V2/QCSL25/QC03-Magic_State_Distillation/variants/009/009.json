@@ -2,56 +2,30 @@
   "case_id": "QCSL25/QC03-Magic_State_Distillation/009",
   "issues": [
     {
-      "description": "The problem statement explicitly requires students to implement a class TetrahedralCode with constructor __init__(self, hx, hz) for code management, but neither the template repository nor the solution repository provide any TetrahedralCode class or a stub for it. This is a structural omission: students will see the requirement in the problem text but will not find a placeholder or any references in the provided starter code to guide where or how to implement this class. That mismatch can confuse students about whether the class is expected, where to place it, and how (if at all) other provided functions should interact with it.",
+      "description": "The template's simulate_msd_two_rounds function contains a call to stim.Circuit(p) (passing p to the stim.Circuit constructor), while the solution uses stim.Circuit() with no arguments. The problem statement does not indicate that stim.Circuit should be constructed with a depolarization probability. Passing p to the constructor is an accidental constructor-parameter usage that will raise an error or confuse students who try to call or adapt the template implementation.",
       "severity": "MEDIUM",
       "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
       "related_locations": [
         {
-          "type": "PROBLEM_STATEMENT",
-          "file_path": "problem_statement.md",
-          "start_line": 185,
-          "end_line": 186
-        },
-        {
           "type": "TEMPLATE_REPOSITORY",
           "file_path": "template_repository/msd.py",
-          "start_line": 1,
-          "end_line": 148
+          "start_line": 135,
+          "end_line": 135
         },
         {
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/msd.py",
-          "start_line": 1,
-          "end_line": 412
-        }
-      ],
-      "suggested_fix": "Either remove the requirement for a TetrahedralCode class from the problem statement (if it is not needed for the exercises), or add a clear class stub to the template (and optionally to the solution) with the required constructor signature. For example, add to template_repository/msd.py:\n\nclass TetrahedralCode:\n    def __init__(self, hx: npt.NDArray[np.int8], hz: npt.NDArray[np.int8]):\n        \"\"\"Simple container for code check matrices used by the exercises.\n        Students can extend this if needed for helper methods.\n        \"\"\"\n        self.hx = hx\n        self.hz = hz\n\nThis keeps the problem statement and codebase structurally consistent and gives students a clear place to implement any code-management methods if the exercises later expect them."
-    },
-    {
-      "description": "The problem statement explicitly requires a class named `TetrahedralCode` with constructor `__init__(self, hx, hz)` for code management, but neither the template (template_repository/msd.py) nor the solution (solution_repository/msd.py) provide such a class or a stub. This mismatch creates a conceptual mapping barrier: students are told to implement a specific class but are not given a corresponding placeholder or an example in the starter code, and the reference solution does not show the expected class name or structure. Students may waste time looking for where to place or how to use this class, or be uncertain whether the class is actually required by tests.",
-      "severity": "MEDIUM",
-      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
-      "related_locations": [
+          "start_line": 240,
+          "end_line": 252
+        },
         {
           "type": "PROBLEM_STATEMENT",
           "file_path": "problem_statement.md",
-          "start_line": 185,
-          "end_line": 186
-        },
-        {
-          "type": "TEMPLATE_REPOSITORY",
-          "file_path": "template_repository/msd.py",
-          "start_line": 1,
-          "end_line": 148
-        },
-        {
-          "type": "SOLUTION_REPOSITORY",
-          "file_path": "solution_repository/msd.py",
-          "start_line": 1,
-          "end_line": 412
+          "start_line": 171,
+          "end_line": 175
         }
       ],
-      "suggested_fix": "Either (A) add a `TetrahedralCode` class stub to the template repository (and, if appropriate, a matching implementation in the solution) with the exact constructor `def __init__(self, hx, hz):` and brief docstring demonstrating intended usage (e.g. storing hx/hz and providing helpers like `prepare_zero_state`), or (B) remove/adjust the problem statement requirement so it does not mandate that specific class name. Example stub to add to template_repository/msd.py:\n\nclass TetrahedralCode:\n    \"\"\"Container for code data and helpers for the tetrahedral code.\n\n    Args:\n        hx: X-check matrix\n        hz: Z-check matrix\n    \"\"\"\n    def __init__(self, hx, hz):\n        self.hx = hx\n        self.hz = hz\n\n    # Optional helper to call the provided function\n    def construct_zero_state_prep_circuit(self, offset=0):\n        return construct_zero_state_prep_circuit(self.hx, offset=offset)\n\nThis will align the problem statement, template, and solution and remove ambiguity about the expected identifier."
+      "suggested_fix": "Remove the unexpected argument from the constructor in the template. Use stim.Circuit() (no parameters) consistently as in the solution and in typical stim usage. Update any template example code that mistakenly passes p into stim.Circuit to avoid runtime errors or student confusion."
     }
   ]
 }
