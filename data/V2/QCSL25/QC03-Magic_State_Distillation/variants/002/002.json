@@ -2,7 +2,7 @@
   "case_id": "QCSL25/QC03-Magic_State_Distillation/002",
   "issues": [
     {
-      "description": "Return type annotation for simulate_msd_one_round differs between the problem statement and the template. The problem statement (and the intended behavior described in the docstring) specifies simulate_msd_one_round(n_shots: int, p: float) -> tuple[float, float] (error rate, acceptance rate). However, the template defines simulate_msd_one_round with a return annotation of list[float]. This mismatch can confuse students about the expected return type and may cause them to implement or test the function incorrectly (e.g., expecting a tuple versus a list). The solution implements the function returning a tuple[float, float], matching the problem statement, which shows the template annotation is inconsistent with the intended API.",
+      "description": "Return type annotation for simulate_msd_one_round is inconsistent between the problem statement, the template, and the solution. The problem statement specifies simulate_msd_one_round should return tuple[float, float] (error rate, acceptance rate). The template, however, annotates the function as returning list[float], while the reference solution implements and annotates it as returning tuple[float, float]. This mismatch can confuse students (especially those relying on type hints or reading docstrings) and lead to inconsistencies when they run or statically check their code.",
       "severity": "MEDIUM",
       "category": "METHOD_RETURN_TYPE_MISMATCH",
       "related_locations": [
@@ -22,10 +22,10 @@
           "type": "SOLUTION_REPOSITORY",
           "file_path": "solution_repository/msd.py",
           "start_line": 198,
-          "end_line": 237
+          "end_line": 207
         }
       ],
-      "suggested_fix": "Change the return type annotation in the template for simulate_msd_one_round to match the problem statement: def simulate_msd_one_round(n_shots: int, p: float) -> tuple[float, float]:. Ensure the docstring and any callers in the template use the same tuple convention (error_rate, acceptance_rate)."
+      "suggested_fix": "Change the return type annotation in the template for simulate_msd_one_round to tuple[float, float] and ensure the docstring & any callers assume a (error_rate, acceptance_rate) tuple. This aligns the template with the problem statement and the reference solution and prevents confusion from mismatched type hints."
     }
   ]
 }
