@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-08T21:31:58.564062Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The solution query for Aufgabe 10 counts Wanderwege per Gemeinde but uses FROM Gemeinde (COUNT(*) grouped by gemeindeschluessel). This is structurally incorrect because counting rows in the Gemeinde table will not produce the number of Wanderwegen (it will typically yield 1 per gemeindeschluessel). The problem statement expects counting Wanderwege that lead to a Gemeinde, which requires using the Wanderweg table or joining it with Gemeinde. This mismatch between the problem specification and the solution's chosen table will confuse students and produce wrong results.",
+            "suggestedFix": "Change the solution to count rows from the Wanderweg table (or join Wanderweg with Gemeinde) using the column that references gemeindeschluessel. For example: SELECT gemeindeschluessel, COUNT(*) AS Anzahl FROM Wanderweg GROUP BY gemeindeschluessel ORDER BY Anzahl DESC; or if Wanderweg stores a different FK name, adjust the FK column accordingly and/or JOIN Wanderweg ON Gemeinde.<pk>=Wanderweg.<fk>.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe10.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe10.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 151,
+                    "endLine": 153
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:31:58.564062Z",
+        "endTime": "2026-03-08T21:32:13.904335Z",
+        "durationS": 15.34
+    },
+    "tokens": {
+        "prompt": 13369,
+        "completion": 3278,
+        "total": 16647
+    },
+    "costs": {
+        "promptEur": 0.0030748699951171875,
+        "completionEur": 0.00603152001953125,
+        "totalEur": 0.009106390014648438
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/009",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

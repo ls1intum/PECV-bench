@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-08T21:22:50.841986Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem specification requires the RGB color to be passed in ECX and written to the computed pixel memory. The solution's set_pixel implementation, however, writes EDX to memory (mov [eax], edx) after performing multiplications that use EDX, rather than writing ECX. This contradicts the stated parameter usage and will result in writing the wrong value (and confuse students about which register holds the color).",
+            "suggestedFix": "Ensure set_pixel writes the RGB value from ECX to the computed address (e.g., use mov [eax], ecx). Avoid clobbering ECX during address calculation by preserving it (push/pop) or by using other temporaries (ESI/EBX) or arithmetic forms that don't overwrite ECX (e.g., use shl/lea for x*4). Update the solution implementation accordingly so it matches the problem's register-parameter contract.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:22:50.841986Z",
+        "endTime": "2026-03-08T21:23:14.269418Z",
+        "durationS": 23.427
+    },
+    "tokens": {
+        "prompt": 13529,
+        "completion": 3897,
+        "total": 17426
+    },
+    "costs": {
+        "promptEur": 0.003111670043945312,
+        "completionEur": 0.007170480102539062,
+        "totalEur": 0.010282150146484374
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/005",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

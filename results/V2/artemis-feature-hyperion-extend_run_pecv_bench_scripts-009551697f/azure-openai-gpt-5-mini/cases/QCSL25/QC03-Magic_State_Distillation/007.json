@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-08T21:35:50.929013Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The template implementation of construct_zero_state_prep_circuit initializes a stim.Circuit using an integer argument (circ = stim.Circuit(offset)), which conflicts with the usage in the solution (circ = stim.Circuit()). This is a structural problem: passing an integer into the Circuit constructor is not the intended API usage in the solution and will confuse or block students running the template. The problem statement expects a circuit that prepares qubits at indices [offset, offset+n-1], but the template's constructor call suggests an incorrect type/usage for constructing the circuit.",
+            "suggestedFix": "In the template, construct the circuit with circ = stim.Circuit() (no integer argument). Apply the offset by relabeling qubits before returning (as in the solution) or by explicitly documenting and implementing an offset-aware return (e.g., return a circuit whose qubit indices are shifted by offset). Update the template to match the solution's approach so students are not blocked by an incorrect constructor call.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 27,
+                    "endLine": 29
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 55,
+                    "endLine": 56
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 58,
+                    "endLine": 62
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:35:50.929013Z",
+        "endTime": "2026-03-08T21:36:12.829156Z",
+        "durationS": 21.9
+    },
+    "tokens": {
+        "prompt": 30719,
+        "completion": 4234,
+        "total": 34953
+    },
+    "costs": {
+        "promptEur": 0.0070653701171875,
+        "completionEur": 0.00779056005859375,
+        "totalEur": 0.01485593017578125
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/007",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

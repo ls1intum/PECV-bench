@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-08T21:22:38.794632Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem statement and the template/main code assume 32 bits (4 bytes) per pixel (pixels rounded up to 32 bits and row stride computed as 1920*4 = 7680), but the solution's set_pixel implementation multiplies x by 3 (treating pixels as 3 bytes). This mismatch causes incorrect address calculation in set_pixel and contradicts the exercise specification that pixels are stored as 32-bit (4-byte) entries.",
+            "suggestedFix": "Make the bytes-per-pixel consistent with the problem statement (4 bytes per pixel). In the solution's set_pixel, replace the multiplication by 3 with multiplication by 4 (or use an equivalent shift: shl eax, 2) so x is scaled by 4. Ensure the final address calculation matches display_start + y*(1920*4) + x*4 and that all registers except EAX are preserved (as required).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 17,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 39
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:22:38.794632Z",
+        "endTime": "2026-03-08T21:23:05.388514Z",
+        "durationS": 26.593
+    },
+    "tokens": {
+        "prompt": 13541,
+        "completion": 4411,
+        "total": 17952
+    },
+    "costs": {
+        "promptEur": 0.0031144300537109372,
+        "completionEur": 0.008116240356445313,
+        "totalEur": 0.01123067041015625
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/010",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

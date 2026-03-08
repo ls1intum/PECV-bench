@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-08T21:32:27.494360Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem asks for the ID, Name, Art and URL of all Freib\u00e4der, but the solution selects 'name as id' (duplicating the name) instead of the actual identifier column. This conflicts with the stated requirement and may confuse students about which column represents the Schwimmbad ID. The template starts with SELECT * FROM Schwimmbad, which suggests an actual id column exists and should be selected explicitly.",
+            "suggestedFix": "In the solution (and guidance), select the actual identifier column instead of aliasing the name as id. For example: SELECT id, name, art, url FROM Schwimmbad WHERE art='Freibad'; Ensure the column name used for the identifier matches the database schema (e.g. 'id' or the actual primary key column name) and remove the duplicate 'name as id' alias.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 2
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 106,
+                    "endLine": 109
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement asks for an ID column for Schwimmbad records, but the solution aliases the name column as id (SELECT name as id...). The template starts from SELECT * which may lead students to expect a real identifier column named id (or similar). This creates a mapping confusion: students may look for an existing id column in the Schwimmbad table (as requested in the task) but the reference solution provides an alias instead, obscuring whether a true identifier exists and which column should be used.",
+            "suggestedFix": "Either select the actual identifier column from Schwimmbad (e.g. id or schwimmbad_id) in the solution instead of aliasing name, or update the problem statement to explicitly state that name should be used/aliased as ID. Make the same choice explicit in the template (e.g. show the id column name) so students can map the requested \"ID\" to the correct table column unambiguously.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 108,
+                    "endLine": 109
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 2
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:32:27.494360Z",
+        "endTime": "2026-03-08T21:32:43.798789Z",
+        "durationS": 16.304
+    },
+    "tokens": {
+        "prompt": 13385,
+        "completion": 3805,
+        "total": 17190
+    },
+    "costs": {
+        "promptEur": 0.003078550048828125,
+        "completionEur": 0.0070012001953125,
+        "totalEur": 0.010079750244140625
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/010",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

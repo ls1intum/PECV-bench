@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-08T21:22:37.546519Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The template and problem statement use the global buffer name 'display_start' for the framebuffer base address, but the solution's .bss defines 'screen_buffer' while the solution code still references 'display_start'. This name mismatch is a structural inconsistency that will prevent the solution from assembling/linking and will confuse students about the correct global symbol to use.",
+            "suggestedFix": "Make the global framebuffer symbol name consistent across all artifacts. Either rename the solution's 'screen_buffer' to 'display_start' in the .bss, or change all references to 'display_start' in the solution code to 'screen_buffer'. Ensure the template, problem statement, and solution use the same identifier.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 20,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 4,
+                    "endLine": 35
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement and the template refer to the screen memory start as 'display_start', but the solution declares the same buffer as 'screen_buffer'. This mismatch (and the solution even using 'display_start' elsewhere) creates a confusing mapping for students: they expect the base address variable to be 'display_start' from the task description and template, but the solution's declaration uses a different identifier. This inconsistency increases extraneous cognitive load and may lead to compilation/reading confusion.",
+            "suggestedFix": "Use a single consistent identifier for the screen memory base across all artifacts. For example, rename the declaration in the solution from 'screen_buffer' to 'display_start' (or change the template/problem to 'screen_buffer') and ensure all references in the solution use that same name. This aligns the solution with the problem statement and template and removes the mapping ambiguity.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 20,
+                    "endLine": 21
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 4,
+                    "endLine": 6
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:22:37.546519Z",
+        "endTime": "2026-03-08T21:22:48.064866Z",
+        "durationS": 10.518
+    },
+    "tokens": {
+        "prompt": 13529,
+        "completion": 2780,
+        "total": 16309
+    },
+    "costs": {
+        "promptEur": 0.003111670043945312,
+        "completionEur": 0.005115199951171875,
+        "totalEur": 0.008226869995117188
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/017",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

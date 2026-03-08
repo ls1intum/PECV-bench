@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-08T21:32:49.797141Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The solution query for Aufgabe 02 uses Freizeitpark.id to join with Gemeinde.schluessel, but the problem statement and other solution queries consistently use a gemeindeschluessel column on facility tables (e.g., Zoo.gemeindeschluessel, Schwimmbad.gemeindeschluessel). This creates a structural inconsistency: either the Freizeitpark table column name in the solution is incorrect or it does not match the expected schema, which will confuse students about which column to join on and may cause the query to fail or return wrong results.",
+            "suggestedFix": "Update the solution (and clarify the schema if needed) to join on the facility's gemeindeschluessel column. For example: WHERE Gemeinde.schluessel = Freizeitpark.gemeindeschluessel. Verify all solution queries use consistent column names for joins (gemeindeschluessel) to match the schema used in other tasks.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 24
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe02.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe02.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The foreign-key column that links a recreational park to its Gemeinde is named inconsistently. Most queries and the schema use the attribute name 'gemeindeschluessel' (e.g. Zoo.gemeindeschluessel, Schwimmbad.gemeindeschluessel), but solution for Aufgabe 02 uses Freizeitpark.id as the join key (WHERE Gemeinde.schluessel = Freizeitpark.id). This creates a mapping confusion for students: the problem statement and other examples imply the foreign key is 'gemeindeschluessel', so seeing 'id' breaks the expected naming convention and may lead students to search for or use the wrong column name.",
+            "suggestedFix": "Rename or use the same foreign-key identifier consistently: replace Freizeitpark.id with Freizeitpark.gemeindeschluessel in aufgabe02.sql (and update any DB schema or documentation if the actual column is named differently). Align the join condition to WHERE Gemeinde.schluessel = Freizeitpark.gemeindeschluessel so it matches other examples (Zoo.gemeindeschluessel, Schwimmbad.gemeindeschluessel).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 24
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe02.sql",
+                    "startLine": 1,
+                    "endLine": 2
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe02.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:32:49.797141Z",
+        "endTime": "2026-03-08T21:33:10.261125Z",
+        "durationS": 20.463
+    },
+    "tokens": {
+        "prompt": 9769,
+        "completion": 3698,
+        "total": 13467
+    },
+    "costs": {
+        "promptEur": 0.0022468699951171877,
+        "completionEur": 0.006804320312500001,
+        "totalEur": 0.00905119030761719
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/007",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

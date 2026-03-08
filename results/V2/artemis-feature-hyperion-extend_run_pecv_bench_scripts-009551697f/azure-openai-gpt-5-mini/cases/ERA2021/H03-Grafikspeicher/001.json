@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-08T21:22:05.642276Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem statement instructs to \"write the value of the pixel to ecx (mov ecx, [esi])\", which is contradictory: mov ecx, [esi] reads memory into ECX rather than writing ECX into memory. The template and solution expect writing the pixel value to memory at the computed address. This wording in the problem statement will confuse students about whether they should read or write the pixel and which instruction to use.",
+            "suggestedFix": "Correct the problem statement to instruct writing the color into memory using an instruction like mov [esi], ecx (i.e. store ECX at the computed address). Make the wording unambiguous that the pixel value should be stored into memory, not loaded.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 20,
+                    "endLine": 27
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 100,
+                    "endLine": 106
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 29,
+                    "endLine": 31
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "In the provided solution, the code in main that computes and then reads the initial pixel value computes an offset into EDI but never adds the display_start base address (ESI) before dereferencing. The lines compute an offset and then perform mov ecx, [edi], which reads from the wrong absolute address. This conflicts with the template's requirement that the computed address/result be available (in ESI) for later use and with the expected behavior of reading the pixel at display_start + offset.",
+            "suggestedFix": "Fix the solution's main calculation so the computed offset is combined with display_start before dereferencing. For example, compute the byte offset (x*4 + y*row_bytes) and then add display_start (or compute into ESI directly as display_start + offset) and then use mov ecx, [esi]. Ensure the result address for later use is placed in ESI as required by the template/instructions.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 92,
+                    "endLine": 101
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 100,
+                    "endLine": 110
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 24,
+                    "endLine": 26
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:22:05.642276Z",
+        "endTime": "2026-03-08T21:22:29.144038Z",
+        "durationS": 23.501
+    },
+    "tokens": {
+        "prompt": 13529,
+        "completion": 3371,
+        "total": 16900
+    },
+    "costs": {
+        "promptEur": 0.003111670043945312,
+        "completionEur": 0.006202640258789063,
+        "totalEur": 0.009314310302734375
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/001",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

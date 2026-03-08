@@ -1,0 +1,88 @@
+{
+    "timestamp": "2026-03-08T21:27:41.356410Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem specification (UML and text) defines checkOrderReady() as a no-argument method (checkOrderReady(): void). The reference solution implements checkOrderReady with a boolean parameter (checkOrderReady(boolean enableLogging)), and orderMeal calls checkOrderReady(true). This mismatch between the specified signature and the solution's signature can confuse students about the required method signature and how to call it.",
+            "suggestedFix": "Align the solution with the specification by providing a no-argument checkOrderReady() method. If logging/debug behavior is desired, either remove the boolean parameter from the solution and use internal logging controlled by a different mechanism, or update the problem statement and UML to document the boolean parameter explicitly (and adjust template accordingly).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 25,
+                    "endLine": 34
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 20,
+                    "endLine": 48
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem text instructs students to initialize the SealSaloon attributes (orders and stock) in the constructor, but later explicitly requires that the stock attribute must be static (shared across all instances). Requiring a static stock and also stating it should be initialized in the instance constructor is contradictory and may confuse students about where and how to initialize the static field.",
+            "suggestedFix": "Clarify the specification: if stock must be static, state that it should be declared and initialized as a static field (or in a static initializer) rather than in the instance constructor. Alternatively, remove the static requirement and keep stock as a final instance field initialized in the constructor. Update the problem statement and UML to reflect the chosen approach.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 69,
+                    "endLine": 82
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 3,
+                    "endLine": 6
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement specifies a parameterless method checkOrderReady() on SealSaloon, but the solution implements checkOrderReady(boolean enableLogging). The method name is the same but the signature differs, which can confuse students mapping the requirement (a no-argument method to check and serve orders) to the reference implementation that uses an extra internal boolean parameter.",
+            "suggestedFix": "Make the solution's checkOrderReady method match the problem specification by providing a parameterless checkOrderReady() signature. If the boolean parameter is useful for internal debugging, either overload the method (add a parameterless method that calls checkOrderReady(true/false)) or remove the extra parameter so the public API matches the exercise description.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 27,
+                    "endLine": 34
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 85,
+                    "endLine": 95
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 20,
+                    "endLine": 48
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:27:41.356410Z",
+        "endTime": "2026-03-08T21:27:58.445807Z",
+        "durationS": 17.089
+    },
+    "tokens": {
+        "prompt": 19845,
+        "completion": 4294,
+        "total": 24139
+    },
+    "costs": {
+        "promptEur": 0.00456435009765625,
+        "completionEur": 0.007900960205078125,
+        "totalEur": 0.012465310302734376
+    },
+    "case_id": "V2/ITP2425/H02E02-Panic_at_Seal_Saloon/013",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

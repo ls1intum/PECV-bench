@@ -1,0 +1,60 @@
+{
+    "timestamp": "2026-03-08T21:24:12.444552Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The PersonService.savePerson method has different visibility between template and solution. In the template PersonService.savePerson is declared public, which matches the problem description that server-side resources forward actions to PersonService. In the solution repository savePerson is declared private, while PersonResource calls personService.savePerson(...). This visibility change prevents PersonResource from accessing the method and would cause compilation errors or confusion about the intended API surface of PersonService.",
+            "suggestedFix": "Restore the savePerson method to public visibility (public Person savePerson(Person person)) so that PersonResource and other classes can call it as intended. Ensure the method signature remains unchanged from the template so it matches the documented and expected service API.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 18,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 20,
+                    "endLine": 33
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 37,
+                    "endLine": 43
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 16,
+                    "endLine": 19
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 206,
+                    "endLine": 209
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:24:12.444552Z",
+        "endTime": "2026-03-08T21:24:31.422705Z",
+        "durationS": 18.978
+    },
+    "tokens": {
+        "prompt": 49991,
+        "completion": 3462,
+        "total": 53453
+    },
+    "costs": {
+        "promptEur": 0.01149793017578125,
+        "completionEur": 0.006370080078125,
+        "totalEur": 0.01786801025390625
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/014",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

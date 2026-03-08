@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-08T21:24:06.442053Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The declaration of ray_sphere_intersect in the template header does not match its implementation: the header in example_program/src/ray_sphere_intersect.h declares a function taking (origin, dir, center) (3 parameters) while the implementation in example_program/src/ray_sphere_intersect.cpp defines ray_sphere_intersect with an additional radius parameter. The solution repository's header uses the correct 4-parameter signature. This mismatch is structural and will cause compilation errors for students using the template (calls supplying a radius will not match the header).",
+            "suggestedFix": "Update the template header declaration to match the implementation (and the solution). Change the prototype in example_program/src/ray_sphere_intersect.h to: bool ray_sphere_intersect(const float *origin, const float *dir, const float *center, const float radius); Ensure any includes/calls use the 4-parameter signature so compilation succeeds.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.h",
+                    "startLine": 5,
+                    "endLine": 9
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.cpp",
+                    "startLine": 10,
+                    "endLine": 15
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.h",
+                    "startLine": 5,
+                    "endLine": 10
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The function ray_sphere_intersect is declared with different parameter lists across artifacts: the TEMPLATE header declares ray_sphere_intersect(origin, dir, center) (no radius parameter), while the TEMPLATE implementation and usage (main.cpp) call/define ray_sphere_intersect(origin, dir, center, radius). The SOLUTION header declares the function with the radius parameter as well. This mismatch (header vs implementation/usage and template vs solution header) makes it unclear which signature students should use and creates unnecessary confusion when mapping the API described in headers to the implementation and example usage.",
+            "suggestedFix": "Make the function signature consistent across header, implementation, and usage. Update example_program/src/ray_sphere_intersect.h in the TEMPLATE repository to declare: bool ray_sphere_intersect(const float *origin, const float *dir, const float *center, const float radius); (matching the implementation and the SOLUTION header).",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.h",
+                    "startLine": 5,
+                    "endLine": 9
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.cpp",
+                    "startLine": 10,
+                    "endLine": 16
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/main.cpp",
+                    "startLine": 195,
+                    "endLine": 196
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.h",
+                    "startLine": 5,
+                    "endLine": 10
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:24:06.442053Z",
+        "endTime": "2026-03-08T21:24:21.739494Z",
+        "durationS": 15.297
+    },
+    "tokens": {
+        "prompt": 87685,
+        "completion": 3959,
+        "total": 91644
+    },
+    "costs": {
+        "promptEur": 0.02016755078125,
+        "completionEur": 0.007284560302734376,
+        "totalEur": 0.027452111083984376
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/005",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

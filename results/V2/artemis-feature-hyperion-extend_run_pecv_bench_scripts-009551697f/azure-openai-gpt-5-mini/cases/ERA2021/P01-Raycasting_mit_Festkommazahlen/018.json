@@ -1,0 +1,92 @@
+{
+    "timestamp": "2026-03-08T21:23:42.045091Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The ray-sphere interface is inconsistent: the header declares a function named check_sphere_hit(...) but the implementation defines ray_sphere_intersect(...) and the program calls ray_sphere_intersect(...). This name/ signature mismatch between header, implementation and callers will cause compile-time errors or undefined references and will block students from building or understanding the intended API.",
+            "suggestedFix": "Make the function name and prototype consistent across header, implementation and callers. Either (A) change the declaration in example_program/src/ray_sphere_intersect.h to declare bool ray_sphere_intersect(const float*, const float*, const float*, const float); or (B) rename the implementation and all callers to check_sphere_hit(...). Ensure the header is included where the function is called so callers see the correct prototype.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.h",
+                    "startLine": 5,
+                    "endLine": 10
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.cpp",
+                    "startLine": 10,
+                    "endLine": 16
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/main.cpp",
+                    "startLine": 193,
+                    "endLine": 197
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.h",
+                    "startLine": 5,
+                    "endLine": 10
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.cpp",
+                    "startLine": 10,
+                    "endLine": 16
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/main.cpp",
+                    "startLine": 193,
+                    "endLine": 197
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The template repository's header declares a function named check_sphere_hit but the corresponding implementation defines ray_sphere_intersect. The solution repository uses ray_sphere_intersect in its header. This mismatch (header vs. implementation in the template, and template vs. solution) creates a mapping/compilation confusion for students: they cannot reliably locate or call the intended sphere-intersection function and may be unsure which name to use.",
+            "suggestedFix": "Rename the declaration in the template header to match the implementation and the solution: change check_sphere_hit(...) to ray_sphere_intersect(...), or vice versa rename the implementation to check_sphere_hit. Prefer aligning to ray_sphere_intersect in the template header to match the implementation and the solution.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.h",
+                    "startLine": 5,
+                    "endLine": 10
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.cpp",
+                    "startLine": 10,
+                    "endLine": 35
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.h",
+                    "startLine": 5,
+                    "endLine": 10
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:23:42.045091Z",
+        "endTime": "2026-03-08T21:23:55.741516Z",
+        "durationS": 13.696
+    },
+    "tokens": {
+        "prompt": 87697,
+        "completion": 3603,
+        "total": 91300
+    },
+    "costs": {
+        "promptEur": 0.020170310546875,
+        "completionEur": 0.006629520263671875,
+        "totalEur": 0.026799830810546876
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/018",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

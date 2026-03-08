@@ -1,0 +1,92 @@
+{
+    "timestamp": "2026-03-08T21:35:20.324519Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "The solution repository's Course declaration uses the property and initializer parameter name 'lecturer' (e.g. let lecturer: String and init(name: String, lecturer: String, ...)), while both the problem statement and the template repository specify and expect the name 'instructor' (e.g. Course(name: ..., instructor: ..., ratings: ...)). This causes a constructor/parameter mismatch (Client in the solution still constructs Course with an 'instructor' argument) and member-access mismatches (Developer in the solution refers to course.instructor). Students following the template/problem text would implement and use 'instructor', but the solution code is structurally inconsistent and would not compile or match the intended API.",
+            "suggestedFix": "Align the solution repository with the problem statement and template by renaming the Course property and initializer parameter from 'lecturer' back to 'instructor' (e.g. let instructor: String; init(name: String, instructor: String, ratings: [Int])) and update all usages in the solution (Client, Developer, etc.) to reference 'instructor'. Alternatively, if 'lecturer' is preferred, update the problem statement and template to use 'lecturer' consistently.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 6,
+                    "endLine": 11
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 7,
+                    "endLine": 16
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 8,
+                    "endLine": 17
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Client.swift",
+                    "startLine": 9,
+                    "endLine": 16
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The Problem Statement and the template define the Course's teacher field and initializer parameter as \"instructor\" (Course(name:..., instructor:...)), and the template's Course class declares a property named instructor. In the solution, the Course class instead names this property/initializer parameter \"lecturer\", while other solution files (Client.swift and Developer.swift) still reference course.instructor. This inconsistent naming of the same conceptual entity (the course teacher) across artifacts creates confusion and breaks direct mapping between the problem requirements, the starter template, and the provided solution code.",
+            "suggestedFix": "Make the identifier consistent across all artifacts. Rename the Course property and initializer parameter in the solution from \"lecturer\" to \"instructor\" (or change all references to \"lecturer\"), and update all call sites (Client.swift, Developer.swift) to use the same name. Prefer using \"instructor\" to match the problem statement and the template.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 7,
+                    "endLine": 11
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 8,
+                    "endLine": 16
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 9,
+                    "endLine": 17
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Client.swift",
+                    "startLine": 9,
+                    "endLine": 15
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Developer.swift",
+                    "startLine": 42,
+                    "endLine": 49
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:35:20.324519Z",
+        "endTime": "2026-03-08T21:35:33.380971Z",
+        "durationS": 13.056
+    },
+    "tokens": {
+        "prompt": 12829,
+        "completion": 3440,
+        "total": 16269
+    },
+    "costs": {
+        "promptEur": 0.0029506700439453125,
+        "completionEur": 0.006329600097656251,
+        "totalEur": 0.009280270141601564
+    },
+    "case_id": "V2/IOS26/TC2-Developer/016",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

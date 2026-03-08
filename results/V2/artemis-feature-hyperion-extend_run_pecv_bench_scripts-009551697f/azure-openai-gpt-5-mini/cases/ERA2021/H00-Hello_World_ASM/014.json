@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-08T21:20:54.452006Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The problem statement requires the variable `shared_data` to be globally visible for tests, but the template does not define `shared_data` at all and the solution defines `shared_data` without exporting it. The solution file contains `shared_data dd 100` but is missing a corresponding `global shared_data` directive, so tests cannot access the symbol. This mismatch between the problem requirement and the repositories can cause tests to fail or confuse students about the expected global symbol.",
+            "suggestedFix": "Ensure `shared_data` is both present and exported in the assembly sources. Add a definition in the template (e.g. `shared_data dd 100` in the .data section) and add a `global shared_data` directive (for example placed near the other global declarations). In the solution, add `global shared_data` so the symbol is exported (and remove the misleading comment). This makes the variable available to tests and aligns template/solution with the problem statement.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 2,
+                    "endLine": 4
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The template uses the incorrect register name 'ecc' (add eax, ecc) while the problem statement and the solution use the correct register 'ecx'. This typo in the template breaks the mapping between the described TODO and the actual code, causes compilation failure, and forces students to resolve a naming error rather than focus on the exercise.",
+            "suggestedFix": "In the template file helloWorld.asm, replace the incorrect register name 'ecc' with the correct 'ecx' (change 'add eax, ecc' to 'add eax, ecx') so the code matches the problem statement and the solution.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 12,
+                    "endLine": 14
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 12,
+                    "endLine": 14
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 15,
+                    "endLine": 18
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:20:54.452006Z",
+        "endTime": "2026-03-08T21:21:08.205689Z",
+        "durationS": 13.753
+    },
+    "tokens": {
+        "prompt": 7413,
+        "completion": 2598,
+        "total": 10011
+    },
+    "costs": {
+        "promptEur": 0.0017049900512695311,
+        "completionEur": 0.004780320068359375,
+        "totalEur": 0.006485310119628906
+    },
+    "case_id": "V2/ERA2021/H00-Hello_World_ASM/014",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

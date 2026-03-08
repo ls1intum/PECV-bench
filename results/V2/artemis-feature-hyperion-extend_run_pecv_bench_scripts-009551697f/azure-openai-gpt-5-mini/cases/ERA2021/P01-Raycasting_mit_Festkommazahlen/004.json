@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-08T21:24:03.483356Z",
+    "issues": [
+        {
+            "severity": "LOW",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The Bitmap24::set(...) declaration and definition use different parameter identifiers/order in the template and solution artifacts which can confuse students about the expected parameter ordering (row vs. column). In the template header the set method is declared with parameters named (i_x, i_y) while the implementation in Bitmap24.cpp (and the solution header) uses (i_y, i_x). Although the types are both (int, int) and the compiled signature is the same, the swapped identifier order and the mismatch between template header and solution header can mislead students about whether the first integer is the x (column) or y (row) coordinate.",
+            "suggestedFix": "Make the parameter ordering and names consistent across header and implementation. Change the template header declaration to match the implementation (use i_y, i_x) or update the implementation to match the header, and add a brief comment documenting that the first parameter is the row (y) and the second is the column (x). This preserves the intended API and removes ambiguity for students.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 51,
+                    "endLine": 57
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 45,
+                    "endLine": 56
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 51,
+                    "endLine": 57
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The Bitmap24::set(...) parameter names/order differ between the template header and its implementation (and differ from the solution). In the template header the parameters are declared as (int i_x, int i_y, ...), while the implementation defines set(int i_y, int i_x, ...). This mismatch between the declared parameter naming/order and the implementation (and the usage in main.cpp which calls set(i, j, ...)) creates cognitive mapping confusion for students: they may be unsure whether the first argument is x or y and which name to follow when reading the header, the implementation, and example usage. The solution repository consistently uses (int i_y, int i_x, ...), which indicates the template header is the outlier.",
+            "suggestedFix": "Make the template header declaration match the implementation and the solution: change the Bitmap24::set declaration in example_program/src/Bitmap24.hpp to use (int i_y, int i_x, char i_r, char i_g, char i_b). Alternatively, if the intended API is (x,y), update the implementation and all usages (main.cpp) to consistently use (i_x, i_y). Ensure header, implementation, and example usage all use the same parameter order and names to avoid confusion.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 51,
+                    "endLine": 57
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 45,
+                    "endLine": 56
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 51,
+                    "endLine": 57
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 45,
+                    "endLine": 56
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:24:03.483356Z",
+        "endTime": "2026-03-08T21:24:32.291617Z",
+        "durationS": 28.808
+    },
+    "tokens": {
+        "prompt": 87699,
+        "completion": 6461,
+        "total": 94160
+    },
+    "costs": {
+        "promptEur": 0.020170770507812498,
+        "completionEur": 0.011888240234375,
+        "totalEur": 0.0320590107421875
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/004",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

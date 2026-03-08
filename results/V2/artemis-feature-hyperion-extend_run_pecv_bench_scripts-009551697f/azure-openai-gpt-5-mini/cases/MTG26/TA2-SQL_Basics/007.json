@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-08T21:31:55.055374Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The solution for Aufgabe 04 groups by 'kreis' but the problem statement requires aggregation grouped by 'regierungsbezirk'. The solution's query selects regierungsbezirk while grouping by kreis, which is inconsistent with the task requirement and may be invalid in strict SQL dialects or produce unintended aggregations. This mismatch could confuse students about which grouping key to use and prevent them from implementing the requested result.",
+            "suggestedFix": "Update the solution query to group by regierungsbezirk (as requested by the problem). For example: SELECT regierungsbezirk, SUM(einwohner_w), SUM(einwohner_m) FROM Gemeinde GROUP BY regierungsbezirk; This aligns the solution with the task description and avoids selecting a non-grouped column.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 120,
+                    "endLine": 123
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe04.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe04.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Aufgabe 04 in der Problemstellung verlangt Gruppierung nach 'Regierungsbezirk' (und Ausgabe des Namens des jeweiligen Regierungsbezirks), die L\u00f6sung aber gruppiert stattdessen nach 'kreis' und gibt 'regierungsbezirk' in der SELECT-Klausel aus. Das schafft Verwirrung, weil die Problemstellung und die L\u00f6sung unterschiedliche konzeptionelle Entit\u00e4ten (regierungsbezirk vs. kreis) f\u00fcr die Gruppierung verwenden.",
+            "suggestedFix": "Konsistenz herstellen: Wenn die Aufgabe nach Gruppierung nach 'regierungsbezirk' verlangt, sollte die L\u00f6sung ebenfalls GROUP BY regierungsbezirk verwenden. Konkret: in aufgabe04.sql GROUP BY kreis ersetzen durch GROUP BY regierungsbezirk (oder alternativ die Problemstellung anpassen, falls tats\u00e4chlich nach 'kreis' gruppiert werden soll).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 120,
+                    "endLine": 123
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe04.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe04.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:31:55.055374Z",
+        "endTime": "2026-03-08T21:32:12.475244Z",
+        "durationS": 17.419
+    },
+    "tokens": {
+        "prompt": 13377,
+        "completion": 4723,
+        "total": 18100
+    },
+    "costs": {
+        "promptEur": 0.0030767100830078123,
+        "completionEur": 0.0086903203125,
+        "totalEur": 0.011767030395507812
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/007",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

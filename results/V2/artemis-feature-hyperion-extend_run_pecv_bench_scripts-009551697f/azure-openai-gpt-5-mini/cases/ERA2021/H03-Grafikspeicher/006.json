@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-08T21:22:10.431776Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem statement requires that the subroutine set_pixel must not modify any registers except EAX (x may be changed), but the solution's set_pixel implementation modifies EDI without saving/restoring it (it executes 'or edi, edi' and uses EDI later) and thus violates the register-preservation calling convention described in the problem. This structural mismatch between the specified calling convention and the solution implementation can confuse students about which registers they must preserve and lead them to produce implementations that appear correct but do not conform to the contract.",
+            "suggestedFix": "Ensure the solution's set_pixel respects the calling convention in the problem statement by not altering any registers other than EAX, or by saving and restoring any registers it uses (e.g., push edi / pop edi). Remove or refactor the extraneous 'or edi, edi' alpha-channel check (or save/restore EDI around it), and clearly document the calling convention in the solution so it matches the problem description.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 37
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:22:10.431776Z",
+        "endTime": "2026-03-08T21:22:35.999328Z",
+        "durationS": 25.567
+    },
+    "tokens": {
+        "prompt": 13585,
+        "completion": 4035,
+        "total": 17620
+    },
+    "costs": {
+        "promptEur": 0.003124550048828125,
+        "completionEur": 0.007424400146484375,
+        "totalEur": 0.0105489501953125
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/006",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

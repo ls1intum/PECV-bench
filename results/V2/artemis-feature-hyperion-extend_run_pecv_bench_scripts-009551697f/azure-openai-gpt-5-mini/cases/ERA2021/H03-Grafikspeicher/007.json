@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-08T21:21:48.443930Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem statement and the template reserve/display_start for a 1920\u00d71080 framebuffer (display_start RESB 8294400), but the solution reserves a much smaller buffer (display_start RESB 409600) and comments it as 320\u00d7320. This is a cross-artifact inconsistency: the solution's bss allocation does not match the resolution and base-address expectations described in the problem and in the template, which can cause confusion or out-of-bounds accesses when students compare template behavior with the reference implementation.",
+            "suggestedFix": "Make the solution's display_start allocation consistent with the problem statement and template (reserve 8294400 bytes for 1920\u00d71080\u00d74). Alternatively, if the solution intentionally uses a smaller test buffer, update the problem statement and template comments to explicitly state the reduced test resolution and adjust constant multipliers accordingly so all artifacts agree.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 17,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 20,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 4,
+                    "endLine": 6
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The template contains a comment near the main TODO that says 'Attention: save all registers you modify except eax,ebx and esi', which contradicts the problem specification that set_pixel must not modify any registers except eax. This conflicting guidance (template vs. problem statement) can confuse students about which registers they must preserve when implementing the position calculation and the set_pixel subroutine.",
+            "suggestedFix": "Clarify and harmonize register-preservation requirements across artifacts. Update the template comment to match the problem statement: explicitly state which registers must be preserved (e.g., set_pixel may alter EAX but must preserve all other registers), and ensure the main TODO guidance does not suggest exceptions that contradict the specification. If any temporary registers must be used in main for the position calculation, instruct students to save/restore them explicitly.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 99,
+                    "endLine": 106
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:21:48.443930Z",
+        "endTime": "2026-03-08T21:22:12.398229Z",
+        "durationS": 23.954
+    },
+    "tokens": {
+        "prompt": 13541,
+        "completion": 3639,
+        "total": 17180
+    },
+    "costs": {
+        "promptEur": 0.0031144300537109372,
+        "completionEur": 0.006695759887695313,
+        "totalEur": 0.00981018994140625
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/007",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

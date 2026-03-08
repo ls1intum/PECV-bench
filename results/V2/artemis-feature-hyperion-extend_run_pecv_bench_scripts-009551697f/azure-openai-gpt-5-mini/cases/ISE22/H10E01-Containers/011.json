@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-08T21:25:42.180580Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The solution repository's Person entity declares the id field as Integer but its getId()/setId() methods use Long, and the PersonRepository uses JpaRepository<Person, Long>. The template Person entity (and repository) use Long for the id. This creates a type mismatch between the entity field, its accessors, and the repository generic type. Students following the template or the repository signatures will be confused and will encounter compile-time or runtime JPA mapping errors.",
+            "suggestedFix": "Make the id type consistent across all artifacts. Preferably change the field declaration in solution/src/main/java/de/tum/in/ase/eist/model/Person.java to 'private Long id;' and ensure getId()/setId() use Long, matching the PersonRepository's JpaRepository<Person, Long> and the template. Alternatively, change repository generics and all accessors to Integer\u2014whichever keeps a single consistent id type across entity, accessors, and repository.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+                    "startLine": 19,
+                    "endLine": 23
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+                    "startLine": 19,
+                    "endLine": 59
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/repository/PersonRepository.java",
+                    "startLine": 12,
+                    "endLine": 23
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:25:42.180580Z",
+        "endTime": "2026-03-08T21:25:58.986420Z",
+        "durationS": 16.805
+    },
+    "tokens": {
+        "prompt": 47911,
+        "completion": 2345,
+        "total": 50256
+    },
+    "costs": {
+        "promptEur": 0.0110195302734375,
+        "completionEur": 0.0043148001708984375,
+        "totalEur": 0.015334330444335936
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/011",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

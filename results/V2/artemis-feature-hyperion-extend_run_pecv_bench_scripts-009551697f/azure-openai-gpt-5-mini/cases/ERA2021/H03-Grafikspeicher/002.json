@@ -1,0 +1,60 @@
+{
+    "timestamp": "2026-03-08T21:22:54.208042Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem statement explicitly instructs students to load the pixel value from the computed address into ECX (mov ecx, [esi]) after computing the address in ESI. The solution, however, performs mov eax, [esi] in main (overwriting that value later) and does not follow the instruction to place the pixel value in ECX. This mismatch between the expected register usage (problem statement) and the solution implementation can confuse students about which register should hold the pixel value and how the subsequent printing code expects the value to be passed.",
+            "suggestedFix": "Make the register usage consistent: either update the problem statement to allow the solution's use of EAX for loading the pixel, or change the solution/main code to perform mov ecx, [esi] as instructed and adjust any subsequent pushes/prints to use ECX. Ensure the template TODO and example code align with the same register convention so students are not confused.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 26
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 15,
+                    "endLine": 16
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 100,
+                    "endLine": 111
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 94,
+                    "endLine": 101
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 31
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:22:54.208042Z",
+        "endTime": "2026-03-08T21:23:26.204296Z",
+        "durationS": 31.996
+    },
+    "tokens": {
+        "prompt": 13527,
+        "completion": 4171,
+        "total": 17698
+    },
+    "costs": {
+        "promptEur": 0.0031112100830078125,
+        "completionEur": 0.007674640075683594,
+        "totalEur": 0.010785850158691407
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/002",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

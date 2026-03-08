@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-08T21:22:48.879684Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem statement specifies that set_pixel receives x in EAX, y in EBX and the color in ECX. The solution implementation of set_pixel swaps EAX and EBX (xchg eax, ebx) before computing the address, effectively treating the parameters in the opposite order. This contradicts the specified parameter convention and leads to an incorrect pixel address calculation (it computes display_start + y*4 + 7680*x instead of display_start + x*4 + 7680*y). This mismatch between the problem specification and the solution will confuse students and cause the reference implementation to behave incorrectly relative to the assignment.",
+            "suggestedFix": "Modify the solution's set_pixel so it uses the parameters as specified (EAX = x, EBX = y, ECX = color) and remove the xchg instruction. Compute the address as display_start + EAX*4 + EBX*7680 (or equivalent using shifts/adds and preserving registers as required) and store ECX at that address. Ensure other registers are preserved across the call (push/pop saved registers) so the routine adheres to the requirement that only EAX may be changed from the caller-visible registers.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 35
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement and the template specify the coordinate parameters as x in EAX and y in EBX, but the solution's set_pixel implementation swaps those registers (uses xchg eax, ebx) so that the function treats the registers in the opposite roles. This creates a parameter/role mismatch for the same conceptual entities (x and y registers) across artifacts and will confuse students about the calling convention they must follow.",
+            "suggestedFix": "Make the parameter convention uniform: either (A) remove the xchg in set_pixel and implement the routine assuming EAX contains x and EBX contains y (as described in the problem and template), or (B) update the problem statement and template comments to document that set_pixel expects x and y swapped. Prefer option (A) so set_pixel directly uses EAX=x and EBX=y and does not swap registers, and ensure the result/address convention (ESI if required) is consistently documented and implemented.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 24,
+                    "endLine": 26
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 100,
+                    "endLine": 102
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 26
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:22:48.879684Z",
+        "endTime": "2026-03-08T21:23:17.764324Z",
+        "durationS": 28.884
+    },
+    "tokens": {
+        "prompt": 13563,
+        "completion": 6613,
+        "total": 20176
+    },
+    "costs": {
+        "promptEur": 0.003119490112304687,
+        "completionEur": 0.012167919921875,
+        "totalEur": 0.015287410034179686
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/004",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

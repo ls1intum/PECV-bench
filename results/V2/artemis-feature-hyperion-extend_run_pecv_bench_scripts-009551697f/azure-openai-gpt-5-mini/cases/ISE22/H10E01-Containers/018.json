@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-08T21:25:38.323609Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The GET mapping for the method that returns all persons uses different endpoint paths in the template and the solution. The template's PersonResource exposes GET \"persons\" while the solution's PersonResource exposes GET \"people\". The problem statement and tests expect \"/persons\" endpoints (e.g., PUT /persons/{personId}/parents). This inconsistency in the request mapping string can confuse students about the correct endpoint to use and causes a structural divergence between template, solution, and the documented/tested API.",
+            "suggestedFix": "Use the same request mapping path in both template and solution. Change the solution's getAllPersons mapping from \"people\" to \"persons\" so it matches the template, the problem statement examples, and the tests (i.e., @GetMapping(\"persons\")).",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 27,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 27,
+                    "endLine": 30
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 125,
+                    "endLine": 126
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The \"get all persons\" endpoint is exposed with different path identifiers across artifacts: the template PersonResource registers GET at \"/persons\", but the solution PersonResource registers GET at \"/people\". Tests and other endpoints consistently use \"/persons\". This divergence (persons vs. people) creates unnecessary mapping confusion for students trying to locate or call the API endpoint corresponding to the \"get all persons\" requirement.",
+            "suggestedFix": "Use a single, consistent path for the \"get all persons\" endpoint across template and solution. Change the solution's @GetMapping(\"people\") to @GetMapping(\"persons\") (or vice versa) so that endpoint names match the rest of the codebase and tests, and document the chosen path in the problem statement if explicit endpoint names are required.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 27,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 27,
+                    "endLine": 30
+                },
+                {
+                    "type": "TESTS_REPOSITORY",
+                    "filePath": "src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+                    "startLine": 48,
+                    "endLine": 52
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 24
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T21:25:38.323609Z",
+        "endTime": "2026-03-08T21:25:58.854511Z",
+        "durationS": 20.53
+    },
+    "tokens": {
+        "prompt": 47911,
+        "completion": 3923,
+        "total": 51834
+    },
+    "costs": {
+        "promptEur": 0.0110195302734375,
+        "completionEur": 0.007218320068359375,
+        "totalEur": 0.018237850341796875
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/018",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}
