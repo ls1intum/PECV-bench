@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-08T23:00:21.582066Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The template defines the program entry symbol as 'main' (global main) while the provided solution declares 'global _start' and uses a different entry label. This mismatch in the global entry symbol is a structural inconsistency: students following the template expect to implement/execute 'main', but the solution demonstrates using '_start'. This can confuse students about the required entry point and may produce linking/behavior differences when building or running the program.",
+            "suggestedFix": "Make the entry symbol consistent between template and solution. Either change the solution to export 'global main' and keep the 'main:' label (to match the template and usual C runtime entry), or modify the template and build/link instructions to use '_start' consistently. Also update any documentation/comments so students know which entry point to use when compiling and running the exercise.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 29,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 12,
+                    "endLine": 16
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 2,
+                    "endLine": 4
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The program entry symbol is exported with different identifiers across artifacts: the template assembly file declares 'global main' while the solution assembly file declares 'global _start'. Both refer to the program entry/entry-point concept but use different exported names, which can confuse students about which symbol to provide and may cause build/link differences when following the template/Makefile.",
+            "suggestedFix": "Use a consistent entry symbol name across template and solution. Prefer aligning the solution to the template by changing 'global _start' to 'global main' (or alternatively change the template to export '_start' and ensure the label matches). This removes ambiguity for students following the template and Makefile.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 30,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 14,
+                    "endLine": 14
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 2,
+                    "endLine": 12
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T23:00:21.582066Z",
+        "endTime": "2026-03-08T23:00:38.862835Z",
+        "durationS": 17.28
+    },
+    "tokens": {
+        "prompt": 13531,
+        "completion": 4243,
+        "total": 17774
+    },
+    "costs": {
+        "promptEur": 0.0031121300048828123,
+        "completionEur": 0.0078071201171875,
+        "totalEur": 0.010919250122070312
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/015",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-08T23:00:30.509071Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem statement and template assume a display buffer for a 1920\u00d71080 true-color framebuffer (32 bpp), which requires 1920*1080*4 = 8,294,400 bytes and the template reserves display_start RESB 8294400. The solution, however, reserves display_start RESB 409600 (comment: Only 320x320 reserved), which contradicts the resolution and buffer size described in the exercise and used in the template. This discrepancy can confuse students about the required buffer size and the expected addressing arithmetic.",
+            "suggestedFix": "Make the buffer reservation consistent across artifacts. Either (A) change solution/pixel.asm to reserve display_start RESB 8294400 (matching 1920\u00d71080\u00d74) so it aligns with the problem statement and template, or (B) explicitly document in the problem statement and template that the solution uses a smaller test buffer (e.g. 320\u00d7320) and explain any implications for the address calculations and examples. Prefer option (A) to avoid student confusion about expected dimensions.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 20,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 4,
+                    "endLine": 6
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T23:00:30.509071Z",
+        "endTime": "2026-03-08T23:00:49.872202Z",
+        "durationS": 19.363
+    },
+    "tokens": {
+        "prompt": 13541,
+        "completion": 3101,
+        "total": 16642
+    },
+    "costs": {
+        "promptEur": 0.0031144300537109372,
+        "completionEur": 0.005705839965820313,
+        "totalEur": 0.00882027001953125
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/007",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

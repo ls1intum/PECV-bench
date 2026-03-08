@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-08T23:00:41.533403Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The problem statement requires that set_pixel must not change any registers except EAX (only EAX may be modified). The template contains a contradictory comment telling students to \"save all registers you modify except eax, ebx and esi\" (implying EBX and ESI may be modified without saving). The provided solution also preserves EBX/ESI by pushing/popping them in set_pixel, which is consistent with the problem requirement but the template wording is inconsistent and could confuse students about which registers they are allowed to clobber.",
+            "suggestedFix": "Make the register-preservation requirement consistent across all artifacts. Update the template comment to match the problem statement (e.g. state explicitly that only EAX may be changed and all other registers must be preserved), and ensure the example solution documents that it preserves registers (push/pop) as needed. Alternatively, if EBX/ESI are allowed to be clobbered, update the problem statement to explicitly permit that and clarify which registers may be modified.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 100,
+                    "endLine": 102
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 20,
+                    "endLine": 24
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The template declares a global display_start buffer in .bss (display_start RESB 8294400) and the problem statement refers to the screen base as the label display_start. The solution, however, does not declare display_start in .bss (it contains a comment claiming display_start was moved to local scope) but still references the symbol display_start in multiple places. This leads to an undefined symbol / missing global buffer in the solution and structural mismatch between template and solution.",
+            "suggestedFix": "Restore or clearly define the display_start symbol in the solution (e.g. add 'display_start RESB 8294400' in the .bss section) or modify all references to use the actual intended storage location (if it truly was moved to the stack, implement that move consistently and update all references). Ensure the template, solution, and problem statement consistently use the same declaration/location for display_start so the code compiles and behaves as described.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 20,
+                    "endLine": 21
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 4,
+                    "endLine": 8
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 30,
+                    "endLine": 31
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 31
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T23:00:41.533403Z",
+        "endTime": "2026-03-08T23:01:09.326167Z",
+        "durationS": 27.792
+    },
+    "tokens": {
+        "prompt": 13545,
+        "completion": 4240,
+        "total": 17785
+    },
+    "costs": {
+        "promptEur": 0.0031153499755859375,
+        "completionEur": 0.007801599975585938,
+        "totalEur": 0.010916949951171876
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/014",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

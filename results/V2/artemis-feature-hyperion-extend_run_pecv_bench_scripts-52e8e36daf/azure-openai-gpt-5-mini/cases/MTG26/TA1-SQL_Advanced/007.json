@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-08T23:11:47.289449Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The solution query for Aufgabe 02 joins Gemeinde.schluessel to Freizeitpark.id (WHERE Gemeinde.schluessel = Freizeitpark.id), which is inconsistent with the column naming pattern used elsewhere (e.g. Zoo.gemeindeschluessel, Schwimmbad.gemeindeschluessel) and likely incorrect. The intended join key is probably Freizeitpark.gemeindeschluessel. This mismatch between solution and the expected schema can confuse students about which column to use for the join and may produce wrong or empty results.",
+            "suggestedFix": "In the solution for aufgabe02.sql, change the join condition to use the gemeindeschluessel column on the Freizeitpark table: WHERE Gemeinde.schluessel = Freizeitpark.gemeindeschluessel. This aligns the solution with the schema convention used in the other tasks and with student expectations.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 24
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe02.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe02.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The solution uses Freizeitpark.id as the join key to Gemeinde.schluessel, while all other entity-to-Gemeinde joins in the materials use the column name gemeindeschluessel (e.g., Zoo.gemeindeschluessel, Schwimmbad.gemeindeschluessel). This inconsistent identifier for the same conceptual foreign-key relationship (the Freizeitpark \u2192 Gemeinde link) will confuse students about which column represents the gemeindeschluessel and how to perform the join.",
+            "suggestedFix": "Use a consistent foreign-key column name for Freizeitpark that matches the other tables. Change Freizeitpark.id in the solution to Freizeitpark.gemeindeschluessel (and adjust any schema/comments accordingly) so the WHERE clause reads: WHERE Gemeinde.schluessel = Freizeitpark.gemeindeschluessel. This aligns the solution with the naming used elsewhere and reduces student confusion.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 24
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe02.sql",
+                    "startLine": 1,
+                    "endLine": 2
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe02.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T23:11:47.289449Z",
+        "endTime": "2026-03-08T23:12:09.846434Z",
+        "durationS": 22.556
+    },
+    "tokens": {
+        "prompt": 9769,
+        "completion": 3340,
+        "total": 13109
+    },
+    "costs": {
+        "promptEur": 0.0022468699951171877,
+        "completionEur": 0.0061456000976562505,
+        "totalEur": 0.008392470092773437
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/007",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

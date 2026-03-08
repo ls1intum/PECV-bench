@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-08T23:11:12.304493Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem statement requires the result column to be named `Anzahl` and the output to be sorted descending by that column, but the solution query aliases the count as `Count` while ordering by `Anzahl`. This creates a structural inconsistency: the ORDER BY references a column/alias (`Anzahl`) that does not exist in the solution, and the produced column name does not match the expected `Anzahl`. This will cause the automated checks to fail or the query to error.",
+            "suggestedFix": "Make the alias and ORDER BY consistent with the problem statement. For example: SELECT gemeindeschluessel, COUNT(*) AS Anzahl FROM Wanderweg_zu_Gemeinde GROUP BY gemeindeschluessel ORDER BY Anzahl DESC",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe10.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 151,
+                    "endLine": 154
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe10.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement requires the result column to be named `Anzahl`, but the solution uses the alias `Count` for the aggregated column while its ORDER BY refers to `Anzahl`. This creates a naming mismatch between the expected column name in the task and the identifier used in the solution (and also an internal inconsistency in the solution: alias vs ORDER BY). Students following the problem will expect the column `Anzahl` and may be confused or encounter a failing query due to the inconsistent aliasing.",
+            "suggestedFix": "Use the exact column name requested by the task. Change the alias to `Anzahl` and ensure ORDER BY uses that name, e.g.:\nSELECT gemeindeschluessel, COUNT(*) AS Anzahl\nFROM Wanderweg_zu_Gemeinde\nGROUP BY gemeindeschluessel\nORDER BY Anzahl DESC",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe10.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 151,
+                    "endLine": 153
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T23:11:12.304493Z",
+        "endTime": "2026-03-08T23:11:26.250210Z",
+        "durationS": 13.945
+    },
+    "tokens": {
+        "prompt": 13381,
+        "completion": 3715,
+        "total": 17096
+    },
+    "costs": {
+        "promptEur": 0.0030776300048828125,
+        "completionEur": 0.0068356003417968745,
+        "totalEur": 0.009913230346679687
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/016",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-08T23:00:23.024245Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The solution reference contains an assembly-level mismatch in how printf arguments are passed compared to the problem statement and the template. The problem statement instructs using printf with the format string first (problem_statement.md), and the template simply pushes the format string (push hello) then calls printf. The solution, however, pushes an extra integer (push 123) before pushing the format string (push hello) and then only adjusts the stack by 4 (add esp, 4) instead of 8. This results in (1) a different argument ordering than the problem description (and ambiguous teaching intent) and (2) incorrect stack cleanup for two pushed arguments. Because the solution is intended to be the correct final state, these inconsistencies can confuse students about the intended printf calling convention and produce a broken example.",
+            "suggestedFix": "Make the solution consistent and correct: keep the register fix (add eax, ecx) but remove the erroneous extra push (push 123) unless the exercise intends to demonstrate passing an integer. If demonstrating an extra argument, push arguments in the correct assembly order (push the argument(s) first, then push the format string) and clean up the full stack (use add esp, 8 for two pushes). Alternatively, to match the template and the problem's simple example, simply push the format string (push hello) and call printf, and ensure stack cleanup matches the number of pushes. Also fix the stack adjustment to match the number of pushed words (e.g., add esp, 8 if two pushes).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 17,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 12,
+                    "endLine": 16
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 11,
+                    "endLine": 17
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T23:00:23.024245Z",
+        "endTime": "2026-03-08T23:00:39.916836Z",
+        "durationS": 16.892
+    },
+    "tokens": {
+        "prompt": 7417,
+        "completion": 2492,
+        "total": 9909
+    },
+    "costs": {
+        "promptEur": 0.0017059100341796874,
+        "completionEur": 0.004585280212402344,
+        "totalEur": 0.006291190246582031
+    },
+    "case_id": "V2/ERA2021/H00-Hello_World_ASM/004",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

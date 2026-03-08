@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-08T23:01:03.853485Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The template and problem statement expect the calculated pixel memory address to be placed in ESI (main pushes ESI as the position and later uses it to read/write the pixel). The provided solution's main implementation instead computes an offset into EDI, never adds display_start to produce an absolute address, and leaves ESI containing display_start. As a result the initial read (mov ecx, [edi]) and the saved value pushed for later inspection are inconsistent with the template's calling convention and the problem description. This mismatch breaks the intended register/parameter convention (position in ESI) and will confuse students implementing the TODOs.",
+            "suggestedFix": "Ensure the main position-calculation TODO computes the absolute address (display_start + x*4 + stride*y) into ESI as required by the template and problem statement. Concretely: compute offset = x*4 + 7680*y, add display_start to offset, store the resulting absolute pointer in ESI, use mov ecx, [esi] to read the initial pixel, and push ESI (the position) for later. Do not leave only display_start in ESI, and do not read from or push EDI unless you move the final absolute address into ESI first.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 100,
+                    "endLine": 110
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 92,
+                    "endLine": 101
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T23:01:03.853485Z",
+        "endTime": "2026-03-08T23:01:34.995239Z",
+        "durationS": 31.141
+    },
+    "tokens": {
+        "prompt": 13529,
+        "completion": 4541,
+        "total": 18070
+    },
+    "costs": {
+        "promptEur": 0.003111670043945312,
+        "completionEur": 0.008355440124511719,
+        "totalEur": 0.011467110168457032
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/001",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

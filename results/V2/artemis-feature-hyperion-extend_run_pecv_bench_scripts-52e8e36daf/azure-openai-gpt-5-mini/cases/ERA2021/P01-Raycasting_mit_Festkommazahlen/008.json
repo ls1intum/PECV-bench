@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-08T23:02:19.128128Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "The Bitmap24 constructor declaration in the template header declares three parameters (int i_width, int i_height, int depth) but the Bitmap24 implementation defines a constructor with only two parameters (int p_width, int p_height). The solution repository uses a two-parameter constructor. This mismatch between declaration and definition in the template is a structural inconsistency that can confuse students and may lead to compilation or linkage surprises if code expects the three-parameter variant.",
+            "suggestedFix": "Make the header and implementation consistent. Either (a) change example_program/src/Bitmap24.hpp in the template to declare Bitmap24(int i_width, int i_height) to match the implementation (and the solution), or (b) implement the three-parameter constructor in example_program/src/Bitmap24.cpp (and adjust uses) if a depth argument is intended. Prefer option (a) to match the solution and avoid introducing unused API differences.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 37,
+                    "endLine": 39
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 26,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 36,
+                    "endLine": 39
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Constructor signature for the Bitmap24 class is inconsistent between declaration and definition across artifacts: the template repository header declares Bitmap24(int i_width, int i_height, int depth) while the implementation (Bitmap24::Bitmap24) in the same template uses two parameters (int p_width, int p_height). The solution repository uses a two-argument constructor (Bitmap24(int i_width, int i_height)). This mismatch (extra 'depth' parameter in the template header) creates confusion for students and will cause compilation/signature errors or uncertainty about the intended API.",
+            "suggestedFix": "Make the constructor declaration consistent across artifacts. Remove the extraneous 'depth' parameter from the template header so the declaration becomes Bitmap24(int i_width, int i_height), matching the implementation and the solution. Alternatively, if a depth parameter is intended, update the implementation in both template and solution to define Bitmap24::Bitmap24(int p_width, int p_height, int depth) and update usages accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 37,
+                    "endLine": 39
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 26,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 38,
+                    "endLine": 39
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 26,
+                    "endLine": 31
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T23:02:19.128128Z",
+        "endTime": "2026-03-08T23:02:37.187001Z",
+        "durationS": 18.058
+    },
+    "tokens": {
+        "prompt": 87705,
+        "completion": 4014,
+        "total": 91719
+    },
+    "costs": {
+        "promptEur": 0.020172150390625,
+        "completionEur": 0.007385760009765625,
+        "totalEur": 0.027557910400390625
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/008",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

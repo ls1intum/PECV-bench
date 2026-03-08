@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-08T23:03:43.616089Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Endpoint path names for person-related REST calls are inconsistent between the problem statement, the client controller, and the server resource. The problem statement and the client code use the path '/persons' (GET/POST/PUT/DELETE), but the server-side PersonResource in the solution exposes the endpoints under '/people'. This mismatch will prevent the client from communicating with the server and contradicts the specified API in the assignment.",
+            "suggestedFix": "Make the server endpoints use the same path as specified in the problem statement and used by the client (i.e. '/persons'). Concretely, update PersonResource mappings from 'people' to 'persons' (or vice versa update the client and problem statement if 'people' is intended) so that client and server paths match. Also ensure any documentation in problem_statement.md reflects the chosen path.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 109,
+                    "endLine": 113
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 18,
+                    "endLine": 19
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 23,
+                    "endLine": 27
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+                    "startLine": 27,
+                    "endLine": 36
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement and client code refer to the persons resource using the path \"/persons\", but the server implementation in the solution exposes the resource under \"/people\". This inconsistent naming for the same conceptual entity (the Person REST resource) across artifacts creates a mapping confusion: students reading the problem and implementing client calls to \"/persons\" will not find the server endpoints implemented as \"/people\" and may be unsure which path is correct.",
+            "suggestedFix": "Unify the resource path name across all artifacts. Either: (A) change the server mappings from \"people\" to \"persons\" (update @GetMapping/@PostMapping/@PutMapping/@DeleteMapping in src/server/java/de/tum/in/ase/eist/rest/PersonResource.java to use \"persons\"), or (B) update the problem statement and client calls to use \"/people\" consistently (change client URIs from \"persons\" to \"people\"). Ensure the chosen resource name is used consistently in the problem statement, template server, template client, and solution.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 109,
+                    "endLine": 114
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 10,
+                    "endLine": 19
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 23,
+                    "endLine": 36
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+                    "startLine": 27,
+                    "endLine": 36
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T23:03:43.616089Z",
+        "endTime": "2026-03-08T23:04:01.669199Z",
+        "durationS": 18.053
+    },
+    "tokens": {
+        "prompt": 49991,
+        "completion": 3652,
+        "total": 53643
+    },
+    "costs": {
+        "promptEur": 0.01149793017578125,
+        "completionEur": 0.006719680175781249,
+        "totalEur": 0.0182176103515625
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/018",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

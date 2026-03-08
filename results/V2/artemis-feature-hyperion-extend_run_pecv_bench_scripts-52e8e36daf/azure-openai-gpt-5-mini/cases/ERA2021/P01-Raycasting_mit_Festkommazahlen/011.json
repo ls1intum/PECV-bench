@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-08T23:02:40.552327Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The template's Bitmap24.hpp declares the member 'data' as type 'int *data;', but the implementation in Bitmap24.cpp uses it as a byte buffer (new char[...] and fwrite expecting char*). The solution repository's Bitmap24.hpp correctly declares 'char *data;'. This type mismatch in the template will cause compilation errors and confusion for students (header and implementation disagree on the data pointer type).",
+            "suggestedFix": "Make the template's Bitmap24.hpp consistent with the implementation: change the member declaration from 'int *data;' to 'char *data;'. This matches Bitmap24.cpp usage (new char[...] and fwrite) and the solution reference. Ensure header and implementation use the same pointer type so the project compiles as required.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 30,
+                    "endLine": 36
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 26,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 30,
+                    "endLine": 36
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 18,
+                    "endLine": 21
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The Bitmap24 member that stores the pixel buffer is declared with a different type/name usage across artifacts: in the template repository header the member is declared as 'int *data' while the template implementation uses 'new char[...]' (treating it as a char*). The solution repository declares the member as 'char *data'. This mismatch for the same conceptual entity (the image data buffer named 'data') creates confusion and can produce compilation/type errors or extra cognitive load for students mapping the class API to its implementation.",
+            "suggestedFix": "Make the member type consistent across header and implementation in the template. Change the declaration in example_program/src/Bitmap24.hpp from 'int *data;' to 'char *data;' (matching the implementation and the solution) so the class API matches its usage and the reference solution.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 33,
+                    "endLine": 37
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 28,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 33,
+                    "endLine": 37
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T23:02:40.552327Z",
+        "endTime": "2026-03-08T23:02:57.215695Z",
+        "durationS": 16.663
+    },
+    "tokens": {
+        "prompt": 87699,
+        "completion": 3816,
+        "total": 91515
+    },
+    "costs": {
+        "promptEur": 0.020170770507812498,
+        "completionEur": 0.007021440185546875,
+        "totalEur": 0.02719221069335937
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/011",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-08T23:11:45.776539Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem statement for Aufgabe 07 asks for the names of the Gemeinden and the names of their respective Freib\u00e4der, but the solution returns Gemeinde.schluessel and Schwimmbad.id instead. This structural mismatch between the problem specification and the provided solution will confuse students about which columns they must output and prevents using the solution as a correct reference.",
+            "suggestedFix": "Update the solution to return the requested columns (Gemeinde.name and Schwimmbad.name) and ensure the join and filter for 'Freibad' are correct. For example: SELECT Gemeinde.name AS gemeinde_name, Schwimmbad.name AS freibad_name FROM Gemeinde, Schwimmbad WHERE Gemeinde.schluessel = Schwimmbad.gemeindeschluessel AND Schwimmbad.art = 'Freibad'. Alternatively, if the intention was to show IDs, update the problem statement to request Gemeinde.schluessel and Schwimmbad.id.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 46,
+                    "endLine": 49
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe07.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe07.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem asks for the names of Gemeinden and the names of the respective Freib\u00e4der, but the solution returns Gemeinde.schluessel and Schwimmbad.id (keys/IDs) instead of the requested name columns. This mismatch between the conceptual entity \"name\" in the problem statement and the identifier columns used in the solution will confuse students: they expect to work with Gemeinde.name and Schwimmbad.name but the solution uses schluessel/id, breaking the mapping from requirement to implementation.",
+            "suggestedFix": "Modify the solution to select the name fields requested by the problem. For example: SELECT Gemeinde.name AS gemeinde_name, Schwimmbad.name AS schwimmbad_name FROM Gemeinde JOIN Schwimmbad ON Gemeinde.schluessel = Schwimmbad.gemeindeschluessel WHERE Schwimmbad.art = 'Freibad'; This aligns returned columns with the problem text (names instead of keys/IDs).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 46,
+                    "endLine": 49
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe07.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe07.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T23:11:45.776539Z",
+        "endTime": "2026-03-08T23:12:07.269243Z",
+        "durationS": 21.492
+    },
+    "tokens": {
+        "prompt": 9783,
+        "completion": 3754,
+        "total": 13537
+    },
+    "costs": {
+        "promptEur": 0.002250089965820313,
+        "completionEur": 0.006907360107421875,
+        "totalEur": 0.009157450073242188
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/014",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

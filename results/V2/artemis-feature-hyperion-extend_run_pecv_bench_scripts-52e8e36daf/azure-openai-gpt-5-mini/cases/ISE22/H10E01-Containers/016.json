@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-08T23:04:48.790442Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The solution repository's Person class uses the field name 'forename' while its getters, setters, equals, and hashCode still refer to 'firstName'. The template repository's Person class and the rest of the codebase (services, controllers, tests) expect a 'firstName' property. This name mismatch is a structural inconsistency that will cause compilation errors and confuse students about the correct model attribute to use.",
+            "suggestedFix": "Make the Person model consistent across template and solution. Restore the field name 'firstName' in the solution's Person class (rename 'forename' back to 'firstName'), or alternatively update all getters, setters, equals, hashCode, and other references to use 'forename' consistently across the entire codebase (template, tests, services, and controllers). Prefer restoring 'firstName' to match the template and tests.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+                    "startLine": 24,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+                    "startLine": 24,
+                    "endLine": 31
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 96,
+                    "endLine": 106
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The Person entity's first-name attribute is named inconsistently across artifacts: the template's Person class declares and uses the field 'firstName' (with corresponding getters/setters and tests that call setFirstName/getFirstName), whereas the solution's Person class declares the field as 'forename' while its methods and tests still refer to 'firstName'. This divergent identifier for the same conceptual attribute (the person's given name) creates confusion for students mapping the problem/tests to the implementation and may cause compilation or test failures.",
+            "suggestedFix": "Use a single consistent identifier for the person's given name across all artifacts. Rename the field in the solution Person class from 'forename' to 'firstName' (and keep the existing getFirstName/setFirstName methods), or alternatively update the getters/setters and all tests to use 'forename'\u2014preferably align to 'firstName' to match the template, tests, and problem wording.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+                    "startLine": 24,
+                    "endLine": 67
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+                    "startLine": 24,
+                    "endLine": 67
+                },
+                {
+                    "type": "TESTS_REPOSITORY",
+                    "filePath": "src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+                    "startLine": 34,
+                    "endLine": 41
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 25
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T23:04:48.790442Z",
+        "endTime": "2026-03-08T23:05:03.045933Z",
+        "durationS": 14.255
+    },
+    "tokens": {
+        "prompt": 47911,
+        "completion": 3324,
+        "total": 51235
+    },
+    "costs": {
+        "promptEur": 0.0110195302734375,
+        "completionEur": 0.006116159912109375,
+        "totalEur": 0.017135690185546875
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/016",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

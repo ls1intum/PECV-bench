@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-08T23:01:35.224975Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The solution's set_pixel implementation performs an xchg eax, ebx and includes a comment 'Swap registers to match wrong spec', which indicates the solution expects x and y in the opposite registers than the problem statement and the template. The problem statement and template specify x in EAX and y in EBX on entry to set_pixel, but the solution swaps them internally. This mismatch between the documented calling convention and the solution implementation is structural and will confuse students about which registers hold x and y when implementing set_pixel.",
+            "suggestedFix": "Make the calling convention consistent across all artifacts. Either: (a) update the solution implementation to use x in EAX and y in EBX without performing xchg (and remove the misleading comment), or (b) clearly state in the problem statement and template that the coordinates are passed with x in EBX and y in EAX if that was intended. Ensure the set_pixel implementation and the main caller agree on the register usage.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 35
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-08T23:01:35.224975Z",
+        "endTime": "2026-03-08T23:02:18.042362Z",
+        "durationS": 42.817
+    },
+    "tokens": {
+        "prompt": 13563,
+        "completion": 6082,
+        "total": 19645
+    },
+    "costs": {
+        "promptEur": 0.003119490112304687,
+        "completionEur": 0.011190879760742187,
+        "totalEur": 0.014310369873046874
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/004",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}
