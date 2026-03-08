@@ -46,42 +46,6 @@ Results below are for **V1** (`results/V1/pecv-reference/`).
 - Benchmark new detection approaches on annotated variants with labeled inconsistencies spanning six ontology categories.
 - Reproduce and extend validated LLM baselines using the packaged CLI, configs, and reporting pipeline.
 
-## Dataset Structure
-
-Data lives under `data/`, split by version:
-
-```text
-data/
-├── V1/                          # Original benchmark (3 Java exercises, 91 variants)
-│   └── ITP2425/
-│       ├── H01E01-Lectures/
-│       ├── H02E02-Panic_at_Seal_Saloon/
-│       └── H05E01-Space_Seal_Farm/
-└── V2/                          # Extended dataset (13 exercises, multiple languages)
-    ├── ERA2021/                 # Assembly
-    ├── IOS26/                   # Swift
-    ├── ISE22/                   # mixed
-    ├── ITP2425/                 # Java
-    ├── MTG26/                   # SQL
-    └── QCSL25/                  # Python
-```
-
-Each exercise directory contains:
-
-```text
-COURSE/EXERCISE/
-├── problem-statement.md
-├── exercise-details.json
-├── solution/
-├── template/
-├── tests/
-└── variants/
-    └── 001/
-        ├── 001.CATEGORY.md      # human-readable description
-        ├── 001.json             # gold annotation
-        ├── 001.patch            # git-style patch encoding the injected inconsistency
-        └── [materialized files when active]
-```
 
 ## Quickstart
 
@@ -157,14 +121,6 @@ Exercise paths always include the version prefix (`V1` or `V2`).
 
 Run the reference pipeline on all V1 exercises with OpenAI `o4-mini` at medium reasoning effort:
 
-```bash
-pecv-bench run-benchmark \
-  pecv-reference \
-  --model openai:o4-mini \
-  --reasoning-effort medium \
-  --max-concurrency 5
-```
-
 Run on a specific exercise from V1:
 
 ```bash
@@ -172,6 +128,7 @@ pecv-bench run-benchmark \
   --exercise V1/ITP2425/H01E01-Lectures \
   --model openai:o4-mini \
   --reasoning-effort medium
+  --max-concurrency 5
 ```
 
 Run on a specific exercise from V2:
@@ -181,6 +138,7 @@ pecv-bench run-benchmark \
   --exercise V2/QCSL25/QC03-Magic_State_Distillation \
   --model openai:o4-mini \
   --reasoning-effort medium
+  --max-concurrency 5
 ```
 
 Results are written to `results/V1/pecv-reference/` or `results/V2/pecv-reference/` depending on the exercise version.
