@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-09T14:57:07.819381100Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "In the solution, build_msd_circ appends gates using stim.Circuit.append with scalar qubit indices and with a flattened tuple for multiple CXs (e.g. circ.append(\"RX\", distilled_state) and circ.append(\"CX\", sum(zip(...), ()))), but elsewhere the solution and the intended Stim API use iterables of targets (e.g. circ.append(\"RX\", [q]) and circ.append(\"CX\", [ctl, tar])). Passing a scalar instead of an iterable or a flattened tuple of integers where pairs are expected is a misuse of the Circuit.append parameter types and will raise errors or behave unexpectedly. This is a structural parameter-type mismatch between the demonstrated usage in the solution and the API usage the template/problem implicitly expects.",
+            "suggestedFix": "Use iterables for gate target lists consistently. For single-qubit gates call circ.append(\"RX\", [distilled_state]) (wrap scalar in a list). For multiple CXs, append one CX per pair, e.g. for (ctl, tar) in pairs: circ.append(\"CX\", [ctl, tar]). Avoid passing flattened tuples of many integers where the API expects grouped target lists.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 166,
+                    "endLine": 176
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 95,
+                    "endLine": 106
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 56,
+                    "endLine": 63
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem statement and function signature for correct_teleportation specify the order (teleportation_measurements, x_measurements). In the solution, calls to correct_teleportation pass the arguments in the reversed order (measurements[:, final], measurements[:, tele]) in simulate_msd_one_round, which conflicts with the documented parameter meaning and will produce incorrect logical corrections. This inconsistent ordering between the documented parameter semantics and how the function is invoked is a structural mismatch that leads to incorrect behavior.",
+            "suggestedFix": "Ensure argument ordering is consistent with the function signature and documentation. Either (A) change calls to correct_teleportation to pass (measurements[:, tele], measurements[:, final]) so teleportation_measurements is the first argument and x_measurements the second, or (B) if the intended order is reversed, update the function signature and its documentation to reflect the actual expected ordering and update all call sites accordingly. Prefer keeping (teleportation_measurements, x_measurements) to match the problem specification.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 104,
+                    "endLine": 109
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 123,
+                    "endLine": 134
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 218,
+                    "endLine": 236
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-09T14:57:07.819381100Z",
+        "endTime": "2026-03-09T14:57:59.851608100Z",
+        "durationS": 52.032
+    },
+    "tokens": {
+        "prompt": 30750,
+        "completion": 5721,
+        "total": 36471
+    },
+    "costs": {
+        "promptEur": 0.007072500244140625,
+        "completionEur": 0.010526640136718751,
+        "totalEur": 0.017599140380859378
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/008",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

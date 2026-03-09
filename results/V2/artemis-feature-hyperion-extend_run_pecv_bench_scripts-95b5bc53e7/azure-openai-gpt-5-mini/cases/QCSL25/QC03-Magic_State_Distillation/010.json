@@ -1,0 +1,60 @@
+{
+    "timestamp": "2026-03-09T14:57:11.745891700Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem statement and function signature for correct_teleportation require the first argument to be the array of teleportation measurements and the second argument to be the X-basis measurements. In the solution, calls to correct_teleportation pass the arguments in the opposite order (e.g. correct_teleportation(measurements[:, final], measurements[:, tele]) ), which is inconsistent with the documented parameter semantics and will confuse students about the intended argument order. Although XOR is commutative and the specific implementation here hides the bug, the reversed argument order is a structural mismatch between the specification and the solution usage and could mislead students implementing or using the function.",
+            "suggestedFix": "Ensure consistent parameter ordering everywhere: have correct_teleportation(teleportation_measurements, x_measurements) and call it with the teleportation measurements (from the inject/ancilla MR results) as the first argument and the X-basis measurements (final MRX of the code qubits) as the second. Update all calls in simulate_msd_one_round and simulate_msd_two_rounds accordingly and clarify the argument order in the docstring to avoid confusion.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 103,
+                    "endLine": 110
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 65,
+                    "endLine": 75
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 123,
+                    "endLine": 134
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 224,
+                    "endLine": 225
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 294,
+                    "endLine": 302
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-09T14:57:11.745891700Z",
+        "endTime": "2026-03-09T14:58:08.076097900Z",
+        "durationS": 56.33
+    },
+    "tokens": {
+        "prompt": 30732,
+        "completion": 5119,
+        "total": 35851
+    },
+    "costs": {
+        "promptEur": 0.0070683601074218744,
+        "completionEur": 0.009418960083007813,
+        "totalEur": 0.016487320190429686
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/010",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}
