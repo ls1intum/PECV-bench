@@ -1,0 +1,48 @@
+diff -ruN a/solution/src/de/tum/cit/ase/Lecture.java b/solution/src/de/tum/cit/ase/Lecture.java
+--- a/solution/src/de/tum/cit/ase/Lecture.java	2025-07-11 10:16:28
++++ b/solution/src/de/tum/cit/ase/Lecture.java	2025-07-23 17:07:39
+@@ -72,18 +72,18 @@
+     }
+ 
+     // TODO 2.4: Add the getTotalNumberOfStudents method as specified in the task and the UML diagram
+-    public int getTotalNumberOfStudents() {
+-        return numberOfGuestStudents + numberOfInscribedStudents;
++    public StudentCount getTotalNumberOfStudents() {
++        return new StudentCount(numberOfGuestStudents + numberOfInscribedStudents);
+     }
+ 
+     // TODO 2.5: Add the getNameAndTotalNumberOfStudents method as specified in the task and the UML diagram. HINT: Implement 2.4 first
+     public String getNameAndTotalNumberOfStudents() {
+-        return lectureName + " (" + getTotalNumberOfStudents() + ")";
++        return lectureName + " (" + getTotalNumberOfStudents().getValue() + ")";
+     }
+ 
+     // TODO 2.6: Add the getNumberOfStudentsPerTutor method as specified in the task and the UML diagram. HINT: Implement 2.4 first
+     public int getNumberOfStudentsPerTutor() {
+-        return getTotalNumberOfStudents() / getNumberOfTutors();
++        return getTotalNumberOfStudents().getValue() / getNumberOfTutors();
+     }
+ 
+     // TODO 2.7: Add the addGuestStudents method as specified in the task and the UML diagram
+diff -ruN a/solution/src/de/tum/cit/ase/StudentCount.java b/solution/src/de/tum/cit/ase/StudentCount.java
+--- a/solution/src/de/tum/cit/ase/StudentCount.java	1970-01-01 01:00:00
++++ b/solution/src/de/tum/cit/ase/StudentCount.java	2025-07-23 17:06:53
+@@ -0,0 +1,18 @@
++package de.tum.cit.ase;
++
++public class StudentCount {
++    private final int count;
++    
++    public StudentCount(int count) {
++        this.count = count;
++    }
++    
++    public int getValue() {
++        return count;
++    }
++    
++    @Override
++    public String toString() {
++        return String.valueOf(count);
++    }
++}

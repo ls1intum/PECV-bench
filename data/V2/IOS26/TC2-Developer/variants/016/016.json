@@ -1,0 +1,43 @@
+{
+  "case_id": "IOS26/TC2-Developer/016",
+  "issues": [
+    {
+      "description": "The problem statement and the template repository consistently refer to the Course's teacher as the property/parameter named \"instructor\" (e.g. initializer Course(name:_, instructor:_, ...), property instructor). In the solution repository the Course class instead names this property/parameter \"lecturer\" (Course.lecturer, init parameter lecturer), while other parts of the solution (Client and Developer.attend) still use or pass/expect the name \"instructor\". This inconsistent identifier naming for the same conceptual entity (the person teaching the course) breaks the one-to-one mapping students must make from the problem text to the code and can cause confusion (and in the provided solution code, API mismatches).",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 7,
+          "end_line": 11
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 7,
+          "end_line": 17
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 8,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Developer.swift",
+          "start_line": 41,
+          "end_line": 52
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Client.swift",
+          "start_line": 9,
+          "end_line": 13
+        }
+      ],
+      "suggested_fix": "Use a single consistent identifier for the Course's instructor across all artifacts. Prefer aligning the solution to the problem/template by renaming Course.lecturer and its initializer parameter to instructor (e.g. let instructor: String; init(name: String, instructor: String, ratings: [Int]) ) and update all references (Client instantiation and Developer.attend print) to use course.instructor. This preserves the problem wording and removes the mapping confusion."
+    }
+  ]
+}

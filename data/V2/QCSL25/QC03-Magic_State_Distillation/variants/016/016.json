@@ -1,0 +1,31 @@
+{
+  "case_id": "QCSL25/QC03-Magic_State_Distillation/016",
+  "issues": [
+    {
+      "description": "The problem statement and the solution implementation refer to the distillation-circuit constructor as build_msd_circ(...), while the template repository defines a function named build_msd_circuit(...). This naming mismatch (\"build_msd_circ\" vs \"build_msd_circuit\") is for the same conceptual entity (the 15-to-1 MSD circuit builder) and will confuse students: they will look for the function the problem asks them to implement but find a differently named stub, and automated tests or graders expecting build_msd_circ may fail.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 113,
+          "end_line": 120
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 93,
+          "end_line": 106
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 153,
+          "end_line": 165
+        }
+      ],
+      "suggested_fix": "Rename the template function build_msd_circuit(...) to build_msd_circ(...) to match the problem statement and solution. Alternatively, keep build_msd_circuit(...) but add a small compatibility wrapper in the template: def build_msd_circ(*args, **kwargs): return build_msd_circuit(*args, **kwargs). This preserves pedagogical intent while removing the naming mismatch."
+    }
+  ]
+}

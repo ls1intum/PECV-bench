@@ -1,0 +1,31 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/004",
+  "issues": [
+    {
+      "description": "The problem statement specifies that set_pixel receives x in EAX and y in EBX and should set the pixel at address base + (y*width + x)*4. The solution's set_pixel swaps EAX and EBX (xchg eax, ebx) and then computes address as base + (x*width + y*4) (i.e. it treats EAX as y and EBX as x). This is a parameter-role mismatch between the specification and the solution: the solution interprets the registers in the opposite roles, producing an incorrect mapping of (x,y) to memory and contradicting the problem description and template expectation. This will confuse students and lead to incorrect behavior if they follow the solution or compare it to the spec.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 35
+        }
+      ],
+      "suggested_fix": "Make set_pixel use the registers exactly as specified (EAX = x, EBX = y, ECX = color). Remove the xchg eax, ebx and compute the address as base + (y*7680 + x*4). For example (preserving other registers):\n\npush ebx\npush esi\npush edx\nmov edx, 4\nmul edx        ; EAX = x * 4\nmov esi, eax   ; save x*4\nmov eax, 7680\nmul ebx        ; EAX = 7680 * y\nadd eax, esi   ; EAX = 7680*y + x*4\nadd eax, display_start\nmov [eax], ecx\npop edx\npop esi\npop ebx\nret\n\nThis preserves all registers except EAX (as the spec allows) and matches the problem statement and template expectations."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "case_id": "ISE22/H10E01-Containers/004",
+  "issues": [
+    {
+      "description": "The problem statement and the template define the method signature and semantics for addParent as addParent(Person person, Person parent) (i.e., first parameter is the child/person to be modified, second is the parent to add). However, the solution implementation declares addParent(Person parent, Person person) — the parameter order and names are swapped. This creates a mismatch between the described API, the starter code students will work with, and the reference implementation. Students comparing template, tests, and solution will have to remap parameter positions to understand which argument is the child and which is the parent, increasing extraneous cognitive load and potentially causing confusion when reading PersonResource and tests (which call addParent(person, persistedParent)).",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 99,
+          "end_line": 106
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 46
+        }
+      ],
+      "suggested_fix": "Align the solution's method signature with the problem statement and template: change the solution implementation to public Person addParent(Person person, Person parent) and update the implementation body accordingly (use the second parameter as the parent to add to the first parameter's parents set). Alternatively, update PersonResource and all callers consistently if you intentionally prefer the swapped order — but ensure all artifacts (problem text, template, tests, and solution) use the same parameter order and naming."
+    }
+  ]
+}

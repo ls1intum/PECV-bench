@@ -1,0 +1,31 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/001",
+  "issues": [
+    {
+      "description": "The template's Bitmap24 class header declares save(const std::string&) to return int, but the template implementation defines Bitmap24::save(...) with return type void. The solution repository (intended final state) declares save(...) as void in the header. This mismatch (header vs. implementation in the template) is a structural inconsistency that will cause compilation errors or confusing diagnostics for students (declaration/definition mismatch) and contradicts the solution's API.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 47,
+          "end_line": 49
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 78,
+          "end_line": 160
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 47,
+          "end_line": 49
+        }
+      ],
+      "suggested_fix": "Make the template header's signature match the implementation and the solution: change the declaration in example_program/src/Bitmap24.hpp from 'int save(const std::string &i_filename);' to 'void save(const std::string &i_filename);'. Then rebuild to verify the header and implementation are consistent."
+    }
+  ]
+}

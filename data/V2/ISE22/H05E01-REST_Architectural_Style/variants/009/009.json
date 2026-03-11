@@ -1,0 +1,25 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/009",
+  "issues": [
+    {
+      "description": "The template repository explicitly declares a public no-argument constructor for the Note class (template_repository/src/common/java/de/tum/in/ase/eist/model/Note.java, line 12: 'public Note() {}'), but the solution repository omits this constructor entirely. In a Spring Boot REST API context, Jackson (the default JSON deserializer) requires a no-argument constructor to deserialize incoming JSON request bodies into Note objects (e.g., for POST /notes). A student following the template will include the explicit no-arg constructor; comparing with the solution, they will find no such constructor and cannot determine whether the constructor is required, optional, or whether the solution intentionally relies on Java's implicit default constructor. This inconsistency makes the correct class structure of the Note model ambiguous.",
+      "severity": "MEDIUM",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/common/java/de/tum/in/ase/eist/model/Note.java",
+          "start_line": 12,
+          "end_line": 12
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/common/java/de/tum/in/ase/eist/model/Note.java",
+          "start_line": 6,
+          "end_line": 11
+        }
+      ],
+      "suggested_fix": "Add the explicit no-argument constructor 'public Note() {}' back to solution_repository/src/common/java/de/tum/in/ase/eist/model/Note.java, after the field declarations (line 10) and before the getter/setter methods, to match the template repository's class structure."
+    }
+  ]
+}

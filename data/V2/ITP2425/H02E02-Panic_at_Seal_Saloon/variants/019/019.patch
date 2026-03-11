@@ -1,0 +1,30 @@
+diff -ruN a/solution/src/de/tum/cit/ase/SealSaloon.java b/solution/src/de/tum/cit/ase/SealSaloon.java
+--- a/solution/src/de/tum/cit/ase/SealSaloon.java	2025-07-11 10:16:28
++++ b/solution/src/de/tum/cit/ase/SealSaloon.java	2025-07-23 13:35:49
+@@ -17,7 +17,8 @@
+ 		}
+ 	}
+ 
+-	public void checkOrderReady() {
++	public boolean checkOrderReady() {
++		boolean servedAny = false;
+ 		while (this.orders.length > 0) {
+ 			Meal meal = this.orders[0];
+ 			String[] consumedIngredient = new String[0];
+@@ -35,13 +36,15 @@
+ 			if (flag) {
+ 				System.out.println("The order is ready: " + meal.getName());
+ 				this.orders = ArrayHelpers.removeFirstElementFromArray(this.orders);
++				servedAny = true;
+ 			} else {
+ 				for (var x : consumedIngredient) {
+ 					stock.add(x);
+ 				}
+-				return;
++				break;
+ 			}
+ 		}
++		return servedAny;
+ 	}
+ 
+ 	public static void acceptSupplyDelivery(String name, int price, int quantity) {

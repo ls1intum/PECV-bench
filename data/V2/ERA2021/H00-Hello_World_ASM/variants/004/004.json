@@ -1,0 +1,31 @@
+{
+  "case_id": "ERA2021/H00-Hello_World_ASM/004",
+  "issues": [
+    {
+      "description": "The solution assembly shows an extra stack argument and an incorrect stack cleanup / comment that conflict with the template and the problem instructions about printf usage. The problem statement instructs students to use printf (providing the format string and then the arguments in the call). The template pushes only the format string (push hello) and calls printf (no extra arguments). The solution pushes an extra immediate (push 123) before pushing the format string, but then only adds esp, 4 after the call (cleaning up 4 bytes) despite having pushed two 4-byte values (should clean up 8). Additionally the solution contains a comment 'Argument pushed first (Incorrect order)' which contradicts how arguments must be arranged on the stack in x86 assembly and conflicts with the problem description. These inconsistencies can confuse students about the correct way to pass arguments to printf in assembly and may cause a runtime stack imbalance or crash.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 12,
+          "end_line": 17
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 14,
+          "end_line": 14
+        }
+      ],
+      "suggested_fix": "Make the solution consistent with the template and the problem statement: remove the extraneous 'push 123' if no argument is needed, or if demonstrating argument passing include a matching format specifier in the format string (e.g. change hello to include '%d') and adjust stack cleanup to match the number of pushed arguments (e.g. add esp, 8 when two 4-byte values are pushed). Also remove or correct the misleading comment about push order (clarify that in x86 assembly you push function arguments right-to-left: push argument values first, then push the format string). Optionally, clarify the problem statement to explicitly state the assembly push order to avoid ambiguity for students."
+    }
+  ]
+}

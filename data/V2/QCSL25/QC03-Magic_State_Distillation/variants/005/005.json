@@ -1,0 +1,31 @@
+{
+  "case_id": "QCSL25/QC03-Magic_State_Distillation/005",
+  "issues": [
+    {
+      "description": "Parameter order mismatch for teleport_s: the problem statement (and the solution) specify teleport_s(circ, data_qubit, injection_qubit, p=0.0) but the template defines teleport_s(circ, injection_qubit, data_qubit, p=0.0). Additionally, the template's docstring describes the parameters in the data_qubit, injection_qubit order while the def line has them swapped. This mismatch will confuse students about which argument corresponds to the data qubit vs the injection qubit and will likely cause tests or example usage (which expect the problem-signature) to fail if students follow the docstring or the problem description.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 94,
+          "end_line": 101
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 78,
+          "end_line": 90
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 136,
+          "end_line": 150
+        }
+      ],
+      "suggested_fix": "Update the template function signature to match the problem statement and solution: def teleport_s(circ: stim.Circuit, data_qubit: int, injection_qubit: int, p: float = 0.0) -> int. Also ensure the template docstring parameter order matches the signature. This keeps the template, problem description, and solution consistent and avoids confusion when students implement or call the function."
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "case_id": "QCSL25/QC02-Far_Term_Quantum_Algorithms/006",
+  "issues": [
+    {
+      "description": "The template for the Lights-Out exercise (ex4_grover_lights_out_puzzle.py) declares the state_preparation method parameter state_of_lights as type 'str', while the problem statement and the solution expect a list of integers (list[int]) representing the board (e.g. [0,0,1,1]). Within the same template file the grover_circuit method already expects state_of_lights: list[int], so the inconsistent type annotation in state_preparation is contradictory and likely to confuse students about the expected input type. This mismatch could lead students to implement the helper method incorrectly (e.g., parsing a string instead of using a list) or to spend time reconciling the conflicting type hints.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 160,
+          "end_line": 162
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex4_grover_lights_out_puzzle.py",
+          "start_line": 34,
+          "end_line": 41
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex4_grover_lights_out_puzzle.py",
+          "start_line": 80,
+          "end_line": 88
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex4_grover_lights_out_puzzle.py",
+          "start_line": 34,
+          "end_line": 63
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex4_grover_lights_out_puzzle.py",
+          "start_line": 143,
+          "end_line": 162
+        }
+      ],
+      "suggested_fix": "Update the template method signature and its type hints so state_preparation accepts the same type used elsewhere: change state_of_lights: str to state_of_lights: list[int] (and update any related docstring to state 'list[int]'). This makes the template consistent with the problem statement examples and the provided solution, preventing student confusion."
+    }
+  ]
+}

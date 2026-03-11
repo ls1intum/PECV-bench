@@ -1,0 +1,49 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/010",
+  "issues": [
+    {
+      "description": "Pixel byte-size inconsistency: the problem statement states pixels are effectively 32-bit (rounded from 24-bit) and main/position calculation in the solution uses 4 bytes per pixel (offset y*1920*4 + x*4), but the implemented set_pixel in the solution computes x*3 (uses 3 bytes per pixel). This mismatch will cause incorrect address calculation when writing the pixel (writes at wrong offsets) and will confuse students about whether pixels are 3 or 4 bytes wide.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 17,
+          "end_line": 18
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 100,
+          "end_line": 101
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 34
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 94,
+          "end_line": 101
+        }
+      ],
+      "suggested_fix": "Make pixel byte-size consistent across artifacts. Since the problem statement and main position calculation use 32-bit (4 bytes) per pixel, change the set_pixel implementation to compute offsets using 4 bytes/pixel. For example, replace the x*3 multiplication with x*4 (use mov edx, 4; mul edx or shl eax, 2) and ensure the comment reflects 32-bit pixel depth. Ensure the final address calculation adds display_start to (y*1920*4 + x*4) and then writes ecx to that address. This keeps set_pixel consistent with the position calculation in main and the problem description."
+    }
+  ]
+}

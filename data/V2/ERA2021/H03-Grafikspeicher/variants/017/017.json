@@ -1,0 +1,49 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/017",
+  "issues": [
+    {
+      "description": "The problem statement and the template refer to the framebuffer start as 'display_start', but the solution's .bss section defines the buffer as 'screen_buffer'. This names the same conceptual entity (start of the screen/display memory) differently across artifacts. Additionally, the solution code still references 'display_start' in instructions (e.g. add eax, display_start and mov esi, display_start) while its .bss defines 'screen_buffer', which is inconsistent and likely to confuse students and may cause build/link errors. This mismatch makes it harder for students to map the problem description to the provided solution and template.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 20,
+          "end_line": 21
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 100,
+          "end_line": 100
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 5,
+          "end_line": 5
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 29,
+          "end_line": 29
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 94,
+          "end_line": 94
+        }
+      ],
+      "suggested_fix": "Use a single consistent identifier for the framebuffer base across all artifacts. Recommended: rename the solution .bss symbol 'screen_buffer' to 'display_start' (i.e., change 'screen_buffer RESB 8294400' to 'display_start RESB 8294400'), or alternatively update all code references to 'screen_buffer' and the problem/template text to match. Prefer aligning the solution to 'display_start' to match the problem statement and the template."
+    }
+  ]
+}

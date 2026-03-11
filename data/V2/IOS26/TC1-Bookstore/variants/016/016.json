@@ -1,0 +1,37 @@
+{
+  "case_id": "IOS26/TC1-Bookstore/016",
+  "issues": [
+    {
+      "description": "The problem statement requires a Bookstore that holds an array of Book instances named `books` and an initializer with signature `init(books: [Book])`. In the solution, the Bookstore's stored property is named `inventory` (let inventory: [Book]) while other parts of the solution (Client) and the required initializer still refer to `books`. This inconsistent naming (books vs. inventory) breaks the direct mapping from the problem description to the implementation and causes confusion: students expect to access `bookstore.books` as described in the task but the Bookstore implementation uses a different identifier.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 7,
+          "end_line": 12
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 3,
+          "end_line": 6
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 9,
+          "end_line": 17
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 10,
+          "end_line": 11
+        }
+      ],
+      "suggested_fix": "Rename the Bookstore property `inventory` to `books` to match the problem statement and initializer usage (e.g., change `let inventory: [Book]` to `let books: [Book]`), and ensure the initializer assigns `self.books = books`. This keeps naming consistent across problem, template, and solution and avoids student confusion."
+    }
+  ]
+}

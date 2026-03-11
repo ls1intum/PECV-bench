@@ -1,0 +1,37 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/013",
+  "issues": [
+    {
+      "description": "The Bitmap24 class in the template header declares its data members, constructors and public API under the private section, but the example program (main.cpp) uses those constructors and methods as public. The solution's Bitmap24.hpp exposes the same members and methods as public. This visibility mismatch in the template will cause compilation errors (calls to bitmap.resize_buffer(...) and bitmap.set(...) and construction of Bitmap24 in main.cpp are from outside the class) and will confuse students because the provided example code expects the API to be public.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 30,
+          "end_line": 58
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 36,
+          "end_line": 44
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 41
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 30,
+          "end_line": 58
+        }
+      ],
+      "suggested_fix": "Make the Bitmap24 API and necessary members public in the template header to match how main.cpp and Bitmap24.cpp use the class. For example, add a 'public:' access label before the constructors, destructor and methods (resize_buffer, save, set) — or explicitly mark those members public — so the template matches the solution and the example program compiles."
+    }
+  ]
+}

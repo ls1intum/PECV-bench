@@ -1,0 +1,31 @@
+{
+  "case_id": "ERA2021/H00-Hello_World_ASM/005",
+  "issues": [
+    {
+      "description": "The problem statement requires implementing sum(a, b) which adds two integers passed on the stack. The solution repository provides a sum function (solution_repository/helloWorld.asm lines 6-8) but its implementation only reads the first argument (mov eax, [esp+4]) and immediately returns, so it does not add the two parameters. This contradicts the exercise requirement and would mislead students who consult the solution: they would see a 'sum' function that does not perform the specified addition.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 5,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 8
+        }
+      ],
+      "suggested_fix": "Correct the solution's sum implementation so it actually reads both stack parameters and returns their sum. For a typical cdecl stack layout (return address at [esp], first arg at [esp+4], second at [esp+8]) replace the body with: \n\n    mov eax, [esp+4]\n    add eax, [esp+8]\n    ret\n\nAdditionally (optional): add a clear sum stub (label with TODO) to the template_repository/helloWorld.asm to reflect the problem statement and guide students where to implement the function."
+    }
+  ]
+}

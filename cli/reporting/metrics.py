@@ -7,6 +7,8 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple
 from collections import defaultdict
 
+from cli.utils import get_data_root
+
 
 def unify_path(path: str | None) -> str:
     if not path:
@@ -177,7 +179,7 @@ def unify_model_name(model_name: str) -> str:
     return short
 
 
-def analyse_variants_runs(results_dir: str) -> None:
+def analyse_variants_runs(results_dir: str, version: str = "V1") -> None:
     """
     Iterate through all result files in results_dir
 
@@ -192,7 +194,7 @@ def analyse_variants_runs(results_dir: str) -> None:
     - run_id: the full run identifier
     - issues: array of detected issues
     - [OPTIONAL] tokens: {prompt, completion, total}
-    - [OPTIONAL] cost: {total_usd}
+    - [OPTIONAL] cost: {total_usd} or {total_eur}
     - [OPTIONAL] timing: {duration_s}
     """
 
@@ -201,6 +203,7 @@ def analyse_variants_runs(results_dir: str) -> None:
             f"Results directory {results_dir} does not exist or is not a directory."
         )
 
+    data_root = get_data_root(version)
     total_analysed_files = 0
     results_by_model = defaultdict(list)
 
@@ -234,8 +237,12 @@ def analyse_variants_runs(results_dir: str) -> None:
                         continue
 
                     # Extract course, exercise, variant from case_id
-                    # case_id format: "ITP2425/H01E01-Lectures/003"
+                    # case_id format: "ITP2425/H01E01-Lectures/003" or "V2/ERA2021/H00-Hello_World_ASM/007"
                     parts = case_id.split("/")
+                    # Skip version prefix if present (e.g., V1, V2)
+                    if parts and parts[0].startswith("V") and parts[0][1:].isdigit():
+                        parts = parts[1:]
+
                     if len(parts) != 3:
                         print(f"Warning: Unexpected case_id format: {case_id}")
                         continue
@@ -248,10 +255,11 @@ def analyse_variants_runs(results_dir: str) -> None:
                     # be missing from the internal JSON run_id.
                     model_name = run_id
 
-                    unified_model_name = unify_model_name(model_name)                    # Find corresponding gold standard file
+                    unified_model_name = unify_model_name(model_name)
+                    # Find corresponding gold standard file
                     # Assume gold standard is in data/<course>/<exercise>/variants/<variant>/<variant>.json
-                    project_root = Path(__file__).resolve().parents[2]
-                    gold_standard_path = project_root / "data" / course / exercise / "variants" / variant / f"{variant}.json"
+
+                    gold_standard_path = data_root / course / exercise / "variants" / variant / f"{variant}.json"
 
                     if not os.path.isfile(gold_standard_path):
                         print(f"Warning: Gold standard not found for {case_id}: {gold_standard_path}")
@@ -262,7 +270,7 @@ def analyse_variants_runs(results_dir: str) -> None:
                         course=course,
                         exercise=exercise,
                         variant=variant,
-                        data_root=project_root / "data"
+                        data_root=data_root
                     )
 
                     if gold_issues is None:
@@ -302,12 +310,18 @@ def analyse_variants_runs(results_dir: str) -> None:
                         duration_s = timing_data.get("duration_s") or timing_data.get("durationS") or 0
 
                         cost_data = result_data.get("cost") or result_data.get("costs") or {}
-                        total_cost = cost_data.get("total_usd") or cost_data.get("totalUsd") or 0
+                        total_cost = (
+                            cost_data.get("total_eur") or
+                            cost_data.get("totalEur") or
+                            cost_data.get("total_usd") or
+                            cost_data.get("totalUsd") or
+                            0
+                        )
 
                         # Store result grouped by model
                         results_by_model[unified_model_name].append({
                             "variant": variant,
-                            "exercise": f"{course}/{exercise}",
+                            "exercise": f"{version}/{course}/{exercise}",
                             "case_id": case_id,
                             "run_id": result_data.get("run_id"),
                             "prompt_tokens": prompt_tokens,
@@ -317,7 +331,7 @@ def analyse_variants_runs(results_dir: str) -> None:
                             "span_f1": avg_span_f1,
                             "iou": avg_iou,
                             "duration_s": duration_s,
-                            "cost_usd": total_cost,
+                            "cost_eur": total_cost,
                             "tp": tp,
                             "fp": fp,
                             "fn": fn

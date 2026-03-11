@@ -1,0 +1,37 @@
+{
+  "case_id": "QCSL25/QC02-Far_Term_Quantum_Algorithms/005",
+  "issues": [
+    {
+      "description": "Exercise 3 (multiple-solution Grover) in the problem statement and the reference solution treat the oracle's argument as a list of bit-strings (list[str]) named `combinations`, but the template's oracle signature declares the parameter as a single string (`combinations: str`). This creates an API mismatch between the template and both the problem text and the solution: students implementing the subclass/override may be confused about the expected type and how to call the oracle, and the subclassing/override pattern used in the exercises becomes inconsistent.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 140,
+          "end_line": 146
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex3_grover_multi_qubit_multi_solutions_with_auxiliary_qubit.py",
+          "start_line": 16,
+          "end_line": 23
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex3_grover_multi_qubit_multi_solutions_with_auxiliary_qubit.py",
+          "start_line": 14,
+          "end_line": 21
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex3_grover_multi_qubit_multi_solutions_with_auxiliary_qubit.py",
+          "start_line": 28,
+          "end_line": 36
+        }
+      ],
+      "suggested_fix": "Change the template oracle signature to accept a list of bit-strings to match the problem statement and solution. For example, in template_repository/ex3_grover_multi_qubit_multi_solutions_with_auxiliary_qubit.py update the method signature to: def oracle(self, qc: QuantumCircuit, query_register: QuantumRegister, auxiliary_register: QuantumRegister, combinations: list[str]) -> QuantumCircuit: and update the docstring accordingly. This keeps the template API consistent with the exercise description and the reference solution."
+    }
+  ]
+}

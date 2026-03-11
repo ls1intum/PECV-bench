@@ -7,23 +7,23 @@ from pathlib import Path
 
 from cli.reporting.metrics import analyse_variants_runs
 from cli.reporting.variants_report_plotter import generate_plots
-from cli.utils import PROJECT_ROOT, RESULTS_ROOT
+from cli.utils import PROJECT_ROOT, RESULTS_ROOT, infer_version_from_path
 
-class RawAndDefaults(argparse.ArgumentDefaultsHelpFormatter, argparse.RawTextHelpFormatter):
+class RawAndDefaults(argparse.RawTextHelpFormatter):
     pass
 
 
 def variants_analysis_command(args: argparse.Namespace) -> int:
     """Run variants analysis to generate reports grouped by model."""
-
-
     # Resolve results directory
     if args.results_dir:
         results_dir = Path(args.results_dir).expanduser()
         if not results_dir.is_absolute():
             results_dir = PROJECT_ROOT / results_dir
     else:
-        results_dir = RESULTS_ROOT / "pecv-reference"
+        results_dir = RESULTS_ROOT / "V1" / "pecv-reference"
+
+    version = infer_version_from_path(results_dir)
 
     # Ensure directory exists
     if not results_dir.exists():
@@ -60,7 +60,7 @@ def variants_analysis_command(args: argparse.Namespace) -> int:
 
     # Run the analysis (always when not just clearing)
     print("\n=== Running Variants Analysis ===")
-    analyse_variants_runs(str(results_dir))
+    analyse_variants_runs(str(results_dir), version=version)
 
     # Optionally generate plots
     if args.plot:
@@ -119,12 +119,29 @@ def variants_analysis_command(args: argparse.Namespace) -> int:
 def register_subcommand(parser: argparse.ArgumentParser) -> None:
     """Register the variants-analysis subcommand."""
     parser.formatter_class = RawAndDefaults
+    parser.description = textwrap.dedent("""
+    Analyze variant consistency across model runs.
+
+    --results-dir is the full path to the benchmark results directory.
+    The version (V1, V2, …) is inferred from the path.
+
+    Examples:
+      # Analyze V1 pecv-reference (default)
+      pecv-bench variants-analysis
+
+      # Analyze V2 pecv-reference
+      pecv-bench variants-analysis --results-dir results/V2/pecv-reference
+
+      # Analyze and generate plots
+      pecv-bench variants-analysis --results-dir results/V2/pecv-reference --plot
+    """)
     parser.set_defaults(handler=variants_analysis_command)
     parser.add_argument(
         "--results-dir",
         default=None,
         help=textwrap.dedent(
-            """Path to results directory (default: results/pecv-reference)
+            """Path to benchmark results directory, e.g. results/V2/pecv-reference
+(default: results/V1/pecv-reference)
 JSON file created at: RESULTS_DIR/variants_report.json`
     {
     "model-name-1": [
@@ -143,7 +160,7 @@ JSON file created at: RESULTS_DIR/variants_report.json`
     parser.add_argument(
         "--clear",
         action="store_true",
-        help="Remove previous results (variants_report.json and variants_report_plots folder\n in results/pecv-reference) before running analysis",
+        help="Remove previous results (variants_report.json and variants_report_plots folder\n in results/version/pecv-reference) before running analysis",
     )
     parser.add_argument(
         "--plot",
@@ -151,18 +168,19 @@ JSON file created at: RESULTS_DIR/variants_report.json`
         help=textwrap.dedent(
             """Runs the analysis and generates plots after analysis\nExpected structure:
     results/
-    └── pecv-reference/
-        ├── <timestamped-run-id>/
-        │   ├── cases/
-        │   └── run_report.json
-        ├── variants_report_plots
-        │   ├── per_mode.png - Scatter plots with one subplot per model, 
-        |   |      showing relationship between prompt tokens (x-axis) and F1 score (y-axis)
-        │   └── per_model_per_exercise.png - Grid of scatter plots, grouped by model (rows) and exercise (columns)
-        ├── variants_report.json
-        ├── summary.json
-        ├── summary.md
-        └── summary.tex
+    └── version/
+        └── pecv-reference/
+            ├── <timestamped-run-id>/
+            │   ├── cases/
+            │   └── run_report.json
+            ├── variants_report_plots
+            │   ├── per_mode.png - Scatter plots with one subplot per model, 
+            |   |      showing relationship between prompt tokens (x-axis) and F1 score (y-axis)
+            │   └── per_model_per_exercise.png - Grid of scatter plots, grouped by model (rows) and exercise (columns)
+            ├── variants_report.json
+            ├── summary.json
+            ├── summary.md
+            └── summary.tex
             """,
         )
     )

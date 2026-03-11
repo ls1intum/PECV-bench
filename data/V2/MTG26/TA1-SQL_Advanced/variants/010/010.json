@@ -1,0 +1,25 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/010",
+  "issues": [
+    {
+      "description": "Aufgabe 03 in the problem statement requests the names and types (Art) of all swimming pools plus the name and all inhabitant counts of the associated municipalities (i.e., Schwimmbad.name, Schwimmbad.art, Gemeinde.name, Gemeinde.einwohner_m, Gemeinde.einwohner_w). The solution (solution_repository/aufgabe03.sql) instead selects Schwimmbad.id as the first column rather than Schwimmbad.name. This produces a different output schema than the problem asks for and will confuse students about which column is required and cause automated checks to fail.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 28
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe03.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Make the solution match the problem statement by selecting Schwimmbad.name instead of Schwimmbad.id. For example, change the first line of solution_repository/aufgabe03.sql to: \"SELECT Schwimmbad.name, Schwimmbad.art as Art, Gemeinde.name, Gemeinde.einwohner_m, Gemeinde.einwohner_w\". Alternatively, if the intention was to return the pool id rather than the name, update the problem statement to request the id explicitly."
+    }
+  ]
+}

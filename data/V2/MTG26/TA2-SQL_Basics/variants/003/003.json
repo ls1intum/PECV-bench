@@ -1,0 +1,25 @@
+{
+  "case_id": "MTG26/TA2-SQL_Basics/003",
+  "issues": [
+    {
+      "description": "The problem statement for Aufgabe 05 requests the average area (durchschnittliche Fläche) of Gemeinden per Landkreis (and the Landkreis name and Regierungsbezirk). The solution (solution_repository/aufgabe05.sql) uses COUNT(flaeche) instead of AVG(flaeche), so the reference solution returns a count of non-null area values rather than the requested average. This is a cross-artifact semantic/structural mismatch that will confuse students: the solution does not implement the aggregate operation specified in the task and therefore contradicts the exercise requirement.",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 124,
+          "end_line": 128
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe05.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Update the solution to compute the average area using AVG(flaeche) instead of COUNT(flaeche). For example: SELECT regierungsbezirk, kreis, AVG(flaeche) FROM Gemeinde GROUP BY regierungsbezirk, kreis ORDER BY kreis. This aligns the solution with the task description (durchschnittliche Fläche)."
+    }
+  ]
+}

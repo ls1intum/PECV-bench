@@ -1,0 +1,25 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/017",
+  "issues": [
+    {
+      "description": "The problem statement for Aufgabe 03 asks students to output 'Namen und Art aller Schwimmbäder' (names and type/kind of all swimming pools), using the German word 'Art' as the label for the type column (problem-statement.md line 27). The base reference solution aliases Schwimmbad.art as 'Art' to match this label. However, the variant solution (solution/aufgabe03.sql line 1) renames the alias to 'Typ': 'SELECT Schwimmbad.name, Schwimmbad.art as Typ, ...'. Although 'Typ' is another valid German word for 'type', it is a different identifier from 'Art'. A student correctly following the problem statement will produce a column named 'Art', but the provided solution produces 'Typ', causing the automatic equality check (test_a03_checkEquality) to fail for a query that is otherwise correct according to the specification.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem-statement.md",
+          "start_line": 27,
+          "end_line": 27
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution/aufgabe03.sql",
+          "start_line": 1,
+          "end_line": 1
+        }
+      ],
+      "suggested_fix": "Change 'Schwimmbad.art as Typ' back to 'Schwimmbad.art as Art' in solution/aufgabe03.sql line 1 to match the label 'Art' specified in the problem statement."
+    }
+  ]
+}

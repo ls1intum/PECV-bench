@@ -1,0 +1,25 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/011",
+  "issues": [
+    {
+      "description": "The implementation uses 16-bit registers (AX, DX, SI) for coordinate and address calculations. Since the framebuffer resolution is 1920x1080, the offsets will exceed the 16-bit limit (65535), leading to arithmetic overflow and incorrect memory access.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem-statement.md",
+          "start_line": 25,
+          "end_line": 33
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution/pixel.asm",
+          "start_line": 24,
+          "end_line": 28
+        }
+      ],
+      "suggested_fix": "Use 32-bit registers (EAX, EDX, ESI) for all address calculations to prevent overflow."
+    }
+  ]
+}

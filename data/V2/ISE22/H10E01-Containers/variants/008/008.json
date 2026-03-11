@@ -1,0 +1,25 @@
+{
+  "case_id": "ISE22/H10E01-Containers/008",
+  "issues": [
+    {
+      "description": "The solution's PersonService has a different constructor signature / initialization than the template. The template provides constructor-based injection (public PersonService(PersonRepository personRepository)) and a non-null final personRepository field, whereas the solution declares a no-argument constructor that sets the final personRepository to null. This is a structural contradiction: it prevents normal constructor injection and would cause runtime null-pointer failures when methods call personRepository. It also conflicts with the template's and typical Spring usage, confusing students about how PersonRepository is supposed to be injected and used.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 17,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 17,
+          "end_line": 19
+        }
+      ],
+      "suggested_fix": "Make the solution's PersonService match the template's constructor-based injection. Restore a constructor that accepts PersonRepository (e.g., public PersonService(PersonRepository personRepository) { this.personRepository = personRepository; }) or otherwise ensure Spring injects the repository (for example, use @Autowired on a non-final field or on a constructor). Do not set the final repository field to null. This preserves the intended dependency injection design and avoids runtime null-pointer errors."
+    }
+  ]
+}

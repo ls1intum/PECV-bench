@@ -1,0 +1,31 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/009",
+  "issues": [
+    {
+      "description": "Solution file aufgabe08.sql references the Radweg_zu_Gemeinde table in the WHERE clause but the FROM clause lists Wanderweg_zu_Gemeinde. The problem asks for the number of Radwege bordering Gemeinden (Radweg), so the solution should consistently use Radweg_zu_Gemeinde. As written the solution contains a table-name mismatch (likely a typo) that will make the query invalid or produce incorrect results and contradicts the problem intent.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 50,
+          "end_line": 52
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe08.sql",
+          "start_line": 1,
+          "end_line": 1
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe08.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Make the table name consistent: use Radweg_zu_Gemeinde in both FROM and WHERE (or use Wanderweg_zu_Gemeinde in both places if the intent were Wanderweg, but the problem requests Radwege). For example:\n\nSELECT COUNT(*)\nFROM Gemeinde, Radweg_zu_Gemeinde\nWHERE Gemeinde.schluessel = Radweg_zu_Gemeinde.gemeindeschluessel\n  AND Gemeinde.plz > 96400\n\nThis preserves the educational intent (count Radwege adjacent to Gemeinden with PLZ > 96400) and fixes the table-name typo that would break the query."
+    }
+  ]
+}

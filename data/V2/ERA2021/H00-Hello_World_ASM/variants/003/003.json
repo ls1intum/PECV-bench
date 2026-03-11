@@ -1,0 +1,31 @@
+{
+  "case_id": "ERA2021/H00-Hello_World_ASM/003",
+  "issues": [
+    {
+      "description": "The problem statement requires implementing check_status which must return a boolean (0 or 1) in EAX (problem_statement.md lines 21-22). The solution repository provides a check_status symbol but its implementation sets EAX to the address of the 'hello' data label (mov eax, hello) and returns that pointer (solution_repository/helloWorld.asm lines 6-8). Returning an address/pointer instead of a 0/1 boolean contradicts the specification and would confuse students and any automated tests that expect a boolean value in EAX.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 8
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 5,
+          "end_line": 18
+        }
+      ],
+      "suggested_fix": "Change the implementation of check_status in solution_repository/helloWorld.asm so it places a boolean value (0 or 1) into EAX before returning. For example:\n\ncheck_status:\n    mov eax, 1    ; or mov eax, 0 depending on intended status\n    ret\n\nThis makes the solution conform to the problem statement and ensures tests expecting 0/1 in EAX will pass."
+    }
+  ]
+}

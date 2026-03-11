@@ -1,0 +1,31 @@
+{
+  "case_id": "ERA2021/H00-Hello_World_ASM/010",
+  "issues": [
+    {
+      "description": "The problem statement explicitly requires a variable `global_count` to be defined as a 32-bit integer, but the solution repository defines `global_count` using the byte directive (`db 0`), which creates an 8-bit value. This is a type/size mismatch between the specification and the solution and may confuse students about which data-size directive to use (db vs dd). The template does not declare `global_count` (which is likely intentional for the student task), but the solution should nevertheless demonstrate the correct 32-bit declaration to match the problem statement.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 3,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 4,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "In the solution repository, declare `global_count` as a 32-bit value (use the doubleword directive). For example replace `global_count db 0` with `global_count dd 0`. Optionally, add a commented placeholder in the template (e.g., `; global_count dd 0`) to show students where to add the 32-bit variable while preserving the intended exercise."
+    }
+  ]
+}

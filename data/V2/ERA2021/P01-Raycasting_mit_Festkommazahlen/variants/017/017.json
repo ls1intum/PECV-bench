@@ -1,0 +1,31 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/017",
+  "issues": [
+    {
+      "description": "The Bitmap24 class method is declared as write(...) in the template header but implemented as save(...) in the template implementation (Bitmap24.cpp). The solution repository consistently uses save(...) in both header and implementation, and main.cpp calls bitmap.save(...). This naming mismatch in the template (write vs save) creates a practical compilation/linking error and prevents students from mapping the intended API (used in main.cpp and in the solution) to the template header — an avoidable and confusing inconsistency.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 47,
+          "end_line": 49
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 78,
+          "end_line": 160
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 47,
+          "end_line": 49
+        }
+      ],
+      "suggested_fix": "Make the method name consistent across header and implementation and align with the solution/main usage. Replace the declaration 'void write(const std::string &i_filename);' in the template header with 'void save(const std::string &i_filename);' (or alternatively rename the implementation to write and update all call sites). The recommended fix is to change the template header to 'save' to match Bitmap24.cpp, main.cpp, and the solution repository."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/012",
+  "issues": [
+    {
+      "description": "The solution for Aufgabe 09 uses an incorrect predicate: it compares Gemeinde.name to the numeric literal 12345 instead of the string 'Erlangen' required by the problem statement. This causes the query to return no (or wrong) results and contradicts the task description, confusing students and producing a failing/incorrect reference solution.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 55,
+          "end_line": 58
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe09.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "In solution_repository/aufgabe09.sql replace the incorrect condition\n  AND Gemeinde.name=12345\nwith the correct string comparison matching the problem statement, e.g.\n  AND Gemeinde.name = 'Erlangen'\n(ensure the value is a quoted string and keep the join condition Zoo.gemeindeschluessel = Gemeinde.schluessel)."
+    }
+  ]
+}

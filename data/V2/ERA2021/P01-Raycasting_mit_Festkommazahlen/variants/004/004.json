@@ -1,0 +1,31 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/004",
+  "issues": [
+    {
+      "description": "The Bitmap24::set method has inconsistent parameter order between the template header and the implementation in the template repository. In the template header (Bitmap24.hpp) the declaration lists parameters as (int i_x, int i_y, ...), but the implementation in Bitmap24.cpp defines the method as set(int i_y, int i_x, ...). This mismatch will cause a linker/compile error and confuses students about the expected row/column ordering (y vs x). The solution repository uses the (i_y, i_x) order (consistent with usage in main.cpp where bitmap.set(i, j, ...) is called), so the template header appears to be incorrect/unintentionally swapped.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 51,
+          "end_line": 57
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 45,
+          "end_line": 56
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 51,
+          "end_line": 57
+        }
+      ],
+      "suggested_fix": "Make the template header declaration match the implementation and usages by declaring Bitmap24::set with the same parameter order used in Bitmap24.cpp and main.cpp: void set(int i_y, int i_x, char i_r, char i_g, char i_b); (i.e., swap the parameters in the template header). This preserves the intended API and avoids compilation errors."
+    }
+  ]
+}

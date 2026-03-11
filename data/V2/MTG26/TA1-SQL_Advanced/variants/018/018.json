@@ -1,0 +1,25 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/018",
+  "issues": [
+    {
+      "description": "The problem statement for Aufgabe 05 asks students to output the 'Namen aller Gemeinde' (names of all municipalities) in Oberbayern or Niederbayern that have a hiking trail (problem-statement.md line 37). The base reference solution uses 'SELECT Gemeinde.name' without an alias, producing a result column named 'name'. However, the variant solution (solution/aufgabe05.sql line 1) introduces an unnecessary alias: 'SELECT Gemeinde.name as G_Name', which changes the output column identifier to 'G_Name'. The problem statement never mentions 'G_Name' as a column label, and students who correctly write 'SELECT Gemeinde.name' following the specification will produce output with column name 'name', which will not match the reference solution column 'G_Name', causing the automatic equality check (test_a05_checkEquality) to fail for a correctly implemented query.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem-statement.md",
+          "start_line": 37,
+          "end_line": 37
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution/aufgabe05.sql",
+          "start_line": 1,
+          "end_line": 1
+        }
+      ],
+      "suggested_fix": "Remove the alias 'as G_Name' from solution/aufgabe05.sql line 1, restoring the original 'SELECT Gemeinde.name' so the output column name matches the natural identifier expected by the problem statement and the equality test."
+    }
+  ]
+}

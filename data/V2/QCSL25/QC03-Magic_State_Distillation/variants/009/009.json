@@ -1,0 +1,31 @@
+{
+  "case_id": "QCSL25/QC03-Magic_State_Distillation/009",
+  "issues": [
+    {
+      "description": "The template's simulate_msd_two_rounds function contains a call to stim.Circuit(p) (passing p to the stim.Circuit constructor), while the solution uses stim.Circuit() with no arguments. The problem statement does not indicate that stim.Circuit should be constructed with a depolarization probability. Passing p to the constructor is an accidental constructor-parameter usage that will raise an error or confuse students who try to call or adapt the template implementation.",
+      "severity": "MEDIUM",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 135,
+          "end_line": 135
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 240,
+          "end_line": 252
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 171,
+          "end_line": 175
+        }
+      ],
+      "suggested_fix": "Remove the unexpected argument from the constructor in the template. Use stim.Circuit() (no parameters) consistently as in the solution and in typical stim usage. Update any template example code that mistakenly passes p into stim.Circuit to avoid runtime errors or student confusion."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/001",
+  "issues": [
+    {
+      "description": "Aufgabe 01 in the problem statement requires the names and internet addresses (url) of all Zoos and the name and Regierungsbezirk of the respective Gemeinde. The solution (solution_repository/aufgabe01.sql) only selects Zoo.name and Zoo.url and omits Gemeinde.name and Gemeinde.regierungsbezirk, so it does not produce the columns the task requests. The template (template_repository/aufgabe01.sql) also does not include Zoo.url or Gemeinde.regierungsbezirk and lacks an explicit join condition; while starter code can be incomplete by design, the solution's omission of the Gemeinde columns is a cross-artifact mismatch: the reference solution does not implement the specified output, which will confuse students and/or make automatic checks fail.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 18,
+          "end_line": 18
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 2
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Update the reference solution to select exactly the columns requested by the problem: include Gemeinde.name and Gemeinde.regierungsbezirk in the SELECT list and keep the proper join. For example: SELECT Zoo.name, Zoo.url AS Internetadresse, Gemeinde.name AS Gemeinde_name, Gemeinde.regierungsbezirk FROM Zoo JOIN Gemeinde ON Zoo.gemeindeschluessel = Gemeinde.schluessel; Additionally, adjust the template (template_repository/aufgabe01.sql) to show the intended output columns (or a clear placeholder) and include the join condition as a hint so students are not misled by an incomplete starter that suggests a different result schema."
+    }
+  ]
+}

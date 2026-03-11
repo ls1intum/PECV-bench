@@ -1,0 +1,43 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/018",
+  "issues": [
+    {
+      "description": "The template header declares the sphere-intersection function as check_sphere_hit(...) while the implementation and all usages expect ray_sphere_intersect(...). The solution repository consistently uses ray_sphere_intersect(...). This naming mismatch in the template (declaration vs. implementation/usage) creates a direct mapping and compilation problem: students including the header will not find a matching declaration for ray_sphere_intersect, causing build errors and confusion about which function name to implement or call.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 10
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 10,
+          "end_line": 35
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/main.cpp",
+          "start_line": 195,
+          "end_line": 195
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 10
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 10,
+          "end_line": 35
+        }
+      ],
+      "suggested_fix": "In the template header (template_repository/example_program/src/ray_sphere_intersect.h) rename the declaration check_sphere_hit(...) to ray_sphere_intersect(...) with the same signature so it matches the implementation and usages (and aligns with the solution). This removes ambiguity and prevents compilation/lookup errors. Example: replace 'bool check_sphere_hit(...);' with 'bool ray_sphere_intersect(...);'."
+    }
+  ]
+}

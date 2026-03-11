@@ -1,0 +1,31 @@
+{
+  "case_id": "QCSL25/QC02-Far_Term_Quantum_Algorithms/003",
+  "issues": [
+    {
+      "description": "Return-type annotation for simulate() in the Exercise 4 template does not match the problem statement and the solution. The problem statement (Exercise 4.6) asks students to \"Simulate the circuit and return the simulation counts\" (i.e. a histogram/counts mapping), and the reference solution's simulate() returns a counts dictionary (dict[str, int]). The template, however, annotates simulate() to return list[int], which contradicts both the textual instructions and the solution implementation. This mismatch can confuse students about what to return and lead to type-related test failures when comparing student output to expected counts.",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 212,
+          "end_line": 212
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex4_grover_lights_out_puzzle.py",
+          "start_line": 100,
+          "end_line": 105
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex4_grover_lights_out_puzzle.py",
+          "start_line": 173,
+          "end_line": 183
+        }
+      ],
+      "suggested_fix": "Change the simulate() annotation and docstring in the Exercise 4 template to indicate that it should return simulation counts, i.e. a dict[str, int]. For example, update the signature to def simulate(self, qc: QuantumCircuit) -> dict[str, int]: and update the docstring to explicitly state that the function should return a counts histogram (matching the problem description and the reference solution). Ensure the template example code (if any) also demonstrates qc = qc.reverse_bits() before simulation, consistent with the instructions."
+    }
+  ]
+}

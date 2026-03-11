@@ -1,0 +1,49 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/003",
+  "issues": [
+    {
+      "description": "Return-type mismatch for getAllPersons breaks the intended contract and ordering semantics. The problem statement and client/server REST endpoints expect/get/send a List<Person> for GET /persons (a JSON array), and the template PersonService declares getAllPersons(...) to return List<Person>. However, the solution implementation of PersonService changes the method signature to return Set<Person>. Meanwhile the solution PersonResource.getAllPersons(...) still declares ResponseEntity<List<Person>> and forwards the service result directly. This inconsistency (List vs. Set) will: (1) cause a compile-time generic type mismatch between PersonResource and PersonService, (2) change semantics by using a Set (which does not preserve ordering) thereby nullifying the sorting behavior students are asked to implement, and (3) confuse students about whether getAllPersons should return a List or a Set.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 113
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 134,
+          "end_line": 135
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 201,
+          "end_line": 208
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 37,
+          "end_line": 40
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 39,
+          "end_line": 63
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 27
+        }
+      ],
+      "suggested_fix": "Keep getAllPersons returning a List<Person> so it matches the problem statement, template, and client expectations, and so sorting is meaningful. Concretely: change the solution PersonService.getAllPersons signature back to public List<Person> getAllPersons(PersonSortingOptions sortingOptions) and return the sortedList (or Collections.unmodifiableList(sortedList)) instead of a Set. Alternatively, if using a Set is intended, update PersonResource and the client to accept and document a Set and adapt the REST JSON contract accordingly — but the simpler and semantically correct fix is to return a List to preserve order and match the exercised API contract."
+    }
+  ]
+}

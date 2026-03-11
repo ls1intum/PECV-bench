@@ -1,0 +1,37 @@
+{
+  "case_id": "ITP2425/SE01E01-UML/001",
+  "issues": [
+    {
+      "description": "The UML in the problem statement specifies Pneumatic.raisePressure(int) with return type void, and the solution's Pneumatic interface declares raisePressure(int) returning boolean. Meanwhile the solution's implementing classes (LaunchedDropdownTower and LaunchedRollerCoaster) implement raisePressure(int) with return type void. This creates an internal inconsistency in the solution (interface vs. implementors) and a cross-artifact mismatch with the problem specification. Students following the UML or the implementing classes will declare a void method, but the solution's interface uses boolean, which would cause compilation errors and confusion about the intended signature.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/Pneumatic.java",
+          "start_line": 5,
+          "end_line": 5
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/LaunchedDropdownTower.java",
+          "start_line": 9,
+          "end_line": 12
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/LaunchedRollerCoaster.java",
+          "start_line": 9,
+          "end_line": 12
+        }
+      ],
+      "suggested_fix": "Make the raisePressure method signature consistent across all artifacts. The simplest fix (and the one that matches the UML/problem statement and the implementing classes in the solution) is to change the Pneumatic interface to declare void raisePressure(int pressureIncrease). Update solution_repository/src/de/tum/in/ase/Pneumatic.java to: 'void raisePressure(int pressureIncrease);' so the interface and implementors match the UML. Alternatively, if the intended design was to return boolean, update the UML/problem statement and all implementing classes to use boolean consistently — but prefer aligning the interface to void to match the problem description and the current implementors."
+    }
+  ]
+}

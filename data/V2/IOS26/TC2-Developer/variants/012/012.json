@@ -1,0 +1,37 @@
+{
+  "case_id": "IOS26/TC2-Developer/012",
+  "issues": [
+    {
+      "description": "The problem statement and the template expect Course.instructor to be a String (a single string, e.g. \"Matthias, Patrick, and Felix\"), but the solution repository defines Course.instructor as [String] (an array of strings). This is a structural type mismatch: the solution's Course initializer signature uses instructor: [String] while the Client in the solution still constructs the Course by passing a String. This inconsistency will confuse students and can cause the solution code to be non-compilable or to behave unexpectedly (e.g. printing an array instead of an instructor name) and prevents a straightforward mapping from the problem description and template to the provided solution.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 6,
+          "end_line": 11
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 7,
+          "end_line": 17
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 8,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Client.swift",
+          "start_line": 9,
+          "end_line": 13
+        }
+      ],
+      "suggested_fix": "Make the Course.instructor type consistent across artifacts. The simplest fix (and consistent with the problem statement and template) is to change the solution repository to use instructor: String: update solution_repository/Sources/DeveloperLib/Course.swift so instructor is declared as String and the initializer parameter is instructor: String (assigning self.instructor = instructor). Ensure any code that prints the instructor (e.g. Developer.attend) treats it as a String. Alternatively, if you intend instructor to be an array of names, update the problem statement and template to require [String] and ensure Client constructs and prints an array accordingly. Prefer keeping instructor as String to match the exercise description and the template."
+    }
+  ]
+}

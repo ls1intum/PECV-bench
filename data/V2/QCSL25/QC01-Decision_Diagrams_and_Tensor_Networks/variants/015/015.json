@@ -1,0 +1,31 @@
+{
+  "case_id": "QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/015",
+  "issues": [
+    {
+      "description": "The compute-table global is named '_CT' in the template dd.py but is imported and used as 'CT' in dd_simulation.py. The reference name 'CT' is also used in the solution. This mismatch means students running the provided template will encounter a missing identifier/import error or confusion about which compute-table to use. Because the compute table is a core shared utility used throughout the simulator (lookup/insert calls), the naming mismatch prevents a clear one-to-one mapping between the template and the intended implementation in the solution.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd.py",
+          "start_line": 279,
+          "end_line": 280
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd_simulation.py",
+          "start_line": 51,
+          "end_line": 51
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/dd.py",
+          "start_line": 279,
+          "end_line": 280
+        }
+      ],
+      "suggested_fix": "Make the compute-table global name consistent across artifacts. E.g., in template_repository/dd.py rename '_CT = ComputeTable()' to 'CT = ComputeTable()' (matching dd_simulation.py and the solution). Alternatively, change imports/usages in dd_simulation.py to use '_CT', but the recommended fix is to expose it as 'CT' to match the reference implementation and avoid confusion."
+    }
+  ]
+}

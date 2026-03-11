@@ -1,0 +1,61 @@
+{
+  "case_id": "QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/013",
+  "issues": [
+    {
+      "description": "The problem statement instructs students to \"directly call the public `vector_normalization` and `matrix_normalization` methods\" (and to use the public normalization methods), but the dd.py implementation exposes these functions as private helpers named __vector_normalization and __matrix_normalization and does not provide public functions with the names `vector_normalization`/`matrix_normalization`. The public, intended API in dd.py for creating/normalizing nodes is make_dd (and the predefined terminal DDs ZERO_TERM / ONE_TERM). This mismatch will confuse students about which functions they should call and how to interact with the DD API.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 23
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd.py",
+          "start_line": 283,
+          "end_line": 339
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/dd.py",
+          "start_line": 283,
+          "end_line": 339
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd_simulation.py",
+          "start_line": 120,
+          "end_line": 129
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/dd_simulation.py",
+          "start_line": 148,
+          "end_line": 156
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd.py",
+          "start_line": 342,
+          "end_line": 369
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/dd.py",
+          "start_line": 283,
+          "end_line": 339
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/dd.py",
+          "start_line": 342,
+          "end_line": 369
+        }
+      ],
+      "suggested_fix": "Either (A) update the problem statement to instruct students to use the provided public API (make_dd, ZERO_TERM, ONE_TERM, and the DD/TERM wrappers as shown in the template) instead of calling non-existent public normalization functions, or (B) modify dd.py to expose properly-named public functions `vector_normalization` and `matrix_normalization` if the exercise really intends students to call them. Prefer option (A) to avoid exposing internals: clearly state that make_dd should be used to create/normalize nodes and remove the instruction to call `vector_normalization`/`matrix_normalization` directly."
+    }
+  ]
+}

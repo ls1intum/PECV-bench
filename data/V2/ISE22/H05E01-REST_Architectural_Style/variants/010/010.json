@@ -1,0 +1,37 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/010",
+  "issues": [
+    {
+      "description": "The type of Person.birthday is inconsistent across artifacts. The problem statement and the template repository define Person.birthday as a LocalDate (teaching the student to use LocalDate in UI and service code), but the solution repository's common Person class declares birthday as a String. Furthermore, the solution's client code (PersonScene) still treats birthday as a LocalDate (e.g. setting DatePicker value from person.getBirthday()). This mismatch (String vs LocalDate) is a structural type incompatibility that will cause confusion and runtime/serialization issues (clients expect LocalDate but the model is String) and prevents students from following the intended design using LocalDate.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 173,
+          "end_line": 173
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 3,
+          "end_line": 10
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/common/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 3,
+          "end_line": 10
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/view/PersonScene.java",
+          "start_line": 118,
+          "end_line": 119
+        }
+      ],
+      "suggested_fix": "Make the birthday field type consistent across all artifacts. Preferably restore Person.birthday to java.time.LocalDate in the solution repository's common model (matching the problem statement and template). Update any serialization/deserialization configuration if needed (e.g. ensure Jackson is configured to handle LocalDate ISO formats) so the client and server exchange LocalDate correctly. Alternatively, if a String is intended, update the problem statement and all client code (DatePicker usage, bindings, and comparisons) to work with String and provide clear conversion utilities — but aligning everything to LocalDate is recommended to preserve the intended design and avoid student confusion."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/008",
+  "issues": [
+    {
+      "description": "Solution for Aufgabe 07 does not join Gemeinde and Schwimmbad by their key (gemeindeschluessel). The problem asks for the names of Gemeinden that have a \"Freibad\" and the names of the respective Freibäder (i.e., matching pairs). The solution's query (SELECT Gemeinde.name, Schwimmbad.name FROM Gemeinde, Schwimmbad WHERE Schwimmbad.art='Freibad') omits the join condition, producing a Cartesian product of all Gemeinden with all Freibad names rather than only the Freibäder belonging to each Gemeinde. This contradicts the problem requirement and would confuse students or lead them to believe an (incorrect) unjoined query is acceptable.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 46,
+          "end_line": 49
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe07.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Modify the solution query to include the join condition between Gemeinde and Schwimmbad using the gemeindeschluessel (or appropriate key). For example:\nSELECT Gemeinde.name, Schwimmbad.name\nFROM Gemeinde, Schwimmbad\nWHERE Gemeinde.schluessel = Schwimmbad.gemeindeschluessel\n  AND Schwimmbad.art = 'Freibad'\nThis ensures only the Freibäder belonging to each Gemeinde are returned, matching the problem statement."
+    }
+  ]
+}

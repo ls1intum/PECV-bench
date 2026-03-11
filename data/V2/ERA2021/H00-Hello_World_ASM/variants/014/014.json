@@ -1,0 +1,31 @@
+{
+  "case_id": "ERA2021/H00-Hello_World_ASM/014",
+  "issues": [
+    {
+      "description": "Problem statement requires a globally visible variable `shared_data` for tests, but the solution file defines `shared_data` in the .data section without exporting it (no `global shared_data` declaration). As a result, automated tests that expect the symbol to be globally visible may fail even though the solution defines the data. This is a structural visibility mismatch between the specification and the solution.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 3,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 4,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Export the symbol in the solution by adding a `global shared_data` directive (for example near the top of the file with other global declarations). Alternatively, if tests do not require the symbol, remove or clarify the requirement in the problem statement. Ensure both template and solution consistently declare `shared_data` as global if the tests depend on it."
+    }
+  ]
+}

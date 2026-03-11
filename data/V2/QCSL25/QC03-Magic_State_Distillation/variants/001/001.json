@@ -1,0 +1,31 @@
+{
+  "case_id": "QCSL25/QC03-Magic_State_Distillation/001",
+  "issues": [
+    {
+      "description": "The problem statement and the reference solution specify that construct_zero_state_prep_circuit(...) should return a stim.Circuit, but the template function is annotated to return None. This conflicting return-type annotation (and the template raising NotImplementedError rather than returning a Circuit when implemented) can confuse students about whether they should construct and return a stim.Circuit or modify the provided circuit in-place. It may also cause static type-checkers or autograders that inspect return values to behave unexpectedly.",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 58,
+          "end_line": 60
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 27,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 44,
+          "end_line": 54
+        }
+      ],
+      "suggested_fix": "Make the template function signature consistent with the problem statement and the solution by changing the return annotation to -> stim.Circuit and ensuring the docstring/signature agree. Specifically, in template_repository/msd.py update the signature to: def construct_zero_state_prep_circuit(Hx: npt.NDArray[np.int8], offset: int = 0) -> stim.Circuit: and keep the docstring stating it returns a stim.Circuit. This removes ambiguity about whether students should return a Circuit and aligns the template with the reference solution."
+    }
+  ]
+}

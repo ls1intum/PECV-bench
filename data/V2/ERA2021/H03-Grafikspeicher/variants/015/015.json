@@ -1,0 +1,31 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/015",
+  "issues": [
+    {
+      "description": "There is an ambiguity / conflicting guidance about which registers are allowed to be clobbered. The problem statement (subtask b) explicitly requires that set_pixel must not change any register contents except EAX. However, the template's comment at the calculation TODO says: 'save all registers you modify except eax,ebx and esi', which could be read as allowing code to clobber EBX or ESI without saving. This inconsistency between the problem specification and the template comment may confuse students about whether ESI/EBX must be preserved by subroutines (in particular set_pixel).",
+      "severity": "MEDIUM",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 100,
+          "end_line": 101
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 14,
+          "end_line": 14
+        }
+      ],
+      "suggested_fix": "Clarify the template comment so it is unambiguous which scope it applies to (the main/calculation code vs. the set_pixel subroutine). Explicitly state that the set_pixel subroutine must preserve all registers except EAX (or explicitly list which registers it may clobber) and that any temporary registers used in main's address calculation should be saved/restored as needed. Update the template comment near the TODO to reflect this requirement to avoid student confusion."
+    }
+  ]
+}

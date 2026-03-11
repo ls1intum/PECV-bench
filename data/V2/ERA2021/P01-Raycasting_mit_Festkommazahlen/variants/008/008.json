@@ -1,0 +1,37 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/008",
+  "issues": [
+    {
+      "description": "Constructor parameter mismatch for Bitmap24: the template header declares a three-parameter constructor Bitmap24(int i_width, int i_height, int depth) but the implementation (in the template .cpp) defines a two-parameter constructor Bitmap24::Bitmap24(int p_width, int p_height). The solution repository uses the two-parameter constructor in both header and implementation. This inconsistency in the template (header vs implementation) will cause compile-time errors and confuse students about the intended constructor signature.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 38,
+          "end_line": 38
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 38,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        }
+      ],
+      "suggested_fix": "Make the template header and implementation consistent. Either (A) change template_repository/example_program/src/Bitmap24.hpp to declare Bitmap24(int i_width, int i_height) to match the .cpp implementation, or (B) implement a matching three-parameter constructor Bitmap24::Bitmap24(int i_width, int i_height, int depth) in Bitmap24.cpp. Prefer option (A) because the solution and existing implementation expect the two-parameter constructor."
+    }
+  ]
+}

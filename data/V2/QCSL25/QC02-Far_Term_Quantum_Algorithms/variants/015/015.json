@@ -1,0 +1,31 @@
+{
+  "case_id": "QCSL25/QC02-Far_Term_Quantum_Algorithms/015",
+  "issues": [
+    {
+      "description": "Template uses an inconsistent attribute name when creating the query register: __init__ assigns self._query_register but the rest of the class (including run()) expects self.query_register. This will cause AttributeError / NameError at runtime and prevents students from even instantiating or running the starter code after filling the placeholder number of qubits. The solution implementation uses self.query_register consistently, so the template deviates structurally from the intended design.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 104,
+          "end_line": 116
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "ex1_grover_two_qubit_without_auxiliary_qubit.py",
+          "start_line": 11,
+          "end_line": 11
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "ex1_grover_two_qubit_without_auxiliary_qubit.py",
+          "start_line": 11,
+          "end_line": 11
+        }
+      ],
+      "suggested_fix": "Make the attribute name consistent in the template. Replace the line that creates the register (self._query_register = QuantumRegister(...)) with self.query_register = QuantumRegister(self.number_of_qubits_query_register). Ensure all uses (including in run() and other methods) refer to self.query_register. This aligns the template with the solution and the problem statement's intent to have a query_register attribute."
+    }
+  ]
+}

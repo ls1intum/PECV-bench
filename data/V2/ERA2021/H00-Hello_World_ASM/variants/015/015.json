@@ -1,0 +1,57 @@
+{
+  "case_id": "ERA2021/H00-Hello_World_ASM/015",
+  "issues": [
+    {
+      "description": "The problem statement requires that the function 'start_app' be the global entry point, but the template defines 'global main' and provides a 'main' label (no 'start_app'). The solution defines a 'start_app' label but does not declare it global; it still declares 'global main'. This inconsistency about which symbol must be global (start_app vs main) will confuse students about the required entry point and may prevent them from making the correct symbol global as the spec requires.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 8
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 9
+        }
+      ],
+      "suggested_fix": "Make the entrypoint consistent across all artifacts. Either (A) update template and solution to use 'start_app' as the global entrypoint: replace or add 'global start_app' (and remove or adjust 'global main'), ensure a 'start_app' label exists and contains/dispatches the program entry logic; or (B) change the problem statement to require 'main' as the global entrypoint if that was intended. Prefer option A to match the current problem text: add 'global start_app' to both template_repository/helloWorld.asm and solution_repository/helloWorld.asm (and provide a start_app stub in the template) so students clearly see and can implement the required global symbol."
+    },
+    {
+      "description": "The problem statement requires the function 'start_app' to be the global entry point, but the template declares 'global main' and provides a 'main' label. The solution file defines a 'start_app' label but does not declare it as global (and still leaves 'global main'). This mismatch across artifacts prevents students from clearly mapping the described entry-point requirement (start_app) to the provided starter code and the reference solution, creating confusion about which symbol should be the program's global entry point.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 5,
+          "end_line": 8
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 12
+        }
+      ],
+      "suggested_fix": "Make the entry-point identifier consistent across all artifacts. Preferred fixes (choose one):\n1) Align code to the problem statement: in both template_repository/helloWorld.asm and solution_repository/helloWorld.asm replace or add the global directive for the described entry point (e.g., change 'global main' to 'global start_app' and rename the 'main' label to 'start_app' or ensure a single 'start_app' label exists and is declared global).\n2) Or adjust the problem statement to require 'main' as the global entry point instead of 'start_app' if 'main' is the intended symbol. \nEither approach will remove the naming mismatch and let students unambiguously map the problem requirement to the starter code and reference solution."
+    }
+  ]
+}

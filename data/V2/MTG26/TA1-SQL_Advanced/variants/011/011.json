@@ -1,0 +1,25 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/011",
+  "issues": [
+    {
+      "description": "Task 08 in the problem statement asks for the number of Radwege that border Gemeinden with PLZ greater than 96400 (numeric comparison). The solution query compares Gemeinde.plz to the string literal '96400' (AND Gemeinde.plz > '96400'), which treats the literal as text. If the PLZ column is numeric in the database (as the problem wording suggests a numeric comparison), using a quoted string can lead to incorrect lexicographic comparisons or implicit type coercion differences across SQL engines, producing wrong results. The template file for task 08 is empty (students implement it), but the solution's use of a string literal is a structural/type mismatch between the intended numeric comparison in the task description and the solution implementation.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 50,
+          "end_line": 52
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe08.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Ensure the comparison is numeric to match the problem text. Change the solution (and any example/template) to use a numeric literal or an explicit cast, e.g. AND Gemeinde.plz > 96400 (no quotes) or AND CAST(Gemeinde.plz AS INTEGER) > 96400. Alternatively, clarify in the problem statement that PLZ is stored as text and explain the intended string comparison semantics."
+    }
+  ]
+}

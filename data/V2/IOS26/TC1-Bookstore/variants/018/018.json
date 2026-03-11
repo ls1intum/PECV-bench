@@ -1,0 +1,31 @@
+{
+  "case_id": "IOS26/TC1-Bookstore/018",
+  "issues": [
+    {
+      "description": "The problem statement specifies that the Genre struct should have a String property named `name` (and an optional `subgenre`), but the solution implementation declares the property as `genreName`. This is a direct identifier mismatch for the same conceptual entity (the genre's name). The inconsistency is visible in the solution library where the Genre struct defines `genreName`, while the solution's Client code constructs Genre instances using `Genre(name: ..., subgenre: ...)`. This mismatch breaks the clear mapping from the problem description to the code, can cause compilation confusion (and in the provided solution leads to inconsistent usage), and forces students to reconcile two different identifiers for the same concept.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 19,
+          "end_line": 20
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 40,
+          "end_line": 45
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Client.swift",
+          "start_line": 34,
+          "end_line": 49
+        }
+      ],
+      "suggested_fix": "Make the identifier for the Genre's name consistent across artifacts. Prefer changing the solution implementation to match the problem statement and client usage by renaming `genreName` to `name` in the Genre struct (and update any references). Example fix in Sources/BookstoreLib/Bookstore.swift:\n\nstruct Genre {\n    let name: String\n    let subgenre: String?\n}\n\nAlternatively, if you prefer `genreName`, update the problem statement and all usages (including the Client) to use `genreName:` consistently. The recommended approach is to adopt `name` to match the exercise description and keep memberwise initializers intuitive for students."
+    }
+  ]
+}

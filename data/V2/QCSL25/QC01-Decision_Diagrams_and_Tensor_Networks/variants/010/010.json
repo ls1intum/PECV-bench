@@ -1,0 +1,31 @@
+{
+  "case_id": "QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/010",
+  "issues": [
+    {
+      "description": "Type annotation for the DD.weight attribute in the template dd.py is float, but the code (in the template itself) and the solution use complex-valued weights (np.complex128). For example, the template constructs ZERO_TERM = DD(TERM, np.complex128(0)) while the DD dataclass is annotated weight: float. The solution version of dd.py annotates weight as np.complex128. This mismatch is an inner-artifact / cross-artifact inconsistency: it can confuse students (and static type checkers) about whether weights are real or complex and may mislead them when implementing functions that must handle complex amplitudes, which is central to the intended design of the exercise (DDs represent complex vectors/matrices).",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd.py",
+          "start_line": 47,
+          "end_line": 47
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd.py",
+          "start_line": 272,
+          "end_line": 274
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/dd.py",
+          "start_line": 47,
+          "end_line": 47
+        }
+      ],
+      "suggested_fix": "Change the DD.weight type annotation in the template dd.py from float to a complex type consistent with the rest of the code (e.g., np.complex128). Also ensure any docstrings/comments mention that edge weights are complex. Concretely, update the dataclass line to: weight: np.complex128 and (optionally) add 'import numpy as np' if not already present for the type annotation. This aligns the template with the solution and avoids confusion for students and static type checkers."
+    }
+  ]
+}

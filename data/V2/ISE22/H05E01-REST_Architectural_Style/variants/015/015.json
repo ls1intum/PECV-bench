@@ -1,0 +1,25 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/015",
+  "issues": [
+    {
+      "description": "In the solution, the createPerson controller method is declared with protected visibility, while the comparable NoteResource methods are public and the template shows no visibility guidance. This is an inconsistent visibility choice compared to the NoteResource example and could confuse students who follow the NoteResource as a pattern (they will expect public handler methods). Although Spring can dispatch to non-public handler methods in some configurations, the inconsistency in visibility between the PersonResource.createPerson method and the NoteResource methods is unexpected and may mislead students about the intended style.",
+      "severity": "LOW",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/NoteResource.java",
+          "start_line": 30,
+          "end_line": 36
+        }
+      ],
+      "suggested_fix": "Make the PersonResource.createPerson handler public to match the visibility used in NoteResource (and the typical controller example). Change the method signature to public ResponseEntity<Person> createPerson(...). This preserves the intended behavior while removing the unexpected visibility discrepancy students might notice when comparing to NoteResource."
+    }
+  ]
+}

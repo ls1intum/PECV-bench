@@ -1,0 +1,31 @@
+{
+  "case_id": "QCSL25/QC03-Magic_State_Distillation/011",
+  "issues": [
+    {
+      "description": "The problem statement specifies the build_msd_circ parameter y_states as a tuple[int], while the template and the solution both declare y_states as list[int]. This is a parameter type/annotation mismatch between the specification and the provided starter/solution code. Although Python will accept either at runtime, the mismatch can confuse students about the expected container type for y_states (tuple vs list) and may cause minor friction when following type-hinted examples or tests that expect a particular sequence type.",
+      "severity": "LOW",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 116,
+          "end_line": 118
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 93,
+          "end_line": 106
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 153,
+          "end_line": 165
+        }
+      ],
+      "suggested_fix": "Make the type annotation consistent across artifacts. Either change the problem statement to use list[int] for y_states, or update the template and solution signatures to accept tuple[int]. A more robust option is to specify a generic sequence type (e.g., collections.abc.Sequence[int] or typing.Iterable[int]) in the problem statement and templates so both lists and tuples are clearly acceptable."
+    }
+  ]
+}

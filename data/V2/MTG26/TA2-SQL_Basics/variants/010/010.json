@@ -1,0 +1,31 @@
+{
+  "case_id": "MTG26/TA2-SQL_Basics/010",
+  "issues": [
+    {
+      "description": "Task 1 asks for the ID, name, art and URL of all Freibäder (problem statement lines 106-109). The solution query (solution_repository/aufgabe01.sql lines 1-3) returns `name as id, name, art, url`, i.e. it aliases the name column to `id` and duplicates the name column rather than selecting the actual `id` column. This is a structural mismatch between the stated required output (an actual ID column) and the solution's returned columns and will confuse students about which column represents the entity ID and what columns they must select. It also contradicts the template (template_repository/aufgabe01.sql lines 1-2), where SELECT * would include the real id column if present. Returning the wrong column for `id` is an unintentional structural error that can mislead students and produce incorrect results when students compare their queries to the reference.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 106,
+          "end_line": 109
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 2
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "In the reference solution (and ideally in the template example), select the actual id column rather than aliasing name to id. For example: `SELECT id, name, art, url FROM Schwimmbad WHERE art = 'Freibad';`. Update solution_repository/aufgabe01.sql to use `id` (not `name as id`) and optionally adjust the template to show the explicit required columns instead of `SELECT *` to match the problem statement."
+    }
+  ]
+}

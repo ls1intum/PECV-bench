@@ -1,0 +1,25 @@
+{
+  "case_id": "ITP2425/SE01E01-UML/009",
+  "issues": [
+    {
+      "description": "Constructor parameter type for RollerCoaster differs between the problem specification (UML / task) and the provided solution. The UML and task state that RollerCoaster has an attribute numberOfLoopings of type int and require constructors to accept attributes in the UML-ordered types (int). In the solution, RollerCoaster's constructor declares the parameter numberOfLoopings as double and casts it to int internally. This contradicts the UML and the exercise requirement to use the exact attribute types in constructors. Students implementing the constructor as specified (using int) would follow the problem statement but find the solution/reference using a different signature — causing confusion and a mismatch between reference code and specification (and possibly failing signature-based tests or automated checks).",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 26,
+          "end_line": 28
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/in/ase/RollerCoaster.java",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "suggested_fix": "Make the RollerCoaster constructor parameter type consistent with the UML and attribute type: change the constructor signature in RollerCoaster to accept an int for numberOfLoopings. For example: public RollerCoaster(String name, char abbreviation, int numberOfLoopings) { super(name, abbreviation); this.numberOfLoopings = numberOfLoopings; } Remove the unnecessary double parameter and cast. Ensure any subclasses that call super(...) pass an int (they currently do) so signatures align exactly with the specification."
+    }
+  ]
+}

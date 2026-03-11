@@ -1,0 +1,37 @@
+{
+  "case_id": "QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/009",
+  "issues": [
+    {
+      "description": "The template's UniqueTable constructor requires a parameter (size: int) but the module then creates the global unique-table instance with no argument (UT = UniqueTable()). This is an internal contradiction in template_repository/dd.py that will raise a TypeError on import (missing required positional argument) and thus prevents students from running or testing the template. The solution implementation uses a no-argument constructor for UniqueTable, so the intended design is a parameterless __init__ — the template should match that.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd.py",
+          "start_line": 177,
+          "end_line": 180
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd.py",
+          "start_line": 277,
+          "end_line": 278
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/dd.py",
+          "start_line": 177,
+          "end_line": 179
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/dd.py",
+          "start_line": 276,
+          "end_line": 277
+        }
+      ],
+      "suggested_fix": "Make the template UniqueTable constructor signature match the intended (and solution) no-argument form. Concretely, change def __init__(self, size: int) -> None: to def __init__(self) -> None: (and remove or handle any use of self.size), or alternatively instantiate UT with a concrete size (e.g. UT = UniqueTable(<size>)). The simplest fix to preserve the exercise flow is to adopt the no-argument constructor (as in the solution) so UT = UniqueTable() works."
+    }
+  ]
+}

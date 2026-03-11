@@ -1,0 +1,37 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/005",
+  "issues": [
+    {
+      "description": "The template repository's declaration of ray_sphere_intersect in ray_sphere_intersect.h lists only three parameters (origin, dir, center), but the implementation in ray_sphere_intersect.cpp (same template) defines the function with a fourth parameter (radius). The solution repository's header declares the correct four-parameter signature (including radius). This mismatch in the template (header vs. implementation) will cause compilation/signature errors and confusion for students: calls in main.cpp pass four arguments (including radius), but the template header's prototype does not match, so code that includes the header may not compile or will have an inconsistent declaration compared to the definition.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 9
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 10,
+          "end_line": 15
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 10
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 10,
+          "end_line": 15
+        }
+      ],
+      "suggested_fix": "Make the function prototype in the template header match the implementation (and the solution) by adding the radius parameter. Concretely, change the declaration in template_repository/example_program/src/ray_sphere_intersect.h to:\n\nbool ray_sphere_intersect(\n    const float *origin,\n    const float *dir,\n    const float *center,\n    const float radius\n);\n\nThis aligns the header with the implementation and with the solution repository, preventing compile-time signature mismatches and removing student confusion."
+    }
+  ]
+}

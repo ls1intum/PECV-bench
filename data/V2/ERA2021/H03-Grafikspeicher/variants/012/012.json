@@ -1,0 +1,49 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/012",
+  "issues": [
+    {
+      "description": "In the solution, the display_start symbol is used inconsistently: main treats display_start as an address (mov esi, display_start) while set_pixel dereferences it (add eax, [display_start]). Using [display_start] reads memory at that BSS location instead of adding the base address of the framebuffer. This mismatch can make the computed pixel address incorrect (or depend on uninitialized memory) and will likely cause writes/reads to the wrong place at runtime, confusing students about how to refer to the label/address.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 27
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 100,
+          "end_line": 101
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 34
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 94,
+          "end_line": 101
+        }
+      ],
+      "suggested_fix": "Treat display_start consistently as the base address of the framebuffer (symbol/address), not as memory to be dereferenced. For example, in set_pixel replace 'add eax, [display_start]' with 'add eax, display_start' or load the base with 'mov esi, display_start' and use that (as done in main). Ensure both main and set_pixel use the same convention so the computed address is correct."
+    }
+  ]
+}

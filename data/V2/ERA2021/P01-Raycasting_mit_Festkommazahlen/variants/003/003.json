@@ -1,0 +1,37 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/003",
+  "issues": [
+    {
+      "description": "The fixed-point conversion function fix_fix2float has inconsistent return types across artifacts: the example_program header declares it as returning float, while the tests header defines/implements it as returning double. This mismatch appears in both the template and solution repositories (separate copies under example_program/src and tests/src). Because multiple translation units include different declarations/definitions, students may encounter confusing compiler warnings or ODR/linker problems and will be uncertain which type to use in their implementations and tests.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/math_fix.h",
+          "start_line": 40,
+          "end_line": 44
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "tests/src/math_fix.h",
+          "start_line": 31,
+          "end_line": 39
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/math_fix.h",
+          "start_line": 40,
+          "end_line": 44
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "tests/src/math_fix.h",
+          "start_line": 31,
+          "end_line": 39
+        }
+      ],
+      "suggested_fix": "Unify the function signature for fix_fix2float across all headers/implementations. Choose one return type (preferably the one used in the implementation in example_program/src/math_fix.c, i.e. float) and update tests/src/math_fix.h to declare/define fix_fix2float returning float (and adjust any code that depends on it if necessary). Ensure all headers (example_program and tests) use the identical prototype so students and the build system see the same API."
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/001",
+  "issues": [
+    {
+      "description": "The problem statement and template require the computed pixel address to be placed in ESI and then use mov ecx, [esi] to read the pixel (problem statement: lines 25-26; template TODO: comment asking for result in ESI). The solution computes the address into EDI and uses mov ecx, [edi], but still saves/pushes ESI (set to display_start) as the saved \"position\" and later pops that saved value into EDX to read the new pixel. In other words, the solution's computed address register (EDI) is inconsistent with the register the template/problem expect (ESI) and with the value pushed/popped as the saved position. This mismatch will confuse students: following the problem/template they will implement the computation into ESI, but the solution demonstrates a different register usage and actually contains inconsistent stack/save behavior (pushing ESI while using EDI for the computed address), which also leads to incorrect retrieval of the new pixel value in the solution's main routine.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 24,
+          "end_line": 27
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 100,
+          "end_line": 101
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 92,
+          "end_line": 101
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 108,
+          "end_line": 111
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 150,
+          "end_line": 156
+        }
+      ],
+      "suggested_fix": "Make register usage consistent between problem/template and solution. Either (A) change the solution to compute the final address into ESI (or move the computed value into ESI) and use mov ecx, [esi], and push/pop ESI as the saved position; or (B) update the problem statement and template comments to require the address in EDI and adjust pushes/pops accordingly. Recommended minimal fix to the solution: after computing into EDI, insert 'mov esi, edi' (and use 'mov ecx, [esi]') so ESI holds the computed address before it is pushed/saved and later popped for reading the new pixel."
+    }
+  ]
+}

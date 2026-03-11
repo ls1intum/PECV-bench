@@ -1,0 +1,31 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/005",
+  "issues": [
+    {
+      "description": "The problem statement specifies that the RGB value is passed in register ECX to set_pixel (and earlier asks to move the pixel value with 'mov ecx, [esi]'). The solution's set_pixel implementation writes EDX to memory (mov [eax], edx) instead of writing ECX. This is a register-parameter mismatch: the solution treats/uses a different register for the color than the specification and template expect. As written the solution will store the wrong value (and/or the high part of a previous mul) into video memory, contradicting the exercise specification and confusing students about which register holds the color.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 34
+        }
+      ],
+      "suggested_fix": "In the solution's set_pixel, write the color from ECX into the calculated address instead of EDX. Replace 'mov [eax], edx' with 'mov [eax], ecx' (or otherwise ensure ECX is moved to memory). Verify the function still preserves all registers (except EAX as allowed) by keeping the existing push/pop pairs."
+    }
+  ]
+}

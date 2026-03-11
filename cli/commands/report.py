@@ -20,7 +20,7 @@ from cli.reporting import (
     load_gold_issues,
     summarise_dataset,
 )
-from cli.utils import DATA_ROOT, PROJECT_ROOT, RESULTS_ROOT, RUNS_ROOT
+from cli.utils import DATA_ROOT, PROJECT_ROOT, RESULTS_ROOT, RUNS_ROOT, get_data_root, infer_version_from_path
 
 
 MetricValue = Optional[float]
@@ -225,7 +225,7 @@ class StatsAccumulator:
             "span_f1": span_avg,
             "iou": iou_avg,
             "time_s": time_avg,
-            "cost_usd": cost_avg,
+            "cost_eur": cost_avg,
         }
 
     def merge(self, other: "StatsAccumulator") -> None:
@@ -247,19 +247,30 @@ def _iter_case_files(cases_dir: Path) -> Iterator[Path]:
     yield from sorted(cases_dir.rglob("*.json"))
 
 
-def _derive_exercise(case_data: dict[str, Any], case_path: Path, cases_dir: Path) -> str | None:
+def _derive_exercise(case_data: dict[str, Any], case_path: Path, cases_dir: Path, version: str) -> str | None:
     case_id = case_data.get("case_id")
     if isinstance(case_id, str):
         parts = [part for part in case_id.split("/") if part]
+        # If it already starts with version (e.g. V1, V2), take up to 3 parts
+        if parts and parts[0] == version:
+            if len(parts) >= 3:
+                return f"{parts[0]}/{parts[1]}/{parts[2]}"
+
+        # If it starts with another version prefix, also take up to 3 parts
+        if parts and parts[0].startswith("V") and parts[0][1:].isdigit():
+            if len(parts) >= 3:
+                return f"{parts[0]}/{parts[1]}/{parts[2]}"
+
+        # Otherwise prepend the current version
         if len(parts) >= 2:
-            return f"{parts[0]}/{parts[1]}"
+            return f"{version}/{parts[0]}/{parts[1]}"
     try:
         relative = case_path.relative_to(cases_dir)
     except ValueError:
         return None
     parts = list(relative.parts)
     if len(parts) >= 2:
-        return f"{parts[0]}/{parts[1]}"
+        return f"{version}/{parts[0]}/{parts[1]}"
     return None
 
 
@@ -269,6 +280,9 @@ def _resolve_case_parts(cases_dir: Path, case_path: Path) -> Optional[Tuple[str,
     except ValueError:
         return None
     parts = list(relative.parts)
+    # Skip version prefix if present in the path
+    if parts and parts[0].startswith("V") and parts[0][1:].isdigit():
+        parts = parts[1:]
     if len(parts) < 3:
         return None
     course, exercise = parts[0], parts[1]
@@ -276,9 +290,10 @@ def _resolve_case_parts(cases_dir: Path, case_path: Path) -> Optional[Tuple[str,
     return course, exercise, variant
 
 
-def _collect_run_stats(cases_dir: Path) -> tuple[StatsAccumulator, dict[str, StatsAccumulator]]:
+def _collect_run_stats(cases_dir: Path, version: str) -> tuple[StatsAccumulator, dict[str, StatsAccumulator]]:
     overall = StatsAccumulator()
     per_exercise: dict[str, StatsAccumulator] = defaultdict(StatsAccumulator)
+    data_root = get_data_root(version)
 
     for case_path in _iter_case_files(cases_dir):
         try:
@@ -290,7 +305,13 @@ def _collect_run_stats(cases_dir: Path) -> tuple[StatsAccumulator, dict[str, Sta
         duration = _safe_number(timing_data.get("duration_s") or timing_data.get("durationS"))
 
         cost_data = case_data.get("cost") or case_data.get("costs") or {}
-        cost = _safe_number(cost_data.get("total_usd") or cost_data.get("totalUsd"))
+        cost = _safe_number(
+            cost_data.get("total_eur") or
+            cost_data.get("totalEur") or
+            cost_data.get("total_usd") or
+            cost_data.get("totalUsd") or
+            0
+        )
 
         case_relative = None
         try:
@@ -298,7 +319,7 @@ def _collect_run_stats(cases_dir: Path) -> tuple[StatsAccumulator, dict[str, Sta
         except ValueError:
             case_relative = case_path.name
 
-        exercise_key = _derive_exercise(case_data, case_path, cases_dir)
+        exercise_key = _derive_exercise(case_data, case_path, cases_dir, version)
         accumulator_targets = [overall]
         if exercise_key:
             accumulator_targets.append(per_exercise[exercise_key])
@@ -309,11 +330,11 @@ def _collect_run_stats(cases_dir: Path) -> tuple[StatsAccumulator, dict[str, Sta
         if course_exercise_variant is not None:
             course, exercise, variant = course_exercise_variant
             gold_issues, gold_path = load_gold_issues(
-                course, exercise, variant, DATA_ROOT
+                course, exercise, variant, data_root
             )
             if gold_issues is None:
                 _log_warning(
-                    f"Gold annotations missing for {course}/{exercise}/{variant} at {gold_path}"
+                    f"Gold annotations missing for {course}/{exercise}/{variant} at {gold_path} (version {version})"
                 )
         else:
             _log_warning(
@@ -460,13 +481,27 @@ class GroupAccumulator:
 
 
 def report_command(args: argparse.Namespace) -> int:
-    benchmark = args.benchmark
-    results_root = _resolve_path(args.results_dir, RESULTS_ROOT)
-    runs_root = _resolve_path(args.runs_dir, RUNS_ROOT)
-
-    benchmark_root = results_root / benchmark
+    # --results-dir is the direct path to the benchmark directory
+    # e.g. results/V2/pecv-reference
+    benchmark_root = _resolve_path(args.results_dir, RESULTS_ROOT / "V1" / "pecv-reference")
     if not benchmark_root.exists():
         raise FileNotFoundError(f"Benchmark results not found: {benchmark_root}")
+
+    version = infer_version_from_path(benchmark_root)
+    benchmark = benchmark_root.name
+
+    # runs-dir: if not provided, derive from benchmark_root path
+    # e.g. results/V2/pecv-reference → runs/V2/pecv-reference
+    if args.runs_dir:
+        runs_root = _resolve_path(args.runs_dir, RUNS_ROOT)
+        runs_benchmark_dir = runs_root
+    else:
+        # Replace leading "results" component with "runs" in the path
+        try:
+            rel = benchmark_root.relative_to(RESULTS_ROOT)
+            runs_benchmark_dir = RUNS_ROOT / rel
+        except ValueError:
+            runs_benchmark_dir = RUNS_ROOT / version / benchmark
 
     aggregate_dir_name = args.aggregate_dir
     aggregate_root: Optional[Path] = None
@@ -477,7 +512,7 @@ def report_command(args: argparse.Namespace) -> int:
     group_accumulators: dict[str, GroupAccumulator] = {}
     run_reports: list[dict[str, Any]] = []
 
-    dataset_summary = summarise_dataset(DATA_ROOT)
+    dataset_summary = summarise_dataset(get_data_root(version))
 
     for run_dir in sorted(p for p in benchmark_root.iterdir() if p.is_dir()):
         if aggregate_root is not None and run_dir == aggregate_root:
@@ -491,10 +526,10 @@ def report_command(args: argparse.Namespace) -> int:
         if not case_files:
             continue
 
-        overall_stats, per_exercise_stats = _collect_run_stats(cases_dir)
+        overall_stats, per_exercise_stats = _collect_run_stats(cases_dir, version)
 
         run_id = run_dir.name
-        metadata_path = runs_root / benchmark / f"{run_id}.yaml"
+        metadata_path = runs_benchmark_dir / f"{run_id}.yaml"
         metadata = _load_run_metadata(metadata_path)
         args_meta = metadata.get("args") if isinstance(metadata, dict) else {}
         if not isinstance(args_meta, dict):
@@ -614,7 +649,7 @@ def report_command(args: argparse.Namespace) -> int:
         "Span F1",
         "IoU",
         "Avg Time (s)",
-        "Avg Cost ($)",
+        "Avg Cost (€)",
     ]
 
     markdown_lines.extend(
@@ -644,7 +679,7 @@ def report_command(args: argparse.Namespace) -> int:
                     _format_number(averages["span_f1"], 3),
                     _format_number(averages["iou"], 3),
                     _format_number(averages["time_s"], 3),
-                    _format_number(averages["cost_usd"], 4),
+                    _format_number(averages["cost_eur"], 4),
                 ]
             )
             + " |"
@@ -662,7 +697,7 @@ def report_command(args: argparse.Namespace) -> int:
         markdown_lines.append("")
         markdown_lines.append(f"### {row['benchmark']} :: {display_key}")
         markdown_lines.append(
-            "| Exercise | TP | FP | FN | Precision | Recall | F1 | Span F1 | IoU | Avg Time (s) | Avg Cost ($) |"
+            "| Exercise | TP | FP | FN | Precision | Recall | F1 | Span F1 | IoU | Avg Time (s) | Avg Cost (€) |"
         )
         markdown_lines.append(
             "| " + " | ".join(["---"] * 11) + " |"
@@ -684,7 +719,7 @@ def report_command(args: argparse.Namespace) -> int:
                         _format_number(averages.get("span_f1"), 3),
                         _format_number(averages.get("iou"), 3),
                         _format_number(averages.get("time_s"), 3),
-                        _format_number(averages.get("cost_usd"), 4),
+                        _format_number(averages.get("cost_eur"), 4),
                     ]
                 )
                 + " |"
@@ -749,7 +784,7 @@ def report_command(args: argparse.Namespace) -> int:
 
     latex_main_lines = [
         f"\\begin{{tabular}}{{{column_spec}}}",
-        "Benchmark & Config Key & N runs & TP & FP & FN & Precision & Recall & F1 & Span F1 & IoU & Avg Time (s) & Avg Cost ($) "
+        "Benchmark & Config Key & N runs & TP & FP & FN & Precision & Recall & F1 & Span F1 & IoU & Avg Time (s) & Avg Cost (€) "
         + "\\\\",
         "\\hline",
     ]
@@ -770,7 +805,7 @@ def report_command(args: argparse.Namespace) -> int:
             _format_number(averages["span_f1"], 3),
             _format_number(averages["iou"], 3),
             _format_number(averages["time_s"], 3),
-            _format_number(averages["cost_usd"], 4),
+            _format_number(averages["cost_eur"], 4),
         ]
         latex_main_lines.append(" & ".join(latex_values) + " " + "\\\\")
 
@@ -787,7 +822,7 @@ def report_command(args: argparse.Namespace) -> int:
         latex_lines = [
             f"% Per-exercise breakdown for {row['benchmark']} :: {display_key}",
             f"\\begin{{tabular}}{{{exercise_column_spec}}}",
-            "Exercise & TP & FP & FN & Precision & Recall & F1 & Span F1 & IoU & Avg Time (s) & Avg Cost ($) "
+            "Exercise & TP & FP & FN & Precision & Recall & F1 & Span F1 & IoU & Avg Time (s) & Avg Cost (€) "
             + "\\\\",
             "\\hline",
         ]
@@ -805,7 +840,7 @@ def report_command(args: argparse.Namespace) -> int:
                 _format_number(averages.get("span_f1"), 3),
                 _format_number(averages.get("iou"), 3),
                 _format_number(averages.get("time_s"), 3),
-                _format_number(averages.get("cost_usd"), 4),
+                _format_number(averages.get("cost_eur"), 4),
             ]
             latex_lines.append(" & ".join(latex_values) + " " + "\\\\")
         latex_lines.append("\\end{tabular}")
@@ -823,21 +858,43 @@ def report_command(args: argparse.Namespace) -> int:
 
 
 def register_subcommand(parser: argparse.ArgumentParser) -> None:
+    import textwrap
+
     parser.set_defaults(handler=report_command)
-    parser.add_argument(
-        "--benchmark",
-        default="pecv-reference",
-        help="Benchmark name under results/ (default: pecv-reference)",
-    )
+    parser.formatter_class = argparse.RawDescriptionHelpFormatter
+    parser.description = textwrap.dedent("""
+    Generate aggregate reports (JSON, Markdown, LaTeX) from benchmark execution results.
+
+    --results-dir is the full path to the benchmark results directory.
+    The version (V1, V2, …) is inferred from the path.
+
+    Examples:
+      # Report for V1 pecv-reference (default)
+      pecv-bench report
+
+      # Report for V2 pecv-reference
+      pecv-bench report --results-dir results/V2/pecv-reference
+
+      # Report for a custom benchmark
+      pecv-bench report --results-dir results/V1/my-experiment
+    """)
+
     parser.add_argument(
         "--results-dir",
-        default="results",
-        help="Root directory that holds benchmark results (default: results)",
+        default=None,
+        help=(
+            "Path to benchmark results directory, e.g. results/V2/pecv-reference "
+            "(default: results/V1/pecv-reference)"
+        ),
     )
     parser.add_argument(
         "--runs-dir",
-        default="runs",
-        help="Directory containing run metadata (default: runs)",
+        default=None,
+        help=(
+            "Directory containing run metadata. "
+            "If omitted, derived automatically from --results-dir "
+            "(e.g. results/V2/pecv-reference → runs/V2/pecv-reference)"
+        ),
     )
     parser.add_argument(
         "--aggregate-dir",

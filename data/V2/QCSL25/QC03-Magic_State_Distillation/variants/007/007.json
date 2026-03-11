@@ -1,0 +1,25 @@
+{
+  "case_id": "QCSL25/QC03-Magic_State_Distillation/007",
+  "issues": [
+    {
+      "description": "The template implementation of construct_zero_state_prep_circuit instantiates a Stim Circuit using an unexpected constructor call: circ = stim.Circuit(offset). The Stim Circuit constructor (and the solution) use stim.Circuit() with no arguments. Passing an integer offset to stim.Circuit is inconsistent with the solution and with typical Stim usage and will raise an error if the function is executed as-is. This is an unintentional structural bug in the template that can confuse students (they may expect to be able to run small tests or partially run code) and could lead them to incorrectly think they must create circuits with an integer argument.",
+      "severity": "MEDIUM",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 28,
+          "end_line": 28
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 55,
+          "end_line": 56
+        }
+      ],
+      "suggested_fix": "In the template, instantiate Stim circuits without passing an offset: use circ = stim.Circuit(). If an offset is needed for qubit indexing, handle it by relabeling or by adding it when appending operations (as in the solution's relabel_qubits helper). Update the template to use circ = stim.Circuit() to match the solution and the Stim API."
+    }
+  ]
+}

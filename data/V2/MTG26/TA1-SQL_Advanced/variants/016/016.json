@@ -1,0 +1,25 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/016",
+  "issues": [
+    {
+      "description": "The problem statement for Aufgabe 01 asks students to output the 'Internetadressen (=url)' of all Zoos, using the German term 'Internetadressen' as the label for the url column (problem-statement.md line 18). The base reference solution aliases this column as 'Internetadresse' to match that label. However, the variant solution (solution/aufgabe01.sql line 1) renames the alias to 'Url' instead: 'SELECT Zoo.name, Zoo.url as Url, ...'. A student reading the problem statement expects an output column named 'Internetadresse', but the provided solution produces a column named 'Url'. This discrepancy means a student who correctly follows the problem specification will produce output that does not match the reference solution, causing the automatic equality check (test_a01_checkEquality) to fail for a semantically correct query.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem-statement.md",
+          "start_line": 18,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 1
+        }
+      ],
+      "suggested_fix": "Change 'Zoo.url as Url' back to 'Zoo.url as Internetadresse' in solution/aufgabe01.sql line 1 to match the conceptual label 'Internetadressen' used in the problem statement."
+    }
+  ]
+}

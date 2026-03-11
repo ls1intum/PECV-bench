@@ -1,0 +1,25 @@
+{
+  "case_id": "ISE22/H10E01-Containers/015",
+  "issues": [
+    {
+      "description": "The controller method for listing all persons has different visibility in the template and the solution. In the template PersonResource.getAllPersons() is declared public, while in the solution it is declared private. Controller handler methods are typically public; making it private is an unexpected deviation and may confuse students (and could cause issues with request mapping detection in some setups). Students comparing template and solution may be unsure which visibility is correct and whether their endpoint should be public or not.",
+      "severity": "LOW",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 27,
+          "end_line": 30
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 27,
+          "end_line": 30
+        }
+      ],
+      "suggested_fix": "Make the visibility consistent. Change the solution's getAllPersons() method to public (matching the template) so the controller method visibility follows the typical Spring MVC expectation and avoids confusing students. For example: public ResponseEntity<List<Person>> getAllPersons() { ... }"
+    }
+  ]
+}

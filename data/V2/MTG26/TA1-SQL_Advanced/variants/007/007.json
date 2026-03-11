@@ -1,0 +1,31 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/007",
+  "issues": [
+    {
+      "description": "In the solution for Aufgabe 02 the JOIN condition uses Gemeinde.schluessel = Freizeitpark.id. All other solutions and the expected schema imply that place-to-entity relations use a gemeindeschluessel column (e.g. Freizeitpark.gemeindeschluessel). Using Freizeitpark.id as the join key is a structural mismatch with the schema implied by the problem statement and the other solution files and will produce incorrect results or no matches. This discrepancy is likely an unintentional typo in the solution and will confuse students who follow the schema used elsewhere (Gemeinde.schluessel = <entity>.gemeindeschluessel).",
+      "severity": "MEDIUM",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 24
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe02.sql",
+          "start_line": 1,
+          "end_line": 2
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe02.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Correct the JOIN condition in solution_repository/aufgabe02.sql to use the gemeindeschluessel column of Freizeitpark (consistent with the schema used in other solutions). For example: \nSELECT Freizeitpark.name, Freizeitpark.strasse, Gemeinde.name\nFROM Freizeitpark, Gemeinde\nWHERE Gemeinde.schluessel = Freizeitpark.gemeindeschluessel\nThis aligns the solution with the schema implied by the problem statement and other solution files."
+    }
+  ]
+}

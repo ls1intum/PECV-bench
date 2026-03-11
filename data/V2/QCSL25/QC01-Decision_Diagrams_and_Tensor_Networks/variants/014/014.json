@@ -1,0 +1,37 @@
+{
+  "case_id": "QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/014",
+  "issues": [
+    {
+      "description": "The template's UniqueTable class declares and initializes a private attribute named '__table' but all methods (lookup and clear) reference 'self.table' (no leading underscores). This name mismatch will raise AttributeError at runtime (self.table does not exist) and prevent the unique table from working. Since the unique table (UT) is used by make_dd and other core functionality, this bug in the template will block students from running and testing their implementations and is not an intentional pedagogical gap.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 17,
+          "end_line": 23
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd.py",
+          "start_line": 175,
+          "end_line": 179
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd.py",
+          "start_line": 190,
+          "end_line": 201
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/dd.py",
+          "start_line": 175,
+          "end_line": 197
+        }
+      ],
+      "suggested_fix": "Unify the attribute name used by UniqueTable. Either (A) change the declaration and initializer to use 'self.table' instead of 'self.__table' (and update the type annotation to 'table: dict[int, DDNode]'), or (B) update all method references to use 'self.__table'. Prefer matching the solution implementation (use 'self.table') so the template behaves like the solution and students can use UT.lookup/UT.clear without runtime errors."
+    }
+  ]
+}

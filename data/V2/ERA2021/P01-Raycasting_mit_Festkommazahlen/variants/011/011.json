@@ -1,0 +1,37 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/011",
+  "issues": [
+    {
+      "description": "Attribute type mismatch for the bitmap pixel buffer: in the template repository the Bitmap24 class declares the member 'data' as 'int *data' (Bitmap24.hpp) but the implementation (Bitmap24.cpp) allocates and uses it as a char array (new char[...], indexed and assigned with char values). The solution repository uses 'char *data' in the header (matching the implementation). This mismatch in the template will cause compilation/type errors (assigning char* to int* and incompatible indexing/assignments) and will confuse or block students working from the template.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 35,
+          "end_line": 35
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 29,
+          "end_line": 31
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 52,
+          "end_line": 56
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 35,
+          "end_line": 35
+        }
+      ],
+      "suggested_fix": "Change the member declaration in the template header to match the implementation and the solution: replace 'int *data;' with 'char *data;' (or use 'unsigned char *' if you prefer explicitly unsigned pixel bytes). Update the comment to note 3 bytes per pixel. This preserves the pedagogical intent while fixing the compilation/type error."
+    }
+  ]
+}

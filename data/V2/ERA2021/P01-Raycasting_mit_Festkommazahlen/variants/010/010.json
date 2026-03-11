@@ -1,0 +1,37 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/010",
+  "issues": [
+    {
+      "description": "The type of the Bitmap24::width attribute differs between the template and the solution. In the template repository Bitmap24.hpp declares width as 'short', while in the solution repository Bitmap24.hpp it is declared as 'int'. This is a structural inconsistency because students who implement code against the template (short width) may find the solution uses a different type (int width). The mismatch can cause confusion about the intended type (and range) for image width and may introduce subtle narrowing/implicit-conversion issues in students' code or when comparing against the reference solution/fixtures.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 33,
+          "end_line": 45
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 33,
+          "end_line": 45
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        }
+      ],
+      "suggested_fix": "Make the Bitmap24::width type consistent across template and solution. Prefer using 'int' (as in the solution) for width to avoid narrowing and better match typical image-dimension usage: change the template's declaration from 'short width;' to 'int width;'. Alternatively, if 'short' is intentionally required, change the solution header to 'short width' and document the reason. Update any documentation/comments to reflect the chosen type."
+    }
+  ]
+}

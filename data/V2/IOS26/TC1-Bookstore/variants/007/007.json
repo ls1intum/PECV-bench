@@ -1,0 +1,37 @@
+{
+  "case_id": "IOS26/TC1-Bookstore/007",
+  "issues": [
+    {
+      "description": "The problem statement specifies a Bookstore initializer with signature init(books: [Book]) (problem_statement.md lines 9-12). In the solution, Bookstore.swift defines an initializer with an extra parameter init(books: [Book], valid: Bool) (solution_repository/Sources/BookstoreLib/Bookstore.swift lines 14-16). However, the solution's Client calls Bookstore(books: books) (solution_repository/Sources/BookstoreLib/Client.swift line 57). This creates a constructor parameter mismatch: the solution's Bookstore initializer signature does not match the specified signature in the problem statement and is inconsistent with how Client instantiates Bookstore. This will confuse students and produce a compile-time error in the provided solution.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 7,
+          "end_line": 12
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 3,
+          "end_line": 6
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 14,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 31,
+          "end_line": 58
+        }
+      ],
+      "suggested_fix": "Make the Bookstore initializer signature consistent with the problem statement and Client usage. Remove the extraneous parameter so the initializer becomes init(books: [Book]) (and update its implementation accordingly). Alternatively, if the extra parameter is required intentionally, update the problem statement and all call sites (e.g., Client.assembleBookstore) to use the new signature consistently. Prefer removing the unused 'valid: Bool' parameter to match the exercise specification."
+    }
+  ]
+}

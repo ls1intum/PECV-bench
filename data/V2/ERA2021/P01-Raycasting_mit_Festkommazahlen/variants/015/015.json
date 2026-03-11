@@ -1,0 +1,31 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/015",
+  "issues": [
+    {
+      "description": "Bitmap24 member functions resize_buffer, save and set are declared under the protected section in the template header, but main.cpp (in the template) calls bitmap.resize_buffer(...) and bitmap.set(...). The solution header exposes these methods as public. This mismatch in visibility in the template prevents the provided example main from compiling and confuses students about whether those methods are part of the public API they should use/implement.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 42,
+          "end_line": 58
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 36,
+          "end_line": 45
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 42,
+          "end_line": 57
+        }
+      ],
+      "suggested_fix": "Make the methods used from main public in the template header. Move resize_buffer, save and set into the public section (or change the 'protected:' label to 'public:') in example_program/src/Bitmap24.hpp of the template repository so the example main compiles and the API matches the solution."
+    }
+  ]
+}

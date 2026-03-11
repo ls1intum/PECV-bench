@@ -1,0 +1,25 @@
+{
+  "case_id": "QCSL25/QC03-Magic_State_Distillation/008",
+  "issues": [
+    {
+      "description": "In the template, simulate_msd_one_round currently contains an early line initializing a Stim circuit with circ = stim.Circuit(n_shots) inside the function body prior to the NotImplementedError. The reference solution initializes the circuit with stim.Circuit() inside its implementation. Having a partially-present initialization in the template (and using a constructor argument) is inconsistent and could confuse students about the intended starting state of the stub or about Stim's constructor usage.",
+      "severity": "MEDIUM",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 122,
+          "end_line": 122
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 198,
+          "end_line": 208
+        }
+      ],
+      "suggested_fix": "Remove the pre-filled circ = stim.Circuit(n_shots) line from the template stub (or replace it with circ = stim.Circuit() if a starter circuit is desired). Keep the function body minimal (e.g., only docstring and raise NotImplementedError) so students are not misled by partially-present implementation details or an atypical constructor usage."
+    }
+  ]
+}

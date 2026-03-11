@@ -1,0 +1,31 @@
+{
+  "case_id": "QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/008",
+  "issues": [
+    {
+      "description": "The problem statement claims that the DD constructor only takes a single parameter `node: DDNode` (problem_statement.md lines 21-24). However, the actual DD dataclass in the code (template_repository/dd.py and solution_repository/dd.py) defines DD with two fields (node: DDNode, weight: np.complex128) and is used accordingly (e.g., ZERO_TERM = DD(TERM, np.complex128(0))). This mismatch in the documented constructor signature could confuse students who (despite guidance to prefer helper functions) attempt to construct DDs directly or read the API from the prose.",
+      "severity": "MEDIUM",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 23
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd.py",
+          "start_line": 24,
+          "end_line": 47
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/dd.py",
+          "start_line": 24,
+          "end_line": 47
+        }
+      ],
+      "suggested_fix": "Correct the problem statement to reflect the real DD constructor signature (DD(node: DDNode, weight: complex)) or explicitly state the intended usage: students should use the provided factory functions (make_dd, ONE_TERM, ZERO_TERM) and, if they must construct DDs directly, use DD(node, weight). This keeps the documentation consistent with the template/solution code and avoids confusion."
+    }
+  ]
+}

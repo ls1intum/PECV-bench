@@ -1,0 +1,37 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/006",
+  "issues": [
+    {
+      "description": "Mismatch in the getAllPersons method signature for PersonService: the problem statement (Part 3) and the template expect PersonService.getAllPersons(PersonSortingOptions sortingOptions) (i.e. a method that accepts sorting options), but the solution repository's PersonService only provides getAllPersons() without parameters. Meanwhile the solution's PersonResource calls personService.getAllPersons(new PersonSortingOptions(...)), which requires the parameterized method. This inconsistency will cause compilation errors in the solution and confuses students about where to implement the sorting logic (the problem and template instruct implementing sorting inside PersonService.getAllPersons(PersonSortingOptions), but the solution does not offer that signature).",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 201,
+          "end_line": 208
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 37,
+          "end_line": 40
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 27
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 39,
+          "end_line": 41
+        }
+      ],
+      "suggested_fix": "Make the solution's PersonService provide the expected method signature PersonService.getAllPersons(PersonSortingOptions sortingOptions) and implement the sorting logic there (sort by the provided sortField and sortingOrder, returning a new list). Alternatively, add an overload getAllPersons(PersonSortingOptions) that delegates to the existing parameterless method, but the preferred fix is to implement the parameterized method to match the problem statement and template so students and the reference solution are consistent."
+    }
+  ]
+}

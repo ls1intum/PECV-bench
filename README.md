@@ -6,15 +6,22 @@
 [![Software License](https://img.shields.io/github/license/ls1intum/PECV-bench)](LICENSE)
 [![Data License](https://img.shields.io/badge/data%20license-CC%20BY%204.0-ff6f00)](DATA_LICENSE)
 
-This repository hosts the reproducibility package for the Programming Exercise Consistency Verification (PECV) benchmark. It contains the 91-variant dataset, CLI configs, and reference LLM pipeline used to evaluate cross-artifact inconsistency detectors in the accompanying paper.
+This repository hosts the reproducibility package for the Programming Exercise Consistency Verification (PECV) benchmark. It contains a versioned dataset, CLI configs, and reference LLM pipeline used to evaluate cross-artifact inconsistency detectors in the accompanying paper.
 
-The benchmark annotates 93 inconsistencies across three Java exercises and labels each with one of six ontology categories described in the *Methodology* section below. The reference pipeline—implemented in `pecv-reference/` and requiring external LLM API credentials—reproduces the published results and writes traceable reports under `results/`.
+The dataset is split into two versions:
+
+- **V1** — 91 variants across three Java exercises (Lectures, Panic at Seal Saloon, Space Seal Farm), annotating 93 inconsistencies across six ontology categories. This is the version used for the published benchmark results.
+- **V2** — Extended dataset covering 13 exercises across multiple programming languages (Java, Python, Assembly, SQL, Swift, and others), adding more variety in exercise type and language.
+
+The reference pipeline—implemented in `pecv-reference/` and requiring external LLM API credentials—reproduces the published results and writes traceable reports under `results/`.
 
 Workflow overview for the packaged benchmark:
 
 ![PECV benchmark overview](figures/pecv-bench-overview.png)
 
 ## At-a-Glance
+
+Results below are for **V1** (`results/V1/pecv-reference/`).
 
 | Benchmark | Config Key | N runs | TP | FP | FN | Precision | Recall | F1 | Span F1 | IoU | Avg Time (s) | Avg Cost ($) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -36,8 +43,9 @@ Workflow overview for the packaged benchmark:
 ## Why PECV?
 
 - Catch misalignments across problem statements, templates, solutions, and tests before students see them.
-- Benchmark new detection approaches on 91 Java variants with 93 labeled inconsistencies spanning six ontology categories.
+- Benchmark new detection approaches on annotated variants with labeled inconsistencies spanning six ontology categories.
 - Reproduce and extend validated LLM baselines using the packaged CLI, configs, and reporting pipeline.
+
 
 ## Quickstart
 
@@ -57,9 +65,9 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-#### Install dependencies (pip)
+#### Install dependencies
 
-Install the workspace directly in editable mode (append `.[dev]` to include linting and formatting tools):
+Install the workspace directly in editable mode:
 
 ```bash
 pip install --upgrade pip
@@ -109,22 +117,61 @@ Update `pecv-reference/.env` (or export the variables in your shell) with the fo
 
 ### Run a benchmark
 
-Execute the reference pipeline with OpenAI's `o4-mini` model at medium reasoning effort across all exercises and variants:
+Exercise paths always include the version prefix (`V1` or `V2`).
+
+Run the reference pipeline on all V1 exercises with OpenAI `o4-mini` at medium reasoning effort:
+
+Run on a specific exercise from V1:
 
 ```bash
 pecv-bench run-benchmark \
-  pecv-reference \
+  --exercise V1/ITP2425/H01E01-Lectures \
   --model openai:o4-mini \
-  --reasoning-effort medium \
+  --reasoning-effort medium
   --max-concurrency 5
 ```
 
-### Generate reports
-
-Aggregate any completed runs into Markdown/JSON summaries:
+Run on a specific exercise from V2:
 
 ```bash
-pecv-bench report --benchmark pecv-reference
+pecv-bench run-benchmark \
+  --exercise V2/QCSL25/QC03-Magic_State_Distillation \
+  --model openai:o4-mini \
+  --reasoning-effort medium
+  --max-concurrency 5
+```
+
+Results are written to `results/V1/pecv-reference/` or `results/V2/pecv-reference/` depending on the exercise version.
+
+### Generate reports
+
+Aggregate completed runs into Markdown/JSON/LaTeX summaries. Pass `--results-dir` as the full path to the benchmark directory. The version is inferred from the path automatically.
+
+```bash
+# V1 (default — equivalent to omitting --results-dir)
+pecv-bench report
+
+# V2
+pecv-bench report --results-dir results/V2/pecv-reference
+
+# Custom benchmark name
+pecv-bench report --results-dir results/V1/my-experiment
+```
+
+### Analyze variant consistency
+
+The `variants-analysis` command groups results by model and generates scatter plots (tokens vs. F1).
+
+```bash
+# V1 (default)
+pecv-bench variants-analysis
+
+# V2
+pecv-bench variants-analysis --results-dir results/V2/pecv-reference
+
+# Clear previous analysis artifacts, then re-run and plot
+pecv-bench variants-analysis --results-dir results/V2/pecv-reference --clear
+pecv-bench variants-analysis --results-dir results/V2/pecv-reference --plot
 ```
 
 ### CLI overview
@@ -133,31 +180,104 @@ The entry point `pecv-bench` exposes all automation helpers. Use the built-in he
 
 ```bash
 pecv-bench --help
+pecv-bench variants --help
 pecv-bench run-benchmark --help
 pecv-bench report --help
-pecv-bench variants --help
 pecv-bench variants-analysis --help
+```
+
+#### `pecv-bench variants`
+
+Manage dataset variants (list, init, materialize, clean, annotate).
+
+All subcommands accept `-e VERSION/COURSE/EXERCISE`. Omitting `-e` operates across all versions and exercises.
+
+```bash
+# List all variants across all versions
+pecv-bench variants list
+
+# List all V2 variants
+pecv-bench variants list -e V2
+
+# List variants for one exercise
+pecv-bench variants list -e V1/ITP2425/H01E01-Lectures
+
+# Materialize a variant (applies its patch)
+pecv-bench variants materialize -e V2/QCSL25/QC03-Magic_State_Distillation -v 007
+
+# Clean materialized artifacts
+pecv-bench variants clean -e V2/QCSL25/QC03-Magic_State_Distillation -v 007
+
+# Generate a gold annotation using the reference pipeline
+pecv-bench variants generate-annotation \
+  -e V2/QCSL25/QC03-Magic_State_Distillation -v 007 \
+  --model openai:o4-mini --reasoning-effort medium
+```
+
+#### `pecv-bench run-benchmark`
+
+Execute the benchmark pipeline for one or more exercises. Results are stored under `results/VERSION/APPROACH/RUN-ID/cases/`.
+
+```bash
+pecv-bench run-benchmark --exercise V1/ITP2425/H01E01-Lectures
+pecv-bench run-benchmark --exercise V2/ISE22/H10E01-Containers --max-concurrency 4
+```
+
+#### `pecv-bench report`
+
+Generate `summary.json`, `summary.md`, and `summary.tex` from completed runs.
+
+```bash
+pecv-bench report                                          # results/V1/pecv-reference (default)
+pecv-bench report --results-dir results/V2/pecv-reference
+pecv-bench report --results-dir results/V1/my-experiment
+```
+
+#### `pecv-bench variants-analysis`
+
+Analyse result consistency across runs and models, optionally generating scatter plots.
+
+```bash
+pecv-bench variants-analysis                                         # results/V1/pecv-reference (default)
+pecv-bench variants-analysis --results-dir results/V2/pecv-reference --plot
 ```
 
 ### Expected outputs
 
 ```text
 results/
-└── pecv-reference/
-    ├── <timestamped-run-id>/
-    │   ├── cases/
-    │   └── run_report.json
-    ├── summary.json
-    ├── summary.md
-    └── summary.tex
+├── V1/
+│   └── pecv-reference/
+│       ├── <timestamped-run-id>/
+│       │   ├── cases/
+│       │   │   └── ITP2425/H01E01-Lectures/001.json
+│       │   └── run_report.json
+│       ├── variants_report.json
+│       ├── variants_report_plots/
+│       │   ├── per_model.png
+│       │   └── per_model_per_exercise.png
+│       ├── summary.json
+│       ├── summary.md
+│       └── summary.tex
+└── V2/
+    └── pecv-reference/
+        └── <same structure>
+
+runs/
+├── V1/
+│   └── pecv-reference/
+│       └── <timestamped-run-id>.yaml
+└── V2/
+    └── pecv-reference/
+        └── <timestamped-run-id>.yaml
 ```
 
-Run metadata lives in `runs/pecv-reference/<timestamped-run-id>.yaml`, enabling resumable and auditable experiments.
+Run metadata lives in `runs/VERSION/APPROACH/<run-id>.yaml`, enabling resumable and auditable experiments.
 
 ## Methodology
 
-- **Tasks & datasets:** Three Java programming exercises (Lectures, Panic at Seal Saloon, Space Seal Farm) with 91 perturbed variants and provenance for every injected inconsistency. These programming exercises originate from the [Artemis](https://github.com/ls1intum/Artemis) learning management system, an open-source LMS used to deliver interactive programming education. See the [Artemis README](https://github.com/ls1intum/Artemis/blob/develop/README.md) for platform details and pedagogical context.
-- **Inconsistency taxonomy:** Six ontology categories—ATTRIBUTE_TYPE_MISMATCH, METHOD_RETURN_TYPE_MISMATCH, IDENTIFIER_NAMING_INCONSISTENCY, METHOD_PARAMETER_MISMATCH, VISIBILITY_MISMATCH, CONSTRUCTOR_PARAMETER_MISMATCH.
+- **Tasks & datasets:** Programming exercises from the [Artemis](https://github.com/ls1intum/Artemis) learning management system. V1 covers three Java exercises; V2 extends coverage to additional courses and languages including Python, Assembly, SQL, and Swift.
+- **Inconsistency taxonomy:** Six ontology categories—`ATTRIBUTE_TYPE_MISMATCH`, `METHOD_RETURN_TYPE_MISMATCH`, `IDENTIFIER_NAMING_INCONSISTENCY`, `METHOD_PARAMETER_MISMATCH`, `VISIBILITY_MISMATCH`, `CONSTRUCTOR_PARAMETER_MISMATCH`.
 - **Evaluation pipeline:** `run-benchmark` orchestrates prompt construction, model execution, and output parsing; `report` aligns predictions with gold spans and aggregates metrics (precision, recall, F1, span F1, IoU, latency, and cost).
 
 ![Ontology diagram highlighting inconsistency categories](figures/inconsistency_ontology.svg)
@@ -170,19 +290,19 @@ Run metadata lives in `runs/pecv-reference/<timestamped-run-id>.yaml`, enabling 
 
 - **Configurations:** `configs/pecv-reference.yaml` captures model presets, reasoning effort, and run identifiers. Commit edited configs alongside experiments for traceability.
 - **Determinism:** Reasoning models introduce variability in outputs due to inherent randomness.
-- **Captured artifacts:** Each run stores raw case outputs under `results/<benchmark>/<run-id>/cases/` plus structured summaries (`run_report.json`). Metadata in `runs/<benchmark>/<run-id>.yaml` records CLI arguments, timestamps, and configuration digests.
+- **Captured artifacts:** Each run stores raw case outputs under `results/VERSION/APPROACH/<run-id>/cases/` plus structured summaries (`run_report.json`). Metadata in `runs/VERSION/APPROACH/<run-id>.yaml` records CLI arguments, timestamps, and configuration digests.
 
 ## Results
 
-- The At-a-Glance table above surfaces cross-run metrics for the packaged reference configs.
-- Detailed aggregates: `results/pecv-reference/summary.md`, machine-readable `summary.json`, and LaTeX-ready `summary.tex`.
-- Per-run diagnostics: inspect `results/pecv-reference/<run-id>/run_report.json` alongside per-case artifacts in `results/pecv-reference/<run-id>/cases/`.
+- The At-a-Glance table above surfaces cross-run V1 metrics for the packaged reference configs.
+- Detailed aggregates: `results/V1/pecv-reference/summary.md`, machine-readable `summary.json`, and LaTeX-ready `summary.tex`.
+- Per-run diagnostics: inspect `results/V1/pecv-reference/<run-id>/run_report.json` alongside per-case artifacts in `results/V1/pecv-reference/<run-id>/cases/`.
 
 ### Add your own results
 
 1. Create a config (or reuse `configs/pecv-reference.yaml`) and run `pecv-bench run-benchmark ...` with your approach.
-2. Place generated outputs under `results/<benchmark>/<your-run-id>/` and metadata in `runs/<benchmark>/<your-run-id>.yaml`.
-3. Re-run `pecv-bench report --benchmark <benchmark>` to update summaries and leaderboard tables.
+2. Results are placed automatically under `results/VERSION/APPROACH/<run-id>/` and metadata in `runs/VERSION/APPROACH/<run-id>.yaml`.
+3. Re-run `pecv-bench report --results-dir results/VERSION/APPROACH` to update summaries.
 
 ## License
 

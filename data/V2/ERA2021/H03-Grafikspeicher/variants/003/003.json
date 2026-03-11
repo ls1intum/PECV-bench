@@ -1,0 +1,25 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/003",
+  "issues": [
+    {
+      "description": "The problem statement specifies that only EAX may be modified by set_pixel. While the code preserves other registers, it explicitly sets EAX to 1 as a return code. This contradicts the instruction that the register contents (except EAX as a workspace) should be handled according to the spec, and implies a functional return value not mentioned in the requirements.",
+      "severity": "LOW",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem-statement.md",
+          "start_line": 29,
+          "end_line": 33
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution/pixel.asm",
+          "start_line": 34,
+          "end_line": 34
+        }
+      ],
+      "suggested_fix": "Remove 'mov eax, 1' before the 'ret' instruction in set_pixel to adhere to the procedure contract."
+    }
+  ]
+}

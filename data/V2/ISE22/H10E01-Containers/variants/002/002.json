@@ -1,0 +1,31 @@
+{
+  "case_id": "ISE22/H10E01-Containers/002",
+  "issues": [
+    {
+      "description": "The solution repository's PersonResource.getAllPersons() returns ResponseEntity<Set<Person>> but calls personService.getAll(), which returns List<Person>. This creates a method return-type mismatch (List cannot be supplied where a Set is declared) and will prevent the solution code from compiling. The template repository exposes getAllPersons() as ResponseEntity<List<Person>>, which is consistent with PersonService.getAll(). The solution changed the controller return type to Set while leaving the service return type as List, creating an unintended structural conflict between controller and service (and between solution and template).",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 27,
+          "end_line": 30
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 27,
+          "end_line": 30
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 36,
+          "end_line": 38
+        }
+      ],
+      "suggested_fix": "Make the return types consistent. Option A (recommended, minimal change): change the solution's PersonResource.getAllPersons() signature to return ResponseEntity<List<Person>> (matching the template and service) and keep returning personService.getAll(). Option B: if a Set is desired, change PersonService.getAll() to return a Set<Person> (e.g., return new HashSet<>(personRepository.findAll());) and update template/controller consistently. Ensure template, service, and controller all use the same collection type so the project compiles and students are not confused by differing types."
+    }
+  ]
+}

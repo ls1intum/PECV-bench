@@ -1,0 +1,31 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/012",
+  "issues": [
+    {
+      "description": "In the template repository the fixed-point word size macro FIX_LEN differs between the example program and the tests. The example program headers (and example code) use FIX_LEN = 8 (64-bit fix_t), while the tests in the template set FIX_LEN = 4 (32-bit fix_t). This is an inner-repository structural inconsistency: different translation units will compile with different assumptions about the underlying fix_t size and representation, causing confusing behavior, mismatched expected values in tests, and likely compile / runtime errors or incorrect test results for students. The solution repository consistently uses FIX_LEN = 8, indicating the intended setup is 8-byte fixed-point numbers.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "tests/src/math_fix.h",
+          "start_line": 7,
+          "end_line": 9
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/math_fix.h",
+          "start_line": 11,
+          "end_line": 13
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "tests/src/math_fix.h",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "suggested_fix": "Make FIX_LEN consistent across the repository so all translation units use the same fixed-point width. Concretely, update the template tests header (tests/src/math_fix.h) to define FIX_LEN = 8 (matching example_program and the solution), or centralize FIX_LEN into a single project-level header and #include it everywhere. Ensure tests, example program and headers all compile with the same FIX_LEN and typedefs for fix_t/fixu_t."
+    }
+  ]
+}

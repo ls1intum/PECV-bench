@@ -1,0 +1,31 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/007",
+  "issues": [
+    {
+      "description": "The template's class header for Bitmap24 does not declare a default (no-argument) constructor, while Bitmap24.cpp in the template defines one and main.cpp instantiates Bitmap24 with the default constructor (Bitmap24 bitmap;). The solution repository's Bitmap24.hpp does declare the default constructor. This mismatch (header vs. implementation and header vs. usage in main) will cause compilation failures or confusion for students: main expects a publicly-declared default constructor but the template class declaration omits it.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 30,
+          "end_line": 37
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 36,
+          "end_line": 41
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 37
+        }
+      ],
+      "suggested_fix": "Add a declaration for the default constructor to the template header so the class declaration matches its implementation and usage. For example, in example_program/src/Bitmap24.hpp add 'Bitmap24();' (public) above or alongside the existing parameterized constructor declaration. This will align the template with the solution and allow 'Bitmap24 bitmap;' in main.cpp to compile."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "case_id": "ERA2021/H00-Hello_World_ASM/006",
+  "issues": [
+    {
+      "description": "Problem statement requires calling an external function `exit_func` with an integer status code on termination, but the solution calls `exit_func` without passing any argument (no push of a status code). This makes the solution inconsistent with the specification and could confuse students who expect the reference implementation to demonstrate the required call convention/argument passing.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 8,
+          "end_line": 18
+        }
+      ],
+      "suggested_fix": "Update the solution so it passes an integer status code according to the calling convention before calling exit_func. For example, add a push of a status code (e.g. `push dword 0`) immediately before `call exit_func`, and keep the `extern exit_func` declaration. This ensures the solution matches the problem requirement to call exit_func with an integer status code."
+    }
+  ]
+}

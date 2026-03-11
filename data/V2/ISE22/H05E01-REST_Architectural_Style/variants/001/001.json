@@ -1,0 +1,37 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/001",
+  "issues": [
+    {
+      "description": "Mismatch in the return type of PersonService.savePerson across artifacts: the problem statement and template/service design imply the saved Person should be returned (similar to NoteService.saveNote and the problem text: POST /persons response contains the saved person), the template PersonService declares savePerson as returning Person, but the solution repository's PersonService changed savePerson to void. At the same time, the solution repository's PersonResource.createPerson expects a Person return value from personService.savePerson (it returns ResponseEntity.ok(personService.savePerson(person))). This inconsistency (service returns void but the controller expects a Person) will cause compilation failures and confuses students about the intended API contract (whether savePerson should return the saved Person).",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 113
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 18,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 20,
+          "end_line": 33
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
+          "end_line": 35
+        }
+      ],
+      "suggested_fix": "Make the service API consistent with the controller and the problem statement. Restore PersonService.savePerson to return a Person (similar to NoteService.saveNote) and return the created or updated Person. Concretely, change the signature in PersonService to 'public Person savePerson(Person person)' and at the end of the method return the newly created person (when adding) or the updated existingPerson (when updating). This aligns the service with PersonResource.createPerson (which returns the saved Person) and matches the exercise description."
+    }
+  ]
+}

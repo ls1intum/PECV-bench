@@ -1,0 +1,43 @@
+{
+  "case_id": "ISE22/H10E01-Containers/011",
+  "issues": [
+    {
+      "description": "In the solution repository, the Person entity declares the id field as Integer while the getter and setter use Long and the JPA repository generics expect Long. This creates a type inconsistency between the attribute declaration and its accessor methods and between the entity and the repository. The template repository declares the id as Long (consistent with the repository generics). This mismatch is structural and will cause compilation/runtime errors or confusion when students compare template and solution (and prevents the solution from compiling/executing as-is).",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 19,
+          "end_line": 22
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 53,
+          "end_line": 59
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+          "start_line": 19,
+          "end_line": 22
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/repository/PersonRepository.java",
+          "start_line": 12,
+          "end_line": 23
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/repository/PersonRepository.java",
+          "start_line": 12,
+          "end_line": 23
+        }
+      ],
+      "suggested_fix": "Make the Person id type consistent across artifacts. Either change the solution's field declaration to 'private Long id;' (and keep the existing getters/setters and repository generics) or change repository generics and accessor signatures to Integer everywhere. The simplest fix preserving the intended design is to update solution/src/main/java/de/tum/in/ase/eist/model/Person.java to declare 'private Long id;' so it matches the template and PersonRepository."
+    }
+  ]
+}

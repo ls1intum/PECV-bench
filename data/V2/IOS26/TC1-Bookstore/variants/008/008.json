@@ -1,0 +1,31 @@
+{
+  "case_id": "IOS26/TC1-Bookstore/008",
+  "issues": [
+    {
+      "description": "The problem statement requires Bookstore to provide an initializer with signature `init(books: [Book])` (problem expects the Bookstore to be created with an array of Book). In the solution, Bookstore declares an `init()` with no parameters and then references an undefined `books` identifier inside it (init() { self.books = books }). Meanwhile the solution's Client calls `Bookstore(books: books)`. This creates a constructor-parameter mismatch and an internal inconsistency in the solution: the Bookstore initializer does not match the specified API and does not match how Client constructs a Bookstore. This will prevent the code from compiling and will confuse students about the correct initializer to implement.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 7,
+          "end_line": 12
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 13,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Client.swift",
+          "start_line": 31,
+          "end_line": 58
+        }
+      ],
+      "suggested_fix": "Make the Bookstore initializer match the problem specification and the Client usage. Replace the incorrect `init()` with `init(books: [Book])` and assign the parameter to the stored property, e.g. `init(books: [Book]) { self.books = books }`. Ensure the Client constructs Bookstore using that initializer (as currently done in Client). This will restore consistency between the problem statement, the solution, and the code usage."
+    }
+  ]
+}

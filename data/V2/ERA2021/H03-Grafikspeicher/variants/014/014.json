@@ -1,0 +1,37 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/014",
+  "issues": [
+    {
+      "description": "The template declares the framebuffer base symbol display_start in .bss (display_start RESB 8294400), and the problem statement refers to display_start as the base address for the screen buffer. The solution code, however, removed the display_start declaration (it comments that display_start was \"moved to local stack scope in main\") but still references the symbol (e.g. add eax, display_start and mov esi, display_start). Because display_start is not actually declared or moved onto the stack in the solution, the solution is structurally inconsistent with both the template and the problem statement and will result in an unresolved symbol / assembly/runtime error and confuse students about where display_start should be defined.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 20,
+          "end_line": 22
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 30,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 93,
+          "end_line": 102
+        }
+      ],
+      "suggested_fix": "Restore a proper declaration of display_start consistent with the template (e.g. add \"display_start RESB 8294400\" in the solution's .bss section) or actually implement the promised relocation to the stack by allocating and initializing a stack-based base pointer and update all references accordingly. The simplest fix to preserve educational intent is to reintroduce the display_start RESB 8294400 in the solution's .bss so the symbol matches the template and problem statement."
+    }
+  ]
+}

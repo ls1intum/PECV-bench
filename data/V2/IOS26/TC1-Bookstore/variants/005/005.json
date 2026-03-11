@@ -1,0 +1,37 @@
+{
+  "case_id": "IOS26/TC1-Bookstore/005",
+  "issues": [
+    {
+      "description": "The problem statement and the template expect an assembleBookstore function with the signature `assembleBookstore() -> Bookstore` (the template even contains a commented stub with no parameters). In the solution repository the function is declared as `private static func assembleBookstore(count: Int) -> Bookstore` (has an extra `count` parameter), while the solution's own `main()` calls `assembleBookstore()` with no arguments. This mismatch (a parameter present in the declaration but not in the expected signature and not supplied at the call site) is a structural inconsistency that will confuse students about the required signature and causes a compile error in the solution as written.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 31,
+          "end_line": 38
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Client.swift",
+          "start_line": 16,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Client.swift",
+          "start_line": 5,
+          "end_line": 5
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "Sources/BookstoreLib/Client.swift",
+          "start_line": 31,
+          "end_line": 58
+        }
+      ],
+      "suggested_fix": "Make the assembleBookstore function signature consistent across artifacts. Either remove the unused `count: Int` parameter in the solution (change to `private static func assembleBookstore() -> Bookstore`) so it matches the template and problem statement and the call in main, or update the template/problem to document and show the required parameter and update all call sites accordingly. The simpler fix is to remove the `count` parameter from the solution."
+    }
+  ]
+}

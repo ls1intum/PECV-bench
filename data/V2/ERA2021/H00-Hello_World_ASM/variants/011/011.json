@@ -1,0 +1,31 @@
+{
+  "case_id": "ERA2021/H00-Hello_World_ASM/011",
+  "issues": [
+    {
+      "description": "The problem statement explicitly requires defining `user_name` as a string buffer (problem_statement.md lines 21-22), but the solution defines `user_name` as a 32-bit integer using `user_name dd 0` (solution_repository/helloWorld.asm line 4). This is a structural attribute type mismatch: students following the specification will implement a string buffer, while the provided solution uses an incompatible integer declaration. This can cause confusion about the expected data layout and may make validating student submissions against the solution misleading or incorrect.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 3,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 4,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Make the solution match the problem statement by declaring `user_name` as a string buffer rather than an integer. For example, in NASM you can reserve a 32-byte zero-initialized buffer in the data section with:\n\n    user_name times 32 db 0\n\n(or place an uninitialized buffer in .bss with `section .bss` and `user_name resb 32`). Replace `user_name dd 0` in solution_repository/helloWorld.asm with one of these string-buffer declarations so the solution aligns with the exercise instructions."
+    }
+  ]
+}

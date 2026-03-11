@@ -1,0 +1,43 @@
+{
+  "case_id": "IOS26/TC1-Bookstore/017",
+  "issues": [
+    {
+      "description": "The problem statement specifies a Book struct with a property named `title`, but the solution implementation declares the property as `bookTitle`. Meanwhile the solution's Client and assembleBookstore code use `book.title` and call the initializer as `Book(title: ...)`. This naming mismatch (title vs. bookTitle) breaks the clear mapping from the problem to the implementation, is likely to cause compilation/test failures, and will confuse students about the expected property name.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 18
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 8,
+          "end_line": 11
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 24,
+          "end_line": 33
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 10,
+          "end_line": 11
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 34,
+          "end_line": 54
+        }
+      ],
+      "suggested_fix": "Align the Book property name across artifacts. Rename the solution's `bookTitle` property to `title` (e.g., `let title: String`) so it matches the problem statement and existing Client usage, or alternatively update all usages and initializers to consistently use `bookTitle`. Preferred fix: change `bookTitle` → `title` in the Book struct and keep the existing Client/initializer calls."
+    }
+  ]
+}

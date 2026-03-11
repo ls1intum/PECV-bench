@@ -1,0 +1,43 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/006",
+  "issues": [
+    {
+      "description": "The Bitmap24::resize_buffer method has a parameter type mismatch between its declaration in the template header and its definition in the template implementation, which will cause a compilation error. In the template repository the Bitmap24.hpp declaration uses 'long i_width, long i_height' but the Bitmap24.cpp definition uses 'int i_width, int i_height'. The solution repository uses 'int' consistently in both header and implementation. Because the assignment requires the project to compile to be graded, this mismatch in the template is a blocking structural issue for students.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 42,
+          "end_line": 45
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 58,
+          "end_line": 71
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 42,
+          "end_line": 45
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 58,
+          "end_line": 71
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 18,
+          "end_line": 19
+        }
+      ],
+      "suggested_fix": "Make the declaration and the definition use the same parameter types. Update the template header (example_program/src/Bitmap24.hpp) to 'void resize_buffer(int i_width, int i_height);' so it matches the implementation (Bitmap24.cpp) and the solution. Alternatively, change the implementation to take 'long' — but prefer changing the header to 'int' to match the solution and avoid surprising type-width differences."
+    }
+  ]
+}

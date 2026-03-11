@@ -1,0 +1,25 @@
+{
+  "case_id": "ISE22/H10E01-Containers/005",
+  "issues": [
+    {
+      "description": "The method updatePerson() in PersonResource has its parameters in a different order between the template and the solution repository. The template declares 'public ResponseEntity<Person> updatePerson(@RequestBody Person updatedPerson, @PathVariable(\"personId\") Long personId)' (template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java line 46), while the solution declares the same method as 'public ResponseEntity<Person> updatePerson(@PathVariable(\"personId\") Long personId, @RequestBody Person updatedPerson)' (solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java line 46) — with the two parameters swapped. A student comparing both artifacts will see conflicting parameter orders for the same method and will not know which order is canonical, creating unnecessary cognitive load. Although Spring MVC resolves annotated parameters by their annotation type rather than position, a student who is not yet aware of this nuance may be confused about the correct method signature to implement.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 46,
+          "end_line": 46
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 46,
+          "end_line": 46
+        }
+      ],
+      "suggested_fix": "Restore the parameter order of updatePerson() in solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java to match the template: change 'public ResponseEntity<Person> updatePerson(@PathVariable(\"personId\") Long personId, @RequestBody Person updatedPerson)' back to 'public ResponseEntity<Person> updatePerson(@RequestBody Person updatedPerson, @PathVariable(\"personId\") Long personId)'. Both artifacts must use the same parameter order."
+    }
+  ]
+}

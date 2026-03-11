@@ -1,0 +1,31 @@
+{
+  "case_id": "QCSL25/QC03-Magic_State_Distillation/006",
+  "issues": [
+    {
+      "description": "The function simulate_msd_two_rounds is specified in the problem statement to accept a batch_size parameter (simulate_msd_two_rounds(n_shots: int, p: float, batch_size: int = 1000000) -> tuple[float, float]). The template implementation, however, defines simulate_msd_two_rounds without a batch_size parameter (def simulate_msd_two_rounds(n_shots:int, p: float) -> tuple[float, float]:) while its docstring mentions batch_size. The solution implementation includes the batch_size parameter in the signature. This mismatch (problem ↔ template ↔ solution) will confuse students and can cause runtime errors if tests or later code call the function with a batch_size argument or expect batching behavior described in the docstring.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 171,
+          "end_line": 175
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 134,
+          "end_line": 146
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 240,
+          "end_line": 251
+        }
+      ],
+      "suggested_fix": "Update the template function signature to include the batch_size parameter (with the same default) so it matches the problem specification and the solution. For example: def simulate_msd_two_rounds(n_shots: int, p: float, batch_size: int = 1000000) -> tuple[float, float]:. Also ensure the template docstring and any tests assume the same signature."
+    }
+  ]
+}

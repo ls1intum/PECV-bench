@@ -56,8 +56,8 @@ class LanguageConfig(BaseModel):
 # Language-specific configurations
 LANGUAGE_CONFIGS: Dict[ProgrammingLanguage, LanguageConfig] = {
     ProgrammingLanguage.JAVA: LanguageConfig(
-        file_extensions=[".java"],
-        source_directories=["src"],
+        file_extensions=[".java", ".yml", ".yaml"], # ADDED .yml, .yaml
+        source_directories=["src", "."], # ADDED "." to catch root docker-compose.yml
         exclude_patterns=[
             "*/target/*",
             "*/build/*",
@@ -65,10 +65,10 @@ LANGUAGE_CONFIGS: Dict[ProgrammingLanguage, LanguageConfig] = {
             "gradle/*",
             "gradlew*",
             "*.gradle",
-            "*.properties",
             "*.bat",
             "*.sh",
             ".gradle/*",
+            # REMOVED *.properties exclusion
         ],
         max_file_size_kb=50,
     ),
@@ -109,7 +109,7 @@ LANGUAGE_CONFIGS: Dict[ProgrammingLanguage, LanguageConfig] = {
         max_file_size_kb=50,
     ),
     ProgrammingLanguage.SQL: LanguageConfig(
-        file_extensions=[".sql", ".md"],
+        file_extensions=[".sql", ".md", ".py"], # ADDED .py for TA1/TA2 tests
         source_directories=["*"],
         exclude_patterns=[
             "problem-statement.md",

@@ -1,0 +1,31 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/006",
+  "issues": [
+    {
+      "description": "The solution's set_pixel implementation violates the subroutine contract specified in the problem statement. The problem requires that set_pixel receives x in EAX, y in EBX and RGB in ECX and that no registers other than EAX are changed by the routine. The solution's set_pixel uses and modifies EDI (it executes `or edi, edi` and branches on it) but does not save/restore EDI, so it clobbers a register that must be preserved. This contradicts the problem description and would confuse students (and break callers that expect registers other than EAX to be preserved).",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 37
+        }
+      ],
+      "suggested_fix": "Adjust the solution implementation so it adheres to the specified calling/side-effect contract: do not rely on or modify EDI (remove the alpha-channel check that uses EDI), or save and restore any registers you use (e.g., push edi at entry and pop edi before ret). Prefer computing x*4 via shifts (SHL EAX,2) or using saved temporaries and ensure all registers except EAX are restored before returning. This preserves the intended design and avoids confusing students."
+    }
+  ]
+}

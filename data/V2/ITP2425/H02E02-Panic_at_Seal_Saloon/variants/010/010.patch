@@ -1,0 +1,39 @@
+diff -ruN a/solution/src/de/tum/cit/ase/SealSaloon.java b/solution/src/de/tum/cit/ase/SealSaloon.java
+--- a/solution/src/de/tum/cit/ase/SealSaloon.java	2025-07-25 15:09:07
++++ b/solution/src/de/tum/cit/ase/SealSaloon.java	2025-07-27 22:47:33
+@@ -54,16 +54,16 @@
+ 		}
+ 	}
+ 
+-	public static int calculateTotalPrice(Meal meal) {
++	public static int computeMealCost(Meal meal) {
+ 		int sum = 0;
+ 
+ 		for (var x : meal.getIngredients()) {
+-			StockIngredient ingredient = stock.findStockIngredient(x);
+-
+-			if (ingredient != null) {
+-				sum += ingredient.getPrice();
++			StockIngredient found = stock.findStockIngredient(x);
++			if (found != null) {
++				sum += found.getPrice();
+ 			}
+ 		}
++
+ 		return sum;
+ 	}
+ 
+diff -ruN a/template/src/de/tum/cit/ase/Main.java b/template/src/de/tum/cit/ase/Main.java
+--- a/template/src/de/tum/cit/ase/Main.java	2025-07-25 15:09:03
++++ b/template/src/de/tum/cit/ase/Main.java	2025-07-27 22:47:41
+@@ -10,8 +10,8 @@
+         StockIngredient vegetables = new StockIngredient("Vegetables", 20, 20);
+         SealSaloon shop = new SealSaloon();
+         shop.getStock().setStockIngredients(new StockIngredient[]{bacon, sausage, vegetables});
+-        System.out.println("The total price of bigBigBigMac is: " + shop.calculateTotalPrice(bigCowBoyStew));
+-        System.out.println("The total price of bigMac is: " + shop.calculateTotalPrice(cowBoyStew));
++        System.out.println("The total price of bigBigBigMac is: " + shop.computeMealCost(bigCowBoyStew));
++        System.out.println("The total price of bigMac is: " + shop.computeMealCost(cowBoyStew));
+         System.out.println("We have " + shop.getStock().findStockIngredient("Bacon").getQuantity() + " Bacon now.");
+         shop.orderMeal(cowBoyStew);
+         System.out.println("After the order of a bigMac we have " + shop.getStock().findStockIngredient("Bacon").getQuantity() + " Bacon now.");

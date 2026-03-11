@@ -1,0 +1,30 @@
+diff -ruN a/problem-statement.md b/problem-statement.md
+--- a/problem-statement.md	2026-02-03 13:05:18
++++ b/problem-statement.md	2026-02-06 11:16:12
+@@ -17,4 +17,6 @@
+ 2. Bearbeiten Sie nun die Datei ```helloWorld.asm```. Da von Ihnen keinerlei Vorwissen erwartet wird, gestaltet sich die Aufgabe recht simpel - Sie müssen lediglich die Bezeichnung ```ecc``` zu ```ecx``` ändern (wie auch in den Kommentaren der Datei angedeutet).
+ 
+ ### Makefile
+-Ihnen wird in dieser Aufgabe ein Makefile mitgeliefert. Dies erleichtert Ihnen den Kompiliervorgang. Um das Makefile zu verwenden, müssen Sie lediglich ```make``` im Verzeichnis des Makefiles auf Ihrer Kommandozeile aufrufen. Versuchen Sie nachzuvollziehen, wie das Makefile funktioniert, indem Sie es öffnen.
+\ No newline at end of file
++Ihnen wird in dieser Aufgabe ein Makefile mitgeliefert. Dies erleichtert Ihnen den Kompiliervorgang. Um das Makefile zu verwenden, müssen Sie lediglich ```make``` im Verzeichnis des Makefiles auf Ihrer Kommandozeile aufrufen. Versuchen Sie nachzuvollziehen, wie das Makefile funktioniert, indem Sie es öffnen.
++### Beendigung
++Rufen Sie eine externe Funktion `exit_func` mit einem Integer-Statuscode auf.
+diff -ruN a/solution/helloWorld.asm b/solution/helloWorld.asm
+--- a/solution/helloWorld.asm	2026-02-03 13:05:18
++++ b/solution/helloWorld.asm	2026-02-06 11:16:13
+@@ -5,6 +5,7 @@
+ section .text
+ global main
+ extern printf
++extern exit_func
+ main:
+ ;--------------------------------------------
+ 
+@@ -14,4 +15,5 @@
+     push hello
+     call printf
+     add esp, 4
++    call exit_func ; Missing push of status code
+     ret
+\ No newline at end of file
