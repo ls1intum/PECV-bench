@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-11T23:50:03.259018Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The solution implements getTotalNumberOfStudents(boolean includeGuests) (takes a boolean parameter), but the problem statement and UML specify getTotalNumberOfStudents(): int (no parameters). This parameter mismatch means students following the UML will implement a no-argument method while the provided solution uses a different signature and callers in the solution (e.g. getNameAndTotalNumberOfStudents()) rely on the boolean parameter. This creates confusion about the intended API and prevents direct comparison between student implementations and the reference solution.",
+            "suggestedFix": "Make the method signature consistent with the UML/problem statement by removing the boolean parameter in the solution: implement public int getTotalNumberOfStudents() that returns the total number of students (including guests if that is the intended default). If optional behavior to include/exclude guests is desired, add an overloaded method public int getTotalNumberOfStudents(boolean includeGuests) or document and update the UML/problem statement to explicitly include the boolean parameter so all artifacts match.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 73
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 40,
+                    "endLine": 46
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 74,
+                    "endLine": 81
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 12,
+                    "endLine": 18
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement and UML specify a parameterless method getTotalNumberOfStudents(): int, but the solution implements getTotalNumberOfStudents(boolean includeGuests). This changes the expected signature and behavior of the core concept (total number of students) and creates mapping confusion for students: they are instructed to implement a parameterless method, yet the provided solution uses a boolean parameter to switch behavior. This also affects dependent methods (e.g., getNumberOfStudentsPerTutor) which in the UML/problem are expected to call the parameterless method.",
+            "suggestedFix": "Align the solution with the problem/UML by providing a parameterless method public int getTotalNumberOfStudents() that returns the total (inscribed + guest) as specified. If conditional behavior is needed, add an overloaded or separately named method (e.g., getTotalNumberOfStudents(boolean includeGuests) or getInscribedNumberOfStudents()) but keep the original parameterless signature present to match the exercise specification.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 70
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 12,
+                    "endLine": 18
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 74,
+                    "endLine": 81
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-11T23:50:03.259018Z",
+        "endTime": "2026-03-11T23:50:18.280930Z",
+        "durationS": 15.021
+    },
+    "tokens": {
+        "prompt": 10233,
+        "completion": 2623,
+        "total": 12856
+    },
+    "costs": {
+        "promptEur": 0.0023535899658203123,
+        "completionEur": 0.004826320068359376,
+        "totalEur": 0.007179910034179688
+    },
+    "case_id": "V1/ITP2425/H01E01-Lectures/022",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-11-2350-66c9e6b98d"
+}
