@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-11T20:22:18.919744Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Element: SealSaloon.stock (the saloon's stock attribute). The problem statement gives contradictory instructions: problem_statement.md (lines 70-71) tells students to initialize the stock in the SealSaloon constructor (implying an instance field initialized per-constructor), but later the problem_statement.md (lines 77-80) explicitly requires the stock attribute to be static/shared across all instances. The reference solution declares the field as a static class member: solution_repository/src/de/tum/cit/ase/SealSaloon.java (line 5) declares \"private static final Stock stock = new Stock();\". The template's Main.java commented example uses instance-style access (template_repository/src/de/tum/cit/ase/Main.java lines 11-12 show `SealSaloon shop = new SealSaloon(); shop.getStock().setStockIngredients(...)`). This inconsistency leaves students unsure whether to implement stock as an instance field initialized in the constructor or as a static class field and how to initialize and access it.",
+            "suggestedFix": "Resolve the design ambiguity in the problem statement. Either:\n1) Make stock a shared static resource: update the problem statement text that currently instructs to initialize stock in the constructor to instead state that stock is a static/shared attribute (example: \"private static final Stock stock = new Stock();\"), and show/access it via a static getter. Remove wording that tells students to initialize stock in the constructor. Update example code comments to reflect static usage (or note that calling a static getter on an instance is allowed but discouraged).\nOR\n2) Make stock an instance field: remove the lines that require stock to be static (lines 77-80) and change the reference solution accordingly (move initialization into the constructor and make getStock() non-static).\nUpdate the statement and examples consistently so students clearly know whether stock is static or instance and how to initialize and access it.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 71
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 77,
+                    "endLine": 80
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 5,
+                    "endLine": 5
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Main.java",
+                    "startLine": 11,
+                    "endLine": 12
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-11T20:22:18.919744Z",
+        "endTime": "2026-03-11T20:23:10.918157Z",
+        "durationS": 51.998
+    },
+    "tokens": {
+        "prompt": 31066,
+        "completion": 5958,
+        "total": 37024
+    },
+    "costs": {
+        "promptEur": 0.00714518017578125,
+        "completionEur": 0.010962720092773437,
+        "totalEur": 0.01810790026855469
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/003",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-11-2019-4f1475cd54"
+}

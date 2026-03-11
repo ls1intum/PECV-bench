@@ -29,17 +29,17 @@
 ## Aggregate Results
 | Benchmark | Config Key | N runs | TP | FP | FN | Precision | Recall | F1 | Span F1 | IoU | Avg Time (s) | Avg Cost (€) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| artemis-feature-hyperion-consistency_check_independent_verification_loop-4f1475cd54 | default | 1 | 50 | 10 | 41 | 0.833 | 0.549 | 0.662 | 0.555 | 0.423 | 30.281 | 0.0122 |
-| pecv-reference | model=openai:gpt-5-mini, reasoning_effort=medium | 1 | 121 | 82 | 14 | 0.594 | 0.893 | 0.714 | 0.454 | 0.328 | 34.449 | — |
+| artemis-feature-hyperion-consistency_check_independent_verification_loop-4f1475cd54 | model=azure:azure-openai-gpt-5-mini | 3 | 22 | 8 | 251 | 0.733 | 0.081 | 0.145 | 0.506 | 0.373 | 16.591 | 0.0095 |
+| pecv-reference | model=openai:gpt-5-mini, reasoning_effort=medium | 3 | 262 | 197 | 17 | 0.571 | 0.939 | 0.710 | 0.433 | 0.308 | 31.634 | 0 |
 
 ## Per Exercise Breakdown
 
-### artemis-feature-hyperion-consistency_check_independent_verification_loop-4f1475cd54 :: default
+### artemis-feature-hyperion-consistency_check_independent_verification_loop-4f1475cd54 :: model=azure:azure-openai-gpt-5-mini
 | Exercise | TP | FP | FN | Precision | Recall | F1 | Span F1 | IoU | Avg Time (s) | Avg Cost (€) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| V1/ITP2425/H01E01-Lectures | 4 | 2 | 24 | 0.667 | 0.143 | 0.235 | 0.729 | 0.608 | 15.905 | 0.0072 |
-| V1/ITP2425/H02E02-Panic_at_Seal_Saloon | 14 | 6 | 15 | 0.700 | 0.483 | 0.571 | 0.526 | 0.398 | 33.209 | 0.0140 |
-| V1/ITP2425/H05E01-Space_Seal_Farm | 32 | 2 | 2 | 0.941 | 0.941 | 0.941 | 0.546 | 0.410 | 40.205 | 0.0149 |
+| V1/ITP2425/H01E01-Lectures | 8 | 1 | 76 | 0.889 | 0.095 | 0.172 | 0.398 | 0.264 | 14.042 | 0.0070 |
+| V1/ITP2425/H02E02-Panic_at_Seal_Saloon | 4 | 5 | 83 | 0.444 | 0.046 | 0.083 | 0.521 | 0.381 | 18.202 | 0.0113 |
+| V1/ITP2425/H05E01-Space_Seal_Farm | 10 | 2 | 92 | 0.833 | 0.098 | 0.175 | 0.586 | 0.457 | 17.361 | 0.0100 |
 
 *Benchmark results are provided under CC-BY-4.0; please attribute PECV Bench when reusing.*
 
@@ -48,7 +48,7 @@
 
 | Model Name | Correlation | P-Value | N Samples |
 | :--- | :--- | :--- | :--- |
-| azure-openai-gpt-5-mini |    0.268* |    0.011 | 89 |
+| azure-openai-gpt-5-mini |   -0.031 |    0.618 | 267 |
 
 *Significance: \*\*\* p<0.001, \*\* p<0.01, \* p<0.05*
 
@@ -56,9 +56,9 @@
 
 | Model | Exercise | Correlation | P-Value | N |
 | :--- | :--- | :--- | :--- | :--- |
-| azure-openai-gpt-5-mini | V1/ITP2425/H01E01-Lectures |    0.037 |    0.851 | 28 |
-| azure-openai-gpt-5-mini | V1/ITP2425/H02E02-Panic_at_Seal_Saloon |   -0.777*** |    0.000 | 29 |
-| azure-openai-gpt-5-mini | V1/ITP2425/H05E01-Space_Seal_Farm |    0.180 |    0.324 | 32 |
+| azure-openai-gpt-5-mini | V1/ITP2425/H01E01-Lectures |    0.166 |    0.130 | 84 |
+| azure-openai-gpt-5-mini | V1/ITP2425/H02E02-Panic_at_Seal_Saloon |    0.045 |    0.682 | 87 |
+| azure-openai-gpt-5-mini | V1/ITP2425/H05E01-Space_Seal_Farm |    0.227* |    0.026 | 96 |
 
 
 ## Visualizations
