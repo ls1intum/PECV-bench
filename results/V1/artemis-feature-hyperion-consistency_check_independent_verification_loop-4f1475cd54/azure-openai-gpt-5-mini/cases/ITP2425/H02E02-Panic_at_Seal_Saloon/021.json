@@ -1,0 +1,78 @@
+{
+    "timestamp": "2026-03-11T19:27:30.828412Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "StockIngredient.price is declared with different types across artifacts: in the template (src/de/tum/cit/ase/StockIngredient.java) the field and constructor parameter use type double (field: 'private final double price', constructor: 'StockIngredient(String, double, int)', and getPrice() returns double). The problem statement (UML and text) declares acceptSupplyDelivery(String, int, int) and calculateTotalPrice(Meal): int, implying ingredient prices are integers. The solution (src/de/tum/cit/ase/StockIngredient.java) uses int for the price field, constructor parameter, and getPrice(). This mismatch (double vs int) affects the same named attribute/constructor parameter and will confuse students: they must reconcile differing types when implementing SealSaloon.acceptSupplyDelivery and calculateTotalPrice (which are specified to use int). It can force unnecessary casts or produce type errors if students follow the template but rely on the problem statement signatures.",
+            "suggestedFix": "Make the price type consistent across all artifacts. Preferred quick fix: change the template's StockIngredient.price field, constructor parameter type, and getPrice() return type from double to int so they match the problem statement (acceptSupplyDelivery uses int) and the solution. Alternatively, if fractional prices are intended, update the problem statement UML and method signatures (acceptSupplyDelivery and calculateTotalPrice) and the solution to use double consistently. Ensure constructor signatures and getPrice() return types are updated accordingly in the template and solution examples.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/StockIngredient.java",
+                    "startLine": 5,
+                    "endLine": 5
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/StockIngredient.java",
+                    "startLine": 8,
+                    "endLine": 8
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/StockIngredient.java",
+                    "startLine": 32,
+                    "endLine": 34
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/StockIngredient.java",
+                    "startLine": 5,
+                    "endLine": 5
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/StockIngredient.java",
+                    "startLine": 8,
+                    "endLine": 8
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/StockIngredient.java",
+                    "startLine": 32,
+                    "endLine": 34
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 25,
+                    "endLine": 34
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 72,
+                    "endLine": 80
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-11T19:27:30.828412Z",
+        "endTime": "2026-03-11T19:28:17.311779Z",
+        "durationS": 46.483
+    },
+    "tokens": {
+        "prompt": 29618,
+        "completion": 5428,
+        "total": 35046
+    },
+    "costs": {
+        "promptEur": 0.00681214013671875,
+        "completionEur": 0.009987520141601564,
+        "totalEur": 0.016799660278320312
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/021",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

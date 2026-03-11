@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-11T19:26:24.459683Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field: SealSaloon.stock. Problem statement requires a shared (static) stock attribute but also instructs that the stock should be initialized in the SealSaloon constructor: problem statement asks for a 'final Stock stock' initialized in the constructor (problem_statement.md lines 70-74) and separately states the stock attribute must be static/shared (problem_statement.md lines 77-81). The solution declares and initializes a static stock at declaration (solution_repository/src/de/tum/cit/ase/SealSaloon.java line 5: 'private static final Stock stock = new Stock();'). This is a contradictory instruction in the exercise text vs. the implementation approach and may confuse students about where and how to initialize the stock field and whether it should be instance or class-level.",
+            "suggestedFix": "Make the intent explicit and consistent: either (A) require a static/shared stock and instruct students to initialize it at declaration or in a static initializer (example: 'private static final Stock stock = new Stock();'), or (B) require an instance field and instruct students to initialize it in the no-argument constructor. Update the problem statement and UML to match the chosen approach so students are not asked to both initialize in the constructor and declare the field static.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 81
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 5,
+                    "endLine": 5
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Method name mismatch: the problem statement and UML require a method named checkOrderReady() in SealSaloon that is called from orderMeal() to attempt serving queued orders (see UML and task text in problem_statement.md, e.g., lines 27-33 and 85-98). The provided solution implements this behavior in a method named processOrders() (solution_repository/src/de/tum/cit/ase/SealSaloon.java line 20: 'public void processOrders()') and orderMeal() calls this.processOrders() (solution_repository/src/de/tum/cit/ase/SealSaloon.java lines 12-16). This difference in identifier names for the same conceptual operation can confuse students and cause mismatches with tests or grader expectations that look for a method named checkOrderReady().",
+            "suggestedFix": "Make the public API name consistent across artifacts. Either (A) rename the solution method processOrders() to checkOrderReady() and update its call site in orderMeal(), or (B) update the problem statement/UML to require processOrders() instead of checkOrderReady(). Prefer renaming the solution method to checkOrderReady() to align with the exercise description and UML.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 27,
+                    "endLine": 33
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 85,
+                    "endLine": 98
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 12,
+                    "endLine": 16
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 20,
+                    "endLine": 20
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-11T19:26:24.459683Z",
+        "endTime": "2026-03-11T19:27:30.711153Z",
+        "durationS": 66.251
+    },
+    "tokens": {
+        "prompt": 29987,
+        "completion": 7169,
+        "total": 37156
+    },
+    "costs": {
+        "promptEur": 0.0068970102539062505,
+        "completionEur": 0.013190960205078126,
+        "totalEur": 0.020087970458984375
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/018",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}

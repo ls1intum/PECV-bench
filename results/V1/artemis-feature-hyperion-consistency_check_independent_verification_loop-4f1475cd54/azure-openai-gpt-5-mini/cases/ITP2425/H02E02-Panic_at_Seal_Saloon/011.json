@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-11T19:26:28.712039Z",
+    "issues": [
+        {
+            "severity": "LOW",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field 'totalOrders' has inconsistent numeric type between the problem specification and the reference implementation. The UML in problem_statement.md declares '-totalOrders: int' (line with SealSaloon attributes), whereas the solution implementation (src/de/tum/cit/ase/SealSaloon.java) declares 'private long totalOrders = 0;'. This mismatch can confuse students about which type to use and can lead to grading/test mismatches if tests or the statement expect an int.",
+            "suggestedFix": "Make the numeric type consistent. Either update the problem statement (and UML) to declare totalOrders as 'long' to match the solution, or change the solution to use 'int totalOrders'. Prefer aligning the problem statement/UML and any tests with the chosen type so students have a single clear target.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 27,
+                    "endLine": 29
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 6,
+                    "endLine": 6
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The specification gives contradictory guidance about the SealSaloon 'stock' attribute: one passage instructs students to initialize the saloon attributes in the instance constructor (i.e., implying an instance field initialized there), while a later passage explicitly requires the 'stock' attribute to be static and that related methods be static. The solution implements 'stock' as a static final field initialized at declaration (private static final Stock stock = new Stock();). This contradiction (instance-constructor initialization vs. required static class-level field) can confuse students about whether 'stock' should be an instance or static field and where it should be initialized.",
+            "suggestedFix": "Clarify the specification: explicitly state that 'stock' is a static (class-level) attribute shared across all SealSaloon instances and may be initialized at declaration or in a static initializer. Remove or revise the sentence that tells students to initialize the stock in the instance constructor to avoid implying an instance field. Alternatively, if the educational intent is an instance field, update the later 'must be static' lines and related method requirements to match.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 69,
+                    "endLine": 71
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 77,
+                    "endLine": 81
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 5,
+                    "endLine": 5
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-11T19:26:28.712039Z",
+        "endTime": "2026-03-11T19:27:25.285096Z",
+        "durationS": 56.573
+    },
+    "tokens": {
+        "prompt": 29706,
+        "completion": 6193,
+        "total": 35899
+    },
+    "costs": {
+        "promptEur": 0.006832380126953125,
+        "completionEur": 0.011395119750976563,
+        "totalEur": 0.01822749987792969
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/011",
+    "run_id": "azure-openai-gpt-5-mini-default"
+}
