@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-12T23:17:27.976897Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The problem statement instructs students to \"directly call the public vector_normalization and matrix_normalization methods\" in dd.py and not to manipulate DD or DDNode directly, but the dd.py implementation exposes only private functions __vector_normalization and __matrix_normalization (no public functions with the names referenced). This mismatch between the written instructions and the actual available API can confuse students about which functions they are expected to call and whether they are allowed to call the provided normalization helpers.",
+            "suggestedFix": "Either update the problem statement to instruct students to use the existing public API (e.g., make_dd) and avoid references to non-existent public normalization functions, or add properly named public wrapper functions (vector_normalization and matrix_normalization) to dd.py that delegate to the existing normalization logic. Ensure the instructions and the code API match so students know which functions are intended for direct use.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 23
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 283,
+                    "endLine": 369
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement instructs students to \"directly call the public `vector_normalization` and `matrix_normalization` methods\" in dd.py, but the code in both the template and solution repositories implements these routines as private functions named `__vector_normalization` and `__matrix_normalization` (and provides no public functions with the names referenced in the problem). This mismatch between the documented (public) names and the actual identifiers in dd.py is likely to confuse students searching for non-existent public methods and creates unnecessary mapping overhead between the instructions and the code.",
+            "suggestedFix": "Align the wording and code: either (A) update dd.py to expose public functions named `vector_normalization` and `matrix_normalization` (wrappers around the existing implementations), or (B) update the problem statement to reference the actual implemented identifiers (`__vector_normalization` and `__matrix_normalization`) or, preferably, instruct students to use the canonical `make_dd` API (which performs normalization) instead of calling normalization functions directly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 23
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/dd.py",
+                    "startLine": 283,
+                    "endLine": 370
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/dd.py",
+                    "startLine": 283,
+                    "endLine": 370
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T23:17:27.976897Z",
+        "endTime": "2026-03-12T23:17:51.300668Z",
+        "durationS": 23.323
+    },
+    "tokens": {
+        "prompt": 68933,
+        "completion": 4229,
+        "total": 73162
+    },
+    "costs": {
+        "promptEur": 0.01585459033203125,
+        "completionEur": 0.00778135986328125,
+        "totalEur": 0.0236359501953125
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/013",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

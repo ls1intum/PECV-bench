@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-12T22:53:11.900966Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Conflicting guidance about which registers must be preserved. The problem statement (Teilaufgabe b) requires that, except for EAX, no other register contents be changed by set_pixel (i.e. other registers must be preserved). The template contains a comment that says 'save all registers you modify except eax,ebx and esi' (implying EBX and ESI need not be preserved), which contradicts the problem requirement and would likely confuse students about whether EBX (which holds y) must be preserved. The solution implements set_pixel by saving/restoring registers (preserving EBX/ESI) and uses ESI for the resulting address, so the template comment is misleading and inconsistent with both the problem requirement and the solution.",
+            "suggestedFix": "Clarify and align the template comments with the problem statement: replace the ambiguous comment with a clear requirement such as 'You may modify EAX; all other registers must be preserved across the call (save and restore any registers you use, including EBX and ESI if modified). The result address should be returned in ESI.' Ensure the template code and comments instruct students to save/restore EBX and other registers they modify.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 100,
+                    "endLine": 106
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T22:53:11.900966Z",
+        "endTime": "2026-03-12T22:53:41.306184Z",
+        "durationS": 29.405
+    },
+    "tokens": {
+        "prompt": 12899,
+        "completion": 3257,
+        "total": 16156
+    },
+    "costs": {
+        "promptEur": 0.00296677001953125,
+        "completionEur": 0.005992880065917969,
+        "totalEur": 0.008959650085449218
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/008",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

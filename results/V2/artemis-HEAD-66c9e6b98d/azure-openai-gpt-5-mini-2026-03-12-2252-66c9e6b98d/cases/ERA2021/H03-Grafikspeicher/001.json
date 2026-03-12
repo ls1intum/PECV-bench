@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-12T22:53:41.361541Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The template and problem statement require the pixel memory address to be calculated into ESI (and later pushed so it can be popped into a register and dereferenced: mov ecx, [esi]). The solution's main implementation, however, computes the offset into EDI (and leaves ESI as only display_start), performs incorrect arithmetic (adds 4 to edi before adding x*4) and never produces the full address in ESI. As a result the pushed value is just display_start (not display_start + offset) and the subsequent memory reads/writes will access the wrong location. This mismatches the explicit contract in the template/problem (result in ESI, then mov ecx,[esi]) and will confuse students and produce incorrect behavior.",
+            "suggestedFix": "Change the solution's main TODO implementation to compute the full pixel address into ESI (e.g. compute offset = (y * 1920 + x) * 4, add display_start and store result in ESI), then use mov ecx, [esi] and push esi. Alternatively, make the template and problem statements consistent with the solution by documenting that the computed address must be in EDI and updating all push/pop and dereference sites accordingly. Prefer the first fix to match the original template contract.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 20,
+                    "endLine": 27
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 100,
+                    "endLine": 111
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 92,
+                    "endLine": 102
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T22:53:41.361541Z",
+        "endTime": "2026-03-12T22:54:09.764778Z",
+        "durationS": 28.403
+    },
+    "tokens": {
+        "prompt": 12899,
+        "completion": 3628,
+        "total": 16527
+    },
+    "costs": {
+        "promptEur": 0.00296677001953125,
+        "completionEur": 0.006675520202636719,
+        "totalEur": 0.00964229022216797
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/001",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

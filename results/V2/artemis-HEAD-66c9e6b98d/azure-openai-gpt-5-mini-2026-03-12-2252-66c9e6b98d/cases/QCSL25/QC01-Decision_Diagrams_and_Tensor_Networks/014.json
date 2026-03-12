@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-12T23:17:27.565724Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The template's dd.py UniqueTable class declares a private attribute __table in __init__ but all methods reference self.table. This name mismatch leads to AttributeError at runtime and prevents students from using the provided dd utilities. The problem statement explicitly instructs students not to modify dd.py, so they would be blocked (or forced to edit dd.py despite the guidance). The solution's dd.py uses self.table consistently, which demonstrates the intended structure. This is an unintentional structural bug in the template that must be corrected so students can follow the exercise without altering dd.py.",
+            "suggestedFix": "Fix the UniqueTable implementation in the template so attribute names are consistent. For example, initialize self.table = {} in __init__ (instead of self.__table) or change all references to use self.__table. This aligns the template with the solution and with the problem statement's instruction not to modify dd.py.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 17,
+                    "endLine": 23
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/dd.py",
+                    "startLine": 162,
+                    "endLine": 201
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/dd.py",
+                    "startLine": 162,
+                    "endLine": 201
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The UniqueTable class uses different internal attribute names for its storage across artifacts: the template declares a private attribute __table and initializes self.__table, but its methods reference self.table (missing/incorrect attribute). The solution uses a public attribute table consistently. This naming mismatch (and the template's incorrect references) creates a semantic and practical inconsistency for students reading the dd.py API: they cannot reliably map the UniqueTable's storage field across template and solution, and the template code as provided contains an unintended bug that obscures the intended design.",
+            "suggestedFix": "Make the UniqueTable storage attribute name consistent across artifacts. Replace the template's private '__table' declaration and initialization with a public 'table' attribute (i.e., declare 'table: dict[int, DDNode]' and set 'self.table = {}'), and ensure all methods consistently use 'self.table'. This aligns the template with the solution and avoids confusion/bugs.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/dd.py",
+                    "startLine": 163,
+                    "endLine": 202
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/dd.py",
+                    "startLine": 162,
+                    "endLine": 201
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T23:17:27.565724Z",
+        "endTime": "2026-03-12T23:18:02.587322Z",
+        "durationS": 35.021
+    },
+    "tokens": {
+        "prompt": 68899,
+        "completion": 3894,
+        "total": 72793
+    },
+    "costs": {
+        "promptEur": 0.0158467705078125,
+        "completionEur": 0.007164959960937501,
+        "totalEur": 0.02301173046875
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/014",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

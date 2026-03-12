@@ -1,0 +1,62 @@
+{
+    "timestamp": "2026-03-12T22:58:03.994920Z",
+    "issues": [
+        {
+            "severity": "LOW",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem statement repeatedly refers to a person's \"list of parents\" and \"list of children\" (natural-language description), while the code model in the template uses Set<Person> for the parents and children fields. This mismatch between the wording in the specification and the concrete type in the template may confuse students about whether they should use a List or a Set and about ordering/duplication semantics expected for parent/child relationships.",
+            "suggestedFix": "Clarify the problem statement wording to use a neutral term like \"collection of parents/children\" or explicitly state that a Set is used (to prevent duplicates and ignore ordering). Alternatively, if the intent is to teach Lists, change the Person model to use List<Person> for parents/children and update mappings/tests accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 99,
+                    "endLine": 106
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/src/main/java/de/tum/in/ase/eist/model/Person.java",
+                    "startLine": 40,
+                    "endLine": 49
+                }
+            ]
+        },
+        {
+            "severity": "LOW",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "The template's PersonResource.createPerson method returns ResponseEntity<Person>, while the solution's implementation of the same controller method returns void. This difference in return type between template and solution may cause confusion when students compare behavior or expected response bodies/status codes.",
+            "suggestedFix": "Make the createPerson controller signature consistent across template and solution. Either change the template method to void (and document that a 200 OK with no body is expected) or change the solution method to return ResponseEntity<Person> with the created person in the body. Ensure tests and documentation reflect the chosen contract.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 37,
+                    "endLine": 43
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 37,
+                    "endLine": 43
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T22:58:03.994920Z",
+        "endTime": "2026-03-12T22:58:36.534902Z",
+        "durationS": 32.539
+    },
+    "tokens": {
+        "prompt": 37273,
+        "completion": 3786,
+        "total": 41059
+    },
+    "costs": {
+        "promptEur": 0.0085727900390625,
+        "completionEur": 0.0069662401123046875,
+        "totalEur": 0.015539030151367188
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/003",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

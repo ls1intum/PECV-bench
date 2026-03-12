@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-12T23:17:22.912433Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "The DDNode dataclass field order in the template dd.py (successors, v) does not match how DDNode is constructed elsewhere in the same file (DDNode(v, successors) in make_dd). This mismatch will cause constructor/parameter ordering errors at runtime and prevents students from running or testing the provided code. The solution repository corrects the DDNode definition to have (v, successors), indicating the template's field order is unintended.",
+            "suggestedFix": "Make the dataclass field order in the template match the constructor usage. Either change the DDNode declaration to 'v: int' then 'successors: list[DD]' (as in the solution) or change all DDNode(...) calls to use positional arguments matching the declared order. Prefer changing the DDNode declaration to (v, successors) to align with make_dd and the solution.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 92,
+                    "endLine": 160
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 372,
+                    "endLine": 412
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 137,
+                    "endLine": 160
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The DDNode dataclass field order differs between the template and the solution. In the template (template_repository/dd.py) DDNode is declared with the fields in the order (successors, v), whereas in the solution (solution_repository/dd.py) it is declared as (v, successors). Code in the repository (e.g., make_dd) constructs DDNode using positional arguments as DDNode(v, successors). This mismatch in field order across artifacts leads to incorrect assignments when the constructor is called positionally, creating a confusing and error-prone mapping for students who are instructed to use make_dd and not to manipulate DDNode directly.",
+            "suggestedFix": "Make the DDNode dataclass field order consistent across artifacts. Change the template dd.py declaration to declare fields as `v: int` then `successors: list[DD]` (i.e., same order as the solution), or alternatively modify all DDNode constructions to use keyword arguments (e.g., DDNode(v=v, successors=successors)). The recommended fix for clarity and minimal cognitive load is to reorder the fields in template_repository/dd.py to `v` then `successors` so positional construction DDNode(v, successors) works consistently.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 17,
+                    "endLine": 23
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 92,
+                    "endLine": 139
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 372,
+                    "endLine": 412
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 91,
+                    "endLine": 140
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T23:17:22.912433Z",
+        "endTime": "2026-03-12T23:17:46.403568Z",
+        "durationS": 23.491
+    },
+    "tokens": {
+        "prompt": 68895,
+        "completion": 3885,
+        "total": 72780
+    },
+    "costs": {
+        "promptEur": 0.0158458505859375,
+        "completionEur": 0.007148400146484374,
+        "totalEur": 0.022994250732421874
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/007",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

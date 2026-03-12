@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-12T23:21:06.177038Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem statement and tests expect a function named simulate_msd_one_round(n_shots: int, p: float) but the template defines a function named simulate_one_round(...) (and raises an error message referring to simulate_msd_one_round). This name/signature mismatch is structural: code that imports or tests simulate_msd_one_round will fail or be confusing because the template uses a different function name.",
+            "suggestedFix": "Rename the template function simulate_one_round to simulate_msd_one_round so its name matches the problem specification and tests, or add a thin wrapper simulate_msd_one_round that calls simulate_one_round. Ensure the parameter order and names match the specification: (n_shots: int, p: float) -> tuple[float, float].",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 149,
+                    "endLine": 151
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/msd.py",
+                    "startLine": 121,
+                    "endLine": 131
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The one-round simulation function is referred to as simulate_msd_one_round in the problem statement and used by plot_msd, but the template implementation provides a function named simulate_one_round. The solution implements simulate_msd_one_round. This name mismatch between the template and the problem/solution will confuse students and break references (e.g., plot_msd) that expect simulate_msd_one_round.",
+            "suggestedFix": "Rename the template function simulate_one_round to simulate_msd_one_round (and update any internal references) so the template matches the problem statement and the solution. Ensure plot_msd and any callers use the same name.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 149,
+                    "endLine": 151
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/msd.py",
+                    "startLine": 121,
+                    "endLine": 131
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/msd.py",
+                    "startLine": 198,
+                    "endLine": 237
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T23:21:06.177038Z",
+        "endTime": "2026-03-12T23:21:25.751549Z",
+        "durationS": 19.574
+    },
+    "tokens": {
+        "prompt": 39475,
+        "completion": 3167,
+        "total": 42642
+    },
+    "costs": {
+        "promptEur": 0.00907925,
+        "completionEur": 0.005827280029296875,
+        "totalEur": 0.014906530029296875
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/017",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

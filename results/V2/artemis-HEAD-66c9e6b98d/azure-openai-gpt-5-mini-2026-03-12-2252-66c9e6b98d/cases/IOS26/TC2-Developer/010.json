@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T23:16:52.195890Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem statement and the template define Course.ratings as an array of Int (ratings: [Int]), but the solution defines ratings as [Double]. This cross-artifact type mismatch means the reference solution does not match the exercise specification and will confuse students about the intended ratings element type.",
+            "suggestedFix": "Make the ratings element type consistent across all artifacts. Preferably change the solution to use ratings: [Int] (matching the problem and template) and compute averages by converting sums/counts to Double when returning the average. Alternatively, if Double is desired, update the problem statement and template to require [Double] and adjust method implementations accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 6,
+                    "endLine": 12
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/Sources/DeveloperLib/Course.swift",
+                    "startLine": 7,
+                    "endLine": 16
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/Sources/DeveloperLib/Course.swift",
+                    "startLine": 8,
+                    "endLine": 17
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Within the solution repository, Course.ratings is declared as [Double] but addRating(stars:) accepts Int and appends stars directly and getAverageRating() accumulates ratings into an Int sum. These internal type/usage mismatches will cause compilation errors and are inconsistent within the solution itself.",
+            "suggestedFix": "Fix the solution's internal type usage so all operations use the same element type. Either: (A) change ratings to [Int], leave addRating(stars: Int) as-is, sum with an Int accumulator and return Double(sum)/Double(count); or (B) if ratings should be [Double], convert the Int stars to Double when appending (ratings.append(Double(stars))) and use a Double accumulator when computing the average.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/Sources/DeveloperLib/Course.swift",
+                    "startLine": 11,
+                    "endLine": 17
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/Sources/DeveloperLib/Course.swift",
+                    "startLine": 24,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/Sources/DeveloperLib/Course.swift",
+                    "startLine": 36,
+                    "endLine": 45
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T23:16:52.195890Z",
+        "endTime": "2026-03-12T23:17:16.994337Z",
+        "durationS": 24.798
+    },
+    "tokens": {
+        "prompt": 15271,
+        "completion": 2912,
+        "total": 18183
+    },
+    "costs": {
+        "promptEur": 0.003512330078125,
+        "completionEur": 0.005358080200195313,
+        "totalEur": 0.008870410278320313
+    },
+    "case_id": "V2/IOS26/TC2-Developer/010",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

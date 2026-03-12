@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-12T22:54:09.825380Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The reference solution's set_pixel implementation does not use the color parameter passed in ECX as specified in the problem statement. Instead it writes the contents of EDX (which the routine uses as a temporary for multiplication) to memory. This contradicts the problem requirement that the RGB value is provided in ECX and will mislead students: copying the solution would produce incorrect behavior and hides the intended calling convention.",
+            "suggestedFix": "Modify the solution's set_pixel routine to store the color from ECX into the computed pixel address (for example, compute the address in EAX and use 'mov dword [eax], ecx' or move ECX into an appropriate temporary before storing). Ensure registers are preserved according to the spec (only EAX may be changed).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "There is inconsistent guidance about which registers may be modified/preserved. The problem statement requires that set_pixel must not change any registers except EAX, while the template's comment at the main calculation TODO says 'save all registers you modify except eax,ebx and esi', which implies EBX/ESI may be modified without saving. This ambiguous instruction can confuse students about the exact calling convention and which registers they must preserve in set_pixel versus other code sections.",
+            "suggestedFix": "Clarify and align the instructions: make explicit that the restriction 'only EAX may be modified' applies to the set_pixel subroutine, and that the comment near the main calculation is scoped to the main calculation only (e.g., 'When calculating the address in main, you may modify EAX, EBX, and ESI without saving them because they hold parameters/result; save any other registers you modify. For set_pixel, preserve all registers except EAX.'). Update the template comments accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 100,
+                    "endLine": 102
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T22:54:09.825380Z",
+        "endTime": "2026-03-12T22:54:58.399422Z",
+        "durationS": 48.574
+    },
+    "tokens": {
+        "prompt": 12899,
+        "completion": 5217,
+        "total": 18116
+    },
+    "costs": {
+        "promptEur": 0.00296677001953125,
+        "completionEur": 0.009599279968261718,
+        "totalEur": 0.012566049987792968
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/005",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

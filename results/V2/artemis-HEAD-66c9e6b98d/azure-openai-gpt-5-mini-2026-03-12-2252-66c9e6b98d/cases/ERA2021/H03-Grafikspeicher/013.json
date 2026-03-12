@@ -1,0 +1,106 @@
+{
+    "timestamp": "2026-03-12T22:53:03.783164Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Name/symbol mismatch for the set_pixel routine: the template and main call refer to a symbol named 'set_pixel' (call set_pixel / TODO: implement set_pixel), but the solution defines the label as '.set_pixel:'. This inconsistent naming (leading dot) can cause unresolved symbol or linkage errors or at least confusion about which label students must implement.",
+            "suggestedFix": "Use the same symbol name in solution and template/main. Rename the solution label to 'set_pixel:' (remove leading dot) or change all calls to 'call .set_pixel' and document the symbol consistently. Ensure the declared label is the same symbol that main calls and, if needed, export it consistently (or keep it local consistently).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 19,
+                    "endLine": 24
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Contradiction about register preservation in set_pixel: the problem statement requires that set_pixel must not change any registers except EAX, whereas the template's inline comment and the solution implementation are inconsistent with that requirement. The template comment near the calculation TODO suggests different registers to save (mentions 'save all registers you modify except eax,ebx and esi'), and the solution implementation does not preserve ECX (the register holding the RGB value), which contradicts the problem requirement that only EAX may be modified.",
+            "suggestedFix": "Make the register-preservation contract explicit and consistent across artifacts. Either (A) update the problem statement to list exactly which registers the subroutine may clobber (and update the template comment accordingly), or (B) require preservation of ECX (and other registers) and modify the solution to push/pop ECX around uses (or otherwise preserve registers). Update the template comment near the TODO to match the final contract so students know which registers they must save/restore.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 31,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 100,
+                    "endLine": 102
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement and template refer to the subroutine name set_pixel, but the solution defines the label with a leading dot (.set_pixel). This inconsistent identifier (set_pixel vs .set_pixel) breaks the direct mapping students expect between the requirement, the template stub and the reference implementation and may hide the implementation when searching for set_pixel.",
+            "suggestedFix": "Rename the solution label from .set_pixel to set_pixel (remove the leading dot) so the solution defines the exact identifier referenced by the problem and template. Alternatively, change calls to match the defined label, but the preferred fix is to define set_pixel without a leading dot to align all artifacts.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 147,
+                    "endLine": 147
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T22:53:03.783164Z",
+        "endTime": "2026-03-12T22:53:31.753426Z",
+        "durationS": 27.97
+    },
+    "tokens": {
+        "prompt": 12901,
+        "completion": 4956,
+        "total": 17857
+    },
+    "costs": {
+        "promptEur": 0.0029672301025390627,
+        "completionEur": 0.0091190400390625,
+        "totalEur": 0.012086270141601563
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/013",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}
