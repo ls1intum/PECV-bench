@@ -1,0 +1,62 @@
+{
+    "timestamp": "2026-03-12T22:47:48.417770Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem text first instructs students to initialize the SealSaloon attributes (including a final Stock stock) in the constructor (instance initialization), but later explicitly requires that the stock attribute must be static (shared across instances). Initializing a static field in an instance constructor is confusing and contradicts the later requirement that stock be class-wide/static. This inconsistency will confuse students about whether stock should be an instance or static field and where/how to initialize it.",
+            "suggestedFix": "Clarify the intended design: either (A) require stock to be an instance final field and instruct students to initialize it in the constructor, or (B) require stock to be static (class-level) and instruct students to initialize it at declaration or in a static initializer. Update the problem statement to remove the contradictory instruction about initializing stock in the constructor when it must be static.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 82
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 3,
+                    "endLine": 6
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "The template Stock.getStockIngredients() returns a List<StockIngredient> (wraps the internal array), while the solution's Stock.getStockIngredients() returns StockIngredient[] directly. This method return-type mismatch between template and solution (and no specification in the problem) can confuse students about which API to implement or call and may cause inconsistencies when tests or example code expect one form or the other.",
+            "suggestedFix": "Make the Stock.getStockIngredients() signature consistent across template, solution, and problem statement. Either (A) change the template method to return StockIngredient[] (matching the solution), or (B) change the solution to return List<StockIngredient> (matching the template). Also document the intended getter signature in the problem description so students know which API to implement/use.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 17,
+                    "endLine": 19
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 14,
+                    "endLine": 16
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T22:47:48.417770Z",
+        "endTime": "2026-03-12T22:48:15.251757Z",
+        "durationS": 26.833
+    },
+    "tokens": {
+        "prompt": 17709,
+        "completion": 3640,
+        "total": 21349
+    },
+    "costs": {
+        "promptEur": 0.004073070068359375,
+        "completionEur": 0.006697599975585938,
+        "totalEur": 0.010770670043945312
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/028",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2244-66c9e6b98d"
+}

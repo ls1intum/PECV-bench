@@ -1,0 +1,88 @@
+{
+    "timestamp": "2026-03-12T21:12:09.103892Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem statement instructs students to use a modifiable List<Meal> for the SealSaloon.orders attribute, but the provided helper utilities and the reference solution use arrays (Meal[]) and ArrayHelpers to manipulate them. This mismatch between the documented type (List) and the actual template/solution (arrays) can confuse students about which collection type to use and which APIs/helpers to rely on.",
+            "suggestedFix": "Align the specification with the template: either change the problem text to request a Meal[] orders array (and mention use of ArrayHelpers), or update the template/solution to provide and use a java.util.List<Meal> (and replace array helper utilities). Ensure the problem statement's examples and UML reflect the chosen collection type consistently.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 69,
+                    "endLine": 71
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 3,
+                    "endLine": 6
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/ArrayHelpers.java",
+                    "startLine": 13,
+                    "endLine": 16
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem statement tells students to initialize both attributes (orders and stock) in the constructor, but later explicitly requires the stock attribute to be static (shared across instances). Initializing a static shared stock in the instance constructor is misleading. The reference solution declares stock as a static final field initialized at declaration instead of in the constructor.",
+            "suggestedFix": "Clarify the problem statement: specify that the orders collection should be initialized in the constructor, while the shared stock is a static (and possibly static final) field and should be initialized at declaration or in a static initializer. Remove or reword the instruction that all attributes must be initialized in the constructor to avoid implying the static stock belongs there.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 69,
+                    "endLine": 81
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 4,
+                    "endLine": 6
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement asks for a modifiable List<Meal> attribute named 'orders' in SealSaloon, but the provided solution implements 'orders' as a Meal[] array. This mismatch in the collection type (List vs. array) for the same conceptual entity 'orders' can confuse students: the problem text explicitly refers to a List, while the codebase (solution) uses arrays and ArrayHelpers, so students may be unsure which representation is expected or required.",
+            "suggestedFix": "Make the representation consistent across artifacts. Either update the problem statement to allow and mention a Meal[] (array) and the ArrayHelpers utility, or change the solution/template SealSaloon to use a java.util.List<Meal> (e.g., ArrayList<Meal>) for 'orders' and adjust code accordingly (use add/remove on the List and update calculateRemainingOrderNumber and checkOrderReady to work with List). Prefer changing the problem text if arrays/ArrayHelpers are intentionally used in the codebase, or prefer using List in code if the problem specifically requires List<Meal>.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 82
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 3,
+                    "endLine": 10
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:12:09.103892Z",
+        "endTime": "2026-03-12T21:12:38.809897Z",
+        "durationS": 29.706
+    },
+    "tokens": {
+        "prompt": 19779,
+        "completion": 4888,
+        "total": 24667
+    },
+    "costs": {
+        "promptEur": 0.004549170166015625,
+        "completionEur": 0.008993919921875,
+        "totalEur": 0.013543090087890624
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/005",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2108-e2ee1d1f1c"
+}

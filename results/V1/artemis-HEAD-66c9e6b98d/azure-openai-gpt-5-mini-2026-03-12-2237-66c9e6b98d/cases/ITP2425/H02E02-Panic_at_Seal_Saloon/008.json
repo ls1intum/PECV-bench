@@ -1,0 +1,88 @@
+{
+    "timestamp": "2026-03-12T22:40:17.004406Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem statement instructs that the SealSaloon should have a final Stock attribute initialized in the constructor (instance field), but later explicitly requires that the stock attribute be static and shared across all instances. This is contradictory: a static field cannot be meaningfully initialized per-instance in the constructor as described. Students will be unsure whether to implement an instance final field initialized in the constructor or a static final field initialized at declaration (or in a static initializer).",
+            "suggestedFix": "Make the specification consistent: either (A) require a static final Stock and state it should be initialized at declaration or in a static initializer (remove the requirement to initialize it in the constructor), or (B) require an instance final Stock initialized in the constructor and remove the static requirement. Update the UML/description accordingly so students know whether stock is static/shared or an instance field initialized in the constructor.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 82
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 3,
+                    "endLine": 10
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "The UML and textual specification declare calculateRemainingOrderNumber() should return an int (calculateRemainingOrderNumber(): int and description says it returns the number of remaining orders), but the reference implementation implements calculateRemainingOrderNumber() as void and prints order numbers instead. This mismatch in method return type and behavior will confuse students about the expected API and whether to return a value or print output.",
+            "suggestedFix": "Align the specification and implementation. Either (A) change the problem statement and UML to describe a void method that prints the remaining order numbers (and remove the return-type requirement), or (B) change the reference implementation to a method that returns an int representing the remaining number of orders and avoid printing. Update examples in the problem text to match the chosen behavior.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 25,
+                    "endLine": 34
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 100,
+                    "endLine": 107
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 70,
+                    "endLine": 76
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement (and UML) define calculateRemainingOrderNumber() as returning an int (signature: calculateRemainingOrderNumber(): int), but the solution implements a method with the same name that returns void and prints order numbers instead. Although the identifier is the same, the differing method contract (return type and behavior) creates confusion for students about the expected API and how to use the method.",
+            "suggestedFix": "Align the method contract across artifacts. Either change the solution's calculateRemainingOrderNumber() to return an int representing the number of remaining orders (and avoid side-effect printing), or update the problem statement/UML to specify a void method that prints order numbers. Preferably implement calculateRemainingOrderNumber() in the solution to return the remaining orders (int) to match the problem specification.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 33,
+                    "endLine": 34
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 70,
+                    "endLine": 76
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T22:40:17.004406Z",
+        "endTime": "2026-03-12T22:40:44.324746Z",
+        "durationS": 27.32
+    },
+    "tokens": {
+        "prompt": 17551,
+        "completion": 4674,
+        "total": 22225
+    },
+    "costs": {
+        "promptEur": 0.004036730102539063,
+        "completionEur": 0.008600160400390626,
+        "totalEur": 0.012636890502929689
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/008",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2237-66c9e6b98d"
+}
