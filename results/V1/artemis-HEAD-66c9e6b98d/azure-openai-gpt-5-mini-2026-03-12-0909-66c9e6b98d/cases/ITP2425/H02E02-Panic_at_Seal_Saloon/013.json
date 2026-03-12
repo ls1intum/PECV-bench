@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-12T09:11:23.798089Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem specification and UML declare a no-argument method checkOrderReady(): void in SealSaloon, but the solution implementation defines checkOrderReady(boolean enableLogging). This parameter mismatch means students implementing the method as specified (no-arg) will produce a different signature than the reference implementation, and automated tests or grading that expect the no-arg method may not interact correctly with the solution code.",
+            "suggestedFix": "Make the implementation match the specification: provide a no-argument checkOrderReady() method. Either change the solution to add a public void checkOrderReady() that delegates to checkOrderReady(true) (or removes the boolean parameter entirely), or update the problem statement/UML to specify the boolean parameter if it is intentionally required. Ensure the template and tests use the no-arg signature if that is the intended API.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 27,
+                    "endLine": 34
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 85,
+                    "endLine": 98
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 20,
+                    "endLine": 48
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement specifies a parameterless method checkOrderReady(): void that SealSaloon.orderMeal() should call. In the solution SealSaloon, the method is implemented as checkOrderReady(boolean enableLogging) (and orderMeal calls checkOrderReady(true)). This changes the method signature and semantics that students are expected to implement from the spec, creating a mapping confusion between the described API and the provided implementation.",
+            "suggestedFix": "Align the implementation with the problem specification by providing a checkOrderReady() method with no parameters. If debug logging is desired, implement an overloaded or private helper method (e.g., checkOrderReady(boolean enableLogging)) and have the public checkOrderReady() call it with a default value. Also update calls in orderMeal() to call checkOrderReady() without arguments.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 31,
+                    "endLine": 33
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 85,
+                    "endLine": 99
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 20,
+                    "endLine": 48
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 12,
+                    "endLine": 18
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T09:11:23.798089Z",
+        "endTime": "2026-03-12T09:11:41.750526Z",
+        "durationS": 17.952
+    },
+    "tokens": {
+        "prompt": 17737,
+        "completion": 3703,
+        "total": 21440
+    },
+    "costs": {
+        "promptEur": 0.004079510131835938,
+        "completionEur": 0.006813520263671874,
+        "totalEur": 0.010893030395507812
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/013",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-0909-66c9e6b98d"
+}
