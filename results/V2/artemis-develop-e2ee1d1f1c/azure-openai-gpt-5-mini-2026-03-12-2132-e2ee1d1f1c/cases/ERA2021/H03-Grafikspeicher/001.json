@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-12T21:33:35.794243Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem statement requires that the computed pixel memory address be placed in ESI and that the pixel value be loaded with 'mov ecx, [esi]'. The solution's main routine does not follow this: it leaves display_start in ESI but performs the address arithmetic into EDI and uses 'mov ecx, [edi]'. Furthermore the solution's computation mistakenly adds an extra constant 4 and never adds display_start to the computed offset, producing an incorrect address. This deviates from the template/spec (which expects the result in ESI and a load from [ESI]) and would confuse students implementing the TODO that expects ESI as result and mov ecx,[esi].",
+            "suggestedFix": "Modify the solution's main routine to compute the pixel address into ESI and load the pixel value from [ESI], matching the problem statement. For resolution 1920\u00d71080 and 4 bytes per pixel the address should be: ESI = display_start + (y * 1920 * 4) + (x * 4). Concretely, compute x*4 and y*7680, add them, then add display_start, store the result in ESI and use 'mov ecx, [esi]'. Remove the incorrect '+4' and ensure display_start is actually added to the computed offset.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 20,
+                    "endLine": 27
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 100,
+                    "endLine": 106
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 92,
+                    "endLine": 102
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:33:35.794243Z",
+        "endTime": "2026-03-12T21:34:02.991688Z",
+        "durationS": 27.197
+    },
+    "tokens": {
+        "prompt": 13529,
+        "completion": 3537,
+        "total": 17066
+    },
+    "costs": {
+        "promptEur": 0.003111670043945312,
+        "completionEur": 0.006508080200195313,
+        "totalEur": 0.009619750244140624
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/001",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-12T21:47:46.590694Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem statement for Aufgabe 01 explicitly asks to output the names and internet addresses (url) of all zoos and the name and regierungsbezirk of the respective municipality (i.e., exactly those four columns). The solution query (aufgabe01.sql) uses SELECT Zoo.*, Gemeinde.* which returns all columns from both tables instead of the exact requested columns. This contradicts the instruction \"Gib immer genau die geforderten Daten aus und nicht mehr.\" The template query (aufgabe01.sql) also does not include the required url and regierungsbezirk columns nor a join condition, which may be an intentional starter; however, the solution returning all columns is structurally inconsistent with the problem requirement and could confuse students about the expected output shape.",
+            "suggestedFix": "Modify solution_repository/aufgabe01.sql to select exactly the requested columns, e.g.:\nSELECT Zoo.name, Zoo.url, Gemeinde.name, Gemeinde.regierungsbezirk\nFROM Zoo JOIN Gemeinde ON Zoo.gemeindeschluessel = Gemeinde.schluessel;\nAlternatively, if the intention was to return all columns, update the problem statement to explicitly allow or request returning all columns.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 16,
+                    "endLine": 19
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 2
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:47:46.590694Z",
+        "endTime": "2026-03-12T21:48:08.743886Z",
+        "durationS": 22.153
+    },
+    "tokens": {
+        "prompt": 9751,
+        "completion": 3506,
+        "total": 13257
+    },
+    "costs": {
+        "promptEur": 0.0022427301025390624,
+        "completionEur": 0.0064510400390625,
+        "totalEur": 0.008693770141601562
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/013",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

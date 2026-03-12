@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T21:52:18.467227Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Template class GroverTwoQubitWithoutAuxiliaryQubit has an inconsistent attribute name for the query register: it creates self._query_register but later (immediately) constructs the QuantumCircuit using self.query_register (which does not exist). This naming mismatch will raise an AttributeError/NameError and prevents students from instantiating or using the template as-is. The solution repository uses the attribute name self.query_register consistently.",
+            "suggestedFix": "Make the attribute name consistent in the template. Replace self._query_register with self.query_register (or vice versa) and ensure the same attribute is used when constructing the QuantumCircuit. For example: self.query_register = QuantumRegister(self.number_of_qubits_query_register) and then self.qc = QuantumCircuit(self.query_register). This matches the solution and the exercise description.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex1_grover_two_qubit_without_auxiliary_qubit.py",
+                    "startLine": 10,
+                    "endLine": 12
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex1_grover_two_qubit_without_auxiliary_qubit.py",
+                    "startLine": 10,
+                    "endLine": 13
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 104,
+                    "endLine": 116
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Constructor in the template uses a different attribute name for the query register than the rest of the template and the solution. The template sets self._query_register = QuantumRegister(...) but immediately uses self.query_register when building the QuantumCircuit. The problem statement and the solution use the identifier query_register. This mismatch creates a mapping/confusion for students (and will cause an AttributeError if executed) since the template's constructor does not define self.query_register consistently with the rest of the code and with the problem description.",
+            "suggestedFix": "Make the template's constructor use the same identifier as the problem statement and solution. Replace self._query_register = QuantumRegister(...) with self.query_register = QuantumRegister(...) (and then use self.query_register when constructing the QuantumCircuit), or else consistently use the _query_register name everywhere in the file. Aligning the template to use query_register will remove the unexpected mismatch and match the solution and problem text.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex1_grover_two_qubit_without_auxiliary_qubit.py",
+                    "startLine": 11,
+                    "endLine": 12
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex1_grover_two_qubit_without_auxiliary_qubit.py",
+                    "startLine": 10,
+                    "endLine": 12
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 100,
+                    "endLine": 116
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:52:18.467227Z",
+        "endTime": "2026-03-12T21:52:38.110706Z",
+        "durationS": 19.643
+    },
+    "tokens": {
+        "prompt": 47261,
+        "completion": 4147,
+        "total": 51408
+    },
+    "costs": {
+        "promptEur": 0.0108700302734375,
+        "completionEur": 0.0076304799804687495,
+        "totalEur": 0.018500510253906248
+    },
+    "case_id": "V2/QCSL25/QC02-Far_Term_Quantum_Algorithms/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

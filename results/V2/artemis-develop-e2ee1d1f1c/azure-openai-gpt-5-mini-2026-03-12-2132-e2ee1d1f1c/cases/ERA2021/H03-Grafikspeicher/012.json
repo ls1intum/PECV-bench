@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-12T21:33:02.843463Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The symbol display_start is described and used as the base address of the frame buffer, but the solution's set_pixel uses [display_start] (the memory contents at that label) when computing the pixel address. This contradicts the intended use (an address/label value) and also differs from how display_start is used elsewhere in the solution (main uses mov esi, display_start to obtain the address). Using [display_start] yields the stored 32-bit value at that buffer start instead of the buffer's address and can produce an incorrect pointer calculation.",
+            "suggestedFix": "Treat display_start as an address, not as memory content. In set_pixel replace 'add eax, [display_start]' with 'add eax, display_start' (or load the base address into a register first, e.g. 'mov esi, display_start; add esi, eax; mov [esi], ecx'). Ensure the addressing is consistent with main's calculation (which uses mov esi, display_start).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 94,
+                    "endLine": 101
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:33:02.843463Z",
+        "endTime": "2026-03-12T21:33:26.591147Z",
+        "durationS": 23.747
+    },
+    "tokens": {
+        "prompt": 13531,
+        "completion": 3503,
+        "total": 17034
+    },
+    "costs": {
+        "promptEur": 0.0031121300048828123,
+        "completionEur": 0.006445519897460937,
+        "totalEur": 0.00955764990234375
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/012",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

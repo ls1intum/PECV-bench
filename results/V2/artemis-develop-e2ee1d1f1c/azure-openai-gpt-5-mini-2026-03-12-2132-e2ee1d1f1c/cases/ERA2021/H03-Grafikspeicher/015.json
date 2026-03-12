@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T21:33:01.892578Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The solution assembly file declares a different global entry symbol than it defines: solution_repository/pixel.asm contains 'global _start' but the implementation defines the label 'main'. The template and build setup expect 'main' to be the program entry symbol (template declares 'global main' and the Makefile assembles/links expecting a normal main). This mismatch in the solution's global symbol and defined label is a structural inconsistency that can prevent successful linking/execution and will confuse students comparing template and solution.",
+            "suggestedFix": "Make the entry symbol consistent: in solution_repository/pixel.asm replace 'global _start' with 'global main' (or alternatively define a label '_start' instead of 'main') so the declared global matches the actual label. Ensure this aligns with the template and Makefile build expectations (use 'main' as the program entry point if using libc functions like printf).",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 29,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 14,
+                    "endLine": 36
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The program entry symbol is named differently between artifacts: the template declares the entry as 'global main' while the solution declares 'global _start'. This mismatch can confuse students about which label to expose as the program entry point and which symbol the toolchain/linker expects (the Makefile links with gcc which normally looks for 'main').",
+            "suggestedFix": "Use a consistent entry symbol across template and solution. Prefer changing the solution to 'global main' to match the template and the Makefile/gcc linking expectations (or alternatively make the template and Makefile explicitly target '_start'). Ensure the problem text and template consistently refer to the same entry label.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 30,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 14,
+                    "endLine": 14
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 3,
+                    "endLine": 12
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:33:01.892578Z",
+        "endTime": "2026-03-12T21:33:29.595142Z",
+        "durationS": 27.702
+    },
+    "tokens": {
+        "prompt": 13531,
+        "completion": 4382,
+        "total": 17913
+    },
+    "costs": {
+        "promptEur": 0.0031121300048828123,
+        "completionEur": 0.008062880126953127,
+        "totalEur": 0.011175010131835939
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

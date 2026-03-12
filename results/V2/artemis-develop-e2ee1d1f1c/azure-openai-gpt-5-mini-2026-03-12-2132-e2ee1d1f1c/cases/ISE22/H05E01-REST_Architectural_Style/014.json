@@ -1,0 +1,60 @@
+{
+    "timestamp": "2026-03-12T21:36:39.321803Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The PersonService.savePerson(...) method has different visibility between template and solution: in the template it is declared public, but in the solution it is private. PersonResource (both expected by the exercise and implemented in the solution) calls personService.savePerson(...). Making savePerson private in the solution is a structural inconsistency that would prevent other packages/classes (e.g. PersonResource in rest package) from calling it and would confuse students about the intended API surface of PersonService.",
+            "suggestedFix": "Restore a public visibility for PersonService.savePerson(Person) so that REST resource classes (PersonResource) and other callers can invoke it. Concretely, change the method declaration in PersonService to 'public Person savePerson(Person person) { ... }' in the solution (or keep it public in the template/assignment). Ensure the visibility is consistent across template and solution to match the intended API used by PersonResource.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 18,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 20,
+                    "endLine": 33
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 29,
+                    "endLine": 36
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 18,
+                    "endLine": 19
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 125,
+                    "endLine": 136
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:36:39.321803Z",
+        "endTime": "2026-03-12T21:37:05.195938Z",
+        "durationS": 25.874
+    },
+    "tokens": {
+        "prompt": 49991,
+        "completion": 3458,
+        "total": 53449
+    },
+    "costs": {
+        "promptEur": 0.01149793017578125,
+        "completionEur": 0.006362720336914062,
+        "totalEur": 0.017860650512695312
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/014",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

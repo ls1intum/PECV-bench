@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-12T21:51:05.148773Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The template dd_simulation.py imports a compute-table symbol named CT from dd.py (from .dd import CT, ...), but the template dd.py defines the compute table as _CT (underscore prefix) rather than CT. This name mismatch means the template code cannot import the expected symbol and will fail for students trying to follow the provided API. The solution repository uses CT (no underscore), so the intended name appears to be CT. This inconsistency is structural and will block running or implementing the exercises unless fixed.",
+            "suggestedFix": "Make the compute-table symbol consistent across the template. Rename _CT in template dd.py to CT (remove the underscore) so that dd_simulation.py can import CT as intended, matching the solution. Alternatively, change the import in dd_simulation.py to import _CT and update subsequent references to use _CT, but the former (defining CT) is preferable to align with the solution and problem intent.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd_simulation.py",
+                    "startLine": 50,
+                    "endLine": 52
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 276,
+                    "endLine": 281
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 276,
+                    "endLine": 281
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 17,
+                    "endLine": 23
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The template DD implementation defines the compute-table variable as `_CT` (dd.py) while the simulator module imports `CT` (dd_simulation.py). The solution repository uses `CT`. This mismatch of the same conceptual entity (the shared ComputeTable instance) across template files creates an import/name-resolution error and an unnecessary mapping burden for students (they must discover that `_CT` and `CT` refer to the same concept).",
+            "suggestedFix": "Use a consistent identifier for the global compute table across artifacts. Rename `_CT` to `CT` in the template dd.py, or change the import in dd_simulation.py to `_CT`, so that the compute-table instance has the same name used throughout the codebase (preferably `CT` to match the solution and common convention).",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 276,
+                    "endLine": 281
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd_simulation.py",
+                    "startLine": 49,
+                    "endLine": 52
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 276,
+                    "endLine": 281
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 17,
+                    "endLine": 23
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:51:05.148773Z",
+        "endTime": "2026-03-12T21:51:20.865901Z",
+        "durationS": 15.717
+    },
+    "tokens": {
+        "prompt": 60117,
+        "completion": 3095,
+        "total": 63212
+    },
+    "costs": {
+        "promptEur": 0.01382691015625,
+        "completionEur": 0.00569480029296875,
+        "totalEur": 0.01952171044921875
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

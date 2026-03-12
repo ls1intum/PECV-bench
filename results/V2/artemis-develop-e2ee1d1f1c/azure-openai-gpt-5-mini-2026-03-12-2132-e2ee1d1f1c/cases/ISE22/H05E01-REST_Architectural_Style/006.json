@@ -1,0 +1,92 @@
+{
+    "timestamp": "2026-03-12T21:36:52.581206Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem statement and the template expect PersonService.getAllPersons to accept a PersonSortingOptions parameter (so the service can sort results). The template declares getAllPersons(PersonSortingOptions sortingOptions) but the solution's PersonService implements getAllPersons() with no parameters. Meanwhile, the solution's PersonResource calls personService.getAllPersons(new PersonSortingOptions(...)), which does not match the service signature in the solution. This mismatch will cause compile errors and contradicts the exercise instructions to add sorting via PersonSortingOptions.",
+            "suggestedFix": "Make the solution consistent with the problem and template by adding the method signature public List<Person> getAllPersons(PersonSortingOptions sortingOptions) in PersonService and implement the sorting logic (or provide an overload that accepts PersonSortingOptions). Ensure PersonResource calls a PersonService method whose signature matches exactly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 199,
+                    "endLine": 209
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 37,
+                    "endLine": 40
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 23,
+                    "endLine": 27
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 37,
+                    "endLine": 41
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The conceptual operation to retrieve all persons with optional sorting is represented inconsistently across artifacts: the problem statement and client controller expect/describe getAllPersons to accept PersonSortingOptions, PersonResource in the solution calls personService.getAllPersons(new PersonSortingOptions(...)), but the solution's PersonService declares getAllPersons() with no parameter. This mismatch of the same conceptual API (getAllPersons) across template/problem/solution creates confusion for students about the correct method signature and where sorting should be implemented.",
+            "suggestedFix": "Align the method signature across artifacts by adding/implementing public List<Person> getAllPersons(PersonSortingOptions sortingOptions) in PersonService (solution) and implement sorting logic there. Ensure PersonResource and the client call this method with PersonSortingOptions, or alternatively adjust PersonResource to call a no-arg method and move sorting responsibility consistently \u2014 the recommended fix is to implement the parameterized getAllPersons(PersonSortingOptions) in PersonService so it matches the problem statement and client usage.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 201,
+                    "endLine": 209
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 37,
+                    "endLine": 40
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+                    "startLine": 22,
+                    "endLine": 24
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 23,
+                    "endLine": 27
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 39,
+                    "endLine": 41
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:36:52.581206Z",
+        "endTime": "2026-03-12T21:37:17.980917Z",
+        "durationS": 25.399
+    },
+    "tokens": {
+        "prompt": 49517,
+        "completion": 4976,
+        "total": 54493
+    },
+    "costs": {
+        "promptEur": 0.01138891015625,
+        "completionEur": 0.009155840087890625,
+        "totalEur": 0.020544750244140625
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/006",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-12T21:54:06.721103Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The solution constructs a single CX operation by passing a long tuple of control/target indices to stim.Circuit.append('CX', ...). The problem statement and intended design call for applying individual CX_q^{anc_i} gates (one CX per ancilla). Passing a long list of qubit indices as a single 'CX' call is not the same as appending multiple two-qubit CX operations and is likely an invalid use of the Stim API. This mismatch is structural and will make the solution fail to run or misrepresent the correct sequence of CX gates that students are expected to implement.",
+            "suggestedFix": "Replace the single append call with an explicit loop that appends one two-qubit CX at a time. For example: for anc in distillation_qubits: circ.append('CX', [distilled_state, anc]). This matches the problem description (CX_q^{anc_i} for each ancilla) and uses the Stim API correctly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 18,
+                    "endLine": 21
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 172,
+                    "endLine": 176
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "The template's simulate_msd_one_round function initializes a Stim circuit with stim.Circuit(n_shots) at the top of the function (a constructor argument that conflicts with how Stim circuits are constructed elsewhere in the solution, which uses stim.Circuit()). This constructor use is inconsistent across artifacts and may be incorrect or misleading for students implementing the function.",
+            "suggestedFix": "Make the constructor usage consistent: either call stim.Circuit() with no arguments in the template, or document and use the intended constructor parameter everywhere. The simpler fix for the template is to remove the argument and use stim.Circuit().",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 121,
+                    "endLine": 123
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 208,
+                    "endLine": 210
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 149,
+                    "endLine": 153
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:54:06.721103Z",
+        "endTime": "2026-03-12T21:54:54.559837Z",
+        "durationS": 47.838
+    },
+    "tokens": {
+        "prompt": 30723,
+        "completion": 6832,
+        "total": 37555
+    },
+    "costs": {
+        "promptEur": 0.007066290283203125,
+        "completionEur": 0.012570880615234375,
+        "totalEur": 0.0196371708984375
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/008",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}
