@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-12T14:35:11.146090Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The Note.creationDate field has different types in the template and solution repositories which contradicts the problem statement example: the template (and server logic in the template) uses java.time.Instant for creationDate (matching the sample curl timestamp in the problem statement), while the solution's common Note class makes creationDate a String. This inconsistency across artifacts can confuse students about the expected type and JSON format for creationDate and may lead to serialization/deserialization mismatches between client and server.",
+            "suggestedFix": "Make the creationDate type consistent across all artifacts. Preferably use java.time.Instant in the common Note class (template and solution) to match the problem statement example and the server-side NoteService usage (Instant.now()). Update the solution's Note class to use Instant (and adjust JSON serialization if necessary), or if String is preferred, update the template server code and the problem statement examples to use String uniformly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 118,
+                    "endLine": 121
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/common/java/de/tum/in/ase/eist/model/Note.java",
+                    "startLine": 3,
+                    "endLine": 11
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/common/java/de/tum/in/ase/eist/model/Note.java",
+                    "startLine": 38,
+                    "endLine": 44
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T14:35:11.146090Z",
+        "endTime": "2026-03-12T14:35:31.506389Z",
+        "durationS": 20.36
+    },
+    "tokens": {
+        "prompt": 49989,
+        "completion": 2769,
+        "total": 52758
+    },
+    "costs": {
+        "promptEur": 0.01149747021484375,
+        "completionEur": 0.005094960083007812,
+        "totalEur": 0.01659243029785156
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/012",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-1423-63be4927df"
+}

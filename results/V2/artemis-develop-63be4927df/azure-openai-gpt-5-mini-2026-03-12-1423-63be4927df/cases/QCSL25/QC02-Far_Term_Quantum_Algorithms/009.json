@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T14:46:44.026360Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "Constructor parameter mismatch for GroverLightsOutPuzzle: the template class constructor requires an argument initial_state (def __init__(self, initial_state: list[int])), while the solution implements a no-argument constructor (def __init__(self)). This structural difference can confuse students about how to instantiate the class and where the initial board state should be provided (constructor vs. method call), and it conflicts with the provided run() usage which passes the initial state to grover_circuit rather than to the constructor.",
+            "suggestedFix": "Make the constructor signatures consistent. Either (A) update the template to use a no-argument constructor (def __init__(self)) so the initial board state is provided later (e.g., as the state_of_lights argument to grover_circuit/run), matching the solution and run() usage; or (B) change the solution and run() to accept and pass an initial_state into the constructor. Prefer option (A) to match the existing grover_circuit/run design and to avoid forcing students to supply the state at instantiation.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex4_grover_lights_out_puzzle.py",
+                    "startLine": 8,
+                    "endLine": 14
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex4_grover_lights_out_puzzle.py",
+                    "startLine": 8,
+                    "endLine": 14
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 152,
+                    "endLine": 161
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Constructor parameter name and signature for the Lights Out puzzle class differ between the template and solution, and the problem text uses a different name for the puzzle state. The template's GroverLightsOutPuzzle.__init__ declares an parameter initial_state (suggesting the initial board is passed at construction), while the solution's GroverLightsOutPuzzle.__init__ has no such parameter and the rest of the code and problem statement consistently use the identifier state_of_lights passed into state_preparation/grover_circuit. This mismatch (initial_state vs state_of_lights and presence vs absence of a constructor parameter) can confuse students about where and how to supply the puzzle input and how the API is intended to be used.",
+            "suggestedFix": "Make the API consistent across artifacts: either remove the unused initial_state parameter from the template constructor (so the class is constructed without arguments, and the board is passed as state_of_lights into state_preparation/grover_circuit), or rename and use the constructor parameter consistently (e.g., accept state_of_lights in __init__ and store it as an attribute to be used by state_preparation). Align the identifier name to state_of_lights to match the problem statement and helper methods.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex4_grover_lights_out_puzzle.py",
+                    "startLine": 8,
+                    "endLine": 14
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex4_grover_lights_out_puzzle.py",
+                    "startLine": 8,
+                    "endLine": 14
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 177,
+                    "endLine": 186
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T14:46:44.026360Z",
+        "endTime": "2026-03-12T14:47:13.945268Z",
+        "durationS": 29.918
+    },
+    "tokens": {
+        "prompt": 47271,
+        "completion": 5019,
+        "total": 52290
+    },
+    "costs": {
+        "promptEur": 0.010872330078124999,
+        "completionEur": 0.009234960205078125,
+        "totalEur": 0.020107290283203124
+    },
+    "case_id": "V2/QCSL25/QC02-Far_Term_Quantum_Algorithms/009",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-1423-63be4927df"
+}

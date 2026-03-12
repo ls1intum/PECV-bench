@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-12T14:37:27.782211Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The solution's Person entity declares the id field as Integer while its getter/setter use Long and the PersonRepository is parameterized with Long. The template Person uses Long for the id field. This inconsistency (Integer vs Long) between the entity field type and repository generic type / getters will cause compilation/runtime errors and prevents students from following the intended persistence design.",
+            "suggestedFix": "Make the entity id type consistent across template, solution, and repository. Prefer changing the solution's Person.id field to Long (matching the template and repository generics) and adjust the getter/setter to use Long. Alternatively, if Integer is desired, update the repository generic type to Integer and ensure all getters/setters and usages use Integer consistently. The recommended fix: change 'private Integer id;' in src/main/java/de/tum/in/ase/eist/model/Person.java to 'private Long id;' and ensure getId()/setId() return and accept Long.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+                    "startLine": 19,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+                    "startLine": 19,
+                    "endLine": 59
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/repository/PersonRepository.java",
+                    "startLine": 12,
+                    "endLine": 23
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 24
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T14:37:27.782211Z",
+        "endTime": "2026-03-12T14:37:51.381750Z",
+        "durationS": 23.599
+    },
+    "tokens": {
+        "prompt": 47911,
+        "completion": 2897,
+        "total": 50808
+    },
+    "costs": {
+        "promptEur": 0.0110195302734375,
+        "completionEur": 0.00533047998046875,
+        "totalEur": 0.01635001025390625
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/011",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-1423-63be4927df"
+}

@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-12T14:31:23.729200Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The solution assembly file exports a different global symbol than the template: solution declares 'global _start' but the file defines the label 'main'. The template (and typical C runtime linkage used by the Makefile) expects a 'main' symbol (template declares 'global main'). This mismatch between exported symbol and defined label can confuse students about the expected entry point and may produce linking/runtime issues or unexpected behavior when following the template.",
+            "suggestedFix": "Make the exported symbol consistent between template and solution. Either change the solution to 'global main' to match the template and define 'main' as the program entry, or update both template and Makefile to use '_start' (and provide a corresponding _start label) so the intended entry point is consistent and documented.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 30,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 14,
+                    "endLine": 14
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The program entry-point symbol is named inconsistently between template and solution. The template declares 'global main' (entry point name 'main'), while the solution file declares 'global _start' but then defines a 'main' label instead of '_start'. This mismatch (main vs _start) can confuse students about which symbol is the expected program entry point and why the solution differs from the template.",
+            "suggestedFix": "Use a single, consistent entry-point name across template and solution. Either change the solution to export 'global main' (or make the solution define and export '_start' consistently), or change the template to use '_start' and adjust the label accordingly so both artifacts use the same entry symbol.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 30,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 14,
+                    "endLine": 14
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 36
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T14:31:23.729200Z",
+        "endTime": "2026-03-12T14:31:54.209658Z",
+        "durationS": 30.48
+    },
+    "tokens": {
+        "prompt": 13531,
+        "completion": 4969,
+        "total": 18500
+    },
+    "costs": {
+        "promptEur": 0.0031121300048828123,
+        "completionEur": 0.00914296044921875,
+        "totalEur": 0.012255090454101562
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-1423-63be4927df"
+}

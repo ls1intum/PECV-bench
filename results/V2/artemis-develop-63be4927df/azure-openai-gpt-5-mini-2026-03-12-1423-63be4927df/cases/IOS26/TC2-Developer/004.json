@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T14:44:51.054412Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem statement and the template require an instance method addRating(stars:) (parameter label 'stars'), and the Client in the solution calls addRating(stars:). However, the solution's Course implementation defines the method with a different parameter label (addRating(rating:)). This parameter-label mismatch across artifacts is structural: it will cause compile-time errors or confusion because callers expect the 'stars' label while the solution defines 'rating'.",
+            "suggestedFix": "Align the parameter label across all artifacts. Preferably change the solution's method signature to match the specification and template: declare the method as 'func addRating(stars: Int)' (or alternatively update the problem statement, template, and Client to use 'rating' consistently). Ensure Client calls and tests use the same label.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 13,
+                    "endLine": 19
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 23,
+                    "endLine": 27
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 24,
+                    "endLine": 29
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement and the template expect the Course rating method to be called with the external parameter label 'stars' (addRating(stars:)), but the solution's implementation declares the parameter as 'rating' (addRating(rating:)). This mismatch in the external parameter name for the same conceptual operation (adding a star rating to a course) can confuse students when mapping the requirement and template examples to the final implementation and client usage.",
+            "suggestedFix": "Use a consistent external parameter label across artifacts. Rename the solution method parameter to match the problem/template signature (func addRating(stars: Int) { ... }) or, if a different internal name is desired, declare both external and internal names consistently (func addRating(stars rating: Int) { ... }) so callers can use addRating(stars:).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 13,
+                    "endLine": 19
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 23,
+                    "endLine": 27
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 24,
+                    "endLine": 30
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T14:44:51.054412Z",
+        "endTime": "2026-03-12T14:45:17.252455Z",
+        "durationS": 26.198
+    },
+    "tokens": {
+        "prompt": 12827,
+        "completion": 3966,
+        "total": 16793
+    },
+    "costs": {
+        "promptEur": 0.0029502100830078124,
+        "completionEur": 0.007297440185546875,
+        "totalEur": 0.010247650268554688
+    },
+    "case_id": "V2/IOS26/TC2-Developer/004",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-1423-63be4927df"
+}

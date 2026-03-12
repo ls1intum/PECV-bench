@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-12T14:33:54.909199Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "The Bitmap24 constructor declaration in the template header does not match its implementation: example_program/src/Bitmap24.hpp declares Bitmap24(int i_width, int i_height, int depth) while example_program/src/Bitmap24.cpp defines Bitmap24::Bitmap24(int p_width, int p_height). This mismatch prevents successful compilation of the example program and conflicts with the solution repository which uses the two-argument constructor signature.",
+            "suggestedFix": "Make the constructor declaration and definition consistent. Either change example_program/src/Bitmap24.hpp to declare Bitmap24(int i_width, int i_height) to match the .cpp, or implement a matching three-argument constructor in Bitmap24.cpp (and update usages). Prefer aligning the template header to the two-argument signature used in the solution and implementations to avoid compilation failures.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 37,
+                    "endLine": 39
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 26,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 36,
+                    "endLine": 39
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 19,
+                    "endLine": 21
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The Bitmap24 constructor is declared with a different signature in the template repository header than its implementation and than the solution. In example_program/src/Bitmap24.hpp (template) the constructor is declared as Bitmap24(int i_width, int i_height, int depth) (three parameters), but the implementation in example_program/src/Bitmap24.cpp (template) defines Bitmap24::Bitmap24(int p_width, int p_height) (two parameters). The solution repository uses the two-argument constructor in its header and implementation. This mismatch is an unintended API/identifier inconsistency for the same conceptual entity (the Bitmap24 constructor) and will confuse students and can cause compilation/link errors.",
+            "suggestedFix": "Make the constructor signature consistent across artifacts. Recommended: change the template header declaration to match the two-argument constructor used in the implementation and in the solution: declare Bitmap24(int i_width, int i_height); (remove the unused 'depth' parameter). Alternatively, update the implementation to provide a matching three-argument constructor if a 'depth' parameter is intentionally required, and ensure both template and solution use the same signature.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 37,
+                    "endLine": 39
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 26,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 37,
+                    "endLine": 39
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 26,
+                    "endLine": 31
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T14:33:54.909199Z",
+        "endTime": "2026-03-12T14:34:23.322966Z",
+        "durationS": 28.413
+    },
+    "tokens": {
+        "prompt": 87705,
+        "completion": 3930,
+        "total": 91635
+    },
+    "costs": {
+        "promptEur": 0.020172150390625,
+        "completionEur": 0.007231199951171875,
+        "totalEur": 0.027403350341796875
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/008",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-1423-63be4927df"
+}

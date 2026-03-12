@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T14:48:36.389512Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem statement specifies simulate_msd_two_rounds should accept a batch_size parameter (def simulate_msd_two_rounds(n_shots:int, p: float, batch_size:int = 1000000) -> tuple[float, float]) but the template's function signature omits this parameter (def simulate_msd_two_rounds(n_shots:int, p: float) -> tuple[float, float]). The reference solution implements the version with the batch_size parameter. This parameter is important for the intended batched simulation behavior and its absence in the template is a structural mismatch that can confuse students and cause test failures.",
+            "suggestedFix": "Update the template's function signature to match the problem statement and the solution by adding the batch_size parameter with a default value. For example: def simulate_msd_two_rounds(n_shots: int, p: float, batch_size: int = 1000000) -> tuple[float, float]: and update the docstring accordingly so students can implement the batched simulation as intended.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 171,
+                    "endLine": 176
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 134,
+                    "endLine": 146
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 240,
+                    "endLine": 331
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The function simulate_msd_two_rounds is expected (in the problem statement and the solution) to accept an optional batch_size parameter (signature: simulate_msd_two_rounds(n_shots: int, p: float, batch_size: int = 1000000)), but the template repository defines it without the batch_size parameter (signature: simulate_msd_two_rounds(n_shots: int, p: float)). This API mismatch can confuse students about the expected function contract and may cause tests or example usage that rely on batch_size to fail.",
+            "suggestedFix": "Change the template's function signature to include the optional batch_size parameter with the same default as described in the problem statement, e.g. def simulate_msd_two_rounds(n_shots: int, p: float, batch_size: int = 1000000) -> tuple[float, float]: and update the docstring to match. This aligns the template API with the problem specification and the solution.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 171,
+                    "endLine": 174
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 134,
+                    "endLine": 146
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 240,
+                    "endLine": 330
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T14:48:36.389512Z",
+        "endTime": "2026-03-12T14:49:14.985106Z",
+        "durationS": 38.595
+    },
+    "tokens": {
+        "prompt": 30677,
+        "completion": 4992,
+        "total": 35669
+    },
+    "costs": {
+        "promptEur": 0.007055710205078124,
+        "completionEur": 0.009185280029296874,
+        "totalEur": 0.016240990234375
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/006",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-1423-63be4927df"
+}

@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T14:30:51.693056Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem statement requires defining `user_name` as a string buffer, but the solution defines `user_name` as an integer (`dd 0`) and the template is missing any `user_name` declaration. This mismatch between the specification, template, and solution can confuse students about the intended data type and how to declare the symbol in the .data section.",
+            "suggestedFix": "Make the artifacts consistent by declaring `user_name` as a string buffer in the .data section in both the template and the solution (for example in NASM: `user_name times 32 db 0` to reserve a 32-byte null-terminated buffer, or `user_name db 0` for a minimal null-terminated string). Alternatively, if an integer was intended, update the problem statement to state that `user_name` should be an integer (dd).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 22,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 2,
+                    "endLine": 4
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 3,
+                    "endLine": 5
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement requires a data item named `user_name` to be defined as a string buffer, but the solution defines `user_name` as an integer (using `dd 0`). The template does not include `user_name` at all. This mismatched representation of the same identifier across artifacts creates a conceptual mapping problem: students are told to provide a string buffer named `user_name` but the reference solution uses the same identifier for a different data type.",
+            "suggestedFix": "Make the representation of `user_name` consistent with the problem statement by declaring it as a string buffer in the data section of the template and solution. For example, replace `user_name dd 0` with a string-buffer declaration such as `user_name db 64 dup(0)` (or an appropriately sized `db` buffer and terminating 0). Ensure the template includes this `user_name` buffer so students can directly map the requirement to the code.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 23
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 4,
+                    "endLine": 4
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T14:30:51.693056Z",
+        "endTime": "2026-03-12T14:31:09.945372Z",
+        "durationS": 18.252
+    },
+    "tokens": {
+        "prompt": 7409,
+        "completion": 2776,
+        "total": 10185
+    },
+    "costs": {
+        "promptEur": 0.0017040700073242187,
+        "completionEur": 0.005107840087890625,
+        "totalEur": 0.006811910095214844
+    },
+    "case_id": "V2/ERA2021/H00-Hello_World_ASM/011",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-1423-63be4927df"
+}

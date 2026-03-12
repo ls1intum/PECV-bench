@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T14:45:03.054609Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The template dd_simulation.py imports a compute-table symbol named CT from dd.py, but the template dd.py defines the compute table as _CT (leading underscore). The solution repository uses CT. This name mismatch is structural and will cause import errors / runtime failures for students using the provided template (dd_simulation.py expects CT to exist).",
+            "suggestedFix": "Make the compute-table symbol name consistent across artifacts. Either rename _CT to CT in the template dd.py (so dd_simulation.py can import CT), or change the import/use in dd_simulation.py to refer to _CT. Prefer matching the solution by defining CT = ComputeTable() in dd.py so students can follow the solution and imports as-is.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd_simulation.py",
+                    "startLine": 50,
+                    "endLine": 52
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 279,
+                    "endLine": 280
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 279,
+                    "endLine": 280
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The compute-table global identifier is named inconsistently across template files: template dd.py defines the compute table as `_CT = ComputeTable()`, but the template dd_simulation.py imports `CT` (from .dd import CT, ...). The solution repository uses `CT` in dd.py and dd_simulation.py. This mismatch (_CT vs CT) breaks the mapping between the implementation file and the simulator code, likely causing import/runtime errors and confusing students about the intended global compute table name.",
+            "suggestedFix": "Use a single consistent global name for the compute table across files. Rename `_CT` in the template dd.py to `CT`, or change the import in dd_simulation.py to import `_CT` and use that name consistently. Prefer `CT` (as in the solution) to match dd_simulation.py and reduce student confusion.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 276,
+                    "endLine": 281
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd_simulation.py",
+                    "startLine": 50,
+                    "endLine": 52
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 276,
+                    "endLine": 281
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T14:45:03.054609Z",
+        "endTime": "2026-03-12T14:45:25.351815Z",
+        "durationS": 22.297
+    },
+    "tokens": {
+        "prompt": 60117,
+        "completion": 2853,
+        "total": 62970
+    },
+    "costs": {
+        "promptEur": 0.01382691015625,
+        "completionEur": 0.0052495200195312505,
+        "totalEur": 0.01907643017578125
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-1423-63be4927df"
+}

@@ -1,0 +1,92 @@
+{
+    "timestamp": "2026-03-12T14:47:17.899590Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Several reference implementations' simulate() methods (in the solution repository) use the 'statevector_simulator' backend while returning measurement counts. The problem statement (and the template) require simulation counts for Exercises 2, 4, and 5. Using a statevector simulator is conceptually incompatible with obtaining sampling counts from a QASM-style simulator and can cause students to copy an approach that yields incorrect results or runtime errors when trying to obtain counts.",
+            "suggestedFix": "Update the reference simulate() implementations that are expected to return counts to use a QASM-style simulator (for example Aer.get_backend('qasm_simulator') or Aer.get_backend('aer_simulator') configured for sampling) and call execute with shots, then result.get_counts(qc). Alternatively, if counts are not required, update the problem statement and template to clearly state that the statevector (not counts) should be returned. This ensures the simulator choice matches the expected return type and avoids confusing students.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 130,
+                    "endLine": 137
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 208,
+                    "endLine": 213
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 232,
+                    "endLine": 236
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+                    "startLine": 125,
+                    "endLine": 135
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex4_grover_lights_out_puzzle.py",
+                    "startLine": 173,
+                    "endLine": 183
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex5_grover_kakuro.py",
+                    "startLine": 119,
+                    "endLine": 124
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The auxiliary qubit/register concept is referred to with two different parameter names across artifacts: the problem statement and most code use the name 'auxiliary_register' while the template implementation of GroverKakuro.state_preparation uses the parameter name 'ancilla_register'. The solution uses 'auxiliary_register'. This inconsistent identifier for the same conceptual entity (the auxiliary/ancilla register) can confuse students when mapping the problem description to the template stub and the reference solution.",
+            "suggestedFix": "Rename the parameter 'ancilla_register' in the template GroverKakuro.state_preparation signature to 'auxiliary_register' to match the class attribute name, other method signatures, and the problem statement. Update any internal references and docstrings accordingly so all artifacts consistently use 'auxiliary_register'.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 216,
+                    "endLine": 236
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex5_grover_kakuro.py",
+                    "startLine": 33,
+                    "endLine": 49
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex5_grover_kakuro.py",
+                    "startLine": 26,
+                    "endLine": 40
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T14:47:17.899590Z",
+        "endTime": "2026-03-12T14:47:49.615024Z",
+        "durationS": 31.715
+    },
+    "tokens": {
+        "prompt": 47261,
+        "completion": 5230,
+        "total": 52491
+    },
+    "costs": {
+        "promptEur": 0.0108700302734375,
+        "completionEur": 0.009623199951171876,
+        "totalEur": 0.020493230224609374
+    },
+    "case_id": "V2/QCSL25/QC02-Far_Term_Quantum_Algorithms/017",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-1423-63be4927df"
+}

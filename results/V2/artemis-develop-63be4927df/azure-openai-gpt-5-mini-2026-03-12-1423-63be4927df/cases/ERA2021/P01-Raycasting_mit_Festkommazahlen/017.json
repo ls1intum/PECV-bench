@@ -1,0 +1,92 @@
+{
+    "timestamp": "2026-03-12T14:34:32.193542Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "In the template repository the Bitmap24 class header declares a method named write(const std::string&), but the implementation defines Bitmap24::save(const std::string&) and callers in main.cpp invoke bitmap.save(...). This name/signature mismatch between the header, implementation and usage prevents compilation. The solution repository has the header corrected to declare save(...), indicating the template header is inconsistent with the intended design.",
+            "suggestedFix": "Make the header, implementation and callers consistent. Update example_program/src/Bitmap24.hpp in the template to declare save(const std::string &i_filename) (matching Bitmap24::save in Bitmap24.cpp and calls in main.cpp), or alternatively rename the implementation and all callers to write(...)\u2014prefer aligning the header to 'save' as shown in the solution repository.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 47,
+                    "endLine": 49
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 78,
+                    "endLine": 82
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/main.cpp",
+                    "startLine": 225,
+                    "endLine": 229
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 47,
+                    "endLine": 49
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The Bitmap24 API method name is inconsistent between the header and implementation in the template: example_program/src/Bitmap24.hpp declares a method named 'write(...)' while the implementation (Bitmap24.cpp) and usage in main.cpp use 'save(...)'. The solution repository consistently uses 'save(...)'. This mismatch in the template will confuse students and causes a compilation / linkage error because the class declaration does not match the implemented method name.",
+            "suggestedFix": "Make the header and implementation use the same method name. Rename the declaration in example_program/src/Bitmap24.hpp from 'write(const std::string &i_filename)' to 'save(const std::string &i_filename)' to match the implementation and the solution, or alternatively rename the implementation and all call sites to 'write(...)'. Prefer aligning the template to the solution ('save') so main.cpp and the provided implementation compile without changes.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 47,
+                    "endLine": 49
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 78,
+                    "endLine": 160
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/main.cpp",
+                    "startLine": 225,
+                    "endLine": 229
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 47,
+                    "endLine": 49
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 78,
+                    "endLine": 160
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T14:34:32.193542Z",
+        "endTime": "2026-03-12T14:34:57.724892Z",
+        "durationS": 25.531
+    },
+    "tokens": {
+        "prompt": 87699,
+        "completion": 3799,
+        "total": 91498
+    },
+    "costs": {
+        "promptEur": 0.020170770507812498,
+        "completionEur": 0.0069901601562499995,
+        "totalEur": 0.0271609306640625
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/017",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-1423-63be4927df"
+}

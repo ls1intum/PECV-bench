@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-12T14:48:15.224132Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "The template code calls the stim.Circuit constructor with a parameter (stim.Circuit(n_shots)) while the rest of the materials (problem statement and solution) use stim.Circuit() with no arguments. Stim's Circuit constructor is not documented as taking a shot count parameter; the intended workflow is to create an empty Circuit and then use compile_sampler().sample(n_shots) to get samples. Leaving stim.Circuit(n_shots) in the template can confuse students and lead to a runtime error or misunderstanding about how to run multiple shots.",
+            "suggestedFix": "Change the template to construct an empty stim.Circuit() (no arguments) inside simulate_msd_one_round, and instruct students to use circ.compile_sampler().sample(n_shots) to draw samples. Concretely, replace stim.Circuit(n_shots) with stim.Circuit() and ensure sampling is done via the sampler's sample method.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 121,
+                    "endLine": 123
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 208,
+                    "endLine": 210
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 149,
+                    "endLine": 152
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T14:48:15.224132Z",
+        "endTime": "2026-03-12T14:49:04.183359Z",
+        "durationS": 48.959
+    },
+    "tokens": {
+        "prompt": 30723,
+        "completion": 5947,
+        "total": 36670
+    },
+    "costs": {
+        "promptEur": 0.007066290283203125,
+        "completionEur": 0.01094248046875,
+        "totalEur": 0.018008770751953125
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/008",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-1423-63be4927df"
+}

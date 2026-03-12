@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T14:33:13.592150Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem statement (part a) instructs the student to load the current pixel value into ECX using mov ecx, [esi] after computing the pixel address in ESI. The template's printing sequence expects the pixel value in ECX when calling printf (it pushes ecx, ebx, eax, message). The provided solution, however, computes the address into ESI but uses mov eax, [esi] (loading the pixel into EAX) and then pops/restores registers in a way that overwrites that value before the push for printf. Thus the solution does not place the pixel value into ECX as described in the problem and as expected by the template's printf call, causing a mismatch between the problem description/template and the solution implementation.",
+            "suggestedFix": "Make the solution conform to the problem/template: after computing the pixel address in ESI, load the pixel value into ECX (mov ecx, [esi]) before restoring/pop operations that would overwrite registers, and ensure ESI (the address) is preserved for later use. Alternatively, update the template and problem text to expect the value in EAX if that register is intended, but both artifacts must agree.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 27
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 99,
+                    "endLine": 118
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 94,
+                    "endLine": 103
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement and the template expect the pixel value to be loaded into the ECX register (explicitly instructing mov ecx, [esi] and the template pushes ECX before calling printf). The solution implementation instead reads the pixel value into EAX (mov eax, [esi]) before restoring registers and printing. This register-name mismatch (ECX vs EAX) refers to the same conceptual entity \u2014 the pixel value used for printing \u2014 but uses different registers across artifacts, which will confuse students mapping the problem instructions to the template and the provided solution.",
+            "suggestedFix": "Make register usage consistent across artifacts. Either change the solution to load the pixel value into ECX (replace mov eax, [esi] with mov ecx, [esi] and adjust subsequent code to preserve registers accordingly) or update the problem statement and template to expect EAX as the pixel-value register. Preferably align to the problem/template instruction (ECX) to minimize student confusion.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 27
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 99,
+                    "endLine": 116
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 94,
+                    "endLine": 102
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T14:33:13.592150Z",
+        "endTime": "2026-03-12T14:34:06.857536Z",
+        "durationS": 53.265
+    },
+    "tokens": {
+        "prompt": 13527,
+        "completion": 7834,
+        "total": 21361
+    },
+    "costs": {
+        "promptEur": 0.0031112100830078125,
+        "completionEur": 0.014414560546875,
+        "totalEur": 0.017525770629882812
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/002",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-1423-63be4927df"
+}

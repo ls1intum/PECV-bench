@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-12T14:32:31.140105Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem statement and template expect a subroutine named set_pixel with the calling convention described (x in EAX, y in EBX, color in ECX). The template declares a set_pixel label (TODO) for students to implement. The provided solution, however, implements a subroutine named write_pixel and does not define set_pixel, while main still calls set_pixel. This name/signature mismatch means the solution is structurally incompatible with the template/problem: building or following the solution will lead to an undefined symbol (set_pixel) and confuses students about the required subroutine name/signature.",
+            "suggestedFix": "Make the solution define set_pixel with the exact name and calling convention described in the problem/template. Either rename the existing write_pixel to set_pixel, or add a small set_pixel wrapper that forwards parameters to write_pixel while preserving the required register-preservation contract (inputs: EAX = x, EBX = y, ECX = color; preserve all registers except EAX as specified). Ensure main's call to set_pixel links to a valid label.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 144,
+                    "endLine": 148
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement and the template expect a subroutine named set_pixel, but the solution implementation defines the routine as write_pixel. This naming mismatch (set_pixel vs write_pixel) breaks the conceptual mapping: students are told to implement/use set_pixel, the template provides a set_pixel stub, yet the solution's implementation uses a different identifier, which is likely an unintentional oversight and creates confusion and a build/runtime mismatch.",
+            "suggestedFix": "Make the identifier consistent across artifacts. Either rename the solution's label write_pixel to set_pixel, or change callers in the solution to call write_pixel. Preferably align the solution to the problem/template by renaming write_pixel to set_pixel so the implementation matches the stated requirement and the template stub.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 144,
+                    "endLine": 148
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T14:32:31.140105Z",
+        "endTime": "2026-03-12T14:32:55.032272Z",
+        "durationS": 23.892
+    },
+    "tokens": {
+        "prompt": 13529,
+        "completion": 3295,
+        "total": 16824
+    },
+    "costs": {
+        "promptEur": 0.003111670043945312,
+        "completionEur": 0.006062800048828125,
+        "totalEur": 0.009174470092773437
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/016",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-1423-63be4927df"
+}

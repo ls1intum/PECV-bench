@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-12T14:32:55.873135Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem statement and template specify that set_pixel receives x in EAX and y in EBX and should compute the address based on that convention. The solution implementation of set_pixel, however, swaps EAX and EBX (xchg eax, ebx) and then computes the address as if x and y were exchanged, effectively treating the inputs in reversed order. This creates a mismatch between the specified calling convention (and the address calculation in main) and the solution's set_pixel implementation, which will confuse students and produce incorrect pixel writes.",
+            "suggestedFix": "Make the solution's set_pixel follow the same register convention as the specification: use x in EAX and y in EBX and compute address = display_start + y*(1920*4) + x*4. Remove the xchg and perform the multiplications accordingly (or otherwise document and update the problem/template to match the swapped convention). Ensure set_pixel preserves all registers except EAX as required.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 35
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T14:32:55.873135Z",
+        "endTime": "2026-03-12T14:33:32.531897Z",
+        "durationS": 36.658
+    },
+    "tokens": {
+        "prompt": 13563,
+        "completion": 3843,
+        "total": 17406
+    },
+    "costs": {
+        "promptEur": 0.003119490112304687,
+        "completionEur": 0.007071120239257813,
+        "totalEur": 0.0101906103515625
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/004",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-1423-63be4927df"
+}

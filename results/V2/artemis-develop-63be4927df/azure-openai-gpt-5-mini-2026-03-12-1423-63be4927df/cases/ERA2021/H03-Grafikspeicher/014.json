@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-12T14:31:45.912088Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The solution implementation refers to the symbol 'display_start' (used as the base address of the framebuffer) but does not declare it. The template declares 'display_start RESB 8294400' in pixel.asm, while the solution file removed that declaration (comment says it was moved to local stack scope) but still uses 'display_start' in set_pixel and main. This mismatch will cause assembly/linker errors and prevents students from building/running the provided solution and from using the solution as a correct reference for how 'display_start' should be provided.",
+            "suggestedFix": "Restore a clear declaration of 'display_start' consistent with the template and problem statement. For example, add 'display_start RESB 8294400' to the .bss section (as in the template) or, if the intention is to allocate it on the stack, modify all references to use the stack address and document/push/pop the base address consistently. Ensure the solution compiles and the symbol 'display_start' is defined and used consistently between main and set_pixel.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 20,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 20,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 93,
+                    "endLine": 101
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T14:31:45.912088Z",
+        "endTime": "2026-03-12T14:32:12.959998Z",
+        "durationS": 27.047
+    },
+    "tokens": {
+        "prompt": 13545,
+        "completion": 3007,
+        "total": 16552
+    },
+    "costs": {
+        "promptEur": 0.0031153499755859375,
+        "completionEur": 0.0055328800048828125,
+        "totalEur": 0.00864822998046875
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/014",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-1423-63be4927df"
+}

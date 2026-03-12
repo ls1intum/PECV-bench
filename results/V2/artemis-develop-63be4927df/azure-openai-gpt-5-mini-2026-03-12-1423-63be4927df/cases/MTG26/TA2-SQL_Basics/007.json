@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T14:39:47.745380Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The solution for Aufgabe 04 groups by 'kreis' but the problem explicitly asks to aggregate (SUM) inhabitants grouped by 'Regierungsbezirk' and to output the name of the respective 'Regierungsbezirk'. Selecting regierungsbezirk while grouping by kreis is a structural SQL mismatch that can cause SQL errors or incorrect results and will confuse students about the required grouping key.",
+            "suggestedFix": "Modify the solution query so the GROUP BY uses 'regierungsbezirk' (the requested grouping key) instead of 'kreis'. For example: SELECT regierungsbezirk, SUM(einwohner_w), SUM(einwohner_m) FROM Gemeinde GROUP BY regierungsbezirk;",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 120,
+                    "endLine": 123
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe04.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe04.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Task description asks for results grouped by the Regierungsbezirk (the name of the administrative region), but the solution groups by 'kreis' (county). This is a conceptual mismatch: 'regierungsbezirk' and 'kreis' are distinct administrative entities. Students reading the problem will expect grouping by regierungsbezirk but the solution uses a different identifier, creating mapping confusion between the requirement and the implementation.",
+            "suggestedFix": "Make the grouping identifier consistent with the problem statement. In the solution change GROUP BY kreis to GROUP BY regierungsbezirk (and ensure SELECT lists regierungsbezirk and the aggregated sums), e.g. SELECT regierungsbezirk, SUM(einwohner_w), SUM(einwohner_m) FROM Gemeinde GROUP BY regierungsbezirk.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 120,
+                    "endLine": 123
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe04.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe04.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T14:39:47.745380Z",
+        "endTime": "2026-03-12T14:40:16.685477Z",
+        "durationS": 28.94
+    },
+    "tokens": {
+        "prompt": 13377,
+        "completion": 3538,
+        "total": 16915
+    },
+    "costs": {
+        "promptEur": 0.0030767100830078123,
+        "completionEur": 0.0065099201660156255,
+        "totalEur": 0.009586630249023438
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/007",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-1423-63be4927df"
+}
