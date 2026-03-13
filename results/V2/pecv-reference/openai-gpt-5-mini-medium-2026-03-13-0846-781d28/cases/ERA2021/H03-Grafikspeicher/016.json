@@ -1,0 +1,97 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/016",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-085921-016-ccbcc3",
+  "timestamp": "2026-03-13T09:00:22.429118",
+  "issues": [
+    {
+      "description": "The problem statement and template expect a routine named set_pixel (problem describes implementing set_pixel and the template provides a set_pixel label), but the solution repository defines a function write_pixel instead of set_pixel and still calls set_pixel from main. This is an internal name/signature mismatch in the solution: main calls set_pixel (which is undefined in the solution), while the provided implementation is named write_pixel. Students comparing template and solution will be confused and the solution as provided will not link/assemble correctly because the expected symbol is missing.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 34
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 143,
+          "end_line": 148
+        }
+      ],
+      "suggested_fix": "Make the solution's function name match the template/problem expectation. Either rename write_pixel to set_pixel (keeping its implementation and preserving the same register/calling conventions), or change the call in main to call write_pixel. Ensure the implemented routine signature/behavior (register usage and preservation) matches the problem description."
+    },
+    {
+      "description": "The template instructs (at the TODO) to save all registers you modify except eax, ebx and esi. In the solution's main code that computes the pixel address, MUL is used (which implicitly modifies EDX) but EDX is not saved/restored around that computation. This violates the template's register-preservation guidance and can lead to unexpected side effects if other code expects EDX to be preserved.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 100,
+          "end_line": 102
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 94,
+          "end_line": 101
+        }
+      ],
+      "suggested_fix": "Preserve EDX around uses of MUL in main's address computation (e.g., push edx before the MUL(s) and pop edx afterwards), or use an instruction sequence that does not destroy caller-saved registers in an unexpected way. This will align the solution with the template's instruction to save all registers you modify (except the allowed ones)."
+    },
+    {
+      "description": "The problem statement and the template explicitly refer to a subroutine named set_pixel (problem_statement.md lines 30-33; template_repository/pixel.asm lines 36-38). In the solution, the implemented routine is named write_pixel (solution_repository/pixel.asm lines 19-34), while later in the same solution main() still calls set_pixel (solution_repository/pixel.asm line 147). This creates a direct naming mismatch: students reading the solution will not find the expected set_pixel implementation (or will be confused by the extra write_pixel). The inconsistency prevents a straightforward mapping from the problem requirement (implement set_pixel) and the template stub to the concrete implementation in the solution.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 34
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 147,
+          "end_line": 147
+        }
+      ],
+      "suggested_fix": "Make the identifier consistent across all artifacts. Preferred fixes: (a) Rename the solution's write_pixel label to set_pixel (and keep its implementation as-is), or (b) add a small wrapper labeled set_pixel that forwards to write_pixel (or replace the call to set_pixel with call write_pixel). This ensures the template stub, problem description, and solution use the same routine name and removes student confusion."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:59:21.671264",
+    "end_time": "2026-03-13T09:00:22.429118",
+    "duration_s": 60.757854
+  },
+  "trace_id": "9dcc207c-f118-447b-8b44-bcb40a38ac2d"
+}

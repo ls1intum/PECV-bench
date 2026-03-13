@@ -1,0 +1,57 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/002",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-092408-002-236b5a",
+  "timestamp": "2026-03-13T09:24:49.192009",
+  "issues": [
+    {
+      "description": "Inconsistent handling / return type for the POST /persons endpoint: the solution's PersonResource.createPerson returns a raw Person (and returns null on invalid input) while NoteResource (and the problem text example) use ResponseEntity and return HTTP 400 for invalid input. This is a structural inconsistency across the server resources and between the solution and the pattern established by NoteResource. Students looking at NoteResource (in template) will expect to implement createPerson similarly (i.e., return ResponseEntity and return badRequest on invalid input). The solution's createPerson returning null on invalid input does not produce an HTTP 400 and is likely to confuse students about the expected response behavior and signature to implement.",
+      "severity": "MEDIUM",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 116
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 201,
+          "end_line": 209
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/NoteResource.java",
+          "start_line": 30,
+          "end_line": 36
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/NoteResource.java",
+          "start_line": 30,
+          "end_line": 36
+        }
+      ],
+      "suggested_fix": "Make the POST /persons endpoint consistent with NoteResource and the problem description: change createPerson to return ResponseEntity<Person> and return ResponseEntity.badRequest().build() when the provided Person already has an ID. Example fix: public ResponseEntity<Person> createPerson(@RequestBody Person person) { if (person.getId() != null) { return ResponseEntity.badRequest().build(); } return ResponseEntity.ok(personService.savePerson(person)); } This preserves the intended behavior (400 on invalid input, 200 with saved Person on success) and matches the pattern used for notes."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:24:08.780243",
+    "end_time": "2026-03-13T09:24:49.192009",
+    "duration_s": 40.411766
+  },
+  "trace_id": "c0b9c063-c28a-4306-b8b7-8ae939b00bfd"
+}

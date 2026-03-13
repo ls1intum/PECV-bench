@@ -1,0 +1,39 @@
+{
+  "case_id": "MTG26/TA2-SQL_Basics/011",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-103316-011-a244bb",
+  "timestamp": "2026-03-13T10:33:48.352293",
+  "issues": [
+    {
+      "description": "Solution for Aufgabe 05 does not implement the required aggregation: the problem asks for the average area (durchschnittliche Fl\u00e4che) per Landkreis (kreis) plus the Landkreis name and regierungsbezirk, but the solution selects the column `kreis` twice and aliases one copy as `avg_flaeche` instead of using an aggregation function (e.g. AVG(flaeche)). This means the solution returns a text/string value for the column named avg_flaeche rather than the numeric average requested, contradicting the problem specification and misleading students about how to use GROUP BY and aggregate functions.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 126,
+          "end_line": 128
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe05.sql",
+          "start_line": 1,
+          "end_line": 1
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe05.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Replace the incorrect selection of `kreis as avg_flaeche` with an actual aggregation of the area, for example: SELECT regierungsbezirk, kreis, AVG(flaeche) AS avg_flaeche FROM Gemeinde GROUP BY regierungsbezirk, kreis ORDER BY kreis; This returns the numeric average area per Landkreis as requested and matches the problem description."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:33:16.438502",
+    "end_time": "2026-03-13T10:33:48.352293",
+    "duration_s": 31.913791
+  },
+  "trace_id": "c9480360-0cf5-442f-820b-c7ae9eff5bf7"
+}

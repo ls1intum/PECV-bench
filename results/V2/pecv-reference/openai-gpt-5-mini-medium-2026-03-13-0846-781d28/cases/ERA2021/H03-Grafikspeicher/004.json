@@ -1,0 +1,39 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/004",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-085331-004-47e662",
+  "timestamp": "2026-03-13T08:54:24.938627",
+  "issues": [
+    {
+      "description": "The solution's set_pixel implementation swaps the x and y registers (uses xchg eax, ebx) before computing the pixel address, causing x and y to be interpreted in reverse. The problem statement and template expect x in EAX and y in EBX when calling set_pixel; the solution therefore contradicts the specification and will set the wrong pixel. This is a core parameter/calling-convention mismatch and will confuse students (main computes address using x in EAX and y in EBX, but the solution's subroutine treats them swapped).",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 29,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 35
+        }
+      ],
+      "suggested_fix": "Remove the xchg eax, ebx in set_pixel and compute the offset using x in EAX and y in EBX as specified. For example: preserve any scratch registers you use (push/pop ESI and EDX), compute x*4 (mul 4 using EAX), save that, compute y*(width*4) (move width*4 into EAX then mul EBX), add the two parts, add display_start to form the address, and store ECX at that address. Ensure only EAX's final value is allowed to change, and restore any other registers you push. This makes the implementation consistent with the problem statement and the way main passes parameters (mov eax, [esp+8]; mov ebx, [esp+4]; call set_pixel)."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:53:31.323562",
+    "end_time": "2026-03-13T08:54:24.938627",
+    "duration_s": 53.615065
+  },
+  "trace_id": "d93dc6db-b9ee-4b6a-b159-f96d9b260578"
+}

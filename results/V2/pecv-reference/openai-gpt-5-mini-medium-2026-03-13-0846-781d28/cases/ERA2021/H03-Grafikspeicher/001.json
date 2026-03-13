@@ -1,0 +1,71 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/001",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-085211-001-6ca6ad",
+  "timestamp": "2026-03-13T08:53:12.885266",
+  "issues": [
+    {
+      "description": "The problem statement requires that set_pixel may only modify EAX (\"Au\u00dfer dem Register eax d\u00fcrfen keine anderen Registerinhalte ver\u00e4ndert werden\"). The template contains a comment that contradicts this by saying to save all modified registers except eax, ebx and esi (implying ebx and esi need not be preserved). This conflict about which registers must be preserved (especially EBX and ESI) can confuse students about the calling convention and register-preservation rules they must follow when implementing set_pixel.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 100,
+          "end_line": 101
+        }
+      ],
+      "suggested_fix": "Make the register-preservation rule consistent between problem statement and template. Either update the problem statement to explicitly allow modifying EBX and ESI (if that was intended), or change the template comment to match the problem statement (i.e., state that only EAX may be changed and that all other registers including EBX and ESI must be preserved). Preferably keep the problem requirement (only EAX may be modified) and adjust the template comment accordingly."
+    },
+    {
+      "description": "The template expects the computed pixel memory address to be placed in ESI (comment: \"result (address) in ESI\") and then saves ESI for later use (push esi). The solution computes the address into EDI (uses EDI for the final address) and does not put the computed address into ESI. As a result, the saved value (ESI) is actually display_start and not the computed pixel address; subsequent code that pops that saved register and uses it as the pixel address will read/write the wrong memory location. This is a structural mismatch between the template's calling/stack-saving convention and the solution's implementation.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 100,
+          "end_line": 111
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 150,
+          "end_line": 156
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 92,
+          "end_line": 101
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 34
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 150,
+          "end_line": 156
+        }
+      ],
+      "suggested_fix": "Make the register used for holding the computed address consistent. Either (A) modify the solution so it stores the computed address in ESI (e.g., compute into ESI or move EDI into ESI before the push) so that the later push/pop sequence in the template is correct, or (B) modify the template/comments to state that the address will be returned in EDI and adjust the places that push/pop and later use the saved address accordingly. Ensure the push/pop ordering and the register used for the address match across template and solution."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:52:11.398151",
+    "end_time": "2026-03-13T08:53:12.885266",
+    "duration_s": 61.487115
+  },
+  "trace_id": "16fdbba3-55b1-4901-aa5f-f902aa10377f"
+}

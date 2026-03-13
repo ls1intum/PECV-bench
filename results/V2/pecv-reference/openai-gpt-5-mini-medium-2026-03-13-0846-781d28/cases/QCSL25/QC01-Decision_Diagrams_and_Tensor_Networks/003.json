@@ -1,0 +1,45 @@
+{
+  "case_id": "QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/003",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-103716-003-c06af1",
+  "timestamp": "2026-03-13T10:38:23.882823",
+  "issues": [
+    {
+      "description": "Ambiguous/overloaded meaning of the `num_qubits` parameter for create_single_qubit_gate: the problem statement and the template describe create_single_qubit_gate(num_qubits, target, gate_matrix) where `num_qubits` is documented as \u201cthe number of qubits in the system\u201d (i.e., the total system size). However, the provided reference solution (and its implementation of create_controlled_single_qubit_gate) calls create_single_qubit_gate with a smaller integer (the control index) to construct sub-block identity/DD components (e.g., id_path = create_single_qubit_gate(control, 0, np.identity(...))). This effectively treats `num_qubits` as the size of a sub-system/block rather than the full system size. The mismatch in intended meaning can confuse students implementing create_controlled_single_qubit_gate: they may assume `num_qubits` must always be the global N and attempt to call create_single_qubit_gate with the full system size, producing a different DD construction or failing to follow the solution approach.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 33,
+          "end_line": 39
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd_simulation.py",
+          "start_line": 84,
+          "end_line": 116
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd_simulation.py",
+          "start_line": 153,
+          "end_line": 201
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/dd_simulation.py",
+          "start_line": 213,
+          "end_line": 221
+        }
+      ],
+      "suggested_fix": "Make the parameter semantics explicit and consistent. Two possible fixes: (A) Clarify the docstring for create_single_qubit_gate to state that the first argument is the number of qubits of the (sub-)system being constructed (i.e., it can be used to build smaller identity/gate blocks), and add an explanatory example showing calls with smaller values when building controlled gates; or (B) keep create_single_qubit_gate strictly scoped to the full-system size (num_qubits = N) and modify create_controlled_single_qubit_gate in the template (and solution) to explicitly build the required identity sub-blocks (e.g., by a small helper create_identity_block(k) or by using make_dd loops) instead of calling create_single_qubit_gate with a non-global `num_qubits`. Either approach removes the unintended parameter-semantic overload and prevents student confusion."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:37:16.044370",
+    "end_time": "2026-03-13T10:38:23.882823",
+    "duration_s": 67.838453
+  },
+  "trace_id": "6aad9d58-12c2-4fc5-8583-2c59cc97a804"
+}

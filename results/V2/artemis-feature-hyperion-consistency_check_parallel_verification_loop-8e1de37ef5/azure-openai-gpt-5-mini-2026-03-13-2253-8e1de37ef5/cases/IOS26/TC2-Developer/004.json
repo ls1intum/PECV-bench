@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-13T23:26:03.751777Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Method parameter label mismatch for Course.addRating(_:): The problem statement (and the template) require an instance method named Course.addRating with external parameter label 'stars' (addRating(stars: Int)). The solution implementation defines the method as func addRating(rating: Int) while the solution's Client calls addRating(stars: ...). This inconsistent parameter name/label will cause a call-site / definition mismatch and likely result in a compilation error or confusion when students try to run the provided solution.",
+            "suggestedFix": "Align the parameter label across all artifacts. Preferred fix: change the solution implementation signature to use the 'stars' label to match the problem and template, e.g. 'extension Course { func addRating(stars: Int) { ... } }' and update the implementation body accordingly. Alternatively, change all call sites to use the 'rating' label, but aligning to 'stars' preserves the exercise wording.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 15,
+                    "endLine": 15
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 24,
+                    "endLine": 24
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 25,
+                    "endLine": 25
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Client.swift",
+                    "startLine": 14,
+                    "endLine": 15
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Concept: the Course instance method that appends a rating. Problem statement and the template extension declare the method as addRating(stars: Int) (parameter label 'stars'). In the solution implementation the method is declared as func addRating(rating: Int) (parameter label 'rating'), while the solution's Client calls swiftCourse.addRating(stars: 4). Because the solution's implementation and the call sites use different external parameter labels ('rating' vs 'stars'), the API is inconsistent with the exercise description and will not compile as-is; students cannot reliably map the required method signature to the provided solution code or call sites.",
+            "suggestedFix": "Make the parameter label consistent across artifacts. Update the solution implementation to match the problem and template by changing the function signature in solution_repository/Sources/DeveloperLib/Course.swift from `func addRating(rating: Int)` to `func addRating(stars: Int)` and use `stars` inside the method body (e.g. `if stars >= 1 && stars <= 5 { ratings.append(stars) }`). This aligns the implementation with the Client calls (`addRating(stars: ...)`) and the exercise description.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 13,
+                    "endLine": 19
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 24,
+                    "endLine": 24
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 25,
+                    "endLine": 25
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Client.swift",
+                    "startLine": 14,
+                    "endLine": 15
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:26:03.751777Z",
+        "endTime": "2026-03-13T23:26:38.257680Z",
+        "durationS": 34.505
+    },
+    "tokens": {
+        "prompt": 24315,
+        "completion": 7102,
+        "total": 31417
+    },
+    "costs": {
+        "promptEur": 0.0055924501953125,
+        "completionEur": 0.013067680419921875,
+        "totalEur": 0.018660130615234374
+    },
+    "case_id": "V2/IOS26/TC2-Developer/004",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

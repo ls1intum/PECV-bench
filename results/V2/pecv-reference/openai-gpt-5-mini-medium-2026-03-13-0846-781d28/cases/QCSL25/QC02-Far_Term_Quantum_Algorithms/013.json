@@ -1,0 +1,65 @@
+{
+  "case_id": "QCSL25/QC02-Far_Term_Quantum_Algorithms/013",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-104809-013-011cfa",
+  "timestamp": "2026-03-13T10:48:36.151324",
+  "issues": [
+    {
+      "description": "Method name/signature mismatch for the 3-qubit QFT implementation. The problem tasks and the solution implementation use a method named qft_circuit (and qft_circuit_inverse for the inverse), but the template defines the forward transform as _qft_circuit (leading underscore) while providing qft_circuit_inverse. This difference in the forward-method name is structural (not just a missing body) and will confuse students and break automated tests or example usage that expects qft_circuit to exist. The solution's qft_circuit_inverse calls qft_circuit, which the template does not expose, preventing a straightforward student implementation and making the template incompatible with the solution reference.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 252,
+          "end_line": 256
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex1_qft.py",
+          "start_line": 10,
+          "end_line": 20
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex1_qft.py",
+          "start_line": 10,
+          "end_line": 32
+        }
+      ],
+      "suggested_fix": "Rename the template method _qft_circuit to qft_circuit (remove the leading underscore) so its name/signature matches the solution and the expected API. Ensure qft_circuit_inverse in the template calls qft_circuit (or otherwise matches the solution) so students and tests have a consistent forward and inverse QFT API."
+    },
+    {
+      "description": "The 3-qubit QFT method name is inconsistent between artifacts: the template defines the forward QFT method as _qft_circuit (leading underscore) while the solution implements it as qft_circuit. The problem statement tasks refer to implementing the QFT (Exercise 6.1 / test_ex1_qft_circuit) without an underscore, which aligns with the solution name. This mismatch can confuse students about which method to implement or reuse (and may break expected reuse from qft_circuit_inverse), creating unnecessary mapping friction between the exercise description, the starter code, and the reference solution.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 246,
+          "end_line": 257
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex1_qft.py",
+          "start_line": 10,
+          "end_line": 21
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex1_qft.py",
+          "start_line": 10,
+          "end_line": 32
+        }
+      ],
+      "suggested_fix": "Align the forward QFT method name across artifacts. Best fix: rename the template method from _qft_circuit to qft_circuit so the template, problem task name (Exercise 6.1), and solution all use the same identifier. Alternatively, update qft_circuit_inverse in the template to call _qft_circuit (and document the underscore convention), but the first option is clearer for students and avoids accidental 'private' naming confusion."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:48:09.656422",
+    "end_time": "2026-03-13T10:48:36.151324",
+    "duration_s": 26.494902
+  },
+  "trace_id": "f2606831-1435-4358-b782-39a5f4a07aa6"
+}

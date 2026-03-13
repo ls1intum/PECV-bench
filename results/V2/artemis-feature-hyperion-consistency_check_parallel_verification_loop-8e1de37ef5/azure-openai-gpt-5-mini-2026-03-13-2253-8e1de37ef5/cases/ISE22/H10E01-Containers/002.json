@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T23:04:39.275217Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Method return type mismatch for PersonResource.getAllPersons(): the template declares public ResponseEntity<List<Person>> getAllPersons() and returns personService.getAll() (a List<Person>). The solution implementation declares public ResponseEntity<Set<Person>> getAllPersons() but still returns personService.getAll() which has signature List<Person> getAll(). This inconsistency between the controller return type (Set<Person>) and the service return type (List<Person>) causes a compile-time type error and confuses students about the expected collection type for the GET /persons endpoint.",
+            "suggestedFix": "Make the return types consistent. Change the solution's PersonResource.getAllPersons() signature to return ResponseEntity<List<Person>> and return personService.getAll(), matching the PersonService.getAll() method and the template. Alternatively (less preferred for pedagogy), change PersonService.getAll() to return a Set<Person> and adjust repository/service code accordingly. Recommended: restore controller signature to ResponseEntity<List<Person>> to match the template and service.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 27,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 27,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 36,
+                    "endLine": 38
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The Web-layer endpoint method that returns all persons is declared with different collection type identifiers across artifacts. Template repository declares the method as: public ResponseEntity<List<Person>> getAllPersons() (template: src/main/java/de/tum/in/ase/eist/rest/PersonResource.java lines 27-30). Solution repository declares the same method as: public ResponseEntity<java.util.Set<Person>> getAllPersons() (solution: src/main/java/de/tum/in/ase/eist/rest/PersonResource.java lines 27-30). The problem statement refers to the PersonResource Web Layer but does not specify a collection type. Because the template service method personService.getAll() and the template controller use List<Person>, while the solution controller uses Set<Person>, students face a naming/type mismatch for the same conceptual API method: they cannot reliably map the exercise requirements and template code to the reference solution and may encounter compilation or API-consistency confusion.",
+            "suggestedFix": "Make the collection return type consistent across artifacts. Prefer aligning the solution to the template/service by changing the solution's PersonResource signature to: public ResponseEntity<List<Person>> getAllPersons() (and import java.util.List if necessary). Ensure all references (controller signature and any tests or documentation) match this List<Person> type so personService.getAll() return type and the controller response type are consistent.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 27,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 27,
+                    "endLine": 30
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 24
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:04:39.275217Z",
+        "endTime": "2026-03-13T23:05:24.489167Z",
+        "durationS": 45.213
+    },
+    "tokens": {
+        "prompt": 94456,
+        "completion": 6998,
+        "total": 101454
+    },
+    "costs": {
+        "promptEur": 0.02172488037109375,
+        "completionEur": 0.012876320068359376,
+        "totalEur": 0.034601200439453125
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/002",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

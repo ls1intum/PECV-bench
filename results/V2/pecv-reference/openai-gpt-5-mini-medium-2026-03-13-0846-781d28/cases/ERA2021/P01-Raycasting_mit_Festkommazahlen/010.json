@@ -1,0 +1,65 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/010",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-090508-010-c38dc0",
+  "timestamp": "2026-03-13T09:06:20.834502",
+  "issues": [
+    {
+      "description": "The type of the Bitmap24::width attribute differs between the template and the solution. In the template header Bitmap24::width is declared as short, while in the solution header it is declared as int. This is a structural attribute type mismatch that can confuse students when they compare their template-based implementation to the reference solution (or if files are mixed), and may lead to subtle issues (range/overflow assumptions or inconsistent API expectations).",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 33,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 33,
+          "end_line": 36
+        }
+      ],
+      "suggested_fix": "Make the attribute type consistent across template and solution. Use int for Bitmap24::width in the template header (change `short width;` to `int width;`) so both template and solution declare the same type. Alternatively, change the solution to use short if there is a deliberate reason to limit width \u2014 but keep both artifacts identical to avoid student confusion."
+    },
+    {
+      "description": "The Bitmap24::set() method is declared to take char parameters for the RGB channels, but callers in main.cpp pass float values (color_f[...] are floats). Although C++ will implicitly convert floats to char, this narrowing/conversion is likely unintended and can confuse students about the intended color representation (and cause loss of precision). The inconsistency appears in both the template and the solution (declaration uses char; usage passes float).",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 51,
+          "end_line": 57
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 213,
+          "end_line": 216
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 51,
+          "end_line": 57
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 213,
+          "end_line": 216
+        }
+      ],
+      "suggested_fix": "Clarify and align the color type used by Bitmap24::set() and its callers. Two reasonable fixes: (a) change the set() signature to accept a clear 8-bit color type (e.g. unsigned char or uint8_t) and explicitly cast the float color values at the call sites (e.g. `bitmap.set(i, j, (unsigned char)color_f[2], ...)`), or (b) change set() to accept floats if full-range float colors are intended (and perform an internal conversion to 8-bit when writing to the buffer). Apply the same change consistently in both template and solution."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:05:08.578676",
+    "end_time": "2026-03-13T09:06:20.834502",
+    "duration_s": 72.255826
+  },
+  "trace_id": "ab42280b-e85b-4d04-ba00-ac0905b670b4"
+}

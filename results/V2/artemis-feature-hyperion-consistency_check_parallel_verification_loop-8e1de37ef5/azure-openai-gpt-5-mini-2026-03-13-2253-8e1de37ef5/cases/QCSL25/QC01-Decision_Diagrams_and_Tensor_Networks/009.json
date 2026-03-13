@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-13T23:26:48.879478Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "Constructor mismatch for class UniqueTable: In the template repository, UniqueTable.__init__ is declared as def __init__(self, size: int) -> None (expects a size argument). However, later in the same template dd.py the global unique-table instance is created as UT = UniqueTable() with no argument. In the solution repository UniqueTable.__init__ is declared as def __init__(self) -> None (no parameter). This discrepancy causes a TypeError when importing the template dd.py (calling UniqueTable() without the required 'size' parameter), blocking students from running or importing the module.",
+            "suggestedFix": "Make the template UniqueTable constructor signature match the solution and usage. Change UniqueTable.__init__ in template_repository/dd.py to def __init__(self) -> None: (remove the required 'size' parameter) OR give the parameter a default value (e.g. def __init__(self, size: int = 0) -> None) OR change the global instantiation to provide an integer argument (UT = UniqueTable(<size>)). Recommended fix to preserve pedagogical intent: remove the unused parameter so the constructor is parameterless (def __init__(self) -> None) so UT = UniqueTable() works and matches the solution.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 177,
+                    "endLine": 181
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 277,
+                    "endLine": 279
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 177,
+                    "endLine": 180
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 17,
+                    "endLine": 23
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Constructor parameter mismatch for UniqueTable: the template implementation defines UniqueTable.__init__(self, size: int) (requires a 'size' argument) while the solution defines UniqueTable.__init__(self) (no parameters). The template also instantiates UT = UniqueTable() without supplying a size. Students reading the template will see a constructor that requires a parameter but an instantiation that provides none, causing a runtime/usage confusion. The concept in both artifacts is the same (the UniqueTable data structure), but the differing constructor signatures and the mismatched instantiation break the mapping and will likely produce an error or confusion when importing/using dd.py.",
+            "suggestedFix": "Align the UniqueTable constructor signatures across artifacts. Preferred fix: remove the unused 'size' parameter from the template so the constructor becomes def __init__(self) -> None: self.table = {} (and remove references to self.size). This matches the solution and the existing instantiation UT = UniqueTable(). Alternatively, if a size is required by design, update all instantiations (UT = UniqueTable(...)) and the solution to accept and propagate the size; however, the simpler and consistent approach is to make the template constructor parameterless to match the solution and usage.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 177,
+                    "endLine": 179
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 277,
+                    "endLine": 279
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 177,
+                    "endLine": 179
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 277,
+                    "endLine": 279
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:26:48.879478Z",
+        "endTime": "2026-03-13T23:27:25.968919Z",
+        "durationS": 37.089
+    },
+    "tokens": {
+        "prompt": 118858,
+        "completion": 6274,
+        "total": 125132
+    },
+    "costs": {
+        "promptEur": 0.02733734033203125,
+        "completionEur": 0.011544160400390625,
+        "totalEur": 0.03888150073242187
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/009",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

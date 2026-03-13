@@ -1,0 +1,45 @@
+{
+  "case_id": "QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/007",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-103903-007-337253",
+  "timestamp": "2026-03-13T10:39:25.928187",
+  "issues": [
+    {
+      "description": "The template's DDNode dataclass field order does not match how DDNode is instantiated in the same file. In template_repository/dd.py the dataclass is declared with fields in the order (successors: list[DD], v: int) (positional order), but the code instantiates the terminal node using a positional call TERM = DDNode(-1, []) which assumes the constructor signature is (v: int, successors: list[DD]). This mismatch will construct a DDNode with incorrect field assignments (e.g., successors becomes -1 and v becomes []), causing core invariants and methods (like is_terminal()/v checks, successor access, and all DD creation/usage) to behave incorrectly or raise errors. This is a structural bug in the template (not an intentional pedagogical gap) and will prevent students from running or correctly implementing the decision-diagram-based simulator as the problem statement promises dd.py is already implemented.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd.py",
+          "start_line": 137,
+          "end_line": 139
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd.py",
+          "start_line": 269,
+          "end_line": 275
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/dd.py",
+          "start_line": 137,
+          "end_line": 139
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 17,
+          "end_line": 23
+        }
+      ],
+      "suggested_fix": "Make the DDNode dataclass declaration consistent with how it is instantiated. The simplest fix is to change the template dataclass field order to match the intended (v: int, successors: list[DD]) (as in the solution), i.e. declare 'v: int' before 'successors: list[DD]'. Alternatively, use keyword arguments when constructing TERM (TERM = DDNode(v=-1, successors=[])) and throughout the file ensure all DDNode constructions use keywords, but the recommended fix is to reorder the dataclass fields to match the solution and the rest of the code so positional construction (DDNode(-1, [])) works as intended."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:39:03.531017",
+    "end_time": "2026-03-13T10:39:25.928187",
+    "duration_s": 22.39717
+  },
+  "trace_id": "5c33535f-e5a9-4cb1-9ad6-da3bff1741e0"
+}

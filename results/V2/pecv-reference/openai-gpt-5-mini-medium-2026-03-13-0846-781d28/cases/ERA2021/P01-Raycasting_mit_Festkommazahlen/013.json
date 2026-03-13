@@ -1,0 +1,45 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/013",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-090659-013-a12a08",
+  "timestamp": "2026-03-13T09:07:39.504799",
+  "issues": [
+    {
+      "description": "The template's Bitmap24 class header declares the constructors, destructor and the methods (resize_buffer, save, set) under the private: section, while the program (main.cpp) and the solution expect to call these methods from outside the class. The solution's Bitmap24.hpp marks these members public. As-is, the template's visibility makes calls such as bitmap.resize_buffer(...) and bitmap.set(...) in main.cpp illegal and will prevent successful compilation, confusing students who follow the provided example usage.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 31,
+          "end_line": 58
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 32,
+          "end_line": 58
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 36,
+          "end_line": 44
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 36,
+          "end_line": 44
+        }
+      ],
+      "suggested_fix": "Make the API used by main() public in the template header. Concretely, in example_program/src/Bitmap24.hpp move or change the access specifier so that the constructors, destructor and the methods resize_buffer, save and set are declared under public: (matching the solution). Alternatively, keep width/height/data private but declare the constructors and the methods used by main() as public. This will restore compatibility with main.cpp and avoid compilation errors while preserving the intended exercise."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:06:59.388776",
+    "end_time": "2026-03-13T09:07:39.504799",
+    "duration_s": 40.116023
+  },
+  "trace_id": "50a87efa-2faa-4035-842e-444d3f1d5a13"
+}

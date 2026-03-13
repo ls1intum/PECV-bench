@@ -1,0 +1,65 @@
+{
+  "case_id": "QCSL25/QC03-Magic_State_Distillation/013",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-123558-013-995f73",
+  "timestamp": "2026-03-13T12:36:58.163562",
+  "issues": [
+    {
+      "description": "The problem statement asks students to implement a function named `_detect_errors(...)` (see problem_statement.md lines 126-134), but the template provides (and the solution implements) a function named `detect_errors(...)` (template_repository/msd.py lines 109-118, solution_repository/msd.py lines 186-196). This name mismatch between the specification and the starter code can confuse students about which function to implement and which name the tests expect. The semantics described in the problem (return an array with 1 meaning 'no error detected') match the template/solution, but the differing names are an unintentional structural inconsistency.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 126,
+          "end_line": 134
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 109,
+          "end_line": 118
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 186,
+          "end_line": 196
+        }
+      ],
+      "suggested_fix": "Make the naming consistent. Update the problem statement to refer to `detect_errors(...)` (no leading underscore) everywhere the detection task is described, or add a small wrapper in the template named `_detect_errors` that delegates to `detect_errors` (or vice versa). Ensure tests and task text use the same function name so students are not confused."
+    },
+    {
+      "description": "The problem statement declares the error-detection function as _detect_errors(...), but both the template and the reference solution define the function as detect_errors(...) (no leading underscore). This mismatch means students following the problem text may implement or search for _detect_errors while the provided starter code, tests, and solution use detect_errors. The inconsistency can cause confusion and test failures (students may implement the function with the problem-stated name and/or be unable to find the intended template location), creating unnecessary cognitive overhead.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 126,
+          "end_line": 133
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 109,
+          "end_line": 118
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 186,
+          "end_line": 195
+        }
+      ],
+      "suggested_fix": "Use a single consistent name across all artifacts. Prefer the public, descriptive name detect_errors (no leading underscore) used in the template and solution. Update the problem statement to request implement detect_errors(...) instead of _detect_errors(...). Alternatively, if an internal/private naming convention was intended, rename the template and solution functions to _detect_errors to match the problem text \u2014 but the recommended fix is to standardize on detect_errors to avoid confusion."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T12:35:58.630538",
+    "end_time": "2026-03-13T12:36:58.163562",
+    "duration_s": 59.533024
+  },
+  "trace_id": "9bd48b5e-74c0-4b04-ae01-f25a881c29a9"
+}

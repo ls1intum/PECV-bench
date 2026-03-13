@@ -1,0 +1,95 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/017",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-090015-017-bff9e4",
+  "timestamp": "2026-03-13T09:00:45.754635",
+  "issues": [
+    {
+      "description": "The solution repository declares the screen buffer under the symbol 'screen_buffer' (solution_repository/pixel.asm lines 4-6) but later references the symbol 'display_start' when computing addresses (solution_repository/pixel.asm lines 29 and 94). The problem statement and the template both refer to and declare the buffer as 'display_start' (problem_statement.md lines 30-33, template_repository/pixel.asm lines 20-22). This name mismatch means the solution references an undefined symbol (display_start) while declaring a differently named buffer, which will cause assembly/link errors and confuse students about the expected global symbol name.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 20,
+          "end_line": 22
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 4,
+          "end_line": 6
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 29,
+          "end_line": 29
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 94,
+          "end_line": 99
+        }
+      ],
+      "suggested_fix": "Make the global buffer symbol consistent across artifacts. Either rename the declaration in solution_repository/pixel.asm from 'screen_buffer' to 'display_start' so it matches the template and problem statement, or update all references to 'display_start' in the solution to use 'screen_buffer' and update the template/problem accordingly. The simplest fix is to change the solution's .bss declaration to: 'display_start RESB 8294400'."
+    },
+    {
+      "description": "The problem statement and the template consistently refer to the screen memory base as the symbol 'display_start' (problem_statement.md mentions display_start; template .bss declares display_start). The solution repository, however, declares the buffer using the name 'screen_buffer' (section .bss: screen_buffer RESB 8294400) while its code still references 'display_start' when computing addresses. This creates a naming mismatch across artifacts and an internal inconsistency inside the solution: students comparing artifacts cannot reliably map the conceptual entity 'start of the screen/display memory' to a single identifier, and the solution as provided references a label that is not declared under that name.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 20,
+          "end_line": 21
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 100,
+          "end_line": 102
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 5,
+          "end_line": 5
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 29,
+          "end_line": 29
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 94,
+          "end_line": 99
+        }
+      ],
+      "suggested_fix": "Use a single consistent identifier for the screen-memory base across all artifacts. E.g., rename the solution's declaration 'screen_buffer RESB 8294400' to 'display_start RESB 8294400' (or conversely rename the template/problem occurrences to 'screen_buffer'), and ensure all code references match that chosen name. Prefer aligning the solution to the problem/template name 'display_start' to minimize student confusion."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:00:15.829407",
+    "end_time": "2026-03-13T09:00:45.754635",
+    "duration_s": 29.925228
+  },
+  "trace_id": "d77b1ddb-a42c-4192-8e49-430b7689271e"
+}

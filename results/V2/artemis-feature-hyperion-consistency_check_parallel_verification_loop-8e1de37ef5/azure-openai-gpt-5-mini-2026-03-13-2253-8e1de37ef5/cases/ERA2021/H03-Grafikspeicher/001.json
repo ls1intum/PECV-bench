@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-13T22:56:13.509245Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Element: calling convention for pixel-address computation and the set_pixel subroutine. Problem statement (part a and part b) instructs that the computed pixel memory address should be produced in ESI (part a) and that the subroutine set_pixel must not modify any registers except EAX (part b). The template's inline TODO comment at the main calculation site instructs the student to produce the result in ESI and to \"save all registers you modify except eax, ebx and esi\" (implying EBX and ESI may be modified without saving). The provided solution computes and uses the address in EDI in main when reading the initial value and writes the pixel in set_pixel using EAX as the pointer (mov [eax], ecx), and its set_pixel implementation pushes/pops EBX, ESI and EDX (i.e. it modifies registers other than EAX). These differences (which register holds the address: ESI vs EDI; which registers may be modified/preserved) are inconsistent across artifacts and will confuse students about which register to use for the computed address and what preservation rules their implementation must satisfy.",
+            "suggestedFix": "Make the register convention explicit and consistent across all artifacts. Two safe options: (A) Accept solution-style convention: update the problem statement and template comments to state that the computed pixel address may be produced in EDI (or EAX as used), and update the preservation rule to list exactly which registers may be changed by set_pixel (e.g., allow EBX/ESI/EDX as used), or (B) Enforce the original ESI convention: change the solution to compute the pixel address into ESI in main and to use ESI for the load/store, and modify set_pixel so it preserves all registers except EAX (save/restore any scratch registers it uses). Also update the template TODO comment to unambiguously require the chosen register (ESI or EDI) and the exact preservation rule (e.g., \"set_pixel may only modify EAX; all other registers must be preserved\"). Prefer option B if the exercise text intends the stricter preservation requirement; prefer option A if the solution approach (using EDI/EAX) is to be the canonical implementation.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 20,
+                    "endLine": 27
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 100,
+                    "endLine": 102
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 92,
+                    "endLine": 102
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Mismatch in which register holds the computed pixel memory address. The problem statement (problem_statement.md) explicitly instructs that the calculated pixel address should be placed in ESI and subsequently accessed with 'mov ecx, [esi]'. The template (template_repository/pixel.asm) also contains a comment telling students the result (address) must be in ESI. The provided solution (solution_repository/pixel.asm), however, computes and uses the final pixel address in EDI in main (e.g. sequence that ends with 'add edi, eax' and 'mov ecx, [edi]') while its set_pixel subroutine computes the address in EAX. This inconsistency means a student following the problem text/template will expect the address in ESI and to use [esi], but the reference solution uses EDI (and EAX in set_pixel), creating unnecessary confusion about which register represents the computed address.",
+            "suggestedFix": "Make the register usage consistent across artifacts. Preferred fix: modify the solution code in solution_repository/pixel.asm so the final computed pixel address in main is placed in ESI and subsequent accesses use 'mov ecx, [esi]' (i.e., perform arithmetic into ESI rather than EDI). Also ensure the 'TODO' comment in the solution (line ~92) matches actual code. Alternatively, if you prefer EDI, update the problem statement and template comments to require the address in EDI and to use 'mov ecx, [edi]'. The first option (changing the solution to use ESI) keeps the existing problem/template instructions intact and reduces student confusion.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 25,
+                    "endLine": 26
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 100,
+                    "endLine": 101
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 92,
+                    "endLine": 101
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:56:13.509245Z",
+        "endTime": "2026-03-13T22:57:03.737074Z",
+        "durationS": 50.227
+    },
+    "tokens": {
+        "prompt": 25781,
+        "completion": 9916,
+        "total": 35697
+    },
+    "costs": {
+        "promptEur": 0.005929630126953125,
+        "completionEur": 0.018245440673828123,
+        "totalEur": 0.024175070800781247
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/001",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T23:30:41.075520Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Function construct_zero_state_prep_circuit: the template, problem statement, and solution disagree on the return type. The problem statement declares construct_zero_state_prep_circuit(Hx: npt.NDArray[np.int8], offset: int=0) -> stim.Circuit (expects a Stim circuit to be returned). The solution implements def construct_zero_state_prep_circuit(... ) -> stim.Circuit and returns a stim.Circuit. The template declares def construct_zero_state_prep_circuit(... ) -> None, which implies no return value. This mismatch is likely to confuse students about whether they should return a stim.Circuit or mutate an existing circuit in-place, and will break static type checks or any tests that expect a returned stim.Circuit.",
+            "suggestedFix": "Change the template function signature to match the problem statement and solution: def construct_zero_state_prep_circuit(Hx: npt.NDArray[np.int8], offset: int = 0) -> stim.Circuit:. Update the template docstring to state that a stim.Circuit is returned and ensure the function returns a stim.Circuit instance (or clearly documents in-place behavior if returning None is intentional). This keeps type hints, tests, and student expectations consistent.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 58,
+                    "endLine": 60
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 27,
+                    "endLine": 27
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 44,
+                    "endLine": 44
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Function return-role mismatch for the logical-zero state preparer: the problem statement specifies a function named construct_zero_state_prep_circuit that returns a stim.Circuit (signature: construct_zero_state_prep_circuit(Hx: npt.NDArray[np.int8], offset: int=0) -> stim.Circuit). The template repository declares def construct_zero_state_prep_circuit(...) -> None (implying no return / in-place behavior). The solution repository implements and returns a stim.Circuit (def construct_zero_state_prep_circuit(...) -> stim.Circuit and returns the constructed circuit). This inconsistent return annotation/behavior across artifacts can confuse students whether they should return a new Stim circuit or append to an existing one in-place, blocking correct implementation and tests.",
+            "suggestedFix": "Align the template with the problem statement and solution: change the template function signature to def construct_zero_state_prep_circuit(Hx: npt.NDArray[np.int8], offset: int = 0) -> stim.Circuit, update the docstring to state that the function returns a stim.Circuit, and implement (or instruct students to implement) returning the constructed stim.Circuit. Alternatively (less preferred), update the problem statement and solution to clearly document an in-place API \u2014 but keep all three artifacts consistent.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 59,
+                    "endLine": 59
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 27,
+                    "endLine": 27
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 44,
+                    "endLine": 44
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:30:41.075520Z",
+        "endTime": "2026-03-13T23:31:13.120881Z",
+        "durationS": 32.045
+    },
+    "tokens": {
+        "prompt": 59862,
+        "completion": 5779,
+        "total": 65641
+    },
+    "costs": {
+        "promptEur": 0.013768260009765625,
+        "completionEur": 0.010633359985351563,
+        "totalEur": 0.02440161999511719
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/001",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

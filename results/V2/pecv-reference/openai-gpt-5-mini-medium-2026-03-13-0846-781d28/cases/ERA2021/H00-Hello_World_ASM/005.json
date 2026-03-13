@@ -1,0 +1,59 @@
+{
+  "case_id": "ERA2021/H00-Hello_World_ASM/005",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-084749-005-760bf4",
+  "timestamp": "2026-03-13T08:48:16.363971",
+  "issues": [
+    {
+      "description": "The problem statement requires implementing sum(a, b) which adds two integers passed on the stack. The solution repository provides a sum label but its implementation only reads the first parameter (mov eax, [esp+4]) and immediately returns, so it does not consume or add the second parameter. This contradicts the specified function contract and will confuse students who look to the solution for the correct calling/parameter handling and return behavior.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 8
+        }
+      ],
+      "suggested_fix": "Correct the solution's sum implementation so it reads both parameters from the stack and returns their sum. For the typical cdecl-like stack layout used here, replace the body with e.g.:\n\n    mov eax, [esp+4]    ; a\n    add eax, [esp+8]    ; a += b\n    ret\n\nAlternatively, if the solution intentionally omits sum, remove the misleading incomplete sum label or add a comment clarifying why it is incomplete and how students are expected to implement it. Prefer providing a correct reference implementation so students are not misled."
+    },
+    {
+      "description": "The template uses the non-existent register name 'ecc' (add eax, ecc) while the solution uses the correct register 'ecx' (add eax, ecx). The problem statement explicitly instructs students to change 'ecc' to 'ecx', indicating the template contains an unintended typographical error. Although the instruction mitigates confusion, the inconsistent identifier in the template still introduces unnecessary extraneous cognitive load and a trivial mapping mismatch between template and solution.",
+      "severity": "LOW",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 17,
+          "end_line": 17
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 12,
+          "end_line": 14
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 15,
+          "end_line": 17
+        }
+      ],
+      "suggested_fix": "In template_repository/helloWorld.asm, replace the incorrect identifier 'ecc' with the correct register name 'ecx' (change line 'add eax, ecc' to 'add eax, ecx') so the template, problem statement instruction, and solution use the same identifier."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:47:49.935467",
+    "end_time": "2026-03-13T08:48:16.363971",
+    "duration_s": 26.428504
+  },
+  "trace_id": "07b1bf5e-a9c4-46d3-a282-504c9e0c6fd0"
+}

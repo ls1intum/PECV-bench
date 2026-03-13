@@ -1,0 +1,39 @@
+{
+  "case_id": "ERA2021/H00-Hello_World_ASM/011",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-084924-011-ce33b5",
+  "timestamp": "2026-03-13T08:49:43.517991",
+  "issues": [
+    {
+      "description": "The problem statement requires a user_name to be defined as a string buffer (byte/DB buffer) but the solution defines user_name as a 4-byte integer (`user_name dd 0`). The template does not declare user_name at all. This creates a cross-artifact inconsistency: students reading the problem statement will expect a byte buffer declaration example in the solution, but the solution uses an integer-sized definition, which is not suitable for storing strings and may confuse students about the correct declaration syntax and size for a string buffer.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 1,
+          "end_line": 4
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 3,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Make the solution match the problem statement by declaring user_name as a string (byte) buffer rather than an integer. For example, in NASM use a byte buffer declaration such as:\n\nuser_name times 64 db 0\n\n(or another appropriate length, e.g. times 128 db 0). Alternatively, provide a null-terminated example string like:\n\nuser_name db \"\", 0\n\nUpdate the solution_repository/helloWorld.asm to replace `user_name dd 0` with a suitable `db`/`times ... db 0` declaration so it clearly demonstrates the intended string-buffer definition."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:49:24.155480",
+    "end_time": "2026-03-13T08:49:43.517991",
+    "duration_s": 19.362511
+  },
+  "trace_id": "91659e0f-090f-4d91-ae9c-535ef9598325"
+}

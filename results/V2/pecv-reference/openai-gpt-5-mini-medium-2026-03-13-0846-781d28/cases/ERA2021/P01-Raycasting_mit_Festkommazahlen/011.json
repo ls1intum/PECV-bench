@@ -1,0 +1,77 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/011",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-090525-011-ee29c6",
+  "timestamp": "2026-03-13T09:06:05.049217",
+  "issues": [
+    {
+      "description": "Template header Bitmap24.hpp declares the bitmap storage member as an int* (int *data), but the implementation in Bitmap24.cpp (in the template) allocates and manipulates this buffer as char[] (new char[...] and byte-wise access). The solution repository consistently uses char *data in the header and char[] in the implementation. The mismatch in the template header vs. implementation will cause compilation/type errors and confusion for students (they will see byte-level operations in the .cpp but an int* in the header), preventing straightforward use of the provided example code and contradicting the solution's structure.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 33,
+          "end_line": 36
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 33,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        }
+      ],
+      "suggested_fix": "Make the template header's data member type match the implementation and the solution. Change in example_program/src/Bitmap24.hpp: replace 'int *data;' with 'char *data;'. This aligns the header with the .cpp implementation (which allocates new char[...] and performs byte-wise writes) and with the solution repository. Update the comment/documentation if necessary to state that data is a byte buffer (char*)."
+    },
+    {
+      "description": "The Bitmap24 class member 'data' is declared with different types between the template and the solution repositories, creating an implementation/identity mismatch that will confuse students and can break compilation. In the template repository header (Bitmap24.hpp) the member is declared as 'int *data;' while the implementation in Bitmap24.cpp (both template and solution) uses 'new char[...]' and treats 'data' as a char buffer. The solution repository's header uses 'char *data;', which matches the implementation. This inconsistency in the template header makes it unclear to students what the intended type for the 'data' buffer is and may cause compile errors or unexpected type-conversion issues when building the starter code.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 33,
+          "end_line": 36
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 33,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        }
+      ],
+      "suggested_fix": "In the template repository, make the Bitmap24::data member match the implementation and the solution by changing its declaration in Bitmap24.hpp from 'int *data;' to 'char *data;'. This aligns the header with how the buffer is allocated and used in Bitmap24.cpp (new char[...]) and removes a source of compilation errors and student confusion."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:05:25.068142",
+    "end_time": "2026-03-13T09:06:05.049217",
+    "duration_s": 39.981075
+  },
+  "trace_id": "461a327d-ae32-40a6-b1a7-643d1e6c0c2f"
+}

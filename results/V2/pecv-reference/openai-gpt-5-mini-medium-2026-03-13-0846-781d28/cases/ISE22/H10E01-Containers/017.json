@@ -1,0 +1,89 @@
+{
+  "case_id": "ISE22/H10E01-Containers/017",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-093731-017-8794ff",
+  "timestamp": "2026-03-13T09:37:54.916264",
+  "issues": [
+    {
+      "description": "The solution repository's PersonService exposes a method named registerParent(Person, Person) while the problem statement, the template repository, the PersonResource, and the tests all expect a method named addParent(Person, Person). This name mismatch makes the solution inconsistent and would cause compilation errors or confusion: PersonResource and the tests call personService.addParent(...), but the implementation in the solution is registerParent(...). Students looking at the solution for guidance would be misled about the intended API and would not be able to compile/run the provided solution as-is.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 46
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 60,
+          "end_line": 66
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 72,
+          "end_line": 75
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 48
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 99,
+          "end_line": 106
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 112,
+          "end_line": 116
+        }
+      ],
+      "suggested_fix": "Make the method name consistent across artifacts. Preferably rename registerParent(...) in the solution's PersonService to addParent(...) (keeping the same parameters and behavior). Alternatively, update PersonResource and all tests to call registerParent(...). The first option (rename to addParent) aligns the solution with the problem statement and the template and avoids changing multiple callers."
+    },
+    {
+      "description": "The problem statement and the template expect a service method named addParent(Person person, Person parent) (the exercise explicitly lists addParent in the required API). The template contains a stub addParent(...) to be implemented. However, the solution implementation defines this operation under a different identifier registerParent(Person person, Person parent). Tests and the REST controller still refer to addParent, so the differing name breaks the straightforward mapping from requirement \u2192 template \u2192 solution and would confuse students (and cause compilation / test failures if the names are not reconciled).",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 96,
+          "end_line": 106
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 58
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 46
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+          "start_line": 107,
+          "end_line": 112
+        }
+      ],
+      "suggested_fix": "Use a single consistent identifier for the operation across all artifacts. Rename the solution's registerParent(Person, Person) method to addParent(Person, Person) (or, alternatively, rename the template/problem/test usages to registerParent) so that problem statement, template, REST controller, and tests all reference the same method name (recommended: rename solution method to addParent to match the exercise specification)."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:37:31.025960",
+    "end_time": "2026-03-13T09:37:54.916264",
+    "duration_s": 23.890304
+  },
+  "trace_id": "ef5418da-1524-4e2c-90f1-0e7b4287c451"
+}

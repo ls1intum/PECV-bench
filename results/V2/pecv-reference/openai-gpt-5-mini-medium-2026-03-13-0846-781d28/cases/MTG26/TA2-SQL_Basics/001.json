@@ -1,0 +1,53 @@
+{
+  "case_id": "MTG26/TA2-SQL_Basics/001",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-102914-001-e65a43",
+  "timestamp": "2026-03-13T10:29:59.149242",
+  "issues": [
+    {
+      "description": "The problem statement for Aufgabe 01 requests ID, Name, Art and URL of all Freib\u00e4der, but the reference solution (solution_repository/aufgabe01.sql) selects only name, art and url and omits the ID column. This contradicts the stated requirement and will confuse students about the expected output columns and the automatic checks.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 108,
+          "end_line": 109
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Update the solution to include the ID column in the SELECT list so it matches the problem requirement. For example: SELECT id, name, art, url FROM Schwimmbad WHERE art='Freibad'. Ensure the column name for the ID matches the actual schema (e.g. id or schwimmbad_id) used in the dataset."
+    },
+    {
+      "description": "The template for Aufgabe 01 contains 'SELECT * FROM Schwimmbad', which conflicts with the problem instructions that students must 'Gib immer genau die geforderten Daten aus und nicht mehr.' Providing SELECT * may encourage students to return more columns than requested and conflicts with the explicit requirement to output only specific columns.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 2
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 101,
+          "end_line": 109
+        }
+      ],
+      "suggested_fix": "Replace the SELECT * starter in the template with a neutral placeholder or a commented hint that indicates which columns are expected (without providing the full answer). For example, replace with a comment like: -- Select the exact columns: id, name, art, url FROM Schwimmbad WHERE art='Freibad' or leave the file empty so students implement the correct SELECT themselves. Avoid giving a working SELECT * that returns extra columns."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:29:14.589906",
+    "end_time": "2026-03-13T10:29:59.149242",
+    "duration_s": 44.559336
+  },
+  "trace_id": "cfe5ae0e-d5b3-4fd0-b579-aef58a6e5ee7"
+}

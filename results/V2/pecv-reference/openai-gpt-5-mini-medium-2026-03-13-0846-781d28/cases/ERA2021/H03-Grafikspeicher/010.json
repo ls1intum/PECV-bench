@@ -1,0 +1,57 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/010",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-085651-010-8b8e0c",
+  "timestamp": "2026-03-13T08:57:55.476398",
+  "issues": [
+    {
+      "description": "The problem statement specifies 32-bit (4 bytes) per pixel (lines indicate rounding up from 24 to 32 bits) and the main calculation in the solution/template uses a 4-byte pixel stride (x*4 and row stride 1920*4 = 7680). However the reference implementation of set_pixel in the solution multiplies x by 3 (mov edx, 3; mul edx) when computing the pixel offset, producing x*3. This contradicts the problem specification and the rest of the code (which uses x*4 and row stride 7680), causing pixels to be written to the wrong addresses. This is an unintentional structural inconsistency between the problem statement/template expectations and the solution subroutine.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 17,
+          "end_line": 18
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 99,
+          "end_line": 111
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 34
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 94,
+          "end_line": 101
+        }
+      ],
+      "suggested_fix": "In the solution's set_pixel routine, compute offsets using 4 bytes per pixel rather than 3. Replace the multiplier 3 with 4 (e.g., mov edx, 4; mul edx) or compute x*4 with a left shift (shl eax, 2) / lea so the address is display_start + y*7680 + x*4. Ensure the write uses that computed address (e.g., mov [addr], ecx). This makes set_pixel consistent with the problem statement and the main/address calculation."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:56:51.253485",
+    "end_time": "2026-03-13T08:57:55.476398",
+    "duration_s": 64.222913
+  },
+  "trace_id": "fa0ce38f-220c-493a-9b3e-bdd3bee8c3bb"
+}

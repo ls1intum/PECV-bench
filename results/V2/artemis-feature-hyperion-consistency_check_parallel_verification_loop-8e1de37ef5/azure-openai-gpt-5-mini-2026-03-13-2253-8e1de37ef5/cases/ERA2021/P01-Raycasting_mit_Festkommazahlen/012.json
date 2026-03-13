@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T22:57:40.765754Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Macro FIX_LEN (which determines the typedef of fix_t) is inconsistent between components in the template repository. In the template example program (example_program/src/math_fix.c) FIX_LEN is defined as 8 (fix_t -> 64-bit), while the template tests (tests/src/math_fix.h) define FIX_LEN as 4 (fix_t -> 32-bit). The solution repository uses FIX_LEN = 8 in its tests. This mismatch means the size and ABI of fix_t differ between the tests and the example program: students' assembly implementations and C code may be compiled/linked with different expected integer sizes, causing compilation errors, incorrect behavior, or silent misbehavior when tests are run. Students will be unclear which fixed-point width to implement and target.",
+            "suggestedFix": "Make FIX_LEN consistent across the template repository so all components use the same fixed-point width. For example, change tests/src/math_fix.h in the template repository to #define FIX_LEN 8 to match example_program and the solution, or move FIX_LEN into a single shared header included by both the tests and the example program. Also update the problem statement / README to explicitly state the required FIX_LEN (e.g. \"FIX_LEN = 8 (64-bit fix_t)\") so students know which width to target when implementing assembly routines.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/math_fix.c",
+                    "startLine": 11,
+                    "endLine": 11
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "tests/src/math_fix.h",
+                    "startLine": 8,
+                    "endLine": 8
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "tests/src/math_fix.h",
+                    "startLine": 8,
+                    "endLine": 8
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:57:40.765754Z",
+        "endTime": "2026-03-13T22:58:17.377855Z",
+        "durationS": 36.612
+    },
+    "tokens": {
+        "prompt": 173726,
+        "completion": 4196,
+        "total": 177922
+    },
+    "costs": {
+        "promptEur": 0.03995698046875,
+        "completionEur": 0.007720640228271484,
+        "totalEur": 0.047677620697021486
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/012",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

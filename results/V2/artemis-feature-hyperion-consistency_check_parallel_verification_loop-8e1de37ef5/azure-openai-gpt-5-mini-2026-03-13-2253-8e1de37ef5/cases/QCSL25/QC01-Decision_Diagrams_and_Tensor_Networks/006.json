@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T23:27:02.707915Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Function signature mismatch for simulate_ghz_state: the template defines simulate_ghz_state(num_qubits: int) -> dict[str, int] (no shots parameter) but the problem statement and solution expect simulate_ghz_state(num_qubits, shots). The template's docstring and asserts reference a shots parameter (e.g., assert shots > 0) while the function signature omits it, causing an API mismatch that will prevent students from implementing and running the GHZ simulation or matching tests that call the two-argument form.",
+            "suggestedFix": "Change the template function signature to include the shots parameter and use it consistently. For example: def simulate_ghz_state(num_qubits: int, shots: int) -> dict[str, int]: Then add the missing assert for shots (assert shots > 0) and ensure the function body passes shots to measure_all or otherwise uses shots when sampling. This aligns the template API with the problem statement and solution while preserving the pedagogical intent.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 101,
+                    "endLine": 103
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/tensor_networks.py",
+                    "startLine": 177,
+                    "endLine": 177
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/tensor_networks.py",
+                    "startLine": 235,
+                    "endLine": 235
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Function signature mismatch for the GHZ simulation routine: the problem statement describes and the solution implements simulate_ghz_state(num_qubits, shots) (i.e., it expects two parameters: num_qubits and shots). The template defines simulate_ghz_state(num_qubits) (only one parameter). The template's docstring and body even refer to 'shots' and contain an assert for shots > 0, but the function declaration does not provide that parameter. This inconsistency will confuse students: the requirement (and tests) expect a two-argument function (num_qubits, shots), while the template presents a one-argument stub, causing a mismatch when mapping the specification to the starter code and preventing straightforward implementation and testing.",
+            "suggestedFix": "Change the template function signature to accept the shots parameter to match the problem statement and solution: def simulate_ghz_state(num_qubits: int, shots: int) -> dict[str, int]:. Update the function body and asserts accordingly (assert shots > 0) and implement measurement sampling consistent with the docstring (or leave clear TODOs referencing the expected two-argument behavior) so students can directly map the requirement to the stub.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 101,
+                    "endLine": 103
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/tensor_networks.py",
+                    "startLine": 177,
+                    "endLine": 177
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/tensor_networks.py",
+                    "startLine": 235,
+                    "endLine": 235
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:27:02.707915Z",
+        "endTime": "2026-03-13T23:27:39.211180Z",
+        "durationS": 36.503
+    },
+    "tokens": {
+        "prompt": 118758,
+        "completion": 6306,
+        "total": 125064
+    },
+    "costs": {
+        "promptEur": 0.02731434033203125,
+        "completionEur": 0.01160304052734375,
+        "totalEur": 0.038917380859375
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/006",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

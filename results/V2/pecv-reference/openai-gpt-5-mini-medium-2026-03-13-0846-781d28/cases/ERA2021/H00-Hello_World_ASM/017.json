@@ -1,0 +1,65 @@
+{
+  "case_id": "ERA2021/H00-Hello_World_ASM/017",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-085209-017-60208b",
+  "timestamp": "2026-03-13T08:52:28.562457",
+  "issues": [
+    {
+      "description": "The problem statement explicitly asks students to implement a function named `print_newline` (problem_statement.md line 21), but the solution repository defines a function labeled `print_nl` (solution_repository/helloWorld.asm line 6). This name mismatch is a structural inconsistency: a student (or an autograder) looking at the reference solution will not find the expected symbol `print_newline`, which can confuse students about the required function name and may prevent automated checks that expect the exact name.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 21
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 6
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 1,
+          "end_line": 18
+        }
+      ],
+      "suggested_fix": "Make the function name consistent. Rename the label `print_nl:` in solution_repository/helloWorld.asm to `print_newline:` (and add a `global print_newline` directive if the function must be globally visible). Alternatively, change the problem statement to require `print_nl` instead of `print_newline` \u2014 but keeping the problem statement and solution aligned (preferably using `print_newline`) is recommended."
+    },
+    {
+      "description": "The problem statement asks students to \"implement a function named `print_newline`\" (problem_statement.md), but the solution repository defines a function labelled `print_nl` instead. The template repository does not provide a `print_newline` stub either. This inconsistent naming (print_newline vs print_nl vs absent in template) creates a mapping gap: students expecting or searching for `print_newline` in the provided code or in the reference solution will not find the matching identifier, increasing extraneous cognitive load and possibly causing confusion about the required symbol name.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 1,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 7
+        }
+      ],
+      "suggested_fix": "Make the identifier consistent across artifacts. Rename the solution function label from `print_nl` to `print_newline` (or alternatively change the problem statement to request `print_nl`) and add a matching `print_newline` stub in the template (e.g., a label `print_newline:` with a `ret`) so students can clearly map the required function name to the starter code and the reference solution."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:52:09.296454",
+    "end_time": "2026-03-13T08:52:28.562457",
+    "duration_s": 19.266003
+  },
+  "trace_id": "f70d3da3-f6db-45c8-ac78-4c448685fdeb"
+}

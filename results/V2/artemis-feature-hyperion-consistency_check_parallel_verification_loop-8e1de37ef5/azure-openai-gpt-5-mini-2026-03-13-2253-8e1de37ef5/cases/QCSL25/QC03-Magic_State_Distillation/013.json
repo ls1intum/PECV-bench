@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T23:30:15.065229Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Identifier name mismatch for the error-detection function: the problem statement asks students to implement a function named `_detect_errors(measurements: npt.NDArray[np.int8], checks: npt.NDArray[np.int8]) -> npt.NDArray[np.int8]`, whereas both the template and the solution repository define the function as `detect_errors(measurements: npt.NDArray[np.int8], checks: npt.NDArray[np.int8]) -> npt.NDArray[np.int8]`. This naming inconsistency can confuse students about which function to implement and may cause automated tests to look for a different identifier than the one the template provides.",
+            "suggestedFix": "Make the function name consistent across all artifacts. Preferred fixes: (A) Update problem_statement.md to request `detect_errors(...)` instead of `_detect_errors(...)`, or (B) add a compatibility alias in the template (and optionally in the solution) such as `_detect_errors = detect_errors` so the name used in the text and the implementation both work with the tests.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 129,
+                    "endLine": 132
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 109,
+                    "endLine": 118
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 186,
+                    "endLine": 196
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement asks for a function named `_detect_errors(measurements: npt.NDArray[np.int8], checks: npt.NDArray[np.int8]) -> npt.NDArray[np.int8]` (leading underscore), while both the provided template and the reference solution declare and use the function as detect_errors(...) (no leading underscore). This is the same conceptual entity (the routine that inspects measurement rows against check matrices and returns a boolean/good-shot mask), but the differing identifier means students may search for or attempt to implement the wrong name, and automated tests or graders that expect the public name in the code will not match the underscored name in the prose. The mismatch therefore creates unnecessary confusion and a likely integration/test failure.",
+            "suggestedFix": "Unify the identifier across artifacts. Prefer updating the problem statement to refer to detect_errors(measurements: npt.NDArray[np.int8], checks: npt.NDArray[np.int8]) -> npt.NDArray[np.int8] (remove the leading underscore) so the prose matches the template and solution. Alternatively, if a leading underscore is intentional, rename the function in both the template and solution to `_detect_errors(...)`, but option A is recommended to keep the function public and consistent with the provided code.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 129,
+                    "endLine": 131
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 109,
+                    "endLine": 118
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 186,
+                    "endLine": 195
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:30:15.065229Z",
+        "endTime": "2026-03-13T23:30:44.950418Z",
+        "durationS": 29.885
+    },
+    "tokens": {
+        "prompt": 59914,
+        "completion": 6111,
+        "total": 66025
+    },
+    "costs": {
+        "promptEur": 0.013780220458984374,
+        "completionEur": 0.011244240234375001,
+        "totalEur": 0.025024460693359375
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/013",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

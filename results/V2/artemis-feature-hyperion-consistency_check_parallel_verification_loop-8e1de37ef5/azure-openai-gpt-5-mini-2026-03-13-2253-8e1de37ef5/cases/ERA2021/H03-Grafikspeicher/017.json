@@ -1,0 +1,92 @@
+{
+    "timestamp": "2026-03-13T22:56:38.470904Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Identifier naming mismatch: the global framebuffer symbol is referred to as 'display_start' in the problem statement and the template, but the solution declares the buffer as 'screen_buffer' while still referencing 'display_start' in code. Problem statement: refers to 'display_start' as the base address for the screen buffer. Template (pixel.asm): defines 'display_start' in .bss. Solution (pixel.asm): declares 'screen_buffer' in .bss (line 5) but uses 'display_start' in instructions (lines 29 and 94). This will produce an undefined symbol at assembly/link time and confuses students about which global name to use.",
+            "suggestedFix": "Make the framebuffer symbol name consistent across all artifacts. Either rename the declaration in the solution from 'screen_buffer' to 'display_start', or change all uses of 'display_start' in the solution to 'screen_buffer'. Also update the problem statement/template if you intentionally prefer the alternate name. Ensure the final name matches in problem_statement.md, template/pixel.asm, and solution/pixel.asm so the code assembles and students are not confused.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 20,
+                    "endLine": 21
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 5,
+                    "endLine": 5
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 29,
+                    "endLine": 29
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 94,
+                    "endLine": 94
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Concept: the base address of the framebuffer / screen memory. The problem statement and the template declare and refer to this base as 'display_start' (problem_statement.md: 'display_start'; template_repository/pixel.asm: declaration 'display_start RESB 8294400' at line 21). The solution's .bss declares the buffer as 'screen_buffer' (solution_repository/pixel.asm: 'screen_buffer RESB 8294400' at line 5) but the solution code still references 'display_start' (solution_repository/pixel.asm: references at line 29). This leads to two issues: (1) a cross-artifact naming mismatch between 'display_start' (problem + template) and 'screen_buffer' (solution declaration), making it harder for students to map the required identifier to the implementation; (2) an internal inconsistency in the solution (declares 'screen_buffer' but references 'display_start') that would break assembly and confuse students trying to read or run the solution.",
+            "suggestedFix": "Make the identifier for the framebuffer base consistent across all artifacts. Preferred fix: rename the solution's 'screen_buffer' declaration to 'display_start' (change 'screen_buffer RESB 8294400' to 'display_start RESB 8294400' in solution_repository/pixel.asm) and keep all existing references to 'display_start'. Alternatively, update the template and problem statement to use 'screen_buffer' everywhere. Ensure the declaration and all uses in the solution file match exactly so the code assembles and students can clearly map the requirement to the variable.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 30
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 21,
+                    "endLine": 21
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 5,
+                    "endLine": 5
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 29,
+                    "endLine": 29
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:56:38.470904Z",
+        "endTime": "2026-03-13T22:57:20.658478Z",
+        "durationS": 42.187
+    },
+    "tokens": {
+        "prompt": 25610,
+        "completion": 7468,
+        "total": 33078
+    },
+    "costs": {
+        "promptEur": 0.005890300048828125,
+        "completionEur": 0.0137411201171875,
+        "totalEur": 0.019631420166015625
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/017",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

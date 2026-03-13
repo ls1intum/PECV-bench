@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-13T23:00:36.829771Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Method mismatch: PersonService.getAllPersons. The problem statement and the template declare/require a method getAllPersons(PersonSortingOptions sortingOptions) so sorting options can be applied (template has a TODO stub with this signature). In the solution repository PersonService defines getAllPersons() with no parameters, while the solution's PersonResource calls personService.getAllPersons(new PersonSortingOptions(...)). This inconsistency (service method missing the PersonSortingOptions parameter) will cause compilation errors and prevents students from following the described Part 3 implementation of sorting.",
+            "suggestedFix": "Make the PersonService API consistent with the problem statement and usages: add/restore the method public List<Person> getAllPersons(PersonSortingOptions sortingOptions) in PersonService and implement sorting according to PersonSortingOptions (use comparators for ID, FIRST_NAME, LAST_NAME, BIRTHDAY and respect ASCENDING/DESCENDING). This keeps the template, client, and server consistent. Alternatively, adjust PersonResource (and client) to use the no-arg getAllPersons() if you prefer removing sorting support, but the preferred fix is to implement the parameterized method and sorting logic.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 201,
+                    "endLine": 208
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 37,
+                    "endLine": 40
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 39,
+                    "endLine": 41
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 23,
+                    "endLine": 27
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The exercise concept is 'retrieve all persons with optional sorting options'. The problem statement and the template PersonService declare/getAllPersons with a PersonSortingOptions parameter (template: public List<Person> getAllPersons(PersonSortingOptions sortingOptions)), and the solution's PersonResource constructs and passes a PersonSortingOptions instance when calling the service (personService.getAllPersons(new PersonSortingOptions(...))). However, the solution's PersonService defines a no-argument method public List<Person> getAllPersons() that does not accept a PersonSortingOptions parameter. This parameter mismatch means the same conceptual operation ('getAllPersons with sorting options') is referenced with inconsistent method signatures across artifacts. Students will be unable to map the documented requirement and controller/resource usage to the service API, and the inconsistency may cause compilation or conceptual confusion.",
+            "suggestedFix": "Align the service API with the problem/template by changing the solution's PersonService method signature to accept a PersonSortingOptions parameter: public List<Person> getAllPersons(PersonSortingOptions sortingOptions). Implement sorting inside this method according to the provided PersonSortingOptions (sortField and sortingOrder). This will match the controller/resource usage and the problem description. Alternatively, if a parameterless API is intentional, update PersonResource and the problem/template to call/describe the no-arg method consistently \u2014 but the recommended fix is to add the PersonSortingOptions parameter to PersonService.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 201,
+                    "endLine": 208
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 37,
+                    "endLine": 40
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 23,
+                    "endLine": 27
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 39,
+                    "endLine": 41
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:00:36.829771Z",
+        "endTime": "2026-03-13T23:01:26.168009Z",
+        "durationS": 49.338
+    },
+    "tokens": {
+        "prompt": 97835,
+        "completion": 7253,
+        "total": 105088
+    },
+    "costs": {
+        "promptEur": 0.02250205029296875,
+        "completionEur": 0.013345520019531251,
+        "totalEur": 0.0358475703125
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/006",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

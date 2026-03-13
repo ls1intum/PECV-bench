@@ -1,0 +1,100 @@
+{
+    "timestamp": "2026-03-13T23:25:39.965714Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Attribute Course.ratings: The problem statement (and the starter template) declare Course.ratings as [Int], but the solution declares Course.ratings as [Double]. This cross-artifact attribute type mismatch creates confusion about the intended element type and the initializer parameter type for Course(name:instructor:ratings:). Students cannot tell whether ratings should be Int or Double when implementing the class or when writing client code.",
+            "suggestedFix": "Make the type of Course.ratings consistent across artifacts. Prefer aligning the solution with the problem statement and template by changing the solution's ratings property and initializer parameter to ratings: [Int], and compute the average by converting the Int sum to Double when returning the average. Alternatively, if Double is intended, update the problem statement and template to require ratings: [Double] and adjust all method signatures and examples to use Double.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 7,
+                    "endLine": 7
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 10,
+                    "endLine": 10
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 11,
+                    "endLine": 11
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Attribute Course.ratings internal inconsistency in solution: In the solution the ratings property is declared as [Double], but addRating(stars:) accepts an Int and appends an Int to ratings, and getAverageRating() sums ratings into an Int accumulator. The declared element type ([Double]) does not match how the property is used within the solution, causing compile-time type errors and making the reference implementation invalid.",
+            "suggestedFix": "Fix the solution so declaration and usage match. The simplest correction is to change the solution's ratings property and initializer to use [Int], keep addRating(stars: Int) appending Int values, accumulate the sum as Int, and return the average as Double using Double(sum)/Double(count). Alternatively, make addRating accept Double and perform all appends and sums in Double consistently. Ensure initializer, append calls, and averaging logic all use the same numeric type.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 11,
+                    "endLine": 11
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 25,
+                    "endLine": 27
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 37,
+                    "endLine": 44
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The Course property 'ratings' is described and declared as an array of Int in the problem statement and the template, but the solution declares the same property as an array of Double. Specifically: problem statement (problem_statement.md) calls for 'ratings' of type [Int]; template (Sources/DeveloperLib/Course.swift) declares 'var ratings: [Int]'; solution (Sources/DeveloperLib/Course.swift) declares 'var ratings: [Double]'. This type mismatch for the same conceptual attribute ('ratings') forces students to reconcile differing expected types, may produce type conversion surprises when implementing addRating(getAverageRating), and could block straightforward comparison of student code to the reference solution.",
+            "suggestedFix": "Unify the numeric type of Course.ratings across all artifacts. Preferred fixes: (A) Change the solution to declare 'var ratings: [Int]' and keep addRating(stars: Int) appending Int; compute average by converting the Int sum/count to Double (e.g. Double(sum) / Double(count)). Or (B) change the problem statement and template to require 'ratings: [Double]' and update addRating to accept Double (or explicitly convert Int to Double in addRating), then ensure getAverageRating aggregates Doubles. Apply the same type in the initializer parameter and all usages so students see a consistent type throughout the exercise.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 7,
+                    "endLine": 7
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/Sources/DeveloperLib/Course.swift",
+                    "startLine": 10,
+                    "endLine": 10
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/Sources/DeveloperLib/Course.swift",
+                    "startLine": 11,
+                    "endLine": 11
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:25:39.965714Z",
+        "endTime": "2026-03-13T23:26:21.558960Z",
+        "durationS": 41.593
+    },
+    "tokens": {
+        "prompt": 24366,
+        "completion": 8404,
+        "total": 32770
+    },
+    "costs": {
+        "promptEur": 0.005604180053710938,
+        "completionEur": 0.0154633603515625,
+        "totalEur": 0.02106754040527344
+    },
+    "case_id": "V2/IOS26/TC2-Developer/010",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

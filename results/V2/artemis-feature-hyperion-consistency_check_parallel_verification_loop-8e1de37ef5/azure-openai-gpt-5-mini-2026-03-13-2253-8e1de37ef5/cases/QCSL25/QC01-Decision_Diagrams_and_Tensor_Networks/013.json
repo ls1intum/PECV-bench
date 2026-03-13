@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-13T23:26:38.275188Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Visibility/name mismatch for normalization helpers: the problem statement instructs students to call public functions named `vector_normalization` and `matrix_normalization` in dd.py, but both the template and solution dd.py define only private helper functions `__vector_normalization` and `__matrix_normalization` (and normalization is performed internally by make_dd). This discrepancy will confuse students about which functions are intended to be called or implemented and whether they should modify dd.py or use make_dd.",
+            "suggestedFix": "Make the documentation and code agree. Two viable options: (A) Edit the problem statement to state that normalization is performed internally by make_dd and that students should use the public API (make_dd, ONE_TERM, ZERO_TERM, etc.) rather than calling normalization functions directly; or (B) add small public wrapper functions `vector_normalization` and `matrix_normalization` to dd.py that forward to the existing internal implementations (`__vector_normalization` and `__matrix_normalization`) and document them as callable. Prefer (A) to avoid exposing additional public functions unless explicitly intended for student use.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 23
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/dd.py",
+                    "startLine": 283,
+                    "endLine": 370
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/dd.py",
+                    "startLine": 283,
+                    "endLine": 370
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement refers to public functions named `vector_normalization` and `matrix_normalization` (these are presented as methods students must directly call). However, both the template and the solution implementations define these helpers as private functions named `__vector_normalization` and `__matrix_normalization` inside dd.py. Concept: normalization helpers used by make_dd. Problem statement name: `vector_normalization`, `matrix_normalization`. Code identifiers: `__vector_normalization`, `__matrix_normalization`. Impact: a student searching for the public names from the instructions will not find them in dd.py, causing confusion about what to call and whether they should modify private helpers or create wrappers.",
+            "suggestedFix": "Make the naming consistent. Either (A) update problem_statement.md to refer to the actual internal helper names `__vector_normalization` and `__matrix_normalization`, or (B) expose public wrapper functions in dd.py named `vector_normalization` and `matrix_normalization` that call the existing private implementations (e.g., def vector_normalization(node): return __vector_normalization(node)). If choosing wrappers, place them adjacent to the private helpers and document them as the public API (or add them to module exports) so students can follow the instructions without confusion.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 23
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/dd.py",
+                    "startLine": 283,
+                    "endLine": 283
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/dd.py",
+                    "startLine": 342,
+                    "endLine": 342
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/dd.py",
+                    "startLine": 283,
+                    "endLine": 283
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/dd.py",
+                    "startLine": 342,
+                    "endLine": 342
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:26:38.275188Z",
+        "endTime": "2026-03-13T23:27:05.837696Z",
+        "durationS": 27.562
+    },
+    "tokens": {
+        "prompt": 118839,
+        "completion": 5379,
+        "total": 124218
+    },
+    "costs": {
+        "promptEur": 0.027332970703125,
+        "completionEur": 0.009897360229492188,
+        "totalEur": 0.03723033093261719
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/013",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

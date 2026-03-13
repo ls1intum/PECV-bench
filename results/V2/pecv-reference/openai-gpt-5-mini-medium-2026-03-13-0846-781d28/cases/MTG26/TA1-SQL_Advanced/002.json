@@ -1,0 +1,39 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/002",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-102211-002-b46158",
+  "timestamp": "2026-03-13T10:22:50.626344",
+  "issues": [
+    {
+      "description": "The problem statement for Aufgabe 04 asks for the number (Anzahl) of swimming pools in municipalities with more than 1000 female inhabitants, but the solution query returns the names of the swimming pools instead of an aggregate count. This mismatch means the reference solution does not produce the output format the exercise requests (a single count), which will confuse students checking their results against the solution or automated tests that expect a count.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 29,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe04.sql",
+          "start_line": 1,
+          "end_line": 1
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe04.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Change the solution query to return a single aggregate count rather than individual swimming pool names. For example:\nSELECT COUNT(*)\nFROM Schwimmbad, Gemeinde\nWHERE Gemeinde.schluessel = Schwimmbad.gemeindeschluessel\n  AND Gemeinde.einwohner_w > 1000\nThis makes the solution output match the problem statement requirement (the Anzahl/number of swimming pools)."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:22:11.203082",
+    "end_time": "2026-03-13T10:22:50.626344",
+    "duration_s": 39.423262
+  },
+  "trace_id": "a8020d02-c2c6-4613-8478-80adf619fac3"
+}

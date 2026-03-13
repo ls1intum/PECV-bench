@@ -1,0 +1,39 @@
+{
+  "case_id": "ISE22/H10E01-Containers/004",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-093217-004-90b4b8",
+  "timestamp": "2026-03-13T09:33:23.395474",
+  "issues": [
+    {
+      "description": "The method signature for addParent is described in the problem statement and provided in the template as addParent(Person person, Person parent) (child first, parent second). In the solution repository the same method is declared as addParent(Person parent, Person person) \u2014 the parameter names (and their semantic roles) are swapped. Because both parameters have the same type (Person) this compiles, but the swapped parameter identifiers change which formal parameter the implementation uses for the 'child' vs. the 'parent' concept. This mismatch between problem description, template, and solution creates unnecessary cognitive load and risks confusing students about which argument to pass and which object the method manipulates (and may lead to mistaken reasoning about the implemented logic).",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 100,
+          "end_line": 106
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 40,
+          "end_line": 46
+        }
+      ],
+      "suggested_fix": "Align the parameter identifiers and their semantic order across artifacts. Change the solution method declaration to match the problem and template: public Person addParent(Person person, Person parent) { ... } and update the implementation to use 'person' as the child and 'parent' as the parent. Alternatively, if the solution intentionally uses the other order, update the template and problem statement to state that addParent(Person parent, Person person) is expected \u2014 but the simplest fix is to rename the parameters in the solution to (Person person, Person parent) so names and roles are consistent."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:32:17.147095",
+    "end_time": "2026-03-13T09:33:23.395474",
+    "duration_s": 66.248379
+  },
+  "trace_id": "ce811f3c-e85b-459c-af97-0354bc518f27"
+}

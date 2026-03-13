@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T23:29:37.171616Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Method: GroverMultiQubitWithAuxiliaryQubit.oracle \u2014 The type/shape of the parameter named `combination` is inconsistent across artifacts. The problem statement describes `combination` as an arbitrary bit-string (a single string, e.g. \"10000\"). The template declares the oracle signature parameter as combination: list[int] (a list of ints) in ex2_grover_multi_qubit_with_auxiliary_qubit.py, while the solution implementation uses combination: str and treats it as a string (iterating characters). This mismatch can confuse students about what to implement and will break the intended usage and inheritance pattern in Exercise 3 (which expects the same parameter type when overriding the oracle).",
+            "suggestedFix": "Make the oracle parameter types consistent by changing the template signature to accept a bit-string (str) and updating its docstring to match the problem statement and solution. Concretely, in ex2_grover_multi_qubit_with_auxiliary_qubit.py change `combination: list[int]` to `combination: str` and adjust the docstring to say \"combination: The bit-string (e.g. '10000') to be searched\". Ensure any tests and references (and Exercise 3 overrides) expect a string input so subclasses and calls remain compatible.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+                    "startLine": 39,
+                    "endLine": 45
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+                    "startLine": 43,
+                    "endLine": 49
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 130,
+                    "endLine": 131
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The concept 'combination' (the target bit-string to mark in the oracle) is represented with inconsistent types across artifacts: the problem statement describes/uses 'combination' as a bit-string (string) for a 5-bit value, the solution implementation declares the oracle parameter as combination: str and uses string values (e.g. \"10000\"), while the template's oracle signature uses combination: list[int]. Because these three artifacts refer to the same conceptual input, students will be uncertain whether to implement the oracle to accept a string (iterating characters) or a list of ints (iterating list elements) and may implement an oracle incompatible with the provided tests or solution. This inconsistency directly affects how students write the oracle and how they process the input representation.",
+            "suggestedFix": "Make the representation of 'combination' consistent across artifacts. Preferred fix: update the template oracle signature and related docstring/type hints to use combination: str (matching the problem statement and solution) and update any in-template comments/examples to show a string like \"10000\". Alternatively, explicitly allow and document both formats (str and list[int]) in the template and tests, but prefer a single canonical representation (string) to minimize student confusion.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+                    "startLine": 39,
+                    "endLine": 54
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+                    "startLine": 43,
+                    "endLine": 49
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 130,
+                    "endLine": 136
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:29:37.171616Z",
+        "endTime": "2026-03-13T23:30:15.057671Z",
+        "durationS": 37.886
+    },
+    "tokens": {
+        "prompt": 93109,
+        "completion": 6260,
+        "total": 99369
+    },
+    "costs": {
+        "promptEur": 0.021415070800781248,
+        "completionEur": 0.011518400268554687,
+        "totalEur": 0.03293347106933593
+    },
+    "case_id": "V2/QCSL25/QC02-Far_Term_Quantum_Algorithms/004",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

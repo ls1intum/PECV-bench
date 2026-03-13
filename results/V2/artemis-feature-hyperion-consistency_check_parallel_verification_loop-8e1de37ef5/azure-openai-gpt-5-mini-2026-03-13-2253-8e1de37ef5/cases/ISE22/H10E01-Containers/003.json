@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T23:04:20.067878Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Missing startup script 'start.sh' referenced by Docker configuration: The problem statement (Part 2, Dockerfile instructions) instructs students to COPY a start.sh into the image and to make it executable. The template Dockerfile contains a TODO referring to copying the start.sh script but does not provide the file. The solution Dockerfile contains concrete commands (COPY start.sh; RUN chmod ...) that expect start.sh to exist. No start.sh file is present in the template or solution repository listing. This discrepancy prevents building the Docker image as described and will cause runtime/failure when following the Heroku deployment steps.",
+            "suggestedFix": "Either add a repository-level start.sh script at the location expected by the Dockerfiles (root of the project) and commit it with executable permissions, or modify both the template and solution Dockerfile and the problem description to use an existing start command (for example: directly CMD java -jar /app/app.jar). Update the problem statement text to clarify that CMD runs at container start time and ensure all Dockerfile examples match the repository files.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 58,
+                    "endLine": 61
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Dockerfile",
+                    "startLine": 4,
+                    "endLine": 4
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Dockerfile",
+                    "startLine": 5,
+                    "endLine": 6
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Inconsistent return type for controller method PersonResource.createPerson: In the template PersonResource, createPerson is declared as public ResponseEntity<Person> createPerson(@RequestBody Person person) and returns the saved Person in the response body. In the solution PersonResource, createPerson is declared as public void createPerson(@RequestBody Person person) and does not return the saved entity. The problem statement examples and tests show behavior that assumes a response body in some places. This mismatch creates confusion for students about the expected HTTP response and about how to implement or test the POST /persons endpoint.",
+            "suggestedFix": "Decide on a single intended API contract for POST /persons and make all artifacts consistent. Option A: Return the persisted Person and HTTP 200/201 \u2014 change the solution's createPerson to return ResponseEntity<Person> and return the saved person (and update any tests expecting this). Option B: Return no body (void) and keep the solution as-is \u2014 change the template method signature and the problem statement examples to void, and update tests to not expect a response body. Document the chosen behavior in the problem statement so students know the expected endpoint response.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 38,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 38,
+                    "endLine": 38
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 37,
+                    "endLine": 43
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:04:20.067878Z",
+        "endTime": "2026-03-13T23:05:15.793539Z",
+        "durationS": 55.725
+    },
+    "tokens": {
+        "prompt": 94346,
+        "completion": 7019,
+        "total": 101365
+    },
+    "costs": {
+        "promptEur": 0.021699580078125,
+        "completionEur": 0.012914960296630858,
+        "totalEur": 0.03461454037475586
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/003",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

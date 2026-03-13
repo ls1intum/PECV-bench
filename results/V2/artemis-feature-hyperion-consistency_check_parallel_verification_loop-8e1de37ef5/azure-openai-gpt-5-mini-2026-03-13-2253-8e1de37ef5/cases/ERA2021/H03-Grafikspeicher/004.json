@@ -1,0 +1,100 @@
+{
+    "timestamp": "2026-03-13T22:56:44.956566Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Element: set_pixel. Problem statement (problem_statement.md lines 30-31) specifies that the pixel coordinates are passed with x in EAX and y in EBX. The template (pixel.asm) provides an empty set_pixel placeholder (label present). The reference solution (solution_repository/pixel.asm) implements set_pixel but performs an xchg eax, ebx at the start of the routine, effectively reversing the expected registers (the implementation behaves as if x and y are swapped). This inconsistency between the stated calling convention and the reference implementation will confuse students about which registers hold x and y and may lead to incorrect address calculation or incorrect pixel writes.",
+            "suggestedFix": "Make the calling convention consistent across all artifacts. Preferred fix: update the solution's set_pixel to accept x in EAX and y in EBX by removing the register swap (remove the 'xchg eax, ebx' instruction) so the routine computes address = display_start + y*7680 + x*4 and stores ecx at that address. Alternatively, if the solution's swapped ordering is intentional, update the problem statement and the template comments to explicitly state that set_pixel expects x in EBX and y in EAX (and adjust examples/tests accordingly). Ensure comments and any examples/tests are updated to reflect the chosen convention.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 31
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 37,
+                    "endLine": 37
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 19
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Concept: which registers hold the pixel coordinates x and y. Problem statement and template specify x in EAX and y in EBX. Problem: problem_statement.md describes x in EAX and y in EBX; template_repository/pixel.asm has a comment instructing calculation with EAX:x and EBX:y; solution_repository/pixel.asm's set_pixel begins by exchanging EAX and EBX (xchg eax, ebx) and thus treats the registers swapped. Why confusing: students following the problem and template expect set_pixel to read x from EAX and y from EBX directly; the solution's xchg hides that mapping by reversing the roles, which prevents a clear 1:1 mapping between the spec and the implementation and can lead students to implement the routine incorrectly or be uncertain which register holds which coordinate.",
+            "suggestedFix": "Align the implementation with the specification: remove the xchg eax, ebx in solution_repository/pixel.asm and compute using eax as x and ebx as y. Alternatively, if the solution intentionally treats registers reversed, update the problem statement and template comments to explicitly document that set_pixel expects x in EBX and y in EAX. Preferred: change solution to use EAX = x, EBX = y without swapping so students map spec -> code directly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 25,
+                    "endLine": 26
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 100,
+                    "endLine": 101
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 24,
+                    "endLine": 24
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Concept: which register holds the computed pixel memory address. Problem statement and template instruct the computed pixel address to be placed in ESI (result in ESI, then use mov ecx, [esi]). Problem: problem_statement.md and template comments require the computed memory address in ESI; solution_repository/pixel.asm's set_pixel computes the target address in EAX and writes the pixel with mov [eax], ecx instead of using ESI. Why confusing: students will implement the address calculation expecting ESI to contain the final address (as the templates and instructions request); the solution using EAX for the address breaks that correspondence and increases cognitive load when comparing their code to the reference.",
+            "suggestedFix": "Make the register usage consistent: modify solution_repository/pixel.asm so the computed pixel address is placed in ESI and then store the color with mov [esi], ecx. If the solution intentionally uses EAX for the address, update the problem statement and template to state that the resulting address will be returned in EAX instead of ESI. Preferred: change solution to compute and use ESI for the address to match the exercise instructions.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 25,
+                    "endLine": 26
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 100,
+                    "endLine": 101
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 31,
+                    "endLine": 31
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:56:44.956566Z",
+        "endTime": "2026-03-13T22:57:49.609443Z",
+        "durationS": 64.652
+    },
+    "tokens": {
+        "prompt": 25419,
+        "completion": 11754,
+        "total": 37173
+    },
+    "costs": {
+        "promptEur": 0.005846370239257812,
+        "completionEur": 0.021627360595703124,
+        "totalEur": 0.027473730834960935
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/004",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

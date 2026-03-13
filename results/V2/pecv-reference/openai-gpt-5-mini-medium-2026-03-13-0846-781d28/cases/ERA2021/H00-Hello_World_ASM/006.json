@@ -1,0 +1,65 @@
+{
+  "case_id": "ERA2021/H00-Hello_World_ASM/006",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-084750-006-ee0365",
+  "timestamp": "2026-03-13T08:48:21.810816",
+  "issues": [
+    {
+      "description": "The problem statement requires calling an external function `exit_func` with an integer status code (problem_statement.md line 22). The solution file declares `extern exit_func` and calls it (solution_repository/helloWorld.asm lines 8 and 18) but the call is made without pushing or otherwise providing the required integer status code. This violates the stated requirement and would prevent the solution from meeting the exercise specification (and likely produce a runtime error or incorrect behavior).",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 8,
+          "end_line": 8
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 18,
+          "end_line": 18
+        }
+      ],
+      "suggested_fix": "Provide the integer status code according to the calling convention before calling exit_func. For the existing solution, push a status code (e.g. push 0) immediately before `call exit_func` and, if necessary, adjust the stack afterwards. Example: `push 0` followed by `call exit_func`."
+    },
+    {
+      "description": "The problem statement instructs students to call an external function `exit_func` with an integer status code, but the template repository does not declare `extern exit_func` nor provide any placeholder or hint for calling it. The solution declares `extern exit_func` (solution_repository/helloWorld.asm line 8). This cross-artifact mismatch (problem vs. template) may confuse students: they are told to call an external function but the starter code does not include the extern declaration, increasing friction and the chance of linker errors if students call exit_func without adding the declaration themselves.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 8
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 8,
+          "end_line": 8
+        }
+      ],
+      "suggested_fix": "Add `extern exit_func` to the template (near the existing `extern printf` line) and optionally include a commented TODO showing how to call it with a status code. This will align the template with the problem description and reduce student confusion/linker errors."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:47:50.036181",
+    "end_time": "2026-03-13T08:48:21.810816",
+    "duration_s": 31.774635
+  },
+  "trace_id": "37fb81b4-cedd-49a4-8573-831b4c483ea1"
+}

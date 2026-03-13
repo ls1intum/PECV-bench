@@ -1,0 +1,83 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/013",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-085813-013-5b60d8",
+  "timestamp": "2026-03-13T08:59:12.871200",
+  "issues": [
+    {
+      "description": "The solution defines the pixel-setting routine with the label '.set_pixel' (leading dot) while the template (and main) expect a symbol named 'set_pixel'. A label starting with a dot is a different symbol/visibility in many assemblers (and may be local), so the 'call set_pixel' in main will not resolve to '.set_pixel'. This is a structural/visibility mismatch between template and solution that will prevent the program from assembling or running as intended and will confuse students about the correct routine name to implement/call.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 34
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 143,
+          "end_line": 148
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 143,
+          "end_line": 148
+        }
+      ],
+      "suggested_fix": "Make the routine name consistent. Rename the solution's '.set_pixel:' label to 'set_pixel:' (remove the leading dot), or update the call sites to call '.set_pixel' and ensure the label has appropriate linkage (declare global if needed). This preserves the intended interface (call set_pixel with x in EAX, y in EBX, color in ECX) and avoids assembly/link failures."
+    },
+    {
+      "description": "The problem statement and the template refer to the subroutine by the name 'set_pixel', but the solution defines the routine as '.set_pixel' (leading dot). This creates a naming mismatch across artifacts: students reading the solution to understand how to implement the required 'set_pixel' routine may not immediately recognize '.set_pixel' as the same entity (and in some assemblers a leading dot may denote a different scope). This inconsistency increases mapping effort and may confuse students trying to match the problem requirement to the solution code.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 29,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 34
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 147,
+          "end_line": 147
+        }
+      ],
+      "suggested_fix": "Use the same subroutine name across all artifacts. Rename the solution's label from '.set_pixel' to 'set_pixel' (or alternatively change the template/problem to reference '.set_pixel' consistently). Preferably align to 'set_pixel' to match the problem statement and template and avoid assembler-specific scoping conventions."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:58:13.098234",
+    "end_time": "2026-03-13T08:59:12.871200",
+    "duration_s": 59.772966
+  },
+  "trace_id": "87f30b28-b537-413c-8442-b2429fe2affb"
+}

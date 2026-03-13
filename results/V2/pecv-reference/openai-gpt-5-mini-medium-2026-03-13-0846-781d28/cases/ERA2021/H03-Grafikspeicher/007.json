@@ -1,0 +1,39 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/007",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-085517-007-5185a0",
+  "timestamp": "2026-03-13T08:56:10.821163",
+  "issues": [
+    {
+      "description": "The problem statement and template assume a screen buffer for resolution 1920\u00d71080 (4 bytes per pixel => 1920*1080*4 = 8,294,400 bytes), and the template reserves display_start RESB 8294400 accordingly. The solution repository, however, reserves a much smaller buffer (display_start RESB 409600, i.e. only 320\u00d7320\u00d74) and even comments that only 320\u00d7320 is reserved. This contradicts the exercise specification (1920\u00d71080) and the template. Students comparing template, problem text and solution will be confused: the solution's buffer is too small for the required resolution and will lead to out-of-bounds accesses for coordinates beyond 320\u00d7320, or make it unclear which resolution they must implement.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 29,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 20,
+          "end_line": 22
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 4,
+          "end_line": 6
+        }
+      ],
+      "suggested_fix": "Make the solution's display_start reservation consistent with the problem and template. Change the solution repository to reserve 8,294,400 bytes (e.g. display_start RESB 8294400) and update or remove the misleading comment about 320\u00d7320. Alternatively, if the intent was to use a smaller test buffer, update the problem statement and template to clearly state and use that smaller resolution so all artifacts agree."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:55:17.433064",
+    "end_time": "2026-03-13T08:56:10.821163",
+    "duration_s": 53.388099
+  },
+  "trace_id": "feec41aa-def7-4000-9eea-b245c51cb5fe"
+}

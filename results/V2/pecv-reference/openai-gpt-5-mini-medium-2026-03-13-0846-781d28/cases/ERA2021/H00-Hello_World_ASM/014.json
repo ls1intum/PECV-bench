@@ -1,0 +1,39 @@
+{
+  "case_id": "ERA2021/H00-Hello_World_ASM/014",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-085041-014-98fb85",
+  "timestamp": "2026-03-13T08:51:06.668344",
+  "issues": [
+    {
+      "description": "The problem statement requires a globally visible variable named `shared_data` for tests, but the template does not declare `shared_data` at all and the solution defines `shared_data` (shared_data dd 100) without exporting it as a global symbol. This creates a visibility mismatch: tests expecting a global symbol `shared_data` would not find it in the template, and even the provided solution would not export the symbol for external test access. Students will be confused whether they must add the variable themselves and may be blocked because the solution does not satisfy the stated requirement that `shared_data` be globally visible.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 1,
+          "end_line": 4
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 3,
+          "end_line": 5
+        }
+      ],
+      "suggested_fix": "Ensure the `shared_data` symbol is both present and exported as global. Add a declaration like `shared_data dd 100` in the template (so students start with the required symbol) and add/export the symbol in the global declarations (for example add `global shared_data` alongside `global main` or near other globals). Also update the solution to include `global shared_data`. Alternatively, if the intent is for students to create `shared_data` themselves, clarify that explicitly in the problem statement."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:50:41.840780",
+    "end_time": "2026-03-13T08:51:06.668344",
+    "duration_s": 24.827564
+  },
+  "trace_id": "2767d7fb-8196-44a4-92fb-34864c9186ac"
+}

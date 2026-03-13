@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T23:22:05.527174Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Element: SQL query result for Aufgabe 04. The problem statement (Aufgabe 04) requests a single numeric aggregate (Anzahl/count) of Schwimmb\u00e4der in Gemeinden mit mehr als 1000 weiblichen Einwohnerinnen. The template file aufgabe04.sql is empty (no implementation). The solution implementation (solution_repository/aufgabe04.sql) returns Schwimmbad.name rows (a list of names) rather than a single numeric count. This mismatch in the expected result shape (single numeric value) vs. the provided solution (multiple text rows) will confuse students and cause automatic checks or grading that expect a count to fail.",
+            "suggestedFix": "Make the artifacts consistent. Preferred fix: change the solution query to return a single numeric count matching the problem text, e.g.:\nSELECT COUNT(*)\nFROM Schwimmbad JOIN Gemeinde ON Gemeinde.schluessel = Schwimmbad.gemeindeschluessel\nWHERE Gemeinde.einwohner_w > 1000;\nApply this corrected query to solution_repository/aufgabe04.sql (and update any tests that assert a count). Alternatively, if the intended learning outcome is to list swim facility names, update problem_statement.md to request the list of names instead of a count and adjust tests and solution accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 31,
+                    "endLine": 31
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/aufgabe04.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe04.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:22:05.527174Z",
+        "endTime": "2026-03-13T23:22:39.771921Z",
+        "durationS": 34.244
+    },
+    "tokens": {
+        "prompt": 17851,
+        "completion": 4464,
+        "total": 22315
+    },
+    "costs": {
+        "promptEur": 0.0041057301025390625,
+        "completionEur": 0.008213760223388673,
+        "totalEur": 0.012319490325927735
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/002",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

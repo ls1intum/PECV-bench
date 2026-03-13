@@ -1,0 +1,100 @@
+{
+    "timestamp": "2026-03-13T23:20:05.430430Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "SQL SELECT list in solution_repository/aufgabe02.sql: The problem statement (problem_statement.md lines 21-24) requires exactly three columns: Freizeitpark.name, Freizeitpark.strasse and Gemeinde.name. The solution (solution_repository/aufgabe02.sql) SELECT returns Freizeitpark.name, Freizeitpark.strasse, Gemeinde.name AND Freizeitpark.gemeindeschluessel. The template (template_repository/aufgabe02.sql) shows a different starter SELECT (Freizeitpark.name as Park_name, Gemeinde.name as Gemeinde_name). The extra Freizeitpark.gemeindeschluessel in the solution is not requested by the exercise and can cause automated checks to fail or confuse students about the expected output.",
+            "suggestedFix": "Remove the extra Freizeitpark.gemeindeschluessel column from solution_repository/aufgabe02.sql so the query returns exactly the requested columns. For example: SELECT Freizeitpark.name, Freizeitpark.strasse, Gemeinde.name FROM Freizeitpark JOIN Gemeinde ON Gemeinde.schluessel = Freizeitpark.gemeindeschluessel;",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/aufgabe02.sql",
+                    "startLine": 1,
+                    "endLine": 2
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe02.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 24
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "COUNT usage in solution_repository/aufgabe06.sql: The problem (problem_statement.md lines 42-44) asks for the number of Wanderwege that lead to Gemeinden with mehr als 500000 m\u00e4nnlichen Einwohnern (i.e., count Wanderwege). The solution (solution_repository/aufgabe06.sql) uses SELECT COUNT(*) on the join between Gemeinde and Wanderweg_zu_Gemeinde, which counts join rows (links). If a single Wanderweg links to multiple Gemeinden, COUNT(*) over the join will overcount compared to counting distinct Wanderwege, creating an ambiguity between counting links and counting unique Wanderwege.",
+            "suggestedFix": "Count distinct Wanderwege rather than join rows. Change the solution to use COUNT(DISTINCT Wanderweg_zu_Gemeinde.wanderweg_id) (or COUNT(DISTINCT <appropriate_wanderweg_id_column>) ) with an explicit join, for example: SELECT COUNT(DISTINCT Wanderweg_zu_Gemeinde.wanderweg_id) FROM Wanderweg_zu_Gemeinde JOIN Gemeinde ON Gemeinde.schluessel = Wanderweg_zu_Gemeinde.gemeindeschluessel WHERE Gemeinde.einwohner_m > 500000;",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe06.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/aufgabe06.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 42,
+                    "endLine": 44
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "COUNT usage in solution_repository/aufgabe08.sql: The problem (problem_statement.md lines 50-52) requests the number of Radwegen that border Gemeinden with PLZ > 96400 (i.e., count Radwege). The solution (solution_repository/aufgabe08.sql) uses SELECT COUNT(*) on the join between Gemeinde and Radweg_zu_Gemeinde, which counts join rows (links). If a single Radweg borders multiple Gemeinden, COUNT(*) will overcount compared to counting distinct Radwege, causing ambiguity between counting links and counting unique Radwege.",
+            "suggestedFix": "Count distinct Radwege rather than join rows. Change the solution to use COUNT(DISTINCT Radweg_zu_Gemeinde.radweg_id) with an explicit join, for example: SELECT COUNT(DISTINCT Radweg_zu_Gemeinde.radweg_id) FROM Radweg_zu_Gemeinde JOIN Gemeinde ON Gemeinde.schluessel = Radweg_zu_Gemeinde.gemeindeschluessel WHERE Gemeinde.plz > 96400;",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe08.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/aufgabe08.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 50,
+                    "endLine": 52
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:20:05.430430Z",
+        "endTime": "2026-03-13T23:21:27.508883Z",
+        "durationS": 82.078
+    },
+    "tokens": {
+        "prompt": 18444,
+        "completion": 8271,
+        "total": 26715
+    },
+    "costs": {
+        "promptEur": 0.004242120178222656,
+        "completionEur": 0.015218640472412108,
+        "totalEur": 0.019460760650634762
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

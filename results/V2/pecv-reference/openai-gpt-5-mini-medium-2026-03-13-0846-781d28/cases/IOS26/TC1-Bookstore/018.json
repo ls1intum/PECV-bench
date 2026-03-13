@@ -1,0 +1,89 @@
+{
+  "case_id": "IOS26/TC1-Bookstore/018",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-091536-018-e76493",
+  "timestamp": "2026-03-13T09:16:10.148436",
+  "issues": [
+    {
+      "description": "The problem statement requires Genre to have a String property named `name` and sample usage in the solution and client code expects `Genre(name: ..., subgenre: ...)` and accesses `genre.name`. However, the Solution repository defines the Genre struct with a property named `genreName` (let genreName: String). This creates a structural/name mismatch: the initializer and member access used in the solution/client assume a `name` property, but the struct defines `genreName`. This will cause compilation errors and confuses students about the intended property name for Genre.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 19,
+          "end_line": 21
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 13,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 39,
+          "end_line": 45
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 18,
+          "end_line": 22
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 34,
+          "end_line": 42
+        }
+      ],
+      "suggested_fix": "Make the Genre struct match the problem specification and the usages in Client/assembleBookstore. Rename the property `genreName` to `name` (i.e. `let name: String`) so the synthesized initializer `Genre(name:subgenre:)` and member access `genre.name` are valid. Alternatively, if you prefer `genreName`, update all call sites and the problem statement to use `genreName` consistently \u2014 but the simpler fix is to use `name` in the Genre struct to match the problem text and the solution/client usage."
+    },
+    {
+      "description": "The problem statement specifies a Genre struct with a String property named `name` and optional `subgenre`. In the solution repository the Genre struct defines the property as `genreName` (solution_repository/Sources/BookstoreLib/Bookstore.swift:40-45), while the solution's Client implementation constructs and accesses `Genre(name: ...)` and `genre.name` (solution_repository/Sources/BookstoreLib/Client.swift:34-36 and 18-21). This inconsistent identifier (`name` vs `genreName`) breaks the direct mapping from the problem description to the implementation and even creates an internal mismatch within the solution code itself, likely confusing students about the expected property name and causing compile/runtime errors if code is used as-is.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 19,
+          "end_line": 21
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 13,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Bookstore.swift",
+          "start_line": 40,
+          "end_line": 45
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 34,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/BookstoreLib/Client.swift",
+          "start_line": 18,
+          "end_line": 21
+        }
+      ],
+      "suggested_fix": "Rename the Genre property in the solution to match the problem statement (use `let name: String` and keep `let subgenre: String?`). Update any initializers and accesses accordingly (e.g., `Genre(name: \"...\", subgenre: ...)` and `genre.name`). This aligns the solution with the problem description and removes the internal mismatch."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:15:36.474913",
+    "end_time": "2026-03-13T09:16:10.148436",
+    "duration_s": 33.673523
+  },
+  "trace_id": "ee5ab822-2fd9-4219-880a-79253cb880d6"
+}

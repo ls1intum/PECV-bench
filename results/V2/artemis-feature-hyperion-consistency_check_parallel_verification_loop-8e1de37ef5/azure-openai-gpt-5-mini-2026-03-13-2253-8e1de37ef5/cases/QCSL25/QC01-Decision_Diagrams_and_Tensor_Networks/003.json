@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T23:27:42.195237Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Method return type mismatch for function 'dd_get_amplitude': the problem statement (task description) instructs implementers to \"return the probability corresponding to the given bitstring as a float\", whereas both the template and the solution declare and implement dd_get_amplitude as returning the complex amplitude (np.complex128). This mismatch leaves students unsure whether to implement/return a probability (float, |amplitude|^2) or the complex amplitude (np.complex128) and will cause tests or type expectations to disagree with the written instructions.",
+            "suggestedFix": "Make the expected return value consistent across all artifacts. Preferred fix: update problem_statement.md to specify that dd_get_amplitude should return the complex amplitude (np.complex128) for the provided bitstring (matching the template function signature and the solution). If the original intent was to return a probability (float), then update the template and solution (and any tests) to change the function signature and implementation to return a float probability (i.e., |amplitude|**2). Explicitly document the return type in the problem statement (e.g., \"Return the complex amplitude as np.complex128\") to avoid ambiguity.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 48,
+                    "endLine": 51
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/dd_simulation.py",
+                    "startLine": 355,
+                    "endLine": 355
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/dd_simulation.py",
+                    "startLine": 381,
+                    "endLine": 381
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Concept: the function dd_get_amplitude is intended to return the complex quantum amplitude for a given computational basis bitstring. Problem statement: in problem_statement.md the task text for dd_get_amplitude (lines 48-51) incorrectly asks for a probability (a float). Template: template_repository/dd_simulation.py declares def dd_get_amplitude(...)-> np.complex128 and its docstring describes returning the amplitude and traversing the DD to multiply edge weights. Solution: solution_repository/dd_simulation.py implements dd_get_amplitude to return a complex amplitude (np.complex128) and the implementation multiplies edge weights along the path. Why confusing/blocking: students reading the problem statement may implement dd_get_amplitude to compute and return a probability (real float) while the template/solution (and likely tests) expect the amplitude (complex). This mismatch between the term used in the function name ('amplitude'), the implementations (complex return type), and the problem text (probability as float) is a substantive semantic inconsistency that will lead to failing tests or incorrect submissions.",
+            "suggestedFix": "Unify terminology and return-type expectations. Prefer keeping the current function name 'dd_get_amplitude' and its complex return type. Update problem_statement.md task text (lines 48-51) to: \"Implement the function 'dd_get_amplitude' to return the amplitude corresponding to the given bitstring as a complex number (np.complex128).\" Also ensure the task description and any tests/examples refer to 'amplitude' (complex) rather than 'probability'. If the exercise truly intended probabilities instead, alternatively rename the function to 'dd_get_probability' and update the template and solution signatures and implementations to return a real-valued probability (float) \u2014 but option A (change the problem text to 'amplitude') is recommended to match existing code.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 48,
+                    "endLine": 51
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/dd_simulation.py",
+                    "startLine": 355,
+                    "endLine": 386
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/dd_simulation.py",
+                    "startLine": 381,
+                    "endLine": 422
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:27:42.195237Z",
+        "endTime": "2026-03-13T23:28:15.681151Z",
+        "durationS": 33.485
+    },
+    "tokens": {
+        "prompt": 118799,
+        "completion": 6679,
+        "total": 125478
+    },
+    "costs": {
+        "promptEur": 0.0273237705078125,
+        "completionEur": 0.0122893603515625,
+        "totalEur": 0.039613130859375
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/003",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

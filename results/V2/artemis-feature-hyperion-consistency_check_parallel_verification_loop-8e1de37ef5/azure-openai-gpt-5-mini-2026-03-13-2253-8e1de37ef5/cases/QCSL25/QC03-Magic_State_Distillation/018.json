@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T23:31:15.070931Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Identifier naming inconsistency for the Y-state preparation function: the problem statement (and tests) require a function named make_y_state(circ: stim.Circuit, q: int, p: float) -> None, the template repository defines a function named create_y_state(...) (signature at template_repository/msd.py line 41) and its NotImplementedError message references make_y_state, while the reference solution implements make_y_state(...) (solution_repository/msd.py line 95). This mismatch means a student who implements make_y_state as specified by the problem will still find the template lacking that symbol (or automated tests expecting make_y_state may fail), causing import/test failures or confusion about which name to implement.",
+            "suggestedFix": "Make the identifier consistent across all artifacts. Either rename the template's create_y_state(...) to make_y_state(...) (update its signature and the NotImplementedError message) so it matches the problem statement and solution, or add a simple wrapper in the template: def make_y_state(circ, q, p): return create_y_state(circ, q, p). Ensure tests and documentation refer to the single canonical name make_y_state.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 79,
+                    "endLine": 79
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/msd.py",
+                    "startLine": 41,
+                    "endLine": 41
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/msd.py",
+                    "startLine": 95,
+                    "endLine": 95
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The concept is preparing a noisy |Y> resource state for injection. The problem statement and tests refer to the function name make_y_state(circ: stim.Circuit, q: int, p: float). The template repository defines a stub named create_y_state(circ: stim.Circuit, q: int, p: float) whose NotImplementedError message mentions make_y_state, and the reference solution implements make_y_state(...). This naming mismatch means a student reading the problem will look to implement make_y_state, but the template provides create_y_state (and tests or autograder may expect make_y_state). The inconsistent identifiers create confusion about which symbol to implement and can cause tests to fail despite correct logic.",
+            "suggestedFix": "Make the function name consistent across all artifacts. The simplest fix is to rename the template stub create_y_state to make_y_state and update its docstring and NotImplementedError message to match. Alternatively, if tests/reference expect create_y_state, update the problem statement and solution to use create_y_state. Ensure the chosen identifier is used consistently in tests, docstrings, error messages, and all code references.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 75,
+                    "endLine": 83
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 41,
+                    "endLine": 49
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 95,
+                    "endLine": 106
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:31:15.070931Z",
+        "endTime": "2026-03-13T23:31:53.961288Z",
+        "durationS": 38.89
+    },
+    "tokens": {
+        "prompt": 59896,
+        "completion": 5375,
+        "total": 65271
+    },
+    "costs": {
+        "promptEur": 0.01377608056640625,
+        "completionEur": 0.00989,
+        "totalEur": 0.023666080566406247
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/018",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

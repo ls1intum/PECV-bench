@@ -1,0 +1,79 @@
+{
+  "case_id": "MTG26/TA2-SQL_Basics/018",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-103554-018-9dd182",
+  "timestamp": "2026-03-13T10:36:24.921740",
+  "issues": [
+    {
+      "description": "The solution implementation (solution_repository/aufgabe01.sql) renames the id column using an alias (SELECT id AS Kennung, ...). The problem text requires returning ID, Name, Art und URL and explicitly instructs not to rename columns with AS unless asked. This mismatch between the problem instructions and the solution can confuse students about the required column names and may cause automatic checks that expect the exact requested columns/names to fail or behave unexpectedly.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 101,
+          "end_line": 108
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Remove the alias in the solution so the column names match the problem statement. Change the solution to: SELECT id, name, art, url FROM Schwimmbad WHERE art='Freibad'. Alternatively, update the problem statement to explicitly permit renaming columns if that was intended."
+    },
+    {
+      "description": "The template starter for Aufgabe 01 contains SELECT * FROM Schwimmbad which returns all columns. The problem explicitly instructs students to output exactly the requested columns and not more. Providing SELECT * in the template may encourage students to leave it as-is and produce extra/unexpected columns, potentially leading to incorrect submissions or confusion about the required output schema.",
+      "severity": "LOW",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 2
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 101,
+          "end_line": 108
+        }
+      ],
+      "suggested_fix": "Replace the SELECT * starter with the explicit columns required by the task (e.g. a commented hint or a partial query such as -- SELECT id, name, art, url FROM Schwimmbad WHERE art='Freibad' or leave an empty template with a short instruction). At minimum add a comment in the template reminding students to select only the requested columns."
+    },
+    {
+      "description": "The problem instructions explicitly tell students not to rename columns with AS and ask for the columns ID, Name, Art and URL (problem_statement.md). The solution, however, selects the id column but renames it using an alias (id AS Kennung) in solution_repository/aufgabe01.sql. The template starts with SELECT * FROM Schwimmbad (template_repository/aufgabe01.sql) and does not provide column names. This creates a naming mismatch / inconsistency: the problem asks for an ID column (and forbids aliasing), while the solution presents the same value under the different header 'Kennung'. This can confuse students about the required output column name and conflicts with the explicit instruction not to use AS unless requested.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 102,
+          "end_line": 108
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 2
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 2
+        }
+      ],
+      "suggested_fix": "Align the names so the same column header is used across artifacts and respect the instruction about aliases. Preferably remove the alias in the solution and select the id column directly (e.g. SELECT id, name, art, url FROM Schwimmbad WHERE art='Freibad') so the output column name matches the problem wording. Alternatively, if a German label is desired, update the problem statement to explicitly allow or request the alias 'Kennung'."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:35:54.612495",
+    "end_time": "2026-03-13T10:36:24.921740",
+    "duration_s": 30.309245
+  },
+  "trace_id": "12e3a2fe-6351-4bce-b8d8-c92892bb0737"
+}

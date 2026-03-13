@@ -1,0 +1,65 @@
+{
+  "case_id": "QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/006",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-103823-006-2f35e9",
+  "timestamp": "2026-03-13T10:38:56.735689",
+  "issues": [
+    {
+      "description": "The template implementation of simulate_ghz_state in tensor_networks.py is missing the shots parameter in its function signature, yet the problem statement and the solution expect simulate_ghz_state(num_qubits, shots). The template's simulate_ghz_state definition only accepts num_qubits and then references shots in the docstring and asserts (shots > 0), which is undefined. This is a structural mismatch that will prevent students from running or testing the GHZ simulation and misleads them about the required function signature.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 101,
+          "end_line": 103
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/tensor_networks.py",
+          "start_line": 177,
+          "end_line": 201
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/tensor_networks.py",
+          "start_line": 235,
+          "end_line": 279
+        }
+      ],
+      "suggested_fix": "Change the template function signature to include the shots parameter to match the problem specification and the solution: def simulate_ghz_state(num_qubits: int, shots: int) -> dict[str, int]:. Update the docstring/ asserts accordingly so that shots is a defined parameter (e.g., assert shots > 0). This keeps the pedagogical intent intact while removing a blocking structural error."
+    },
+    {
+      "description": "The Tensor-Networks GHZ simulation function is specified in the problem statement (and implemented in the solution) to accept both num_qubits and shots (simulate_ghz_state(num_qubits, shots)). The template implementation, however, defines simulate_ghz_state(num_qubits) (no shots parameter) while its docstring and body refer to a shots variable (e.g., asserting shots > 0). This creates a misleading API mismatch: students reading the problem will expect to implement/ call simulate_ghz_state with a shots argument, but the template's function signature omits that parameter. This inconsistency will cause confusion and likely runtime/name errors when students try to follow the problem or match the solution.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 101,
+          "end_line": 103
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/tensor_networks.py",
+          "start_line": 177,
+          "end_line": 205
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/tensor_networks.py",
+          "start_line": 235,
+          "end_line": 279
+        }
+      ],
+      "suggested_fix": "Make the template function signature match the problem statement and solution by adding the shots parameter. Change the template declaration from def simulate_ghz_state(num_qubits: int) -> dict[str, int]: to def simulate_ghz_state(num_qubits: int, shots: int) -> dict[str, int]: and ensure the docstring and body consistently reference the shots parameter."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:38:23.886687",
+    "end_time": "2026-03-13T10:38:56.735689",
+    "duration_s": 32.849002
+  },
+  "trace_id": "4df6a121-d8c3-498b-88a7-b46834e2b0ee"
+}

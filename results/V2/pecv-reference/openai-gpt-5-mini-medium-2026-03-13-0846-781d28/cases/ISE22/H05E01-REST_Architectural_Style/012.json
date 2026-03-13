@@ -1,0 +1,45 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/012",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-092801-012-bf581b",
+  "timestamp": "2026-03-13T09:28:46.770259",
+  "issues": [
+    {
+      "description": "The type of Note.creationDate is inconsistent across artifacts. The problem statement (example curl) and the template repository's common model use java.time.Instant for creationDate, and the server's NoteService sets creationDate with Instant.now(). However, the solution repository's common Note model declares creationDate as String while its server NoteService still calls note.setCreationDate(Instant.now()). This creates a type mismatch (Instant vs String) that will cause compilation errors and confuses students comparing template, problem statement and solution.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 118,
+          "end_line": 121
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/common/java/de/tum/in/ase/eist/model/Note.java",
+          "start_line": 3,
+          "end_line": 11
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/common/java/de/tum/in/ase/eist/model/Note.java",
+          "start_line": 6,
+          "end_line": 12
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/NoteService.java",
+          "start_line": 17,
+          "end_line": 23
+        }
+      ],
+      "suggested_fix": "Make the Note.creationDate type consistent across all artifacts. Two options:\n1) Prefer the template/problem approach: change solution_repository's common Note.creationDate back to java.time.Instant (update the field type and setter/getter signatures to Instant). This keeps NoteService.note.setCreationDate(Instant.now()) valid and aligns with the problem statement examples.\n2) Alternatively, if you want creationDate as String, update the server NoteService to call note.setCreationDate(Instant.now().toString()) and ensure all modules (common model, client, server) use String consistently. Prefer option 1 to preserve the original exercise intent (Instant) and avoid loss of temporal semantics."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:28:01.489347",
+    "end_time": "2026-03-13T09:28:46.770259",
+    "duration_s": 45.280912
+  },
+  "trace_id": "c28f716d-fe23-4d97-9b2f-578519e467be"
+}

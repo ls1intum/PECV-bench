@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T22:54:17.421260Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Attribute 'user_name': the problem statement (problem_statement.md line 22) requires defining user_name as a string buffer. The template (template_repository/helloWorld.asm lines 2-4) does not declare user_name at all in the .data section. The solution (solution_repository/helloWorld.asm line 4) declares user_name as an integer using 'user_name dd 0' (doubleword). This mismatch about the name, type and storage size of user_name will confuse students about the expected data layout and how to use the symbol (string buffer vs 32-bit integer).",
+            "suggestedFix": "Make the declaration of user_name consistent with the problem statement by reserving a byte buffer in both template and solution. For example, in .data add a NASM-compatible string buffer:\nuser_name times 32 db 0    ; reserve a 32-byte string buffer for user_name\nUpdate the solution to use 'db' (byte buffer) instead of 'dd' so both template and solution match the specification. Adjust the buffer size if a different capacity is intended and update any code that uses user_name accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 22,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/helloWorld.asm",
+                    "startLine": 2,
+                    "endLine": 4
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/helloWorld.asm",
+                    "startLine": 4,
+                    "endLine": 4
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:54:17.421260Z",
+        "endTime": "2026-03-13T22:54:47.922118Z",
+        "durationS": 30.5
+    },
+    "tokens": {
+        "prompt": 13109,
+        "completion": 4315,
+        "total": 17424
+    },
+    "costs": {
+        "promptEur": 0.003015070007324219,
+        "completionEur": 0.00793960009765625,
+        "totalEur": 0.010954670104980468
+    },
+    "case_id": "V2/ERA2021/H00-Hello_World_ASM/011",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

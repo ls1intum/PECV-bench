@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-13T22:57:20.676494Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Class Bitmap24: the member functions resize_buffer(int i_width,int i_height), save(const std::string&), and set(int i_y,int i_x,char i_r,char i_g,char i_b) have inconsistent access specifiers between artifacts. In the template repository (example_program/src/Bitmap24.hpp) these three methods are declared under the protected section, whereas in the solution repository (example_program/src/Bitmap24.hpp) they are declared public. main.cpp (example_program/src/main.cpp) calls bitmap.resize_buffer(...), bitmap.set(...), and bitmap.save(...) from non-member, non-derived code. Because the template declares these methods as protected, code built from the template will fail to compile (access error) while the solution compiles fine. This mismatch prevents students from building and running the provided example and tests using the template.",
+            "suggestedFix": "Make the Bitmap24 API methods used externally public in the template so they match the solution and the calls in main.cpp. Concretely, in example_program/src/Bitmap24.hpp (template) move or duplicate the declarations of: void resize_buffer(int i_width, int i_height); void save(const std::string &i_filename); void set(int i_y, int i_x, char i_r, char i_g, char i_b); into the public section (above the protected: line) so external code (main.cpp and tests) can call them without access errors. This preserves the intended API and allows the example and tests to compile with the template.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 42,
+                    "endLine": 58
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 42,
+                    "endLine": 57
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/main.cpp",
+                    "startLine": 36,
+                    "endLine": 44
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/main.cpp",
+                    "startLine": 36,
+                    "endLine": 44
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:57:20.676494Z",
+        "endTime": "2026-03-13T22:58:02.330152Z",
+        "durationS": 41.653
+    },
+    "tokens": {
+        "prompt": 173712,
+        "completion": 5295,
+        "total": 179007
+    },
+    "costs": {
+        "promptEur": 0.0399537607421875,
+        "completionEur": 0.009742800231933593,
+        "totalEur": 0.04969656097412109
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

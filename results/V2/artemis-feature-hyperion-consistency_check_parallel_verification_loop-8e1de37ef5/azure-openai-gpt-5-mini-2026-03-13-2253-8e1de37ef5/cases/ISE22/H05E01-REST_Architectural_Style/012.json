@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T23:00:11.758976Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field mismatch: de.tum.in.ase.eist.model.Note.creationDate has conflicting types across artifacts. In the TEMPLATE_REPOSITORY common model (src/common/java/de/tum/in/ase/eist/model/Note.java) creationDate is declared as java.time.Instant. In the SOLUTION_REPOSITORY common model (src/common/java/de/tum/in/ase/eist/model/Note.java) creationDate is declared as String. Meanwhile the SOLUTION_REPOSITORY server service (src/server/java/de/tum/in/ase/eist/service/NoteService.java) calls note.setCreationDate(Instant.now()), i.e. expects an Instant. This inconsistency will cause compilation errors and confuses students which type to use for creationDate.",
+            "suggestedFix": "Make the Note.creationDate type consistent. Preferred fix: change the SOLUTION_REPOSITORY common Note.java to declare creationDate as java.time.Instant (with matching getter/setter signatures returning/accepting Instant) so it matches the NoteService usage (note.setCreationDate(Instant.now())). Alternatively, if a String is intentionally desired, update NoteService to set a String (e.g. note.setCreationDate(Instant.now().toString())) and update all usages and JSON serialization expectations accordingly. The recommended approach is to restore creationDate to java.time.Instant in the solution common model to preserve the original template design and avoid extra conversion logic.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/common/java/de/tum/in/ase/eist/model/Note.java",
+                    "startLine": 1,
+                    "endLine": 55
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/common/java/de/tum/in/ase/eist/model/Note.java",
+                    "startLine": 1,
+                    "endLine": 55
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/NoteService.java",
+                    "startLine": 17,
+                    "endLine": 22
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:00:11.758976Z",
+        "endTime": "2026-03-13T23:00:51.979206Z",
+        "durationS": 40.22
+    },
+    "tokens": {
+        "prompt": 98302,
+        "completion": 4945,
+        "total": 103247
+    },
+    "costs": {
+        "promptEur": 0.02260946044921875,
+        "completionEur": 0.009098800262451173,
+        "totalEur": 0.03170826071166992
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/012",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

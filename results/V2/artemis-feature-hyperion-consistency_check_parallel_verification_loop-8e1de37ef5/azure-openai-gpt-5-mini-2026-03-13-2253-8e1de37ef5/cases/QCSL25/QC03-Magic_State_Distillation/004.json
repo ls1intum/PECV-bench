@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T23:32:24.130620Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Function make_y_state: the problem statement and the solution define make_y_state(circ: stim.Circuit, q: int, p: float) -> None (including a depolarization parameter p), but the template defines make_y_state(circ: stim.Circuit, q: int) -> None (missing the p parameter). The template's docstring even documents a p parameter, so the signature/documentation diverge. This mismatch will cause student code and tests (which expect to pass a depolarization probability p) to fail or be confusing.",
+            "suggestedFix": "Change the template function signature to include the depolarization parameter so it matches the problem statement and solution: def make_y_state(circ: stim.Circuit, q: int, p: float) -> None. Update the docstring parameter list to match and mention p's purpose (single-qubit depolarizing noise strength).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 75,
+                    "endLine": 83
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 41,
+                    "endLine": 49
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 95,
+                    "endLine": 106
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The exercise expects a function make_y_state that prepares a noisy |Y> resource with a depolarization parameter p. Problem statement: declares make_y_state(circ: stim.Circuit, q: int, p: float) -> None. Template repository: the stub is defined as make_y_state(circ: stim.Circuit, q: int) -> None (missing the p parameter). Solution repository: implements make_y_state(circ: stim.Circuit, q: int, p: float) -> None. This signature mismatch (missing the depolarization parameter in the template) prevents students from matching the API in the problem description and from implementing or calling helper functions (e.g., teleport_s) that pass p through to make_y_state, causing confusion and likely runtime errors.",
+            "suggestedFix": "Update the template stub to match the problem statement and solution: change the function signature in template/msd.py to def make_y_state(circ: stim.Circuit, q: int, p: float) -> None, and update the docstring to document the depolarization parameter p. Ensure any template example calls or helper functions in the template that should pass p are updated to do so (e.g., teleport_s should pass p to make_y_state).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 78,
+                    "endLine": 80
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 41,
+                    "endLine": 49
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 95,
+                    "endLine": 106
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:32:24.130620Z",
+        "endTime": "2026-03-13T23:32:58.665491Z",
+        "durationS": 34.534
+    },
+    "tokens": {
+        "prompt": 59933,
+        "completion": 6355,
+        "total": 66288
+    },
+    "costs": {
+        "promptEur": 0.013784590332031249,
+        "completionEur": 0.011693200073242187,
+        "totalEur": 0.025477790405273436
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/004",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

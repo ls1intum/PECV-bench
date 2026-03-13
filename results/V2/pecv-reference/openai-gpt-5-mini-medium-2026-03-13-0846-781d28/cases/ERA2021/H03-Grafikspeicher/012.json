@@ -1,0 +1,65 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/012",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-085713-012-e5235f",
+  "timestamp": "2026-03-13T08:58:19.110513",
+  "issues": [
+    {
+      "description": "The problem statement requires that the subroutine set_pixel may only change EAX (\"Au\u00dfer dem Register eax d\u00fcrfen keine anderen Registerinhalte ver\u00e4ndert werden\"). The template contains a contradictory comment near the calculation TODO telling students to \"save all registers you modify except eax,ebx and esi\" which implies EBX and ESI need not be preserved. This is a conflicting instruction about which registers must be preserved when implementing the address calculation / set_pixel call and will confuse students whether EBX and ESI may be clobbered or must be preserved.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 100,
+          "end_line": 102
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        }
+      ],
+      "suggested_fix": "Make the register-preservation requirement consistent. Update the template comment to match the problem statement (i.e. explicitly state that only EAX may be modified by set_pixel, all other registers must be preserved) or, if the intended rule is different, update the problem statement accordingly. Example fix for the template comment: change \"save all registers you modify except eax,ebx and esi\" to \"save all registers you modify; only EAX may be changed by set_pixel\". Ensure the provided set_pixel stub and example usage preserve EBX/ESI if the problem requires that."
+    },
+    {
+      "description": "In the solution implementation of set_pixel the base address display_start is used with a memory dereference (add eax, [display_start]) rather than adding the label/address itself. Using [display_start] reads the first 4 bytes at that memory location (the pixel buffer contents) instead of using the buffer's base address, which is inconsistent with the problem description and with how the main code treats display_start (e.g. mov esi, display_start). This is a structural bug in the solution: it treats the BSS label as data rather than as an address, producing an incorrect address computation and incorrect behavior.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 34
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 94,
+          "end_line": 101
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 26
+        }
+      ],
+      "suggested_fix": "Use the label/address of display_start rather than its dereferenced contents. For NASM use the label directly (no brackets). Example corrections for set_pixel: compute address in eax and then add the label address with 'add eax, display_start' (or use 'lea' / 'mov esi, display_start' then add to esi). Concretely, replace 'add eax, [display_start]' with 'add eax, display_start' (or compute address into ESI: 'mov esi, display_start; add esi, eax; ... mov [esi], ecx'). Update the solution so that display_start is consistently treated as the base address."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:57:13.123539",
+    "end_time": "2026-03-13T08:58:19.110513",
+    "duration_s": 65.986974
+  },
+  "trace_id": "9c5b02be-ae5d-4cb9-ad60-55fd6bacbb21"
+}

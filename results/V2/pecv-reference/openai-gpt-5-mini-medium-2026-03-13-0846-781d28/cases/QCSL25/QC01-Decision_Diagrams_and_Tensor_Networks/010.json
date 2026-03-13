@@ -1,0 +1,39 @@
+{
+  "case_id": "QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/010",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-103945-010-169881",
+  "timestamp": "2026-03-13T10:40:24.120859",
+  "issues": [
+    {
+      "description": "In the template's dd.py the DD.weight attribute is annotated as float (line ~47) but the code uses complex weights (e.g., ZERO_TERM = DD(TERM, np.complex128(0)) at line ~273), and the solution dd.py annotates DD.weight as np.complex128. The mismatched type hint between template and solution (and the template's own usage) can confuse students reading type hints or using static type checkers, and is inconsistent with the intended use of complex-valued edge weights throughout the exercise.",
+      "severity": "LOW",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "dd.py",
+          "start_line": 46,
+          "end_line": 48
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "dd.py",
+          "start_line": 269,
+          "end_line": 275
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "dd.py",
+          "start_line": 46,
+          "end_line": 48
+        }
+      ],
+      "suggested_fix": "Update the type annotation for DD.weight in the template dd.py to match the intended complex usage (e.g., annotate as np.complex128 or complex). This will align the template with the solution and avoid confusing students and static type checkers. For example: change 'weight: float' to 'weight: np.complex128' (and ensure numpy is imported for the annotation)."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:39:45.066172",
+    "end_time": "2026-03-13T10:40:24.120859",
+    "duration_s": 39.054687
+  },
+  "trace_id": "e50ca6a2-fd8c-4037-92c2-941b84f2a088"
+}

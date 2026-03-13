@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T22:58:55.780170Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field Bitmap24::data has inconsistent types across artifacts. In the template header (example_program/src/Bitmap24.hpp) the member is declared as 'int *data;'. In the template implementation (example_program/src/Bitmap24.cpp) the code allocates and manipulates a byte buffer with 'data = new char[width*height*3];' and performs byte-wise indexing (data[...] with byte semantics). The solution header (example_program/src/Bitmap24.hpp in the solution repository) declares the member as 'char *data;'. The mismatch between 'int *' and 'char *' will cause compilation/type errors when building the example program or tests and will confuse students about the intended buffer type.",
+            "suggestedFix": "In the template header example_program/src/Bitmap24.hpp change the declaration of Bitmap24::data from 'int *data;' to 'char *data;'. Update the comment if necessary to indicate a byte buffer. This makes the header match the implementation (new char[...], byte-wise access) and align with the solution, removing the type mismatch and allowing the example program and tests to compile.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 35,
+                    "endLine": 35
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 30,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 35,
+                    "endLine": 35
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:58:55.780170Z",
+        "endTime": "2026-03-13T22:59:33.891324Z",
+        "durationS": 38.111
+    },
+    "tokens": {
+        "prompt": 173723,
+        "completion": 4931,
+        "total": 178654
+    },
+    "costs": {
+        "promptEur": 0.039956291015625,
+        "completionEur": 0.009073040008544923,
+        "totalEur": 0.049029331024169925
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/011",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

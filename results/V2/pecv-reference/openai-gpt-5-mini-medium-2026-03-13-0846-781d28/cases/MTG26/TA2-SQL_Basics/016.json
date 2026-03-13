@@ -1,0 +1,59 @@
+{
+  "case_id": "MTG26/TA2-SQL_Basics/016",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-103519-016-0d0302",
+  "timestamp": "2026-03-13T10:35:46.242636",
+  "issues": [
+    {
+      "description": "The solution for Aufgabe 10 uses an inconsistent column alias for the COUNT result: it aliases COUNT(*) as `Count` but the ORDER BY refers to `Anzahl`. The problem statement explicitly asks for the count column to be named `Anzahl` and the results sorted descending by that column. This mismatch (alias vs ORDER BY name and mismatch with the requested column name) will cause the solution query to fail or behave unexpectedly and will confuse students using the solution as reference.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 151,
+          "end_line": 153
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe10.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "In the solution (and any reference material) make the alias and ORDER BY name consistent with the problem statement. For example: SELECT gemeindeschluessel, COUNT(*) AS Anzahl FROM Wanderweg_zu_Gemeinde GROUP BY gemeindeschluessel ORDER BY Anzahl DESC. Alternatively, use ORDER BY 2 DESC if you prefer numeric column position, but ensure the displayed column name is `Anzahl` as requested."
+    },
+    {
+      "description": "The problem statement explicitly requires the count column to be named `Anzahl` and the results sorted descending by that name (task 10). The solution query uses the alias `Count` for the aggregated column but then orders by `Anzahl` (ORDER BY Anzahl DESC), creating a naming mismatch and a likely runtime/error or confusion for students. This is an unintended identifier naming inconsistency between the problem requirement and the solution implementation: the same conceptual entity (the aggregated count column) is given two different identifiers (`Anzahl` vs `Count`).",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 151,
+          "end_line": 153
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe10.sql",
+          "start_line": 1,
+          "end_line": 1
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe10.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Use a single consistent name for the aggregated count column to match the problem statement. For example: SELECT gemeindeschluessel, COUNT(*) AS Anzahl FROM Wanderweg_zu_Gemeinde GROUP BY gemeindeschluessel ORDER BY Anzahl DESC. Alternatively, change the problem statement to request the alias `Count` (not recommended since the statement already specifies `Anzahl`)."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:35:19.611380",
+    "end_time": "2026-03-13T10:35:46.242636",
+    "duration_s": 26.631256
+  },
+  "trace_id": "e2961c12-72fe-4dc9-b381-f8e2096c30d0"
+}

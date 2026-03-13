@@ -1,0 +1,109 @@
+{
+  "case_id": "QCSL25/QC02-Far_Term_Quantum_Algorithms/017",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-104938-017-567191",
+  "timestamp": "2026-03-13T10:50:32.434322",
+  "issues": [
+    {
+      "description": "Parameter name mismatch in the Kakuro state_preparation method: the template defines the method parameter as ancilla_register, while the rest of the template and the solution use the name auxiliary_register. Although Python matches parameters positionally (so this won't raise a runtime error when called positionally), this inconsistency is structural and can confuse students reading and editing the template (they may expect the same parameter name everywhere and may copy/paste code that uses auxiliary_register). It also makes the template inconsistent with the solution implementation.",
+      "severity": "LOW",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex5_grover_kakuro.py",
+          "start_line": 33,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex5_grover_kakuro.py",
+          "start_line": 26,
+          "end_line": 40
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 216,
+          "end_line": 236
+        }
+      ],
+      "suggested_fix": "Make the parameter names consistent across template and solution. In the template change the signature to use auxiliary_register (matching __init__ and other methods) so the state_preparation signature is: def state_preparation(self, qc: QuantumCircuit, query_register: QuantumRegister, auxiliary_register: QuantumRegister) -> QuantumCircuit: . Also update the docstring parameter listing if necessary."
+    },
+    {
+      "description": "Simulator/backend usage in the solution code is inconsistent with the exercises' stated expectation to return measurement counts. The problem statement and templates instruct students to produce simulation counts (and to call qc = qc.reverse_bits() before simulation) for Exercises 2, 4, and 5. However, the solution implementations use Aer.get_backend(\"statevector_simulator\") when running execute and then call result.get_counts(qc). Using the statevector backend while calling get_counts (and providing shots) is inconsistent and may not behave as intended across Qiskit versions; students following the problem text (which implies a sampling/counts-based simulation) could be confused by the solution using the statevector backend. This is an implementation-level structural inconsistency between expected simulation style (counts / qasm-like sampling) and the backend chosen in the solution.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 120,
+          "end_line": 137
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 208,
+          "end_line": 213
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 232,
+          "end_line": 236
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+          "start_line": 130,
+          "end_line": 135
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex4_grover_lights_out_puzzle.py",
+          "start_line": 178,
+          "end_line": 183
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex5_grover_kakuro.py",
+          "start_line": 119,
+          "end_line": 124
+        }
+      ],
+      "suggested_fix": "Make the simulation approach consistent with the exercises' instructions. Either (a) switch the solution code to use a counts-capable simulator (e.g. Aer.get_backend(\"qasm_simulator\") or Aer.get_backend(\"aer_simulator\") and execute with shots to obtain result.get_counts(qc)), or (b) if the statevector simulator is preferred, compute measurement probabilities from the returned statevector and convert them to counts (and document this choice). Also ensure qc = qc.reverse_bits() is applied in the same place for consistency with the instructions."
+    },
+    {
+      "description": "The template for Exercise 5 (template_repository/ex5_grover_kakuro.py) uses the parameter name ancilla_register in the state_preparation function signature, while the problem statement and the solution implementation consistently refer to this conceptual qubit register as auxiliary_register. The template docstring even documents the parameter as auxiliary_register, creating an internal mismatch inside the template file. 'ancilla' and 'auxiliary' are synonyms in quantum computing, but the inconsistent identifier across artifacts (and within the template) can cause unnecessary confusion for students mapping the problem description to the provided starter code and the reference solution.",
+      "severity": "LOW",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 216,
+          "end_line": 236
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex5_grover_kakuro.py",
+          "start_line": 33,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex5_grover_kakuro.py",
+          "start_line": 26,
+          "end_line": 31
+        }
+      ],
+      "suggested_fix": "Rename the template function parameter ancilla_register to auxiliary_register (and update any internal references) so the parameter name, the docstring, the problem statement terminology, and the solution all use the same identifier. This removes the small mapping mismatch while preserving the intended meaning (ancilla/auxiliary qubit)."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:49:38.643034",
+    "end_time": "2026-03-13T10:50:32.434322",
+    "duration_s": 53.791288
+  },
+  "trace_id": "84aa2e92-e58b-4f72-9342-13b6ffa4d404"
+}

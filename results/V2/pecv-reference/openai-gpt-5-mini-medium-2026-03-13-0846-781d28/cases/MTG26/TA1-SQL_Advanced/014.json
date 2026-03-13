@@ -1,0 +1,59 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/014",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-102731-014-d0b041",
+  "timestamp": "2026-03-13T10:28:12.089458",
+  "issues": [
+    {
+      "description": "The problem statement (Aufgabe 07) asks for a list of the names of all Gemeinden that have a \"Freibad\" and the names of the respective Freib\u00e4der. The solution implementation (solution_repository/aufgabe07.sql) instead selects Gemeinde.schluessel and Schwimmbad.id (IDs), not the requested names. This contradicts the problem specification and will confuse students who compare their expected output (names) with the provided solution, or use the solution as a reference for column selection.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 46,
+          "end_line": 49
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe07.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Update solution_repository/aufgabe07.sql to return the Gemeinde name and the Schwimmbad name (not IDs). For example: SELECT Gemeinde.name, Schwimmbad.name FROM Gemeinde, Schwimmbad WHERE Gemeinde.schluessel = Schwimmbad.gemeindeschluessel AND Schwimmbad.art = 'Freibad'. This aligns the solution with the problem statement and avoids misleading students."
+    },
+    {
+      "description": "Problem statement (Aufgabe 07) asks for the names of Gemeinden and the names of the respective Freib\u00e4der. The provided solution (solution_repository/aufgabe07.sql) instead selects Gemeinde.schluessel and Schwimmbad.id \u2014 i.e. identifier fields (keys) rather than the requested name fields. This is a semantic naming/field mismatch: the conceptual entity 'Name' (of Gemeinde and Schwimmbad) in the task is represented as 'schluessel'/'id' in the solution, which will confuse students who expect to map the requirement 'Name' -> column name (e.g. Gemeinde.name, Schwimmbad.name).",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 46,
+          "end_line": 49
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe07.sql",
+          "start_line": 1,
+          "end_line": 3
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe07.sql",
+          "start_line": 1,
+          "end_line": 1
+        }
+      ],
+      "suggested_fix": "Modify the solution to return the name columns requested by the task. For example: SELECT Gemeinde.name AS gemeinde_name, Schwimmbad.name AS freibad_name FROM Gemeinde, Schwimmbad WHERE Gemeinde.schluessel = Schwimmbad.gemeindeschluessel AND Schwimmbad.art = 'Freibad'. This aligns the solution's output with the problem wording and removes the identifier-vs-name mismatch."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:27:31.944159",
+    "end_time": "2026-03-13T10:28:12.089458",
+    "duration_s": 40.145299
+  },
+  "trace_id": "a44e0d8e-a7a3-4ea6-8493-a44e76ced237"
+}

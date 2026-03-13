@@ -1,0 +1,65 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/010",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-102530-010-954089",
+  "timestamp": "2026-03-13T10:26:06.827924",
+  "issues": [
+    {
+      "description": "Aufgabe 03 (Problem) requests the names and type (Art) of all Schwimmb\u00e4der plus the name and all population counts of the corresponding Gemeinden (i.e. Schwimmbad.name, Schwimmbad.art, Gemeinde.name, Gemeinde.einwohner_m, Gemeinde.einwohner_w). The solution (solution_repository/aufgabe03.sql) instead selects Schwimmbad.id as the first column and then Schwimmbad.art, Gemeinde.name and the population columns. This returns an extra/unrequested column (id) and omits the requested Schwimmbad.name. This contradicts the explicit instruction in the problem statement \"Gib immer genau die geforderten Daten aus und nicht mehr\" and would confuse students and fail exact-result checks.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 28
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe03.sql",
+          "start_line": 1,
+          "end_line": 1
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe03.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Change the solution query to select Schwimmbad.name instead of Schwimmbad.id and ensure the output columns exactly match the problem specification and order. For example: SELECT Schwimmbad.name, Schwimmbad.art, Gemeinde.name, Gemeinde.einwohner_m, Gemeinde.einwohner_w FROM Schwimmbad, Gemeinde WHERE Gemeinde.schluessel = Schwimmbad.gemeindeschluessel. Remove the extra id column so the result contains only the requested fields."
+    },
+    {
+      "description": "The problem statement (Aufgabe 03) asks for the \"Namen und Art aller Schwimmb\u00e4der\" (the names and types of all swimming pools). The reference solution (solution_repository/aufgabe03.sql) returns Schwimmbad.id as the first selected column instead of Schwimmbad.name. This is a semantic mismatch: the concept 'Name' requested in the task is represented by the 'id' column in the solution, which will confuse students mapping the requirement to the provided reference query and may cause them to produce incorrect output.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 25,
+          "end_line": 27
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe03.sql",
+          "start_line": 1,
+          "end_line": 1
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe03.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Align the solution with the problem statement by selecting the swimming-pool name column. For example, modify solution_repository/aufgabe03.sql line 1 to use Schwimmbad.name instead of Schwimmbad.id (e.g. SELECT Schwimmbad.name, Schwimmbad.art AS Art, Gemeinde.name, Gemeinde.einwohner_m, Gemeinde.einwohner_w). Also update the template (template_repository/aufgabe03.sql) to include the expected columns (name and art) so students have a clear starter mapping."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:25:30.973848",
+    "end_time": "2026-03-13T10:26:06.827924",
+    "duration_s": 35.854076
+  },
+  "trace_id": "c41b2789-0053-4a0e-bc77-f926e8cf9082"
+}

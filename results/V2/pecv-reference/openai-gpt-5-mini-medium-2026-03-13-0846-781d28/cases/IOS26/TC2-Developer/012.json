@@ -1,0 +1,71 @@
+{
+  "case_id": "IOS26/TC2-Developer/012",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-092040-012-fea7ce",
+  "timestamp": "2026-03-13T09:21:26.576392",
+  "issues": [
+    {
+      "description": "The problem statement and the template expect the Course.instructor property to be a String (the example initializer shows instructor: \"My Instructor\"), but the solution repository defines Course.instructor as an array of String ([String]). This is a structural type mismatch: the solution changes the attribute type from String to [String]. This divergence will confuse students about the intended type and can cause compilation/usage inconsistencies (e.g., printing or passing instructor values).",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 6,
+          "end_line": 11
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 7,
+          "end_line": 11
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 9,
+          "end_line": 16
+        }
+      ],
+      "suggested_fix": "Make the solution match the problem/template by changing Course.instructor back to type String (and adjust the initializer and any usages). Alternatively, if the intended design is to support multiple instructors, update the problem statement and template to document and use [String] (including changing example initializer and Client creation to pass an array of strings). Preferably align all artifacts to a single type to avoid student confusion."
+    },
+    {
+      "description": "The Course initializer parameter types are inconsistent across artifacts: the template and problem statement show init(name: String, instructor: String, ratings: [Int]) but the solution implements init(name: String, instructor: [String], ratings: [Int]). Additionally, the solution's Client constructs a Course passing a String for instructor (\"Matthias, Patrick, and Felix\"), which no longer matches the solution's constructor signature. This mismatch can cause compile errors or unclear expectations for students about the constructor they should implement.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 12,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 13,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Client.swift",
+          "start_line": 9,
+          "end_line": 16
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 52,
+          "end_line": 56
+        }
+      ],
+      "suggested_fix": "Align the constructor signature across all artifacts. Either (A) change the solution's initializer to accept instructor: String and update Course.instructor to String (and adjust any code that treats it as an array), or (B) update the problem statement, template, and Client to require instructor: [String] and show example usage with an array literal (e.g., instructor: [\"Matthias\", \"Patrick\", \"Felix\"]). The simplest correction is to revert the solution to use String for instructor so it matches the problem and template."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:20:40.329763",
+    "end_time": "2026-03-13T09:21:26.576392",
+    "duration_s": 46.246629
+  },
+  "trace_id": "1d32c3eb-a787-47cc-9f7a-83d252112c23"
+}

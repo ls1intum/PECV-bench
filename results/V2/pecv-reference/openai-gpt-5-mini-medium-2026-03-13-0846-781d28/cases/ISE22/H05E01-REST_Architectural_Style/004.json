@@ -1,0 +1,77 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/004",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-092439-004-2d15fb",
+  "timestamp": "2026-03-13T09:25:25.042289",
+  "issues": [
+    {
+      "description": "The PersonService.deletePerson method signature differs between template/problem expectation and the solution. The problem statement and template expect deletion by UUID (the REST endpoint is DELETE /persons/{personId} and template PersonService provides deletePerson(UUID personId)). In the solution repository PersonResource calls personService.deletePerson(personId) (passing a UUID), but the solution's PersonService implements deletePerson(Person person) (taking a Person). This parameter-type mismatch means the service method invoked by the controller does not exist as declared in the solution service, causing a compile error and contradicting the exercise instruction that PersonService attributes must not be changed.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 115
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 33,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 48
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 35,
+          "end_line": 37
+        }
+      ],
+      "suggested_fix": "Restore consistency by making the PersonService.deletePerson method accept a UUID as in the template and problem statement. For example change the service signature to: public void deletePerson(UUID personId) { this.persons.removeIf(person -> person.getId().equals(personId)); } and ensure PersonResource continues to call personService.deletePerson(personId). This preserves the intended API (deletion by personId) and follows the instruction not to change PersonService attributes."
+    },
+    {
+      "description": "In the problem statement and the template, the DELETE semantics for persons are defined and implemented to operate on the person's UUID (DELETE /persons/{personId} and PersonService.deletePerson(UUID personId)). However, in the solution repository PersonService the deletePerson method signature accepts a Person object (deletePerson(Person person)). Meanwhile the solution's PersonResource still calls personService.deletePerson(personId) (passing a UUID). This creates a direct naming/type/signature mismatch across artifacts: students expect to call a service by UUID (as described in the task and provided in the template), but the solution's service uses a different parameter (Person). This inconsistency breaks the conceptual mapping (and would cause compilation/usage issues) and forces students to reconcile conflicting API shapes.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 114
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 33,
+          "end_line": 35
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 35,
+          "end_line": 37
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 48
+        }
+      ],
+      "suggested_fix": "Unify the delete API to use the person's UUID consistently. The least-disruptive fix is to change the solution's PersonService.deletePerson signature to accept a UUID (matching the problem and template) and remove by id. For example:\n\npublic void deletePerson(UUID personId) {\n    this.persons.removeIf(p -> p.getId().equals(personId));\n}\n\nEnsure all callers (e.g., PersonResource.deletePerson) pass the UUID. Alternatively, if you prefer service-layer deletion by object, update PersonResource to resolve a Person object before calling the service \u2014 but the first option aligns best with the exercise description and template and reduces student confusion."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:24:39.992561",
+    "end_time": "2026-03-13T09:25:25.042289",
+    "duration_s": 45.049728
+  },
+  "trace_id": "d4ee572b-3190-4f34-a68e-411e344250fe"
+}

@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-13T23:19:33.677865Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Column alias 'Anzahl' for the COUNT(*) result: the problem statement (Aufgabe 10) requires an output column named `Anzahl`. The solution (solution_repository/aufgabe10.sql) SELECTs COUNT(*) AS Count but the ORDER BY refers to `Anzahl`, causing a name mismatch. The template file is empty and does not provide a conflicting alias. This inconsistency causes the automatic checker to fail (it expects a column named `Anzahl`) and the ORDER BY clause in the solution to reference a non-existent alias, producing an error or incorrect result.",
+            "suggestedFix": "Make the alias consistent with the problem statement. For example change the solution to: SELECT gemeindeschluessel, COUNT(*) AS Anzahl FROM Wanderweg_zu_Gemeinde GROUP BY gemeindeschluessel ORDER BY Anzahl DESC. (Alternatively ORDER BY 2 DESC would avoid using the alias in ORDER BY, but the column name must still be `Anzahl` for the automatic checker.)",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 153,
+                    "endLine": 153
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe10.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/aufgabe10.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Concept: the column that reports the count of hiking paths per community. Problem statement (problem_statement.md line 153) explicitly requires this column to be named `Anzahl`. The solution (solution_repository/aufgabe10.sql line 1) selects COUNT(*) AS `Count` but later refers to `Anzahl` in the ORDER BY (solution_repository/aufgabe10.sql line 4), producing an inconsistent identifier usage. The template (template_repository/aufgabe10.sql) is empty and provides no alias guidance. Students reading the task (expecting `Anzahl`) and the provided solution (using `Count`) cannot reliably map the required column name to the implementation; furthermore the solution references `Anzahl` in ORDER BY while aliasing the column as `Count`, which is likely to cause an SQL error or test mismatch.",
+            "suggestedFix": "Make the alias match the problem statement and the ORDER BY. For example update the solution to: SELECT gemeindeschluessel, COUNT(*) AS Anzahl FROM Wanderweg_zu_Gemeinde GROUP BY gemeindeschluessel ORDER BY Anzahl DESC. Alternatively, if you prefer English naming, update the problem statement to request `Count` and change ORDER BY to `Count DESC`, but aligning to `Anzahl` is recommended to match the task wording.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 153,
+                    "endLine": 153
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/aufgabe10.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe10.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe10.sql",
+                    "startLine": 4,
+                    "endLine": 4
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:19:33.677865Z",
+        "endTime": "2026-03-13T23:20:07.808479Z",
+        "durationS": 34.13
+    },
+    "tokens": {
+        "prompt": 25336,
+        "completion": 6277,
+        "total": 31613
+    },
+    "costs": {
+        "promptEur": 0.005827280029296875,
+        "completionEur": 0.01154968017578125,
+        "totalEur": 0.017376960205078125
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/016",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

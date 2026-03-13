@@ -1,0 +1,77 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/008",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-090443-008-6761ed",
+  "timestamp": "2026-03-13T09:05:24.083194",
+  "issues": [
+    {
+      "description": "Constructor signature mismatch in the example program: the template's header declares Bitmap24(int i_width, int i_height, int depth) but the corresponding implementation in Bitmap24.cpp defines Bitmap24::Bitmap24(int p_width, int p_height) (two parameters). The solution repository uses the two-parameter constructor (int i_width, int i_height). This mismatch in the template is an unintentional structural inconsistency that will cause compilation errors and confuse students about the intended constructor API.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 36,
+          "end_line": 39
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 39
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        }
+      ],
+      "suggested_fix": "Make the template header match the implementation and the solution: change the constructor declaration in template_repository/example_program/src/Bitmap24.hpp to Bitmap24(int i_width, int i_height); (remove the extra 'depth' parameter). Alternatively, implement a three-parameter constructor in Bitmap24.cpp that accepts (int i_width, int i_height, int depth) if the extra parameter is intended \u2014 but prefer matching the solution (two-parameter constructor) to avoid confusing students."
+    },
+    {
+      "description": "Constructor API mismatch for the Bitmap24 class between template and solution. In the template repository header (example_program/src/Bitmap24.hpp) the class declares a three-parameter constructor Bitmap24(int i_width, int i_height, int depth) while the template implementation (example_program/src/Bitmap24.cpp) defines a two-parameter constructor Bitmap24::Bitmap24(int p_width, int p_height). The solution repository consistently uses the two-parameter constructor (Bitmap24(int i_width, int i_height) in the header and a matching two-parameter definition in the cpp). This discrepancy (extra 'depth' parameter present only in the template header) creates an unintentional API/name/signature inconsistency that will confuse students mapping the header to the implementation and may cause compilation/linking errors or wasted time tracking down why declarations and definitions differ.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 39
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 39
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        }
+      ],
+      "suggested_fix": "Make the template header and implementation consistent with the solution: remove the unused 'depth' parameter from the template header declaration so it matches the implementation (declare Bitmap24(int i_width, int i_height)), or alternatively update the template implementation to provide a matching three-parameter constructor and use the parameter meaningfully. The preferred, minimal fix is to change the template header to declare Bitmap24(int i_width, int i_height) to match the implementation and the solution API."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:04:43.771381",
+    "end_time": "2026-03-13T09:05:24.083194",
+    "duration_s": 40.311813
+  },
+  "trace_id": "81751975-a6c9-483f-a653-2b58debd5ea7"
+}

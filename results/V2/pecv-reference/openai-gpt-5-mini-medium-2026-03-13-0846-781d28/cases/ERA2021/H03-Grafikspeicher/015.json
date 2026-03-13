@@ -1,0 +1,85 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/015",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-085908-015-bb5b2a",
+  "timestamp": "2026-03-13T08:59:55.116969",
+  "issues": [
+    {
+      "description": "The problem statement requires that the subroutine set_pixel must not change any registers except EAX (\"Au\u00dfer dem Register eax d\u00fcrfen keine anderen Registerinhalte ver\u00e4ndert werden\"). The template contains a TODO comment near the position-calculation area that instead says: \"Attention: save all registers you modify except eax, ebx and esi\" which implies a different contract about which registers may be modified without saving. This is a direct contradiction: the problem text enforces preserving all registers except EAX, while the template comment suggests EBX and ESI can be modified freely (or need not be saved). Students will be unsure which register preservation rule they must follow when implementing set_pixel.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 100,
+          "end_line": 101
+        }
+      ],
+      "suggested_fix": "Make the register-preservation contract consistent across the artifacts. Either (A) update the template comment to match the problem statement (explicitly state that only EAX may be modified and that all other registers must be preserved/restored), or (B) if the intended rule allows modifying and restoring some registers (e.g., temporarily using EBX/ESI as long as they are restored), update the problem statement to explicitly say that temporary use with full restore is permitted. Prefer option A to preserve the stricter wording in the problem statement and avoid student confusion."
+    },
+    {
+      "description": "The template declares the program entry symbol as 'global main' while the solution repository changes the global directive to 'global _start' (but still defines a 'main' label). This mismatch in exported/global entry symbol between template and solution can confuse students about how the program is expected to be linked/executed and which symbol is the intended entry point.",
+      "severity": "MEDIUM",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 29,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 14,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 36
+        }
+      ],
+      "suggested_fix": "Choose and document a single expected entry symbol. If students are to implement/execute using 'main', make the solution use 'global main' as well. If the environment expects '_start', update the template to use 'global _start' and document this in the problem/README. Keep the global directive consistent across template, solution, and any instructions so students do not get confused about how to run the program."
+    },
+    {
+      "description": "The program entry symbol is exported with different global names between template and solution: the template declares the program entry as 'global main' (template_repository/pixel.asm) while the solution file declares 'global _start' (solution_repository/pixel.asm) even though the solution still contains a 'main' label. This discrepancy can confuse students who compare template and solution to locate the program entry point or to understand which symbol is intended as the runtime entry. It is an unintended identifier naming mismatch for the same conceptual entity (program entry).",
+      "severity": "LOW",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 30,
+          "end_line": 30
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 14,
+          "end_line": 14
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 36
+        }
+      ],
+      "suggested_fix": "Unify the exported entry symbol across artifacts. For clarity change the solution's 'global _start' to 'global main' (or alternatively change the template to 'global _start') so both template and solution export the same program entry name. This preserves pedagogical intent while removing a minor mapping confusion."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:59:08.084860",
+    "end_time": "2026-03-13T08:59:55.116969",
+    "duration_s": 47.032109
+  },
+  "trace_id": "5aa97de6-e96f-4166-a084-376b86ea919c"
+}

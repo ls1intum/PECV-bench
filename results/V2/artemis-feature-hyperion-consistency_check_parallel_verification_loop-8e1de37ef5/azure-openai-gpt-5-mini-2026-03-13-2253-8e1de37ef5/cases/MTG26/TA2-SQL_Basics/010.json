@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T23:19:38.637916Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Column identifier inconsistency for Schwimmbad.id: the problem statement (task description) requests the ID, Name, Art and URL of all Freib\u00e4der. The template (aufgabe01.sql) uses SELECT * FROM Schwimmbad which implies the table has a distinct identifier column (e.g. id). The solution (solution_repository/aufgabe01.sql) instead aliases the name column to id (SELECT name as id, name, art, url ...), producing duplicate values for id and name rather than returning the actual identifier. This mismatch is confusing for students because the task explicitly asks for an ID column while the reference solution supplies an aliased duplicate rather than the real identifier column, making it unclear which column is the intended primary identifier.",
+            "suggestedFix": "Either update the solution to return the actual identifier column from Schwimmbad (e.g. change solution to: SELECT id, name, art, url FROM Schwimmbad WHERE art = 'Freibad') or, if the schema truly lacks a separate id column, update the problem statement to explicitly state that name should be used as the identifier. Prefer returning the real id column in the solution to match the task wording and the template's use of SELECT *.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 108,
+                    "endLine": 108
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 2
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Concept: the problem statement requests the Freibad records with four columns: ID, Name, Art and URL. In the solution SQL (solution_repository/aufgabe01.sql) the first returned column is produced by aliasing the name column to id (SELECT name AS id, name, art, url), which maps the conceptual entity 'ID' to the 'name' column. The template (template_repository/aufgabe01.sql) contains SELECT * FROM Schwimmbad and therefore may actually expose a real identifier column if present. A student reading the problem expects an identifier column (e.g. id or schwimmbad_id) but the solution returns the name value under the label id. This inconsistency can mislead students about which column is the unique identifier, increases cognitive load when mapping requirements to the solution, and may cause confusion or incorrect assumptions in downstream exercises or grading that checks semantic meaning of the ID column.",
+            "suggestedFix": "Return the actual identifier column instead of aliasing name as id. Update solution_repository/aufgabe01.sql to explicitly select the real id column, e.g.: SELECT id, name, art, url FROM Schwimmbad WHERE art = 'Freibad'; If the table uses a different identifier column name (for example schwimmbad_id), use that column name instead of aliasing name.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 108,
+                    "endLine": 108
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 2
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:19:38.637916Z",
+        "endTime": "2026-03-13T23:20:05.410708Z",
+        "durationS": 26.772
+    },
+    "tokens": {
+        "prompt": 25309,
+        "completion": 5481,
+        "total": 30790
+    },
+    "costs": {
+        "promptEur": 0.005821070068359375,
+        "completionEur": 0.010085040283203124,
+        "totalEur": 0.0159061103515625
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/010",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

@@ -1,0 +1,45 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/014",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-085856-014-326e4e",
+  "timestamp": "2026-03-13T08:59:46.291345",
+  "issues": [
+    {
+      "description": "The solution references the global symbol display_start as the framebuffer base address (used in set_pixel and in main) but the solution repository does not declare or allocate display_start. The template and problem statement expect a global buffer named display_start (the template declares it as 'display_start RESB 8294400'). This mismatch means the solution as provided is not structurally consistent with the template/problem: the referenced symbol is missing, so the solution will not assemble/run and students will be confused about where display_start is defined and whether they should use a global buffer or a local one.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 20,
+          "end_line": 22
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 30,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 95,
+          "end_line": 95
+        }
+      ],
+      "suggested_fix": "Restore a consistent definition of display_start so the solution matches the template and problem statement. Options: (a) Reintroduce the global allocation in the solution (e.g. in .bss: 'display_start RESB 8294400') to match the template, or (b) if moving display_start to a local stack scope was intended, update all references in the solution and the problem statement/template to pass the base address explicitly (e.g. via a register or as a parameter) and document that change. The simplest fix is to add 'display_start RESB 8294400' to solution_repository/pixel.asm in the .bss section so the symbol exists and matches the template."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:58:56.810109",
+    "end_time": "2026-03-13T08:59:46.291345",
+    "duration_s": 49.481236
+  },
+  "trace_id": "27687a31-e732-469c-b057-7e884eed1e69"
+}

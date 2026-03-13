@@ -1,0 +1,39 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/006",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-102353-006-40c286",
+  "timestamp": "2026-03-13T10:24:30.429457",
+  "issues": [
+    {
+      "description": "The problem statement (Aufgabe 06) asks for the number of Wanderwege that lead to Gemeinden with MORE THAN 500000 male inhabitants (einwohner_m > 500000). The solution (solution_repository/aufgabe06.sql) uses the opposite comparison (einwohner_m < 500000). This is a direct contradiction between the specification and the provided solution \u2014 if students refer to the solution they will get the wrong predicate and an incorrect result for the stated requirement. The template file is empty (intentional pedagogical gap) but the solution itself contradicts the problem text.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 41,
+          "end_line": 44
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe06.sql",
+          "start_line": 1,
+          "end_line": 1
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe06.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Change the comparison operator in the solution to match the problem statement: use 'AND einwohner_m > 500000' instead of 'AND einwohner_m < 500000' (i.e., SELECT COUNT(*) ... WHERE Gemeinde.schluessel = Wanderweg_zu_Gemeinde.gemeindeschluessel AND einwohner_m > 500000)."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:23:53.130306",
+    "end_time": "2026-03-13T10:24:30.429457",
+    "duration_s": 37.299151
+  },
+  "trace_id": "1b517c10-1bfa-44ca-a7a4-bdd136b92856"
+}

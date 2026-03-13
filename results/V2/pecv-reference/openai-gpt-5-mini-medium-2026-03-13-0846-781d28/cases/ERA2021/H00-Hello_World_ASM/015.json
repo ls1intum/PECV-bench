@@ -1,0 +1,65 @@
+{
+  "case_id": "ERA2021/H00-Hello_World_ASM/015",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-085046-015-206567",
+  "timestamp": "2026-03-13T08:51:09.292150",
+  "issues": [
+    {
+      "description": "Problem statement requires that the function 'start_app' is the global entry point, but both the template and the solution declare 'main' as global (and the template only defines 'main'). The solution does include a 'start_app' label, but it is not declared global and contains only a trivial 'ret'. This mismatch between the specified entrypoint ('start_app') and the actual global symbol in template and solution will confuse students about which symbol to implement/modify and may prevent the program from using the intended entrypoint.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 22,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 8
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 9
+        }
+      ],
+      "suggested_fix": "Make the entrypoint consistent across all artifacts. Either (A) change the template and solution to declare 'start_app' as the global entrypoint (replace 'global main' with 'global start_app' and move/implement the program startup code under the 'start_app' label), or (B) update the problem statement to require 'main' as the global entrypoint. Preferable fix to match the spec: in template_repository/helloWorld.asm replace 'global main' with 'global start_app' and add a 'start_app' label that contains (or jumps into) the intended startup code; in solution_repository/helloWorld.asm declare 'global start_app' (instead of 'global main') and ensure 'start_app' contains the program's entry instructions."
+    },
+    {
+      "description": "The problem statement requires the global entry point to be named `start_app`, but both the template and the provided solution use `main` as the global symbol. In the template `global main` is declared and `main:` is the entry label; the solution also declares `global main` and defines `main:` (while `start_app:` exists but is not made global). This inconsistent naming for the same conceptual entity (the program's global entry point) will confuse students: they are instructed to make `start_app` the global entry, yet the starter code and reference implementation expose `main` as the actual global entry symbol.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 8
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 11
+        }
+      ],
+      "suggested_fix": "Make the entry-point identifier consistent across all artifacts. Either (A) change the problem statement to require `main` as the global entry point, or (B) update the template and solution to use `start_app` as the global entry point. Recommended: in both template_repository/helloWorld.asm and solution_repository/helloWorld.asm declare `global start_app` and ensure the entry label is `start_app` (or have `main` call into a global `start_app`), so the code matches the problem requirement and removes student confusion."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:50:46.113487",
+    "end_time": "2026-03-13T08:51:09.292150",
+    "duration_s": 23.178663
+  },
+  "trace_id": "dd301f1b-f696-4377-a953-6a6d6e08685d"
+}

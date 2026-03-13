@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T23:27:30.196275Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Function name mismatch for the tensor-network zero-state constructor: the problem statement (and the solution implementation) refer to create_zero_state(num_qubits), but the template repository provides a different identifier init_zero_state(num_qubits). Problem statement and tests expect a function named create_zero_state with the specified signature; the template's init_zero_state signature exists but under a different name. This inconsistency will confuse students and cause tests or autograding that call create_zero_state to fail unless they rename or add an adapter, preventing straightforward use of the provided template.",
+            "suggestedFix": "Make the template API match the problem statement and solution. Either (a) rename the template stub init_zero_state to create_zero_state with the same signature and behavior, or (b) add a small adapter in the template: define create_zero_state(num_qubits) that simply returns init_zero_state(num_qubits). Ensure the docstring and return type (list of rank-3 tensors: (1,2,1) per site) match the problem description so tests invoking create_zero_state succeed.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 78,
+                    "endLine": 78
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "tensor_networks.py",
+                    "startLine": 44,
+                    "endLine": 44
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "tensor_networks.py",
+                    "startLine": 44,
+                    "endLine": 44
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The concept is the creation of the all-zero MPS (the n-qubit |0...0> initial state). The problem statement (task for Tensor Networks) explicitly asks students to implement create_zero_state(...). The solution implementation defines create_zero_state(...) (solution_repository/tensor_networks.py). However, the template starter code declares a stub named init_zero_state(...) (template_repository/tensor_networks.py). This mismatch (create_zero_state vs init_zero_state) maps to the same conceptual entity but uses different identifiers across artifacts, which can prevent a student from locating the expected function to implement and increases cognitive load when matching requirements to the template code.",
+            "suggestedFix": "Make the identifier consistent across all artifacts. Preferred options: (A) Rename the template stub init_zero_state(...) to create_zero_state(...) so the template matches the problem statement and solution; or (B) if init_zero_state(...) is intentionally preferred, update the problem statement and the solution to reference init_zero_state(...). Option (A) is recommended to minimize changes to the problem statement and solution.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "tensor_networks.py",
+                    "startLine": 44,
+                    "endLine": 64
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "tensor_networks.py",
+                    "startLine": 44,
+                    "endLine": 64
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 76,
+                    "endLine": 79
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:27:30.196275Z",
+        "endTime": "2026-03-13T23:27:54.589427Z",
+        "durationS": 24.393
+    },
+    "tokens": {
+        "prompt": 118743,
+        "completion": 4463,
+        "total": 123206
+    },
+    "costs": {
+        "promptEur": 0.027310890625,
+        "completionEur": 0.008211920166015626,
+        "totalEur": 0.03552281079101563
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/016",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

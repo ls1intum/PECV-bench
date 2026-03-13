@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T23:26:31.796002Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "DDNode dataclass field order mismatch: In the template repository dd.py the DDNode dataclass declares fields in the order (successors: list[DD], v: int). In the template's make_dd function the code constructs nodes using positional arguments DDNode(v, successors) (call at template dd.py line 407), which assumes the order (v, successors). The solution repository defines DDNode with the order (v: int, successors: list[DD]). This mismatch causes positional arguments to be swapped when using make_dd (and any other positional DDNode(...) calls), producing incorrect nodes or runtime errors and preventing correct use of the provided API by students.",
+            "suggestedFix": "Make the template dd.py DDNode declaration match the intended constructor order used elsewhere and in the solution: declare fields as (v: int, successors: list[DD]) so that positional construction DDNode(v, successors) is correct. Alternatively, change all DDNode(...) calls in the template to use explicit keywords (DDNode(v=v, successors=successors)) to avoid relying on field declaration order. Prefer the first option (reorder fields) to align the template with the solution and avoid pervasive keyword changes.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 137,
+                    "endLine": 139
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 407,
+                    "endLine": 407
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 137,
+                    "endLine": 138
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:26:31.796002Z",
+        "endTime": "2026-03-13T23:27:02.668618Z",
+        "durationS": 30.872
+    },
+    "tokens": {
+        "prompt": 118551,
+        "completion": 4874,
+        "total": 123425
+    },
+    "costs": {
+        "promptEur": 0.02726673046875,
+        "completionEur": 0.008968160034179688,
+        "totalEur": 0.03623489050292969
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/007",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

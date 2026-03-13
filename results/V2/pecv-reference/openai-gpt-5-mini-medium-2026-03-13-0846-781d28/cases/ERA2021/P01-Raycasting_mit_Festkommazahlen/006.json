@@ -1,0 +1,39 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/006",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-090315-006-7f3342",
+  "timestamp": "2026-03-13T09:04:06.273273",
+  "issues": [
+    {
+      "description": "The declaration of Bitmap24::resize_buffer in the template header uses parameters of type 'long' (long i_width, long i_height), but the implementation in Bitmap24.cpp uses 'int' parameters (int i_width, int i_height). The solution repository's header uses 'int' as well. This mismatch between the header declaration and the implementation will cause a signature/type inconsistency that can prevent successful compilation or lead to ODR/mangling errors and will confuse students about the correct parameter types to implement/use.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 42,
+          "end_line": 45
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 58,
+          "end_line": 71
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 42,
+          "end_line": 45
+        }
+      ],
+      "suggested_fix": "Make the header declaration in the template match the implementation (and the solution). Change the resize_buffer signature in example_program/src/Bitmap24.hpp from 'void resize_buffer(long i_width, long i_height)' to 'void resize_buffer(int i_width, int i_height)'. This aligns template, implementation, and solution and prevents compilation/mangling errors while preserving the intended API."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:03:15.326656",
+    "end_time": "2026-03-13T09:04:06.273273",
+    "duration_s": 50.946617
+  },
+  "trace_id": "95982487-a647-46b4-9fd1-4fd606630847"
+}

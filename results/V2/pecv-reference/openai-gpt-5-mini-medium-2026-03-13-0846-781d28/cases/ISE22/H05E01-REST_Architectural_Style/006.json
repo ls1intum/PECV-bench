@@ -1,0 +1,77 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/006",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-092553-006-afa5ff",
+  "timestamp": "2026-03-13T09:26:44.865121",
+  "issues": [
+    {
+      "description": "The solution's PersonResource calls personService.getAllPersons(...) with a PersonSortingOptions parameter, but the solution's PersonService only provides a no-argument getAllPersons() method. The template and problem statement expect getAllPersons(PersonSortingOptions) (the template has this method signature with a TODO to implement sorting). This mismatch causes a compile error in the solution and prevents the server-side sorting feature from being implemented as described in the problem statement, blocking students from following the intended Part 3 changes.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 199,
+          "end_line": 208
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 37,
+          "end_line": 40
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 26
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 39,
+          "end_line": 41
+        }
+      ],
+      "suggested_fix": "Ensure PersonService exposes a getAllPersons(PersonSortingOptions sortingOptions) method (matching the template and the call in PersonResource) and implement the sorting logic there. Concretely, add or change the method signature in solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java to public List<Person> getAllPersons(PersonSortingOptions sortingOptions) and implement sorting according to sortingOptions (or alternatively overload getAllPersons to provide both the no-arg and parameterized variants). This aligns the solution with the problem statement and template and resolves the compilation/runtime mismatch."
+    },
+    {
+      "description": "Method signature mismatch for getting all persons: the problem statement and the template require PersonService.getAllPersons(PersonSortingOptions) (i.e., the service method must accept a PersonSortingOptions parameter to perform sorting). In the solution repository, PersonResource invokes personService.getAllPersons(new PersonSortingOptions(...)) but the implemented PersonService exposes getAllPersons() with no parameter. This inconsistency (different method signatures / parameter presence) prevents a clear mapping from the exercise requirement to the solution implementation, can cause compilation errors, and will confuse students implementing the requested sorting behavior.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 207,
+          "end_line": 208
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 37,
+          "end_line": 40
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 39,
+          "end_line": 41
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 27
+        }
+      ],
+      "suggested_fix": "Make the service API consistent with the problem and template: change the solution's PersonService to provide getAllPersons(PersonSortingOptions sortingOptions) and implement the sorting logic there (respecting sortField and sortingOrder). Ensure PersonResource calls this method with the constructed PersonSortingOptions (as already done) so the signatures align and students can map the requirement to the implementation."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:25:53.412707",
+    "end_time": "2026-03-13T09:26:44.865121",
+    "duration_s": 51.452414
+  },
+  "trace_id": "37b6bcac-8022-444f-95a2-3537a080199f"
+}

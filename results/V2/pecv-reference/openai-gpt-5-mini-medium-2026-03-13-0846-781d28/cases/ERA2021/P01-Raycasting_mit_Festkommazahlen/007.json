@@ -1,0 +1,51 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/007",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-090345-007-3d8bff",
+  "timestamp": "2026-03-13T09:04:21.757106",
+  "issues": [
+    {
+      "description": "The example program uses the default constructor Bitmap24 bitmap; (main.cpp) but the template header Bitmap24.hpp does not declare a default constructor. The implementation file (Bitmap24.cpp) defines Bitmap24::Bitmap24() while the header only declares Bitmap24(int i_width, int i_height). This mismatch will cause compilation failures for students using the template (the code as provided does not compile). The solution repository's header does declare the default constructor, so the template is structurally inconsistent with the solution and with the example usage in main.cpp.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 18,
+          "end_line": 21
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/main.cpp",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 35,
+          "end_line": 41
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 36,
+          "end_line": 41
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 39
+        }
+      ],
+      "suggested_fix": "Declare the default constructor in the template header to match the implementation and example usage. For example, add 'Bitmap24();' to template_repository/example_program/src/Bitmap24.hpp (so the header contains both 'Bitmap24();' and 'Bitmap24(int i_width, int i_height);'). This keeps the pedagogical intent (students implement other parts) while ensuring the provided example compiles as intended. Alternatively, modify main.cpp to construct with the parameterized constructor, but the simpler fix is to add the missing declaration to the header."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:03:45.882107",
+    "end_time": "2026-03-13T09:04:21.757106",
+    "duration_s": 35.874999
+  },
+  "trace_id": "733ab835-9e3f-41b9-b331-931470724569"
+}

@@ -1,0 +1,77 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/001",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-092321-001-03ec7e",
+  "timestamp": "2026-03-13T09:24:10.351380",
+  "issues": [
+    {
+      "description": "Return-type mismatch for PersonService.savePerson: the template declares PersonService.savePerson(Person) returning Person (template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java), which matches how the REST resource is expected to use it (the pattern used by NoteService and the intended endpoints). In the solution repository, PersonService.savePerson(Person) has been changed to return void (solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java), but PersonResource in the solution still calls personService.savePerson(person) and expects a Person return (solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java lines that return ResponseEntity.ok(personService.savePerson(person))). This inconsistency (service method returns void while the controller expects a returned Person) is structural and will cause compilation errors and confusion for students trying to follow the solution or comparing template and solution.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 18,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 20,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
+          "end_line": 43
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 136
+        }
+      ],
+      "suggested_fix": "Restore consistent method signature/behavior: make PersonService.savePerson(Person) return a Person (as in the template and analogous to NoteService.saveNote) and return the saved/updated Person. Alternatively, update PersonResource to not expect a returned Person and explicitly return the person object after calling a void save method. Prefer the first option (return Person) to match the template, NoteService pattern, and the expectations in PersonResource."
+    },
+    {
+      "description": "In the template and in the problem statement the service method used to persist a Person is expected to return the saved Person (template: PersonService.savePerson(Person) -> Person; problem: POST /persons should return the saved person in the response body). In the solution repository PersonService.savePerson has been changed to a void method (no return value), but PersonResource in the solution still calls personService.savePerson(...) and attempts to use its return value in the ResponseEntity. This mismatch (service method return type vs. resource expectation) breaks the conceptual mapping between the endpoint contract described in the problem and the implementation and will cause confusion (and compilation/runtime errors).",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 114
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 18,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 20,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
+          "end_line": 35
+        }
+      ],
+      "suggested_fix": "Make the PersonService.savePerson method signature and behavior consistent with the problem statement and with PersonResource: restore it to return the saved Person object (public Person savePerson(Person person)) and return the created/updated Person (similar to NoteService.saveNote). Alternatively, update PersonResource to not expect a return value and to construct the ResponseEntity appropriately \u2014 but the cleaner fix is to restore the service to return Person so the POST/PUT endpoints can return the saved entity as specified."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:23:21.437369",
+    "end_time": "2026-03-13T09:24:10.351380",
+    "duration_s": 48.914011
+  },
+  "trace_id": "df140c3f-0a6d-4bba-9d7c-e344d9c2720f"
+}

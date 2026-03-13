@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T22:57:18.469807Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Element: initial pixel value load and the printf argument sequence. Problem statement (problem_statement.md) explicitly instructs that the computed pixel memory value must be loaded into ECX using 'mov ecx, [esi]' before the printf call so that the printf argument order 'push ecx; push ebx; push eax; push message' supplies (value, y, x). The template (template_repository/pixel.asm) expects ECX to hold the pixel value when it does 'push ecx; push ebx; push eax; push message' (lines 112-116). The solution implementation (solution_repository/pixel.asm) instead performs 'mov eax, [esi]' (line 101) and does not set ECX, so the value pushed as the first argument to printf is undefined/wrong. This mismatch between the problem specification/template and the solution confuses students about which register must contain the pixel value and leads to incorrect printed output.",
+            "suggestedFix": "Make the solution consistent with the problem and template by loading the pixel value into ECX before preparing printf arguments. Replace 'mov eax, [esi]' with 'mov ecx, [esi]' (and adjust any use of EAX accordingly, preserving EAX if needed with push/pop). Alternatively, if keeping 'mov eax, [esi]', change the printf argument pushes to 'push eax; push ebx; push eax_saved_or_x; push message' and ensure registers are saved/restored so the printed value, y and x are passed in the order expected by the template/problem.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 26,
+                    "endLine": 26
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 112,
+                    "endLine": 116
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 101,
+                    "endLine": 101
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:57:18.469807Z",
+        "endTime": "2026-03-13T22:58:19.537210Z",
+        "durationS": 61.067
+    },
+    "tokens": {
+        "prompt": 25390,
+        "completion": 6940,
+        "total": 32330
+    },
+    "costs": {
+        "promptEur": 0.0058397001953125,
+        "completionEur": 0.012769600433349609,
+        "totalEur": 0.01860930062866211
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/002",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

@@ -1,0 +1,45 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/014",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-092909-014-443b77",
+  "timestamp": "2026-03-13T09:29:30.415968",
+  "issues": [
+    {
+      "description": "The template's PersonService declares savePerson as public (intended for use by other server components), but the solution repository changes its visibility to private while PersonResource in the solution still calls personService.savePerson(...). This is a structural visibility mismatch: a private method cannot be invoked from another class, so the solution as committed is inconsistent and would not compile. Students will be confused about the expected visibility of savePerson and whether PersonResource should be able to call it.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 125,
+          "end_line": 136
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 18,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 20,
+          "end_line": 33
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 29,
+          "end_line": 43
+        }
+      ],
+      "suggested_fix": "Restore the visibility of PersonService.savePerson to public so that PersonResource (and other server components) can call it, matching the template and the problem statement. Specifically, change the method declaration in PersonService to 'public Person savePerson(Person person) { ... }'. This makes the solution consistent with the template and avoids compile errors or student confusion."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:29:09.699179",
+    "end_time": "2026-03-13T09:29:30.415968",
+    "duration_s": 20.716789
+  },
+  "trace_id": "bc6d8179-c610-48f7-83ae-6a79c51fabae"
+}

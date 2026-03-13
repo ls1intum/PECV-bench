@@ -1,0 +1,97 @@
+{
+  "case_id": "QCSL25/QC03-Magic_State_Distillation/011",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-123124-011-ee8757",
+  "timestamp": "2026-03-13T12:32:37.932896",
+  "issues": [
+    {
+      "description": "The problem statement shows build_msd_circ with parameter type y_states: tuple[int], while the template and solution use y_states: list[int]. This difference in the expected container type for the resource-state indices is a small type/signature mismatch that could confuse students about whether to pass a tuple or a list.",
+      "severity": "LOW",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 116,
+          "end_line": 118
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 93,
+          "end_line": 106
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 153,
+          "end_line": 165
+        }
+      ],
+      "suggested_fix": "Use a consistent annotated type for y_states across all artifacts. Prefer list[int] (used by template and solution) or change the template/solution to accept tuple[int]. Update the problem statement to specify y_states: list[int] to match the starter code and reference solution."
+    },
+    {
+      "description": "The declared parameter order for correct_teleportation is (teleportation_measurements, x_measurements) in the specification and template, but in the solution calls (e.g. in simulate_msd_one_round and simulate_msd_two_rounds) the arguments are passed in the opposite order (final measurements first, teleportation measurements second). Although the solution's implementation uses XOR (a symmetric operation) so it is functionally unaffected, this mismatch between the documented/signature order and how the function is used is a source of confusion and could lead students to implement a non-commutative correction that won't interoperate with the rest of the code.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 103,
+          "end_line": 110
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 65,
+          "end_line": 75
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 224,
+          "end_line": 236
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 292,
+          "end_line": 304
+        }
+      ],
+      "suggested_fix": "Make the intended argument order explicit and consistent everywhere. Either (a) update all call sites to pass (teleportation_measurements, x_measurements) to match the signature, or (b) change the function signature and documentation to reflect the order actually used by callers. Additionally, document that the operation should be implemented commutatively (e.g. as XOR) or specify the exact mapping so students don't implement a non-commutative routine."
+    },
+    {
+      "description": "The inject function parameter injection_qubit is un-annotated in the template (no type annotation), while the problem statement and solution implicitly expect an int index. The lack of an explicit parameter type in the template can be a small source of confusion for students about the expected type (int) to pass for injection_qubit.",
+      "severity": "LOW",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 88,
+          "end_line": 92
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 52,
+          "end_line": 63
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 108,
+          "end_line": 121
+        }
+      ],
+      "suggested_fix": "Add an explicit type annotation for injection_qubit in the template signature (e.g. injection_qubit: int) and ensure the documentation states that an integer qubit index should be provided."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T12:31:24.257036",
+    "end_time": "2026-03-13T12:32:37.932896",
+    "duration_s": 73.67586
+  },
+  "trace_id": "e0bc2d75-4cc8-483f-a123-1440d2b6ba8e"
+}

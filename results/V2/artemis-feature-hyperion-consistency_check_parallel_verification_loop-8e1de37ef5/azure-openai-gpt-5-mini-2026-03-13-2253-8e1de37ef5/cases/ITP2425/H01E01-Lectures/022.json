@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-13T23:05:56.469951Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Method getTotalNumberOfStudents: the problem statement and UML specify a parameterless method getTotalNumberOfStudents(): int, and the template leaves a TODO for implementing that method. The solution implementation defines getTotalNumberOfStudents(boolean includeGuests) with a boolean parameter. This parameter mismatch between the solution (boolean parameter) and the problem statement/UML/template (no parameter) will cause confusion and test failures because automated tests and students will expect a parameterless method signature.",
+            "suggestedFix": "Make the artifacts consistent. Preferred fix: change the solution to provide a parameterless method matching the specification, e.g. add/replace with: public int getTotalNumberOfStudents() { return numberOfInscribedStudents + numberOfGuestStudents; } (you may keep the boolean variant as an overload if desired: public int getTotalNumberOfStudents(boolean includeGuests) { return includeGuests ? numberOfInscribedStudents + numberOfGuestStudents : numberOfInscribedStudents; }). Alternative: if the boolean parameter is intentional, update the problem statement, UML diagram, and template TODO to require getTotalNumberOfStudents(boolean includeGuests): int and explain the parameter meaning so all artifacts match.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 40,
+                    "endLine": 40
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 70
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 12,
+                    "endLine": 12
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 75,
+                    "endLine": 75
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The exercise and UML specify a no-argument method getTotalNumberOfStudents() (problem_statement.md calls it getTotalNumberOfStudents(): int), but the solution implementation defines getTotalNumberOfStudents(boolean includeGuests). Template contains a TODO for the total-students method but no implementation. This creates a naming/signature mismatch: students are instructed to implement getTotalNumberOfStudents() with no parameters, yet the reference solution exposes getTotalNumberOfStudents(boolean) and calls it with a boolean in dependent methods (e.g., getNameAndTotalNumberOfStudents and getNumberOfStudentsPerTutor). A student following the task will not find the expected no-arg method in the solution and may be confused about the intended API and return behavior.",
+            "suggestedFix": "Align the API across artifacts. Preferred fix: change the solution to implement a no-argument method public int getTotalNumberOfStudents() that returns the total students (numberOfInscribedStudents + numberOfGuestStudents). Then update dependent methods in the solution to call getTotalNumberOfStudents() (no parameter). Alternatively, if the boolean parameter is desired pedagogically, update the problem statement and UML to declare getTotalNumberOfStudents(boolean includeGuests): int and describe the parameter; but option A (no-arg method) is recommended to match the current UML and task text.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 70
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 12,
+                    "endLine": 12
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 74,
+                    "endLine": 81
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:05:56.469951Z",
+        "endTime": "2026-03-13T23:06:26.490534Z",
+        "durationS": 30.02
+    },
+    "tokens": {
+        "prompt": 23150,
+        "completion": 6216,
+        "total": 29366
+    },
+    "costs": {
+        "promptEur": 0.0053245,
+        "completionEur": 0.011437440185546875,
+        "totalEur": 0.016761940185546876
+    },
+    "case_id": "V2/ITP2425/H01E01-Lectures/022",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

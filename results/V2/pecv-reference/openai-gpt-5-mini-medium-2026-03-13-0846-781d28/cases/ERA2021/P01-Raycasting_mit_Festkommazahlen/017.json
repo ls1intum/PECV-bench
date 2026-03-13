@@ -1,0 +1,83 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/017",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-090837-017-19b1a6",
+  "timestamp": "2026-03-13T09:09:11.119352",
+  "issues": [
+    {
+      "description": "Method name/signature mismatch in the Bitmap24 API in the template repository: the class declaration in Bitmap24.hpp declares a method named write(const std::string&), while the implementation and usage in main.cpp define and call Bitmap24::save(const std::string&). This causes an ABI/signature mismatch that will lead to compile/link errors (undefined reference or cannot find member) when students try to build the provided template. The solution repository uses save in both header and implementation, so the template header is the outlier and appears to be an unintentional inconsistency.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 47,
+          "end_line": 49
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 78,
+          "end_line": 160
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 225,
+          "end_line": 229
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 47,
+          "end_line": 49
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 78,
+          "end_line": 160
+        }
+      ],
+      "suggested_fix": "Make the declaration and definition consistent. The simplest fix is to update the template header to declare save(const std::string &i_filename) instead of write(...), since the implementation and main() call use save. Concretely, in example_program/src/Bitmap24.hpp change the method prototype\n\n    void write(const std::string &i_filename);\n\nto\n\n    void save(const std::string &i_filename);\n\n(or alternatively rename the implementation to Bitmap24::write and update calls in main.cpp). Ensure the template repository's header, implementation, and example usage all use the same method name/signature so students can compile and run the example without linker errors."
+    },
+    {
+      "description": "The template's Bitmap24 header declares a method named 'write(const std::string&)', but the Bitmap24 implementation (Bitmap24.cpp) and the rest of the code (main.cpp) use/implement 'save(const std::string&)'. This inconsistent identifier for the single concept 'store bitmap to a file' (declaration vs. implementation/usage) breaks the straightforward mapping from requirement to code and will cause compilation/linking errors or force students to waste time reconciling the two names.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 47,
+          "end_line": 49
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 78,
+          "end_line": 160
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 225,
+          "end_line": 229
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 47,
+          "end_line": 49
+        }
+      ],
+      "suggested_fix": "Make the identifier consistent across declaration, implementation, and usage. For example, in the template change the header declaration from 'void write(const std::string &i_filename);' to 'void save(const std::string &i_filename);' so it matches Bitmap24::save in Bitmap24.cpp and the call 'bitmap.save(outfile)' in main.cpp. (Alternatively, rename the implementation and usages to 'write' everywhere \u2014 but aligning to 'save' matches the solution and is recommended.)"
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:08:37.568418",
+    "end_time": "2026-03-13T09:09:11.119352",
+    "duration_s": 33.550934
+  },
+  "trace_id": "8ad6d136-3960-452b-bef8-ce8376402351"
+}
