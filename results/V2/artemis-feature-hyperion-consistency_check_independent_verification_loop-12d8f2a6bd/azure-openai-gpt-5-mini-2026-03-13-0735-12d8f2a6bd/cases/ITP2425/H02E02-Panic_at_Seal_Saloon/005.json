@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-13T07:57:09.958343Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field 'orders' in SealSaloon: the problem statement explicitly requires a modifiable List<Meal> attribute named 'orders' initialized in the SealSaloon constructor, but the solution implements this as a Meal[] array (private Meal[] orders) and uses ArrayHelpers to modify it. This mismatch (List<Meal> vs Meal[]) creates ambiguity for students about the expected data structure and which APIs to use (List methods vs. ArrayHelpers/array operations).",
+            "suggestedFix": "Choose one representation and make it consistent across the statement, template, and solution. Either update the problem statement to accept an array-based orders attribute (Meal[]) and explicitly mention use of ArrayHelpers, or change the template/solution to use a modifiable List<Meal> (e.g., ArrayList) and update examples and helpers accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 71
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 4,
+                    "endLine": 4
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Attribute 'stock' initialization/staticness: the problem statement first instructs students to initialize the SealSaloon attributes (including 'final Stock stock') in the constructor, but later (lines labeled 'Note that the following methods and attributes must be static') requires that 'stock' be static and shared across all instances. The solution declares 'private static final Stock stock = new Stock();' (initialized at declaration). This is a contradiction about whether 'stock' is an instance final field initialized in the constructor or a static final shared field initialized at declaration, and will confuse students about where to declare/initialize it.",
+            "suggestedFix": "Clarify the intended design in the problem statement: if 'stock' is meant to be shared across all saloon instances, state explicitly that it should be declared 'static final' and initialized at declaration or in a static initializer (and remove the instruction to initialize it in the instance constructor). Alternatively, if it should be an instance-level final field, remove the requirement that it be static and adjust the solution/template accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 76
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 77,
+                    "endLine": 81
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 5,
+                    "endLine": 5
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:57:09.958343Z",
+        "endTime": "2026-03-13T07:58:11.066938Z",
+        "durationS": 61.108
+    },
+    "tokens": {
+        "prompt": 29798,
+        "completion": 5137,
+        "total": 34935
+    },
+    "costs": {
+        "promptEur": 0.006853540283203126,
+        "completionEur": 0.009452079956054687,
+        "totalEur": 0.016305620239257815
+    },
+    "case_id": "V2/ITP2425/H02E02-Panic_at_Seal_Saloon/005",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

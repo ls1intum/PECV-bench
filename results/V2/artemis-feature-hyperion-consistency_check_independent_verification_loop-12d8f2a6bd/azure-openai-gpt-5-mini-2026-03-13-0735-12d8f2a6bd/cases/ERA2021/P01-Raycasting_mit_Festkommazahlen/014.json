@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-13T07:41:02.557985Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Class Bitmap24: the methods save(const std::string &i_filename) and set(int i_y, int i_x, char i_r, char i_g, char i_b) are declared as private in the template header but are (1) called from example_program/src/main.cpp (bitmap.set(...) and bitmap.save(...)) and (2) declared public in the solution header. Specifically, template/example_program/src/Bitmap24.hpp places the save(...) and set(...) declarations in the private section, while solution/example_program/src/Bitmap24.hpp exposes the same signatures publicly. This mismatch causes a compilation/access error for students using the provided main.cpp and is inconsistent with the reference solution's API.",
+            "suggestedFix": "Expose the Bitmap24 API used by main.cpp in the template header by moving the declarations of save(const std::string &) and set(int, int, char, char, char) into the public section of example_program/src/Bitmap24.hpp so they match the solution's header and the calls in main.cpp. Alternatively, adjust main.cpp to use only methods that are intentionally public, but the simpler and clearer fix is to make save(...) and set(...) public in the template to match the reference implementation.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 47,
+                    "endLine": 58
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/main.cpp",
+                    "startLine": 42,
+                    "endLine": 44
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/main.cpp",
+                    "startLine": 227,
+                    "endLine": 228
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 47,
+                    "endLine": 57
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:41:02.557985Z",
+        "endTime": "2026-03-13T07:41:58.963007Z",
+        "durationS": 56.405
+    },
+    "tokens": {
+        "prompt": 131754,
+        "completion": 6923,
+        "total": 138677
+    },
+    "costs": {
+        "promptEur": 0.030303420898437503,
+        "completionEur": 0.012738320312499999,
+        "totalEur": 0.0430417412109375
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/014",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

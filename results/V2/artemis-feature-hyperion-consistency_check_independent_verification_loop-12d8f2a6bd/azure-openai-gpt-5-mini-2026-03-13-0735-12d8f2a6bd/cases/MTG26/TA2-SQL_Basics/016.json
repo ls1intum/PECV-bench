@@ -1,0 +1,42 @@
+{
+    "timestamp": "2026-03-13T08:07:07.367230Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The task text requires the aggregated column to be named `Anzahl` and the results sorted descending by that column. The solution (solution_repository/aufgabe10.sql lines 1-4) selects COUNT(*) AS Count but then uses ORDER BY Anzahl DESC. This creates a name mismatch: the SELECT exposes the alias `Count` while ORDER BY references `Anzahl` (which does not exist in the query). This will produce an error or not match the exercise specification and will confuse students about which column name to use.",
+            "suggestedFix": "Make the alias and the ORDER BY use the same identifier that matches the problem text. For example, change the solution to:\nSELECT gemeindeschluessel, COUNT(*) AS Anzahl\nFROM Wanderweg_zu_Gemeinde\nGROUP BY gemeindeschluessel\nORDER BY Anzahl DESC\nThis aligns the alias with the problem statement and avoids referencing a non-existent column.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 151,
+                    "endLine": 153
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe10.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:07:07.367230Z",
+        "endTime": "2026-03-13T08:07:39.987919Z",
+        "durationS": 32.62
+    },
+    "tokens": {
+        "prompt": 20136,
+        "completion": 3958,
+        "total": 24094
+    },
+    "costs": {
+        "promptEur": 0.0046312800292968755,
+        "completionEur": 0.007282720092773438,
+        "totalEur": 0.011914000122070313
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/016",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

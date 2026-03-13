@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T07:37:28.517801Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem statement requires a function sum(a, b) that adds two integers passed on the stack (problem_statement.md lines 21-22). The solution repository defines a sum function (solution_repository/helloWorld.asm lines 6-8) but its implementation only reads the first stack argument (mov eax, [esp+4]) and immediately returns, ignoring the second parameter. Furthermore, the solution's main uses a register addition instruction (add eax, ecx at solution_repository/helloWorld.asm line 16) instead of demonstrating or calling a correct sum(a, b). This inconsistency between the specification (sum should consume two stack-passed integers and return their sum in eax) and the solution implementation (reads only one argument and does not call sum) will confuse students about the expected parameter usage and calling convention.",
+            "suggestedFix": "Implement sum(a, b) in the solution to read both stack-passed arguments and return their sum (for example: mov eax, [esp+4]; add eax, [esp+8]; ret). Update the solution's main to demonstrate correct usage of sum (push the two integer arguments, call sum, then use the result in eax) instead of relying on a direct register add. Keep the unrelated register-name fix (ecc -> ecx) separate so the sum implementation and its calling convention are clearly shown to students.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 6,
+                    "endLine": 8
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 16,
+                    "endLine": 16
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:37:28.517801Z",
+        "endTime": "2026-03-13T07:38:13.184249Z",
+        "durationS": 44.666
+    },
+    "tokens": {
+        "prompt": 11145,
+        "completion": 3802,
+        "total": 14947
+    },
+    "costs": {
+        "promptEur": 0.002563350036621094,
+        "completionEur": 0.0069956801147460935,
+        "totalEur": 0.009559030151367187
+    },
+    "case_id": "V2/ERA2021/H00-Hello_World_ASM/005",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

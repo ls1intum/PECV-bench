@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T07:39:59.366613Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Function 'set_pixel': the problem statement requires that the pixel coordinates are passed as x in EAX and y in EBX and that no registers other than EAX are changed by set_pixel. The solution implementation of set_pixel (solution_repository/pixel.asm) performs 'xchg eax, ebx' (swapping x and y) and uses/pushes/pops EBX, ESI and EDX inside the routine. This contradicts the specification: the solution effectively expects the parameters in swapped registers and does not preserve registers other than EAX, which will confuse students about the correct calling convention and the register-preservation requirement and can lead to incorrect behavior when the template and spec are followed.",
+            "suggestedFix": "Make the solution's set_pixel conform to the specification: accept x in EAX and y in EBX and ensure that no registers other than EAX are changed on return. Concretely, remove the 'xchg eax, ebx' and any code that leaves EBX/ECX/EDI/etc. modified; if temporary registers are needed (EDX, ESI, etc.), push them at the start of set_pixel and pop them before returning so their caller-visible values are preserved. An example approach: push edx / push esi, compute x*4 and y*7680 using EAX and temporary registers, add display_start to form the address in EAX (or move the final address into a preserved temporary and write [addr] <- ECX), then pop esi / pop edx and ret. Alternatively, if the solution intentionally expects swapped parameters or different preservation rules, update the problem statement and template comment to state that explicitly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 19,
+                    "endLine": 35
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:39:59.366613Z",
+        "endTime": "2026-03-13T07:40:52.998131Z",
+        "durationS": 53.631
+    },
+    "tokens": {
+        "prompt": 20256,
+        "completion": 6296,
+        "total": 26552
+    },
+    "costs": {
+        "promptEur": 0.004658880126953125,
+        "completionEur": 0.011584639892578125,
+        "totalEur": 0.01624352001953125
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/004",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

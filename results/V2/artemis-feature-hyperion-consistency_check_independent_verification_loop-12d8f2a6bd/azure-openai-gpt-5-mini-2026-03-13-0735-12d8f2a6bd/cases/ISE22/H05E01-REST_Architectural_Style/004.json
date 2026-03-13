@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-13T07:46:08.778540Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Inconsistent parameter type for PersonService.deletePerson: the problem statement and the REST API describe and implement deletion by UUID (DELETE /persons/{personId} \u2014 PersonResource.deletePerson(@PathVariable UUID personId) calls personService.deletePerson(personId)). The template PersonService exposes: public void deletePerson(UUID personId) (template/src/server/java/de/tum/in/ase/eist/service/PersonService.java lines 33-35). The solution's PersonService however defines: public void deletePerson(Person person) (solution/src/server/java/de/tum/in/ase/eist/service/PersonService.java lines 35-37). Because PersonResource in the solution calls personService.deletePerson(personId) (solution/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java lines 45-48), the mismatched parameter types (UUID vs Person) create a compile error and confuse students about the intended API for deleting persons.",
+            "suggestedFix": "Make the service API consistent with the REST contract and problem statement. Preferred fix: change PersonService in the solution to public void deletePerson(UUID personId) and implement deletion by matching IDs (e.g. persons.removeIf(p -> p.getId().equals(personId))). Ensure PersonResource calls personService.deletePerson(personId). If deleting by Person is desired instead, update PersonResource to resolve the Person and call deletePerson(Person) and update the problem statement and tests accordingly \u2014 but the simpler and least disruptive solution is to accept UUID in the service.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 110,
+                    "endLine": 114
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 33,
+                    "endLine": 35
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 35,
+                    "endLine": 37
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 45,
+                    "endLine": 48
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:46:08.778540Z",
+        "endTime": "2026-03-13T07:46:56.636284Z",
+        "durationS": 47.857
+    },
+    "tokens": {
+        "prompt": 75367,
+        "completion": 5630,
+        "total": 80997
+    },
+    "costs": {
+        "promptEur": 0.01733441015625,
+        "completionEur": 0.0103592001953125,
+        "totalEur": 0.027693610351562502
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/004",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

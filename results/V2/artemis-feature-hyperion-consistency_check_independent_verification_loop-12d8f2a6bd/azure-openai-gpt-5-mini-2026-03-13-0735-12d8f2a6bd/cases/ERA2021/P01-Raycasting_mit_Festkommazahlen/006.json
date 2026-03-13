@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-13T07:41:58.995946Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "NASM preprocessor define is spelled inconsistently across Makefiles: the example_program Makefile passes the preprocessor define as \"-Dera=1\" while the tests Makefile passes \"-dera=1\". These refer to the same conceptual define (era) but are written with different option spellings. Because NASM preprocessor defines are controlled by the -D option, the inconsistent spelling may result in the 'era' symbol being defined in one build invocation and not in the other, causing different conditional assembly paths (inclusion/exclusion of the test/main code and io.inc) and non-reproducible builds.",
+            "suggestedFix": "Use a single, consistent NASM -D option spelling in all Makefiles. Replace any occurrences of \"-dera=1\" with the canonical \"-Dera=1\" in the tests Makefile(s) (both template and solution) so every NASM invocation defines the same 'era' symbol. Verify all NASM commands across the repository use the same -D form to ensure conditional assembly paths are identical between building the example program and the tests.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/Makefile",
+                    "startLine": 15,
+                    "endLine": 21
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "tests/Makefile",
+                    "startLine": 9,
+                    "endLine": 15
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/Makefile",
+                    "startLine": 15,
+                    "endLine": 21
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "tests/Makefile",
+                    "startLine": 9,
+                    "endLine": 15
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:41:58.995946Z",
+        "endTime": "2026-03-13T07:43:04.395120Z",
+        "durationS": 65.399
+    },
+    "tokens": {
+        "prompt": 131514,
+        "completion": 5916,
+        "total": 137430
+    },
+    "costs": {
+        "promptEur": 0.030248220703125002,
+        "completionEur": 0.010885440124511718,
+        "totalEur": 0.04113366082763672
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/006",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

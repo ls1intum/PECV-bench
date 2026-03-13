@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-13T07:48:20.976220Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "GET collection endpoint path for listing Person resources is inconsistent across artifacts: the template PersonResource defines the endpoint with @GetMapping(\"persons\") while the solution PersonResource defines it with @GetMapping(\"people\"). The problem statement and the integration tests use the path \"/persons\" for related endpoints (e.g., POST /persons, PUT /persons/{personId}/parents). This mismatch can cause tests or client calls that expect /persons to fail against the solution implementation and will confuse students which path to implement or use.",
+            "suggestedFix": "Use a single consistent path for the collection GET endpoint across template, solution, tests and problem statement. Prefer aligning the solution to the problem statement and tests by changing the solution's @GetMapping(\"people\") to @GetMapping(\"persons\"). Alternatively, update the problem statement and tests to use \"people\" if that naming is intentional \u2014 but ensure all artifacts match.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 27,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 27,
+                    "endLine": 30
+                },
+                {
+                    "type": "TESTS_REPOSITORY",
+                    "filePath": "src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+                    "startLine": 49,
+                    "endLine": 53
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 125,
+                    "endLine": 126
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:48:20.976220Z",
+        "endTime": "2026-03-13T07:49:30.810753Z",
+        "durationS": 69.834
+    },
+    "tokens": {
+        "prompt": 72109,
+        "completion": 5487,
+        "total": 77596
+    },
+    "costs": {
+        "promptEur": 0.0165850703125,
+        "completionEur": 0.010096080566406249,
+        "totalEur": 0.026681150878906247
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/018",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

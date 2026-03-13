@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-13T08:15:45.789054Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "Class UniqueTable constructor parameter mismatch: In template_repository/dd.py the UniqueTable.__init__ is declared as def __init__(self, size: int) -> None and assigns self.size (lines 177-181), but the template immediately instantiates UT = UniqueTable() with no argument (line 278), which would raise a TypeError at import time. In the solution (solution_repository/dd.py) UniqueTable.__init__ is declared with no parameters (def __init__(self) -> None, lines 177-181) and the solution also instantiates UT = UniqueTable() (line 277). This inconsistency between the template's constructor signature and how it is instantiated (and the solution's no-arg constructor) will cause a runtime/import error and will block students from running or testing the provided template.",
+            "suggestedFix": "Make the template UniqueTable constructor signature match the solution and the template usage: change 'def __init__(self, size: int) -> None:' to 'def __init__(self) -> None:' and remove any use of self.size (or otherwise ensure any required size is provided where UT is instantiated). This preserves the intended API (no-arg constructor) and prevents import-time errors. Alternatively, if a fixed size is truly required, update the template instantiation to pass a concrete integer (e.g., UT = UniqueTable(1024)), but aligning to the solution (no-arg __init__) is recommended.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/dd.py",
+                    "startLine": 177,
+                    "endLine": 181
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/dd.py",
+                    "startLine": 278,
+                    "endLine": 278
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/dd.py",
+                    "startLine": 177,
+                    "endLine": 181
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/dd.py",
+                    "startLine": 277,
+                    "endLine": 277
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:15:45.789054Z",
+        "endTime": "2026-03-13T08:16:39.738525Z",
+        "durationS": 53.949
+    },
+    "tokens": {
+        "prompt": 90449,
+        "completion": 6456,
+        "total": 96905
+    },
+    "costs": {
+        "promptEur": 0.0208032705078125,
+        "completionEur": 0.0118790400390625,
+        "totalEur": 0.032682310546874996
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/009",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

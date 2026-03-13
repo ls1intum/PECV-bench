@@ -1,0 +1,98 @@
+{
+    "timestamp": "2026-03-13T08:15:43.338395Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The problem statement instructs students to \"directly call the public `vector_normalization` and `matrix_normalization` methods\" in dd.py (problem_statement.md: lines 21-23). However, the implementation in dd.py (template and solution) defines these routines as private functions named `__vector_normalization` and `__matrix_normalization` (double-underscore prefix), and there are no public functions named `vector_normalization` or `matrix_normalization` exported from dd.py. This creates a visibility/accessibility mismatch: the statement refers to public APIs that do not exist in the code, which will confuse students about which functions they are expected to call or inspect.",
+            "suggestedFix": "Align the problem statement and the code visibility. Either (A) update the problem statement to remove the instruction to call public `vector_normalization`/`matrix_normalization` and instead instruct students to rely on the public API actually provided (e.g. use make_dd which invokes the normalization), or (B) add explicit public wrapper functions in dd.py named `vector_normalization` and `matrix_normalization` that call the existing internal implementations, or (C) rename the implementations to public names if intended. Prefer option A to avoid exposing internal helpers unless they are meant to be part of the public teaching API.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 23
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/dd.py",
+                    "startLine": 283,
+                    "endLine": 283
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/dd.py",
+                    "startLine": 342,
+                    "endLine": 342
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/dd.py",
+                    "startLine": 283,
+                    "endLine": 283
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/dd.py",
+                    "startLine": 342,
+                    "endLine": 342
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement refers to functions named `vector_normalization` and `matrix_normalization` in dd.py (problem_statement.md: lines 21-23). In both the template and solution implementations, the routines are named `__vector_normalization` and `__matrix_normalization` (leading double underscores). This is a naming inconsistency between the documented API and the actual identifiers in the code: the names mentioned in the text do not match any public function names in dd.py, which can mislead students looking for those functions to call or inspect.",
+            "suggestedFix": "Make the naming consistent. Either (A) edit the problem statement to reference the actual implementation names or to instruct students to use the provided public entry points (for example, document that make_dd is responsible for normalization and should be used), or (B) provide public wrappers in dd.py named `vector_normalization` and `matrix_normalization` that internally call `__vector_normalization` and `__matrix_normalization`, or (C) if intended to be public, rename the implementations to the public names. Choose the approach that best preserves the intended API taught in the exercise.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 23
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/dd.py",
+                    "startLine": 283,
+                    "endLine": 340
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/dd.py",
+                    "startLine": 342,
+                    "endLine": 369
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/dd.py",
+                    "startLine": 283,
+                    "endLine": 340
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/dd.py",
+                    "startLine": 342,
+                    "endLine": 369
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:15:43.338395Z",
+        "endTime": "2026-03-13T08:16:39.346297Z",
+        "durationS": 56.007
+    },
+    "tokens": {
+        "prompt": 90351,
+        "completion": 5726,
+        "total": 96077
+    },
+    "costs": {
+        "promptEur": 0.02078073046875,
+        "completionEur": 0.010535840087890627,
+        "totalEur": 0.031316570556640624
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/013",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

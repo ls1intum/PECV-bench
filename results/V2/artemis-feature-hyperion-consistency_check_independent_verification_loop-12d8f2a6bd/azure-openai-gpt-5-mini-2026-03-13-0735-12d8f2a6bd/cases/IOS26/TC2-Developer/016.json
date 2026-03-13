@@ -1,0 +1,60 @@
+{
+    "timestamp": "2026-03-13T08:14:10.817176Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The Course class property for the course teacher is named 'instructor' in the problem statement and in the template, but the solution's Course implementation uses the identifier 'lecturer'. Concretely: problem_statement.md describes and demonstrates initializer usage with 'instructor' (problem_statement.md lines 7-11). The template Course.swift declares a property and initializer parameter named 'instructor' (template Sources/DeveloperLib/Course.swift lines 9-13). The solution Sources/DeveloperLib/Course.swift declares the field and initializer parameter as 'lecturer' (solution Sources/DeveloperLib/Course.swift lines 10-13). Meanwhile other files in the solution (Client.swift and Developer.swift) still call Course using 'instructor' (solution Sources/DeveloperLib/Client.swift line 11 and solution Sources/DeveloperLib/Developer.swift line 49). This inconsistent identifier naming will cause compilation errors (Course does not expose the expected 'instructor' member) and confuses students about which property name to implement.",
+            "suggestedFix": "Use a single consistent identifier for the course teacher across all artifacts. The least disruptive fix is to rename the solution's Course property and initializer parameter from 'lecturer' to 'instructor' (modify Sources/DeveloperLib/Course.swift: change 'let lecturer: String' to 'let instructor: String' and 'init(... lecturer: String ...)' to 'init(... instructor: String ...)', and update internal assignments). Alternatively, if 'lecturer' is preferred, update the problem statement, the template, and all call sites (Client.swift, Developer.swift) to use 'lecturer'. Ensure all references and tests use the same identifier so the code compiles and matches the exercise text.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 7,
+                    "endLine": 11
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 9,
+                    "endLine": 13
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 10,
+                    "endLine": 13
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Client.swift",
+                    "startLine": 11,
+                    "endLine": 11
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Developer.swift",
+                    "startLine": 49,
+                    "endLine": 49
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:14:10.817176Z",
+        "endTime": "2026-03-13T08:14:57.828107Z",
+        "durationS": 47.01
+    },
+    "tokens": {
+        "prompt": 19499,
+        "completion": 5732,
+        "total": 25231
+    },
+    "costs": {
+        "promptEur": 0.00448477001953125,
+        "completionEur": 0.01054688037109375,
+        "totalEur": 0.015031650390624998
+    },
+    "case_id": "V2/IOS26/TC2-Developer/016",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-13T07:37:14.474274Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Program entry symbol exported differs between template and solution: the template file template_repository/pixel.asm declares and exports the symbol 'main' (directive 'global main' at template_repository/pixel.asm:30) and defines the label 'main:' at template_repository/pixel.asm:44. The solution file solution_repository/pixel.asm exports a different global symbol '_start' (directive 'global _start' at solution_repository/pixel.asm:14) while also defining a 'main:' label at solution_repository/pixel.asm:36. This discrepancy in which symbol is made global/exported (main vs _start) can confuse students about which label to implement or modify as the program entry point and about the intended startup/runtime linkage behavior.",
+            "suggestedFix": "Make the exported entry symbol consistent between template and solution and document the chosen convention. Option A: change the solution to export 'main' (replace 'global _start' with 'global main' and ensure startup behavior remains correct) so both template and solution use 'main'. Option B: change the template to export '_start' (replace 'global main' with 'global _start') and update documentation/comments to explain that students should implement the entry-point expected by the Makefile/build. Also update the README/problem statement to state which symbol is the program entry point so students are not unsure which label to edit.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 30,
+                    "endLine": 30
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 44,
+                    "endLine": 44
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 14,
+                    "endLine": 14
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 36,
+                    "endLine": 36
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:37:14.474274Z",
+        "endTime": "2026-03-13T07:37:57.981093Z",
+        "durationS": 43.506
+    },
+    "tokens": {
+        "prompt": 20150,
+        "completion": 5841,
+        "total": 25991
+    },
+    "costs": {
+        "promptEur": 0.0046345,
+        "completionEur": 0.010747440185546875,
+        "totalEur": 0.015381940185546875
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

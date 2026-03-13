@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T07:40:08.904691Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Assembly subroutine 'set_pixel': the problem statement specifies that the RGB color parameter is provided in ECX and that set_pixel should write that 32-bit color into the computed pixel memory address (and must not permanently alter registers other than EAX). The solution implementation of set_pixel (solution_repository/pixel.asm) instead writes the value from EDX into memory (instruction 'mov [eax], edx') and computes multiplications using MUL which places results across EDX:EAX. Concretely: the problem statement (problem_statement.md) documents the calling convention (x in EAX, y in EBX, color in ECX), the template exposes the set_pixel stub for students to implement, and the solution's implementation ignores ECX and stores EDX. This mismatch will confuse students about which register holds the color and causes the reference solution to violate the stated interface (writing a wrong register's value into pixel memory).",
+            "suggestedFix": "Modify the reference implementation so set_pixel reads the 32-bit RGB color from ECX and stores that into the computed pixel address. Compute the byte address as (y * 1920 + x) * 4 + display_start, place that final address in EAX, then use 'mov dword [eax], ecx' (or equivalent) to write the color. Avoid writing EDX as the color; if multiplication is used, take care that MUL clobbers EDX:EAX and preserve registers as required (push/pop) so that only the allowed register(s) appear changed after the call. This aligns the solution with the problem statement's calling convention and prevents students from being misled about which register holds the color.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 23,
+                    "endLine": 30
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:40:08.904691Z",
+        "endTime": "2026-03-13T07:41:09.610562Z",
+        "durationS": 60.705
+    },
+    "tokens": {
+        "prompt": 20233,
+        "completion": 5104,
+        "total": 25337
+    },
+    "costs": {
+        "promptEur": 0.0046535900878906244,
+        "completionEur": 0.009391360290527343,
+        "totalEur": 0.014044950378417968
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/005",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

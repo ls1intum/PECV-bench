@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T07:37:14.474288Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The solution (solution_repository/helloWorld.asm) pushes an extraneous immediate value before the format string: lines 14-16 show `push 123` followed by `push hello` and `call printf`. The template (template_repository/helloWorld.asm) pushes only the format string (`push hello` at lines 15-16) and the problem statement (problem_statement.md lines 21-22) instructs that the format string should be passed before any arguments. The extra `push 123` in the solution introduces an unnecessary argument on the stack and therefore contradicts the template and the exercise guidance, which may confuse students about the intended use/order of arguments when calling printf.",
+            "suggestedFix": "Remove the extraneous `push 123` from solution_repository/helloWorld.asm (line 14) so the solution matches the template and the exercise guidance (only `push hello` then `call printf`). If the intent is to demonstrate passing an argument to printf, update the problem statement to clarify stack push ordering and provide a matching example in both template and solution (or reorder pushes and add a format placeholder so the extra argument is meaningful).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/helloWorld.asm",
+                    "startLine": 15,
+                    "endLine": 16
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/helloWorld.asm",
+                    "startLine": 14,
+                    "endLine": 16
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:37:14.474288Z",
+        "endTime": "2026-03-13T07:38:02.727135Z",
+        "durationS": 48.252
+    },
+    "tokens": {
+        "prompt": 11000,
+        "completion": 4366,
+        "total": 15366
+    },
+    "costs": {
+        "promptEur": 0.0025300000610351562,
+        "completionEur": 0.008033440368652344,
+        "totalEur": 0.010563440429687501
+    },
+    "case_id": "V2/ERA2021/H00-Hello_World_ASM/004",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

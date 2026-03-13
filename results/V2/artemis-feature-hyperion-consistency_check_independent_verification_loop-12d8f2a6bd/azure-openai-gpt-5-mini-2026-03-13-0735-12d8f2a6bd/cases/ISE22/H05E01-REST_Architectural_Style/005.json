@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T07:46:21.347961Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Method PersonResource.updatePerson uses a String-typed @PathVariable for personId in the solution, while NoteResource.updateNote uses a UUID-typed @PathVariable and the problem statement specifies updating a person by UUID (PUT /persons/{personId}). Concretely: in solution src/server/.../rest/PersonResource.java the method signature declares @PathVariable(\"personId\") String personId; in solution src/server/.../rest/NoteResource.java the update method declares @PathVariable(\"noteId\") UUID noteId; the problem statement's endpoint description (PUT /persons/{personId}) indicates the ID is a UUID. This mismatch between String and UUID for the same conceptual path variable can confuse students about the expected type, how to validate and compare IDs, and leads to inconsistent examples in the repository.",
+            "suggestedFix": "Use a UUID-typed @PathVariable for the persons update endpoint to match the problem statement and NoteResource. Change the PersonResource.updatePerson signature to accept a UUID and compare using equals. Example:\npublic ResponseEntity<Person> updatePerson(@RequestBody Person updatedPerson, @PathVariable(\"personId\") UUID personId) {\n    if (updatedPerson.getId() == null || !updatedPerson.getId().equals(personId)) {\n        return ResponseEntity.badRequest().build();\n    }\n    return ResponseEntity.ok(personService.savePerson(updatedPerson));\n}\nThis keeps the API consistent, avoids string conversions, and makes ID validation straightforward for students.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 38,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/NoteResource.java",
+                    "startLine": 39,
+                    "endLine": 39
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 109,
+                    "endLine": 113
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:46:21.347961Z",
+        "endTime": "2026-03-13T07:46:59.370846Z",
+        "durationS": 38.022
+    },
+    "tokens": {
+        "prompt": 74945,
+        "completion": 4468,
+        "total": 79413
+    },
+    "costs": {
+        "promptEur": 0.0172373505859375,
+        "completionEur": 0.0082211201171875,
+        "totalEur": 0.025458470703125
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/005",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

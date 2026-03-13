@@ -1,0 +1,42 @@
+{
+    "timestamp": "2026-03-13T08:15:25.563802Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field ComputeTable.table has conflicting type annotations between the template and the solution. In template_repository/dd.py the attribute is annotated as 'list[tuple[DD, DD, DDOperation, DD]]' (line 226) but is initialized and used as a dict (self.table = {}) in the same template; in solution_repository/dd.py the attribute is annotated correctly as 'dict[tuple[DD, DD, DDOperation], DD]' (line 226) and used as a dict. This mismatch between the declared type and the actual runtime usage in the template (and the difference from the solution) can confuse students and static type checkers about the intended data structure and correct key/value types for the compute table.",
+            "suggestedFix": "Update the type annotation in template_repository/dd.py to match actual usage and the solution: declare 'table' as dict[tuple[DD, DDOperation, DD], DD] (or more precisely dict[tuple[DD, DD, DDOperation], DD] to match the solution's key shape) so the annotation matches the runtime initialization (self.table = {}) and the intended mapping (operand1, operand2, operation -> result). Keep the initialization as an empty dict. Add a brief comment explaining the key is a tuple (operand1, operand2, operation) mapping to the result DD to avoid further confusion.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 226,
+                    "endLine": 226
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 226,
+                    "endLine": 226
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:15:25.563802Z",
+        "endTime": "2026-03-13T08:16:06.531601Z",
+        "durationS": 40.967
+    },
+    "tokens": {
+        "prompt": 90042,
+        "completion": 3646,
+        "total": 93688
+    },
+    "costs": {
+        "promptEur": 0.02070966015625,
+        "completionEur": 0.00670864013671875,
+        "totalEur": 0.02741830029296875
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/012",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

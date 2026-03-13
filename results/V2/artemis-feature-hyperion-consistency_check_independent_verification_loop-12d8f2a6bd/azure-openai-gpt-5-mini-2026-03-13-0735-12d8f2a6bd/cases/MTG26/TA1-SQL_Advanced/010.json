@@ -1,0 +1,42 @@
+{
+    "timestamp": "2026-03-13T08:09:50.617177Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The exercise text (problem_statement.md) for Aufgabe 03 requests the names and types (Art) of all swimming pools and the name and population numbers of their municipalities. Specifically, lines 27-28 ask for 'Namen und Art aller Schwimmb\u00e4der ... den Namen und alle Einwohnerzahlen der zugeh\u00f6rigen Gemeinden'. However, the reference solution (solution_repository/aufgabe03.sql) selects Schwimmbad.id as the first column rather than Schwimmbad.name (SELECT Schwimmbad.id, Schwimmbad.art ...). This mismatch between the requested attribute (Name) and the column actually returned (id) will confuse students about which column they must output and can cause grading/tests that expect the name to fail or appear inconsistent.",
+            "suggestedFix": "Make the reference solution match the task text by selecting the pool name instead of its id. Replace the SELECT line in solution_repository/aufgabe03.sql with, for example: SELECT Schwimmbad.name AS name, Schwimmbad.art AS Art, Gemeinde.name, Gemeinde.einwohner_m, Gemeinde.einwohner_w FROM Schwimmbad, Gemeinde WHERE Gemeinde.schluessel = Schwimmbad.gemeindeschluessel; Alternatively, if returning IDs was intentional, update the problem statement to explicitly request pool IDs rather than names so the requirement and solution agree.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 27,
+                    "endLine": 28
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe03.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:09:50.617177Z",
+        "endTime": "2026-03-13T08:10:37.657093Z",
+        "durationS": 47.039
+    },
+    "tokens": {
+        "prompt": 14803,
+        "completion": 5590,
+        "total": 20393
+    },
+    "costs": {
+        "promptEur": 0.0034046900634765627,
+        "completionEur": 0.01028560009765625,
+        "totalEur": 0.013690290161132813
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/010",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

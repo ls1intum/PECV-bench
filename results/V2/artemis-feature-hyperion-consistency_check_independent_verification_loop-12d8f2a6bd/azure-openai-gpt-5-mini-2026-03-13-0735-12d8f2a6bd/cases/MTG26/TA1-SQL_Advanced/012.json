@@ -1,0 +1,62 @@
+{
+    "timestamp": "2026-03-13T08:08:03.695779Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Column comparison type mismatch: solution_repository/aufgabe09.sql filters Gemeinde.name using a numeric literal (Gemeinde.name = 12345) on line 4, but the problem statement asks to select zoos in a municipality named the string 'Erlangen'. Comparing the name column (string) to a number will never match and prevents the correct result, confusing students about the expected filter.",
+            "suggestedFix": "Use a string literal for the municipality name in the WHERE clause to match the problem statement. For example change the line to: AND Gemeinde.name = 'Erlangen'.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 55,
+                    "endLine": 57
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe09.sql",
+                    "startLine": 4,
+                    "endLine": 4
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Identifier misuse: the solution SQL (solution_repository/aufgabe09.sql, line 4) uses Gemeinde.name with a numeric constant (12345), which either treats the name column as if it were a numeric code (PLZ or schluessel) or uses the wrong column. The problem statement clearly requests filtering by the municipality name 'Erlangen', so this conflation of 'name' with a numeric identifier is inconsistent and will confuse students about which column to use.",
+            "suggestedFix": "Clarify the intended filter: (a) If the goal is to filter by municipality name, change the literal to the string 'Erlangen' (AND Gemeinde.name = 'Erlangen'). (b) If the numeric value 12345 was intended to refer to PLZ or schluessel, replace Gemeinde.name with the correct column (e.g. Gemeinde.plz = 12345 or Gemeinde.schluessel = 12345).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 55,
+                    "endLine": 57
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe09.sql",
+                    "startLine": 4,
+                    "endLine": 4
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:08:03.695779Z",
+        "endTime": "2026-03-13T08:08:50.544097Z",
+        "durationS": 46.848
+    },
+    "tokens": {
+        "prompt": 14808,
+        "completion": 5953,
+        "total": 20761
+    },
+    "costs": {
+        "promptEur": 0.003405840087890625,
+        "completionEur": 0.0109535205078125,
+        "totalEur": 0.014359360595703126
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/012",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

@@ -1,0 +1,66 @@
+{
+    "timestamp": "2026-03-13T07:43:14.063389Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Bitmap24::set parameter identifiers are inconsistent between the header declaration and the implementation, which is confusing for students. In the header (Bitmap24.hpp) the method is declared as: void set(int i_x, int i_y, char i_r, char i_g, char i_b); whereas the definition in Bitmap24.cpp is: void Bitmap24::set(int i_y, int i_x, char i_r, char i_g, char i_b) { ... } (the implementation treats the first parameter as the row/y index and the second as the column/x index). Call sites in main.cpp use bitmap.set(i, j, ...) where i is the row and j is the column, which matches the implementation but contradicts the header parameter names. This mismatch between the API declaration and the implementation's parameter naming/documentation is likely to confuse students about the intended meaning and order of the first two integer parameters (x vs y).",
+            "suggestedFix": "Make the parameter identifiers and their documented meaning consistent between declaration and definition. Two reasonable options: (A) Update the header declaration to match the implementation and call sites (first parameter = row/y, second = column/x): void set(int i_y, int i_x, char i_r, char i_g, char i_b); and add a short comment clarifying 'first parameter is row (y), second is column (x)'. OR (B) Update the implementation and all call sites to use (int i_x, int i_y, ...) consistently if you prefer (x,y) ordering. Prefer keeping implementation and call sites intact and changing the header/documentation to avoid breaking existing usage.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 51,
+                    "endLine": 57
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 45,
+                    "endLine": 46
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/main.cpp",
+                    "startLine": 44,
+                    "endLine": 44
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 51,
+                    "endLine": 57
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 45,
+                    "endLine": 46
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/main.cpp",
+                    "startLine": 44,
+                    "endLine": 44
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:43:14.063389Z",
+        "endTime": "2026-03-13T07:44:02.659065Z",
+        "durationS": 48.595
+    },
+    "tokens": {
+        "prompt": 131882,
+        "completion": 6736,
+        "total": 138618
+    },
+    "costs": {
+        "promptEur": 0.030332860351562498,
+        "completionEur": 0.012394240234375,
+        "totalEur": 0.0427271005859375
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/004",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

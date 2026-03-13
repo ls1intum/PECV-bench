@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-13T08:19:37.987630Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Method parameter type mismatch for Grover oracle 'oracle(...)': the template declares the oracle parameter 'combination' as list[int], while the problem statement describes and the reference solution expect a bit-string (str). Specifically: problem_statement.md (Exercise 2.3) describes receiving an arbitrary bit-string argument named 'combination'; template_repository/ex2_grover_multi_qubit_with_auxiliary_qubit.py declares def oracle(... combination: list[int]) (parameter typed as list[int]); template_repository also declares grover_circuit(... combination: str) (expecting a string); solution_repository/ex2_grover_multi_qubit_with_auxiliary_qubit.py implements oracle(... combination: str) and calls grover_circuit(...) with a string literal \"10000\". This mismatch (list[int] vs str) will confuse students about the expected input representation and can break integration between a student-implemented oracle and the provided grover_circuit/run scaffolding.",
+            "suggestedFix": "Make the 'combination' parameter representation consistent across the problem statement, template, and solution. Update the template oracle(...) signature to use combination: str and change its docstring to say 'combination: bit-string (str)'; ensure grover_circuit and run use the same type. Alternatively, if a list[int] representation is preferred, update the problem statement and solution to use list[int] everywhere. Prefer changing the template oracle signature to combination: str to match the problem text and reference solution.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 130,
+                    "endLine": 131
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+                    "startLine": 44,
+                    "endLine": 44
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+                    "startLine": 77,
+                    "endLine": 77
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+                    "startLine": 48,
+                    "endLine": 48
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+                    "startLine": 143,
+                    "endLine": 149
+                }
+            ]
+        },
+        {
+            "severity": "LOW",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Return-type mismatch for Exercise 1 simulate(): the template's simulate() is annotated to return list[complex] while the problem statement and the reference solution expect/return a statevector object (the problem text asks to 'return the statevector' and the solution calls result.get_statevector()). This difference in expected return type (list[complex] vs Statevector/np.ndarray) is likely to confuse students about what to return and how tests will inspect the result.",
+            "suggestedFix": "Align the simulate() return type annotation and docstring with the problem statement and reference solution. Change the template type hint from list[complex] to qiskit.quantum_info.Statevector or numpy.ndarray (or statevector-like return), and update the docstring to explicitly state the expected return type (e.g. 'Returns a qiskit Statevector or numpy.ndarray of complex amplitudes'). If the tests accept either form, document that both Statevector objects and arrays are acceptable.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 116,
+                    "endLine": 117
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex1_grover_two_qubit_without_auxiliary_qubit.py",
+                    "startLine": 52,
+                    "endLine": 52
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex1_grover_two_qubit_without_auxiliary_qubit.py",
+                    "startLine": 61,
+                    "endLine": 70
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:19:37.987630Z",
+        "endTime": "2026-03-13T08:20:42.682584Z",
+        "durationS": 64.694
+    },
+    "tokens": {
+        "prompt": 71462,
+        "completion": 7906,
+        "total": 79368
+    },
+    "costs": {
+        "promptEur": 0.01643626025390625,
+        "completionEur": 0.014547040283203125,
+        "totalEur": 0.030983300537109376
+    },
+    "case_id": "V2/QCSL25/QC02-Far_Term_Quantum_Algorithms/004",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

@@ -1,0 +1,42 @@
+{
+    "timestamp": "2026-03-13T08:07:06.776668Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement explicitly forbids renaming columns with AS (problem_statement.md line 102: \"benenne keine mit Spalten mit AS, wenn du nicht dazu aufgefordert wirst\"). The provided solution (solution_repository/aufgabe04.sql line 1) aliases the grouping column: SELECT regierungsbezirk AS District, SUM(einwohner_w), SUM(einwohner_m). This introduces an unexpected identifier 'District' for the same conceptual column 'regierungsbezirk' and conflicts with the instruction. The autograder checks selected column names; the alias can cause a correct aggregation to be marked incorrect and will confuse students about the expected column name.",
+            "suggestedFix": "Remove the alias in the solution so the original column name is used. Change the solution to: SELECT regierungsbezirk, SUM(einwohner_w), SUM(einwohner_m) FROM Gemeinde GROUP BY regierungsbezirk. Alternatively, if renaming to 'District' is intended, update the problem statement to explicitly allow that alias and document the exception so students and the autograder expectations match.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 102,
+                    "endLine": 102
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe04.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:07:06.776668Z",
+        "endTime": "2026-03-13T08:07:54.429796Z",
+        "durationS": 47.653
+    },
+    "tokens": {
+        "prompt": 20163,
+        "completion": 5728,
+        "total": 25891
+    },
+    "costs": {
+        "promptEur": 0.0046374901123046874,
+        "completionEur": 0.01053952001953125,
+        "totalEur": 0.015177010131835937
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/017",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

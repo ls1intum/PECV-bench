@@ -1,0 +1,60 @@
+{
+    "timestamp": "2026-03-13T07:38:27.072093Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Function 'set_pixel' (solution_repository/pixel.asm) writes the RGB value at address display_start + y*7680 + x*4 + 4 (it performs an extra 'add eax, 4' before the store). The main code (solution_repository/pixel.asm lines where the address is computed for reading) computes and reads from display_start + y*7680 + x*4 (no +4). This mismatch means set_pixel modifies a different pixel than main reads/prints, so the program's write and subsequent read are inconsistent and will confuse students about the correct pixel address calculation.",
+            "suggestedFix": "Remove the unintended 'add eax, 4' in solution_repository/pixel.asm set_pixel so the store uses the address display_start + (y*1920 + x)*4 (equivalently display_start + y*7680 + x*4). Ensure set_pixel's address calculation matches the address computed by main (and the formula in the problem statement). Keep register-preservation requirements from the assignment (only allowed registers may be modified).",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 19,
+                    "endLine": 35
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 93,
+                    "endLine": 103
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 100,
+                    "endLine": 110
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:38:27.072093Z",
+        "endTime": "2026-03-13T07:40:36.927652Z",
+        "durationS": 129.855
+    },
+    "tokens": {
+        "prompt": 20280,
+        "completion": 6705,
+        "total": 26985
+    },
+    "costs": {
+        "promptEur": 0.004664400146484375,
+        "completionEur": 0.012337199829101564,
+        "totalEur": 0.017001599975585938
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/009",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

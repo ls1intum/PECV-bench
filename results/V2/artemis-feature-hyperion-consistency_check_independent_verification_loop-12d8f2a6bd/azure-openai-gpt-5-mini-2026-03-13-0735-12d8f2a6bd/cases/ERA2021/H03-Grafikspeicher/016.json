@@ -1,0 +1,60 @@
+{
+    "timestamp": "2026-03-13T07:39:12.186502Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The exercise and template require a subroutine named 'set_pixel' (spec: accepts x in EAX, y in EBX, color in ECX; only EAX may be clobbered). The solution implementation instead defines a routine named 'write_pixel' (solution_repository/pixel.asm lines 19-34) and does not provide a symbol 'set_pixel', while the code in main still calls 'set_pixel' (call set_pixel at line 147). This name mismatch means the assembler/linker will not find the expected symbol and students following the template will encounter a missing-symbol/assembly failure or confusion mapping the required routine to the provided implementation.",
+            "suggestedFix": "Make the subroutine name and symbol consistent across artifacts. Either rename the solution's 'write_pixel' label to 'set_pixel' and ensure its register-preservation and parameter usage match the problem specification (x in EAX, y in EBX, color in ECX; preserve all registers except EAX), or add a thin 'set_pixel' wrapper in the solution that forwards to 'write_pixel' (preserving required registers and using the same calling convention). Also ensure any calls in main refer to the implemented symbol.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 147,
+                    "endLine": 147
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 147,
+                    "endLine": 147
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:39:12.186502Z",
+        "endTime": "2026-03-13T07:40:08.866743Z",
+        "durationS": 56.68
+    },
+    "tokens": {
+        "prompt": 20454,
+        "completion": 5797,
+        "total": 26251
+    },
+    "costs": {
+        "promptEur": 0.004704420043945313,
+        "completionEur": 0.010666480224609375,
+        "totalEur": 0.015370900268554689
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/016",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

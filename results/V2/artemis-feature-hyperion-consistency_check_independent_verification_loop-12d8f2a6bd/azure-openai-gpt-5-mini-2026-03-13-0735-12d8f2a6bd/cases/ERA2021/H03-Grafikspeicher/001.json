@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T07:39:06.366288Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Register naming mismatch for the computed pixel memory address: the problem statement and template instruct students to place the computed pixel address in ESI (problem: \"Ergebnis nach ESI\" and template comment at the position TODO; template also pushes ESI to save the computed address for later). The solution implementation computes the final pixel address/offset into EDI (leaving ESI set to display_start) and then uses EDI to read the pixel. However the solution still pushes ESI (which contains display_start) where the template expects the computed address to have been pushed. This inconsistency between using ESI (problem/template) and EDI (solution) for the same conceptual entity (the pixel memory address) will confuse students and break the template's push/pop logic (later code pops the saved value expecting the address but receives display_start instead).",
+            "suggestedFix": "Make register usage consistent between problem text, template and solution. Preferred fixes (choose one):\n1) Update the solution to store the final computed pixel address in ESI before saving/pushing it (e.g., compute offset into EDI if desired then do 'mov esi, edi' and use [esi] for reads/writes), or compute directly into ESI (recommended to match the instructions). Ensure the value pushed for later printing/pop is the computed address in ESI. OR\n2) If you prefer using EDI for the address, update the problem statement and template comments and adjust the push/pop sequence so they save and restore EDI (replace expectations of ESI with EDI consistently).\nEither option resolves the contradiction while preserving the exercise intent. Adjust the template comments and example code to reflect the chosen register.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 24,
+                    "endLine": 26
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 100,
+                    "endLine": 110
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 92,
+                    "endLine": 101
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:39:06.366288Z",
+        "endTime": "2026-03-13T07:40:04.568228Z",
+        "durationS": 58.201
+    },
+    "tokens": {
+        "prompt": 20573,
+        "completion": 7193,
+        "total": 27766
+    },
+    "costs": {
+        "promptEur": 0.0047317900390625,
+        "completionEur": 0.013235120361328125,
+        "totalEur": 0.017966910400390626
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/001",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T08:06:12.560270Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Aufgabe 10 (problem_statement.md) requires: \"die Anzahl von Wanderwegen, die zu einer Gemeinde f\u00fchren\" (Ausgabe: Gemeindeschluessel und Anzahl, absteigend nach Anzahl). The solution file solution_repository/aufgabe10.sql instead counts rows from the Gemeinde table (SELECT gemeindeschluessel, COUNT(*) AS Anzahl FROM Gemeinde ...), which counts Gemeinde rows per key (typically 1) rather than counting Wanderwege that lead to each Gemeinde. This is a semantic/structural mismatch between the problem requirement and the provided solution and will produce incorrect results and confuse students about which table/relationship to aggregate.",
+            "suggestedFix": "Change the solution query to count Wanderweg rows (or the mapping rows linking Wanderwege to Gemeinden) grouped by gemeindeschluessel instead of counting rows in Gemeinde. For example, if Wanderweg has a foreign key to Gemeinde: SELECT g.gemeindeschluessel, COUNT(w.wanderweg_id) AS Anzahl FROM Wanderweg w JOIN Gemeinde g ON w.gemeindeschluessel = g.gemeindeschluessel GROUP BY g.gemeindeschluessel ORDER BY Anzahl DESC; Or, if there is a join/mapping table (e.g. Wanderweg_Gemeinde), count that table: SELECT wg.gemeindeschluessel, COUNT(*) AS Anzahl FROM Wanderweg_Gemeinde wg GROUP BY wg.gemeindeschluessel ORDER BY Anzahl DESC. Verify the schema for the exact table/column names and update the solution (and template example) accordingly so the aggregation matches the task description.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 151,
+                    "endLine": 153
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe10.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe10.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:06:12.560270Z",
+        "endTime": "2026-03-13T08:06:59.784363Z",
+        "durationS": 47.224
+    },
+    "tokens": {
+        "prompt": 20002,
+        "completion": 5161,
+        "total": 25163
+    },
+    "costs": {
+        "promptEur": 0.004600460083007812,
+        "completionEur": 0.009496240112304688,
+        "totalEur": 0.014096700195312499
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/009",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

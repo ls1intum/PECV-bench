@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T07:39:53.650731Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Bytes-per-pixel / address-offset inconsistency between the problem specification and the solution implementation: the problem statement specifies that 24-bit color is rounded to 32-bit (i.e. 4 bytes per pixel) and the main() address calculation in solution_repository/pixel.asm uses x*4 and a row stride of 1920*4 = 7680, but the set_pixel implementation in solution_repository/pixel.asm multiplies x by 3 (uses \"mov edx, 3\" and \"mul edx\") producing x*3. This mismatch (x*3 vs x*4 / 3 bytes vs 4 bytes per pixel) will write/read incorrect memory addresses and confuse students about the required bytes-per-pixel and the correct address formula (address = display_start + y*7680 + x*4).",
+            "suggestedFix": "Make the bytes-per-pixel calculation consistent: in set_pixel compute the x offset as x*4 (not x*3) so the address formula is address = display_start + y*7680 + x*4. Concretely, replace the sequence \"mov edx, 3; mul edx\" with a 4-byte calculation (e.g. use \"shl eax, 2\" or \"mov edx, 4; mul edx\") and update any comments that say \"24-bit pixel depth\" to reflect 32-bit/4 bytes. Also ensure register preservation follows the exercise requirement (only eax may be altered) while performing the corrected multiplication.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 17,
+                    "endLine": 18
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 23,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 94,
+                    "endLine": 100
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:39:53.650731Z",
+        "endTime": "2026-03-13T07:41:02.522799Z",
+        "durationS": 68.872
+    },
+    "tokens": {
+        "prompt": 20240,
+        "completion": 6945,
+        "total": 27185
+    },
+    "costs": {
+        "promptEur": 0.0046552000732421875,
+        "completionEur": 0.012778800170898438,
+        "totalEur": 0.017434000244140626
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/010",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

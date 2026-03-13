@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-13T07:35:25.841099Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Global variable 'shared_data' is required to be globally visible according to the problem statement, but the artifacts disagree. The problem statement (problem_statement.md line 22) explicitly requires `shared_data` to be globally visible for tests. The template (template_repository/helloWorld.asm lines 2-3) does not declare `shared_data` at all. The solution (solution_repository/helloWorld.asm line 4) defines `shared_data dd 100` in the .data section but does not export it with a `global shared_data` directive (the file only contains `global main` at line 7). This mismatch will cause automated tests or tools that expect an exported symbol `shared_data` to fail to find it and will confuse students about how the symbol should be provided.",
+            "suggestedFix": "Ensure `shared_data` is declared in the template and exported as a global symbol in both the template and the solution. Concretely: (1) In the .data section add `shared_data dd 100` if missing (template and solution). (2) Add `global shared_data` near the other global directives (for example, alongside `global main`) so the symbol is visible to tests. This keeps the educational intent while making the symbol discoverable by automated checks.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 22,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/helloWorld.asm",
+                    "startLine": 2,
+                    "endLine": 3
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/helloWorld.asm",
+                    "startLine": 4,
+                    "endLine": 4
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/helloWorld.asm",
+                    "startLine": 7,
+                    "endLine": 7
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:35:25.841099Z",
+        "endTime": "2026-03-13T07:36:01.705699Z",
+        "durationS": 35.864
+    },
+    "tokens": {
+        "prompt": 10972,
+        "completion": 4155,
+        "total": 15127
+    },
+    "costs": {
+        "promptEur": 0.00252356005859375,
+        "completionEur": 0.007645200073242188,
+        "totalEur": 0.010168760131835937
+    },
+    "case_id": "V2/ERA2021/H00-Hello_World_ASM/014",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}
