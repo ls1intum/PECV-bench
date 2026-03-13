@@ -1,0 +1,59 @@
+{
+  "case_id": "ERA2021/H00-Hello_World_ASM/013",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-085039-013-963613",
+  "timestamp": "2026-03-13T08:51:06.903653",
+  "issues": [
+    {
+      "description": "Problem statement explicitly requires implementing internal_calc as a private helper (\"nicht global\") but the solution repository exports internal_calc as a global symbol (`global internal_calc`). This contradicts the visibility requirement in the specification and may confuse students about whether the helper should be private (local) or globally visible. Students looking at the solution may conclude they must export the helper, even though the exercise text instructs otherwise.",
+      "severity": "MEDIUM",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 1,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 6,
+          "end_line": 9
+        }
+      ],
+      "suggested_fix": "Either remove the `global internal_calc` directive from the solution (so internal_calc remains a private/local label), or update the problem statement to permit/export internal_calc as global. Preferably, remove `global internal_calc` in the solution repository to align with the exercise text that the helper must be private."
+    },
+    {
+      "description": "The problem statement requires implementing a private helper function named `internal_calc` (explicitly: \"nicht global\"), but the solution repository exports the same symbol as global (`global internal_calc`). This contradicts the requirement about the function's visibility: students reading the solution or comparing artifacts may be confused about whether `internal_calc` should be a private/local helper or a globally exported symbol.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "suggested_fix": "Remove the `global internal_calc` directive from solution_repository/helloWorld.asm so that `internal_calc` remains a private (non-global) helper, matching the problem statement. If the helper must be exported for technical reasons, update the problem statement to explicitly state that `internal_calc` will be global."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:50:39.577239",
+    "end_time": "2026-03-13T08:51:06.903653",
+    "duration_s": 27.326414
+  },
+  "trace_id": "207ba483-6a5e-4108-ba54-dcf1beab62b5"
+}

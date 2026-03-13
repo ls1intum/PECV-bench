@@ -1,0 +1,71 @@
+{
+  "case_id": "QCSL25/QC03-Magic_State_Distillation/008",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-122353-008-cf8cbe",
+  "timestamp": "2026-03-13T12:25:38.902706",
+  "issues": [
+    {
+      "description": "The template constructs a Stim circuit using stim.Circuit(n_shots) inside simulate_msd_one_round, while the solution (and the typical Stim API) use stim.Circuit() with no shots argument. This constructor usage in the template is incorrect and will raise an error or confuse students when they try to run or extend the provided template. The problem statement and function signature describe simulate_msd_one_round as taking (n_shots, p) but do not imply creating the Circuit with a shots parameter, so the template's constructor parameter is an unintended mismatch.",
+      "severity": "MEDIUM",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 121,
+          "end_line": 123
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 208,
+          "end_line": 209
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 149,
+          "end_line": 153
+        }
+      ],
+      "suggested_fix": "Change the template to construct an empty Stim circuit with stim.Circuit() (no n_shots argument). For example, replace `circ = stim.Circuit(n_shots)` with `circ = stim.Circuit()` so the template matches the solution and the expected Stim API."
+    },
+    {
+      "description": "The plot helper functions in both the template and the solution call simulate_msd_one_round and simulate_msd_two_rounds inside a list comprehension using `for p in ps` while also passing `p=p` as a keyword argument. This both shadows the outer variable name and makes the comprehension harder to read; more importantly, it is prone to confusion and is an inconsistent use of parameter ordering/naming compared to the declared function signatures. This is likely an unintentional bug in the helper plotting code and may produce unexpected behavior or runtime errors when students try to use the plotting helpers.",
+      "severity": "LOW",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 155,
+          "end_line": 162
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 189,
+          "end_line": 196
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 333,
+          "end_line": 341
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 373,
+          "end_line": 381
+        }
+      ],
+      "suggested_fix": "Make the plotting calls explicit and avoid variable shadowing. For example use a distinct loop variable name and pass keyword args matching the function signature: `results = [simulate_msd_one_round(n_shots=n_shots, p=prob) for prob in ps]` and `results = [simulate_msd_two_rounds(n_shots=n_shots, p=prob) for prob in ps]`. Alternatively call them positionally as `simulate_msd_one_round(n_shots, prob)`."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T12:23:53.608390",
+    "end_time": "2026-03-13T12:25:38.902706",
+    "duration_s": 105.294316
+  },
+  "trace_id": "fdf358f6-1f60-4d83-bbe4-a4b1236de980"
+}

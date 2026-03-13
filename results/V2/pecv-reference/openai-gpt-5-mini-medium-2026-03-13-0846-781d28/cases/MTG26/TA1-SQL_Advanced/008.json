@@ -1,0 +1,39 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/008",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-102505-008-b78ff0",
+  "timestamp": "2026-03-13T10:26:29.534833",
+  "issues": [
+    {
+      "description": "Solution for Aufgabe 07 omits the join condition between Gemeinde and Schwimmbad (it only filters Schwimmbad.art='Freibad'). The problem asks for the names of the Gemeinden that have a Freibad and the names of the respective Freib\u00e4der \u2014 this implies a relationship via the Gemeindeschluessel. Omitting the join produces a Cartesian product (every Gemeinde paired with every Freibad) rather than only the matching Gemeinde\u2013Freibad pairs, which is incorrect and will confuse students about whether a join on gemeindeschluessel is required.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 46,
+          "end_line": 49
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe07.sql",
+          "start_line": 1,
+          "end_line": 1
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe07.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Add the join condition between Gemeinde and Schwimmbad in the solution (and, if desired, in the template) so only Freib\u00e4der in their respective Gemeinden are returned. For example:\n\nSELECT Gemeinde.name, Schwimmbad.name\nFROM Gemeinde, Schwimmbad\nWHERE Schwimmbad.art = 'Freibad'\n  AND Gemeinde.schluessel = Schwimmbad.gemeindeschluessel\n\nThis fixes the Cartesian product and matches the problem requirement to list each Gemeinde together with its Freibad(s)."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:25:05.149659",
+    "end_time": "2026-03-13T10:26:29.534833",
+    "duration_s": 84.385174
+  },
+  "trace_id": "7ae49f8b-8a4b-4180-80e9-ce3d8644c17f"
+}

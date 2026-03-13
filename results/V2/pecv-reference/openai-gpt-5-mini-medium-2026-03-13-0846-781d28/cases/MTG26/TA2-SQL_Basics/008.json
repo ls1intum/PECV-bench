@@ -1,0 +1,33 @@
+{
+  "case_id": "MTG26/TA2-SQL_Basics/008",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-103216-008-09167f",
+  "timestamp": "2026-03-13T10:32:52.034767",
+  "issues": [
+    {
+      "description": "The problem asks for the average male and female population per Landkreis (county) and the name of that Landkreis (i.e., results grouped per Landkreis). The reference solution (solution_repository/aufgabe09.sql) selects the column 'kreis' but groups by 'regierungsbezirk' instead. This is a structural SQL grouping mismatch: a non-aggregated column (kreis) appears in SELECT while the GROUP BY uses a different column (regierungsbezirk). This will either produce incorrect/ambiguous results or fail in DBMSs that enforce GROUP BY rules, and it contradicts the problem requirement to aggregate per Landkreis.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 146,
+          "end_line": 149
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe09.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Change the GROUP BY clause to group by 'kreis' (the county) to match the requested aggregation per Landkreis. For example:\n\nSELECT kreis, AVG(einwohner_m), AVG(einwohner_w)\nFROM Gemeinde\nWHERE flaeche > 100\nGROUP BY kreis\n\nIf both kreis and regierungsbezirk should be shown together, include both in SELECT and GROUP BY: GROUP BY regierungsbezirk, kreis."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:32:16.840163",
+    "end_time": "2026-03-13T10:32:52.034767",
+    "duration_s": 35.194604
+  },
+  "trace_id": "ff984b53-48a4-4541-929c-132d41ead735"
+}

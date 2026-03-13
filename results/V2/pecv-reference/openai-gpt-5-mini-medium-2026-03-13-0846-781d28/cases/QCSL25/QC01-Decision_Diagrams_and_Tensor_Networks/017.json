@@ -1,0 +1,71 @@
+{
+  "case_id": "QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/017",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-104235-017-fae149",
+  "timestamp": "2026-03-13T10:43:10.846099",
+  "issues": [
+    {
+      "description": "The problem statement and solution expect a measurement function named dd_measure_all, but the template defines the function as measure_all_dd (name swapped). This is both an inner-template inconsistency (template docstring/listing refers to dd_measure_all, but the actual function implemented is measure_all_dd) and a cross-artifact mismatch (students following the template will implement/see measure_all_dd while tests and the solution expect dd_measure_all). This mismatch will cause confusion and test failures because the expected function name (dd_measure_all) is absent from the template API.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 52,
+          "end_line": 55
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd_simulation.py",
+          "start_line": 10,
+          "end_line": 18
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd_simulation.py",
+          "start_line": 389,
+          "end_line": 424
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/dd_simulation.py",
+          "start_line": 425,
+          "end_line": 467
+        }
+      ],
+      "suggested_fix": "Make the template API match the problem statement and solution by renaming the template function measure_all_dd to dd_measure_all (and update any internal references). Alternatively, provide a thin wrapper in the template: define dd_measure_all(...) that calls measure_all_dd(...). Also ensure the top-level docstring and any references consistently use dd_measure_all."
+    },
+    {
+      "description": "The decision-diagram measurement routine is named inconsistently between artifacts. The problem statement (and the solution) expect a function named `dd_measure_all`, but the template repository provides a function stub named `measure_all_dd`. This swaps the token order (and omits the `dd_` prefix convention used elsewhere) and may prevent students from finding/implementing the expected function or from mapping the task description to the template code. It also creates potential confusion with the tensor-network measurement function `measure_all` (no `dd_` prefix).",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 52,
+          "end_line": 55
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd_simulation.py",
+          "start_line": 389,
+          "end_line": 424
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/dd_simulation.py",
+          "start_line": 425,
+          "end_line": 467
+        }
+      ],
+      "suggested_fix": "Rename the template stub `measure_all_dd` to `dd_measure_all` (and update any internal references) so the template, problem statement, and solution consistently use `dd_measure_all`. Preserve the `dd_` prefix to clearly distinguish decision-diagram measurement (`dd_measure_all`) from the tensor-network measurement (`measure_all`)."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:42:35.671006",
+    "end_time": "2026-03-13T10:43:10.846099",
+    "duration_s": 35.175093
+  },
+  "trace_id": "b8790b78-32cd-481b-95d5-f4c74631e865"
+}

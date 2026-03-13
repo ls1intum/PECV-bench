@@ -1,0 +1,65 @@
+{
+  "case_id": "QCSL25/QC03-Magic_State_Distillation/005",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-121934-005-1f5c66",
+  "timestamp": "2026-03-13T12:20:42.563907",
+  "issues": [
+    {
+      "description": "The teleport_s function parameter order in the template does not match the problem statement or the solution. The problem statement and the solution use the signature teleport_s(circ: stim.Circuit, data_qubit: int, injection_qubit: int, p=0.0) -> int (data_qubit first, injection_qubit second). The template stub defines teleport_s(circ: stim.Circuit, injection_qubit: int, data_qubit: int, p=0.0) -> int (injection_qubit first). This mismatch (also visible in the template docstring which documents data_qubit then injection_qubit but the code signature is swapped) will confuse students about the intended parameter order and can cause incorrect behavior when callers (tests or student code following the problem statement) pass arguments positionally.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 96,
+          "end_line": 101
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 78,
+          "end_line": 90
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 136,
+          "end_line": 150
+        }
+      ],
+      "suggested_fix": "Update the template stub signature to match the problem statement and the solution: def teleport_s(circ: stim.Circuit, data_qubit: int, injection_qubit: int, p: float = 0.0) -> int. Also ensure the template docstring and any internal usage reflect this same parameter order so students and tests are not confused."
+    },
+    {
+      "description": "Parameter ordering for the teleport_s function is inconsistent between the problem statement / solution and the template. The problem statement (and the solution implementation) specify teleport_s(circ, data_qubit, injection_qubit, p=0.0) but the template defines teleport_s(circ, injection_qubit, data_qubit, p=0.0). This mismatch changes which argument will be interpreted as the data qubit vs. the injection ancilla when students implement or call the function, leading to likely confusion and subtle bugs (positional arguments will be swapped).",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 96,
+          "end_line": 101
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 78,
+          "end_line": 90
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 136,
+          "end_line": 150
+        }
+      ],
+      "suggested_fix": "Make the template function signature match the problem statement and solution by changing the parameter order in template_repository/msd.py to: def teleport_s(circ: stim.Circuit, data_qubit: int, injection_qubit: int, p: float = 0.0) -> int. Also update the template docstring/comments accordingly so students map the problem requirement (data_qubit, injection_qubit) unambiguously to the implementation."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T12:19:34.460731",
+    "end_time": "2026-03-13T12:20:42.563907",
+    "duration_s": 68.103176
+  },
+  "trace_id": "295c311e-7ed4-47cf-91f2-7c61f753aaee"
+}

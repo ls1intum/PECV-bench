@@ -1,0 +1,39 @@
+{
+  "case_id": "ERA2021/H00-Hello_World_ASM/004",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-084625-004-7aa9eb",
+  "timestamp": "2026-03-13T08:46:54.744278",
+  "issues": [
+    {
+      "description": "The solution repository introduces an extra push of an immediate value (push 123) and an incorrect stack cleanup (add esp, 4) plus a misleading comment about argument order. This conflicts with the problem statement's guidance about using printf (format-string then arguments) and with the template that only pushes the format string. The extra push without adjusting the stack leads to a stack imbalance at return time, and the comment \"Argument pushed first (Incorrect order)\" is misleading for x86 cdecl calling convention (where arguments are pushed right-to-left). As a result, students may be confused about the correct argument-passing order for printf in assembly and about correct stack cleanup; they may also copy a solution that contains a runtime bug.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 17,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 12,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 11,
+          "end_line": 17
+        }
+      ],
+      "suggested_fix": "Make the solution consistent and correct: either remove the extraneous 'push 123' (if no additional argument is intended) and keep 'push hello' with 'add esp, 4', or if an integer argument is intended, update the format string to include a matching specifier (e.g. change hello to \"%d\\n\",0 or add a separate format string), ensure push order is correct for cdecl (push argument(s) first, then push format string), and fix stack cleanup to 'add esp, 8' (or add esp, N where N equals 4 * number_of_pushes). Also remove or correct the misleading comment about argument order so it reflects the correct calling convention."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:46:25.154941",
+    "end_time": "2026-03-13T08:46:54.744278",
+    "duration_s": 29.589337
+  },
+  "trace_id": "60207d28-4047-4907-a9ed-fb7437c7aae5"
+}

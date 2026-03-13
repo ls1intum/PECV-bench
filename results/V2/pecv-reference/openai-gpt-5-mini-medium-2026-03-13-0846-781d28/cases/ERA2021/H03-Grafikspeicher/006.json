@@ -1,0 +1,39 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/006",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-085432-006-debc4a",
+  "timestamp": "2026-03-13T08:55:48.699367",
+  "issues": [
+    {
+      "description": "The problem statement requires the subroutine set_pixel to preserve all registers except EAX (\"Au\u00dfer dem Register eax d\u00fcrfen keine anderen Registerinhalte ver\u00e4ndert werden\"). The solution implementation of set_pixel (solution_repository/pixel.asm lines 19-37) uses and modifies EDI without saving/restoring it (instructions 'or edi, edi' and 'jz .skip_alpha' reference/modify EDI but there is no push/pop/restore for EDI). This violates the calling convention/contract specified in the problem and can change the caller's EDI unexpectedly, confusing students and breaking the stated requirement. The template provides an empty stub for set_pixel (template_repository/pixel.asm lines 36-38) so students would implement according to the spec; the provided solution therefore demonstrates an implementation that does not conform to the specification.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 29,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 37
+        }
+      ],
+      "suggested_fix": "Ensure the set_pixel implementation preserves all registers except EAX as required. Two safe approaches: (A) Do not use EDI at all \u2014 compute x*4 via a shift (shl) into a temporary register that is preserved (e.g., use ESI after pushing/popping it), compute y*7680 using an instruction that does not clobber EDX (or restore EDX), and write [address] from ECX. Or (B) if EDI must be used, explicitly save and restore it at function entry/exit (push edi ... pop edi) so the caller's EDI is unchanged. Also remove the unnecessary 'or edi, edi' / alpha-check code that references EDI unpredictably. Example fix (conceptual):\n\nset_pixel:\n    push ebx\n    push esi\n    push edi        ; save EDI if you use it\n\n    mov esi, eax\n    shl esi, 2      ; esi = x * 4\n    mov eax, 7680\n    imul eax, ebx   ; eax = 7680 * y (use imul form that does not set EDX)\n    add eax, esi\n    add eax, display_start\n    mov [eax], ecx\n\n    pop edi\n    pop esi\n    pop ebx\n    ret\n\nThis preserves caller registers (except EAX) and conforms to the problem specification."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:54:32.472988",
+    "end_time": "2026-03-13T08:55:48.699367",
+    "duration_s": 76.226379
+  },
+  "trace_id": "3d5660da-e9ae-4f01-8e76-d7d6a38a5e11"
+}

@@ -1,0 +1,59 @@
+{
+  "case_id": "MTG26/TA2-SQL_Basics/007",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-103140-007-371a0d",
+  "timestamp": "2026-03-13T10:32:14.546914",
+  "issues": [
+    {
+      "description": "Task 04 in the problem statement asks for sums of female and male inhabitants grouped by Regierungsbezirk (the district) and to output the district name. The solution groups by 'kreis' (county) instead of 'regierungsbezirk' while selecting 'regierungsbezirk' in the SELECT list. Grouping by the wrong column (kreis) is inconsistent with the task requirement and can be invalid in SQL (selecting regierungsbezirk without grouping by it or aggregating it). This mismatch will confuse students about which column to group by and may prevent their query from running or matching the intended result.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 122,
+          "end_line": 122
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe04.sql",
+          "start_line": 1,
+          "end_line": 3
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe04.sql",
+          "start_line": 1,
+          "end_line": 1
+        }
+      ],
+      "suggested_fix": "Change the solution to group by regierungsbezirk (the district) as requested. For example: SELECT regierungsbezirk, SUM(einwohner_w), SUM(einwohner_m) FROM Gemeinde GROUP BY regierungsbezirk; Ensure the template/starter file for Aufgabe 04 reflects grouping by regierungsbezirk or leaves an appropriate stub so students implement grouping by regierungsbezirk."
+    },
+    {
+      "description": "The problem statement requires the sums of male and female inhabitants grouped by 'Regierungsbezirk' (the Regierungsbezirk name). The reference solution selects the column 'regierungsbezirk' but then groups by a different column, 'kreis'. This creates a semantic mismatch: the intended grouping key (regierungsbezirk) is named in the problem, but the solution groups by another entity (kreis). Students will be confused mapping the requirement \"group by Regierungsbezirk\" to the solution's GROUP BY and may produce incorrect queries or misunderstand which attribute to group on.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 122,
+          "end_line": 122
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe04.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Align the grouping key with the problem statement. In solution_repository/aufgabe04.sql replace GROUP BY kreis with GROUP BY regierungsbezirk (so the query becomes: SELECT regierungsbezirk, SUM(einwohner_w), SUM(einwohner_m) FROM Gemeinde GROUP BY regierungsbezirk). This makes the SELECT and GROUP BY refer to the same conceptual entity as required by the task."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:31:40.074293",
+    "end_time": "2026-03-13T10:32:14.546914",
+    "duration_s": 34.472621
+  },
+  "trace_id": "0c121bce-f33b-4a5b-86c0-a30288f27c27"
+}

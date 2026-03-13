@@ -1,0 +1,45 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/014",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-090707-014-ed68f2",
+  "timestamp": "2026-03-13T09:07:33.920384",
+  "issues": [
+    {
+      "description": "Bitmap24::set(...) and Bitmap24::save(...) are declared private in the template header but are used from main.cpp (and in the example program). The solution repository exposes these methods as public. This mismatch causes the provided example program to be unable to compile with the template: code in main.cpp calls bitmap.set(...) and bitmap.save(...), which are not accessible if those members are private. Because the problem statement and template emphasize that the project must compile to be graded, this visibility error blocks students and is not an intentional pedagogical gap.",
+      "severity": "HIGH",
+      "category": "VISIBILITY_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 47,
+          "end_line": 59
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 42,
+          "end_line": 44
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/main.cpp",
+          "start_line": 225,
+          "end_line": 229
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 47,
+          "end_line": 57
+        }
+      ],
+      "suggested_fix": "Make Bitmap24::set(...) and Bitmap24::save(...) public in the template header to match their usage in main.cpp (move their declarations above the 'private:' section or remove/adjust the access specifier). This matches the solution repository and ensures the example program compiles as intended without changing the pedagogical intent."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:07:07.842640",
+    "end_time": "2026-03-13T09:07:33.920384",
+    "duration_s": 26.077744
+  },
+  "trace_id": "793aedf9-3fda-4519-b22b-1989b5ca00d7"
+}

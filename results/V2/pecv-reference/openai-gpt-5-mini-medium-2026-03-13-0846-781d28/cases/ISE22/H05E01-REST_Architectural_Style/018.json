@@ -1,0 +1,95 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/018",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-093033-018-7a8c8b",
+  "timestamp": "2026-03-13T09:31:15.020929",
+  "issues": [
+    {
+      "description": "Endpoint path mismatch for the Persons API: the problem statement and the client code use the path \"/persons\" (the exercise specification requires POST /persons, GET /persons, PUT /persons/{personId}, DELETE /persons/{personId>}), but the server implementation in the solution repository exposes the endpoints under \"/people\" (e.g. @GetMapping(\"people\"), @PostMapping(\"people\"), etc.). This creates a breaking structural inconsistency: client requests to /persons will not be handled by the server in the solution, and students following the problem statement to implement /persons will disagree with the provided server solution. The template PersonResource is still a TODO, so students will implement endpoints according to the problem statement (/persons) but the solution server uses /people, causing confusion when comparing to the reference solution and preventing end-to-end behavior if the client and server paths are not aligned.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 114
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 49
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 65,
+          "end_line": 71
+        }
+      ],
+      "suggested_fix": "Unify the endpoint paths across specification, template, client and server. The simplest fix preserving the problem statement is to change the server mappings from \"people\" to \"persons\": replace @GetMapping(\"people\"), @PostMapping(\"people\"), @PutMapping(\"people/{personId}\"), @DeleteMapping(\"people/{personId}\") with @GetMapping(\"persons\"), @PostMapping(\"persons\"), @PutMapping(\"persons/{personId}\"), @DeleteMapping(\"persons/{personId}\"). Alternatively, change the problem statement and client code to use \"people\" \u2014 but keep all three artifacts consistent. Update tests/documentation to match the chosen path."
+    },
+    {
+      "description": "REST resource naming mismatch for the same conceptual entity (persons). The problem statement specifies endpoints under /persons (e.g. POST /persons, GET /persons, PUT /persons/{personId}, DELETE /persons/{personId}). The client implementation (solution) sends requests to /persons. However, the server implementation (solution) exposes the persons endpoints under /people (e.g. @GetMapping(\"people\"), @PostMapping(\"people\"), etc.). This creates a direct mapping/functional mismatch: students following the problem statement or client code will expect /persons endpoints, but the server listens on /people. The inconsistency exists across artifacts (problem statement vs. solution server) and even within the solution repository (client uses /persons while server uses /people), causing runtime failures and strong student confusion about which path is correct.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 109,
+          "end_line": 114
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 24
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 27,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 65,
+          "end_line": 80
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 23,
+          "end_line": 49
+        }
+      ],
+      "suggested_fix": "Make the resource path name consistent across all artifacts. Preferred minimal fixes:\n- Rename the server endpoints from \"people\" to \"persons\" (change @GetMapping(\"people\"), @PostMapping(\"people\"), @PutMapping(\"people/{personId}\"), @DeleteMapping(\"people/{personId}\") to the corresponding \"persons\" paths) so they match the problem statement and the client requests. OR\n- Alternatively, if you prefer \"people\", update the problem statement and all client code to use /people consistently. Ensure both client and server use the same path name so students can map the problem description to the template and solution without confusion."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:30:33.617920",
+    "end_time": "2026-03-13T09:31:15.020929",
+    "duration_s": 41.403009
+  },
+  "trace_id": "9c2d7b91-fc0b-4291-b9d3-3206a9c7a6da"
+}

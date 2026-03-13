@@ -1,0 +1,71 @@
+{
+  "case_id": "QCSL25/QC03-Magic_State_Distillation/012",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-123340-012-618666",
+  "timestamp": "2026-03-13T12:34:55.728263",
+  "issues": [
+    {
+      "description": "Parameter order / usage for correct_teleportation is inconsistent between the specification and its uses in the solution. The problem statement and template define correct_teleportation(teleportation_measurements, x_measurements) where the first argument is the teleportation (injection) measurement results and the second is the X-basis measurements of the data qubits. The solution defines correct_teleportation accordingly, but then calls it with the arguments swapped (passing the X-basis measurements first and the teleportation measurements second) in multiple places (simulate_msd_one_round and simulate_msd_two_rounds). While the particular XOR implementation in the solution is commutative (so the numeric result is unchanged), the swapped ordering is an inconsistency that will confuse students about the intended inputs to the function and about how to use the function in their own code.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 103,
+          "end_line": 110
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 65,
+          "end_line": 75
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 123,
+          "end_line": 134
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 224,
+          "end_line": 236
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 292,
+          "end_line": 304
+        }
+      ],
+      "suggested_fix": "Make the argument order and documentation consistent across all artifacts. Either (A) update the template/problem text to explicitly state the order used by the solution (and update the function docstring to make clear which argument corresponds to teleportation vs X-basis measurements), or (B) update the solution calls so they pass arguments in the order described in the specification: correct_teleportation(teleportation_measurements, x_measurements). Keeping a consistent order avoids reader confusion when students implement or call correct_teleportation."
+    },
+    {
+      "description": "Type annotation on the hx_tetrahedral declaration in the template is inconsistent with its actual value. In template_repository/msd.py hx_tetrahedral is annotated as list[list[int]] but is assigned an np.array(...) (a NumPy ndarray). This mismatch between the annotated type and the actual assigned type can confuse students who rely on the type hints when implementing functions that expect NumPy arrays (the rest of the template / problem expects NumPy arrays for check matrices).",
+      "severity": "LOW",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 8,
+          "end_line": 12
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 8,
+          "end_line": 12
+        }
+      ],
+      "suggested_fix": "Change the type annotation in the template to match the assigned value, e.g. use 'np.ndarray' or 'npt.NDArray[np.int8]' (or remove the explicit list[...] annotation). This aligns the template's type hints with the actual data structures students will be working with and matches the solution."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T12:33:40.182201",
+    "end_time": "2026-03-13T12:34:55.728263",
+    "duration_s": 75.546062
+  },
+  "trace_id": "003afc92-58ba-4492-b1b5-c322fffc0736"
+}

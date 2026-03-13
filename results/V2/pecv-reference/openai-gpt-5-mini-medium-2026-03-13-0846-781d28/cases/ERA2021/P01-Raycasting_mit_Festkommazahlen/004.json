@@ -1,0 +1,71 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/004",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-090255-004-965f1a",
+  "timestamp": "2026-03-13T09:04:01.879591",
+  "issues": [
+    {
+      "description": "Parameter order mismatch for Bitmap24::set between the template header and the implementation (and solution). The template's Bitmap24.hpp declares set(int i_x, int i_y, char i_r, char i_g, char i_b) while the implementation in Bitmap24.cpp defines Bitmap24::set(int i_y, int i_x, char i_r, char i_g, char i_b). The solution's header uses the (i_y, i_x) order that matches the implementation and how main.cpp calls bitmap.set(i, j, ...). This mismatch in the template will produce a function signature mismatch at compile time and/or cause confusion about the correct argument order students must implement and use.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 51,
+          "end_line": 57
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 45,
+          "end_line": 56
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 51,
+          "end_line": 57
+        }
+      ],
+      "suggested_fix": "Make the template header declaration match the implementation (and solution). Change the prototype in template_repository/example_program/src/Bitmap24.hpp to use (int i_y, int i_x, char i_r, char i_g, char i_b) so it agrees with Bitmap24::set in Bitmap24.cpp and with calls in main.cpp. Alternatively, change the implementation and all call sites to use (i_x, i_y) consistently \u2014 but keeping the template consistent with the implementation and the solution is the simplest fix."
+    },
+    {
+      "description": "Duplicate / inconsistent typedef/definition of the fixed-point types (fix_t/fixu_t) between the header and the implementation. math_fix.h defines the fix_t/fixu_t typedefs (based on FIX_LEN), while math_fix.c also defines FIX_LEN and re-declares typedefs (e.g. \"typedef int long long fix_t;\") after including math_fix.h. Redefining the typedef in the implementation after including the header can cause compilation errors (redefinition of typedef) or at least represents an internal structural inconsistency that will confuse students and block building the example program.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/math_fix.h",
+          "start_line": 21,
+          "end_line": 26
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/math_fix.c",
+          "start_line": 11,
+          "end_line": 17
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/math_fix.h",
+          "start_line": 31,
+          "end_line": 33
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/math_fix.c",
+          "start_line": 11,
+          "end_line": 17
+        }
+      ],
+      "suggested_fix": "Remove the duplicate typedefs and FIX_LEN redefinition from the .c implementation. The implementation should include math_fix.h and rely on the typedefs/macros provided by the header. Concretely, delete the lines in math_fix.c that define FIX_LEN and the typedefs for fix_t/fixu_t/fix64_t/fixu64_t so there is a single authoritative definition in math_fix.h. If the implementation must declare FIX_LEN or typedefs for a reason, ensure they are guarded and consistent with the header to avoid redefinition."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:02:55.690439",
+    "end_time": "2026-03-13T09:04:01.879591",
+    "duration_s": 66.189152
+  },
+  "trace_id": "793c9ea3-3710-4521-8c1c-814b54552cd6"
+}

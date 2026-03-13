@@ -1,0 +1,39 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/012",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-090626-012-13cd0d",
+  "timestamp": "2026-03-13T09:07:08.159699",
+  "issues": [
+    {
+      "description": "The fixed-point width macro FIX_LEN is inconsistent between the template's example program and the template test harness. In template_repository/example_program the code sets FIX_LEN to 8 (64-bit fixed point), while in template_repository/tests the test header defines FIX_LEN as 4 (32-bit). This yields different typedefs for fix_t across compilation units and will cause mismatched data sizes, calling conventions and incorrect expected values when students build/run the tests. The solution repository uses FIX_LEN = 8 consistently, so the template tests appear to be an accidental mismatch that will confuse or block students.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/math_fix.h",
+          "start_line": 11,
+          "end_line": 13
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "tests/src/math_fix.h",
+          "start_line": 7,
+          "end_line": 9
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "tests/src/math_fix.h",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "suggested_fix": "Make the FIX_LEN macro consistent across the template repository so all compilation units agree on the fixed-point width. Specifically, change template_repository/tests/src/math_fix.h to define FIX_LEN 8 (to match example_program and the solution), or otherwise ensure tests and example_program use the same FIX_LEN. Verify typedefs for fix_t/fixu_t resolve to the same widths across all headers."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:06:26.842849",
+    "end_time": "2026-03-13T09:07:08.159699",
+    "duration_s": 41.31685
+  },
+  "trace_id": "b0535e13-7590-43c1-88de-ff9079c399ef"
+}

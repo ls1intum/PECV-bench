@@ -1,0 +1,39 @@
+{
+  "case_id": "ERA2021/H00-Hello_World_ASM/008",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-084757-008-c870ff",
+  "timestamp": "2026-03-13T08:48:26.815499",
+  "issues": [
+    {
+      "description": "The problem statement explicitly instructs students to call setup_env() with no parameters (problem_statement.md line 22). The reference solution, however, calls setup_env with one pushed argument (solution_repository/helloWorld.asm lines 12-15: 'push 1' then 'call setup_env') and also declares 'extern setup_env'. This is a parameter/signature mismatch: students following the written instruction (no-arg call) will produce different code than the solution, and the solution's one-argument call contradicts the specification. This discrepancy can confuse students about the intended call convention and may lead to incorrect reference behavior or stack-management issues during execution.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 1,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 8,
+          "end_line": 16
+        }
+      ],
+      "suggested_fix": "Make the expected setup_env signature consistent across artifacts. Recommended: update the solution to call setup_env() with no parameters (remove 'push 1' before the call) so it matches the problem statement, and keep or add 'extern setup_env' where appropriate. Alternatively, if setup_env genuinely requires an argument, update the problem statement to document that it takes one parameter (and show its meaning) and update the template to declare 'extern setup_env' or instruct students to add the extern declaration."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:47:57.281446",
+    "end_time": "2026-03-13T08:48:26.815499",
+    "duration_s": 29.534053
+  },
+  "trace_id": "99597555-3932-40dd-b2c3-323a9bc9c240"
+}

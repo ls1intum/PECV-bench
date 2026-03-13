@@ -1,0 +1,33 @@
+{
+  "case_id": "ISE22/H10E01-Containers/003",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-093142-003-e7c812",
+  "timestamp": "2026-03-13T09:32:14.470413",
+  "issues": [
+    {
+      "description": "The POST /persons handler has different return types in the template and the solution. In the template PersonResource.createPerson returns ResponseEntity<Person> and returns the saved person (ResponseEntity.ok(personService.save(person))). In the solution PersonResource.createPerson is declared void and simply calls personService.save(person). This is a structural signature mismatch between template and solution that can confuse students when they compare the provided starter code to the reference implementation (e.g., about expected controller method signatures and returned payloads).",
+      "severity": "LOW",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 37,
+          "end_line": 43
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 37,
+          "end_line": 43
+        }
+      ],
+      "suggested_fix": "Make the controller method signatures consistent across template and solution. Either change the template implementation to match the solution (declare createPerson as void and keep calling personService.save(person)), or change the solution to return ResponseEntity<Person> with the saved person (ResponseEntity.ok(personService.save(person))). Preferably keep/restore ResponseEntity<Person> so the POST returns the created entity explicitly, and update both template and solution to use the same signature."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:31:42.815153",
+    "end_time": "2026-03-13T09:32:14.470413",
+    "duration_s": 31.65526
+  },
+  "trace_id": "8bebd770-9c40-4bbc-82e7-f049b7ebde25"
+}

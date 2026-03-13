@@ -1,0 +1,39 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/005",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-085414-005-a5fb83",
+  "timestamp": "2026-03-13T08:55:02.638394",
+  "issues": [
+    {
+      "description": "The problem statement specifies that the RGB color to write is passed in register ECX and that set_pixel must write that color to memory while preserving all registers except EAX. The solution's set_pixel implementation instead writes the contents of EDX into memory (mov [eax], edx) and never reads ECX, so the color parameter is ignored. This makes the solution incompatible with the specification and will confuse students: calling set_pixel with the color in ECX will not produce the expected result. Additionally, the solution does not preserve ECX (it is neither saved nor restored), violating the requirement that registers other than EAX remain unchanged unless explicitly saved/restored.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 30,
+          "end_line": 33
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 19,
+          "end_line": 34
+        }
+      ],
+      "suggested_fix": "Change the solution's set_pixel to use the color passed in ECX and ensure ECX is preserved. For example, compute the target address into EAX (allowed to modify), then store ECX at that address (mov [eax], ecx). If any instructions temporarily clobber ECX, push ecx at the start of set_pixel and pop ecx before returning (or otherwise restore it). This aligns the implementation with the problem statement (color in ECX) and the requirement to not alter registers other than EAX."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:54:14.418700",
+    "end_time": "2026-03-13T08:55:02.638394",
+    "duration_s": 48.219694
+  },
+  "trace_id": "8e650545-5327-46be-8fb7-61bca4fb050b"
+}

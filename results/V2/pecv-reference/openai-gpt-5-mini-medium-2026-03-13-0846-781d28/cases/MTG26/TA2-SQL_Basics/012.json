@@ -1,0 +1,33 @@
+{
+  "case_id": "MTG26/TA2-SQL_Basics/012",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-103354-012-e447f2",
+  "timestamp": "2026-03-13T10:34:17.919889",
+  "issues": [
+    {
+      "description": "Task 02 asks for the number (a single aggregated result) of municipalities in the Regierungsbezirk 'Oberbayern', but the solution query returns the names of the municipalities instead of an aggregate COUNT. This contradicts the problem requirement and would confuse students about the expected output shape (single numeric result vs. multiple name rows) and cause automatic checks to fail.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 111,
+          "end_line": 114
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe02.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Change the solution to return the aggregate count. For example: SELECT COUNT(*) FROM Gemeinde WHERE regierungsbezirk='Oberbayern'; (optionally: SELECT COUNT(*) AS Anzahl FROM Gemeinde WHERE regierungsbezirk='Oberbayern';)"
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:33:54.959228",
+    "end_time": "2026-03-13T10:34:17.919889",
+    "duration_s": 22.960661
+  },
+  "trace_id": "11dd116c-d776-46e2-9b3a-7e06df313c12"
+}

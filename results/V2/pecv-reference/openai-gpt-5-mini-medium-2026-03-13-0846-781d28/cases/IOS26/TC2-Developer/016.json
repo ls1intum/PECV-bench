@@ -1,0 +1,95 @@
+{
+  "case_id": "IOS26/TC2-Developer/016",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-092226-016-e374ed",
+  "timestamp": "2026-03-13T09:23:05.698736",
+  "issues": [
+    {
+      "description": "The solution repository renames the Course property and initializer parameter from 'instructor' (as specified in the problem statement and present in the template) to 'lecturer'. This breaks consistency: the solution's Course initializer uses the 'lecturer' label and the Course type exposes a 'lecturer' property, while other parts (the problem statement, the template, and the solution's Client and Developer code) expect an 'instructor' property/parameter. As a result, code in Client.swift and Developer.swift that references or constructs Course using 'instructor' will not compile against the Course implementation in the solution, and students will be confused which name to use.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 7,
+          "end_line": 11
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 7,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 8,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Client.swift",
+          "start_line": 9,
+          "end_line": 15
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Developer.swift",
+          "start_line": 42,
+          "end_line": 51
+        }
+      ],
+      "suggested_fix": "Use a consistent name for the course instructor across all artifacts. Preferably revert the solution's Course property and initializer parameter name from 'lecturer' back to 'instructor' to match the problem statement and template (i.e. let instructor: String and init(name: String, instructor: String, ratings: [Int])). Alternatively, update all references in Client.swift, Developer.swift, and the problem statement/template to use 'lecturer' \u2014 but ensure every file is updated so parameter labels and property accessors align and compile."
+    },
+    {
+      "description": "The problem statement and the template expect a Course property named `instructor`, but the solution's Course implementation uses the identifier `lecturer`. Meanwhile, other files in the solution (Client.swift and Developer.swift) still reference `instructor`. This inconsistent naming across artifacts (problem -> template -> solution) breaks the one-to-one mapping students rely on, introduces compilation errors in the solution, and forces learners to reconcile two different identifiers for the same conceptual property (the person teaching the course).",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 7,
+          "end_line": 7
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 52,
+          "end_line": 52
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 8,
+          "end_line": 10
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Course.swift",
+          "start_line": 9,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Developer.swift",
+          "start_line": 42,
+          "end_line": 51
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/Sources/DeveloperLib/Client.swift",
+          "start_line": 9,
+          "end_line": 13
+        }
+      ],
+      "suggested_fix": "Align the identifier across all artifacts. Prefer changing the solution to use `instructor` (as specified in the problem and template). Concretely, in solution_repository/Sources/DeveloperLib/Course.swift rename the property and initializer parameter from `lecturer` to `instructor` (update `let lecturer: String` -> `let instructor: String` and `init(name: String, lecturer: String, ...)` -> `init(name: String, instructor: String, ...)` and assign `self.instructor = instructor`). Ensure any internal references use `course.instructor`. Alternatively, if you intentionally prefer `lecturer`, update the problem statement, template, and all solution files (Client.swift and Developer.swift) to consistently use `lecturer`. The important point is to use one name across problem, template, and solution to avoid student confusion and compile errors."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:22:26.177887",
+    "end_time": "2026-03-13T09:23:05.698736",
+    "duration_s": 39.520849
+  },
+  "trace_id": "9343a423-4200-4751-aecc-e91ba70ce859"
+}

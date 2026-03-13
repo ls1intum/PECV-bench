@@ -1,0 +1,107 @@
+{
+  "case_id": "QCSL25/QC02-Far_Term_Quantum_Algorithms/006",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-104512-006-972134",
+  "timestamp": "2026-03-13T10:46:22.016037",
+  "issues": [
+    {
+      "description": "Several solution modules that are intended to return measurement counts (exercises 2, 4, and 5) use Aer.get_backend(\"statevector_simulator\") inside their simulate() implementations and then call execute(..., shots=...) and result.get_counts(qc). Using the statevector backend for circuits where the expected output is classical counts is structurally incorrect and will either produce unexpected behavior or fail on some Qiskit/Aer versions. The problem statement explicitly asks for simulation counts for these exercises (and instructs reversing bits before simulation). This mismatch (expecting counts but using a statevector backend) can prevent students from obtaining the intended measurement histograms and will be a blocking/runtime issue when they try to run the provided reference code.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 120,
+          "end_line": 137
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 208,
+          "end_line": 214
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 226,
+          "end_line": 236
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+          "start_line": 125,
+          "end_line": 135
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex4_grover_lights_out_puzzle.py",
+          "start_line": 178,
+          "end_line": 183
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex5_grover_kakuro.py",
+          "start_line": 119,
+          "end_line": 124
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+          "start_line": 89,
+          "end_line": 94
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex4_grover_lights_out_puzzle.py",
+          "start_line": 100,
+          "end_line": 105
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex5_grover_kakuro.py",
+          "start_line": 109,
+          "end_line": 120
+        }
+      ],
+      "suggested_fix": "For circuits where the expected output is measurement counts, use a sampling backend such as the qasm simulator (e.g. Aer.get_backend('qasm_simulator') or 'aer_simulator') when calling execute(..., shots=...). For example, replace Aer.get_backend('statevector_simulator') with Aer.get_backend('qasm_simulator') (or 'aer_simulator') in the simulate() implementations for exercises 2, 4, and 5. Alternatively, if you intentionally want to use the statevector to compute probabilities, compute probabilities from the returned statevector and convert them to pseudo-counts yourself, but ensure the simulate() return type and the problem statement expectation (counts) match exactly."
+    },
+    {
+      "description": "The provided solution implementations for the oracles in multi-qubit Grover exercises (exercises 2 and 3) manipulate qubits by integer indices via qc.x(i) and similar calls instead of consistently addressing qubits via the passed QuantumRegister objects (e.g. query_register[i] or list(query_register)). The template method signatures pass query_register and auxiliary_register objects to the functions, so the canonical/expected approach is to use these register references. Using integer indices can work in many environments (since qc.x(int) indexes the global qubit list) but is inconsistent with the function signatures and with the teaching intent of using register argument names; it may confuse students about how to correctly reference qubits when registers are present, and it can create bugs if the circuit register ordering is changed.",
+      "severity": "LOW",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+          "start_line": 39,
+          "end_line": 54
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+          "start_line": 58,
+          "end_line": 67
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex3_grover_multi_qubit_multi_solutions_with_auxiliary_qubit.py",
+          "start_line": 16,
+          "end_line": 29
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex3_grover_multi_qubit_multi_solutions_with_auxiliary_qubit.py",
+          "start_line": 28,
+          "end_line": 38
+        }
+      ],
+      "suggested_fix": "In the oracle implementations, reference qubits using the registers passed to the function to make the code robust and consistent with the template signature. For example, replace qc.x(i) with qc.x(query_register[i]) and when building the control list for multi-controlled gates use list(query_register) or [query_register[i] for i in range(...)] so the gate targets are unambiguous and remain correct if register ordering changes. Update solution examples to demonstrate this recommended pattern so students learn the intended register-based addressing."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:45:12.809919",
+    "end_time": "2026-03-13T10:46:22.016037",
+    "duration_s": 69.206118
+  },
+  "trace_id": "f9aad834-124a-45c1-acbb-de5c54595d16"
+}

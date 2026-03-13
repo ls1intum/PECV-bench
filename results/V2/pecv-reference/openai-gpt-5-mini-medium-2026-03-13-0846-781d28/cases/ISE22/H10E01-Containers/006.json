@@ -1,0 +1,89 @@
+{
+  "case_id": "ISE22/H10E01-Containers/006",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-093307-006-bbc681",
+  "timestamp": "2026-03-13T09:33:44.694382",
+  "issues": [
+    {
+      "description": "Parameter order of addChild differs between the template/problem description and the solution. The problem statement and the template declare and expect addChild(Person person, Person child) (person first, child second) and the REST controller invokes personService.addChild(person, persistedChild). In the solution repository, the method signature is implemented as addChild(Person child, Person person) (parameters reversed). This mismatch compiles (both parameters are Person) but inverts the semantic roles of the arguments, causing the implementation to operate on the wrong objects when called by the controller and confusing students about the intended API.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 99,
+          "end_line": 106
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 45,
+          "end_line": 48
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 48,
+          "end_line": 54
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 68,
+          "end_line": 74
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 68,
+          "end_line": 74
+        }
+      ],
+      "suggested_fix": "Make the solution's addChild signature match the template/problem: change the method declaration in solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java to public Person addChild(Person person, Person child) and update the implementation to use these parameter names accordingly (e.g., check child.getParents(), add child to person.getChildren(), then save person). This preserves the intended API so the controller calls (personService.addChild(person, persistedChild)) behave correctly and avoids confusing students."
+    },
+    {
+      "description": "The method addChild is declared with different parameter order/names in the solution compared to the problem statement and template. The problem statement (and template stub) define addChild(Person person, Person child) \u2014 i.e., first argument is the parent (person) and second is the child. In the solution, the method is declared as addChild(Person child, Person person) (parameters reversed). Callers (PersonResource) invoke addChild(person, persistedChild) consistent with the problem/template; because the solution swapped the parameters this creates a semantic mismatch: students reading the solution or comparing template and solution will be confused about which parameter represents the parent vs. the child and this can produce incorrect behavior (checks and mutations apply to the wrong instance).",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 101,
+          "end_line": 104
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 45,
+          "end_line": 48
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+          "start_line": 48,
+          "end_line": 54
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 68,
+          "end_line": 74
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 68,
+          "end_line": 74
+        }
+      ],
+      "suggested_fix": "Make the solution's addChild signature and parameter names match the problem statement and template: declare addChild(Person person, Person child). Adjust the implementation so it checks the child's parents (child.getParents().size() < 2) and adds the child to the parent's children (person.getChildren().add(child)) before saving. This preserves the intended semantics and removes the confusing parameter-order mismatch."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:33:07.397254",
+    "end_time": "2026-03-13T09:33:44.694382",
+    "duration_s": 37.297128
+  },
+  "trace_id": "add159a6-c0e2-4549-b68f-099691fc09c0"
+}

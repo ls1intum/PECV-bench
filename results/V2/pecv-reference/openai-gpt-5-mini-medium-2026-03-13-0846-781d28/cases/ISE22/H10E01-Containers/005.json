@@ -1,0 +1,33 @@
+{
+  "case_id": "ISE22/H10E01-Containers/005",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-093307-005-d25c0a",
+  "timestamp": "2026-03-13T09:33:29.107504",
+  "issues": [
+    {
+      "description": "The parameter order of the updatePerson handler in PersonResource differs between the template and the solution. In the template the method signature is updatePerson(@RequestBody Person updatedPerson, @PathVariable(\"personId\") Long personId) while in the solution it is updatePerson(@PathVariable(\"personId\") Long personId, @RequestBody Person updatedPerson). Although functionally equivalent at runtime (Spring binds by annotations), this mismatch is an unintentional structural inconsistency that can confuse students who compare template and solution code or follow the solution as a reference.",
+      "severity": "LOW",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 51
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 45,
+          "end_line": 51
+        }
+      ],
+      "suggested_fix": "Make the parameter order consistent between template and solution. Change the template method signature to match the solution: public ResponseEntity<Person> updatePerson(@PathVariable(\"personId\") Long personId, @RequestBody Person updatedPerson) so students can directly compare implementations without being distracted by a trivial signature difference."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:33:07.397272",
+    "end_time": "2026-03-13T09:33:29.107504",
+    "duration_s": 21.710232
+  },
+  "trace_id": "0e9fc45d-7408-42f1-aeae-b4fd9bae0257"
+}

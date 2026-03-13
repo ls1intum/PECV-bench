@@ -1,0 +1,39 @@
+{
+  "case_id": "MTG26/TA2-SQL_Basics/009",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-103231-009-f23d09",
+  "timestamp": "2026-03-13T10:33:11.174918",
+  "issues": [
+    {
+      "description": "Task 10 in the problem statement asks for the number of hiking trails (Wanderwegen) that lead to a municipality, grouped by Gemeindeschl\u00fcssel and sorted by that count. The solution query, however, counts rows in the Gemeinde table (SELECT gemeindeschluessel, COUNT(*) FROM Gemeinde ...). That counts municipality rows, not hiking-trail records, and therefore does not implement what the task asks. Students following the solution would be misled about which table(s) to query and how to count trails per municipality.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 151,
+          "end_line": 153
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe10.sql",
+          "start_line": 1,
+          "end_line": 4
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe10.sql",
+          "start_line": 1,
+          "end_line": 1
+        }
+      ],
+      "suggested_fix": "Use the table (or join of tables) that stores hiking-trail records and the foreign key to the municipality when counting trails per municipality. For example, if there is a Wanderweg (or Wanderwege) table that references the destination municipality via a column like gemeindeschluessel (or if there is a join table linking trails to Gemeinden), count rows in that trails table grouped by the municipality key. Example (adapt to actual schema/column names):\n\nSELECT w.gemeindeschluessel, COUNT(*) AS Anzahl\nFROM Wanderweg w\n-- or: FROM Wanderweg w JOIN Wanderweg_Gemeinde wg ON w.id = wg.wanderweg_id\nGROUP BY w.gemeindeschluessel\nORDER BY Anzahl DESC;\n\nUpdate the solution (and optionally the template) to query the correct trails table / association and group by the municipality foreign key so the result actually reflects the number of trails leading to each municipality."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:32:31.958032",
+    "end_time": "2026-03-13T10:33:11.174918",
+    "duration_s": 39.216886
+  },
+  "trace_id": "3d5b4eb1-c9d2-419a-af15-263b6e059b95"
+}

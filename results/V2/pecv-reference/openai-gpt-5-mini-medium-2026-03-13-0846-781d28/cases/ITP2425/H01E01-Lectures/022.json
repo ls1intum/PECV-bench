@@ -1,0 +1,71 @@
+{
+  "case_id": "ITP2425/H01E01-Lectures/022",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-094549-022-3aaa44",
+  "timestamp": "2026-03-13T09:46:09.508916",
+  "issues": [
+    {
+      "description": "The problem statement (text and UML) specifies a no-argument method getTotalNumberOfStudents(): int, but the solution implements getTotalNumberOfStudents(boolean includeGuests). This changes the method signature (adds a parameter) compared to the specification and UML. Additionally, other solution methods (getNameAndTotalNumberOfStudents, getNumberOfStudentsPerTutor) call getTotalNumberOfStudents(true), coupling their implementations to the boolean parameter. Students following the problem statement / UML will implement a no-arg getTotalNumberOfStudents(), which will not match the solution's signature and may cause confusion or test mismatches.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 40,
+          "end_line": 41
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 70,
+          "end_line": 72
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 12,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 74,
+          "end_line": 81
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 84,
+          "end_line": 91
+        }
+      ],
+      "suggested_fix": "Align the implementation with the problem specification and UML by changing the solution to provide a no-argument method: public int getTotalNumberOfStudents(). Implement it to return numberOfInscribedStudents + numberOfGuestStudents. Then update other methods in the solution to call the no-arg method (e.g., getNameAndTotalNumberOfStudents() should call getTotalNumberOfStudents()). Alternatively, if the intended design truly requires an option to include/exclude guests, update the problem statement and UML to document getTotalNumberOfStudents(boolean includeGuests) (and provide both the boolean variant and a convenience no-arg overload) so the signature in the solution matches the specification."
+    },
+    {
+      "description": "The problem statement and UML specify a method getTotalNumberOfStudents(): int (no parameters) that returns the total number of students. In the solution implementation the method is present but with a different signature: getTotalNumberOfStudents(boolean includeGuests). This parameterized form changes the API expected by the exercise (and how students will reason about 'total number of students'), forcing students to reconcile a different method contract between the specification and the reference implementation. This mismatch can lead to confusion about which method to implement, failing tests that expect the no-argument form, and extra cognitive load mapping the requirement to the solution.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 70,
+          "end_line": 72
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+          "start_line": 75,
+          "end_line": 81
+        }
+      ],
+      "suggested_fix": "Align the solution with the problem specification by providing a no-argument method getTotalNumberOfStudents() that returns the total number of students (including guests, per the exercise intent). Options: (a) change the solution method signature to public int getTotalNumberOfStudents() and return numberOfInscribedStudents + numberOfGuestStudents; or (b) add an overload public int getTotalNumberOfStudents() that delegates to the existing boolean variant (e.g., return getTotalNumberOfStudents(true)). Alternatively, update the problem statement/UML to explicitly document the boolean parameter if that was intentional. Prefer (a) or (b) so the API matches the UML and student expectations."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:45:49.090612",
+    "end_time": "2026-03-13T09:46:09.508916",
+    "duration_s": 20.418304
+  },
+  "trace_id": "29ade78a-4162-43df-aaf3-0104cf136c8f"
+}

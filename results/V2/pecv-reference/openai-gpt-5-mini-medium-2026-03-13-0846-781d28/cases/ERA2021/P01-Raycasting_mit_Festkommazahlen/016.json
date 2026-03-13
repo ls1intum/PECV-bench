@@ -1,0 +1,71 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/016",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-090811-016-3ee289",
+  "timestamp": "2026-03-13T09:08:48.058102",
+  "issues": [
+    {
+      "description": "Template header declares class name 'Image24' but its member declarations use constructors/destructor named 'Bitmap24' (e.g. Bitmap24(), ~Bitmap24()). The implementation file (Bitmap24.cpp) defines methods for class 'Bitmap24' (Bitmap24::Bitmap24, Bitmap24::~Bitmap24). This inner-template inconsistency causes compile/link errors (constructors declared for a different class than implemented) and conflicts with the solution which uses class 'Bitmap24'. Students using the provided template will be blocked from compiling or will be confused about which class to implement/use.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 30,
+          "end_line": 58
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 41
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 30,
+          "end_line": 40
+        }
+      ],
+      "suggested_fix": "In the template header (example_program/src/Bitmap24.hpp) make the class name and its constructor/destructor identifiers consistent with the implementation and the solution. Replace 'class Image24' with 'class Bitmap24' (or rename the constructors/destructor to match Image24 if you intend that name). Prefer matching the solution: declare 'class Bitmap24' and keep the existing Bitmap24()/Bitmap24(int,int)/~Bitmap24() signatures so the header, implementation, and examples compile together."
+    },
+    {
+      "description": "The template header declares the class as 'Image24' while the implementation file and the solution use the name 'Bitmap24'. This mismatch (Image24 vs Bitmap24) breaks the one-to-one mapping between header declaration and implementation, will cause compilation errors for students, and creates confusion about the intended class name to use in the exercise.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 30,
+          "end_line": 58
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 41
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.hpp",
+          "start_line": 30,
+          "end_line": 58
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 41
+        }
+      ],
+      "suggested_fix": "In the template header (example_program/src/Bitmap24.hpp) rename the class from 'Image24' to 'Bitmap24' so the class declaration matches the implementation in Bitmap24.cpp and the solution. Ensure the constructor and destructor declarations use the same class name (Bitmap24) and update any references accordingly."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:08:11.701595",
+    "end_time": "2026-03-13T09:08:48.058102",
+    "duration_s": 36.356507
+  },
+  "trace_id": "c15c54be-d0e3-4972-9b97-0bee1bf7720e"
+}

@@ -1,0 +1,71 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/005",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-090303-005-d1b3ca",
+  "timestamp": "2026-03-13T09:03:42.182032",
+  "issues": [
+    {
+      "description": "The template's ray_sphere_intersect header declares a function taking three parameters (origin, dir, center), but the implementation (ray_sphere_intersect.cpp) and all callers (main.cpp) use a fourth parameter 'radius'. The solution repository's header shows the intended prototype with the radius parameter. This mismatch will cause compilation errors (call/declared-prototype disagreement) and confuse students about the correct function signature.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 9
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 10,
+          "end_line": 15
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/main.cpp",
+          "start_line": 195,
+          "end_line": 196
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 10
+        }
+      ],
+      "suggested_fix": "Update the template header ray_sphere_intersect.h so its prototype matches the implementation and callers by including the radius parameter (e.g. bool ray_sphere_intersect(const float *origin, const float *dir, const float *center, const float radius);). This matches the solution and resolves the compile-time signature mismatch while preserving the intended API."
+    },
+    {
+      "description": "The function ray_sphere_intersect is declared in the template header without a radius parameter, but its implementation (in the template) and the solution header define a fourth parameter 'const float radius'. This mismatch means the same conceptual entity (sphere-intersection test) is referenced with inconsistent function signatures across artifacts, causing compilation/runtime confusion and making it unclear to students which prototype to use.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 9
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 10,
+          "end_line": 15
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 10
+        }
+      ],
+      "suggested_fix": "Make the template header prototype match the implementation and the solution: change the declaration in example_program/src/ray_sphere_intersect.h to include the radius parameter. For example: bool ray_sphere_intersect(const float *origin, const float *dir, const float *center, const float radius); This will align header and implementation and remove student confusion/compilation errors."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:03:03.827121",
+    "end_time": "2026-03-13T09:03:42.182032",
+    "duration_s": 38.354911
+  },
+  "trace_id": "384354fe-da4f-4138-b60a-ed8fd90676df"
+}

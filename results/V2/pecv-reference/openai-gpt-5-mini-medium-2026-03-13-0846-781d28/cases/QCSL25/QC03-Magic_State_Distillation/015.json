@@ -1,0 +1,65 @@
+{
+  "case_id": "QCSL25/QC03-Magic_State_Distillation/015",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-123950-015-6c27f9",
+  "timestamp": "2026-03-13T12:40:29.242572",
+  "issues": [
+    {
+      "description": "The problem statement asks students to implement a function named `_make_y_state(circ: stim.Circuit, q: int, p: float) -> None` (leading underscore), but the template repository and the solution repository define and use `make_y_state(circ: stim.Circuit, q: int, p: float) -> None` (no underscore). This name mismatch is a structural inconsistency in the API students are expected to implement: students following the problem statement may implement `_make_y_state` while the provided template, tests, and reference solution expect `make_y_state`, causing confusion or test failures.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 75,
+          "end_line": 83
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 41,
+          "end_line": 49
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 95,
+          "end_line": 106
+        }
+      ],
+      "suggested_fix": "Make the function name consistent across all artifacts. Either (A) update the problem statement to request `make_y_state(...)` (no leading underscore) so it matches the template and solution, or (B) rename the function in the template and solution to `_make_y_state(...)` and update tests accordingly. Prefer option (A) to match common public function naming in the template and reference solution."
+    },
+    {
+      "description": "The problem statement asks students to implement a function named `_make_y_state` (leading underscore), while both the template and the reference solution define and use `make_y_state` (no underscore). This inconsistent identifier for the same conceptual entity (the routine that prepares a noisy |Y> resource state) creates a direct mapping problem: students reading the problem will look for `_make_y_state` but the starter code exposes `make_y_state`, and automated tests / the solution expect `make_y_state`. This can cause students to implement the wrong symbol or be confused about which name the autograder will check.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 75,
+          "end_line": 83
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/msd.py",
+          "start_line": 41,
+          "end_line": 49
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/msd.py",
+          "start_line": 95,
+          "end_line": 106
+        }
+      ],
+      "suggested_fix": "Use the same identifier in all artifacts. Replace `_make_y_state` in the problem statement with `make_y_state` (no leading underscore) so it matches the template and solution. Alternatively, if the intent was to mark the helper as private, rename the template and solution functions to `_make_y_state` and update tests accordingly \u2014 but the simpler fix is to change the problem text to refer to `make_y_state`."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T12:39:50.893753",
+    "end_time": "2026-03-13T12:40:29.242572",
+    "duration_s": 38.348819
+  },
+  "trace_id": "4171cdaa-9d99-4a93-89d9-0a980f070818"
+}

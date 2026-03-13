@@ -1,0 +1,59 @@
+{
+  "case_id": "QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/014",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-104126-014-4e9a4e",
+  "timestamp": "2026-03-13T10:41:58.962753",
+  "issues": [
+    {
+      "description": "The template UniqueTable implementation in template_repository/dd.py defines its internal storage attribute as '__table' (name-mangled) but all method implementations reference 'self.table'. This mismatch means methods like lookup() and clear() will raise AttributeError at runtime (self.table does not exist). The solution implementation uses 'table' consistently. This is a structural bug in the template that will prevent students from using the provided UniqueTable (and thus UT.lookup / unique-node functionality) and will block progress on all DD-related tasks.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "dd.py",
+          "start_line": 163,
+          "end_line": 202
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "dd.py",
+          "start_line": 162,
+          "end_line": 201
+        }
+      ],
+      "suggested_fix": "Use a single consistent attribute name for the unique table storage. For example, rename the attribute to 'table' everywhere: change the class field declaration and __init__ to use 'self.table = {}', and ensure lookup() and clear() reference self.table. Alternatively, if intending to use a private name, update all method references to use self.__table. The solution repository's 'table' naming is recommended to avoid name-mangling issues."
+    },
+    {
+      "description": "In dd.py the UniqueTable internal attribute is declared as '__table' in the template, but the methods reference 'self.table'. The solution uses the attribute name 'table' consistently. This mismatch is an unintended identifier naming inconsistency: students using the template will see a declared field '__table' but all lookups/assignments use 'table' (and the solution expects 'table'), which will cause confusion and runtime errors (AttributeError) and prevents a clear mapping between the template and the reference implementation.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 17,
+          "end_line": 23
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/dd.py",
+          "start_line": 163,
+          "end_line": 202
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/dd.py",
+          "start_line": 162,
+          "end_line": 201
+        }
+      ],
+      "suggested_fix": "Make the attribute name consistent in the template. Replace the declaration '__table' with 'table' (and initialize self.table = {}) so the UniqueTable implementation uses 'table' everywhere (matching the solution). Alternatively, change all method references to use 'self.__table' consistently\u2014but using 'table' (no name-mangling) is recommended to match the solution and avoid confusing students."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:41:26.860399",
+    "end_time": "2026-03-13T10:41:58.962753",
+    "duration_s": 32.102354
+  },
+  "trace_id": "39285407-29da-4fb5-adf6-9520163fcc78"
+}

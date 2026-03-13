@@ -1,0 +1,83 @@
+{
+  "case_id": "ISE22/H05E01-REST_Architectural_Style/005",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-092513-005-13da02",
+  "timestamp": "2026-03-13T09:26:06.400451",
+  "issues": [
+    {
+      "description": "In the solution, the PUT /persons/{personId} endpoint in PersonResource declares the path variable as a String and compares the incoming personId string to updatedPerson.getId().toString(). In contrast, the NoteResource update endpoint uses a UUID-typed @PathVariable and compares UUIDs directly. The rest of the server API (e.g., deletePerson) and the domain model use UUID for person IDs (Person.getId() is a UUID). This inconsistent choice of parameter type for the personId path variable (String vs UUID) is likely unintentional and can confuse students who are guided to use NoteResource as the pattern to follow; it also creates an inconsistency between endpoints for different resources and between the update endpoint and other methods (delete) that expect UUID path variables.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 129,
+          "end_line": 133
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/NoteResource.java",
+          "start_line": 38,
+          "end_line": 44
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 37,
+          "end_line": 43
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+          "start_line": 18,
+          "end_line": 18
+        }
+      ],
+      "suggested_fix": "Use a UUID-typed @PathVariable for the personId in the PersonResource update endpoint (matching NoteResource). Change the method signature to accept @PathVariable(\"personId\") UUID personId and compare UUIDs directly (updatedPerson.getId().equals(personId)). This makes all ID-handling consistent across resources (create/update/delete) and aligns with the domain model where Person.id is a UUID."
+    },
+    {
+      "description": "Inconsistent verb naming is used for the same conceptual action (modify/update an entity) across artifacts: the client-side NoteController uses the method name editNote while the server-side NoteResource and the exercise text/requirements consistently use the verb \"update\" (updateNote / updatePerson). The Person-related API and controller are specified/expected as updatePerson, but the example Note controller on the client uses editNote. This inconsistency in the naming of the same action (edit vs update) can confuse students who are instructed to use the Note example as a reference when implementing Person functionality and when mapping problem requirements (which use \"update\") to client-side method names.",
+      "severity": "MEDIUM",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 129,
+          "end_line": 132
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/NoteController.java",
+          "start_line": 39,
+          "end_line": 50
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 10,
+          "end_line": 24
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+          "start_line": 40,
+          "end_line": 51
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/src/server/java/de/tum/in/ase/eist/rest/NoteResource.java",
+          "start_line": 38,
+          "end_line": 44
+        }
+      ],
+      "suggested_fix": "Pick a single verb for the modify/update action and apply it consistently across artifacts. Prefer using \"update\" to match the problem statement and server endpoints: rename NoteController.editNote to NoteController.updateNote (and update all call sites, e.g., NoteScene), or alternatively rename PersonController.updatePerson to PersonController.editPerson everywhere. Consistency between client method names and the terminology used in the problem statement and server resources will reduce student confusion."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:25:13.066030",
+    "end_time": "2026-03-13T09:26:06.400451",
+    "duration_s": 53.334421
+  },
+  "trace_id": "a319ffcc-4d63-4ebc-9ea0-8b2176db5424"
+}

@@ -1,0 +1,39 @@
+{
+  "case_id": "ERA2021/H03-Grafikspeicher/002",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-085214-002-bb16fc",
+  "timestamp": "2026-03-13T08:53:30.017591",
+  "issues": [
+    {
+      "description": "The problem text explicitly instructs the student to load the pixel value into ECX (mov ecx, [esi]) after computing the address in ESI. The template's printing sequence expects ECX to hold that initial pixel value when calling printf (it pushes ecx before printing). However the provided solution loads the pixel into EAX (mov eax, [esi]) and then immediately pops values that overwrite EAX, so ECX is never set. This causes a mismatch between the problem specification, the template's expected behavior, and the solution implementation: the solution does not provide the initial pixel value in ECX as the problem describes and as the template expects, which will confuse students and produce incorrect output when following the instructions.",
+      "severity": "MEDIUM",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 27
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/pixel.asm",
+          "start_line": 100,
+          "end_line": 118
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/pixel.asm",
+          "start_line": 94,
+          "end_line": 102
+        }
+      ],
+      "suggested_fix": "Ensure the initial pixel value is loaded into ECX as specified. For example, in the solution replace or change 'mov eax, [esi]' with 'mov ecx, [esi]' (or otherwise move the read value into ECX before any pops that overwrite registers). This preserves the contract from the problem statement and matches the template's printf usage."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:52:14.874831",
+    "end_time": "2026-03-13T08:53:30.017591",
+    "duration_s": 75.14276
+  },
+  "trace_id": "0780839a-b0e2-4db2-a432-b11f4288dd22"
+}

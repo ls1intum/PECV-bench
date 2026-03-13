@@ -1,0 +1,71 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/009",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-090505-009-7c3448",
+  "timestamp": "2026-03-13T09:05:56.777449",
+  "issues": [
+    {
+      "description": "Constructor signature mismatch in the template: Bitmap24 is declared in the template header with parameters of type 'long' (Bitmap24(long i_width, long i_height)) but the implementation in Bitmap24.cpp defines the constructor with 'int' parameters (Bitmap24::Bitmap24(int p_width, int p_height)). The solution repository consistently uses 'int'. This mismatch between declaration and definition in the template will produce compilation/type errors and confuse students about the correct constructor signature.",
+      "severity": "HIGH",
+      "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 39
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 39
+        }
+      ],
+      "suggested_fix": "Make the constructor declaration in the template header match the implementation and the solution. Change the declaration in template_repository/example_program/src/Bitmap24.hpp to use 'int' parameters: 'Bitmap24(int i_width, int i_height);'. This aligns header and implementation and avoids compiler errors while preserving the intended API."
+    },
+    {
+      "description": "The Bitmap24 constructor signature is inconsistent between the template's header and implementation and differs from the solution. In the template repository the header declares Bitmap24(long i_width, long i_height) while the template implementation defines Bitmap24::Bitmap24(int p_width, int p_height). The solution repository uses the int signature in both header and implementation. This mismatch (header vs. implementation in the template) can cause compilation / linkage errors and creates confusion for students trying to map the provided declarations to the actual implementation or to the reference solution.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 39
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.hpp",
+          "start_line": 37,
+          "end_line": 39
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/Bitmap24.cpp",
+          "start_line": 26,
+          "end_line": 31
+        }
+      ],
+      "suggested_fix": "Make the constructor declaration and definition consistent in the template. Change the template header declaration to use int for the parameters to match the implementation and the solution, e.g. in template_repository/example_program/src/Bitmap24.hpp replace 'Bitmap24(long i_width, long i_height);' with 'Bitmap24(int i_width, int i_height);'. Ensure parameter names/types match between header and source to avoid compile/link confusion."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:05:05.102764",
+    "end_time": "2026-03-13T09:05:56.777449",
+    "duration_s": 51.674685
+  },
+  "trace_id": "bc03e6cb-dde9-4cba-9ec0-f3b25041b19d"
+}

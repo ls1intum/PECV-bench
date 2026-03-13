@@ -1,0 +1,39 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/001",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-102158-001-9742e8",
+  "timestamp": "2026-03-13T10:22:30.055926",
+  "issues": [
+    {
+      "description": "Task 1 (Aufgabe 01) in the problem statement requests: names and Internetadressen (url) of all Zoos and the name and Regierungsbezirk of the respective Gemeinde (four fields). The template query selects only Zoo.name and Gemeinde.name, and the solution selects only Zoo.name and Zoo.url (aliased Internetadresse) plus a join. In other words, the three artifacts disagree about which columns should be returned: the solution omits Gemeinde.name and Gemeinde.regierungsbezirk required by the problem, and the template omits Zoo.url and the join. This mismatch will confuse students about the exact expected output and which columns to include.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 19
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 2
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Make template and solution consistent with the problem statement by returning the four requested columns and including the join condition. For example, update both files to something like:\n\nSELECT Zoo.name, Zoo.url AS Internetadresse, Gemeinde.name AS Gemeinde_name, Gemeinde.regierungsbezirk\nFROM Zoo, Gemeinde\nWHERE Zoo.gemeindeschluessel = Gemeinde.schluessel\n\n(or if you prefer the column name 'url' instead of aliasing to Internetadresse, ensure the problem text and solution use the same name). Ensure the template includes the url column and the Regierungsbezirk column (and optionally the join condition) so students clearly see the intended final output."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:21:58.050972",
+    "end_time": "2026-03-13T10:22:30.055926",
+    "duration_s": 32.004954
+  },
+  "trace_id": "def0ac64-735a-42af-998c-223c3ed52ac7"
+}

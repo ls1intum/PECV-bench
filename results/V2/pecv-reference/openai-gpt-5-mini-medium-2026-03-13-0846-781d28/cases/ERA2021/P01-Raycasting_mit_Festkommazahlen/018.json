@@ -1,0 +1,39 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/018",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-090837-018-7b5fb6",
+  "timestamp": "2026-03-13T09:09:13.849409",
+  "issues": [
+    {
+      "description": "The template's header for the sphere intersection function declares a different function name than the implementation and the solution header. In template_repository/example_program/src/ray_sphere_intersect.h the function is declared as check_sphere_hit(...), but the implementation (template_repository/example_program/src/ray_sphere_intersect.cpp) defines ray_sphere_intersect(...) and the solution header (solution_repository/example_program/src/ray_sphere_intersect.h) also declares ray_sphere_intersect(...). This name/signature mismatch will cause compilation/link errors or confusion: students will include the provided header and not find the implementation under the declared name (or call ray_sphere_intersect from main but the header declares check_sphere_hit), preventing them from building or testing their code.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 10
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/example_program/src/ray_sphere_intersect.cpp",
+          "start_line": 10,
+          "end_line": 16
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/example_program/src/ray_sphere_intersect.h",
+          "start_line": 5,
+          "end_line": 10
+        }
+      ],
+      "suggested_fix": "Make the template header match the implementation and solution by declaring the same function name and signature. Replace the declaration in template_repository/example_program/src/ray_sphere_intersect.h with:\n\nbool ray_sphere_intersect(\n    const float *origin,\n    const float *dir,\n    const float *center,\n    const float radius\n);\n\n(or alternatively rename the implementation to check_sphere_hit everywhere). Ensuring header, implementation, and solution use the identical function name/signature will allow students to compile and link the example and tests without confusion."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:08:37.912955",
+    "end_time": "2026-03-13T09:09:13.849409",
+    "duration_s": 35.936454
+  },
+  "trace_id": "734ff2b7-b669-4f19-a6cf-b5c502ff52b8"
+}

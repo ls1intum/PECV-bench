@@ -1,0 +1,45 @@
+{
+  "case_id": "ERA2021/P01-Raycasting_mit_Festkommazahlen/003",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-090148-003-f40133",
+  "timestamp": "2026-03-13T09:02:43.684427",
+  "issues": [
+    {
+      "description": "Inconsistent return type for fix_fix2float across artifacts: the tests header declares/defines fix_fix2float to return double, while the example_program implementation and its header use float. This creates a cross-artifact type mismatch (declaration/definition mismatch) that can produce undefined behaviour, linker/ABI problems or confusing type disagreements for students when they compile/run the tests and example program together.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "tests/src/math_fix.h",
+          "start_line": 31,
+          "end_line": 39
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "example_program/src/math_fix.c",
+          "start_line": 28,
+          "end_line": 36
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "tests/src/math_fix.h",
+          "start_line": 31,
+          "end_line": 39
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "example_program/src/math_fix.c",
+          "start_line": 28,
+          "end_line": 36
+        }
+      ],
+      "suggested_fix": "Make the return type for fix_fix2float consistent across all headers and implementations. Either (A) change the tests header (tests/src/math_fix.h) to declare/define fix_fix2float returning float, matching example_program/src/math_fix.c and example_program/src/math_fix.h; or (B) change example_program/src/math_fix.c and example_program/src/math_fix.h to use double if higher precision is desired. Also avoid duplicate conflicting definitions across headers/source files (prefer a single implementation and matching prototypes in headers) to prevent ODR/ABI issues."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T09:01:48.038122",
+    "end_time": "2026-03-13T09:02:43.684427",
+    "duration_s": 55.646305
+  },
+  "trace_id": "1a8ed43c-eb06-4b04-b336-933ccf0093c1"
+}

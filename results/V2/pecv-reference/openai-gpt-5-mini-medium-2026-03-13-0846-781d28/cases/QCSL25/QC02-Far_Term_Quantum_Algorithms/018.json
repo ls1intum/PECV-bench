@@ -1,0 +1,83 @@
+{
+  "case_id": "QCSL25/QC02-Far_Term_Quantum_Algorithms/018",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-105033-018-fb4347",
+  "timestamp": "2026-03-13T10:51:06.816360",
+  "issues": [
+    {
+      "description": "Template method name mismatch in Exercise 1: the template defines a method named build_grover(...) but the class's run() method calls grover_circuit(...). The solution/reference implementation uses grover_circuit(...). This naming inconsistency will cause students who implement the provided build_grover(...) stub to still get an AttributeError (grover_circuit not found) when running the provided run() helper or when tests expect grover_circuit. It is a structural issue (method identity mismatch) rather than an intentional pedagogical gap.",
+      "severity": "HIGH",
+      "category": "METHOD_PARAMETER_MISMATCH",
+      "related_locations": [
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex1_grover_two_qubit_without_auxiliary_qubit.py",
+          "start_line": 42,
+          "end_line": 50
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex1_grover_two_qubit_without_auxiliary_qubit.py",
+          "start_line": 59,
+          "end_line": 67
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex1_grover_two_qubit_without_auxiliary_qubit.py",
+          "start_line": 48,
+          "end_line": 59
+        },
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 114,
+          "end_line": 116
+        }
+      ],
+      "suggested_fix": "Make the template method name consistent with the run() helper and the solution. Either (A) rename the template method build_grover(...) to grover_circuit(...) (and keep its signature/docstring), or (B) update run() to call build_grover(...). Prefer option (A) so the template matches the solution and the exercise task name (Grover circuit) used elsewhere. Also ensure the docstring and any tests reference the same method name."
+    },
+    {
+      "description": "Exercise 1: The template and solution use different names for the method that assembles the Grover circuit. The problem statement and tests refer to the Grover circuit task as 'grover_circuit' (e.g. test_ex1_grover_circuit), the solution implements a method named grover_circuit, but the template provides a stub named build_grover while its own run() calls self.grover_circuit. This inconsistency (build_grover vs grover_circuit) creates confusion for students about which method to implement and can cause the provided run/test harness to fail or appear broken.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 114,
+          "end_line": 116
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex1_grover_two_qubit_without_auxiliary_qubit.py",
+          "start_line": 42,
+          "end_line": 50
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/ex1_grover_two_qubit_without_auxiliary_qubit.py",
+          "start_line": 65,
+          "end_line": 67
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex1_grover_two_qubit_without_auxiliary_qubit.py",
+          "start_line": 48,
+          "end_line": 59
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/ex1_grover_two_qubit_without_auxiliary_qubit.py",
+          "start_line": 72,
+          "end_line": 81
+        }
+      ],
+      "suggested_fix": "Make the method name consistent across artifacts. Rename the template stub build_grover to grover_circuit (and update its docstring if needed) so it matches the problem/test naming and the solution. Alternatively, update the template's run() to call build_grover and adjust the problem/test names to match\u2014but the simplest fix is to rename build_grover -> grover_circuit in the template to align with the problem statement and solution."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:50:33.505005",
+    "end_time": "2026-03-13T10:51:06.816360",
+    "duration_s": 33.311355
+  },
+  "trace_id": "c33bfbf0-3be9-4bbe-9d24-d53f7dfd9ca6"
+}

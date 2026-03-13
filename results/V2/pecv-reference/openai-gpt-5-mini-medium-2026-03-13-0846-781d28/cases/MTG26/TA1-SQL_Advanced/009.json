@@ -1,0 +1,59 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/009",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-102506-009-cb701c",
+  "timestamp": "2026-03-13T10:26:31.362276",
+  "issues": [
+    {
+      "description": "Inner-artifact inconsistency in the solution for Aufgabe 08: the FROM clause lists Wanderweg_zu_Gemeinde but the WHERE clause references Radweg_zu_Gemeinde.gemeindeschluessel. This mismatch will cause the query to fail (unknown table) or return an error, preventing students from running or validating the provided solution and confusing them about which relationship table to use. The problem statement explicitly asks for the number of Radwegen (radweg), so the solution should reference Radweg_zu_Gemeinde consistently.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 50,
+          "end_line": 52
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe08.sql",
+          "start_line": 1,
+          "end_line": 1
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe08.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Make table usage consistent in the solution. Since the task asks for the number of Radwegen, change the FROM clause to reference Radweg_zu_Gemeinde instead of Wanderweg_zu_Gemeinde (or alternately change the WHERE to reference Wanderweg_zu_Gemeinde if the intent was to count Wanderwege). Concretely: FROM Gemeinde, Radweg_zu_Gemeinde WHERE Gemeinde.schluessel = Radweg_zu_Gemeinde.gemeindeschluessel AND Gemeinde.plz > 96400."
+    },
+    {
+      "description": "Aufgabe 08 in the problem statement requests the number of Radwegen (radial paths) adjacent to Gemeinden with PLZ > 96400 (i.e. the conceptual entity is Radweg_zu_Gemeinde). In solution_repository/aufgabe08.sql the FROM clause incorrectly lists Wanderweg_zu_Gemeinde while the WHERE clause references Radweg_zu_Gemeinde.gemeindeschluessel. This is an unintended identifier mismatch: the solution refers to two different association tables for the same concept (Wanderweg_zu_Gemeinde vs. Radweg_zu_Gemeinde). This will confuse students (and likely cause the query to fail or return incorrect results) because the problem, the intended solution, and the WHERE condition use Radweg_zu_Gemeinde but the FROM uses Wanderweg_zu_Gemeinde.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 50,
+          "end_line": 52
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe08.sql",
+          "start_line": 1,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "In solution_repository/aufgabe08.sql replace the incorrect table in the FROM clause with Radweg_zu_Gemeinde so the query consistently uses the Radweg-to-Gemeinde association. Concretely, change line 2 from:\n  FROM Gemeinde, Wanderweg_zu_Gemeinde\nto:\n  FROM Gemeinde, Radweg_zu_Gemeinde\nand keep the existing WHERE join condition (Gemeinde.schluessel = Radweg_zu_Gemeinde.gemeindeschluessel)."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:25:06.070671",
+    "end_time": "2026-03-13T10:26:31.362276",
+    "duration_s": 85.291605
+  },
+  "trace_id": "15ba8250-d02b-479f-8c0b-8bd1d955d7c4"
+}

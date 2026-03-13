@@ -1,0 +1,39 @@
+{
+  "case_id": "ERA2021/H00-Hello_World_ASM/001",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-084625-001-c3e6cc",
+  "timestamp": "2026-03-13T08:46:46.767373",
+  "issues": [
+    {
+      "description": "The problem statement requires that main return 0 to indicate successful execution (problem_statement.md lines 21-22). The solution (solution_repository/helloWorld.asm) explicitly sets eax to 1 before returning (line 17), which contradicts that requirement. The template does not set a return value (template_repository/helloWorld.asm ends with ret at line 18), so students following the template and the problem description would expect to ensure eax == 0 on return. The solution returning 1 is an unintended structural inconsistency that can confuse students and cause incorrect autograder/test outcomes.",
+      "severity": "HIGH",
+      "category": "METHOD_RETURN_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 15,
+          "end_line": 18
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 17,
+          "end_line": 18
+        }
+      ],
+      "suggested_fix": "Update the solution to comply with the specification by returning 0 from main: replace 'mov eax, 1' with 'mov eax, 0' (or insert 'mov eax, 0' before ret). Optionally, to reduce student confusion, add an explicit 'mov eax, 0' in the template before ret so the expected return value is clearly shown in the starter code."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:46:25.154974",
+    "end_time": "2026-03-13T08:46:46.767373",
+    "duration_s": 21.612399
+  },
+  "trace_id": "348bd04a-3704-4874-a83e-934f2c8745c8"
+}

@@ -1,0 +1,39 @@
+{
+  "case_id": "MTG26/TA1-SQL_Advanced/013",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-102710-013-638862",
+  "timestamp": "2026-03-13T10:27:39.101720",
+  "issues": [
+    {
+      "description": "The problem statement for Aufgabe 01 explicitly requires: the names and internet addresses (url) of all Zoos and the name and regierungsbezirk of the respective Gemeinde. The solution implementation (solution_repository/aufgabe01.sql) uses SELECT Zoo.*, Gemeinde.* and thus returns all columns from both tables instead of the exact columns requested. This contradicts the explicit instruction in the problem statement to return exactly the requested data and no more. Returning all columns in the solution can confuse students about the expected output and may cause mismatches with automated checking that expects only the specified columns.",
+      "severity": "MEDIUM",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 16,
+          "end_line": 19
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 2
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/aufgabe01.sql",
+          "start_line": 1,
+          "end_line": 3
+        }
+      ],
+      "suggested_fix": "Modify the solution to select exactly the requested columns (no SELECT *). For example: SELECT Zoo.name, Zoo.url, Gemeinde.name, Gemeinde.regierungsbezirk FROM Zoo JOIN Gemeinde ON Zoo.gemeindeschluessel = Gemeinde.schluessel; This makes the solution align with the problem instruction to return only the specified fields."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T10:27:10.149601",
+    "end_time": "2026-03-13T10:27:39.101720",
+    "duration_s": 28.952119
+  },
+  "trace_id": "24d3f7ab-960d-468b-aa88-32bddd736473"
+}

@@ -1,0 +1,65 @@
+{
+  "case_id": "ERA2021/H00-Hello_World_ASM/016",
+  "run_id": "openai-gpt-5-mini-medium-2026-03-13-085053-016-5bc1f9",
+  "timestamp": "2026-03-13T08:51:12.710781",
+  "issues": [
+    {
+      "description": "The problem statement requires students to 'Speichern Sie das Ergebnis in einer Variable namens `score_counter`' (line 21-22 of problem_statement.md). The solution defines a different global/data symbol `score_cnt dd 0` (solution_repository/helloWorld.asm line 4) and the template does not declare any such variable. This name mismatch (and absence in the template) can confuse students about the exact variable name to use and may break automated grading that expects `score_counter`.",
+      "severity": "HIGH",
+      "category": "ATTRIBUTE_TYPE_MISMATCH",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 21,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 1,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 3,
+          "end_line": 5
+        }
+      ],
+      "suggested_fix": "Make the variable name consistent across artifacts. Preferred correction: rename the symbol in the solution to match the specification (change 'score_cnt dd 0' to 'score_counter dd 0' in solution_repository/helloWorld.asm) and add a placeholder declaration (e.g. 'score_counter dd 0') in the template (template_repository/helloWorld.asm) so students see the expected name. Alternatively, if 'score_cnt' is intended, update the problem statement to require 'score_cnt' instead\u2014however keeping 'score_counter' is clearer."
+    },
+    {
+      "description": "The problem statement requires storing the result in a variable named `score_counter` (problem_statement.md line 22), but the solution implementation declares the variable as `score_cnt` (solution_repository/helloWorld.asm line 4). The template does not contain this variable. This mismatch means students comparing the solution to the task or relying on the problem text may not recognize `score_cnt` as the required `score_counter` and automated checks expecting the exact name `score_counter` could fail. The two names refer to the same conceptual entity (the score counter) but are named differently across artifacts, creating unnecessary mapping confusion.",
+      "severity": "HIGH",
+      "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+      "related_locations": [
+        {
+          "type": "PROBLEM_STATEMENT",
+          "file_path": "problem_statement.md",
+          "start_line": 22,
+          "end_line": 22
+        },
+        {
+          "type": "TEMPLATE_REPOSITORY",
+          "file_path": "template_repository/helloWorld.asm",
+          "start_line": 1,
+          "end_line": 19
+        },
+        {
+          "type": "SOLUTION_REPOSITORY",
+          "file_path": "solution_repository/helloWorld.asm",
+          "start_line": 4,
+          "end_line": 4
+        }
+      ],
+      "suggested_fix": "Align the identifier names across artifacts. Rename the variable in solution_repository/helloWorld.asm from `score_cnt` to `score_counter` (e.g., change line to `score_counter dd 0`) so it matches the problem statement. Alternatively, if `score_cnt` is preferred, update the problem statement to require `score_cnt` \u2014 but prefer updating the solution to match the stated requirement."
+    }
+  ],
+  "timing": {
+    "start_time": "2026-03-13T08:50:53.172784",
+    "end_time": "2026-03-13T08:51:12.710781",
+    "duration_s": 19.537997
+  },
+  "trace_id": "6e1a6b85-080d-4999-b77e-0cd48143d488"
+}
