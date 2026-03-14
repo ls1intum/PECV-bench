@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-13T23:01:42.396940Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Method PersonService.getAllPersons: the template declares public List<Person> getAllPersons(PersonSortingOptions) (returns a List of Person), and the problem statement describes retrieving a list of Person objects. In the solution, PersonService.getAllPersons(...) is declared to return Set<Person>. At the same time, the solution's PersonResource.getAllPersons(...) declares a return type of ResponseEntity<List<Person>> and directly returns personService.getAllPersons(...). This produces a return-type mismatch (Set vs List) and will cause a compilation error and confusion for students about whether the API should return a List or a Set.",
+            "suggestedFix": "Make the return types consistent. Prefer changing PersonService.getAllPersons(...) in the solution to return List<Person> (preserving the sorted order) to match the template and problem description. Concretely: change the method signature to public List<Person> getAllPersons(PersonSortingOptions sortingOptions), perform the sorting on a List, and return an unmodifiable or new List (e.g. Collections.unmodifiableList(sortedList) or new ArrayList<>(sortedList)). Ensure PersonResource continues to return ResponseEntity<List<Person>> and passes that List through. Alternatively (less preferred) change PersonResource and any client expectations to accept Set<Person>, but the recommended fix is to return List<Person> from the service to preserve ordering semantics and match the exercise text.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 37,
+                    "endLine": 40
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 39,
+                    "endLine": 63
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 24,
+                    "endLine": 26
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 201,
+                    "endLine": 209
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:01:42.396940Z",
+        "endTime": "2026-03-13T23:02:32.107338Z",
+        "durationS": 49.71
+    },
+    "tokens": {
+        "prompt": 98366,
+        "completion": 5360,
+        "total": 103726
+    },
+    "costs": {
+        "promptEur": 0.02262418115234375,
+        "completionEur": 0.009862400115966797,
+        "totalEur": 0.03248658126831055
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/003",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

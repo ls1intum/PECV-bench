@@ -1,0 +1,100 @@
+{
+    "timestamp": "2026-03-13T23:29:54.540102Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Method GroverMultiQubitMultiSolutionsWithAuxiliaryQubit.oracle: the template declares the parameter `combinations` as type `str` (def oracle(..., combinations: str) -> QuantumCircuit) while the problem statement describes `combinations` as a list of bit-strings (list[str]) and the reference solution implements the method with signature `combinations: list[str]`. This parameter-type mismatch between the template and the intended usage (multiple solution bit-strings) will confuse students implementing handling for multiple combinations and may cause type/signature mismatches when they compare to the solution or run tests.",
+            "suggestedFix": "Update the template method signature and docstring to accept a list of strings. Change the signature to: def oracle(self, qc: QuantumCircuit, query_register: QuantumRegister, auxiliary_register: QuantumRegister, combinations: list[str]) -> QuantumCircuit: and update the docstring to state that `combinations` is a list[str] of bit-strings. This aligns the template with the problem statement and reference solution.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex3_grover_multi_qubit_multi_solutions_with_auxiliary_qubit.py",
+                    "startLine": 16,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex3_grover_multi_qubit_multi_solutions_with_auxiliary_qubit.py",
+                    "startLine": 14,
+                    "endLine": 20
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 144,
+                    "endLine": 146
+                }
+            ]
+        },
+        {
+            "severity": "LOW",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Method GroverTwoQubitWithoutAuxiliaryQubit.simulate: the template annotates the return type as list[complex] (def simulate(...) -> list[complex]) while the problem statement asks students to 'return the statevector' and the reference solution returns a Qiskit Statevector object via result.get_statevector(...). The mismatch between a raw list of complex amplitudes and the Qiskit Statevector return type is ambiguous and may confuse students about the expected return object for tests and further processing.",
+            "suggestedFix": "Make the template's simulate return type consistent with the problem statement and reference solution. Update the template annotation to return a Qiskit Statevector (e.g. -> Statevector) and add an import comment or docstring note: 'Returns a qiskit.quantum_info.Statevector object representing the final state.' If preferring a plain list, update the reference solution to convert the Statevector to list[complex] before returning, but the recommended fix is to update the template and docstring to request a Statevector to match the solution and problem text.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex1_grover_two_qubit_without_auxiliary_qubit.py",
+                    "startLine": 52,
+                    "endLine": 57
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex1_grover_two_qubit_without_auxiliary_qubit.py",
+                    "startLine": 61,
+                    "endLine": 70
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 116,
+                    "endLine": 116
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The oracle parameter that represents multiple target bit-strings is inconsistently typed/named across artifacts. Concept: the oracle's input representing the set of marked bit-strings to apply phase flips to. Problem statement: refers to an argument named `combinations` with type `list[str]` (multiple bit-strings). Template: the function signature in template_repository/ex3_grover_multi_qubit_multi_solutions_with_auxiliary_qubit.py declares the parameter as `combinations: str` (a single string). Solution: the implementation in solution_repository/ex3_grover_multi_qubit_multi_solutions_with_auxiliary_qubit.py declares `combinations: list[str]`. This mismatch can confuse students whether to implement the oracle for a single bit-string or for multiple bit-strings and may cause type/signature errors when they attempt to inherit or override methods.",
+            "suggestedFix": "Make the template signature consistent with the problem statement and solution: change the template function signature to `def oracle(self, qc: QuantumCircuit, query_register: QuantumRegister, auxiliary_register: QuantumRegister, combinations: list[str]) -> QuantumCircuit:` and update the docstring to explicitly state that `combinations` is a list of bit-string targets. If instead a single bit-string was intended, update the problem statement and solution to use `combination: str` consistently. Ensure any example calls and tests match the chosen signature.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 144,
+                    "endLine": 144
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/ex3_grover_multi_qubit_multi_solutions_with_auxiliary_qubit.py",
+                    "startLine": 16,
+                    "endLine": 16
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/ex3_grover_multi_qubit_multi_solutions_with_auxiliary_qubit.py",
+                    "startLine": 14,
+                    "endLine": 14
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:29:54.540102Z",
+        "endTime": "2026-03-13T23:30:41.053275Z",
+        "durationS": 46.513
+    },
+    "tokens": {
+        "prompt": 93413,
+        "completion": 8059,
+        "total": 101472
+    },
+    "costs": {
+        "promptEur": 0.021484990234375,
+        "completionEur": 0.014828560546875001,
+        "totalEur": 0.03631355078125
+    },
+    "case_id": "V2/QCSL25/QC02-Far_Term_Quantum_Algorithms/005",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

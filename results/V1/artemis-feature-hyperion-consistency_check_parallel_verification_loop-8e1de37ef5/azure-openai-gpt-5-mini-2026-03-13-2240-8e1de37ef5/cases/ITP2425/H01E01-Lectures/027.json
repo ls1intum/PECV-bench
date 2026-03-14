@@ -1,0 +1,168 @@
+{
+    "timestamp": "2026-03-13T22:42:19.016125Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field 'lectureName' type mismatch: the problem statement and UML declare lectureName as String (problem_statement.md lists the attribute and the UML shows '-lectureName: String'), while the solution declares a field 'private LectureName lectureName;' (solution_repository/src/de/tum/cit/ase/Lecture.java). This divergence introduces a different attribute type and an extra LectureName class, causing confusion about the expected type students must implement.",
+            "suggestedFix": "Make the lectureName type consistent across artifacts. Preferred fix: change the solution to use a plain String for the lectureName field (remove LectureName class), update the field to 'private String lectureName;', adjust constructor parameter and all getter/setter signatures/implementations accordingly so they use String. Alternatively, if a LectureName value object is intended, update the problem statement and UML to declare lectureName: LectureName and adjust expected method signatures in the spec and template.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 16,
+                    "endLine": 18
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 63,
+                    "endLine": 69
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 3,
+                    "endLine": 11
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 6,
+                    "endLine": 6
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/LectureName.java",
+                    "startLine": 3,
+                    "endLine": 8
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "Constructor parameter mismatch: the problem statement requires a constructor initializing lectureName (String) followed by four int attributes in the order shown in the UML, but the solution defines the constructor as 'public Lecture(LectureName lectureName, int numberOfInscribedStudents, int numberOfGuestStudents, int numberOfLecturers, int numberOfTutors)'. The first parameter uses LectureName instead of the expected String, creating an incompatible constructor signature relative to the spec.",
+            "suggestedFix": "Align the constructor signature with the exercise specification. Preferred fix: change the solution constructor to 'public Lecture(String lectureName, int numberOfInscribedStudents, int numberOfGuestStudents, int numberOfLecturers, int numberOfTutors)' and update the field type to String. If retaining LectureName is intentional, update the problem statement and UML to specify LectureName as the type for lectureName.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 19,
+                    "endLine": 21
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 6,
+                    "endLine": 6
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 13,
+                    "endLine": 13
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Getter/setter type inconsistency for 'lectureName': the solution declares the field as 'private LectureName lectureName' but implements 'public String getLectureName()' and 'public void setLectureName(String lectureName)'. The getter/setter signatures (String) do not match the declared field type (LectureName), which will cause compilation errors and contradicts the problem's expectation of a String attribute.",
+            "suggestedFix": "Make getter/setter types consistent with the field type and the problem specification. Preferred fix: change the field to 'private String lectureName;' and keep 'public String getLectureName()' and 'public void setLectureName(String lectureName)'. Also update the getter implementation to return the String field. If using LectureName is intentional, change the getter/setter signatures to 'public LectureName getLectureName()' and 'public void setLectureName(LectureName lectureName)' and update the problem statement/UML accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 6,
+                    "endLine": 6
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 22,
+                    "endLine": 24
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 26,
+                    "endLine": 28
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/LectureName.java",
+                    "startLine": 3,
+                    "endLine": 8
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 31
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Concept: the lecture's name value. Problem statement / UML and the template expect a simple String attribute named `lectureName` (e.g., UML: `-lectureName: String`). In the solution repository the field is declared as a different type `LectureName lectureName` (solution: field `lectureName` of type LectureName and constructor parameter `LectureName lectureName`), and the solution's getter is declared as `public String getLectureName()` but returns the `lectureName` field (type mismatch). This creates a mismatch in the conceptual identifier/type for the same entity: problem & template indicate a String-typed `lectureName`, while the solution introduces a `LectureName` value object and (incorrectly) mixes types in method signatures. A student cannot reliably map the required constructor and getter/setter signatures from the problem/template to the solution implementation and will be blocked when implementing or comparing expected method signatures.",
+            "suggestedFix": "Make the conceptual type for `lectureName` consistent across artifacts. Two acceptable fixes: (A) Revert the solution to use a String: change the field to `private String lectureName;`, change the constructor parameter to `String lectureName`, ensure `public String getLectureName()` returns that String, and remove or stop using the LectureName value object. Or (B) Adopt the value-object in the problem/template: update the UML and text to indicate `lectureName: LectureName`, update the template to declare the field and constructor parameter type `LectureName`, and make sure getters/setters consistently use `LectureName` (or a `toString()`/getValue() where appropriate). Keep signatures consistent so students can directly map requirements to implementation.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 64,
+                    "endLine": 68
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 4,
+                    "endLine": 4
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 6,
+                    "endLine": 6
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 13,
+                    "endLine": 13
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 22,
+                    "endLine": 24
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/src/de/tum/cit/ase/LectureName.java",
+                    "startLine": 3,
+                    "endLine": 3
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:42:19.016125Z",
+        "endTime": "2026-03-13T22:43:11.710462Z",
+        "durationS": 52.694
+    },
+    "tokens": {
+        "prompt": 23807,
+        "completion": 8408,
+        "total": 32215
+    },
+    "costs": {
+        "promptEur": 0.005475610107421875,
+        "completionEur": 0.015470719848632814,
+        "totalEur": 0.02094632995605469
+    },
+    "case_id": "V1/ITP2425/H01E01-Lectures/027",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2240-8e1de37ef5"
+}

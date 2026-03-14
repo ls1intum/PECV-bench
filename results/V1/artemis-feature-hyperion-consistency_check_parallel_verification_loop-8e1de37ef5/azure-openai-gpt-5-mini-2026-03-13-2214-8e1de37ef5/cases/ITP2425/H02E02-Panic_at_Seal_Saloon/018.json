@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-13T22:18:59.401603Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Method name mismatch: the problem statement and UML require a public method named checkOrderReady() with signature \"public void checkOrderReady()\" in class SealSaloon, but the solution repository implements the order-processing behavior in a method named processOrders() (signature \"public void processOrders()\") and does not provide a checkOrderReady() method. This naming/signature difference means students following the specification (or tests expecting checkOrderReady()) will not find the required method, and tests or grading harnesses expecting checkOrderReady() may fail or be confused.",
+            "suggestedFix": "Make the API consistent with the problem statement: add a public method public void checkOrderReady() to SealSaloon that implements the same behavior as processOrders(), or make checkOrderReady() a public delegator that calls the existing processOrders(). Alternatively, rename processOrders() to checkOrderReady() in the solution and any tests/examples. Ensure the method is public and has the exact signature expected by the UML/spec (void return, no parameters) so students and automated tests see a consistent API.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 31,
+                    "endLine": 33
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 20,
+                    "endLine": 20
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Main.java",
+                    "startLine": 11,
+                    "endLine": 26
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The exercise specifies a method named checkOrderReady() (the class diagram and task text refer to checkOrderReady() as the method that attempts to serve queued orders). In the solution implementation (SealSaloon.java) the same behavioral concept is implemented in a method named processOrders(). Because both identifiers represent the same concept (processing/serving queued orders), students reading the problem statement or class diagram will expect checkOrderReady() but will find processOrders() in the reference code, which creates a naming mismatch and unnecessary confusion when mapping requirements to code.",
+            "suggestedFix": "Make the method name consistent across artifacts. Rename the solution method processOrders() to checkOrderReady(), or add a public checkOrderReady() method that delegates to processOrders(), and update any templates or documentation so the method name matches the problem statement and class diagram.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 32,
+                    "endLine": 32
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 20,
+                    "endLine": 20
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:18:59.401603Z",
+        "endTime": "2026-03-13T22:19:40.119898Z",
+        "durationS": 40.718
+    },
+    "tokens": {
+        "prompt": 38029,
+        "completion": 6728,
+        "total": 44757
+    },
+    "costs": {
+        "promptEur": 0.008746670166015625,
+        "completionEur": 0.012379520141601564,
+        "totalEur": 0.021126190307617188
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/018",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2214-8e1de37ef5"
+}

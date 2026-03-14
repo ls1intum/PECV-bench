@@ -1,0 +1,112 @@
+{
+    "timestamp": "2026-03-14T14:15:41.029Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Stock.take(String) has an inconsistent return type: the problem statement/UML specifies it returns int, but the template repository defines it as boolean. This blocks implementing SealSaloon.checkOrderReady() as specified/used in the reference solution, where take() is expected to return -1 on failure and an int quantity on success.",
+            "suggestedFix": "Change template Stock.take(String) to return int (e.g., -1 if ingredient missing or quantity < 1; otherwise decrement and return updated quantity), matching the UML and solution. Update any callers accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 49,
+                    "endLine": 55
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 43,
+                    "endLine": 43
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 43,
+                    "endLine": 43
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 27,
+                    "endLine": 33
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "SealSaloon.stock is specified inconsistently: the text first describes a 'final Stock stock' initialized in the constructor (instance field), but later explicitly requires the stock attribute to be static (shared across all instances). Students cannot satisfy both requirements simultaneously.",
+            "suggestedFix": "Make the specification consistent: either require an instance `private final Stock stock` initialized in the constructor, or (as the later text and solution imply) require `private static final Stock stock = new Stock();` and remove the instruction that it must be initialized in the constructor.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 69,
+                    "endLine": 71
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 77,
+                    "endLine": 82
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 4,
+                    "endLine": 6
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "SealSaloon.calculateTotalPrice(Meal) and SealSaloon.acceptSupplyDelivery(String,int,int) are shown as instance methods in the UML (+), but the written requirements explicitly state they must be static and the reference solution implements them as static. This can mislead students who follow the diagram literally.",
+            "suggestedFix": "Update the UML to mark calculateTotalPrice and acceptSupplyDelivery as static (e.g., using UML {static} or underlining), matching the textual requirements and reference solution.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 27,
+                    "endLine": 34
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 77,
+                    "endLine": 81
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 47,
+                    "endLine": 48
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 57,
+                    "endLine": 58
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T14:15:41.029Z",
+        "endTime": "2026-03-14T14:16:05.327503Z",
+        "durationS": 24.298
+    },
+    "tokens": {
+        "prompt": 30458,
+        "completion": 2547,
+        "total": 33005
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/024",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1413-9cd0b21e4a"
+}

@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-12T23:17:45.172415Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "In the solution, create_controlled_single_qubit_gate calls create_single_qubit_gate with the first argument set to the control index (e.g. create_single_qubit_gate(control, ...)), whereas the create_single_qubit_gate function signature and problem description treat the first parameter as the total number of qubits in the system (num_qubits). This re-interpretation of the first parameter is not documented and changes its intended semantics, which can confuse students about how to call create_single_qubit_gate and how sub-DDs (e.g., identity on c qubits) are constructed.",
+            "suggestedFix": "Clarify and unify the semantics of the first parameter of create_single_qubit_gate across the problem statement, template, and solution. Either (A) document that the first parameter may also be used to build smaller sub-DDs (i.e., it can denote the number of qubits of a sub-block) and add helper functions/wrappers for building I^(c), or (B) change create_controlled_single_qubit_gate to pass the total num_qubits when calling create_single_qubit_gate and then construct the control block explicitly. Ensure examples and documentation consistently show the intended use.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd_simulation.py",
+                    "startLine": 84,
+                    "endLine": 116
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd_simulation.py",
+                    "startLine": 153,
+                    "endLine": 216
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd_simulation.py",
+                    "startLine": 213,
+                    "endLine": 221
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T23:17:45.172415Z",
+        "endTime": "2026-03-12T23:18:18.325382Z",
+        "durationS": 33.152
+    },
+    "tokens": {
+        "prompt": 68935,
+        "completion": 3003,
+        "total": 71938
+    },
+    "costs": {
+        "promptEur": 0.01585505029296875,
+        "completionEur": 0.005525519958496094,
+        "totalEur": 0.021380570251464844
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/008",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

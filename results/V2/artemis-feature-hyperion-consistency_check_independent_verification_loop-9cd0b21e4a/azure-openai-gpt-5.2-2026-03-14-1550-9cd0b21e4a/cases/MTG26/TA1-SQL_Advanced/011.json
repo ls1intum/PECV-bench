@@ -1,0 +1,42 @@
+{
+    "timestamp": "2026-03-14T16:22:38.055350Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Aufgabe 08 fordert einen numerischen Vergleich des PLZ-Werts (\"PLZ-Bereich gr\u00f6\u00dfer als 96400\"). In der Musterl\u00f6sung wird jedoch ein String-Literal verwendet (Gemeinde.plz > '96400'). Falls Gemeinde.plz numerisch ist, ist das inkonsistent (implizites Casting/Fehler je nach SQL-Dialekt). Falls Gemeinde.plz textuell ist, wird lexikographisch verglichen (z.B. '100000' < '96400'), was dem Aufgabenverst\u00e4ndnis \"gr\u00f6\u00dfer\" widerspricht und Lernende dar\u00fcber verwirrt, wie korrekt zu vergleichen ist.",
+            "suggestedFix": "Den Vergleich eindeutig numerisch machen: entweder ohne Quotes (AND Gemeinde.plz > 96400), wenn plz numerisch gespeichert ist, oder explizit casten (AND CAST(Gemeinde.plz AS INTEGER) > 96400), wenn plz als Text gespeichert ist. Optional im Problemstatement den erwarteten Datentyp von plz kurz klarstellen.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 50,
+                    "endLine": 53
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe08.sql",
+                    "startLine": 4,
+                    "endLine": 4
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T16:22:38.055350Z",
+        "endTime": "2026-03-14T16:22:49.980508Z",
+        "durationS": 11.925
+    },
+    "tokens": {
+        "prompt": 14785,
+        "completion": 864,
+        "total": 15649
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/011",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-14T16:24:42.677733Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Course properties `name` and `instructor` are required by the problem statement to be `public let`, but both template and solution declare them without an explicit access modifier (default `internal`). This contradicts the specified API and may prevent access from outside the module (e.g., tests) as intended.",
+            "suggestedFix": "Update Course to match the stated visibility: `public let name: String`, `public let instructor: String` (and consider `public var ratings: [Int]` if accessed externally).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 6,
+                    "endLine": 11
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 7,
+                    "endLine": 10
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 8,
+                    "endLine": 11
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "The `Developer` initializer signature differs from the problem statement/template. The problem statement and template define `init(name: String, monthsOfSwiftExperience: Int?)`, but the solution defines `init(name: String, monthsOfSwiftExperience: Int?, age: Int)`, which breaks the intended API and makes the solution's own client code (which calls `Developer(name:monthsOfSwiftExperience:)`) not compile.",
+            "suggestedFix": "Change the solution initializer to `init(name: String, monthsOfSwiftExperience: Int?)` (remove the `age: Int` parameter) so it matches the spec, template, and client usage.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Developer.swift",
+                    "startLine": 12,
+                    "endLine": 12
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Developer.swift",
+                    "startLine": 12,
+                    "endLine": 12
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Client.swift",
+                    "startLine": 17,
+                    "endLine": 18
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T16:24:42.677733Z",
+        "endTime": "2026-03-14T16:24:56.518597Z",
+        "durationS": 13.84
+    },
+    "tokens": {
+        "prompt": 19556,
+        "completion": 1562,
+        "total": 21118
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/IOS26/TC2-Developer/008",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

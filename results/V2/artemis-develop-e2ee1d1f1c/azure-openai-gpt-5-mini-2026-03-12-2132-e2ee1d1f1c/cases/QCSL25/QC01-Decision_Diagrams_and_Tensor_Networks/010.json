@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-12T21:51:59.122867Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The meaning of the parameter 'control' is ambiguous between being a qubit index and being a count of qubits for a sub-DD. The create_controlled_single_qubit_gate docstring and steps refer to building an I^(c) identity on 'c' qubits, but the function signature treats 'control' as the control qubit index (0 <= control < num_qubits). The solution implementation calls create_single_qubit_gate(control, ...), effectively treating 'control' as a num_qubits argument for a sub-DD. This mismatch in parameter semantics (index vs. sub-system size) is not clarified in the problem text or template and can confuse students about which numeric value to pass/compute when composing sub-DDs.",
+            "suggestedFix": "Clarify the semantics of 'control' in the problem statement and docstrings: explicitly state whether 'control' is the qubit index (0..N-1) or the number of qubits in the identity sub-block (I^c). Update the template docstring and examples to show the correct call to create_single_qubit_gate for building I^(c) (e.g., pass control as a sub-system size only if that is intended), or compute an explicit sub_n variable (and document it) before calling create_single_qubit_gate. This removes ambiguity and ensures students know whether to pass control, control+1, or control-target when constructing the sub-DD.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 153,
+                    "endLine": 189
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd_simulation.py",
+                    "startLine": 153,
+                    "endLine": 216
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd_simulation.py",
+                    "startLine": 213,
+                    "endLine": 224
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:51:59.122867Z",
+        "endTime": "2026-03-12T21:52:31.219060Z",
+        "durationS": 32.096
+    },
+    "tokens": {
+        "prompt": 60109,
+        "completion": 3492,
+        "total": 63601
+    },
+    "costs": {
+        "promptEur": 0.0138250703125,
+        "completionEur": 0.006425280212402343,
+        "totalEur": 0.020250350524902344
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/010",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

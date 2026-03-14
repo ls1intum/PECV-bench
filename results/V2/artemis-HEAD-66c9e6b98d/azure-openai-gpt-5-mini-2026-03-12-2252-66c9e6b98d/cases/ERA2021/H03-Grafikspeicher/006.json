@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T22:53:29.947883Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The reference solution's set_pixel implementation uses EDI as an alpha-channel presence flag (or edi, edi / jz .skip_alpha) even though the problem statement and template specify the subroutine parameters as: EAX = x, EBX = y, ECX = RGB color. EDI is not documented as an input and is not initialized before use. This introduces an undocumented parameter/flag requirement and contradicts the specification of which registers contain inputs, which will confuse students and may lead to incorrect implementations or misunderstandings about required inputs.",
+            "suggestedFix": "Remove the EDI-based alpha-channel check from the reference set_pixel implementation (the or edi, edi / jz .skip_alpha sequence) or explicitly document and initialize any additional parameter in the problem statement and template. The set_pixel subroutine should only rely on the documented inputs (EAX, EBX, ECX) or the problem should be updated to state that EDI is also used and how it must be set by the caller.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 19,
+                    "endLine": 27
+                }
+            ]
+        },
+        {
+            "severity": "LOW",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The problem text instructs students to insert a general formula at the first TODO near the top of the template (labelled 'INSERT FORMULA HERE: X'), but the reference solution does not populate that first TODO location with the requested formula. This mismatch between the instructions and the provided solution file location (where the formula is expected) can confuse students about where to place their answer and what exactly they must change.",
+            "suggestedFix": "Either fill the first TODO in the provided reference solution with the explicit formula (e.g. address = display_start + (y * line_bytes) + (x * bytes_per_pixel)) so it matches the instruction, or update the problem statement to clarify that the concrete address calculation is to be implemented at the later TODO (the assembly calculation in main) and that the top TODO is informational only.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 20,
+                    "endLine": 26
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 15,
+                    "endLine": 16
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 1,
+                    "endLine": 6
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T22:53:29.947883Z",
+        "endTime": "2026-03-12T22:54:14.853467Z",
+        "durationS": 44.905
+    },
+    "tokens": {
+        "prompt": 12955,
+        "completion": 5467,
+        "total": 18422
+    },
+    "costs": {
+        "promptEur": 0.0029796500244140623,
+        "completionEur": 0.010059280212402344,
+        "totalEur": 0.013038930236816407
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/006",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

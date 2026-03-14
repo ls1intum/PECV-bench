@@ -1,0 +1,42 @@
+{
+    "timestamp": "2026-03-13T08:06:22.880237Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "SQL query in the solution (aufgabe09.sql) selects the column 'kreis' but the GROUP BY clause groups by 'regierungsbezirk'. The problem statement for Aufgabe 09 requests averages per Landkreis and the name of the Landkreis (i.e., grouping and labeling must be by 'kreis'). This mismatch (selecting a non-aggregated column 'kreis' while grouping by a different identifier 'regierungsbezirk') is inconsistent: it will either cause an SQL error in strict SQL modes or return semantically incorrect results, and it contradicts the task requirement to aggregate per Landkreis.",
+            "suggestedFix": "Make the GROUP BY target match the non-aggregated selected column and the task requirement. Replace the GROUP BY regierungsbezirk with GROUP BY kreis so the query groups by Landkreis (kreis) when selecting kreis and the AVG aggregates. Example fix: SELECT kreis, AVG(einwohner_m), AVG(einwohner_w) FROM Gemeinde WHERE flaeche > 100 GROUP BY kreis.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 146,
+                    "endLine": 149
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe09.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:06:22.880237Z",
+        "endTime": "2026-03-13T08:06:50.067295Z",
+        "durationS": 27.187
+    },
+    "tokens": {
+        "prompt": 19898,
+        "completion": 3329,
+        "total": 23227
+    },
+    "costs": {
+        "promptEur": 0.0045765400390625,
+        "completionEur": 0.006125359985351563,
+        "totalEur": 0.010701900024414063
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/008",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

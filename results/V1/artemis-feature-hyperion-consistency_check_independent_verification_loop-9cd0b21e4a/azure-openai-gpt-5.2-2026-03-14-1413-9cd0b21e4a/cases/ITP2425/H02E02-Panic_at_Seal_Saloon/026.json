@@ -1,0 +1,112 @@
+{
+    "timestamp": "2026-03-14T14:17:51.891225Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Problem statement requires StockIngredient to provide getters for its private fields, and the template exposes the ingredient name via getIngredientName(), while the solution uses getName(). This name mismatch breaks compatibility with the template's Stock.findStockIngredient implementation and confuses students about the required API for StockIngredient's name getter.",
+            "suggestedFix": "Align the API by using the same getter name in both artifacts: either rename solution's StockIngredient.getName() to getIngredientName(), or (preferably) rename the template's getIngredientName() to getName() and update Stock.findStockIngredient accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 42,
+                    "endLine": 47
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/StockIngredient.java",
+                    "startLine": 28,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/StockIngredient.java",
+                    "startLine": 28,
+                    "endLine": 30
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 22,
+                    "endLine": 26
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 22,
+                    "endLine": 26
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem statement specifies SealSaloon.calculateRemainingOrderNumber() should print order numbers from 0 up to n where n is the remaining order count (i.e., number of pending orders). The solution computes remainingOrders = this.orders.length + 1, causing it to print one extra line (0..orders.length) instead of 0..orders.length-1 (with the special case of still printing only 'Order number: 0' when there are no orders).",
+            "suggestedFix": "Change the loop bound to match the remaining order count: set remainingOrders = this.orders.length; then use a do-while that prints 0..remainingOrders inclusive only when required by the spec (print 0 always, and print 1..remainingOrders when remainingOrders>0). For example: int n=this.orders.length; int i=0; do { print(i); i++; } while (i<=n);",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 100,
+                    "endLine": 107
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 70,
+                    "endLine": 76
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "In the template repository, Stock.findStockIngredient compares using StockIngredient.getIngredientName(), while in the solution repository it compares using StockIngredient.getName(). This inconsistency makes the Stock API differ across artifacts and can cause student code written against the template to fail when evaluated against a solution/tests expecting the other method name.",
+            "suggestedFix": "Standardize StockIngredient's name getter across template and solution (choose either getName() or getIngredientName()) and update Stock.findStockIngredient to call the standardized method.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 22,
+                    "endLine": 27
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 22,
+                    "endLine": 27
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/StockIngredient.java",
+                    "startLine": 28,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/StockIngredient.java",
+                    "startLine": 28,
+                    "endLine": 30
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T14:17:51.891225Z",
+        "endTime": "2026-03-14T14:18:43.351507Z",
+        "durationS": 51.46
+    },
+    "tokens": {
+        "prompt": 9501,
+        "completion": 1068,
+        "total": 10569
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/026",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1413-9cd0b21e4a"
+}

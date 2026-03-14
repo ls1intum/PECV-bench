@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T23:20:31.345631Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Output columns for Aufgabe 07: The problem statement (Aufgabe 07) explicitly requires the textual names of Gemeinden and the names of the respective Freib\u00e4der. The solution repository's aufgabe07.sql returns Gemeinde.schluessel and Schwimmbad.id (numeric keys) instead of Gemeinde.name and Schwimmbad.name. The template file is empty, so students have no starter guidance. This mismatch will confuse students and tests that check for the requested textual name columns will fail or mislead students about the expected SELECT targets.",
+            "suggestedFix": "Update the solution (and optionally the template) to select the textual name columns required by the problem statement. For example: SELECT Gemeinde.name AS gemeinde_name, Schwimmbad.name AS freibad_name FROM Gemeinde, Schwimmbad WHERE Gemeinde.schluessel = Schwimmbad.gemeindeschluessel AND Schwimmbad.art = 'Freibad'; Alternatively, if IDs were intentional, update the problem statement to request Gemeinde.schluessel and Schwimmbad.id and provide a matching template.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 46,
+                    "endLine": 48
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/aufgabe07.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe07.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Concept: the task asks for the names of Gemeinden and the names of the corresponding Freib\u00e4der. Problem statement refers to the textual fields Gemeinde.name and Schwimmbad.name. Solution implementation (solution_repository/aufgabe07.sql) selects Gemeinde.schluessel and Schwimmbad.id (numeric identifiers) instead of the requested name columns. A student expecting textual names will be confused because the solution returns identifier keys rather than the human-readable names, breaking the direct mapping from requirement to query result.",
+            "suggestedFix": "Select the textual name columns to match the problem description. For example:\nSELECT Gemeinde.name, Schwimmbad.name\nFROM Gemeinde, Schwimmbad\nWHERE Gemeinde.schluessel = Schwimmbad.gemeindeschluessel\n  AND Schwimmbad.art = 'Freibad';",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 48,
+                    "endLine": 48
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe07.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe07.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:20:31.345631Z",
+        "endTime": "2026-03-13T23:21:07.349050Z",
+        "durationS": 36.003
+    },
+    "tokens": {
+        "prompt": 18173,
+        "completion": 6303,
+        "total": 24476
+    },
+    "costs": {
+        "promptEur": 0.004179789978027344,
+        "completionEur": 0.011597520141601562,
+        "totalEur": 0.015777310119628907
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/014",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

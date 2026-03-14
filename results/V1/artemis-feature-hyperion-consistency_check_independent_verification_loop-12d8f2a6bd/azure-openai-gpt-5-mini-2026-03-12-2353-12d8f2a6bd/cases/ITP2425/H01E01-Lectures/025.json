@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T23:53:38.290569Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field 'numberOfInscribedStudents' has inconsistent types across artifacts. In the problem statement UML (problem_statement.md line 65) the attribute is declared as: numberOfInscribedStudents: int. In the solution implementation (src/de/tum/cit/ase/Lecture.java line 7) it is declared as: private long numberOfInscribedStudents;. Because the solution uses long for this field while the UML and exercise text expect int, calls and methods that assume an int (for example the UML-declared getTotalNumberOfStudents(): int and the solution's getTotalNumberOfStudents implementation) become inconsistent: the solution's getTotalNumberOfStudents() method declares an int return type but sums a long and an int, which makes the method body invalid and causes a compilation error. This mismatch will confuse students about the expected type and may make the provided solution uncompilable.",
+            "suggestedFix": "Make the type of numberOfInscribedStudents consistent across artifacts. Preferred fix for this exercise: change the solution field and all related signatures to int (private int numberOfInscribedStudents; constructor parameter, getter and setter use int) so they match the UML and avoid mixing int/long. Alternatively, if large counts are required, update the problem statement/UML to use long and change the UML-declared return type of getTotalNumberOfStudents() to long and adjust all template/solution signatures accordingly. Ensure the getTotalNumberOfStudents() implementation returns the same numeric type as the summed fields to avoid compilation errors.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 65,
+                    "endLine": 65
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 7,
+                    "endLine": 7
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 75,
+                    "endLine": 76
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "The constructor parameter type for 'numberOfInscribedStudents' differs between the UML expectation and the solution implementation. The UML (problem_statement.md line 65) implies numberOfInscribedStudents is an int and the exercise instructions require a constructor that follows the UML order/types. The solution constructor is declared as: public Lecture(String lectureName, long numberOfInscribedStudents, int numberOfGuestStudents, int numberOfLecturers, int numberOfTutors) (src/de/tum/cit/ase/Lecture.java line 13) \u2014 it uses long for the parameter. This results in an API/signature mismatch relative to the UML and will confuse students about the expected constructor signature.",
+            "suggestedFix": "Align the constructor parameter types with the UML. Change the solution constructor parameter type for numberOfInscribedStudents from long to int (and update the field/getter/setter accordingly), or alternatively update the problem statement/UML to specify long and adjust all related documentation and method signatures consistently. Prefer keeping the UML and template consistent with the solution or updating the solution to match the UML so students have a single, clear expected signature.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 65,
+                    "endLine": 65
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 13,
+                    "endLine": 13
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 6,
+                    "endLine": 7
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T23:53:38.290569Z",
+        "endTime": "2026-03-12T23:54:20.376814Z",
+        "durationS": 42.086
+    },
+    "tokens": {
+        "prompt": 18189,
+        "completion": 5781,
+        "total": 23970
+    },
+    "costs": {
+        "promptEur": 0.004183470092773437,
+        "completionEur": 0.010637040405273437,
+        "totalEur": 0.014820510498046873
+    },
+    "case_id": "V1/ITP2425/H01E01-Lectures/025",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2353-12d8f2a6bd"
+}

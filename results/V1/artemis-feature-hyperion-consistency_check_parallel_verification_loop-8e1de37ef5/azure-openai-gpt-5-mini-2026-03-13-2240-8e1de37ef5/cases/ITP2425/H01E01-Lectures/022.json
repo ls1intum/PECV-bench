@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T22:41:16.556294Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Method getTotalNumberOfStudents: The problem statement/UML declares a parameterless method 'getTotalNumberOfStudents(): int'. The template file has a TODO placeholder for this method. The solution repository implements 'public int getTotalNumberOfStudents(boolean includeGuests)' (a boolean parameter). This parameter mismatch between the specification and the solution makes it unclear which method signature students should implement and how other methods (e.g., getNameAndTotalNumberOfStudents and getNumberOfStudentsPerTutor) should call it.",
+            "suggestedFix": "Make the solution match the problem specification by providing a parameterless method 'public int getTotalNumberOfStudents()' that returns the total number of students (inscribed + guest). If conditional behavior is desired, add an overloaded method 'public int getTotalNumberOfStudents(boolean includeGuests)' but keep the parameterless version to match the UML/spec. Update internal calls in the solution (e.g., getNameAndTotalNumberOfStudents and getNumberOfStudentsPerTutor) to call the parameterless method where appropriate.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 70
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 12,
+                    "endLine": 12
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 75,
+                    "endLine": 75
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Concept: total number of students in a Lecture. Problem statement / UML: declares a method getTotalNumberOfStudents() with no parameters (returns int). Template: contains a TODO referring to adding the getTotalNumberOfStudents method but no implementation. Solution: implements getTotalNumberOfStudents(boolean includeGuests) \u2014 the same method name but with an added boolean parameter. This changes the API surface: callers following the UML will expect a zero-argument method, but the reference implementation requires a boolean argument. Students reading the UML and the solution will be confused which signature is correct and how to call the method.",
+            "suggestedFix": "Make the solution match the problem statement and UML by providing a no-argument method: public int getTotalNumberOfStudents() that returns numberOfInscribedStudents + numberOfGuestStudents. Update other solution methods to call the no-arg method. Alternatively, if an include-guests option is intentionally desired, update the problem statement and UML to declare getTotalNumberOfStudents(boolean includeGuests) and document the parameter, and update the template TODO to reflect the chosen signature so all artifacts share the same method API.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 70
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 12,
+                    "endLine": 12
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 75,
+                    "endLine": 75
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:41:16.556294Z",
+        "endTime": "2026-03-13T22:41:49.448769Z",
+        "durationS": 32.892
+    },
+    "tokens": {
+        "prompt": 23110,
+        "completion": 5732,
+        "total": 28842
+    },
+    "costs": {
+        "promptEur": 0.005315300048828125,
+        "completionEur": 0.010546880126953125,
+        "totalEur": 0.01586218017578125
+    },
+    "case_id": "V1/ITP2425/H01E01-Lectures/022",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2240-8e1de37ef5"
+}

@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T21:35:46.775344Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Function name/signature mismatch: the header declares check_sphere_hit(...) but the implementation and callers use ray_sphere_intersect(...). This inconsistency between declaration, definition and usage will cause compilation errors (missing prototype in C++ and/or link errors) and confuses students about the intended API.",
+            "suggestedFix": "Unify the declaration and definition: change the header to declare 'bool ray_sphere_intersect(const float *origin, const float *dir, const float *center, const float radius);' (or rename the implementation and all callers to 'check_sphere_hit' consistently). Ensure the header, implementation and all call sites use the exact same function name and signature.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.h",
+                    "startLine": 5,
+                    "endLine": 10
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.cpp",
+                    "startLine": 10,
+                    "endLine": 16
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/main.cpp",
+                    "startLine": 195,
+                    "endLine": 196
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The sphere-intersection function is referenced with different identifiers across artifacts: the template header declares check_sphere_hit(...) while the template implementation and the solution use ray_sphere_intersect(...). This breaks the conceptual mapping (and in C++ will cause a missing prototype / compile-time mismatch) \u2014 students reading the header will expect check_sphere_hit but the rest of the code and the solution target ray_sphere_intersect.",
+            "suggestedFix": "Make the identifier consistent: change the template header declaration to 'bool ray_sphere_intersect(const float *origin, const float *dir, const float *center, const float radius);' (matching the implementation and the solution), or alternatively rename the implementation and solution to 'check_sphere_hit' everywhere. Prefer aligning the template header with the existing implementation name 'ray_sphere_intersect' to avoid breaking compilation and reduce student confusion.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.h",
+                    "startLine": 5,
+                    "endLine": 10
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.cpp",
+                    "startLine": 10,
+                    "endLine": 35
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.h",
+                    "startLine": 5,
+                    "endLine": 10
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:35:46.775344Z",
+        "endTime": "2026-03-12T21:36:08.768026Z",
+        "durationS": 21.992
+    },
+    "tokens": {
+        "prompt": 87697,
+        "completion": 4171,
+        "total": 91868
+    },
+    "costs": {
+        "promptEur": 0.020170310546875,
+        "completionEur": 0.00767464013671875,
+        "totalEur": 0.02784495068359375
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/018",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

@@ -1,0 +1,60 @@
+{
+    "timestamp": "2026-03-14T15:51:24.832777Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Symbol `display_start` is required as the base address of the framebuffer (problem statement) and is allocated in the template (`display_start RESB 8294400`). In the solution, the allocation of `display_start` is removed/replaced by a comment, but the code in both `set_pixel` and `main` still references `display_start` as a symbol. This makes the solution inconsistent with the template/problem statement and can lead to an undefined symbol / non-compiling reference if `display_start` is not actually defined.",
+            "suggestedFix": "Define `display_start` in the solution the same way as in the template (`section .bss` with `display_start RESB 8294400`) and remove the misleading comment, or (if stack/allocation change is intended) update both solution and template/problem statement to pass the base address explicitly and eliminate all direct references to the `display_start` symbol.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 20,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 4,
+                    "endLine": 7
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 20,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 95,
+                    "endLine": 101
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T15:51:24.832777Z",
+        "endTime": "2026-03-14T15:52:05.389513Z",
+        "durationS": 40.556
+    },
+    "tokens": {
+        "prompt": 20774,
+        "completion": 1299,
+        "total": 22073
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/014",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

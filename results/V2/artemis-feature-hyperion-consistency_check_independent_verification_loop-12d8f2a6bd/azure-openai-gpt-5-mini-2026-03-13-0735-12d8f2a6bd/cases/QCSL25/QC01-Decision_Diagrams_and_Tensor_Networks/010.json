@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T08:17:07.249247Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Attribute mismatch for DD.weight: In the template repository (dd.py) the DD dataclass declares the attribute 'weight' with the type annotation 'float' (dd.py, line 47). However, the template itself constructs terminal DDs using complex weights (ZERO_TERM = DD(TERM, np.complex128(0)) at dd.py lines 273-274), and the solution repository's DD dataclass declares 'weight' as 'np.complex128' (solution dd.py, line 47). This inconsistency between the template's type annotation ('float') and the actual usage (numpy complex128) \u2014 and the solution's annotation \u2014 can confuse students about the intended numeric type for DD edge weights and may lead to incorrect type-annotated code or misunderstandings when manipulating weights.",
+            "suggestedFix": "Change the type annotation of the 'weight' attribute in the template's DD dataclass to a complex type consistent with usage and the solution (e.g. 'np.complex128' or 'complex'). Update any nearby docstrings or examples to mention that edge weights are complex-valued. This preserves the pedagogical intent while removing confusion between the annotation and actual usage (ZERO_TERM/ONE_TERM creation and operations in dd_simulation.py).",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 47,
+                    "endLine": 47
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 273,
+                    "endLine": 274
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 47,
+                    "endLine": 47
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:17:07.249247Z",
+        "endTime": "2026-03-13T08:17:52.978376Z",
+        "durationS": 45.729
+    },
+    "tokens": {
+        "prompt": 90074,
+        "completion": 4558,
+        "total": 94632
+    },
+    "costs": {
+        "promptEur": 0.0207170205078125,
+        "completionEur": 0.008386720092773437,
+        "totalEur": 0.029103740600585938
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/010",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

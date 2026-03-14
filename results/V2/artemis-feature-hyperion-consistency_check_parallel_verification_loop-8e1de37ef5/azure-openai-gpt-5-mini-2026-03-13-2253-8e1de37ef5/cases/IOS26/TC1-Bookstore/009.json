@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T23:22:50.271817Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "Bookstore.init(books: ...) parameter type mismatch: The problem statement specifies an initializer with signature init(books: [Book]) (an array of Book). The solution implementation declares init(books: Set<Book>) while the stored property in the same solution is declared as let books: [Book]. This mismatch (initializer parameter Set<Book> vs. expected [Book] and vs. stored property type) will confuse students and cause compilation errors because a Set<Book> cannot be directly assigned to a [Book] property without conversion, and students implementing the initializer as specified by the problem will find the solution inconsistent with the specification.",
+            "suggestedFix": "Make the initializer signature consistent with the problem statement and the stored property. Preferred fix: change the solution initializer to `init(books: [Book]) { self.books = books }`. If a Set is intentionally desired, update the problem statement and the stored property to use `Set<Book>` and ensure `Book` conforms to `Hashable`, or convert the Set to an Array inside the initializer (e.g. `self.books = Array(books)`) but keep the public signature aligned with the documented requirement.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 11,
+                    "endLine": 11
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/BookstoreLib/Bookstore.swift",
+                    "startLine": 3,
+                    "endLine": 16
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/BookstoreLib/Bookstore.swift",
+                    "startLine": 14,
+                    "endLine": 14
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Constructor parameter type mismatch for the Bookstore initializer: the problem statement requires an initializer with the signature `init(books: [Book])` (problem_statement.md lines 9-12), but the solution defines `init(books: Set<Book>)` in Sources/BookstoreLib/Bookstore.swift (lines 14-16). The template file (Sources/BookstoreLib/Bookstore.swift, lines 3-16) is where students are expected to implement the Bookstore, so this inconsistency between the spec and the solution (and with Client.assembleBookstore which supplies a `[Book]`) will confuse students about the expected API and may cause compilation mismatches.",
+            "suggestedFix": "Make the initializer signature consistent with the problem statement and Client usage. Preferable fix: change the solution initializer to `init(books: [Book])` in Sources/BookstoreLib/Bookstore.swift and assign `self.books = books`. Alternatively, if Sets are intended, update the problem statement, template, and Client to use `Set<Book>` consistently \u2014 but pick one collection type and apply it across problem statement, template, solution, and Client.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 9,
+                    "endLine": 12
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/BookstoreLib/Bookstore.swift",
+                    "startLine": 3,
+                    "endLine": 16
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/BookstoreLib/Bookstore.swift",
+                    "startLine": 14,
+                    "endLine": 16
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:22:50.271817Z",
+        "endTime": "2026-03-13T23:23:26.142112Z",
+        "durationS": 35.87
+    },
+    "tokens": {
+        "prompt": 20167,
+        "completion": 6723,
+        "total": 26890
+    },
+    "costs": {
+        "promptEur": 0.00463841015625,
+        "completionEur": 0.0123703203125,
+        "totalEur": 0.01700873046875
+    },
+    "case_id": "V2/IOS26/TC1-Bookstore/009",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

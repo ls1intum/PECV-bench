@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-12T23:19:55.559884Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "In simulate_msd_two_rounds (solution), the code sets distilled_state = circ.num_qubits + 15 before calling build_msd_circ for the second round. build_msd_circ expects the distilled_state parameter to be the index of the data qubit that will be entangled with the newly created 15-qubit tetrahedral code (i.e. typically circ.num_qubits). By adding +15, the passed distilled_state index no longer lines up with the distillation qubits that build_msd_circ allocates, producing misaligned qubit indices and incorrect circuit wiring for the second round. This structural mismatch will cause incorrect behavior and makes it hard for students to reason about qubit indexing when composing multiple rounds.",
+            "suggestedFix": "Pass the data qubit index for the second-round distilled state as the current circ.num_qubits (without adding +15) when calling build_msd_circ. In other words use distilled_state = circ.num_qubits so that build_msd_circ allocates its 15 code qubits starting at the expected offset and the distilled_state index refers to the correct data qubit.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/msd.py",
+                    "startLine": 256,
+                    "endLine": 275
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/msd.py",
+                    "startLine": 153,
+                    "endLine": 184
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 171,
+                    "endLine": 178
+                }
+            ]
+        },
+        {
+            "severity": "LOW",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The correct_teleportation function signature documents parameters as (teleportation_measurements, x_measurements), but in the solution simulate_msd_one_round and simulate_msd_two_rounds it is sometimes called with the arguments reversed (passing x-basis measurements first and teleportation measurements second). Although the current implementation uses XOR (a commutative operation) so it still works, the inconsistent ordering between the function signature/documentation and its usage is structurally confusing and may mislead students implementing their own corrections or reading the API contract.",
+            "suggestedFix": "Make the parameter ordering and usage consistent. Either (A) update the correct_teleportation signature and docstring to indicate the order actually used (x_measurements, teleportation_measurements) or (B) change all calls to pass arguments in the documented order (teleportation_measurements, x_measurements). Additionally, add a brief docstring note that the operation is commutative if XOR is intended, or implement a non-commutative logic if ordering matters.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/msd.py",
+                    "startLine": 65,
+                    "endLine": 75
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/msd.py",
+                    "startLine": 123,
+                    "endLine": 133
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/msd.py",
+                    "startLine": 220,
+                    "endLine": 226
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/msd.py",
+                    "startLine": 288,
+                    "endLine": 305
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T23:19:55.559884Z",
+        "endTime": "2026-03-12T23:20:46.663286Z",
+        "durationS": 51.103
+    },
+    "tokens": {
+        "prompt": 39489,
+        "completion": 6864,
+        "total": 46353
+    },
+    "costs": {
+        "promptEur": 0.00908247021484375,
+        "completionEur": 0.012629759887695312,
+        "totalEur": 0.02171223010253906
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/012",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

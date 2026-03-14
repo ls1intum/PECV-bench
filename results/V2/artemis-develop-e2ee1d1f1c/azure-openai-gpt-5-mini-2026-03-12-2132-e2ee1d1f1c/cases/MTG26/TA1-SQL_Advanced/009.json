@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T21:47:59.021159Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The solution for Aufgabe 08 references inconsistent table names: the FROM clause lists 'Wanderweg_zu_Gemeinde' but the WHERE clause uses 'Radweg_zu_Gemeinde'. The problem statement asks for a count of Radwegen (radweg), so the solution's table usage is incorrect and the query as written will fail or produce wrong results. This mismatch between referenced tables in the solution will confuse students and prevents the solution from matching the task specification.",
+            "suggestedFix": "Update the solution query so the same table is referenced consistently and matches the task. Replace 'Wanderweg_zu_Gemeinde' in the FROM clause with 'Radweg_zu_Gemeinde' (or, alternatively, change the WHERE to use Wanderweg_zu_Gemeinde if the task were about Wanderwege). For example:\n\nFROM Gemeinde, Radweg_zu_Gemeinde\nWHERE Gemeinde.schluessel = Radweg_zu_Gemeinde.gemeindeschluessel\n  AND Gemeinde.plz > 96400\n\nThis ensures the solution counts Radwege adjacent to Gemeinden with PLZ > 96400 as specified in the problem statement.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 50,
+                    "endLine": 52
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe08.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe08.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The solution for Aufgabe 08 inconsistently references two different table names for the same concept: the FROM clause uses Wanderweg_zu_Gemeinde while the WHERE clause (and the task description) clearly refer to Radweg_zu_Gemeinde. This mismatched identifier makes it unclear which table students should use to count Radwege and will likely cause errors or confusion when mapping the problem statement to the SQL implementation.",
+            "suggestedFix": "Make the table name consistent and aligned with the task: replace Wanderweg_zu_Gemeinde in the FROM clause with Radweg_zu_Gemeinde so both FROM and WHERE reference Radweg_zu_Gemeinde.gemeindeschluessel, matching the problem requirement to count Radwege.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe08.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe08.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 50,
+                    "endLine": 52
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:47:59.021159Z",
+        "endTime": "2026-03-12T21:48:17.772773Z",
+        "durationS": 18.751
+    },
+    "tokens": {
+        "prompt": 9779,
+        "completion": 3564,
+        "total": 13343
+    },
+    "costs": {
+        "promptEur": 0.0022491700439453127,
+        "completionEur": 0.0065577602539062495,
+        "totalEur": 0.008806930297851562
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/009",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

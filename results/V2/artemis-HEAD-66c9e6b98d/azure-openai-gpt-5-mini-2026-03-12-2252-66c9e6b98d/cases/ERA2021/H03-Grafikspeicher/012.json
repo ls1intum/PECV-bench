@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-12T22:52:50.293631Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The solution inconsistently treats the symbol display_start as memory contents in set_pixel (using add eax, [display_start]) while elsewhere (main) it is used as an address (mov esi, display_start). The template defines display_start as a BSS label (RESB), i.e. a block of memory whose address should be used as the framebuffer base. Using [display_start] dereferences that memory and adds whatever (uninitialized) bytes are stored there instead of adding the base address, causing incorrect address computation and wrong writes. This mismatch between treating display_start as an address vs. as stored data is an unintentional structural bug that will confuse students and lead to incorrect behavior.",
+            "suggestedFix": "Treat display_start consistently as the base address (label) rather than memory contents. In set_pixel replace 'add eax, [display_start]' with adding the label address (e.g. 'add eax, display_start') or load the base into a register first ('mov esi, display_start' and then 'add esi, eax' and write 'mov [esi], ecx'). Ensure all uses across main and set_pixel use the label address form.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 20,
+                    "endLine": 21
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 29,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 94,
+                    "endLine": 99
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T22:52:50.293631Z",
+        "endTime": "2026-03-12T22:53:18.292571Z",
+        "durationS": 27.998
+    },
+    "tokens": {
+        "prompt": 12901,
+        "completion": 3549,
+        "total": 16450
+    },
+    "costs": {
+        "promptEur": 0.0029672301025390627,
+        "completionEur": 0.006530160339355469,
+        "totalEur": 0.009497390441894533
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/012",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

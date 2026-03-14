@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T08:07:54.454999Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Solution SQL for Aufgabe 02 selects an extra column (Freizeitpark.gemeindeschluessel) that is not requested by the problem statement. The problem statement asks for: Freizeitpark.name, Freizeitpark.strasse and Gemeinde.name (the name of the associated Gemeinde). The solution_repository/aufgabe02.sql SELECT list is: Freizeitpark.name, Freizeitpark.strasse, Gemeinde.name, Freizeitpark.gemeindeschluessel. Returning this additional gemeindeschluessel column violates the instruction to \"Gib immer genau die geforderten Daten aus und nicht mehr\" and will cause automated equality checks to fail or confuse students about the expected output schema.",
+            "suggestedFix": "Remove the unnecessary column from the solution SELECT list so the query returns exactly the requested columns. Example corrected SELECT: SELECT Freizeitpark.name, Freizeitpark.strasse, Gemeinde.name FROM Freizeitpark, Gemeinde WHERE Gemeinde.schluessel = Freizeitpark.gemeindeschluessel;",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 23
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/aufgabe02.sql",
+                    "startLine": 1,
+                    "endLine": 2
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe02.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:07:54.454999Z",
+        "endTime": "2026-03-13T08:08:37.905397Z",
+        "durationS": 43.45
+    },
+    "tokens": {
+        "prompt": 14555,
+        "completion": 4952,
+        "total": 19507
+    },
+    "costs": {
+        "promptEur": 0.0033476500244140625,
+        "completionEur": 0.009111679931640625,
+        "totalEur": 0.012459329956054688
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

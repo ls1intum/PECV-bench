@@ -1,0 +1,42 @@
+{
+    "timestamp": "2026-03-13T22:55:02.287991Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Function 'sum(a, b)': The problem statement requires implementing sum(a, b) to add two integers passed on the stack. The solution repository defines a 'sum' label that only reads the first argument into eax (mov eax, [esp+4]) and immediately returns without using or adding the second argument. This contradicts the specification and will confuse students about the expected stack offsets and the correct implementation of sum(a, b).",
+            "suggestedFix": "Update the solution's sum implementation to actually add both stack arguments using the expected calling convention/stack layout. For example (cdecl-like):\n    mov eax, [esp+4]    ; load a\n    add eax, [esp+8]    ; add b\n    ret\nAlso update any accompanying explanation/comments to document the stack offsets and calling convention so students can implement sum(a, b) as specified.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 22,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 6,
+                    "endLine": 8
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:55:02.287991Z",
+        "endTime": "2026-03-13T22:55:29.717333Z",
+        "durationS": 27.429
+    },
+    "tokens": {
+        "prompt": 13190,
+        "completion": 3312,
+        "total": 16502
+    },
+    "costs": {
+        "promptEur": 0.0030337000122070312,
+        "completionEur": 0.006094079986572265,
+        "totalEur": 0.009127779998779296
+    },
+    "case_id": "V2/ERA2021/H00-Hello_World_ASM/005",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

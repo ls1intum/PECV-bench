@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-13T22:55:58.213362Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "set_pixel (function) inconsistent write address between solution and main/problem statement: In solution_repository/pixel.asm the subroutine set_pixel computes the pixel address and executes an extra 'add eax, 4' before writing the RGB value (writing to display_start + x*4 + 7680*y + 4). In solution_repository/pixel.asm (main) the code that reads the pixel computes the address as display_start + x*4 + 7680*y (no +4) and reads from that address. The problem statement (Hausaufgabe 3, Teilaufgabe b) requires set_pixel to set the pixel at the computed address (display_start + x*4 + 7680*y). This mismatch causes main to read a different memory cell than the one set by set_pixel, producing incorrect behavior and confusing students about where pixels are written.",
+            "suggestedFix": "Remove the extra 'add eax, 4' in the solution subroutine set_pixel so the write target matches the address computed and read by main (display_start + x*4 + 7680*y). Ensure the subroutine still preserves registers as required by the problem statement (only eax may be left modified); compute the address and perform 'mov [eax], ecx' without the +4 offset.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 35
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 93,
+                    "endLine": 103
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:55:58.213362Z",
+        "endTime": "2026-03-13T22:56:40.819047Z",
+        "durationS": 42.605
+    },
+    "tokens": {
+        "prompt": 25451,
+        "completion": 5972,
+        "total": 31423
+    },
+    "costs": {
+        "promptEur": 0.005853730102539063,
+        "completionEur": 0.010988480316162109,
+        "totalEur": 0.01684221041870117
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/009",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

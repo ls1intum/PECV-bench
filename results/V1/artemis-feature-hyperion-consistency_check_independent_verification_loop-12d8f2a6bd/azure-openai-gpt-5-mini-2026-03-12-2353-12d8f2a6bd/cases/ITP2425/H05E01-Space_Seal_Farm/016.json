@@ -1,0 +1,78 @@
+{
+    "timestamp": "2026-03-13T00:01:45.208058Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Method mismatch for Animal.messageOnFeed(): the problem statement and UML declare Animal.messageOnFeed() as returning String (problem_statement.md UML and task descriptions request String messages such as \"Arf Arf!\", \"Oink!\", \"Maah!\") and the template's song/printing logic expects printable String values (see Farm.singFarmSongVerse). In the provided solution, Animal.java declares public abstract FeedResponse messageOnFeed(); and a new FeedResponse type is introduced (FeedResponse.java). The solution's subclasses are inconsistent: Pig.java and Seal.java implement messageOnFeed() returning FeedResponse, while Goat.java implements messageOnFeed() returning String. This divergence (String vs FeedResponse, and inconsistent subclass implementations) will cause compilation errors and/or behavioral confusion for students following the UML/template, and blocks a straightforward correct implementation of the exercise.",
+            "suggestedFix": "Make the return type of Animal.messageOnFeed() consistent across all artifacts. Two viable approaches: (A) Preferred: revert to the UML/problem-template contract and change the solution so messageOnFeed() returns String everywhere (change Animal.java to 'public abstract String messageOnFeed();', update Pig and Seal to return the String messages, and remove or repurpose FeedResponse). Update any printing code to use the returned String. (B) Alternate: keep FeedResponse in the solution but update the problem statement, UML, and template to document messageOnFeed() returning FeedResponse; then ensure all subclasses (Pig, Seal, Goat) return FeedResponse consistently (e.g., new FeedResponse(\"Maah!\", true)), and update Farm.singFarmSongVerse and any printing to use feedResponse.toString() or getMessage(). Apply the chosen approach consistently to Animal, all subclasses, Farm, the problem text, and any tests so students are not presented conflicting contracts.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 26,
+                    "endLine": 29
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 92,
+                    "endLine": 99
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Farm.java",
+                    "startLine": 18,
+                    "endLine": 27
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Animal.java",
+                    "startLine": 18,
+                    "endLine": 18
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/FeedResponse.java",
+                    "startLine": 3,
+                    "endLine": 11
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Pig.java",
+                    "startLine": 10,
+                    "endLine": 12
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Seal.java",
+                    "startLine": 13,
+                    "endLine": 15
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Goat.java",
+                    "startLine": 10,
+                    "endLine": 11
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T00:01:45.208058Z",
+        "endTime": "2026-03-13T00:02:34.305447Z",
+        "durationS": 49.097
+    },
+    "tokens": {
+        "prompt": 26234,
+        "completion": 6949,
+        "total": 33183
+    },
+    "costs": {
+        "promptEur": 0.006033820190429687,
+        "completionEur": 0.012786159912109376,
+        "totalEur": 0.018819980102539064
+    },
+    "case_id": "V1/ITP2425/H05E01-Space_Seal_Farm/016",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2353-12d8f2a6bd"
+}

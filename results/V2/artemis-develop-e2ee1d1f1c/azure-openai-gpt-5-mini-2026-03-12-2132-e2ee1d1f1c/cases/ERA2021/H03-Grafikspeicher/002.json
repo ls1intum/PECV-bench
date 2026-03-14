@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T21:34:37.308177Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Contradictory register-preservation requirements: the problem statement requires the subroutine set_pixel to preserve all registers except EAX (\"Au\u00dfer dem Register eax d\u00fcrfen keine anderen Registerinhalte ver\u00e4ndert werden\"), but the template contains a comment instructing students to save registers they modify \"except eax, ebx and esi\" (implying EBX and ESI need not be preserved). The provided solution preserves EBX and ESI (push/pop), following the problem statement. This mismatch in expected calling/side-effect conventions can confuse students about which registers they must preserve when implementing set_pixel.",
+            "suggestedFix": "Unify the register-preservation requirement across artifacts. Update the template comment at the indicated location to state the same constraint as the problem statement (i.e., only EAX may be modified; all other registers must be preserved), and ensure the set_pixel stub description and any guidance match this requirement. Alternatively, if the intent was different, update the problem statement to reflect the intended register-saving convention consistently and adjust the solution accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 99,
+                    "endLine": 106
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement and template expect the pixel value to be loaded into register ECX (problem explicitly: 'mov ecx, [esi]' and the template prints using ECX), but the solution loads the pixel into EAX ('mov eax, [esi]'). This is a cross-artifact mismatch about which register represents the same conceptual entity 'pixel value' and can confuse students mapping the required steps to the reference implementation.",
+            "suggestedFix": "Make the register usage consistent across artifacts. Either change the solution to load the pixel value into ECX (use 'mov ecx, [esi]') as specified in the problem and expected by the template, or update the template/problem instructions and the printf argument ordering so that the solution's use of EAX is clearly documented and consistent.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 25,
+                    "endLine": 26
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 112,
+                    "endLine": 118
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 98,
+                    "endLine": 102
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:34:37.308177Z",
+        "endTime": "2026-03-12T21:35:28.250542Z",
+        "durationS": 50.942
+    },
+    "tokens": {
+        "prompt": 13527,
+        "completion": 7444,
+        "total": 20971
+    },
+    "costs": {
+        "promptEur": 0.0031112100830078125,
+        "completionEur": 0.01369696044921875,
+        "totalEur": 0.016808170532226562
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/002",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

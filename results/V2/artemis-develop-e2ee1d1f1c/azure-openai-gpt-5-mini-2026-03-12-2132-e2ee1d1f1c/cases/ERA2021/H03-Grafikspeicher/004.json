@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-12T21:34:28.117924Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem statement specifies the subroutine set_pixel should receive x in EAX, y in EBX and the RGB value in ECX, and that no registers other than EAX may be changed. The template contains a contradictory comment instructing students to save all registers except EAX, EBX and ESI before computing the position. The provided solution further violates the expected parameter convention by swapping EAX and EBX (xchg eax, ebx) and thus treats the coordinates reversed (it computes address using x as the row index and y as the column index). This mismatch between the specification, template comments, and solution implementation will confuse students about which registers hold which parameters and which registers they must preserve.",
+            "suggestedFix": "Unify the calling convention across all artifacts: update the template comment to match the problem statement (explicitly state that x is in EAX, y in EBX, color in ECX, and that other registers must be preserved/restored). Remove the xchg in the solution and compute the address as display_start + (EBX * 1920 + EAX) * 4 (i.e. display_start + EBX*7680 + EAX*4). Ensure the implementation preserves EBX and ECX by saving/restoring them if modified (or perform computations using EAX/ESI while leaving EBX/ECX intact).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 99,
+                    "endLine": 111
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 35
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:34:28.117924Z",
+        "endTime": "2026-03-12T21:34:56.955453Z",
+        "durationS": 28.837
+    },
+    "tokens": {
+        "prompt": 13563,
+        "completion": 3862,
+        "total": 17425
+    },
+    "costs": {
+        "promptEur": 0.003119490112304687,
+        "completionEur": 0.007106079956054688,
+        "totalEur": 0.010225570068359375
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/004",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

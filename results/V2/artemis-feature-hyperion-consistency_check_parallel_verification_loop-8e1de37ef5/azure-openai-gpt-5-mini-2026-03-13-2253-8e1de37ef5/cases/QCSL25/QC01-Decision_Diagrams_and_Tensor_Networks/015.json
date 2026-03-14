@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-13T23:25:44.593773Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Global identifier mismatch: the DD compute-table global variable. The template dd_simulation.py imports a global named `CT` from .dd (line 51 of dd_simulation.py in the template). However, the template's dd.py defines the compute-table global as `_CT` (lines 277-280 in template dd.py) rather than `CT`. The solution repository defines the global as `CT` (lines 279-280 in solution dd.py). This naming mismatch causes an ImportError (or NameError) when running the template code and prevents students from executing or testing the provided starter code.",
+            "suggestedFix": "Make the compute-table global name consistent across artifacts. Recommended: rename `_CT = ComputeTable()` in the template dd.py to `CT = ComputeTable()` so it matches the import in dd_simulation.py and the solution. Alternatively, modify the import in dd_simulation.py to import `_CT` (e.g. `from .dd import _CT as CT`) \u2014 but aligning the template dd.py to define `CT` is the clearer fix for students.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd_simulation.py",
+                    "startLine": 51,
+                    "endLine": 51
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 277,
+                    "endLine": 280
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 279,
+                    "endLine": 280
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 17,
+                    "endLine": 23
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The global compute-table object (the same conceptual entity) is named inconsistently across artifacts: in the template repository dd.py the global is declared as `_CT` but dd_simulation.py (template) imports `CT` (from .dd import CT, ...), and the solution repository dd.py declares the global as `CT`. This mismatch ( `_CT` vs `CT` ) prevents the import in dd_simulation.py from resolving the compute-table and will cause an ImportError or confusion for students trying to follow the solution. Students cannot reliably map the compute-table concept in the problem/solution to the template because of the differing identifier.",
+            "suggestedFix": "Unify the global compute-table identifier across files. Rename `_CT = ComputeTable()` in the template dd.py to `CT = ComputeTable()` so dd_simulation.py can import `CT` as written. Alternatively, change the import in dd_simulation.py to import `_CT` and update all usages, but the recommended fix is to rename `_CT` -> `CT` in template/dd.py to match the solution and avoid confusion.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 280,
+                    "endLine": 280
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd_simulation.py",
+                    "startLine": 51,
+                    "endLine": 51
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 280,
+                    "endLine": 280
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:25:44.593773Z",
+        "endTime": "2026-03-13T23:26:16.578656Z",
+        "durationS": 31.984
+    },
+    "tokens": {
+        "prompt": 118764,
+        "completion": 5755,
+        "total": 124519
+    },
+    "costs": {
+        "promptEur": 0.02731572021484375,
+        "completionEur": 0.010589200073242187,
+        "totalEur": 0.03790492028808594
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

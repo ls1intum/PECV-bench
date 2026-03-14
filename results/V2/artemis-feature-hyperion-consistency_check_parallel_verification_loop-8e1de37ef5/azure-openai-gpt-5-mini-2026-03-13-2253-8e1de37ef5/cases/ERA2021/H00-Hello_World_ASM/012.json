@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T22:53:25.239231Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Attribute 'status_flag' size/type mismatch: The problem statement (line 22) explicitly requires a symbol named 'status_flag' defined as a single byte (db). The template repository's helloWorld.asm provides a .data section but does not define 'status_flag' (only 'hello' is present), so students are not shown the required symbol or size. The solution repository's helloWorld.asm defines 'status_flag' using 'dd 1' (double word) on line 4, which conflicts with the problem statement's requirement for a single byte. This inconsistency can cause automated grading or tests that expect a byte-sized flag to fail and confuses students about the correct declaration to use.",
+            "suggestedFix": "Make the repositories consistent with the problem statement: in solution_repository/helloWorld.asm change the declaration to 'status_flag db 1' (single byte). Add 'status_flag db 1' to the template_repository/helloWorld.asm .data section so students see the required symbol and its size. Verify any tests or documentation reference the byte-sized flag.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 22,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/helloWorld.asm",
+                    "startLine": 2,
+                    "endLine": 3
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/helloWorld.asm",
+                    "startLine": 4,
+                    "endLine": 4
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Concept: the data flag named 'status_flag'. Problem statement requires a 1-byte definition for status_flag (a single byte). In solution_repository/helloWorld.asm the symbol is declared as 'status_flag dd 1' (double word, 4 bytes). The template repository does not declare status_flag in the .data section. Students following the problem will expect and create a byte-sized 'status_flag' (e.g. 'db 1'), but the solution uses a different size directive ('dd'), causing a mismatch between the stated requirement and the provided solution. This discrepancy can confuse students about the correct storage size for the flag and could lead to assembly/link/runtime differences when comparing their submission to the solution.",
+            "suggestedFix": "Change the solution declaration to match the problem requirement by defining 'status_flag' as a single byte, e.g. replace 'status_flag dd 1' with 'status_flag db 1'. This aligns the solution with the problem statement while preserving the intended exercise.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 22,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/helloWorld.asm",
+                    "startLine": 2,
+                    "endLine": 4
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/helloWorld.asm",
+                    "startLine": 4,
+                    "endLine": 4
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:53:25.239231Z",
+        "endTime": "2026-03-13T22:53:48.988548Z",
+        "durationS": 23.749
+    },
+    "tokens": {
+        "prompt": 13077,
+        "completion": 4780,
+        "total": 17857
+    },
+    "costs": {
+        "promptEur": 0.0030077100219726566,
+        "completionEur": 0.008795200134277342,
+        "totalEur": 0.011802910156249999
+    },
+    "case_id": "V2/ERA2021/H00-Hello_World_ASM/012",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

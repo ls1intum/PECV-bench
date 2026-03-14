@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T22:52:03.344435Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The problem statement requires the function 'start_app' to be the global entry point (line states 'Die Funktion `start_app` muss der globale Einstiegspunkt sein'), but the template assembly file declares 'global main' and defines the 'main' label. The solution assembly also declares 'global main' and includes a 'start_app' label that is not declared global. This visibility/entrypoint mismatch will confuse students about which symbol they must make global and may prevent correct linking or grading if the expected global symbol differs from the templates provided.",
+            "suggestedFix": "Align the entrypoint declaration across artifacts. Either update the problem statement to require 'main' as the global entry point (matching template and solution), or modify the template and solution to declare 'global start_app' (and remove or alias 'main' accordingly). Ensure the final global label matches the build/link expectations so students are not confused about which symbol to make global.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/helloWorld.asm",
+                    "startLine": 5,
+                    "endLine": 9
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/helloWorld.asm",
+                    "startLine": 5,
+                    "endLine": 11
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement requires the function 'start_app' to be the global entry point, but the template declares and uses 'main' (global main / main:), while the solution defines a 'start_app' label that is not made global. This mismatch (problem -> 'start_app', template -> 'main', solution -> non-global 'start_app' plus 'main') creates a direct mapping confusion for students about which label to implement and which symbol must be exported as the program entry point.",
+            "suggestedFix": "Make the entry-point identifier consistent across all artifacts. Either (A) change the template to export 'start_app' as the global entry point (replace 'global main' with 'global start_app' and ensure the start code is under the 'start_app:' label), and update the solution to include 'global start_app' before the 'start_app:' label; or (B) update the problem statement to require 'main' as the entry point. Preferred: adopt (A) so students follow the documented requirement to implement and export 'start_app'.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/helloWorld.asm",
+                    "startLine": 5,
+                    "endLine": 8
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/helloWorld.asm",
+                    "startLine": 6,
+                    "endLine": 11
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T22:52:03.344435Z",
+        "endTime": "2026-03-12T22:52:18.643482Z",
+        "durationS": 15.299
+    },
+    "tokens": {
+        "prompt": 6781,
+        "completion": 2823,
+        "total": 9604
+    },
+    "costs": {
+        "promptEur": 0.0015596300048828125,
+        "completionEur": 0.005194320068359375,
+        "totalEur": 0.006753950073242187
+    },
+    "case_id": "V2/ERA2021/H00-Hello_World_ASM/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

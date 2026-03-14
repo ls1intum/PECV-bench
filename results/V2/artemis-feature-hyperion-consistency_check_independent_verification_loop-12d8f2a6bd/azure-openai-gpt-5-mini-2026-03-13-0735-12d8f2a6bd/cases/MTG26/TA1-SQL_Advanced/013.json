@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T08:08:19.784819Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Column-selection mismatch for Aufgabe 01: the problem statement (problem_statement.md lines 16-19) requires exactly the zoo name and internet address (Zoo.name, Zoo.url) and the Gemeinde name and Regierungsbezirk (Gemeinde.name, Gemeinde.regierungsbezirk). The template (template_repository/aufgabe01.sql lines 1-2) begins with SELECT Zoo.name, Gemeinde.name (which already deviates by omitting Zoo.url and Gemeinde.regierungsbezirk), but the solution (solution_repository/aufgabe01.sql lines 1-3) uses SELECT Zoo.*, Gemeinde.* and returns all columns from both tables. Returning all columns contradicts the instruction to \"Gib immer genau die geforderten Daten aus und nicht mehr,\" can confuse students about the intended output, and may cause automated checks that expect only the four specified columns to fail.",
+            "suggestedFix": "Modify solution_repository/aufgabe01.sql to select only the fields requested by the problem statement. For example:\nSELECT Zoo.name, Zoo.url, Gemeinde.name, Gemeinde.regierungsbezirk\nFROM Zoo\nJOIN Gemeinde ON Zoo.gemeindeschluessel = Gemeinde.schluessel;\nThis preserves the intended join and returns exactly the four requested columns. Alternatively, if returning all columns was intended, update the problem statement to explicitly allow wildcards and additional columns (but prefer restricting the solution to the exact requested fields to avoid student confusion).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 16,
+                    "endLine": 19
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 2
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:08:19.784819Z",
+        "endTime": "2026-03-13T08:09:06.997660Z",
+        "durationS": 47.212
+    },
+    "tokens": {
+        "prompt": 14508,
+        "completion": 4552,
+        "total": 19060
+    },
+    "costs": {
+        "promptEur": 0.003336840087890625,
+        "completionEur": 0.008375679931640626,
+        "totalEur": 0.011712520019531252
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/013",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

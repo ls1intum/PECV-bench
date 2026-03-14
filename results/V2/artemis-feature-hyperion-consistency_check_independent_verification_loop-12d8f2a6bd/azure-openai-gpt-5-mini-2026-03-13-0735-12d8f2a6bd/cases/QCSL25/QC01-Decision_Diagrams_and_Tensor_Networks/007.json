@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-13T08:15:26.506353Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "DDNode dataclass field-order mismatch between template and solution + inconsistent use in make_dd: In template_repository/dd.py the DDNode dataclass declares its fields as (successors, v) (successors first, then v). The template's make_dd() constructs nodes using positional arguments DDNode(v, successors) (passing v first, then successors) which will assign the integer v into the successors field and the list into v at runtime. In the solution_repository/dd.py the DDNode dataclass is declared with the field order (v, successors) (v first, then successors), which matches the positional call DDNode(v, successors). Because the template both declares fields in the wrong order and calls DDNode with positional arguments, this will produce incorrect DDNode instances (wrong types in fields) and break students' use of the provided utilities. The problem_statement also instructs students not to directly manipulate the DD/DDNode classes, so this mismatch will block students from using the template API as intended.",
+            "suggestedFix": "Make the template declaration consistent with its usage and the solution. Option A (preferred): change the DDNode dataclass field order in template_repository/dd.py to 'v: int' then 'successors: list[DD]' so DDNode(v, successors) constructs nodes correctly. Option B: change make_dd() in the template to construct nodes using keyword arguments DDNode(v=v, successors=successors) (and similarly any other positional DDNode(...) sites) to avoid relying on dataclass positional ordering. Ensure the template matches the solution's DDNode field order so students can use the provided API without modifying dd.py.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 137,
+                    "endLine": 138
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 407,
+                    "endLine": 407
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 137,
+                    "endLine": 138
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 23
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:15:26.506353Z",
+        "endTime": "2026-03-13T08:16:33.089025Z",
+        "durationS": 66.582
+    },
+    "tokens": {
+        "prompt": 90113,
+        "completion": 6115,
+        "total": 96228
+    },
+    "costs": {
+        "promptEur": 0.020725990234375,
+        "completionEur": 0.011251600219726562,
+        "totalEur": 0.03197759045410156
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/007",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

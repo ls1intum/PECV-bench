@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T07:55:23.838133Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Method SealSaloon.calculateTotalPrice(Meal): the problem statement's UML (problem_statement.md line 29) and the textual requirement (problem_statement.md lines 72-73) specify a return type of double (\"double precision\" / UML: +calculateTotalPrice(Meal): double), but the solution implements the method as 'public static int calculateTotalPrice(Meal)' (solution_repository/src/de/tum/cit/ase/SealSaloon.java line 57) returning an int. This mismatch between the declared/expected return type (double) and the implemented type (int) creates an API/signature inconsistency and may cause tests or student implementations to fail or compile against a different signature.",
+            "suggestedFix": "Make the declaration and implementation consistent with the problem statement: change the method signature to 'public static double calculateTotalPrice(Meal meal)' and compute/return a double accumulator (e.g., use a double sum and return it). If integer pricing is intended, update the problem statement and UML to request an int return type instead.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 29
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 72,
+                    "endLine": 73
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 57,
+                    "endLine": 57
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Attribute SealSaloon.stock initialization: the problem statement instructs that the SealSaloon attributes (orders and stock) should be initialized in the constructor (problem_statement.md lines 70-71) but also separately requires that the stock attribute be static (and effectively final/shared) (problem_statement.md lines 77-80). In Java a static final field must be initialized at its declaration or in a static initializer, not in an instance constructor. The reference solution declares and initializes the shared stock at declaration ('private static final Stock stock = new Stock();' in solution_repository/src/de/tum/cit/ase/SealSaloon.java line 5). The two instructions in the problem statement are therefore contradictory and will confuse students about where/how to initialize the shared stock.",
+            "suggestedFix": "Clarify the problem statement: state that 'orders' should be initialized in the instance constructor, and that the shared 'stock' must be declared static (and if intended final, initialized at declaration or in a static initializer). Update the instructions to avoid telling students to initialize a static final field in the instance constructor. Alternatively, if constructor initialization was intended, remove the 'final' and/or 'static' requirement for 'stock' and document the intended design.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 71
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 77,
+                    "endLine": 80
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 5,
+                    "endLine": 5
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:55:23.838133Z",
+        "endTime": "2026-03-13T07:56:34.707964Z",
+        "durationS": 70.869
+    },
+    "tokens": {
+        "prompt": 29788,
+        "completion": 6797,
+        "total": 36585
+    },
+    "costs": {
+        "promptEur": 0.006851239990234375,
+        "completionEur": 0.012506480590820313,
+        "totalEur": 0.01935772058105469
+    },
+    "case_id": "V2/ITP2425/H02E02-Panic_at_Seal_Saloon/001",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

@@ -1,0 +1,92 @@
+{
+    "timestamp": "2026-03-13T23:04:33.317924Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Method PersonService.addParent: the problem statement and template declare and describe addParent with parameter order (Person person, Person parent) \u2014 i.e., first argument is the subject person (child) to be modified and the second argument is the parent to add. The solution implementation declares the method with reversed parameter order addParent(Person parent, Person person). Callers in PersonResource and the tests invoke addParent(person, parent) (first the subject person, then the parent). This mismatch does not cause a compile error but changes which object is modified at runtime and will lead to incorrect behavior and failing or misleading tests because the service interprets the caller's first argument as the parent and the second as the person.",
+            "suggestedFix": "Unify the parameter order so the service matches the problem statement and callers: change the solution implementation signature to public Person addParent(Person person, Person parent) and update the method body to treat the first parameter as the subject Person being modified and the second as the parent being added. Specifically, swap the parameter order in the solution's addParent declaration and adapt references inside the method (checks and collection modifications) so person refers to the child and parent refers to the parent. Alternatively (less recommended), update all callers to use the reversed order, but aligning the service to the template/problem is preferred to avoid confusion.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 99,
+                    "endLine": 106
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 40,
+                    "endLine": 43
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 40,
+                    "endLine": 46
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 60,
+                    "endLine": 66
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 60,
+                    "endLine": 66
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+                    "startLine": 74,
+                    "endLine": 74
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The method addParent represents the operation to add a parent to a person. In the problem statement (problem_statement.md) and in the template implementation (src/main/java/de/tum/in/ase/eist/service/PersonService.java) the method is specified and declared as addParent(Person person, Person parent) \u2014 i.e., first parameter = the person receiving the parent (child), second = the parent to add. In the solution implementation (src/main/java/de/tum/in/ase/eist/service/PersonService.java) the method is declared with the parameters reversed as addParent(Person parent, Person person). Because both parameters are of the same type (Person), the swapped parameter order is a semantic naming/position inconsistency: callers (PersonResource and the tests) pass arguments in the (person, parent) order expected by the problem and template, but the solution method's parameter ordering/names suggest the opposite. This mismatch increases cognitive load and risks incorrect behavior (the wrong Person instance being mutated) or confusion when students compare template, tests, resource calls, and the solution.",
+            "suggestedFix": "Align the parameter order and names across artifacts. Change the solution's method signature to public Person addParent(Person person, Person parent) and update the method body to treat the first parameter as the person to be modified (e.g., person.getParents().add(parent); return personRepository.save(person);). Ensure all call sites (PersonResource and tests) use the same (person, parent) argument order so the code behavior is consistent with the problem description.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 101,
+                    "endLine": 101
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 40,
+                    "endLine": 40
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 40,
+                    "endLine": 40
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:04:33.317924Z",
+        "endTime": "2026-03-13T23:05:56.427867Z",
+        "durationS": 83.109
+    },
+    "tokens": {
+        "prompt": 94564,
+        "completion": 14073,
+        "total": 108637
+    },
+    "costs": {
+        "promptEur": 0.02174972021484375,
+        "completionEur": 0.0258943203125,
+        "totalEur": 0.04764404052734375
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/004",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

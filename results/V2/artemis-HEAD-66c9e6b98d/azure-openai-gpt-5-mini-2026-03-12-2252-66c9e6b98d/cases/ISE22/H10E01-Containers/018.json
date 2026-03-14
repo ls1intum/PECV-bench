@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T22:57:56.038527Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The GET endpoint for listing all persons uses different path mappings in the template and the solution. The template's PersonResource.getAllPersons() is mapped to \"persons\" (GET /persons) while the solution's PersonResource.getAllPersons() is mapped to \"people\" (GET /people). The problem statement and tests refer to the \"/persons\" endpoints (e.g., PUT /persons/{personId}/parents). This inconsistency in the REST path mapping between template and solution can confuse students about the correct endpoint to implement and may cause integration tests or usage examples to fail.",
+            "suggestedFix": "Use a consistent path for the list endpoint across all artifacts. Change the solution's PersonResource.getAllPersons() mapping from \"people\" to \"persons\" so it matches the template, the problem statement, and the tests (i.e., @GetMapping(\"persons\")). Alternatively, update the template, tests, and problem statement references to use \"people\" consistently if that naming is preferred.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 123,
+                    "endLine": 126
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 27,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 27,
+                    "endLine": 30
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The REST collection resource for Person is referred to as '/persons' in the problem statement, the template repository (PersonResource @GetMapping(\"persons\")), and in tests, but the solution repository exposes the same endpoint under '/people' (@GetMapping(\"people\")). This inconsistency names the same conceptual entity (the persons collection endpoint) differently across artifacts and can confuse students mapping the described endpoints to the implementation and tests.",
+            "suggestedFix": "Use a single, consistent path for the persons collection across all artifacts. Prefer aligning the solution to the problem/tests by changing the solution repository mapping from @GetMapping(\"people\") to @GetMapping(\"persons\"). If 'people' is preferred, update the problem statement, template, and tests to use '/people' consistently.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 123,
+                    "endLine": 126
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 27,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 27,
+                    "endLine": 30
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T22:57:56.038527Z",
+        "endTime": "2026-03-12T22:58:17.930315Z",
+        "durationS": 21.891
+    },
+    "tokens": {
+        "prompt": 37287,
+        "completion": 3403,
+        "total": 40690
+    },
+    "costs": {
+        "promptEur": 0.008576010253906249,
+        "completionEur": 0.006261520263671875,
+        "totalEur": 0.014837530517578124
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/018",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

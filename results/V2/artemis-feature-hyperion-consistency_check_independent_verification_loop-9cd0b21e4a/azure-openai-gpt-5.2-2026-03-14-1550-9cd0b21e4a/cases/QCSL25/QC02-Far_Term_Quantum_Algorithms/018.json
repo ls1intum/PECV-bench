@@ -1,0 +1,98 @@
+{
+    "timestamp": "2026-03-14T16:34:10.903655Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Exercise 1\u2019s Grover-circuit builder method is inconsistently named across artifacts: the template defines `build_grover(...)`, the template `run()` calls `self.grover_circuit(...)` (which does not exist in the template), and the solution implements `grover_circuit(...)`. This breaks the provided starter code (AttributeError if `run()` is used) and makes it unclear which method students should implement for Exercise 1.5.",
+            "suggestedFix": "Standardize the builder name across problem statement, template, and solution. E.g., rename the template method `build_grover` to `grover_circuit` and update its docstring/task wording (or alternatively change template `run()` and solution to use `build_grover`).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 114,
+                    "endLine": 117
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex1_grover_two_qubit_without_auxiliary_qubit.py",
+                    "startLine": 42,
+                    "endLine": 45
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex1_grover_two_qubit_without_auxiliary_qubit.py",
+                    "startLine": 65,
+                    "endLine": 66
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex1_grover_two_qubit_without_auxiliary_qubit.py",
+                    "startLine": 48,
+                    "endLine": 50
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Exercises 2.6/4.6/5.6 require returning measurement counts, but the solutions run the circuits on Aer\u2019s `statevector_simulator` and then call `result.get_counts(qc)`. Counts are produced by shot-based backends (typically `qasm_simulator`); using `statevector_simulator` for counts is inconsistent with Qiskit expectations and can fail or confuse learners about correct simulation backends for counts.",
+            "suggestedFix": "For exercises that must return counts, switch to `Aer.get_backend('qasm_simulator')` (or AerSimulator) and execute with shots, then call `get_counts`. If you want to keep statevector simulation, compute probabilities from the statevector and sample counts explicitly, and clarify this in the instructions.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 136,
+                    "endLine": 137
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 212,
+                    "endLine": 213
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 236,
+                    "endLine": 237
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+                    "startLine": 131,
+                    "endLine": 135
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex4_grover_lights_out_puzzle.py",
+                    "startLine": 179,
+                    "endLine": 183
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex5_grover_kakuro.py",
+                    "startLine": 120,
+                    "endLine": 124
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T16:34:10.903655Z",
+        "endTime": "2026-03-14T16:36:05.236717Z",
+        "durationS": 114.333
+    },
+    "tokens": {
+        "prompt": 71806,
+        "completion": 2485,
+        "total": 74291
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/QCSL25/QC02-Far_Term_Quantum_Algorithms/018",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

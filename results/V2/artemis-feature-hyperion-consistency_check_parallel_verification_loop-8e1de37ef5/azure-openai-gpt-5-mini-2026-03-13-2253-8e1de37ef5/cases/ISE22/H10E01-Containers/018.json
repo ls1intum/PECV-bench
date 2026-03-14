@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-13T23:03:47.558958Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "In class PersonResource, the GET-all endpoint mapping for the collection is inconsistent across artifacts. The template PersonResource defines getAllPersons() with @GetMapping(\"persons\") (template: src/main/java/de/tum/in/ase/eist/rest/PersonResource.java), and the problem statement and tests expect endpoints under \"/persons\" (problem_statement.md references PUT /persons/... and tests use \"/persons\"). The solution's PersonResource instead defines the collection GET as @GetMapping(\"people\") (solution: src/main/java/de/tum/in/ase/eist/rest/PersonResource.java). This naming mismatch (\"persons\" vs \"people\") can confuse students about the correct endpoint to call and creates an inconsistency between the solution implementation and the template/tests/assignment text.",
+            "suggestedFix": "Make the collection endpoint path consistent across all artifacts. Prefer changing the solution's @GetMapping(\"people\") to @GetMapping(\"persons\") so the solution, template, tests, and problem statement consistently use \"/persons\" (or, alternatively, update template/tests/problem text to use \"/people\" if you prefer that naming).",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 27,
+                    "endLine": 28
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 27,
+                    "endLine": 28
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+                    "startLine": 49,
+                    "endLine": 53
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 125,
+                    "endLine": 126
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Concept: HTTP GET endpoint that returns all Person resources. Problem statement and automated tests refer to the collection endpoint as '/persons' (e.g., integration test steps and endpoint usage in the problem text and tests). Template PersonResource declares the GET mapping as @GetMapping(\"persons\"). The solution PersonResource declares the GET mapping as @GetMapping(\"people\"). This naming divergence (\"persons\" vs \"people\") refers to the same conceptual endpoint but uses different path identifiers across artifacts. A student reading the problem and using the template will expect and test against '/persons', but the solution implementation exposes '/people', causing confusion and potentially failing endpoint-based integration tests or manual verification.",
+            "suggestedFix": "Align the collection GET endpoint name across all artifacts. Preferred quick fix: change the solution's PersonResource @GetMapping(\"people\") to @GetMapping(\"persons\") so the exposed endpoint matches the problem statement and tests ('/persons'). Alternatively, if you prefer 'people', update the problem statement, template tests, and all references to use '/people' consistently. Ensure tests and documentation use the same path as the implemented mapping.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 27,
+                    "endLine": 27
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 27,
+                    "endLine": 27
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 125,
+                    "endLine": 126
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/test/java/de/tum/in/ase/eist/PersonIntegrationTest.java",
+                    "startLine": 94,
+                    "endLine": 96
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:03:47.558958Z",
+        "endTime": "2026-03-13T23:04:33.295417Z",
+        "durationS": 45.736
+    },
+    "tokens": {
+        "prompt": 94432,
+        "completion": 7574,
+        "total": 102006
+    },
+    "costs": {
+        "promptEur": 0.0217193603515625,
+        "completionEur": 0.01393616015625,
+        "totalEur": 0.0356555205078125
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/018",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

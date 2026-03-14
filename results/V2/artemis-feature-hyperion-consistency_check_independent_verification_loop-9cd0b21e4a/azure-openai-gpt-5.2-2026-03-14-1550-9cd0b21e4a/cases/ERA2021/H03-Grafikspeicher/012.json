@@ -1,0 +1,60 @@
+{
+    "timestamp": "2026-03-14T15:51:21.865275Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "In solution_repository/pixel.asm, `display_start` is declared as a BSS buffer label (`display_start RESB 8294400`), so it should be used as an address constant. However, the solution\u2019s `set_pixel` treats it as if it were a memory-stored pointer by doing `add eax, [display_start]` (dereferencing the first 4 bytes of the buffer). Elsewhere (and in the template\u2019s position calculation), `display_start` is used as the label address (e.g., `mov esi, display_start`). This inconsistency makes it unclear whether `display_start` is the buffer itself (label) or a variable containing a pointer, and can lead to wrong address calculations.",
+            "suggestedFix": "Use `display_start` consistently as a label address. In solution_repository/pixel.asm `set_pixel`, replace `add eax, [display_start]` with `add eax, display_start` (or `lea eax, [display_start + eax]`). Alternatively, if the intention is a pointer variable, redeclare `display_start` as a dword holding the base address and update all uses to dereference it consistently.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 20,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 4,
+                    "endLine": 6
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 94,
+                    "endLine": 101
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T15:51:21.865275Z",
+        "endTime": "2026-03-14T15:51:53.401684Z",
+        "durationS": 31.536
+    },
+    "tokens": {
+        "prompt": 20758,
+        "completion": 1508,
+        "total": 22266
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/012",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

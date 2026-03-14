@@ -1,0 +1,88 @@
+{
+    "timestamp": "2026-03-13T22:32:33.045757Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Method SealSaloon.checkOrderReady(): The problem statement UML lists +checkOrderReady(): void (problem_statement.md line 32), indicating the method should return void. The solution implementation declares public boolean checkOrderReady() (solution_repository/src/de/tum/cit/ase/SealSaloon.java line 20) and returns a boolean. This creates a return-type mismatch for the same method and may confuse students about the required signature and whether a boolean value must be produced or consumed.",
+            "suggestedFix": "Make the signature of SealSaloon.checkOrderReady consistent between specification and implementation. Either (A) change the solution method to public void checkOrderReady() and keep its internal logic (use an internal boolean if needed but do not expose it via the method return), or (B) update the problem statement/UML to declare +checkOrderReady(): boolean and document the meaning of the returned value. Prefer option A if the exercise text describes checkOrderReady only as performing actions/prints (no return value expected).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 32,
+                    "endLine": 32
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 20,
+                    "endLine": 48
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Attribute SealSaloon.stock: The problem statement first describes a `final Stock stock` as an instance field (problem_statement.md line 70) but later explicitly requires the stock attribute to be static in the 'Note that the following methods and attributes must be static' section (problem_statement.md lines 77-81). The solution implements the field as private static final Stock stock = new Stock() (solution_repository/src/de/tum/cit/ase/SealSaloon.java line 5). This conflicting guidance in the specification (instance final vs static final) can confuse students about whether stock should be instance-level or class-level.",
+            "suggestedFix": "Clarify the specification so it consistently states whether SealSaloon.stock is instance-level or class-level. If the intended design is a shared stock across all saloons, update the earlier paragraph to read 'a static final Stock stock' (and keep the solution as private static final). If the intended design is per-instance stock, change the solution to an instance final field (private final Stock stock) and remove the requirement that stock be static. Prefer explicitly specifying 'static final Stock stock' in the problem statement if a shared stock is intended.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 70
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 77,
+                    "endLine": 81
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 5,
+                    "endLine": 5
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The exercise asks for a SealSaloon.checkOrderReady() method declared with a void return type in the problem statement (UML and text) but the solution implementation defines checkOrderReady() as public boolean checkOrderReady(). Concept: serving ready orders from the order queue. Problem statement name/signature: checkOrderReady(): void. Solution name/signature: checkOrderReady(): boolean. This mismatch alters the API contract (presence of a return value) and can confuse students about the expected method signature and whether they should return a boolean or not.",
+            "suggestedFix": "Make the method signature consistent across artifacts. Prefer updating the solution to match the problem statement by changing public boolean checkOrderReady() to public void checkOrderReady() (and keep any internal boolean logic private), or alternatively update the problem statement and tests to specify that checkOrderReady() returns a boolean and document its meaning. Prefer the former (solution -> void) to align with the original API described in the problem.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 32,
+                    "endLine": 32
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 20,
+                    "endLine": 48
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:32:33.045757Z",
+        "endTime": "2026-03-13T22:33:26.476896Z",
+        "durationS": 53.431
+    },
+    "tokens": {
+        "prompt": 38343,
+        "completion": 8626,
+        "total": 46969
+    },
+    "costs": {
+        "promptEur": 0.00881889013671875,
+        "completionEur": 0.015871840087890624,
+        "totalEur": 0.024690730224609374
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/019",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2227-8e1de37ef5"
+}

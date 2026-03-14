@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T00:11:02.558868Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "SealSaloon.stock declaration: the problem text asks students to initialize SealSaloon attributes in the instance constructor (including a 'final Stock stock' described as \"read-only after construction\") but later explicitly requires the stock attribute to be static (shared across all instances) and certain methods that manage it to be static as well. This creates a contradiction: initializing an instance (non-static) final field in the instance constructor conflicts with the later requirement that the field be static. Students may be unsure whether to declare stock as an instance field initialized in the constructor or as a static field initialized at declaration or in a static initializer.",
+            "suggestedFix": "Clarify the specification: explicitly state that the shared stock must be declared static (and may be final) and initialized at declaration or in a static initializer, not in the instance constructor. Update the earlier sentence that tells students to initialize attributes in the constructor to exclude static/shared attributes (e.g., \"Initialize instance attributes (orders) in the constructor; declare and initialize the shared stock as a static field\").",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 81
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 5,
+                    "endLine": 5
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "In the provided template Stock class the setter setStockIngredients(StockIngredient[]) and the getter getStockIngredients() use different types: setStockIngredients accepts a StockIngredient[] (line 13) while getStockIngredients returns a List<StockIngredient> (line 17). The solution implementation uses getStockIngredients() returning StockIngredient[] (solution line 14). This inconsistent API (array vs List) across template and solution and within the template itself can confuse students about which collection type to use and which getter/setter signature to implement.",
+            "suggestedFix": "Make the getter and setter consistent. Either change the template getter to return StockIngredient[] (matching setStockIngredients(StockIngredient[]) and the solution), or change setStockIngredients to accept a List<StockIngredient>. Update the template and the problem text (which asks for getters for private fields) to specify which collection type students should use.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 13,
+                    "endLine": 15
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 17,
+                    "endLine": 19
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 14,
+                    "endLine": 16
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 22,
+                    "endLine": 22
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T00:11:02.558868Z",
+        "endTime": "2026-03-13T00:11:53.027553Z",
+        "durationS": 50.468
+    },
+    "tokens": {
+        "prompt": 29780,
+        "completion": 6526,
+        "total": 36306
+    },
+    "costs": {
+        "promptEur": 0.006849400146484375,
+        "completionEur": 0.012007840087890624,
+        "totalEur": 0.018857240234375
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/028",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0005-12d8f2a6bd"
+}

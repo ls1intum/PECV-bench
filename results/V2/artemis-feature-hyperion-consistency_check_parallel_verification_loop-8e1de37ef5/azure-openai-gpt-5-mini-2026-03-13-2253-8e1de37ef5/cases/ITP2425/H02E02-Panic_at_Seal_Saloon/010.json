@@ -1,0 +1,94 @@
+{
+    "timestamp": "2026-03-13T23:10:46.686668Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Method name mismatch: The problem statement (UML) and example usage expect a static method named calculateTotalPrice(Meal) but the solution SealSaloon class defines a static method named computeMealCost(Meal). Additionally, the solution's Main calls calculateTotalPrice(...) while SealSaloon only declares computeMealCost(...). This inconsistency between the expected API name (calculateTotalPrice) and the implemented name (computeMealCost) will confuse students about the exact method they must implement or call and can cause compilation errors when example code calls a non-existent method.",
+            "suggestedFix": "Make the method name consistent across all artifacts. Either rename the solution method computeMealCost(Meal) to calculateTotalPrice(Meal) and update all usages, or update the problem statement and example code to require/use computeMealCost. Ensure the method remains static with the same parameter and return type in all places.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 29
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 57,
+                    "endLine": 57
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Main.java",
+                    "startLine": 13,
+                    "endLine": 13
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Attribute declaration/initialization ambiguity for SealSaloon.stock: The problem statement instructs students to initialize the 'stock' attribute in the SealSaloon constructor (saying orders and a final Stock stock should be initialized in the constructor), but elsewhere the problem statement explicitly requires the stock attribute to be static (shared across instances). Initializing a static/shared field in an instance constructor is misleading. The solution declares and initializes a static final Stock at the class level (private static final Stock stock = new Stock()). This contradiction over whether 'stock' is an instance field initialized in the constructor or a static/class field initialized at declaration or in a static initializer will confuse students about the intended field scope and correct place to initialize it.",
+            "suggestedFix": "Clarify the problem statement to remove the contradiction: if 'stock' is intended to be shared across all SealSaloon instances, explicitly require it to be declared static (and optionally final) and state it should be initialized at declaration or in a static initializer (not in the instance constructor). If 'stock' should be per-instance, remove the static requirement. Update example code and instructions accordingly so students know whether to declare and initialize 'stock' as a static class field or as an instance field in the constructor.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 82
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 5,
+                    "endLine": 5
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The exercise describes a static method named calculateTotalPrice(Meal) on SealSaloon to compute a meal's total cost, but the code uses a different identifier for the same concept: the commented template Main calls shop.computeMealCost(...) and the solution SealSaloon implements public static int computeMealCost(Meal). Problem statement name: calculateTotalPrice(Meal). Template usage: computeMealCost(Meal) (Main.java). Solution implementation: computeMealCost(Meal) (SealSaloon.java). This mismatch means a student following the problem text will implement or look for calculateTotalPrice but will find computeMealCost in the codebase (and vice versa), creating avoidable confusion and potential failing tests or compile errors if names are not synchronized.",
+            "suggestedFix": "Unify the method name across all artifacts. Preferred fix: rename the static method computeMealCost(Meal) in the code to calculateTotalPrice(Meal) (public static int calculateTotalPrice(Meal meal)), update all call sites (e.g., Main.java) to use calculateTotalPrice, and keep the method semantics unchanged. Alternatively, update the problem statement to reference computeMealCost instead, but aligning code with the documented API (calculateTotalPrice) is recommended to match the UML and exercise description.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 29
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Main.java",
+                    "startLine": 13,
+                    "endLine": 13
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 57,
+                    "endLine": 57
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:10:46.686668Z",
+        "endTime": "2026-03-13T23:11:40.284634Z",
+        "durationS": 53.597
+    },
+    "tokens": {
+        "prompt": 38388,
+        "completion": 8269,
+        "total": 46657
+    },
+    "costs": {
+        "promptEur": 0.008829240234375,
+        "completionEur": 0.015214960449218749,
+        "totalEur": 0.02404420068359375
+    },
+    "case_id": "V2/ITP2425/H02E02-Panic_at_Seal_Saloon/010",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

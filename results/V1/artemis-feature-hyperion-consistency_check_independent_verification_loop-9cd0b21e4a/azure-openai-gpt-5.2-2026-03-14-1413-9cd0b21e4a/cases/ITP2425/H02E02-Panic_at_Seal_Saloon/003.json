@@ -1,0 +1,100 @@
+{
+    "timestamp": "2026-03-14T14:18:47.457057Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "SealSaloon.acceptSupplyDelivery has conflicting parameter lists: the problem statement/UML specifies acceptSupplyDelivery(String supplierName, String ingredientName, int price, int quantity), but the solution implements acceptSupplyDelivery(String name, int price, int quantity). This makes it unclear what method signature students should implement and what the tests will call.",
+            "suggestedFix": "Make the solution and intended student API match the spec by changing the method to `public static void acceptSupplyDelivery(String supplierName, String ingredientName, int price, int quantity)` and using `ingredientName` for stock lookup/update (supplierName may remain unused). Alternatively, update the problem statement/UML and any tests to consistently use the 3-parameter version.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 72,
+                    "endLine": 80
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 47,
+                    "endLine": 47
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Stock exposes a public mutator `setStockIngredients(StockIngredient[])` in template and solution, but this method is not specified in the UML (which only lists add/take/findStockIngredient/addToStockIngredients/emptyStock). This undermines the intended encapsulation and can mislead students about the required/allowed API.",
+            "suggestedFix": "Either remove `setStockIngredients` from template/solution (and adjust any example code using it), or add `setStockIngredients(StockIngredient[])` explicitly to the UML/problem statement as part of the required API (including rationale if it is only for testing/debugging).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 49,
+                    "endLine": 55
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 10,
+                    "endLine": 12
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 10,
+                    "endLine": 12
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The problem statement is internally inconsistent about whether SealSaloon.stock is static: the text explicitly requires `stock` (and related methods) to be static/shared, but the UML/association depicts `stock` as an instance attribute. This can mislead students about whether to implement a per-instance stock or a shared static stock.",
+            "suggestedFix": "Resolve the contradiction by updating the UML to mark `stock` (and any required methods) as static (e.g., {static}/underlined), or remove the static requirement from the text if an instance field is intended; ensure tests align with the chosen design.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 57,
+                    "endLine": 60
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 77,
+                    "endLine": 83
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 5,
+                    "endLine": 5
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T14:18:47.457057Z",
+        "endTime": "2026-03-14T14:19:05.504265Z",
+        "durationS": 18.047
+    },
+    "tokens": {
+        "prompt": 30209,
+        "completion": 2133,
+        "total": 32342
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/003",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1413-9cd0b21e4a"
+}

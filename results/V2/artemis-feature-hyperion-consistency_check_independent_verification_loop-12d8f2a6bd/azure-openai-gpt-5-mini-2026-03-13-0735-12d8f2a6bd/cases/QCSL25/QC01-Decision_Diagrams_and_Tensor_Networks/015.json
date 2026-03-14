@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T08:14:50.598982Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Global compute-table identifier mismatch: template_repository/dd.py defines the compute-table variable as `_CT = ComputeTable()` while template_repository/dd_simulation.py imports `CT` (no underscore) from .dd. The solution repository defines the compute-table variable as `CT = ComputeTable()`. Because the template exposes `_CT` but dd_simulation.py expects `CT`, importing or running dd_simulation.py will raise an ImportError (name not found) and block students from executing the provided simulator code. This inconsistency also deviates from the solution API where `CT` is the public name.",
+            "suggestedFix": "Make the compute-table identifier consistent across the template and solution. Preferred fix: rename the variable in template_repository/dd.py from `_CT` to `CT` (i.e., `CT = ComputeTable()`) so it matches the import in dd_simulation.py and the solution. Alternatively, add an explicit alias in template dd.py (e.g., `CT = _CT`) so both `CT` and `_CT` exist. Do not change dd_simulation.py to import `_CT` because the solution and public API use `CT` \u2014 align the template to the public name to avoid confusing students.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 280,
+                    "endLine": 280
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd_simulation.py",
+                    "startLine": 51,
+                    "endLine": 51
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 280,
+                    "endLine": 280
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:14:50.598982Z",
+        "endTime": "2026-03-13T08:15:25.525650Z",
+        "durationS": 34.926
+    },
+    "tokens": {
+        "prompt": 90337,
+        "completion": 4171,
+        "total": 94508
+    },
+    "costs": {
+        "promptEur": 0.02077751025390625,
+        "completionEur": 0.00767464013671875,
+        "totalEur": 0.028452150390625
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-12T21:46:35.315867Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The solution for Aufgabe 09 selects the column 'kreis' but groups by 'regierungsbezirk'. The problem statement asks for averages per Landkreis (kreis) and the name of the respective Landkreis. Grouping by a different column (regierungsbezirk) while selecting 'kreis' is a structural mismatch that will produce incorrect results or a SQL error depending on SQL mode.",
+            "suggestedFix": "Align the GROUP BY with the SELECT columns. If the intent is to compute averages per Landkreis, group by 'kreis' (and include the Landkreis name if needed). For example: SELECT kreis, AVG(einwohner_m), AVG(einwohner_w) FROM Gemeinde WHERE flaeche > 100 GROUP BY kreis. Alternatively, if aggregation should be per Regierungsbezirk, change the SELECT to return 'regierungsbezirk' instead of 'kreis'.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe09.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 146,
+                    "endLine": 149
+                }
+            ]
+        },
+        {
+            "severity": "LOW",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The task text refers to a municipality 'Schluessel' (generic term) while the solution query uses the concrete column name 'gemeindeschluessel'. This mismatch between the problem wording and the actual column identifier can cause students to be unsure which column to use when implementing the query.",
+            "suggestedFix": "Clarify the problem statement to use the exact column name used in the database, e.g. change 'Schluessel' to 'Gemeindeschluessel' (or 'gemeindeschluessel') so students can directly map the requirement to the column used in the solution.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 116,
+                    "endLine": 119
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe03.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe03.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:46:35.315867Z",
+        "endTime": "2026-03-12T21:46:59.941562Z",
+        "durationS": 24.625
+    },
+    "tokens": {
+        "prompt": 13385,
+        "completion": 4008,
+        "total": 17393
+    },
+    "costs": {
+        "promptEur": 0.003078550048828125,
+        "completionEur": 0.00737472021484375,
+        "totalEur": 0.010453270263671875
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/008",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

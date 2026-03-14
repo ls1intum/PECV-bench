@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-13T22:31:33.314289Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field: SealSaloon.stock \u2014 The problem statement (lines 70-71) instructs students to initialize the SealSaloon attributes (including the stock) in the instance constructor: \"These should be initialized ... in the constructor of `SealSaloon`\". Later in the problem statement (lines 77-81) it explicitly requires that the stock attribute must be static and final (shared across instances). A static final field cannot be initialized in an instance constructor (it must be initialized at declaration or in a static initializer). The reference solution declares and initializes the field as a static final at declaration. This contradiction between where and how `stock` should be initialized (constructor vs declaration/static initializer) will confuse students about the correct declaration and initialization location for the stock field.",
+            "suggestedFix": "Make the requirement consistent. Option A (preferred to match the solution): specify that the SealSaloon.stock field is static final and must be initialized at declaration (or in a static initializer), and remove the instruction to initialize it in the instance constructor. Option B: if you want stock to be an instance final field initialized in the constructor, remove the static/final requirement from the problem statement and update the UML. Update the problem text and UML so they consistently state whether `stock` is static final (shared) or an instance field.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 71
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 77,
+                    "endLine": 81
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 5,
+                    "endLine": 6
+                }
+            ]
+        },
+        {
+            "severity": "LOW",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field: SealSaloon.totalOrders \u2014 The UML in the problem statement declares totalOrders as an int (UML line shows `-totalOrders: int`), but the reference implementation declares the field as a long (`private long totalOrders = 0;`). This type mismatch between the specification and the solution may confuse students about which numeric type to use for the field.",
+            "suggestedFix": "Choose a single type and make all artifacts consistent. If very large counts are unnecessary, update the solution to use int for `totalOrders` (or update the UML/problem text to indicate `long` if larger counts are intended). Prefer using `int` in the problem statement and solution unless you expect totalOrders to exceed Integer.MAX_VALUE.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 27,
+                    "endLine": 28
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 6,
+                    "endLine": 6
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:31:33.314289Z",
+        "endTime": "2026-03-13T22:32:21.679144Z",
+        "durationS": 48.364
+    },
+    "tokens": {
+        "prompt": 38032,
+        "completion": 5391,
+        "total": 43423
+    },
+    "costs": {
+        "promptEur": 0.008747360107421876,
+        "completionEur": 0.009919440032958984,
+        "totalEur": 0.01866680014038086
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/011",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2227-8e1de37ef5"
+}

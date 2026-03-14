@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T23:26:50.221813Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "Element: DD constructor. Problem statement (problem_statement.md) claims the DD constructor \"only takes a single parameter `node: DDNode`\". Both the template implementation (template_repository/dd.py) and the reference solution (solution_repository/dd.py) define DD as a dataclass with two fields: `node: DDNode` and `weight: np.complex128`, meaning the constructor requires both a node and a weight (DD(node, weight)). This discrepancy can mislead students who try to instantiate DD directly or follow the textual guidance; they may write DD(TERM) or expect a one-argument constructor and get errors or confusion about how to set edge weights. It also contradicts subsequent examples in the code and the intended use of helper constants (ONE_TERM, ZERO_TERM) and make_dd.",
+            "suggestedFix": "Update the problem statement to reflect the actual DD constructor signature and preferred usage. Specifically, replace or remove the sentence claiming a single-parameter constructor and state: \"The DD dataclass takes two fields: node: DDNode and weight: np.complex128 (i.e., DD(node, weight)). Students should not instantiate DD/DDNode directly in most cases; instead use the provided helper functions and constants (make_dd, ONE_TERM, ZERO_TERM) to construct DDs.\" This preserves the pedagogical intent while matching the template and solution code.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 23
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/dd.py",
+                    "startLine": 46,
+                    "endLine": 48
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/dd.py",
+                    "startLine": 46,
+                    "endLine": 48
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:26:50.221813Z",
+        "endTime": "2026-03-13T23:27:23.797903Z",
+        "durationS": 33.576
+    },
+    "tokens": {
+        "prompt": 118583,
+        "completion": 4276,
+        "total": 122859
+    },
+    "costs": {
+        "promptEur": 0.0272740908203125,
+        "completionEur": 0.007867839815139771,
+        "totalEur": 0.03514193063545227
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/008",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

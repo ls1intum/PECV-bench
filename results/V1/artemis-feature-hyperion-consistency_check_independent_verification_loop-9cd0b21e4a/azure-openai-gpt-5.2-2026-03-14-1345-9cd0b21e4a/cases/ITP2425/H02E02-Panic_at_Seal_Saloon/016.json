@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-14T13:49:21.744957Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The exercise asks to \"add getters for all the private fields\" and presents Stock as an encapsulated inventory managed via methods (add/take/find/addToStockIngredients/emptyStock). However, both template and solution expose a public Stock#setStockIngredients(...) method that allows external code to replace the entire internal StockIngredient[] array, undermining the intended encapsulation and potentially confusing students about whether direct replacement is part of the required API.",
+            "suggestedFix": "Remove Stock#setStockIngredients from the student-facing API (or make it package-private and document it as test-only). If tests need to inspect contents, keep only getStockIngredients() plus the Stock manipulation methods specified in the UML.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 23
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 49,
+                    "endLine": 55
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 10,
+                    "endLine": 12
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 10,
+                    "endLine": 12
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The problem statement explicitly requires SealSaloon.calculateTotalPrice(Meal) to be static (shared stock usage), but the reference solution implements calculateTotalPrice(Meal) as a non-static instance method. This contradicts the specification and can break student implementations/tests that expect to call SealSaloon.calculateTotalPrice(...) without an instance.",
+            "suggestedFix": "Make SealSaloon.calculateTotalPrice(Meal) static in the solution (and align the template/student expectation accordingly), or update the problem statement to not require it to be static.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 77,
+                    "endLine": 82
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 57,
+                    "endLine": 57
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T13:49:21.744957Z",
+        "endTime": "2026-03-14T13:49:39.127792Z",
+        "durationS": 17.382
+    },
+    "tokens": {
+        "prompt": 30288,
+        "completion": 1913,
+        "total": 32201
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/016",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1345-9cd0b21e4a"
+}

@@ -1,0 +1,42 @@
+{
+    "timestamp": "2026-03-12T21:35:08.149361Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Inconsistent NASM -D macro flag usage between the build targets: the example_program Makefile uses '-Dera=1' (correctly defines the 'era' macro for NASM), while the tests Makefile uses '-dera=1' (lowercase 'd' merged with the macro name). This likely prevents NASM from defining the 'era' macro when building the tests, causing assembly sources to include their 'main' symbols (the code guarded by '%ifndef era'), which will lead to duplicate 'main' symbols or link-time failures. This mismatch between Makefiles is structural and will confuse or block students when switching between building the example program and running the tests.",
+            "suggestedFix": "Make the NASM macro definition consistent. In tests/Makefile replace '-dera=1' with '-Dera=1' (uppercase 'D' option followed immediately by the macro name) so NASM defines the 'era' macro as intended. Ensure all Makefiles use the same '-Dera=1' pattern to avoid including multiple 'main' symbols from assembly files.",
+            "relatedLocations": [
+                {
+                    "type": "TESTS_REPOSITORY",
+                    "filePath": "tests/Makefile",
+                    "startLine": 9,
+                    "endLine": 15
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/Makefile",
+                    "startLine": 15,
+                    "endLine": 21
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:35:08.149361Z",
+        "endTime": "2026-03-12T21:35:54.896642Z",
+        "durationS": 46.747
+    },
+    "tokens": {
+        "prompt": 87685,
+        "completion": 5239,
+        "total": 92924
+    },
+    "costs": {
+        "promptEur": 0.02016755078125,
+        "completionEur": 0.009639759704589843,
+        "totalEur": 0.029807310485839844
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/007",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

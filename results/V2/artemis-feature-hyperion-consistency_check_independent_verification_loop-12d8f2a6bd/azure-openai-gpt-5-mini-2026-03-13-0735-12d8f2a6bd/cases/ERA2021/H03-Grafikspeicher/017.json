@@ -1,0 +1,60 @@
+{
+    "timestamp": "2026-03-13T07:39:13.469912Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The global BSS symbol for the screen pixel buffer is named inconsistently across artifacts. The template (template_repository/pixel.asm) and the problem statement refer to the buffer as 'display_start' (template declaration at pixel.asm:21 and problem statement mentioning 'display_start' at problem_statement.md:30-33). The provided solution (solution_repository/pixel.asm) declares the buffer as 'screen_buffer' (declaration at pixel.asm:5) but its code still references 'display_start' when computing and using pixel addresses (references at pixel.asm:29 and pixel.asm:94). This mismatch (declaration name != referenced name) will cause assembler errors (undefined symbol 'display_start') and will confuse students following the template/problem text.",
+            "suggestedFix": "Unify the identifier for the screen base buffer across all artifacts. Recommended: change the solution's .bss declaration from 'screen_buffer RESB 8294400' to 'display_start RESB 8294400' so it matches the template and the solution code references. Alternatively, update all references to 'display_start' in the solution to use 'screen_buffer' and update the template/problem statement accordingly. Ensure the declared symbol name and every use in code are identical so the assembly succeeds and students can map the template names to the solution.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 21,
+                    "endLine": 21
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 5,
+                    "endLine": 5
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 29,
+                    "endLine": 29
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 94,
+                    "endLine": 94
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:39:13.469912Z",
+        "endTime": "2026-03-13T07:39:59.344074Z",
+        "durationS": 45.874
+    },
+    "tokens": {
+        "prompt": 20459,
+        "completion": 5440,
+        "total": 25899
+    },
+    "costs": {
+        "promptEur": 0.004705570068359375,
+        "completionEur": 0.010009600341796876,
+        "totalEur": 0.01471517041015625
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/017",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T22:53:25.239279Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Function init_world: the problem statement requires implementing init_world(width, height). The template repository (helloWorld.asm) does not provide an init_world label/stub (no signature or placeholder is present), and the solution repository defines init_world but only reads a single parameter from the stack (mov eax, [esp+4]) and returns, i.e. it handles only width. This inconsistency between the problem statement (two parameters), the template (no stub), and the solution (one parameter) can confuse students about the expected signature and how both width and height should be passed/handled.",
+            "suggestedFix": "Make the three artifacts consistent. Either: (A) Update the template to include an init_world label/stub that documents the expected calling convention (e.g. comment: \"init_world(width, height) - width at [esp+4], height at [esp+8]\") so students have a clear place to implement it, and update the solution to read both parameters (e.g. mov eax, [esp+4] ; width ; mov ebx, [esp+8] ; height) and perform the intended initialization; OR (B) If only width is required, update the problem statement to state init_world(width) (remove height) so it matches the solution. Preference: add a stub in the template with a two-parameter signature and update the solution to handle both width and height to preserve the stated requirement.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 1,
+                    "endLine": 20
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 6,
+                    "endLine": 8
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The template assembly uses the non-existent register identifier 'ecc' (add eax, ecc) while the problem statement and the solution reference the correct register name 'ecx'. This typo creates a direct mismatch between the task description and the starter code, causes compilation failure, and forces students to resolve an unexpected identifier rather than focus on the intended learning objective.",
+            "suggestedFix": "In the template file helloWorld.asm, replace the invalid identifier 'ecc' with the correct register name 'ecx' (change 'add eax, ecc' to 'add eax, ecx') so the code matches the problem description and the provided solution.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 12,
+                    "endLine": 13
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 15,
+                    "endLine": 16
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 17,
+                    "endLine": 17
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:53:25.239279Z",
+        "endTime": "2026-03-13T22:53:48.188037Z",
+        "durationS": 22.948
+    },
+    "tokens": {
+        "prompt": 13395,
+        "completion": 4593,
+        "total": 17988
+    },
+    "costs": {
+        "promptEur": 0.0030808500366210937,
+        "completionEur": 0.008451120300292969,
+        "totalEur": 0.011531970336914062
+    },
+    "case_id": "V2/ERA2021/H00-Hello_World_ASM/007",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T07:40:44.150913Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Class Bitmap24: in the template header (example_program/src/Bitmap24.hpp) the methods resize_buffer, save and set are declared under the 'protected:' section (lines 42-58), making them inaccessible to external code. In the solution header the same methods are declared public (lines 42-57). example_program/src/main.cpp (template) calls bitmap.resize_buffer(...) and bitmap.set(... ) (lines 36-44). Because the template header marks these member functions protected, those calls would be illegal and cause compilation errors for the provided template. This is a visibility mismatch between the template and solution that prevents the example program from compiling as-is.",
+            "suggestedFix": "Expose the Bitmap24 methods used from main (resize_buffer, save, set) as public in the template header to match the solution. Concretely, remove or move the 'protected:' label so these three declarations are under the public section (or explicitly mark them 'public:'). Ensure the template header's visibility for these members matches the solution to allow example_program/main.cpp to compile and run.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 42,
+                    "endLine": 58
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 42,
+                    "endLine": 57
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/main.cpp",
+                    "startLine": 36,
+                    "endLine": 44
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:40:44.150913Z",
+        "endTime": "2026-03-13T07:41:39.633054Z",
+        "durationS": 55.482
+    },
+    "tokens": {
+        "prompt": 131437,
+        "completion": 5572,
+        "total": 137009
+    },
+    "costs": {
+        "promptEur": 0.0302305107421875,
+        "completionEur": 0.010252480163574218,
+        "totalEur": 0.04048299090576172
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

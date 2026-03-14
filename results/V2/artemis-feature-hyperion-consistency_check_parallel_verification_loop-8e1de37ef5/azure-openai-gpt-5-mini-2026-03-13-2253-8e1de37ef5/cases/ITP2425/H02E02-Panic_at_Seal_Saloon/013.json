@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T23:08:34.179281Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Field: SealSaloon.stock \u2014 The problem statement (lines 70-71) instructs students to add a final Stock stock that is initialized in the SealSaloon constructor (implying an instance field initialized at construction). Elsewhere in the same problem statement (lines 77-81) it explicitly requires that the stock attribute must be static and shared across all SealSaloon instances. The solution implements this field as a static declaration (private static final Stock stock = new Stock()). These conflicting requirements (instance-final initialized in constructor vs. static-final initialized at declaration) leave students unsure which design to implement and whether to initialize the field in the constructor or at declaration.",
+            "suggestedFix": "Resolve the contradiction by choosing one design and updating all artifacts. Recommended resolution: make stock a shared resource and state in the problem statement and UML that stock is static (e.g., \"private static final Stock stock\"). Instruct students to initialize it at declaration or in a static initializer (not in the constructor). Update the UML and prose to remove the instruction to initialize stock in the constructor. Alternatively, if an instance-scoped stock was intended, remove the 'must be static' notes and keep the constructor initialization guidance. Ensure the solution, template, and problem text match the chosen design.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 71
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 77,
+                    "endLine": 81
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 5,
+                    "endLine": 5
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Method: SealSaloon.checkOrderReady \u2014 The UML and prose in the problem statement (UML line shows +checkOrderReady(): void and the ordering text describes calling checkOrderReady() with no arguments) declare a no-argument method checkOrderReady(). The solution, however, implements public void checkOrderReady(boolean enableLogging). This parameter mismatch between the specified no-arg signature and the solution's boolean-parameter signature confuses students about which method signature to implement and how orderMeal should invoke it.",
+            "suggestedFix": "Make the method signature consistent across all artifacts. Preferred fix: keep the no-argument signature in the specification and update the solution to implement public void checkOrderReady() (remove the enableLogging parameter) and adjust any internal logging to use a private helper if needed (e.g., private void checkOrderReady(boolean enableLogging) called by the public no-arg method). Alternatively, if the boolean flag is intended for debugging, document it in the problem statement and UML and provide an overload or default behavior in the spec.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 32,
+                    "endLine": 32
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 85,
+                    "endLine": 99
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 20,
+                    "endLine": 20
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:08:34.179281Z",
+        "endTime": "2026-03-13T23:09:25.569726Z",
+        "durationS": 51.39
+    },
+    "tokens": {
+        "prompt": 38291,
+        "completion": 6125,
+        "total": 44416
+    },
+    "costs": {
+        "promptEur": 0.00880693017578125,
+        "completionEur": 0.01127000033569336,
+        "totalEur": 0.020076930511474612
+    },
+    "case_id": "V2/ITP2425/H02E02-Panic_at_Seal_Saloon/013",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

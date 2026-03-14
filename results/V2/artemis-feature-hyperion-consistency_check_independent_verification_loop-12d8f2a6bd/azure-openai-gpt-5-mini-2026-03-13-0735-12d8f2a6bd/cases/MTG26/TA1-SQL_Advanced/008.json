@@ -1,0 +1,42 @@
+{
+    "timestamp": "2026-03-13T08:08:50.584214Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "SQL result mismatch for Aufgabe 07: the solution query in solution_repository/aufgabe07.sql selects Gemeinde.name and Schwimmbad.name but omits the join condition linking the two tables. The solution file contains: \"SELECT Gemeinde.name, Schwimmbad.name FROM Gemeinde, Schwimmbad WHERE Schwimmbad.art='Freibad'\" (lines 1-3). The problem statement (problem_statement.md lines 46-49) asks for a list of the names of all Gemeinden that have a \"Freibad\" and the names of the respective Freib\u00e4der. Without the join predicate (Gemeinde.schluessel = Schwimmbad.gemeindeschluessel) the query produces a Cartesian product of all Gemeinden with all Freib\u00e4der of art='Freibad', returning Gemeinden that do not actually contain those Freib\u00e4der and thus contradicting the task requirement. This will confuse students about how to correctly relate rows across the two tables and may teach an incorrect query pattern.",
+            "suggestedFix": "Add the join condition that links Gemeinde and Schwimmbad by their key fields so the query returns only Gemeinden that actually contain the Freib\u00e4der. For example: SELECT Gemeinde.name, Schwimmbad.name FROM Gemeinde, Schwimmbad WHERE Schwimmbad.art = 'Freibad' AND Gemeinde.schluessel = Schwimmbad.gemeindeschluessel. Update solution_repository/aufgabe07.sql accordingly so it matches the problem statement and demonstrates the intended join.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 46,
+                    "endLine": 49
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe07.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:08:50.584214Z",
+        "endTime": "2026-03-13T08:09:32.403172Z",
+        "durationS": 41.818
+    },
+    "tokens": {
+        "prompt": 14523,
+        "completion": 4406,
+        "total": 18929
+    },
+    "costs": {
+        "promptEur": 0.0033402900390625,
+        "completionEur": 0.008107040161132811,
+        "totalEur": 0.01144733020019531
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/008",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

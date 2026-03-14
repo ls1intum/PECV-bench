@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T07:41:39.665195Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "Class Bitmap24 constructor is declared with different parameter types between the template header and the template implementation. In the template header (example_program/src/Bitmap24.hpp) the constructor is declared as Bitmap24(long i_width, long i_height) but the template implementation (example_program/src/Bitmap24.cpp) defines Bitmap24::Bitmap24(int p_width, int p_height). The solution repository header (solution example_program/src/Bitmap24.hpp) declares Bitmap24(int i_width, int i_height). This long vs int mismatch between declaration and definition produces different mangled signatures and will lead to a linker error (undefined reference to the declared constructor) or confusing behavior for students comparing template and solution code.",
+            "suggestedFix": "Make the constructor signature consistent across header and implementation. Update the template header declaration to use int parameters to match the implementation and the solution: change 'Bitmap24(long i_width, long i_height);' to 'Bitmap24(int i_width, int i_height);'. Alternatively, if long is required for a specific reason, change the implementation (and solution) to use long everywhere \u2014 but the recommended fix is to align the template header to 'int' to match the implementation and solution provided.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 38,
+                    "endLine": 38
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 26,
+                    "endLine": 26
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 38,
+                    "endLine": 38
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:41:39.665195Z",
+        "endTime": "2026-03-13T07:42:28.846459Z",
+        "durationS": 49.181
+    },
+    "tokens": {
+        "prompt": 131717,
+        "completion": 6728,
+        "total": 138445
+    },
+    "costs": {
+        "promptEur": 0.030294911132812498,
+        "completionEur": 0.01237952001953125,
+        "totalEur": 0.04267443115234375
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/009",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

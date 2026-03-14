@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-14T16:12:47.370165Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Conceptual entity mismatch between artifacts: the problem statement/UML defines a class named \"Meal\" (and SealSaloon methods/fields use Meal), but the template repository provides an \"Order\" class with the same structure (name + ingredients) and an empty Meal.java file. This can mislead students into using/implementing the wrong class name and breaks compilation when implementing SealSaloon against the specification (Meal vs Order).",
+            "suggestedFix": "Make naming consistent across all artifacts. Preferred: remove/rename template Order.java to Meal.java (class name + constructor) and update template Main.java comments accordingly. Alternatively, update the problem statement/UML and all method signatures to consistently use Order instead of Meal.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 27,
+                    "endLine": 40
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 69,
+                    "endLine": 71
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Order.java",
+                    "startLine": 3,
+                    "endLine": 19
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Main.java",
+                    "startLine": 6,
+                    "endLine": 7
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Meal.java",
+                    "startLine": 3,
+                    "endLine": 19
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Stock exposes an extra public API not described by the UML/spec: the problem statement lists only add/take/findStockIngredient/addToStockIngredients/emptyStock, but both template and solution include a public setStockIngredients(StockIngredient[]) method. This conflicts with the specified interface and encourages bypassing the intended stock-management workflow.",
+            "suggestedFix": "Either (a) update the UML/problem statement to include setStockIngredients as an allowed method (and clarify it is only for manual testing), or (b) remove it / reduce its visibility (e.g., package-private) and adjust any example code to use addToStockIngredients or SealSaloon.acceptSupplyDelivery instead.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 49,
+                    "endLine": 55
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 10,
+                    "endLine": 12
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 10,
+                    "endLine": 12
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T16:12:47.370165Z",
+        "endTime": "2026-03-14T16:13:43.209693Z",
+        "durationS": 55.839
+    },
+    "tokens": {
+        "prompt": 30160,
+        "completion": 1706,
+        "total": 31866
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/ITP2425/H02E02-Panic_at_Seal_Saloon/009",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

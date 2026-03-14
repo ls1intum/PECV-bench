@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-13T23:03:03.629795Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Missing start.sh runtime entrypoint: The template repository Dockerfile (Dockerfile) contains TODOs instructing to COPY and make start.sh executable and to use CMD ./start.sh, the solution repository Dockerfile (Dockerfile) actually COPYs start.sh, RUNs chmod on start.sh and sets CMD ./start.sh, and the problem statement (problem_statement.md) instructs students to copy start.sh, set execute permission, and add CMD ./start.sh. However neither the template nor the solution repository contains a start.sh file at the repository root. This omission will cause Docker builds that expect start.sh to fail (or force students to create their own script), blocking students from following the provided Docker/Heroku deployment instructions and preventing successful image creation/deployment.",
+            "suggestedFix": "Provide a start.sh script in the repository root (for both template and solution) with the expected startup command (for example: \"#!/usr/bin/env bash\" on first line and \"java -jar /app/app.jar\" or an equivalent command), ensure it is included in the repository and has executable permissions. Alternatively, update both Dockerfiles and the problem statement to avoid relying on an external start.sh by replacing the COPY/start.sh/CMD steps with a direct CMD exec form (for example: CMD [\"java\", \"-jar\", \"app.jar\"]). Ensure the chosen approach is applied consistently in the template, solution, and instructions so students can build the Docker image without a missing-file error.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Dockerfile",
+                    "startLine": 4,
+                    "endLine": 6
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Dockerfile",
+                    "startLine": 5,
+                    "endLine": 7
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 58,
+                    "endLine": 61
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Non-existent host volume paths in docker-compose.yml: Both the template and solution docker-compose.yml define host-to-container volume mappings that reference host directories ./webapp/spring and ./webapp/postgres, but the repository tree does not contain a webapp directory or those subpaths. The composed services (web and db) therefore reference host paths that are absent from the repository, which can confuse students running docker-compose locally (it may create empty host directories or lead to unexpected container behavior) and does not match the repository contents.",
+            "suggestedFix": "Either remove or adjust the host volume mappings in both docker-compose.yml files to point to existing repository directories (or to omit host mounts if not required), or add a note in the problem statement documenting that these host directories are optional and must be created by students if they intend to use the compose setup. If the original intent was to include starter content under webapp/, add the expected webapp/spring and webapp/postgres directories (even if empty) to the repository so the volume paths resolve cleanly.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "docker-compose.yml",
+                    "startLine": 13,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "docker-compose.yml",
+                    "startLine": 13,
+                    "endLine": 22
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:03:03.629795Z",
+        "endTime": "2026-03-13T23:03:47.516987Z",
+        "durationS": 43.887
+    },
+    "tokens": {
+        "prompt": 94259,
+        "completion": 5825,
+        "total": 100084
+    },
+    "costs": {
+        "promptEur": 0.02167956982421875,
+        "completionEur": 0.01071800015258789,
+        "totalEur": 0.032397569976806644
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/007",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

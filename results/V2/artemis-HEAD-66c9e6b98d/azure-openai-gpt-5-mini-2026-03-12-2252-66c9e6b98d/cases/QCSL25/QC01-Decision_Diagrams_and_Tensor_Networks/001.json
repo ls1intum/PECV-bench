@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T23:17:51.361894Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "The template's dd_create_zero_state function is annotated to return DDNode and its docstring mentions returning a DDNode, but the problem statement and the solution expect/implement it to return a DD. The template also does not import DDNode, so the annotation is invalid and will cause confusion or runtime/name errors. This mismatch between the template annotation/docstring and the intended return type prevents students from following the specification and from running the template code as-is.",
+            "suggestedFix": "Change the template function signature and docstring to indicate the function returns a DD (not DDNode). Update the annotation in template_repository/dd_simulation.py to -> DD and align the docstring to say 'Returns: A DD corresponding to the n-qubit zero state.' This matches the problem statement and the solution. Ensure imports remain consistent (no DDNode reference required).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 27,
+                    "endLine": 31
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/dd_simulation.py",
+                    "startLine": 57,
+                    "endLine": 81
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/dd_simulation.py",
+                    "startLine": 56,
+                    "endLine": 66
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The function that should return a DD representing the all-zero state is inconsistently annotated/named across artifacts: the Problem Statement and Solution expect/implement dd_create_zero_state to return a DD, but the Template declares and documents dd_create_zero_state as returning a DDNode (type annotation and docstring). This mismatches the conceptual entity (a DD wrapper vs a raw DDNode) and can confuse students about the correct return type and which API to use.",
+            "suggestedFix": "Align the template with the problem statement and solution by changing the dd_create_zero_state signature and docstring in template_repository/dd_simulation.py to return a DD (not DDNode). For example: def dd_create_zero_state(num_qubits: int) -> DD: and update the docstring to state it returns a DD representing |0...0>. Ensure any type imports reflect DD.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 27,
+                    "endLine": 31
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/dd_simulation.py",
+                    "startLine": 57,
+                    "endLine": 81
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/dd_simulation.py",
+                    "startLine": 56,
+                    "endLine": 81
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T23:17:51.361894Z",
+        "endTime": "2026-03-12T23:18:08.835587Z",
+        "durationS": 17.473
+    },
+    "tokens": {
+        "prompt": 68897,
+        "completion": 3405,
+        "total": 72302
+    },
+    "costs": {
+        "promptEur": 0.015846310546875,
+        "completionEur": 0.006265199951171875,
+        "totalEur": 0.022111510498046875
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/001",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

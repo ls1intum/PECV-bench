@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T08:09:53.333392Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Output column mismatch for Aufgabe 10: the problem statement (problem_statement.md lines 59-61) explicitly asks for the IDs of all Radwege that lead to Gemeinden in Oberfranken or Unterfranken. The reference solution (solution_repository/aufgabe10.sql lines 1-4) selects Radweg_zu_Gemeinde.name instead of an identifier column, so it returns names rather than IDs. This inconsistency will cause correct student queries that return IDs to disagree with the provided reference result and will mislead grading/feedback.",
+            "suggestedFix": "Update solution_repository/aufgabe10.sql to select the Radweg identifier column instead of the name. For example: SELECT Radweg_zu_Gemeinde.radweg_id (or the correct primary-key column name used by the schema) FROM Radweg_zu_Gemeinde, Gemeinde WHERE Gemeinde.schluessel = Radweg_zu_Gemeinde.gemeindeschluessel AND (Gemeinde.regierungsbezirk = 'Oberfranken' OR Gemeinde.regierungsbezirk = 'Unterfranken'); do not apply DISTINCT (duplicates must not be removed). Also update any expected-result files/tests to assert IDs rather than names.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 59,
+                    "endLine": 61
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe10.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe10.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:09:53.333392Z",
+        "endTime": "2026-03-13T08:10:36.563050Z",
+        "durationS": 43.229
+    },
+    "tokens": {
+        "prompt": 14526,
+        "completion": 4555,
+        "total": 19081
+    },
+    "costs": {
+        "promptEur": 0.0033409801025390626,
+        "completionEur": 0.008381200317382813,
+        "totalEur": 0.011722180419921875
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/003",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

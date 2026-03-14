@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-12T22:53:44.957151Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Name mismatch for the screen buffer variable: the problem statement and the template define/use the symbol 'display_start' as the base address of the framebuffer, but the solution's .bss defines 'screen_buffer' while its code still references 'display_start'. This creates an undefined-symbol/namespace inconsistency (solution references a variable that is not defined) and will confuse students when comparing artifacts or when trying to assemble/run the solution.",
+            "suggestedFix": "Make the framebuffer symbol name consistent across all artifacts. Either rename 'screen_buffer' in the solution .bss to 'display_start' or change all references to 'display_start' in the solution to 'screen_buffer'. Ensure the name matches the template and the problem statement so the symbol is defined and referenced consistently.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 20,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 4,
+                    "endLine": 6
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 29,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 94,
+                    "endLine": 100
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement and the template refer to the screen memory start as 'display_start', but the solution repository defines the same conceptual buffer as 'screen_buffer'. This inconsistent identifier naming for the same conceptual entity (the start of the screen/framebuffer) creates a mapping burden: students reading the solution to learn the intended implementation may not immediately realize 'screen_buffer' in the solution corresponds to 'display_start' used in the task text and template.",
+            "suggestedFix": "Use a single consistent identifier for the screen memory start across all artifacts. Prefer renaming the solution's 'screen_buffer' to 'display_start' (and update any references), or alternatively rename the template/problem occurrences to 'screen_buffer' so all three artifacts use the same name.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 21,
+                    "endLine": 21
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 4,
+                    "endLine": 6
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T22:53:44.957151Z",
+        "endTime": "2026-03-12T22:54:06.099171Z",
+        "durationS": 21.142
+    },
+    "tokens": {
+        "prompt": 12899,
+        "completion": 3562,
+        "total": 16461
+    },
+    "costs": {
+        "promptEur": 0.00296677001953125,
+        "completionEur": 0.006554080322265625,
+        "totalEur": 0.009520850341796875
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/017",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

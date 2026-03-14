@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-12T21:34:36.530272Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The problem statement requires that the subroutine set_pixel may only change the EAX register (\"Au\u00dfer dem Register eax d\u00fcrfen keine anderen Registerinhalte ver\u00e4ndert werden\"). However, the template contains a comment that contradicts this by instructing students to \"save all registers you modify except eax, ebx and esi\" (implying EBX and ESI may be clobbered). This conflicting guidance between the problem text and the template can confuse students about which registers must be preserved when implementing the position calculation and set_pixel. The solution implementation also uses a different preservation strategy (it pushes/pops several registers), so the intended convention is unclear.",
+            "suggestedFix": "Unify and clarify the register-preservation contract in all artifacts. Update the template comment to match the problem statement (e.g., \"Only EAX may be clobbered; all other registers must be preserved\") and ensure the example solution and any notes reflect that convention. Alternatively, if EBX/ESI are allowed to be modified, update the problem statement to explicitly permit those registers and adjust the template instructions accordingly. Provide an explicit note in pixel.asm describing which registers the student may change and which must be preserved when implementing set_pixel.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 100,
+                    "endLine": 106
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:34:36.530272Z",
+        "endTime": "2026-03-12T21:35:08.141105Z",
+        "durationS": 31.61
+    },
+    "tokens": {
+        "prompt": 13529,
+        "completion": 4212,
+        "total": 17741
+    },
+    "costs": {
+        "promptEur": 0.003111670043945312,
+        "completionEur": 0.007750079956054688,
+        "totalEur": 0.01086175
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/005",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

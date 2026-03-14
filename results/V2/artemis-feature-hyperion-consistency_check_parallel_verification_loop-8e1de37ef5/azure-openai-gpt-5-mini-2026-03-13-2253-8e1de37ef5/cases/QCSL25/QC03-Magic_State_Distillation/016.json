@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T23:31:16.771885Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Function name mismatch: the problem statement and the reference solution expect a function named build_msd_circ(circ: stim.Circuit, distilled_state: int, y_states: list[int]) -> tuple[list[int], list[int]] but the template defines a function named build_msd_circuit(...) with the same signature. A student following the template will implement build_msd_circuit, while automated tests and the solution will import or call build_msd_circ, causing import/test failures and preventing the student's code from being exercised by the provided tests.",
+            "suggestedFix": "Make the function name consistent across all artifacts. Rename the template's function build_msd_circuit(...) to build_msd_circ(...) with the same signature, or add a thin wrapper in the template named build_msd_circ(...) that delegates to build_msd_circuit(...). Ensure any references (tests, problem statement examples) use the same identifier.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 117,
+                    "endLine": 117
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/msd.py",
+                    "startLine": 93,
+                    "endLine": 93
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/msd.py",
+                    "startLine": 153,
+                    "endLine": 153
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The exercise requires a function that constructs the 15-to-1 distillation circuit. The problem statement and tests refer to this function as build_msd_circ(...), and the reference solution implements def build_msd_circ(...). However, the template stub is named build_msd_circuit(...). These three identifiers all represent the same conceptual operation (building the MSD/distillation circuit) but use inconsistent names. A student following the problem text or tests will look for build_msd_circ but find build_msd_circuit in the template, causing confusion and failing tests.",
+            "suggestedFix": "Make the template and tests use the same identifier. Rename the template function build_msd_circuit to build_msd_circ with the same signature, or add a compatibility wrapper in the template: def build_msd_circ(*args, **kwargs): return build_msd_circuit(*args, **kwargs). Ensure the wrapper preserves the original behavior and signature expected by tests.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 113,
+                    "endLine": 121
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/msd.py",
+                    "startLine": 93,
+                    "endLine": 106
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/msd.py",
+                    "startLine": 153,
+                    "endLine": 183
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:31:16.771885Z",
+        "endTime": "2026-03-13T23:31:52.604862Z",
+        "durationS": 35.832
+    },
+    "tokens": {
+        "prompt": 59931,
+        "completion": 6485,
+        "total": 66416
+    },
+    "costs": {
+        "promptEur": 0.01378413037109375,
+        "completionEur": 0.011932400146484376,
+        "totalEur": 0.025716530517578128
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/016",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

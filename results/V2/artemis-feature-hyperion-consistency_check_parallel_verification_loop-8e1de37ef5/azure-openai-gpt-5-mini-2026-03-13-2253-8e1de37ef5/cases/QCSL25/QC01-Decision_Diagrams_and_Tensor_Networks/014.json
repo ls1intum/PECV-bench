@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T23:26:36.229772Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Element: class UniqueTable (template_repository/dd.py). The template declares an instance attribute named '__table' (type-annotated as __table: dict[int, DDNode] and initialized in __init__ as self.__table = {}), but all other methods in the same class (e.g. lookup and clear) reference 'self.table' (no leading underscores). The solution implementation uses a consistently named attribute 'table'. This mismatch (__table vs table) in the template will raise AttributeError at runtime when lookup or clear try to access self.table, making the UniqueTable unusable and blocking any DD functionality that relies on the unique table.",
+            "suggestedFix": "Make the attribute name consistent in the template. Change the UniqueTable declaration and __init__ to use 'table' (e.g. replace '__table: dict[int, DDNode]' with 'table: dict[int, DDNode]' and set 'self.table = {}' in __init__), or alternatively change all method references to use 'self.__table'. Prefer matching the solution's 'table' name (public attribute) so methods 'lookup' and 'clear' work without change. Ensure the type annotation and initialization match the used attribute name.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 163,
+                    "endLine": 201
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 162,
+                    "endLine": 201
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 17,
+                    "endLine": 23
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:26:36.229772Z",
+        "endTime": "2026-03-13T23:27:15.447804Z",
+        "durationS": 39.218
+    },
+    "tokens": {
+        "prompt": 118521,
+        "completion": 4441,
+        "total": 122962
+    },
+    "costs": {
+        "promptEur": 0.02725983056640625,
+        "completionEur": 0.008171440200805664,
+        "totalEur": 0.03543127076721191
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/014",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

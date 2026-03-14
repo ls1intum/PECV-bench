@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T21:32:38.218086Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem statement requires defining `user_name` as a string buffer, but the solution defines `user_name` as an integer word (`dd 0`), and the template does not define `user_name` at all. This inconsistency can confuse students about the expected data type and how to allocate the storage for `user_name` in assembly.",
+            "suggestedFix": "Make the data declaration consistent with the problem statement: declare `user_name` as a string buffer in both the template and the solution. For example, in NASM you can reserve a buffer in the .data section: `user_name times 128 db 0 ; string buffer (128 bytes, zero-initialized)` or at minimum `user_name db 0 ; empty null-terminated string`. Replace `user_name dd 0` in the solution with such a string-buffer declaration and add the same declaration to the template's .data section.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 2,
+                    "endLine": 4
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 4,
+                    "endLine": 4
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement requires a variable named `user_name` to be defined as a string buffer. The template does not provide any `user_name` declaration, while the solution declares `user_name` as `dd 0` (a 32-bit integer), which does not match the requested string-buffer type. This mismatch between the stated requirement and the solution implementation (and absence in the template) can confuse students about the expected identifier and its correct representation/type.",
+            "suggestedFix": "Ensure the identifier and its intended type are consistent across artifacts: add a `user_name` string-buffer declaration to the template and change the solution's `user_name dd 0` to a string-buffer declaration that matches the problem (for example, in NASM allocate bytes for the buffer, e.g. `user_name: times 64 db 0` or use an appropriate `db`/`resb` declaration). Keep the identifier name `user_name` consistent.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 2,
+                    "endLine": 4
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 3,
+                    "endLine": 4
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:32:38.218086Z",
+        "endTime": "2026-03-12T21:33:02.833874Z",
+        "durationS": 24.615
+    },
+    "tokens": {
+        "prompt": 7409,
+        "completion": 3941,
+        "total": 11350
+    },
+    "costs": {
+        "promptEur": 0.0017040700073242187,
+        "completionEur": 0.00725143994140625,
+        "totalEur": 0.00895550994873047
+    },
+    "case_id": "V2/ERA2021/H00-Hello_World_ASM/011",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

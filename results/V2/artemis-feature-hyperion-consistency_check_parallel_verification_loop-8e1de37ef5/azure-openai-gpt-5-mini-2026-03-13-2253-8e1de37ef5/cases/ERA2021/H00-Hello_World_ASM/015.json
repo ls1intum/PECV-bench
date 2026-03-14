@@ -1,0 +1,92 @@
+{
+    "timestamp": "2026-03-13T22:53:25.237952Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Symbol 'start_app' (program entrypoint) visibility mismatch: the problem statement (problem_statement.md) requires the function 'start_app' to be the global entry point. The template (template_repository/helloWorld.asm) instead declares 'global main' and does not define a 'start_app' label. The solution (solution_repository/helloWorld.asm) defines a 'start_app' label but continues to declare 'global main' and does not declare 'start_app' global. This inconsistency leaves students unsure which symbol to expose as the global entrypoint and can cause build/link confusion or incorrect program start behavior.",
+            "suggestedFix": "Make the entrypoint symbol consistent across all artifacts. Preferred fix: update template and solution to declare 'start_app' as the global symbol (replace 'global main' with 'global start_app' in both asm files) and ensure 'start_app' contains the program start sequence or forwards to 'main'. Alternatively, change the problem statement to require 'main' as the global entrypoint and update the solution to expose and implement 'main' consistently. Ensure whichever symbol is chosen is declared global in both template and solution to avoid student confusion.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/helloWorld.asm",
+                    "startLine": 5,
+                    "endLine": 8
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/helloWorld.asm",
+                    "startLine": 6,
+                    "endLine": 6
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/helloWorld.asm",
+                    "startLine": 8,
+                    "endLine": 8
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Entry-point identifier mismatch: The problem statement explicitly requires the function/label 'start_app' to be the global entry point. The template file exports and uses the identifier 'main' (declares 'global main' and defines the 'main:' label). The solution file likewise declares 'global main' but also defines a 'start_app:' label that is not exported. A student reading the task will be told to provide a global 'start_app' symbol, but the starter code and the provided solution export and rely on 'main'. This inconsistency makes it unclear which symbol must be exported as the program entry point, which can block students from correctly implementing the required symbol or lead to incorrect submissions.",
+            "suggestedFix": "Make the entry-point identifier consistent across all artifacts. Preferred fix: update template_repository/helloWorld.asm and solution_repository/helloWorld.asm to export 'start_app' as the global entry point (replace 'global main' with 'global start_app' and ensure the executable entry code is under the 'start_app:' label, or move the code to the 'start_app' label and remove/adjust 'main'). Alternatively, if the intended entry symbol is 'main', update problem_statement.md to require 'main' as the global entry point. Prefer aligning code to the problem statement by making 'start_app' the exported/global entry point so the stated requirement matches the provided code and solution.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 22,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/helloWorld.asm",
+                    "startLine": 6,
+                    "endLine": 6
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/helloWorld.asm",
+                    "startLine": 8,
+                    "endLine": 8
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/helloWorld.asm",
+                    "startLine": 6,
+                    "endLine": 6
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/helloWorld.asm",
+                    "startLine": 8,
+                    "endLine": 8
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:53:25.237952Z",
+        "endTime": "2026-03-13T22:54:01.077857Z",
+        "durationS": 35.839
+    },
+    "tokens": {
+        "prompt": 13416,
+        "completion": 5970,
+        "total": 19386
+    },
+    "costs": {
+        "promptEur": 0.0030856800537109375,
+        "completionEur": 0.010984800048828125,
+        "totalEur": 0.014070480102539062
+    },
+    "case_id": "V2/ERA2021/H00-Hello_World_ASM/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T22:53:25.241767Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Element: label/internal helper 'internal_calc'. The problem statement (problem_statement.md) explicitly requires implementing internal_calc as a private helper (\"Implementieren Sie `internal_calc` als private Hilfsfunktion (nicht global)\"). The solution (solution_repository/helloWorld.asm) exports the helper via a 'global internal_calc' directive (line 7) and defines the label, making it a global symbol. The template (template_repository/helloWorld.asm) does not provide an internal_calc stub. This mismatch between the specification (private helper) and the solution (exported global symbol) creates confusion for students about the intended visibility and linkage of the helper and may lead them to follow the solution's incorrect export or to wonder whether the helper must be global or private.",
+            "suggestedFix": "Make the solution consistent with the specification by removing the 'global internal_calc' directive so the helper remains a private label. Optionally, add a non-global internal_calc stub (a label and a minimal body without a 'global' directive) to the template repository to clarify the intended private helper for students, and add a brief comment in the problem statement or template indicating it should not be exported.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 23
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/helloWorld.asm",
+                    "startLine": 1,
+                    "endLine": 18
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/helloWorld.asm",
+                    "startLine": 7,
+                    "endLine": 8
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement explicitly requires a helper named `internal_calc` to be implemented as a private (non-global) function (problem_statement.md: line 22). In the solution (solution_repository/helloWorld.asm) the symbol is exported with a `global internal_calc` directive (lines 7-8), which contradicts the requirement that it be private. The template (template_repository/helloWorld.asm) does not declare `internal_calc` and places code in the same text section (lines 5-8), so students reading the task will expect to add a private label but the solution shows it exported. This inconsistency can confuse students about the expected symbol visibility for `internal_calc` and whether they should use `global` when adding the helper.",
+            "suggestedFix": "Make the solution match the specification by removing the `global internal_calc` directive so that `internal_calc` is a private label (keep the `internal_calc:` label but do not export it). Alternatively, if the helper truly needs to be global for linking, update the problem statement to state that `internal_calc` should be exported (explain why it must be global).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 22,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/helloWorld.asm",
+                    "startLine": 5,
+                    "endLine": 8
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/helloWorld.asm",
+                    "startLine": 7,
+                    "endLine": 8
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:53:25.241767Z",
+        "endTime": "2026-03-13T22:53:57.708427Z",
+        "durationS": 32.466
+    },
+    "tokens": {
+        "prompt": 13331,
+        "completion": 6074,
+        "total": 19405
+    },
+    "costs": {
+        "promptEur": 0.003066130065917969,
+        "completionEur": 0.011176160400390624,
+        "totalEur": 0.014242290466308594
+    },
+    "case_id": "V2/ERA2021/H00-Hello_World_ASM/013",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

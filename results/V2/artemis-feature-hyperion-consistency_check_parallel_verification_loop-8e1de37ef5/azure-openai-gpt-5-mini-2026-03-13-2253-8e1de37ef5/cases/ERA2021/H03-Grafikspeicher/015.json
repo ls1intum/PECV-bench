@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-13T22:54:50.238469Z",
+    "issues": [
+        {
+            "severity": "LOW",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Global entry symbol (program entry visibility) is inconsistent: template_repository/pixel.asm declares the entry symbol with 'global main' (template_repository/pixel.asm: line 30), while solution_repository/pixel.asm declares 'global _start' (solution_repository/pixel.asm: line 14) even though the solution still defines a 'main' label (solution_repository/pixel.asm: line 36). The template Makefile assembles and links the object with gcc (template_repository/Makefile: lines 6-8), which typically expects a conventional 'main' symbol provided to the C runtime. This mismatch can confuse students which symbol to provide as the program entry point and how the program is linked/run.",
+            "suggestedFix": "Make the entry symbol consistent across template and solution. Preferred: change the solution's directive to 'global main' (replace 'global _start' with 'global main' in solution_repository/pixel.asm) so both template and solution use the same entry symbol and match the Makefile's linking. Alternatively, if the intent is to use a raw '_start' entry, update the template and Makefile to document and expect '_start' (and ensure linking omits or adjusts the C runtime accordingly).",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 30,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 14,
+                    "endLine": 14
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 36
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Makefile",
+                    "startLine": 6,
+                    "endLine": 8
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Program entry symbol naming is inconsistent across artifacts. The template exports the symbol 'main' (declaration: 'global main' in template/pixel.asm) and defines the label 'main' (label 'main:' in template/pixel.asm). The solution exports the symbol '_start' (declaration: 'global _start' in solution/pixel.asm) but defines the label 'main' (label 'main:' in solution/pixel.asm). Students comparing template and solution or attempting to assemble/link may be confused which symbol is intended as the program entry point and may encounter linker/runtime issues because the exported global and the defined label do not match.",
+            "suggestedFix": "Make the program entry symbol consistent. Option A (minimal): change the solution's declaration 'global _start' to 'global main' so the exported symbol matches the defined 'main' label in solution/pixel.asm. Option B (explicit): change the template to export/define '_start' (replace 'global main' with 'global _start' and rename the 'main:' label to '_start:') and update the build/link approach if necessary. Prefer Option A to align with the existing template and gcc linking expectations.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 30,
+                    "endLine": 30
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 44,
+                    "endLine": 44
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 14,
+                    "endLine": 14
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 36
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:54:50.238469Z",
+        "endTime": "2026-03-13T22:55:42.682894Z",
+        "durationS": 52.444
+    },
+    "tokens": {
+        "prompt": 25577,
+        "completion": 9054,
+        "total": 34631
+    },
+    "costs": {
+        "promptEur": 0.0058827099609374996,
+        "completionEur": 0.0166593603515625,
+        "totalEur": 0.0225420703125
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

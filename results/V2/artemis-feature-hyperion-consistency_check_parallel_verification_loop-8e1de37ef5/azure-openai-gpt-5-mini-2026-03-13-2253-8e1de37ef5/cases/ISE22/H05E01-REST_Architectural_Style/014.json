@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-13T23:00:31.985101Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Method de.tum.in.ase.eist.service.PersonService.savePerson(Person): visibility differs between artifacts. In the TEMPLATE repository PersonService.savePerson(...) is declared public, indicating it is part of the service API intended to be called by the REST layer. In the SOLUTION repository PersonService.savePerson(...) is declared private, while the SOLUTION repository's PersonResource calls personService.savePerson(...). This mismatch means the solution as provided would not compile and leaves students uncertain whether savePerson is intended to be part of the public service API.",
+            "suggestedFix": "Restore a consistent public service API for savePerson. Concretely, change the declaration in PersonService to 'public Person savePerson(Person person)' in the solution (and ensure the template matches). Alternatively, update PersonResource to call an existing public service method, but ensure the visibility of savePerson is consistent across template, solution, and REST usage so the code compiles and students clearly understand the intended service API.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 18,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 20,
+                    "endLine": 33
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 29,
+                    "endLine": 43
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 124,
+                    "endLine": 136
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:00:31.985101Z",
+        "endTime": "2026-03-13T23:01:29.717170Z",
+        "durationS": 57.732
+    },
+    "tokens": {
+        "prompt": 98334,
+        "completion": 5712,
+        "total": 104046
+    },
+    "costs": {
+        "promptEur": 0.0226168203125,
+        "completionEur": 0.010510080047607423,
+        "totalEur": 0.033126900360107424
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/014",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

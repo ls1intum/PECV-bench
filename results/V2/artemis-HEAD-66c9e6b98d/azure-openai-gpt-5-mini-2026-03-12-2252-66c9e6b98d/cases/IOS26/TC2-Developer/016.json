@@ -1,0 +1,112 @@
+{
+    "timestamp": "2026-03-12T23:16:41.276980Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "Constructor parameter and property naming for Course is inconsistent between the problem statement/template and the solution repository. The problem and template expect an initializer parameter and property named 'instructor' (e.g. Course(name:instructor:ratings:)), but the solution's Course implementation defines the property and initializer parameter as 'lecturer'. This mismatch can confuse students about the expected API and makes the solution diverge from the stated exercise.",
+            "suggestedFix": "Make the Course API consistent across all artifacts. Rename the solution's 'lecturer' property and initializer parameter to 'instructor' (or alternatively update the problem/template to use 'lecturer') so that the initializer signature and property names match the problem description and template.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 6,
+                    "endLine": 11
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/Sources/DeveloperLib/Course.swift",
+                    "startLine": 7,
+                    "endLine": 16
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/Sources/DeveloperLib/Course.swift",
+                    "startLine": 8,
+                    "endLine": 17
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The solution repository contains an internal inconsistency: Course declares the property 'lecturer', but Developer.attend(...) prints course.instructor. Referencing course.instructor will not compile because that property does not exist in the solution's Course class. This is a structural bug in the solution that also contradicts the template/problem which use 'instructor'.",
+            "suggestedFix": "Fix the solution so all references use the same property name. Either (a) change Course.lecturer to Course.instructor in the solution, or (b) change all references to course.instructor in Developer and other files to course.lecturer. Prefer aligning to the problem/template by using 'instructor' to avoid confusing students.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/Sources/DeveloperLib/Course.swift",
+                    "startLine": 8,
+                    "endLine": 16
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/Sources/DeveloperLib/Developer.swift",
+                    "startLine": 41,
+                    "endLine": 51
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/Sources/DeveloperLib/Course.swift",
+                    "startLine": 7,
+                    "endLine": 11
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The Problem Statement and the Template define the Course entity with a property/parameter named \"instructor\" (e.g. Course initializer and property), but the Solution's Course implementation uses the identifier \"lecturer\" for the same property/initializer parameter. This creates a direct mismatch: student-facing requirements and the starter code expect Course.instructor, while the solution defines Course.lecturer. The inconsistency also causes internal confusion in the solution itself (other solution files still reference course.instructor), making it hard for students to map requirements to implementation and introducing potential compile/runtime mismatch.",
+            "suggestedFix": "Use a single identifier for the Course role across all artifacts. Prefer changing the Solution to match the Problem and Template by renaming Course.lecturer to Course.instructor (and update the initializer parameter label to 'instructor'). Ensure all references in Developer.swift and Client.swift use course.instructor so names are consistent with the exercise description and the starter code.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 7,
+                    "endLine": 11
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/Sources/DeveloperLib/Course.swift",
+                    "startLine": 7,
+                    "endLine": 16
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/Sources/DeveloperLib/Course.swift",
+                    "startLine": 8,
+                    "endLine": 17
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/Sources/DeveloperLib/Developer.swift",
+                    "startLine": 41,
+                    "endLine": 51
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/Sources/DeveloperLib/Client.swift",
+                    "startLine": 9,
+                    "endLine": 16
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T23:16:41.276980Z",
+        "endTime": "2026-03-12T23:17:07.212315Z",
+        "durationS": 25.935
+    },
+    "tokens": {
+        "prompt": 15273,
+        "completion": 4152,
+        "total": 19425
+    },
+    "costs": {
+        "promptEur": 0.0035127900390624998,
+        "completionEur": 0.00763968017578125,
+        "totalEur": 0.01115247021484375
+    },
+    "case_id": "V2/IOS26/TC2-Developer/016",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

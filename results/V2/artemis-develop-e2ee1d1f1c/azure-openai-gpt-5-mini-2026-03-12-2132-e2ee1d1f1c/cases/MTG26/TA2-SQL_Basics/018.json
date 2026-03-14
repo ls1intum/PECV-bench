@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T21:46:57.144537Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem statement explicitly instructs students not to rename columns with AS and to output exactly the requested columns (ID, Name, Art, URL). The reference solution for aufgabe01.sql uses an alias (SELECT id AS Kennung, ...) which renames the ID column. This creates a structural mismatch between the specification and the solution and may confuse students about whether column names must match exactly (and could cause automated checks that validate selected column names to behave inconsistently).",
+            "suggestedFix": "Align the solution with the problem instructions by removing the alias: use SELECT id, name, art, url FROM Schwimmbad WHERE art='Freibad'. Alternatively, if aliasing is acceptable, update the problem statement to explicitly permit using AS and clarify that column aliases will be accepted by the automatic checks.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 101,
+                    "endLine": 108
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 2
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 2
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement asks for the ID, Name, Art and URL of Freib\u00e4der (explicitly referencing the column 'ID'), but the solution query renames the id column to 'Kennung' using an AS alias. The template uses SELECT * (which would include the original 'id' column). This creates a naming mismatch between the problem requirements (expecting the original column name) and the solution (providing a differently named column), and conflicts with the instruction not to rename columns with AS unless requested. Students may be confused about whether the expected output column should be 'id' or 'Kennung'.",
+            "suggestedFix": "Align naming: do not alias the id column in the solution. Return the column as 'id' to match the problem statement (e.g., SELECT id, name, art, url FROM Schwimmbad WHERE art='Freibad'). Alternatively, if renaming to 'Kennung' is desired, update the problem statement to explicitly allow/require that alias.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 2
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 106,
+                    "endLine": 109
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:46:57.144537Z",
+        "endTime": "2026-03-12T21:47:17.486346Z",
+        "durationS": 20.341
+    },
+    "tokens": {
+        "prompt": 13387,
+        "completion": 3610,
+        "total": 16997
+    },
+    "costs": {
+        "promptEur": 0.003079010131835937,
+        "completionEur": 0.006642400146484375,
+        "totalEur": 0.009721410278320311
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/018",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

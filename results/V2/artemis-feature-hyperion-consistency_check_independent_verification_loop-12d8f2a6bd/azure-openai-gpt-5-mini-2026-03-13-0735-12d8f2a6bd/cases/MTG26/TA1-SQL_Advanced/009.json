@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T08:08:48.401091Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The solution SQL for Aufgabe 08 uses two different table identifiers for the Radweg\u2013Gemeinde relationship within the same query. In solution_repository/aufgabe08.sql the FROM clause references Wanderweg_zu_Gemeinde (line 2) while the WHERE clause references Radweg_zu_Gemeinde (line 3). The problem statement (problem_statement.md, lines 50-52) clearly asks for counting Radwege. This inconsistent naming will produce an invalid query (unknown table reference) or a runtime error and will prevent students from obtaining the intended result or understanding the correct join relationship.",
+            "suggestedFix": "Make the table name consistent with the task (Radweg). Update solution_repository/aufgabe08.sql so both clauses reference Radweg_zu_Gemeinde. For example: SELECT COUNT(*) FROM Gemeinde, Radweg_zu_Gemeinde WHERE Gemeinde.schluessel = Radweg_zu_Gemeinde.gemeindeschluessel AND Gemeinde.plz > 96400. Alternatively, if the intent was to count Wanderwege, update the problem statement and the WHERE clause to consistently use Wanderweg_zu_Gemeinde.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe08.sql",
+                    "startLine": 2,
+                    "endLine": 3
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 50,
+                    "endLine": 52
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe08.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:08:48.401091Z",
+        "endTime": "2026-03-13T08:09:45.690104Z",
+        "durationS": 57.289
+    },
+    "tokens": {
+        "prompt": 14842,
+        "completion": 6074,
+        "total": 20916
+    },
+    "costs": {
+        "promptEur": 0.0034136600341796875,
+        "completionEur": 0.011176160400390624,
+        "totalEur": 0.014589820434570312
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/009",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

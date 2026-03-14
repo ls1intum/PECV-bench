@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T08:21:34.325539Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Function simulate_msd_two_rounds has inconsistent parameters across artifacts. The problem statement declares simulate_msd_two_rounds(n_shots: int, p: float, batch_size: int = 1000000) (problem_statement.md), and the solution implementation in solution_repository/msd.py defines def simulate_msd_two_rounds(n_shots: int, p: float, batch_size: int = 1000000) -> tuple[float, float]: (line 240). The template implementation in template_repository/msd.py, however, declares def simulate_msd_two_rounds(n_shots:int, p: float) -> tuple[float, float]: (line 134) and thus omits the optional batch_size parameter. This mismatch will confuse students and/or make it difficult to implement or run the two-round batched simulation described in the statement and used by the reference solution and tests.",
+            "suggestedFix": "Make the template signature match the problem statement and the solution by adding the optional batch_size parameter with a default value. Change the template declaration to: def simulate_msd_two_rounds(n_shots: int, p: float, batch_size: int = 1000000) -> tuple[float, float]: and update the template docstring to describe batch_size. Alternatively, if batching is not intended, update the problem statement and the solution to remove batch_size and keep a consistent two-argument signature across all artifacts.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 175,
+                    "endLine": 175
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 134,
+                    "endLine": 134
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 240,
+                    "endLine": 240
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:21:34.325539Z",
+        "endTime": "2026-03-13T08:22:38.802848Z",
+        "durationS": 64.477
+    },
+    "tokens": {
+        "prompt": 45910,
+        "completion": 6421,
+        "total": 52331
+    },
+    "costs": {
+        "promptEur": 0.01055930029296875,
+        "completionEur": 0.011814640014648438,
+        "totalEur": 0.02237394030761719
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/006",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

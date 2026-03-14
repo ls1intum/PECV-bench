@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-14T15:55:18.140211Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Bitmap24::width has different declared types in template vs. solution: template uses `short width;` while solution uses `int width;`. This inconsistency can lead to different range/overflow behavior and warnings, and makes it harder for students to reconcile starter code with the reference implementation (especially since width is used in indexing calculations).",
+            "suggestedFix": "Unify the type of `Bitmap24::width` across template and solution (recommended: use `int width;` in the template to match the solution and typical image dimension ranges).",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 33,
+                    "endLine": 35
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 33,
+                    "endLine": 35
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "`fix_add_asm` has an inconsistent interface between the NASM implementation and the C test harness: `assignment/fix_add.asm` implements `fix_add_asm` as a 64-bit add that expects four 32-bit stack arguments and returns the 64-bit result in EDX:EAX, while the tests declare and call `fix_add_asm(fix_t, fix_t)` returning a single `fix_t` (with result in EAX). With FIX_LEN=8 (64-bit fix_t), this mismatch breaks the calling convention and makes it impossible to pass the tests without redefining one side.",
+            "suggestedFix": "Make the `fix_add_asm` ABI consistent across all artifacts. Either (A) update the NASM `fix_add_asm` to accept exactly two `fix_t` arguments per the tests and return a `fix_t` in the agreed convention, or (B) change the tests/headers to match the current NASM convention (four 32-bit args for a 64-bit add and 64-bit return in EDX:EAX). Ensure the same convention is used everywhere for FIX_LEN=8.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "assignment/fix_add.asm",
+                    "startLine": 82,
+                    "endLine": 96
+                },
+                {
+                    "type": "TESTS_REPOSITORY",
+                    "filePath": "tests/src/fix_asm.h",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "TESTS_REPOSITORY",
+                    "filePath": "tests/src/test.c",
+                    "startLine": 24,
+                    "endLine": 29
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T15:55:18.140211Z",
+        "endTime": "2026-03-14T15:57:22.388539Z",
+        "durationS": 124.248
+    },
+    "tokens": {
+        "prompt": 131853,
+        "completion": 1537,
+        "total": 133390
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/010",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

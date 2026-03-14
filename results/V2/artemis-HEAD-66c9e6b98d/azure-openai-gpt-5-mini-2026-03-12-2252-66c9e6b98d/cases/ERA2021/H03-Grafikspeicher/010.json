@@ -1,0 +1,60 @@
+{
+    "timestamp": "2026-03-12T22:53:47.973960Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Byte-per-pixel size is inconsistent across artifacts: the problem statement specifies pixels are rounded to 32 bits (4 bytes) and the template allocates display_start with 8294400 bytes (which equals 1920*1080*4), and the main calculation in the solution uses a 4-byte-per-pixel factor (mov edi, 4). However, the solution's set_pixel implementation uses a multiplier of 3 (edx = 3; mul edx) and comments '24-bit pixel depth', producing an address calculation with x*3 + 7680*y. This contradicts the 4-byte-per-pixel expectation and results in incorrect addressing and writes.",
+            "suggestedFix": "Make the byte-per-pixel handling consistent: use 4 bytes per pixel everywhere. Update the solution's set_pixel so x is multiplied by 4 (e.g. shl eax, 2 or imul eax, 4) before adding the row offset (7680*y) and display_start. Ensure comments reflect 32-bit (4-byte) pixel size and that all address calculations use (y*width + x) * 4.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 17,
+                    "endLine": 19
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 21,
+                    "endLine": 21
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 94,
+                    "endLine": 100
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T22:53:47.973960Z",
+        "endTime": "2026-03-12T22:54:14.151374Z",
+        "durationS": 26.177
+    },
+    "tokens": {
+        "prompt": 12911,
+        "completion": 3196,
+        "total": 16107
+    },
+    "costs": {
+        "promptEur": 0.002969530029296875,
+        "completionEur": 0.005880640319824219,
+        "totalEur": 0.008850170349121094
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/010",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

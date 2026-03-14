@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T07:41:09.632090Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Class 'Bitmap24' visibility mismatch: in the template header (example_program/src/Bitmap24.hpp) the class declares its constructors and the public API (Bitmap24(), Bitmap24(int,int), ~Bitmap24(), resize_buffer, save, set) under the private: section (lines 30-58). The example program (example_program/src/main.cpp) constructs a Bitmap24 instance and calls bitmap.resize_buffer(...) from outside the class (lines 36-38), which requires those constructors and methods to be public. The solution header (solution_repository/example_program/src/Bitmap24.hpp) declares the same constructors/methods as public. As provided, the template's private declarations will cause compilation errors for students trying to use Bitmap24 as shown in main.cpp.",
+            "suggestedFix": "Move the public API declarations (constructors: Bitmap24(), Bitmap24(int,int), destructor ~Bitmap24(), and methods resize_buffer, save, set) in the template header into a public: section so they are accessible to external callers (e.g., main.cpp). Keep internal data members private if encapsulation is desired (e.g., move width, height, data under private:). This will match the solution's visibility and allow the example program to compile.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 30,
+                    "endLine": 58
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/main.cpp",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 30,
+                    "endLine": 38
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:41:09.632090Z",
+        "endTime": "2026-03-13T07:41:52.905974Z",
+        "durationS": 43.273
+    },
+    "tokens": {
+        "prompt": 131405,
+        "completion": 3790,
+        "total": 135195
+    },
+    "costs": {
+        "promptEur": 0.030223150390625002,
+        "completionEur": 0.006973599975585937,
+        "totalEur": 0.03719675036621094
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/013",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

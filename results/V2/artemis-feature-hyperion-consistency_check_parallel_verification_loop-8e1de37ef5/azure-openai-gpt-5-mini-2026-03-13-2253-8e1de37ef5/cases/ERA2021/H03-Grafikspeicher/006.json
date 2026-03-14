@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T22:56:06.796608Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Element: subroutine set_pixel. Problem statement (problem_statement.md) requires that set_pixel preserve all registers except EAX: \"Au\u00dfer dem Register eax d\u00fcrfen keine anderen Registerinhalte ver\u00e4ndert werden.\" The solution implementation (solution_repository/pixel.asm) uses and mutates EDI (instruction 'or edi, edi' and a branch) without saving and restoring it. The template contains an empty set_pixel stub. This mismatch means the reference solution violates the explicit register-preservation contract required by the exercise and will confuse students about the calling convention and permissible clobbered registers (and may break caller state if EDI is relied upon).",
+            "suggestedFix": "Modify the solution implementation of set_pixel so it honors the specification that only EAX may be clobbered. Options: (a) remove any use of EDI in set_pixel (use other preserved registers or memory temporaries), or (b) explicitly save and restore EDI at the start and end of set_pixel (push edi / ... / pop edi) so the caller-visible value is preserved. Also remove or clarify the unexplained 'alpha channel' check that depends on EDI so the routine no longer relies on or mutates caller registers other than EAX.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 32
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 19,
+                    "endLine": 37
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:56:06.796608Z",
+        "endTime": "2026-03-13T22:56:44.929617Z",
+        "durationS": 38.133
+    },
+    "tokens": {
+        "prompt": 25482,
+        "completion": 4862,
+        "total": 30344
+    },
+    "costs": {
+        "promptEur": 0.005860860107421875,
+        "completionEur": 0.008946079986572266,
+        "totalEur": 0.01480694009399414
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/006",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

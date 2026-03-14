@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-12T22:57:41.856828Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The parameter order for addChild is inconsistent between the Problem Statement / Template and the Solution. The problem description and the template define addChild(Person person, Person child) (parent first, child second). In the solution the method signature uses the same parameter types but the parameters are declared in reversed order (addChild(Person child, Person person)) which leads to the method interpreting the arguments in the wrong roles when the service is called (e.g., the REST layer calls addChild(parent, child) but the implementation treats the first argument as the child). This mismatch changes runtime behavior and can produce incorrect parent-child relationships.",
+            "suggestedFix": "Ensure the addChild method parameter order matches the Problem Statement and Template: declare and implement addChild(Person person, Person child) (parent first, child second). Update the solution method signature and parameter names accordingly so the first argument is the parent and the second is the child, or alternatively update the REST layer and problem description consistently if a different order is intended.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 99,
+                    "endLine": 106
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 45,
+                    "endLine": 48
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 48,
+                    "endLine": 54
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The conceptual method addChild is defined in the problem statement and template as addChild(Person person, Person child) (person first, child second), and PersonResource.invoke expects that order. In the solution implementation the parameter order and names are swapped: public Person addChild(Person child, Person person). This inverts the roles of the parameters and creates a mapping/confusion barrier: calls like personService.addChild(person, child) (as in PersonResource) will pass the parent into the solution's `child` parameter and the child into the solution's `person` parameter, breaking the intended semantics.",
+            "suggestedFix": "Change the solution method signature and parameter names to match the problem/template: public Person addChild(Person person, Person child). Inside the method, check child.getParents() and add the child to person.getChildren(), then save and return person. Ensure PersonResource calls remain personService.addChild(person, child).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 99,
+                    "endLine": 106
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 45,
+                    "endLine": 48
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 68,
+                    "endLine": 74
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 48,
+                    "endLine": 54
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T22:57:41.856828Z",
+        "endTime": "2026-03-12T22:58:04.889360Z",
+        "durationS": 23.032
+    },
+    "tokens": {
+        "prompt": 37287,
+        "completion": 4063,
+        "total": 41350
+    },
+    "costs": {
+        "promptEur": 0.008576010253906249,
+        "completionEur": 0.007475920410156251,
+        "totalEur": 0.0160519306640625
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/006",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

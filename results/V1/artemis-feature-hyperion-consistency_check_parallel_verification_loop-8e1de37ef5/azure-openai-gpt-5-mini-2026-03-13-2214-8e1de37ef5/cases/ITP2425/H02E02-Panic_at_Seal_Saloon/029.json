@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T22:19:18.012525Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "SealSaloon.stock attribute: The problem statement is inconsistent about whether the stock field is an instance final field or a static field. In problem_statement.md (lines 70-71) the text instructs that SealSaloon needs a final Stock stock that \"should be initialized to default values (...) in the constructor\" (implying an instance final field initialized in the instance constructor). Later in the same problem statement (lines 77-80) it explicitly states that the stock attribute must be static and that related methods should be static. The solution implementation declares a static final Stock stock initialized at declaration (solution_repository/src/de/tum/cit/ase/SealSaloon.java line 5). This contradiction (instance final initialized in constructor vs static final initialized at declaration) can confuse students about whether to declare stock as instance or static and where to initialize it.",
+            "suggestedFix": "Clarify and unify the specification for SealSaloon.stock. Two clear options (pick one) to avoid confusion: (A) If stock should be per-instance: state that stock is a final (non-static) field and should be initialized in the SealSaloon constructor; remove any wording that requires stock or related methods to be static. (B) If stock should be shared across all saloons (recommended, matches the solution): state explicitly that stock must be declared static final and initialized at declaration or in a static initializer (not in the instance constructor). Also update the guidance to explicitly state that orders and totalOrders remain instance fields and that acceptSupplyDelivery and calculateTotalPrice are static methods operating on the shared stock when option (B) is chosen.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 71
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 77,
+                    "endLine": 80
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 4,
+                    "endLine": 6
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:19:18.012525Z",
+        "endTime": "2026-03-13T22:19:57.063262Z",
+        "durationS": 39.05
+    },
+    "tokens": {
+        "prompt": 37858,
+        "completion": 3785,
+        "total": 41643
+    },
+    "costs": {
+        "promptEur": 0.008707340209960938,
+        "completionEur": 0.006964400054931641,
+        "totalEur": 0.01567174026489258
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/029",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2214-8e1de37ef5"
+}

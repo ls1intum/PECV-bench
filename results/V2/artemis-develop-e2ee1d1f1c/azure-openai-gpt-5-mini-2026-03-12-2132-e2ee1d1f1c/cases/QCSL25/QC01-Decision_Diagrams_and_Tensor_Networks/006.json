@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-12T21:51:41.143796Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The template implementation of simulate_ghz_state in tensor_networks.py has a signature simulate_ghz_state(num_qubits: int) (no shots parameter) but both the problem statement and the reference solution expect simulate_ghz_state to accept (num_qubits, shots). The template function's docstring and body also reference a shots parameter (e.g., asserting shots > 0), which is undefined in the template signature. This mismatch will prevent students from implementing and testing the GHZ simulation as specified and is inconsistent with the solution.",
+            "suggestedFix": "Change the template function signature to include the shots parameter to match the specification and solution: def simulate_ghz_state(num_qubits: int, shots: int) -> dict[str, int]:. Ensure the function body uses the shots parameter (and the asserts/docstring reflect it). This keeps the template consistent with the problem statement and the reference implementation.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 99,
+                    "endLine": 103
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "tensor_networks.py",
+                    "startLine": 177,
+                    "endLine": 211
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "tensor_networks.py",
+                    "startLine": 235,
+                    "endLine": 279
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement and solution expect the GHZ simulation entry point to accept both num_qubits and shots (simulate_ghz_state(num_qubits, shots)), but the template's tensor_networks.py defines simulate_ghz_state with only a single parameter (num_qubits). This API/identifier mismatch (presence/absence of the shots parameter) creates confusion for students implementing the exercise and prevents a direct mapping from the problem requirements to the template scaffold. The solution implements and tests the two-argument form, so the template's single-argument signature is inconsistent and likely unintentional.",
+            "suggestedFix": "Change the template's simulate_ghz_state signature to include the shots parameter (def simulate_ghz_state(num_qubits: int, shots: int) -> dict[str, int]:), update its docstring and body to accept and use shots, and ensure consistency with the problem statement and the solution implementation.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 101,
+                    "endLine": 103
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "tensor_networks.py",
+                    "startLine": 177,
+                    "endLine": 185
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "tensor_networks.py",
+                    "startLine": 235,
+                    "endLine": 245
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:51:41.143796Z",
+        "endTime": "2026-03-12T21:51:59.114030Z",
+        "durationS": 17.97
+    },
+    "tokens": {
+        "prompt": 60107,
+        "completion": 3553,
+        "total": 63660
+    },
+    "costs": {
+        "promptEur": 0.0138246103515625,
+        "completionEur": 0.006537520263671875,
+        "totalEur": 0.020362130615234376
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/006",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

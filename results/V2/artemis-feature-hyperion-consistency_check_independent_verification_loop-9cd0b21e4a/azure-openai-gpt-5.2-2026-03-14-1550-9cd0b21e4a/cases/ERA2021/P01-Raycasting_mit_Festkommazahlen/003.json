@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-14T15:57:05.727986Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "ABI/signature inconsistency for fix_add_asm: the NASM implementation in assignment/fix_add.asm treats the function as operating on two 64-bit fixed-point values passed as 4 stack dwords (a_low,a_high,b_low,b_high) and returns a 64-bit result in EDX:EAX, while the provided C test header and tests declare/call fix_add_asm as taking two fix_t arguments and returning a single fix_t (observing only EAX). This mismatch can lead students to implement a 64-bit EDX:EAX ABI (as suggested by the assembly) but the tests will pass only 32-bit arguments and check only a 32-bit return value, causing incorrect behavior or crashes.",
+            "suggestedFix": "Unify fix_add_asm to the ABI used by the tests: make it accept two fix_t parameters (stack [ebp+8] and [ebp+12]) and return a fix_t in EAX only, and update/remove the edx:eax-oriented demo code/comments in assignment/fix_add.asm. Alternatively, if 64-bit add is intended, change tests/src/fix_asm.h and tests/src/test.c to pass 64-bit values and validate the full 64-bit return (EDX:EAX) consistently.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "assignment/fix_add.asm",
+                    "startLine": 82,
+                    "endLine": 93
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "tests/src/fix_asm.h",
+                    "startLine": 3,
+                    "endLine": 4
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "tests/src/test.c",
+                    "startLine": 24,
+                    "endLine": 31
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T15:57:05.727986Z",
+        "endTime": "2026-03-14T15:58:21.538660Z",
+        "durationS": 75.81
+    },
+    "tokens": {
+        "prompt": 131489,
+        "completion": 786,
+        "total": 132275
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/003",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

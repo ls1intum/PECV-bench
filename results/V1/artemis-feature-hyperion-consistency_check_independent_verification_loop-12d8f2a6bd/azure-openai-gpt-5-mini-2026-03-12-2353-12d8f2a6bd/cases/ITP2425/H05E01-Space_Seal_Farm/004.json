@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T00:02:37.812044Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Class 'Animal' \u2014 the problem statement's UML and text declare a single attribute 'name: String' for Animal (problem_statement.md), but the solution implementation defines an additional attribute 'private int age' (src/de/tum/cit/ase/Animal.java). This introduces an attribute not present in the specification and creates an API/state mismatch that will confuse students about the required fields for Animal and for its concrete subclasses.",
+            "suggestedFix": "Make the specification and solution consistent. Either remove the 'age' attribute from the solution's Animal class so Animal only has 'name' (and update child constructors accordingly), or update the problem statement, UML diagram, and examples to explicitly include 'age: int' as an Animal attribute and require constructors to initialize it.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 26,
+                    "endLine": 28
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Animal.java",
+                    "startLine": 4,
+                    "endLine": 5
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "Constructor signature for Animal (and consequently for concrete animals) differs between artifacts. The problem statement and the example usage in the template Main use single-argument constructors for animals (e.g., Seal(\"Clarabelle\")) and the UML/spec describes only a 'name' attribute, implying constructors that initialize name only. The solution's Animal constructor is defined as Animal(String name, int age) (src/de/tum/cit/ase/Animal.java: line 7) and concrete classes (e.g., Seal) likewise have constructors Seal(String name, int age) (src/de/tum/cit/ase/Seal.java). This mismatch breaks the example usages in Main and forces a different API than described in the spec, causing confusion and possible compilation/user-code mismatch for students following the problem statement.",
+            "suggestedFix": "Align constructor signatures across the artifacts. Either change the solution so Animal and its subclasses expose single-parameter constructors (String name) and remove age usage, or update the problem statement, UML, and template examples to require (String name, int age) constructors and document the 'age' attribute so students implement the same API as the solution.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 80,
+                    "endLine": 86
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Main.java",
+                    "startLine": 9,
+                    "endLine": 12
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Animal.java",
+                    "startLine": 7,
+                    "endLine": 9
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Seal.java",
+                    "startLine": 7,
+                    "endLine": 8
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T00:02:37.812044Z",
+        "endTime": "2026-03-13T00:03:25.437488Z",
+        "durationS": 47.625
+    },
+    "tokens": {
+        "prompt": 25846,
+        "completion": 5642,
+        "total": 31488
+    },
+    "costs": {
+        "promptEur": 0.005944580078125,
+        "completionEur": 0.0103812802734375,
+        "totalEur": 0.0163258603515625
+    },
+    "case_id": "V1/ITP2425/H05E01-Space_Seal_Farm/004",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2353-12d8f2a6bd"
+}

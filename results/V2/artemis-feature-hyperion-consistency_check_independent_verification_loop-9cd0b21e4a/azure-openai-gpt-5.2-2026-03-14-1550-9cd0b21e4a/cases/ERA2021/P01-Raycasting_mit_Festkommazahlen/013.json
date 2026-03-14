@@ -1,0 +1,62 @@
+{
+    "timestamp": "2026-03-14T15:53:11.515738Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The Bitmap24 class has different member visibility between template and solution: in the template, width/height/data and methods (constructors, destructor, resize_buffer, save, set) are private, while the solution makes them public. This is a structural mismatch: student changes to match the solution are not implied by the task description and can cause confusion when comparing against the reference implementation or when other code expects public access.",
+            "suggestedFix": "Keep Bitmap24.hpp consistent across template and solution. Prefer leaving Bitmap24 members and methods public in the template as well (matching the solution), or alternatively keep them private in both and provide public wrappers/getters as needed.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 30,
+                    "endLine": 58
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 30,
+                    "endLine": 58
+                }
+            ]
+        },
+        {
+            "severity": "LOW",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The build system uses two different NASM preprocessor symbols to disable the per-file demo `main` blocks: `-Dera=1` (example_program) vs `-dera=1` (tests). This inconsistent identifier naming for the same concept (\"define era\") makes it harder for students to understand which flag controls the `%ifndef era` sections and may cause confusion when replicating build commands or troubleshooting compilation/linking behavior.",
+            "suggestedFix": "Standardize the identifier casing and usage for defining `era` across all Makefiles, e.g., use `-Dera=1` consistently in both `tests/Makefile` and `example_program/Makefile` (or `-dera=1` consistently), so students only need to learn one flag name/format.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/Makefile",
+                    "startLine": 14,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "tests/Makefile",
+                    "startLine": 8,
+                    "endLine": 16
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T15:53:11.515738Z",
+        "endTime": "2026-03-14T15:54:00.524295Z",
+        "durationS": 49.008
+    },
+    "tokens": {
+        "prompt": 87699,
+        "completion": 518,
+        "total": 88217
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/013",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

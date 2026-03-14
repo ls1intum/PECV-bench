@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-13T07:56:52.686638Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Element(s): SealSaloon.stock attribute and SealSaloon.acceptSupplyDelivery / SealSaloon.calculateTotalPrice methods. What the problem statement says: The UML block in the problem_statement.md (SealSaloon class) does not mark these members as static (lines 27-33 in problem_statement.md). What the textual specification says: a later paragraph explicitly requires the stock attribute and the two methods acceptSupplyDelivery and calculateTotalPrice to be static (problem_statement.md lines 77-81). Why this is confusing: the UML and the textual description contradict each other about whether these members are static, which can mislead students when implementing the class (static vs. instance has semantic effects and will change how students compile and test their solution). The provided reference implementation declares the stock attribute and the two methods as static (solution repository: src/de/tum/cit/ase/SealSaloon.java shows a static stock field at line 5 and the two static methods at lines 50 and 60).",
+            "suggestedFix": "Make the problem statement consistent: update the UML diagram in problem_statement.md to mark the stock attribute and the methods acceptSupplyDelivery and calculateTotalPrice as static (e.g., underline or add a stereotype/notation for static members), or remove the textual requirement that they be static. Prefer updating the UML to indicate static members to match the textual specification and the reference implementation; additionally, add an explicit sentence in the specification noting that these members are shared across all SealSaloon instances.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 27,
+                    "endLine": 33
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 77,
+                    "endLine": 81
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 5,
+                    "endLine": 5
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Element: SealSaloon.checkOrderReady() method. What the problem statement/UML says: The UML in problem_statement.md declares +checkOrderReady(): void (problem_statement.md lines 31-33). What the reference implementation does: src/de/tum/cit/ase/SealSaloon.java implements public boolean checkOrderReady() (signature at line 20). Why this is confusing: the declared return type differs between the specification (void) and the reference solution (boolean). Students will be unsure whether to implement a void method or a boolean-returning method; the difference affects how the method is used and tested (and may lead to compilation or test mismatches).",
+            "suggestedFix": "Align the specification and the implementation. Either: (A) change the UML and problem statement to declare checkOrderReady(): boolean and document the meaning (e.g., returns true if at least one order was served, false otherwise), or (B) change the reference implementation to public void checkOrderReady() so it matches the UML. Prefer updating the problem statement/UML to specify a boolean return type and add a short sentence explaining the return value, or explicitly state in the text that the return value is optional and tests expect a specific signature.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 31,
+                    "endLine": 33
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 20,
+                    "endLine": 20
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:56:52.686638Z",
+        "endTime": "2026-03-13T07:58:02.633651Z",
+        "durationS": 69.947
+    },
+    "tokens": {
+        "prompt": 29802,
+        "completion": 6037,
+        "total": 35839
+    },
+    "costs": {
+        "promptEur": 0.0068544599609375,
+        "completionEur": 0.011108080322265623,
+        "totalEur": 0.017962540283203123
+    },
+    "case_id": "V2/ITP2425/H02E02-Panic_at_Seal_Saloon/019",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

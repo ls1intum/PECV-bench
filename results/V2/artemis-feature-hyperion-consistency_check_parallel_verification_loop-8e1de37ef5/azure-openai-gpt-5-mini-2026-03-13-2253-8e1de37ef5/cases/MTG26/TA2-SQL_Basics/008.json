@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-13T23:18:56.781392Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "SQL query in solution_repository/aufgabe09.sql selects the column 'kreis' but uses GROUP BY on 'regierungsbezirk'. The problem statement (line 148) requests averages per Landkreis ('kreis'). Specifically, the solution file has: SELECT kreis, AVG(einwohner_m), AVG(einwohner_w) ... GROUP BY regierungsbezirk. This is inconsistent: a non-aggregated selected column ('kreis') must be included in the GROUP BY (or be aggregated). The mismatch produces incorrect aggregation semantics (or SQL errors on strict DBMS) and will confuse students about how to compute per-Landkreis averages.",
+            "suggestedFix": "Align the GROUP BY with the selected Landkreis column. Change the GROUP BY clause to 'GROUP BY kreis' so the query groups by Landkreis as requested. Example corrected query:\nSELECT kreis, AVG(einwohner_m), AVG(einwohner_w)\nFROM Gemeinde\nWHERE flaeche > 100\nGROUP BY kreis\nThis ensures the non-aggregated 'kreis' column is grouped and yields per-Landkreis averages as required by the problem statement.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 148,
+                    "endLine": 148
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe09.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Concept: grouping results by county (Kreis). Problem statement requires the average male and female inhabitants per Landkreis (county) and to output the name of that Landkreis. The solution SELECT list uses the column kreis, but the GROUP BY clause uses regierungsbezirk. Specifically: problem statement asks for aggregation \"pro Landkreis\" (kreis), solution_repository/aufgabe09.sql selects kreis in SELECT (SELECT kreis, AVG(einwohner_m), AVG(einwohner_w)) but groups by regierungsbezirk (GROUP BY regierungsbezirk). This inconsistent use of identifiers (kreis vs regierungsbezirk) prevents a clear mapping from the requirement to the query and will either produce a SQL error or an incorrect grouping result.",
+            "suggestedFix": "Make the grouping identifier consistent with the problem requirement. For example, in solution_repository/aufgabe09.sql change GROUP BY regierungsbezirk to GROUP BY kreis so the query reads: SELECT kreis, AVG(einwohner_m), AVG(einwohner_w) FROM Gemeinde WHERE flaeche > 100 GROUP BY kreis. Alternatively, if the intended grouping was by Regierungsbezirk, update the problem statement to request averages per Regierungsbezirk and change the SELECT to SELECT regierungsbezirk, AVG(einwohner_m), AVG(einwohner_w).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 146,
+                    "endLine": 149
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/aufgabe09.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe09.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:18:56.781392Z",
+        "endTime": "2026-03-13T23:19:30.220077Z",
+        "durationS": 33.438
+    },
+    "tokens": {
+        "prompt": 25330,
+        "completion": 6509,
+        "total": 31839
+    },
+    "costs": {
+        "promptEur": 0.005825900146484375,
+        "completionEur": 0.01197656005859375,
+        "totalEur": 0.017802460205078127
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/008",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

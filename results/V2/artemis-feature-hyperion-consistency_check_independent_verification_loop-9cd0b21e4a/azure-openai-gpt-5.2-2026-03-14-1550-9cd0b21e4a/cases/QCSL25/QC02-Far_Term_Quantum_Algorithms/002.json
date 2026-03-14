@@ -1,0 +1,118 @@
+{
+    "timestamp": "2026-03-14T16:36:04.359138Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Exercise 4.2 instructs to initialize the auxiliary qubit so the oracle can mark solutions via phase kickback, which requires preparing |-> (typically X then H). The template and problem statement imply this, but the reference solution in Kakuro (Exercise 5) only applies X to the auxiliary qubit (preparing |1>) and never applies H, so the oracle\u2019s controlled-phase behavior is not consistent with the stated phase-kickback requirement. This inconsistency can confuse students about the correct auxiliary initialization pattern across exercises.",
+            "suggestedFix": "Align Exercise 5 auxiliary initialization with the phase-kickback description by preparing the auxiliary qubit in |-> (apply X then H) in both template hints and the solution\u2019s state_preparation, or update the problem statement for Exercise 5 to explicitly state a different marking mechanism if |1> is intended.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 191,
+                    "endLine": 199
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex5_grover_kakuro.py",
+                    "startLine": 33,
+                    "endLine": 49
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex5_grover_kakuro.py",
+                    "startLine": 26,
+                    "endLine": 41
+                }
+            ]
+        },
+        {
+            "severity": "LOW",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Exercises 2.6/4.6/5.6 ask to return simulation counts, but the solutions run the circuits on the \"statevector_simulator\" backend and then call get_counts(). This is structurally inconsistent (counts are typically produced by the qasm simulator or by sampling from measurements), and can confuse students about which simulator backend is intended for count-based output.",
+            "suggestedFix": "Use Aer.get_backend(\"qasm_simulator\") (or AerSimulator) for count-based exercises, or adjust the exercise text to explicitly permit using the statevector simulator plus get_counts() behavior if that\u2019s what the tests expect.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 136,
+                    "endLine": 137
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+                    "startLine": 125,
+                    "endLine": 136
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex4_grover_lights_out_puzzle.py",
+                    "startLine": 173,
+                    "endLine": 184
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex5_grover_kakuro.py",
+                    "startLine": 109,
+                    "endLine": 125
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Exercise numbering for QFT is inconsistent across artifacts: the problem statement labels QFT as Exercise 6 (tasks 6.1/6.2) and Exercise 7 (tasks 7.1/7.2), but the corresponding template/solution code uses method docstrings labeled as \u201cExercise 1.1/1.2\u201d (for 3-qubit QFT) and \u201cExercise 2.1/2.2\u201d (for n-qubit QFT). This mismatch makes it harder for students to map the instructions to the correct functions to implement.",
+            "suggestedFix": "Align the docstrings (and/or filenames) with the problem statement numbering, e.g., update ex1_qft.py docstrings to \u201cExercise 6.1/6.2\u201d and ex2_qft.py docstrings to \u201cExercise 7.1/7.2\u201d (or renumber the problem statement to match the code), so students can directly map tasks to functions.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 246,
+                    "endLine": 269
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex1_qft.py",
+                    "startLine": 10,
+                    "endLine": 31
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex2_qft.py",
+                    "startLine": 7,
+                    "endLine": 27
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex1_qft.py",
+                    "startLine": 10,
+                    "endLine": 43
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex2_qft.py",
+                    "startLine": 7,
+                    "endLine": 47
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T16:36:04.359138Z",
+        "endTime": "2026-03-14T16:37:01.914213Z",
+        "durationS": 57.555
+    },
+    "tokens": {
+        "prompt": 47257,
+        "completion": 929,
+        "total": 48186
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/QCSL25/QC02-Far_Term_Quantum_Algorithms/002",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-12T21:33:26.606668Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The template's comments and code ordering around computing the pixel memory position are inconsistent with the solution: the template instructs to 'get coordinates' by popping EBX and EAX before calculating the position (implying coordinates are on the stack at that point), whereas the provided solution computes the position using EAX and EBX directly and only pops the saved coordinates afterwards. This mismatch in the expected location/state of the x/y values (registers vs. stack) is likely to confuse students about where the coordinates reside when they implement the calculation.",
+            "suggestedFix": "Make the template's comments and the example solution consistent: either (A) clearly state that EAX and EBX contain x and y at the point where the position should be computed and remove the confusing pop/push instructions, or (B) modify the solution to follow the template's pop-then-calc flow. Update the template comments to explicitly document whether x/y are expected in registers or on the stack when computing the address.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 99,
+                    "endLine": 110
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 93,
+                    "endLine": 106
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The solution's set_pixel implementation adds an extra constant offset (add eax, 4) after computing the pixel address before writing the color. This deviates from the address formula implied by the problem (address = display_start + ((y * width) + x) * 4) and will write the color one pixel (4 bytes) past the intended location. This discrepancy between the specification and the solution is a structural/functional inconsistency that can mislead students using the solution as reference.",
+            "suggestedFix": "Remove the extraneous 'add eax, 4' in the set_pixel implementation so the computed address matches the formula address = display_start + ((y * width) + x) * 4. Ensure any example or explanatory comments reflect the correct formula and byte offset per pixel (4 bytes).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 17,
+                    "endLine": 26
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 35
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:33:26.606668Z",
+        "endTime": "2026-03-12T21:34:10.134355Z",
+        "durationS": 43.527
+    },
+    "tokens": {
+        "prompt": 13559,
+        "completion": 5281,
+        "total": 18840
+    },
+    "costs": {
+        "promptEur": 0.0031185700683593748,
+        "completionEur": 0.009717040405273438,
+        "totalEur": 0.012835610473632813
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/009",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

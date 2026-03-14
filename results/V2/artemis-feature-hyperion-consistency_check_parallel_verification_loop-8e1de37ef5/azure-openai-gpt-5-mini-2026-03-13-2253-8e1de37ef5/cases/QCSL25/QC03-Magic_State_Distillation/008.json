@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T23:30:44.995203Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "Element: function simulate_msd_one_round. Template (template_repository/msd.py) constructs a Stim circuit with an argument: circ = stim.Circuit(n_shots). The reference solution (solution_repository/msd.py) constructs an empty Stim circuit with no arguments: circ = stim.Circuit(). This mismatch is about the constructor parameter(s) used for stim.Circuit and can mislead students into thinking they should pass the number of shots to the Circuit constructor. Passing n_shots to the constructor changes the meaning (it is a qubit-count style parameter in Stim, not a shots parameter) and will produce incorrect behavior or confusing runtime errors when students follow the template. The inconsistency between the template and solution therefore creates a structural confusion when implementing simulate_msd_one_round.",
+            "suggestedFix": "In the template, change the Stim circuit construction in simulate_msd_one_round from circ = stim.Circuit(n_shots) to circ = stim.Circuit(). Update any surrounding comments/docstring to indicate that shots are provided to the sampler (e.g., sim = circ.compile_sampler(); sim.sample(n_shots)) rather than to the Circuit constructor. Ensure any other examples in the template similarly avoid passing shot counts to stim.Circuit.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/msd.py",
+                    "startLine": 122,
+                    "endLine": 122
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/msd.py",
+                    "startLine": 208,
+                    "endLine": 208
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 149,
+                    "endLine": 151
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:30:44.995203Z",
+        "endTime": "2026-03-13T23:31:34.004780Z",
+        "durationS": 49.009
+    },
+    "tokens": {
+        "prompt": 59726,
+        "completion": 6369,
+        "total": 66095
+    },
+    "costs": {
+        "promptEur": 0.01373698046875,
+        "completionEur": 0.011718959930419923,
+        "totalEur": 0.025455940399169923
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/008",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

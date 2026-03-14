@@ -1,0 +1,60 @@
+{
+    "timestamp": "2026-03-13T07:49:07.998411Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Method addParent in the service layer has inconsistent parameter names between artifacts. The problem statement and the template declare and describe addParent as addParent(Person person, Person parent) \u2014 i.e., first parameter is the child (person) and second is the parent. In the solution the method is declared as addParent(Person parent, Person person) (the parameter names are swapped). Because both parameters have the same type (Person, Person), callers (PersonResource and the tests) pass arguments in the documented order (child, parent). The solution's swapped parameter names make the method body treat those arguments as if the first argument were the parent and the second the child, causing the implementation to inspect and modify the wrong object's relationships (e.g., checking getParents() on the parent instead of the child). This naming mismatch is a real semantic inconsistency that will confuse students and lead to incorrect behavior despite compiling successfully.",
+            "suggestedFix": "Make the solution's PersonService.addParent parameter names and usage match the specification and template: declare the method as addParent(Person person, Person parent) (child first, parent second) and update the implementation to operate on 'person' as the child and 'parent' as the parent (e.g., check person.getParents(), person.getParents().add(parent), then save(person)). Alternatively, if the solution intentionally intended the other interpretation, update the documentation, PersonResource calls, and tests to pass arguments in the matching order and document the deviation \u2014 but the recommended fix is to align the solution with the template/problem statement.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 99,
+                    "endLine": 106
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 40,
+                    "endLine": 40
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 40,
+                    "endLine": 40
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 60,
+                    "endLine": 66
+                },
+                {
+                    "type": "TESTS_REPOSITORY",
+                    "filePath": "src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+                    "startLine": 74,
+                    "endLine": 74
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:49:07.998411Z",
+        "endTime": "2026-03-13T07:50:21.630559Z",
+        "durationS": 73.632
+    },
+    "tokens": {
+        "prompt": 72252,
+        "completion": 8644,
+        "total": 80896
+    },
+    "costs": {
+        "promptEur": 0.01661796044921875,
+        "completionEur": 0.0159049599609375,
+        "totalEur": 0.03252292041015625
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/004",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

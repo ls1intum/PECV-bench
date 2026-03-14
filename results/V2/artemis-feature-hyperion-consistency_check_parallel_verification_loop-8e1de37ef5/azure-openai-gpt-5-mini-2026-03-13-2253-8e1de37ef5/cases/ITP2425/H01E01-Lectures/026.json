@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-13T23:07:36.874064Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Method getTotalNumberOfStudents(): The problem statement's UML specifies a public method getTotalNumberOfStudents() that returns an int. The template contains a TODO for implementing getTotalNumberOfStudents (no concrete signature) consistent with the UML. The solution implementation defines public StudentCount getTotalNumberOfStudents() and adds a StudentCount class. This creates a return-type mismatch: the specification/UML indicate an int but the solution uses a custom StudentCount type, which will confuse students and cause tests or callers expecting an int to fail or require them to introduce the StudentCount type unexpectedly.",
+            "suggestedFix": "Unify the return type across artifacts. Preferred fix (keeps UML and tests simple): modify the solution so getTotalNumberOfStudents() returns an int (return numberOfInscribedStudents + numberOfGuestStudents) and remove the StudentCount class; update any callers in the solution accordingly. Alternative fix: update the problem statement UML and template to declare getTotalNumberOfStudents(): StudentCount and include the StudentCount type in the template, so the custom type is part of the specification.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 70
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 12,
+                    "endLine": 12
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 75,
+                    "endLine": 75
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/StudentCount.java",
+                    "startLine": 3,
+                    "endLine": 3
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Concept: total number of students for a Lecture. Problem statement / UML require a method getTotalNumberOfStudents() that returns a primitive int. Template Lecture.java contains a TODO placeholder for implementing getTotalNumberOfStudents() (no implementation provided). The solution implementation defines Lecture.getTotalNumberOfStudents() with signature public StudentCount getTotalNumberOfStudents() returning a StudentCount object and introduces a StudentCount class. A student reading the UML/problem will expect getTotalNumberOfStudents(): int and implement code that returns an int, but the provided solution uses a different type name (StudentCount) and requires calling getValue() on that object to obtain the numeric count. This mismatch between the expected primitive int and the StudentCount wrapper class creates mapping friction and can confuse students about the required return type and how to use the method.",
+            "suggestedFix": "Align the representation of the total student count across artifacts. Preferred fix: change the solution so Lecture.getTotalNumberOfStudents() returns a primitive int (sum of numberOfInscribedStudents and numberOfGuestStudents), update any callers in the solution accordingly (e.g., getNameAndTotalNumberOfStudents() should use the int directly), and remove or repurpose the StudentCount class to avoid introducing a new type for a simple numeric value. Alternatively (less preferred): update the problem statement and UML to explicitly declare and document a StudentCount return type and its API (e.g., getValue()), so students expect and understand the wrapper type. The first option (return int) is recommended for clarity and to match the UML as currently written.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 70
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 12,
+                    "endLine": 12
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 75,
+                    "endLine": 75
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/src/de/tum/cit/ase/StudentCount.java",
+                    "startLine": 3,
+                    "endLine": 12
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:07:36.874064Z",
+        "endTime": "2026-03-13T23:08:15.747682Z",
+        "durationS": 38.873
+    },
+    "tokens": {
+        "prompt": 23714,
+        "completion": 6005,
+        "total": 29719
+    },
+    "costs": {
+        "promptEur": 0.0054542200927734374,
+        "completionEur": 0.011049200195312501,
+        "totalEur": 0.01650342028808594
+    },
+    "case_id": "V2/ITP2425/H01E01-Lectures/026",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

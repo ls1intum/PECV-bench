@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T08:16:06.575183Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Function parameter semantics mismatch: the first parameter of create_single_qubit_gate is named and documented as num_qubits (\"the number of qubits in the system\") in the problem statement and the template, but the reference solution calls create_single_qubit_gate with a control index (a subsystem size) when building an identity block for a controlled gate. Specifically: problem_statement.md and template_repository/dd_simulation.py describe create_single_qubit_gate(num_qubits, target, gate_matrix) as constructing a gate for an N-qubit system (num_qubits = total system size). In solution_repository/dd_simulation.py, create_controlled_single_qubit_gate builds an identity block by calling id_path = create_single_qubit_gate(control, 0, np.identity(2)) (passing the control index as the first argument), i.e., treating the first argument as the size of a smaller subsystem (c qubits) rather than the full-system size. This dual interpretation (global system size vs. subsystem size) is inconsistent and will confuse students about what value to pass as the first argument when composing multi-qubit DD blocks.",
+            "suggestedFix": "Make the intended meaning explicit and consistent: update the docstring and problem text to state that the first parameter specifies the number of qubits of the DD being constructed (it may be either the full system size or a smaller subsystem size when used to build blocks/identities). Add an explanatory example showing both usages. Alternatively introduce a helper function create_identity(num_qubits) (or rename the parameter to subsystem_num_qubits where used) and update create_controlled_single_qubit_gate to call that helper for I^c so callers don't need to repurpose the create_single_qubit_gate parameter for subsystem construction.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 31,
+                    "endLine": 35
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/dd_simulation.py",
+                    "startLine": 84,
+                    "endLine": 116
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/dd_simulation.py",
+                    "startLine": 214,
+                    "endLine": 218
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:16:06.575183Z",
+        "endTime": "2026-03-13T08:17:12.807380Z",
+        "durationS": 66.232
+    },
+    "tokens": {
+        "prompt": 90270,
+        "completion": 6773,
+        "total": 97043
+    },
+    "costs": {
+        "promptEur": 0.0207621005859375,
+        "completionEur": 0.012462320190429688,
+        "totalEur": 0.03322442077636718
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/008",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

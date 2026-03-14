@@ -1,0 +1,100 @@
+{
+    "timestamp": "2026-03-12T23:20:32.112120Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The expected orientation (axis ordering) of the 2D 'measurements' array used by detect_errors is ambiguous between the problem statement and the implementations. The problem text says \"takes a two-dimensional array of measurements (every row corresponds to a measurement)\" which can be read as rows = individual measurement operators or rows = shots. The solution's detect_errors implementation expects shape (n_shots, n_qubits) (rows = shots, columns = qubits) and performs measurements @ checks.T accordingly. This ambiguity can confuse students about how to format sampled measurement data and may cause them to implement detect_errors with the transposed shape, leading to incorrect parity/check computations.",
+            "suggestedFix": "Unambiguously document the expected shape/orientation of the 'measurements' array in the problem statement and in the detect_errors docstring (e.g. explicitly state that the array must be shaped (n_shots, n_qubits) with each row a shot and each column a qubit measurement). Provide a short example demonstrating the shape and how checks are applied (e.g. show a 2-shot example). Optionally add a small validation/assertion inside detect_errors to check and raise a clear error when the input has the transposed shape.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 126,
+                    "endLine": 134
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/msd.py",
+                    "startLine": 109,
+                    "endLine": 118
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/msd.py",
+                    "startLine": 186,
+                    "endLine": 196
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The parameter order / calling convention for correct_teleportation is ambiguous and inconsistently used. The problem statement and template define correct_teleportation(teleportation_measurements, x_measurements) -> corrections. In the solution the function implements a symmetric XOR (tele ^ x), but in code sites it's sometimes called with the arguments swapped (e.g. correct_teleportation(measurements[:, final], measurements[:, tele]) in simulate_msd_one_round). Because the intended semantic roles (which array corresponds to teleportation measurement outcomes vs. X-basis measurements) are meaningful for students, the ambiguity in argument ordering and usage can confuse students implementing and using the function. Even though XOR is commutative, relying on that property is fragile and can mask semantic mistakes.",
+            "suggestedFix": "Make the parameter ordering explicit and consistent in the problem statement, template docstring, and examples. Rename parameters to make roles clearer (e.g. correct_teleportation(y_measurements, injection_measurements) or correct_teleportation(measured_resource_bits, data_x_bits)). Update all call sites in solution/template to use the documented order. Alternatively, implement correct_teleportation to accept keyword-only arguments (e.g. *, teleportation_measurements, x_measurements) to force callers to be explicit and avoid accidental swaps.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 104,
+                    "endLine": 110
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/msd.py",
+                    "startLine": 65,
+                    "endLine": 75
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/msd.py",
+                    "startLine": 221,
+                    "endLine": 236
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The function simulate_msd_two_rounds is declared with differing signatures across artifacts: the Problem Statement and the Solution include a batch_size parameter (simulate_msd_two_rounds(n_shots, p, batch_size=1000000)), but the Template's stub omits the batch_size parameter (simulate_msd_two_rounds(n_shots, p)). This mismatch can confuse students about the required function API and cause incompatibilities with provided tests or the reference implementation.",
+            "suggestedFix": "Update the template function signature to match the problem statement and solution: change the stub in template_repository/msd.py to def simulate_msd_two_rounds(n_shots: int, p: float, batch_size: int = 1000000) -> tuple[float, float]: and update the docstring to mention the batch_size parameter.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 171,
+                    "endLine": 175
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/msd.py",
+                    "startLine": 134,
+                    "endLine": 146
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/msd.py",
+                    "startLine": 240,
+                    "endLine": 246
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T23:20:32.112120Z",
+        "endTime": "2026-03-12T23:21:06.084426Z",
+        "durationS": 33.972
+    },
+    "tokens": {
+        "prompt": 39457,
+        "completion": 6470,
+        "total": 45927
+    },
+    "costs": {
+        "promptEur": 0.0090751103515625,
+        "completionEur": 0.011904800537109374,
+        "totalEur": 0.020979910888671877
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/006",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

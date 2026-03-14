@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-12T21:38:06.717593Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem statement and both Dockerfiles reference and attempt to COPY a start.sh script into the image and make it executable, but no start.sh file exists in the template or solution repository. This is a structural inconsistency: the Docker build (as described in the instructions and implemented in the Dockerfiles) depends on a file that is not present in the repository, which will prevent students from successfully building the Docker image as instructed and cause confusion about what start.sh should contain.",
+            "suggestedFix": "Include a start.sh script in the repository root (or update the Dockerfiles). The start.sh should run the application, e.g.:\n\n#!/bin/sh\njava -jar /app/app.jar\n\nand be committed to the repository with executable permissions. Alternatively, modify the Dockerfile to directly run the jar (e.g. use CMD [\"java\",\"-jar\",\"/app/app.jar\"]) and remove the COPY/CHMOD references to start.sh. Ensure the problem statement and Dockerfile instructions match the chosen approach.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 58,
+                    "endLine": 61
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Dockerfile",
+                    "startLine": 3,
+                    "endLine": 6
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Dockerfile",
+                    "startLine": 4,
+                    "endLine": 6
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T21:38:06.717593Z",
+        "endTime": "2026-03-12T21:38:27.001636Z",
+        "durationS": 20.284
+    },
+    "tokens": {
+        "prompt": 47897,
+        "completion": 2381,
+        "total": 50278
+    },
+    "costs": {
+        "promptEur": 0.01101631005859375,
+        "completionEur": 0.004381039978027344,
+        "totalEur": 0.015397350036621092
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/007",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2132-e2ee1d1f1c"
+}

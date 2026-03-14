@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-14T16:25:51.142159Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The problem statement asks for a `public class Course` with properties `name`, `instructor`, and `ratings`, but in both template and solution these stored properties and the initializer are declared without `public`, making them `internal` by default. This can block or confuse learners if the tests (or any external consumer) try to access `Course.name`, `Course.instructor`, `Course.ratings`, or initialize `Course` from outside the `DeveloperLib` module.",
+            "suggestedFix": "Match the statement by making the API public: `public let name`, `public let instructor`, `public var ratings`, and `public init(name:instructor:ratings:)` (or adjust the problem statement to clarify that only the class is public and members may remain internal).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 6,
+                    "endLine": 11
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 7,
+                    "endLine": 16
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 8,
+                    "endLine": 17
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The course rating method\u2019s external parameter label differs across artifacts: the problem statement and template require `addRating(stars:)`, but the solution implements `addRating(rating:)`. In Swift, external labels are part of the signature, so calls like `swiftCourse.addRating(stars: 4)` (as specified) will not compile against the solution implementation.",
+            "suggestedFix": "Rename the solution method to `func addRating(stars: Int)` (and use `stars` internally), or update the template and problem statement to consistently use `addRating(rating:)` and adjust any call sites accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 13,
+                    "endLine": 18
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 24,
+                    "endLine": 24
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 25,
+                    "endLine": 25
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Client.swift",
+                    "startLine": 14,
+                    "endLine": 15
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T16:25:51.142159Z",
+        "endTime": "2026-03-14T16:26:05.274804Z",
+        "durationS": 14.132
+    },
+    "tokens": {
+        "prompt": 19500,
+        "completion": 1547,
+        "total": 21047
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/IOS26/TC2-Developer/004",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

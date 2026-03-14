@@ -1,0 +1,104 @@
+{
+    "timestamp": "2026-03-13T22:17:13.028939Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Identifier naming inconsistency: The problem statement and UML declare a class named 'Stock' (with methods add(String):int, take(String):int, findStockIngredient(String):StockIngredient, addToStockIngredients(StockIngredient):void, emptyStock():void). The template repository instead provides a fully implemented class named 'Inventory' that exposes the same API, and includes an empty Stock.java file. The solution repository and SealSaloon implementation also use 'Inventory' (e.g., SealSaloon.stock is of type Inventory). This mismatch between the specification's class name ('Stock') and the provided/used class name ('Inventory') confuses students about which identifier/type to implement or reference and can lead to compilation or integration errors if they follow the UML literally or the template code literally.",
+            "suggestedFix": "Make the identifier consistent across problem statement, template, and solution. Two options: (A) Rename the provided Inventory class and file to Stock (Inventory.java -> Stock.java), remove or replace the empty Stock.java, and update all references in text and code (SealSaloon.stock type, documentation, and tests) to use Stock; or (B) Update the problem statement and UML to refer to Inventory instead of Stock (change UML class name and all textual references to 'Stock' -> 'Inventory'), and remove the empty Stock.java file. Ensure all code, filenames, and documentation use the same class name so students know which class to implement and reference.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 13,
+                    "endLine": 13
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 49,
+                    "endLine": 55
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Inventory.java",
+                    "startLine": 1,
+                    "endLine": 62
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 3,
+                    "endLine": 6
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Inventory.java",
+                    "startLine": 1,
+                    "endLine": 62
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Concept: the shared ingredient storage used by SealSaloon and its API (methods: add, take, findStockIngredient, addToStockIngredients, emptyStock). Problem statement & class diagram name this concept 'Stock' and describe a Stock class with those methods. Template and solution code instead implement this concept as class 'Inventory' (Inventory.java) which provides the described methods, while Stock.java in both repositories is empty. Students reading the problem will look for a 'Stock' class and its methods as specified in the assignment, but the template/solution use 'Inventory', causing a mapping mismatch and likely confusion or wasted time locating/implementing the expected class.",
+            "suggestedFix": "Unify the identifier for the shared stock concept across artifacts. Option A (recommended for minimal student friction): rename Inventory.java to Stock.java (class Stock) and move/duplicate Inventory's implementation into src/de/tum/cit/ase/Stock.java, update all references (SealSaloon and documentation) to use Stock, and remove the empty Stock.java placeholder. Option B: update the problem statement and UML diagram to refer to 'Inventory' instead of 'Stock' and remove the empty Stock.java file. Ensure the chosen class contains the methods add, take, findStockIngredient, addToStockIngredients, and emptyStock, and that SealSaloon and all examples/documentation reference the same name.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 49,
+                    "endLine": 55
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Inventory.java",
+                    "startLine": 3,
+                    "endLine": 3
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Inventory.java",
+                    "startLine": 3,
+                    "endLine": 3
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:17:13.028939Z",
+        "endTime": "2026-03-13T22:17:55.952150Z",
+        "durationS": 42.923
+    },
+    "tokens": {
+        "prompt": 38572,
+        "completion": 7070,
+        "total": 45642
+    },
+    "costs": {
+        "promptEur": 0.00887156005859375,
+        "completionEur": 0.013008800292968751,
+        "totalEur": 0.021880360351562503
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/012",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2214-8e1de37ef5"
+}

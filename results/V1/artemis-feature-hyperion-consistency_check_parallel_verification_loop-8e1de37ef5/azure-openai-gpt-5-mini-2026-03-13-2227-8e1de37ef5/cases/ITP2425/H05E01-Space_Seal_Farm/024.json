@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-13T22:33:33.046066Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field Farm.animals: problem statement UML declares an attribute animals: List<Animal> (UML), while the textual instructions later require the Farm to use a Set (HashSet) to ensure uniqueness. The UML (animals: List<Animal>) appears at the UML class block, whereas the textual description (use Set / HashSet, unique animals) appears in the Part 3 Farm task. This contradiction leaves students unsure whether to implement Farm.animals as a List or a Set, which affects the field type, constructor initialization, and the getter/setter signatures.",
+            "suggestedFix": "Make the collection type consistent in the problem statement. Either (A) update the UML to show animals: Set<Animal> (and mention HashSet in the UML notes) so both UML and textual instructions require a Set, or (B) remove the Set/HashSet requirement from the textual Farm task and keep List<Animal> in both the UML and text. Ensure the constructor and getter/setter in the template/solution match the chosen collection type.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 17,
+                    "endLine": 17
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 108,
+                    "endLine": 111
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field Farm.animals type mismatch between specification and reference solution: the textual specification in the problem statement requires Farm.animals to be a Set (HashSet) to enforce uniqueness, but the solution implementation declares private List<Animal> animals and initializes it with an ArrayList. This causes the reference solution to diverge from the specification and confuses students trying to compare their implementations to the provided solution.",
+            "suggestedFix": "Align the solution repository with the problem specification or vice versa. Preferred resolution: change the solution to use a Set<Animal> (e.g., private Set<Animal> animals = new HashSet<>();), update the getter/setter signatures to Set<Animal>, and keep addAnimal(Animal) behavior the same but rely on the Set to avoid duplicates. Alternatively, if Lists are to be allowed, update the problem statement to accept List<Animal> and remove the explicit HashSet requirement.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 108,
+                    "endLine": 111
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Farm.java",
+                    "startLine": 9,
+                    "endLine": 13
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Farm.java",
+                    "startLine": 23,
+                    "endLine": 25
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:33:33.046066Z",
+        "endTime": "2026-03-13T22:34:13.209234Z",
+        "durationS": 40.163
+    },
+    "tokens": {
+        "prompt": 32150,
+        "completion": 5199,
+        "total": 37349
+    },
+    "costs": {
+        "promptEur": 0.007394500244140625,
+        "completionEur": 0.00956616015625,
+        "totalEur": 0.016960660400390626
+    },
+    "case_id": "V1/ITP2425/H05E01-Space_Seal_Farm/024",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2227-8e1de37ef5"
+}

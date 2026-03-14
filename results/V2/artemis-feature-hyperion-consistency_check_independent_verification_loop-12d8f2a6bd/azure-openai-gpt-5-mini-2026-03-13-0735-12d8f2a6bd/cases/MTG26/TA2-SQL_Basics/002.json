@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T08:07:40.029745Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Aufgabe 02 verlangt einen einzigen numerischen Wert (Anzahl der Gemeinden im Regierungsbezirk 'Oberbayern'), siehe Aufgabenbeschreibung. Die bereitgestellte L\u00f6sung (solution_repository/aufgabe02.sql) liefert stattdessen alle Zeilen der Tabelle Gemeinde gefiltert nach regierungsbezirk (SELECT * FROM Gemeinde WHERE regierungsbezirk='Oberbayern'), also mehrere Zeilen mit vollst\u00e4ndigen Spalten. Das Ergebnisformat weicht somit von der Erwartung (aggregierter Z\u00e4hler vs. Zeilenliste) ab und kann Studierende verwirren, da sie eine einzelne COUNT()-Antwort erwarten, nicht eine Liste von Gemeinden.",
+            "suggestedFix": "Passe die L\u00f6sung an, so dass sie die aggregierte Anzahl zur\u00fcckgibt, z.B.:\nSELECT COUNT(*) AS Anzahl\nFROM Gemeinde\nWHERE regierungsbezirk = 'Oberbayern';\nAlternativ, falls die Aufgabenstellung tats\u00e4chlich eine Liste der Gemeinden statt einer Zahl beabsichtigt, formuliere die Aufgabenbeschreibung klar um, damit die erwartete Ergebnismenge (Zeilensatz vs. einzelner Aggregatwert) eindeutig ist.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 111,
+                    "endLine": 114
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe02.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/aufgabe02.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T08:07:40.029745Z",
+        "endTime": "2026-03-13T08:08:19.734130Z",
+        "durationS": 39.704
+    },
+    "tokens": {
+        "prompt": 19945,
+        "completion": 4047,
+        "total": 23992
+    },
+    "costs": {
+        "promptEur": 0.00458735009765625,
+        "completionEur": 0.007446480102539062,
+        "totalEur": 0.012033830200195312
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/002",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

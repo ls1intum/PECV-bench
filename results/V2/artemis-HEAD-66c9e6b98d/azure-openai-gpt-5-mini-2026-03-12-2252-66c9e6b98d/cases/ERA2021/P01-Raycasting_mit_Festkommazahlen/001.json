@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-12T22:54:58.431120Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Return type mismatch for Bitmap24::save: the template repository header declares save(...) as returning int, but the implementation defines it as returning void. The solution repository shows the header and implementation using void (the intended design). This inconsistency in the template will confuse students about the correct signature to implement and will cause compilation/linking errors if they trust the header or try to match the implementation.",
+            "suggestedFix": "Make the declaration and definition of Bitmap24::save consistent. Prefer updating the template header to 'void save(const std::string &i_filename);' to match the implementation (and the solution), or change the implementation to return int if an integer return value is required. Ensure both header and .cpp use the same return type.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/example_program/src/Bitmap24.hpp",
+                    "startLine": 47,
+                    "endLine": 49
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/example_program/src/Bitmap24.cpp",
+                    "startLine": 78,
+                    "endLine": 160
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/example_program/src/Bitmap24.hpp",
+                    "startLine": 47,
+                    "endLine": 49
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/example_program/src/Bitmap24.cpp",
+                    "startLine": 78,
+                    "endLine": 160
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Inconsistent and duplicated typedef/type definitions for the fixed-point type (fix_t): math_fix.h defines fix_t via the FIX_LEN conditional macros, while math_fix.c (in both template and solution repositories) re-declares FIX_LEN and provides its own typedef lines (e.g. 'typedef int long long fix_t;') instead of including and relying on the header. This duplicates and diverges the type definition surface and uses an unusual/incorrect typedef syntax, which can confuse students about the canonical definition of fix_t and may cause compilation/type issues when implementing and testing assembly functions that rely on fix_t.",
+            "suggestedFix": "Unify the fixed-point type definition: remove duplicate typedefs and FIX_LEN redefinitions from math_fix.c and include math_fix.h to obtain the canonical typedefs. Correct the typedef syntax to a standard form (e.g. 'typedef long long fix_t;' and 'typedef unsigned long long fixu_t;' when FIX_LEN==8). Ensure all translation units rely on the single header definition so the type is consistent across the project and matches the function prototypes used in tests.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/example_program/src/math_fix.h",
+                    "startLine": 11,
+                    "endLine": 23
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/example_program/src/math_fix.c",
+                    "startLine": 11,
+                    "endLine": 18
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/example_program/src/math_fix.h",
+                    "startLine": 11,
+                    "endLine": 23
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/example_program/src/math_fix.c",
+                    "startLine": 11,
+                    "endLine": 18
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-12T22:54:58.431120Z",
+        "endTime": "2026-03-12T22:55:30.766726Z",
+        "durationS": 32.335
+    },
+    "tokens": {
+        "prompt": 87123,
+        "completion": 4502,
+        "total": 91625
+    },
+    "costs": {
+        "promptEur": 0.020038291015625,
+        "completionEur": 0.008283680297851563,
+        "totalEur": 0.028321971313476565
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/001",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-12-2252-66c9e6b98d"
+}

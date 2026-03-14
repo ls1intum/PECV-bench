@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-13T22:32:30.016666Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Method name mismatch for the static meal-cost calculation method on class SealSaloon: the problem statement UML and text declare a static method named calculateTotalPrice(Meal): int, whereas both the template Main and the solution implementation declare and call a static method named computeMealCost(Meal): int. This inconsistent identifier name (calculateTotalPrice vs computeMealCost) will confuse students about which method to implement and can cause compilation/test failures if automated tests or the problem text expect the other name.",
+            "suggestedFix": "Unify the method name across all artifacts. Preferred fixes (choose one to apply): 1) Rename the static method computeMealCost(Meal) in SealSaloon to calculateTotalPrice(Meal) and update all callers (Main in template and solution) to call calculateTotalPrice; or 2) Update the problem statement (UML and any textual references) to use computeMealCost(Meal) instead of calculateTotalPrice. Ensure the method signature remains static int calculateTotalPrice(Meal) (or computeMealCost) to match the UML and tests.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 29
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Main.java",
+                    "startLine": 13,
+                    "endLine": 13
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 57,
+                    "endLine": 57
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The exercise requires a single concept: a static method on SealSaloon that computes the total/net price of a Meal using prices from the shared stock. The problem statement and UML name this method calculateTotalPrice(Meal): int (problem_statement.md, UML line 29). However, the solution's SealSaloon implementation declares public static int computeMealCost(Meal meal) (src/de/tum/cit/ase/SealSaloon.java, line 57), while both the template's Main and the solution's Main call shop.computeMealCost(...) and shop.calculateTotalPrice(...), respectively (template Main: src/de/tum/cit/ase/Main.java lines 13-14 use computeMealCost; solution Main: src/de/tum/cit/ase/Main.java lines 13-14 use calculateTotalPrice). This name mismatch for the same conceptual operation prevents a straightforward mapping from the problem/UML requirement to the provided code and will confuse students about which method to implement or call.",
+            "suggestedFix": "Unify the identifier for the meal-cost computation across all artifacts. Prefer renaming the implementation to match the problem/UML: change SealSaloon.computeMealCost(Meal) to public static int calculateTotalPrice(Meal meal) in src/de/tum/cit/ase/SealSaloon.java, and update all callers (both template and solution Main) to call calculateTotalPrice(...). Ensure the method remains static and returns int as specified in the UML. Alternatively, if you prefer computeMealCost, update the problem statement/UML to use computeMealCost consistently \u2014 but do not mix both names.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 29
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Main.java",
+                    "startLine": 13,
+                    "endLine": 14
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 57,
+                    "endLine": 57
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Main.java",
+                    "startLine": 13,
+                    "endLine": 14
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:32:30.016666Z",
+        "endTime": "2026-03-13T22:33:26.595396Z",
+        "durationS": 56.578
+    },
+    "tokens": {
+        "prompt": 38170,
+        "completion": 8298,
+        "total": 46468
+    },
+    "costs": {
+        "promptEur": 0.00877910009765625,
+        "completionEur": 0.0152683203125,
+        "totalEur": 0.02404742041015625
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/010",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2227-8e1de37ef5"
+}

@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T23:27:15.480945Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Function name mismatch: the exercise specification and reference solution require a function named create_nearest_neighbor_two_qubit_gate, but the template defines create_adjacent_two_qubit_gate instead. Problem statement (tensor networks task) instructs implement create_nearest_neighbor_two_qubit_gate; solution_repository/tensor_networks.py provides create_nearest_neighbor_two_qubit_gate; template_repository/tensor_networks.py only provides create_adjacent_two_qubit_gate. This inconsistency will confuse students and cause tests or instructor examples that call create_nearest_neighbor_two_qubit_gate to fail against the template.",
+            "suggestedFix": "Align the template with the problem statement and solution by either renaming the template function create_adjacent_two_qubit_gate to create_nearest_neighbor_two_qubit_gate (updating its signature and any internal refs) or add a short compatibility wrapper in the template: def create_nearest_neighbor_two_qubit_gate(gate_matrix): return create_adjacent_two_qubit_gate(gate_matrix). This preserves the educational intent while removing the naming mismatch.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 80,
+                    "endLine": 83
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "tensor_networks.py",
+                    "startLine": 59,
+                    "endLine": 81
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "tensor_networks.py",
+                    "startLine": 67,
+                    "endLine": 92
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The concept is the nearest-neighbor two-qubit gate tensor used in the tensor-network simulator. The problem statement refers to this function as create_nearest_neighbor_two_qubit_gate. The template repository declares a function named create_adjacent_two_qubit_gate (template_repository/tensor_networks.py), while the solution implements create_nearest_neighbor_two_qubit_gate (solution_repository/tensor_networks.py). This mismatch (create_adjacent_two_qubit_gate vs create_nearest_neighbor_two_qubit_gate) prevents students from directly mapping the task name in the problem text/tests to the stub in the template, causing confusion about which function to implement and possibly breaking tests that expect the problem-statement name.",
+            "suggestedFix": "Unify the identifier across all artifacts. Rename the template function create_adjacent_two_qubit_gate to create_nearest_neighbor_two_qubit_gate (and update its docstring) so it matches the problem statement and the solution. Alternatively, rename the problem statement and solution to use create_adjacent_two_qubit_gate \u2014 but prefer changing the template to create_nearest_neighbor_two_qubit_gate to match the tests and problem text. Also update any references in tests, docstrings, and examples to use the unified name.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 80,
+                    "endLine": 83
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "tensor_networks.py",
+                    "startLine": 59,
+                    "endLine": 81
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "tensor_networks.py",
+                    "startLine": 67,
+                    "endLine": 92
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:27:15.480945Z",
+        "endTime": "2026-03-13T23:27:44.082602Z",
+        "durationS": 28.601
+    },
+    "tokens": {
+        "prompt": 118740,
+        "completion": 5384,
+        "total": 124124
+    },
+    "costs": {
+        "promptEur": 0.02731020068359375,
+        "completionEur": 0.009906560180664062,
+        "totalEur": 0.03721676086425781
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/018",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

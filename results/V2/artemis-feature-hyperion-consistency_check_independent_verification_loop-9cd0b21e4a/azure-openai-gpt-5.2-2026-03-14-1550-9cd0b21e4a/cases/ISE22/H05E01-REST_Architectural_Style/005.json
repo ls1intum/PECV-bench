@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-14T16:02:24.643163Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Server-side endpoint signature inconsistency: In the solution, PersonResource.updatePerson declares the path variable personId as String and compares it via updatedPerson.getId().toString().equals(personId). This differs from the established pattern in NoteResource (and typical Spring REST style) where the path variable is bound as UUID. Students following the NoteResource example are likely to implement updatePerson with @PathVariable UUID, leading to a different method signature than the reference solution.",
+            "suggestedFix": "Align the solution with the UUID-based pattern: change PersonResource.updatePerson to take @PathVariable(\"personId\") UUID personId and validate with updatedPerson.getId() != null && updatedPerson.getId().equals(personId).",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 37,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/NoteResource.java",
+                    "startLine": 38,
+                    "endLine": 39
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 112,
+                    "endLine": 113
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T16:02:24.643163Z",
+        "endTime": "2026-03-14T16:04:22.742642Z",
+        "durationS": 118.099
+    },
+    "tokens": {
+        "prompt": 75491,
+        "completion": 1378,
+        "total": 76869
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/005",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

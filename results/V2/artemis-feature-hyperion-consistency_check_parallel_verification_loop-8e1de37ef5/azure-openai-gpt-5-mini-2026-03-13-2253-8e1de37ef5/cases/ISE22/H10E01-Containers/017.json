@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-13T23:04:18.038216Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Method name mismatch for the parent-registration API: the problem statement and the template declare and require a method named addParent(Person person, Person parent) to be implemented. The solution implementation instead provides a method named registerParent(Person person, Person parent). Meanwhile the REST controller and unit tests call personService.addParent(...). This inconsistent identifier naming between the service implementation (registerParent) and its usages (addParent in PersonResource and tests) will cause either compilation or runtime wiring failures and prevents students from following the intended API.",
+            "suggestedFix": "Make the service API name consistent with the problem statement, template, REST controller, and tests. Either (a) rename the solution method registerParent(Person, Person) to addParent(Person, Person) (preserving its behavior and signature), or (b) add a new public addParent(Person, Person) method that delegates to registerParent(...). Ensure the template, solution service, PersonResource, and tests all use the identical method name and signature.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 99,
+                    "endLine": 106
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 40,
+                    "endLine": 43
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 40,
+                    "endLine": 46
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 60,
+                    "endLine": 66
+                },
+                {
+                    "type": "TESTS_REPOSITORY",
+                    "filePath": "solution_repository/src/test/java/de/tum/in/ase/eist/PersonServiceTest.java",
+                    "startLine": 107,
+                    "endLine": 112
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The exercise requires a service method named addParent(Person, Person) to implement the 'add parent' behavior. The problem statement explicitly references addParent(Person, Person). The template PersonService declares public Person addParent(Person person, Person parent) (a stub). However, the solution's PersonService implements this functionality under the different identifier registerParent(Person, Person). Because PersonResource and the tests (and the problem statement) call addParent, while the solution class exposes registerParent, students face a direct identifier mismatch for the same concept (adding a parent). This inconsistency prevents a straightforward mapping from requirement -> template -> solution, increasing cognitive load and risking compilation/runtime confusion when wiring callers to the implementation.",
+            "suggestedFix": "Make the identifier consistent across artifacts. Rename the solution's method registerParent(Person, Person) to addParent(Person, Person) so it matches the problem statement, template, PersonResource, and tests. Alternatively (less preferred), rename all callers and tests to use registerParent, but prefer addParent to match the existing specification and template.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 101,
+                    "endLine": 101
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 40,
+                    "endLine": 40
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 40,
+                    "endLine": 40
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:04:18.038216Z",
+        "endTime": "2026-03-13T23:05:15.602426Z",
+        "durationS": 57.564
+    },
+    "tokens": {
+        "prompt": 94481,
+        "completion": 7023,
+        "total": 101504
+    },
+    "costs": {
+        "promptEur": 0.02173063037109375,
+        "completionEur": 0.012922320312499999,
+        "totalEur": 0.03465295068359375
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/017",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

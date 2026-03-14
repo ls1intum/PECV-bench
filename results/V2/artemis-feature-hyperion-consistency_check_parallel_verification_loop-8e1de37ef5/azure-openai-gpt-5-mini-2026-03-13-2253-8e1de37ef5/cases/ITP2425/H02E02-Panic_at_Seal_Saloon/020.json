@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-13T23:09:44.123274Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Method name mismatch for StockIngredient quantity accessor: the template repository defines a method named retrieveQuantity() in class StockIngredient, while the template's Stock class (and the solution) call getQuantity(). The solution repository implements public int getQuantity(). This inconsistency causes compilation failures in the template (Stock references getQuantity() which does not exist) and confuses students about the expected public getter name for the quantity field.",
+            "suggestedFix": "Make the public getter name consistent with the solution and Stock usages. Either (A) add a public int getQuantity() method to the template's StockIngredient class that returns the internal quantity (e.g., public int getQuantity() { return this.quantity; }), or (B) rename retrieveQuantity() to getQuantity() in the template. This will restore compilation and match the API students are expected to use.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/StockIngredient.java",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 36,
+                    "endLine": 36
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 47,
+                    "endLine": 47
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/StockIngredient.java",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 42,
+                    "endLine": 47
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The concept is the getter for the StockIngredient quantity. The problem statement asks students to \"add getters for all the private fields\" (problem_statement.md line 22). In the template implementation (template_repository/src/de/tum/cit/ase/StockIngredient.java) the method exposing quantity is named retrieveQuantity() (declaration at line 36). In the solution and in other template code (solution_repository/src/de/tum/cit/ase/StockIngredient.java and template/solution Stock.java) the conventional getter name getQuantity() is used (solution declaration at line 36 and Stock.java calls getQuantity()). This naming mismatch prevents a clear mapping from the requirement to the template, and causes compilation/confusion because Stock.java expects getQuantity() while the template only provides retrieveQuantity().",
+            "suggestedFix": "Rename the template method retrieveQuantity() to getQuantity(), or add a new getQuantity() method that returns retrieveQuantity(), so the getter name matches the problem statement and the rest of the code (Stock.java and the solution).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 22,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/src/de/tum/cit/ase/StockIngredient.java",
+                    "startLine": 36,
+                    "endLine": 36
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/src/de/tum/cit/ase/StockIngredient.java",
+                    "startLine": 36,
+                    "endLine": 36
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:09:44.123274Z",
+        "endTime": "2026-03-13T23:10:18.698667Z",
+        "durationS": 34.575
+    },
+    "tokens": {
+        "prompt": 38118,
+        "completion": 6536,
+        "total": 44654
+    },
+    "costs": {
+        "promptEur": 0.00876714013671875,
+        "completionEur": 0.012026240234375,
+        "totalEur": 0.020793380371093753
+    },
+    "case_id": "V2/ITP2425/H02E02-Panic_at_Seal_Saloon/020",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

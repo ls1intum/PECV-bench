@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-13T22:56:34.782551Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Identifier naming inconsistency for the pixel-writing subroutine: the problem statement and template require a subroutine named 'set_pixel' (problem statement describes set_pixel and template provides an empty 'set_pixel' label), but the solution defines a subroutine named 'write_pixel' (solution_repository/pixel.asm lines 19-34) and does not define 'set_pixel', while main in the solution still calls 'set_pixel' (solution_repository/pixel.asm line 147). This mismatch will cause an undefined-symbol / link-time error and prevents students from directly comparing their implementation to the reference. The expected calling convention (x in EAX, y in EBX, color in ECX, and only EAX allowed to be modified per the problem) is also documented in the problem/template but may not match the solution unless the names/signature are aligned.",
+            "suggestedFix": "Make the subroutine name and signature consistent across artifacts. Rename the solution's 'write_pixel' label to 'set_pixel' (keeping its body and register saves) or add a small 'set_pixel' wrapper that preserves the expected registers and calls 'write_pixel'. Ensure the implementation follows the problem's calling convention (EAX = x, EBX = y, ECX = color) and preserves only the registers allowed by the statement (only EAX may be modified), so students can implement the named 'set_pixel' as described.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 147,
+                    "endLine": 147
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The exercise requires a pixel-setting subroutine named 'set_pixel' (problem statement calls it set_pixel). The template provides a stub labeled 'set_pixel' (label set_pixel: in template_repository/pixel.asm). The solution implementation, however, defines the pixel-writing routine under the different identifier 'write_pixel' (label write_pixel: in solution_repository/pixel.asm) while main in the solution still calls 'set_pixel' (call set_pixel). This inconsistent naming (solution defines write_pixel but the rest of the artifacts expect set_pixel) prevents a direct mapping between the required subroutine name and the implemented routine and will confuse or block students trying to locate or implement the expected routine.",
+            "suggestedFix": "Make the identifier consistent across artifacts. Rename the solution routine 'write_pixel' to 'set_pixel' (and keep the 'call set_pixel' in main), or alternatively rename the template/problem references and the call site in main to 'write_pixel'. Ensure the label that defines the routine matches the name used by main and the problem description so students can directly map the required subroutine to its implementation.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 31,
+                    "endLine": 31
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 37,
+                    "endLine": 37
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 19,
+                    "endLine": 19
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 147,
+                    "endLine": 147
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T22:56:34.782551Z",
+        "endTime": "2026-03-13T22:57:05.391735Z",
+        "durationS": 30.609
+    },
+    "tokens": {
+        "prompt": 25647,
+        "completion": 6142,
+        "total": 31789
+    },
+    "costs": {
+        "promptEur": 0.005898810180664063,
+        "completionEur": 0.0113012802734375,
+        "totalEur": 0.017200090454101563
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/016",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

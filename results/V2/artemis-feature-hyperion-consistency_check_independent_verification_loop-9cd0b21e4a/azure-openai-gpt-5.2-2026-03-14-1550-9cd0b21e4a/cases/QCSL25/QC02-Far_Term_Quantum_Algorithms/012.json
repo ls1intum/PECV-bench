@@ -1,0 +1,144 @@
+{
+    "timestamp": "2026-03-14T16:31:01.500213Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "In ex5_grover_kakuro.py, the template sets `self.number_of_qubits_query_register` to a float (`0.0`), but `QuantumRegister(...)` requires an integer number of qubits. This will raise an error when constructing `QuantumRegister(self.number_of_qubits_query_register, ...)`, preventing students from instantiating `GroverKakuro` and running any part of Exercise 5. The reference solution uses an integer (`4`).",
+            "suggestedFix": "Change the template attribute initialization to an integer: `self.number_of_qubits_query_register = 0` (or set it directly to `4` to match the exercise), so `QuantumRegister(...)` receives an int.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 226,
+                    "endLine": 233
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex5_grover_kakuro.py",
+                    "startLine": 17,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex5_grover_kakuro.py",
+                    "startLine": 10,
+                    "endLine": 16
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Exercises 2.6/4.6/5.6 require returning measurement counts, but the reference solutions use `Aer.get_backend(\"statevector_simulator\")` and then call `result.get_counts(qc)`. Counts are intended for shot-based measurement simulators (e.g., `qasm_simulator`), and `get_counts` is not consistently supported/meaningful for the statevector simulator across Qiskit versions. This creates a mismatch between the problem statement (counts) and the simulation approach used, risking runtime errors or confusing students about which backend to use.",
+            "suggestedFix": "For count-based exercises, switch to `Aer.get_backend(\"qasm_simulator\")` (keep measurements and use `execute(..., shots=...)`), and keep returning `result.get_counts(qc)`. Alternatively, if keeping `statevector_simulator`, return a statevector/probability distribution instead and update the problem statement/tests accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 134,
+                    "endLine": 137
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 210,
+                    "endLine": 213
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 234,
+                    "endLine": 237
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+                    "startLine": 125,
+                    "endLine": 135
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex4_grover_lights_out_puzzle.py",
+                    "startLine": 173,
+                    "endLine": 183
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex5_grover_kakuro.py",
+                    "startLine": 113,
+                    "endLine": 124
+                }
+            ]
+        },
+        {
+            "severity": "LOW",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The QFT exercises are numbered as Exercise 6 in the problem statement, but the corresponding code file and docstrings are labeled as Exercise 1 (file `ex1_qft.py`, docstrings say \u201cExercise 1.1/1.2\u201d). This naming/numbering mismatch makes it non-obvious for students that Exercise 6 should be implemented in `ex1_qft.py` and can lead them to search for an `ex6_*.py` file or \u201cExercise 6\u201d markers in code.",
+            "suggestedFix": "Align identifiers by updating `ex1_qft.py` docstrings to reference \u201cExercise 6.1/6.2\u201d (and optionally rename the file/class to `ex6_qft.py` / similar if tests/imports allow).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 246,
+                    "endLine": 257
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex1_qft.py",
+                    "startLine": 10,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex1_qft.py",
+                    "startLine": 10,
+                    "endLine": 44
+                }
+            ]
+        },
+        {
+            "severity": "LOW",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The QFT-for-N-qubits exercises are numbered as Exercise 7 in the problem statement, but the corresponding code file and docstrings are labeled as Exercise 2 (file `ex2_qft.py`, docstrings say \u201cExercise 2.1/2.2\u201d). This inconsistency makes it harder to map Exercise 7 instructions to the correct implementation location.",
+            "suggestedFix": "Update `ex2_qft.py` docstrings to \u201cExercise 7.1/7.2\u201d (or rename the file to `ex7_qft.py` if the surrounding tooling/tests can be updated).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 260,
+                    "endLine": 269
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex2_qft.py",
+                    "startLine": 7,
+                    "endLine": 27
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex2_qft.py",
+                    "startLine": 7,
+                    "endLine": 27
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T16:31:01.500213Z",
+        "endTime": "2026-03-14T16:33:07.068638Z",
+        "durationS": 125.568
+    },
+    "tokens": {
+        "prompt": 71693,
+        "completion": 2656,
+        "total": 74349
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/QCSL25/QC02-Far_Term_Quantum_Algorithms/012",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

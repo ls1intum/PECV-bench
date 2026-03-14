@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-13T07:47:49.519084Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Method parameter order mismatch for addChild: The problem statement and the template declare the service method as addChild(Person person, Person child) (parent/target person first, child second). In the solution implementation the method is declared with the parameters swapped: addChild(Person child, Person person). Because both parameters share the same type (Person) this still compiles, but calls written according to the template/problem (e.g., personService.addChild(person, child) in PersonResource) will bind arguments to the wrong parameters and cause the implementation to operate on the wrong object (reversing the intended parent/child roles). This discrepancy between template/problem and solution is likely to confuse students and produce incorrect runtime behavior if the solution's signature is used as-is.",
+            "suggestedFix": "Make the solution's addChild method signature match the problem statement and template: declare it as addChild(Person person, Person child). Update the parameter names and the method body accordingly (use child.getParents() checks and add child to person's children: person.getChildren().add(child); then save 'person'). Alternatively, if keeping the swapped parameter order is deliberate, update all call sites (PersonResource and tests) and the problem statement/template consistently to use the same parameter order. The recommended fix for minimal confusion is to use addChild(Person person, Person child) in the solution and adjust its implementation.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 99,
+                    "endLine": 106
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 45,
+                    "endLine": 45
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 48,
+                    "endLine": 48
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 72,
+                    "endLine": 72
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:47:49.519084Z",
+        "endTime": "2026-03-13T07:48:45.399547Z",
+        "durationS": 55.88
+    },
+    "tokens": {
+        "prompt": 72116,
+        "completion": 6719,
+        "total": 78835
+    },
+    "costs": {
+        "promptEur": 0.01658668017578125,
+        "completionEur": 0.012362960205078126,
+        "totalEur": 0.028949640380859377
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/006",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}

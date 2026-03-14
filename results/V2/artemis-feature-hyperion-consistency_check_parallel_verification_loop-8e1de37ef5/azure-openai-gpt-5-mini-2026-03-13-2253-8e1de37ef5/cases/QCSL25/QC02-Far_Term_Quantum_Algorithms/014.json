@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-13T23:28:24.413041Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Identifier naming inconsistency for the forward QFT method: the template class QFTNQubit declares a method named _qft_circuit_n_qubits(self, qc: QuantumCircuit) while the solution implements qft_circuit_n_qubits(self, qc: QuantumCircuit) (no leading underscore). The problem statement's Exercise 7 refers to implementing the QFT for n qubits (task names imply a public qft_circuit_n_qubits API). This mismatch can confuse students about which method name to implement and can break automated tests/autograders that expect the non-underscored public method qft_circuit_n_qubits.",
+            "suggestedFix": "Unify the method name across artifacts. Rename the template method _qft_circuit_n_qubits to qft_circuit_n_qubits so the template, solution, and problem statement use the same public method name. Alternatively, update tests and the solution to call the underscored name, but prefer exposing qft_circuit_n_qubits (no leading underscore) in the template to match the exercise wording and the solution implementation.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex2_qft.py",
+                    "startLine": 7,
+                    "endLine": 7
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex2_qft.py",
+                    "startLine": 7,
+                    "endLine": 7
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 260,
+                    "endLine": 269
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Concept: forward Quantum Fourier Transform (QFT) implementation for an arbitrary number of qubits. Problem statement / tests reference the task for implementing QFT on an n-qubit QuantumCircuit (task id test_ex2_qft_circuit_n_qubits) and the solution implements a public method named qft_circuit_n_qubits(self, qc). Template: the template class defines the forward QFT method with an extra leading underscore as _qft_circuit_n_qubits(self, qc). Mismatch: template exposes _qft_circuit_n_qubits while solution and task identifiers use qft_circuit_n_qubits. Why this is confusing/impactful: students following the template may implement or call the underscored name; automated tests or graders that expect qft_circuit_n_qubits will not find the implementation, causing failures unrelated to the algorithm. This is an identifier naming inconsistency for the same conceptual entity (forward QFT).",
+            "suggestedFix": "Rename the template method from _qft_circuit_n_qubits to qft_circuit_n_qubits to match the solution and the task/test naming (or update the problem text/tests to reference the underscored name). Ensure both forward and inverse QFT method names are consistent across problem statement, template, and tests (e.g., qft_circuit_n_qubits and qft_circuit_n_qubits_inverse).",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex2_qft.py",
+                    "startLine": 7,
+                    "endLine": 16
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex2_qft.py",
+                    "startLine": 7,
+                    "endLine": 16
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 260,
+                    "endLine": 268
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:28:24.413041Z",
+        "endTime": "2026-03-13T23:29:02.749063Z",
+        "durationS": 38.336
+    },
+    "tokens": {
+        "prompt": 93061,
+        "completion": 6166,
+        "total": 99227
+    },
+    "costs": {
+        "promptEur": 0.021404030761718748,
+        "completionEur": 0.011345440185546875,
+        "totalEur": 0.03274947094726562
+    },
+    "case_id": "V2/QCSL25/QC02-Far_Term_Quantum_Algorithms/014",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

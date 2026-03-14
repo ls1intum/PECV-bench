@@ -1,0 +1,42 @@
+{
+    "timestamp": "2026-03-13T23:26:21.615157Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Element: ComputeTable.table attribute in dd.py. In the template repository (template_repository/dd.py) the ComputeTable.table field is annotated as 'list[tuple[DD, DD, DDOperation, DD]]', but the implementation of __init__ uses a dictionary (self.table = {}) and the ComputeTable.lookup/insert APIs expect dictionary semantics. In the solution repository (solution_repository/dd.py) the same attribute is correctly annotated as 'dict[tuple[DD, DD, DDOperation], DD]'. This mismatch between the template annotation and both the runtime usage and the solution annotation can confuse students and static type checkers, suggesting an incorrect list-based API and causing unnecessary type warnings.",
+            "suggestedFix": "Update the template's ComputeTable.table type annotation to match its runtime usage and the solution: change the annotation to 'table: dict[tuple[DD, DD, DDOperation], DD]' and ensure __init__ initializes 'self.table = {}'. This preserves the intended behavior while removing confusion for students and static analyzers.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/dd.py",
+                    "startLine": 226,
+                    "endLine": 226
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/dd.py",
+                    "startLine": 226,
+                    "endLine": 226
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T23:26:21.615157Z",
+        "endTime": "2026-03-13T23:26:48.819793Z",
+        "durationS": 27.204
+    },
+    "tokens": {
+        "prompt": 118504,
+        "completion": 3384,
+        "total": 121888
+    },
+    "costs": {
+        "promptEur": 0.02725592041015625,
+        "completionEur": 0.00622656002998352,
+        "totalEur": 0.03348248044013977
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/012",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-2253-8e1de37ef5"
+}

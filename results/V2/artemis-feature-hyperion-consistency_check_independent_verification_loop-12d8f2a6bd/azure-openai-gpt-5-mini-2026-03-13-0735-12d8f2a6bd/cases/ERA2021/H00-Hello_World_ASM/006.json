@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-13T07:36:03.938509Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "External function 'exit_func' parameter mismatch: the problem statement (problem_statement.md lines 21-22) requires calling the external function exit_func with an integer status code. In the solution (solution_repository/helloWorld.asm) exit_func is declared extern (line 8) and invoked with a bare `call exit_func` (line 18) but no integer status code is pushed onto the stack beforehand. This contradicts the exercise requirement and may lead to undefined runtime behavior or confusion for students about the required calling convention.",
+            "suggestedFix": "Modify the solution to push an integer status code onto the stack before calling exit_func (for example, insert `push 0` immediately before `call exit_func`) so the call matches the problem specification. Ensure the extern declaration remains (`extern exit_func`) and, if necessary, adjust stack cleanup according to the expected calling convention (e.g., add `add esp, 4` after the call if the caller must clean the stack).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 8,
+                    "endLine": 8
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 18,
+                    "endLine": 18
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-13T07:36:03.938509Z",
+        "endTime": "2026-03-13T07:36:38.511034Z",
+        "durationS": 34.572
+    },
+    "tokens": {
+        "prompt": 10969,
+        "completion": 4157,
+        "total": 15126
+    },
+    "costs": {
+        "promptEur": 0.0025228700561523436,
+        "completionEur": 0.007648880004882812,
+        "totalEur": 0.010171750061035156
+    },
+    "case_id": "V2/ERA2021/H00-Hello_World_ASM/006",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-13-0735-12d8f2a6bd"
+}
