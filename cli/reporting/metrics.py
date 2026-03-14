@@ -85,6 +85,8 @@ def load_gold_issues(course: str, exercise: str, variant: str, data_root: Path) 
 
 
 def extract_prediction_issues(case_data: Dict[str, Any]) -> Tuple[List[Dict[str, Any]], bool]:
+    if not isinstance(case_data, dict):
+        return [], True
     response = case_data.get("response")
     if isinstance(response, dict):
         issues = response.get("issues")
@@ -93,7 +95,8 @@ def extract_prediction_issues(case_data: Dict[str, Any]) -> Tuple[List[Dict[str,
     direct = case_data.get("issues")
     if isinstance(direct, list):
         return _issues_from_payload(direct), False
-    return [], True
+    # issues key absent but JSON is valid — model returned zero issues
+    return [], False
 
 
 def compute_f1_iou(
