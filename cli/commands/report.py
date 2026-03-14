@@ -488,7 +488,7 @@ def report_command(args: argparse.Namespace) -> int:
         raise FileNotFoundError(f"Benchmark results not found: {benchmark_root}")
 
     version = infer_version_from_path(benchmark_root)
-    benchmark = benchmark_root.name
+    benchmark = benchmark_root.parent.name
 
     # runs-dir: if not provided, derive from benchmark_root path
     # e.g. results/pecv-reference/V2 → runs/pecv-reference/V2
