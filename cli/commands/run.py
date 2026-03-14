@@ -306,7 +306,7 @@ def write_run_metadata(
     version: str,
     stats: RunStats | None = None,
 ) -> Path:
-    runs_dir = RUNS_ROOT / version / approach_id
+    runs_dir = RUNS_ROOT / approach_id / version
     runs_dir.mkdir(parents=True, exist_ok=True)
     target = runs_dir / f"{run_id}.yaml"
 
@@ -354,7 +354,7 @@ def run_benchmark(args: argparse.Namespace) -> int:
                 or getattr(args, "approach_name", None)
                 or default_approach
             )
-            found = list(RUNS_ROOT.glob(f"*/{approach_hint}/{args.resume_run}.yaml"))
+            found = list(RUNS_ROOT.glob(f"{approach_hint}/*/{args.resume_run}.yaml"))
             if found:
                 resume_path = found[0]
             else:
@@ -365,7 +365,7 @@ def run_benchmark(args: argparse.Namespace) -> int:
         resume_dir = (
             args.approach or getattr(args, "approach_name", None) or default_approach
         )
-        found = list(RUNS_ROOT.glob(f"*/{resume_dir}/{resume_run_id}.yaml"))
+        found = list(RUNS_ROOT.glob(f"{resume_dir}/*/{resume_run_id}.yaml"))
         resume_path = found[0] if found else None
 
     resume_metadata = load_resume_metadata(resume_path) if resume_path else None
@@ -473,7 +473,7 @@ def run_benchmark(args: argparse.Namespace) -> int:
     # Derive version from the first exercise (all exercises in a run should share one version)
     version = all_exercises[0].version if all_exercises else resume_metadata.get("version", "V1") if resume_metadata else "V1"
 
-    results_dir = RESULTS_ROOT / version / approach_id / run_id / "cases"
+    results_dir = RESULTS_ROOT / approach_id / version / run_id / "cases"
     results_dir.mkdir(parents=True, exist_ok=True)
 
     stats = RunStats()

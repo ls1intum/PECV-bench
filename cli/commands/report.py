@@ -482,8 +482,8 @@ class GroupAccumulator:
 
 def report_command(args: argparse.Namespace) -> int:
     # --results-dir is the direct path to the benchmark directory
-    # e.g. results/V2/pecv-reference
-    benchmark_root = _resolve_path(args.results_dir, RESULTS_ROOT / "V1" / "pecv-reference")
+    # e.g. results/pecv-reference/V2
+    benchmark_root = _resolve_path(args.results_dir, RESULTS_ROOT / "pecv-reference" / "V1")
     if not benchmark_root.exists():
         raise FileNotFoundError(f"Benchmark results not found: {benchmark_root}")
 
@@ -491,7 +491,7 @@ def report_command(args: argparse.Namespace) -> int:
     benchmark = benchmark_root.name
 
     # runs-dir: if not provided, derive from benchmark_root path
-    # e.g. results/V2/pecv-reference → runs/V2/pecv-reference
+    # e.g. results/pecv-reference/V2 → runs/pecv-reference/V2
     if args.runs_dir:
         runs_root = _resolve_path(args.runs_dir, RUNS_ROOT)
         runs_benchmark_dir = runs_root
@@ -501,7 +501,7 @@ def report_command(args: argparse.Namespace) -> int:
             rel = benchmark_root.relative_to(RESULTS_ROOT)
             runs_benchmark_dir = RUNS_ROOT / rel
         except ValueError:
-            runs_benchmark_dir = RUNS_ROOT / version / benchmark
+            runs_benchmark_dir = RUNS_ROOT / benchmark / version
 
     aggregate_dir_name = args.aggregate_dir
     aggregate_root: Optional[Path] = None
@@ -873,18 +873,18 @@ def register_subcommand(parser: argparse.ArgumentParser) -> None:
       pecv-bench report
 
       # Report for V2 pecv-reference
-      pecv-bench report --results-dir results/V2/pecv-reference
+      pecv-bench report --results-dir results/pecv-reference/V2
 
       # Report for a custom benchmark
-      pecv-bench report --results-dir results/V1/my-experiment
+      pecv-bench report --results-dir results/my-experiment/V1
     """)
 
     parser.add_argument(
         "--results-dir",
         default=None,
         help=(
-            "Path to benchmark results directory, e.g. results/V2/pecv-reference "
-            "(default: results/V1/pecv-reference)"
+            "Path to benchmark results directory, e.g. results/pecv-reference/V2 "
+            "(default: results/pecv-reference/V1)"
         ),
     )
     parser.add_argument(
@@ -893,7 +893,7 @@ def register_subcommand(parser: argparse.ArgumentParser) -> None:
         help=(
             "Directory containing run metadata. "
             "If omitted, derived automatically from --results-dir "
-            "(e.g. results/V2/pecv-reference → runs/V2/pecv-reference)"
+            "(e.g. results/pecv-reference/V2 → runs/pecv-reference/V2)"
         ),
     )
     parser.add_argument(

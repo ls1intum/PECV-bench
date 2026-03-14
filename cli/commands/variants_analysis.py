@@ -21,7 +21,7 @@ def variants_analysis_command(args: argparse.Namespace) -> int:
         if not results_dir.is_absolute():
             results_dir = PROJECT_ROOT / results_dir
     else:
-        results_dir = RESULTS_ROOT / "V1" / "pecv-reference"
+        results_dir = RESULTS_ROOT / "pecv-reference" / "V1"
 
     version = infer_version_from_path(results_dir)
 
@@ -130,18 +130,18 @@ def register_subcommand(parser: argparse.ArgumentParser) -> None:
       pecv-bench variants-analysis
 
       # Analyze V2 pecv-reference
-      pecv-bench variants-analysis --results-dir results/V2/pecv-reference
+      pecv-bench variants-analysis --results-dir results/pecv-reference/V2
 
       # Analyze and generate plots
-      pecv-bench variants-analysis --results-dir results/V2/pecv-reference --plot
+      pecv-bench variants-analysis --results-dir results/pecv-reference/V2 --plot
     """)
     parser.set_defaults(handler=variants_analysis_command)
     parser.add_argument(
         "--results-dir",
         default=None,
         help=textwrap.dedent(
-            """Path to benchmark results directory, e.g. results/V2/pecv-reference
-(default: results/V1/pecv-reference)
+            """Path to benchmark results directory, e.g. results/pecv-reference/V2
+(default: results/pecv-reference/V1)
 JSON file created at: RESULTS_DIR/variants_report.json`
     {
     "model-name-1": [

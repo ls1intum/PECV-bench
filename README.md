@@ -21,7 +21,7 @@ Workflow overview for the packaged benchmark:
 
 ## At-a-Glance
 
-Results below are for **V1** (`results/V1/pecv-reference/`).
+Results below are for **V1** (`results/pecv-reference/V1/`).
 
 | Benchmark | Config Key | N runs | TP | FP | FN | Precision | Recall | F1 | Span F1 | IoU | Avg Time (s) | Avg Cost ($) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -141,7 +141,7 @@ pecv-bench run-benchmark \
   --max-concurrency 5
 ```
 
-Results are written to `results/V1/pecv-reference/` or `results/V2/pecv-reference/` depending on the exercise version.
+Results are written to `results/pecv-reference/V1/` or `results/pecv-reference/V2/` depending on the exercise version.
 
 ### Generate reports
 
@@ -152,10 +152,10 @@ Aggregate completed runs into Markdown/JSON/LaTeX summaries. Pass `--results-dir
 pecv-bench report
 
 # V2
-pecv-bench report --results-dir results/V2/pecv-reference
+pecv-bench report --results-dir results/pecv-reference/V2
 
 # Custom benchmark name
-pecv-bench report --results-dir results/V1/my-experiment
+pecv-bench report --results-dir results/my-experiment/V1
 ```
 
 ### Analyze variant consistency
@@ -167,11 +167,11 @@ The `variants-analysis` command groups results by model and generates scatter pl
 pecv-bench variants-analysis
 
 # V2
-pecv-bench variants-analysis --results-dir results/V2/pecv-reference
+pecv-bench variants-analysis --results-dir results/pecv-reference/V2
 
 # Clear previous analysis artifacts, then re-run and plot
-pecv-bench variants-analysis --results-dir results/V2/pecv-reference --clear
-pecv-bench variants-analysis --results-dir results/V2/pecv-reference --plot
+pecv-bench variants-analysis --results-dir results/pecv-reference/V2 --clear
+pecv-bench variants-analysis --results-dir results/pecv-reference/V2 --plot
 ```
 
 ### CLI overview
@@ -216,7 +216,7 @@ pecv-bench variants generate-annotation \
 
 #### `pecv-bench run-benchmark`
 
-Execute the benchmark pipeline for one or more exercises. Results are stored under `results/VERSION/APPROACH/RUN-ID/cases/`.
+Execute the benchmark pipeline for one or more exercises. Results are stored under `results/APPROACH/VERSION/RUN-ID/cases/`.
 
 ```bash
 pecv-bench run-benchmark --exercise V1/ITP2425/H01E01-Lectures
@@ -228,9 +228,9 @@ pecv-bench run-benchmark --exercise V2/ISE22/H10E01-Containers --max-concurrency
 Generate `summary.json`, `summary.md`, and `summary.tex` from completed runs.
 
 ```bash
-pecv-bench report                                          # results/V1/pecv-reference (default)
-pecv-bench report --results-dir results/V2/pecv-reference
-pecv-bench report --results-dir results/V1/my-experiment
+pecv-bench report                                          # results/pecv-reference/V1 (default)
+pecv-bench report --results-dir results/pecv-reference/V2
+pecv-bench report --results-dir results/my-experiment/V1
 ```
 
 #### `pecv-bench variants-analysis`
@@ -238,41 +238,39 @@ pecv-bench report --results-dir results/V1/my-experiment
 Analyse result consistency across runs and models, optionally generating scatter plots.
 
 ```bash
-pecv-bench variants-analysis                                         # results/V1/pecv-reference (default)
-pecv-bench variants-analysis --results-dir results/V2/pecv-reference --plot
+pecv-bench variants-analysis                                         # results/pecv-reference/V1 (default)
+pecv-bench variants-analysis --results-dir results/pecv-reference/V2 --plot
 ```
 
 ### Expected outputs
 
 ```text
 results/
-├── V1/
-│   └── pecv-reference/
-│       ├── <timestamped-run-id>/
-│       │   ├── cases/
-│       │   │   └── ITP2425/H01E01-Lectures/001.json
-│       │   └── run_report.json
-│       ├── variants_report.json
-│       ├── variants_report_plots/
-│       │   ├── per_model.png
-│       │   └── per_model_per_exercise.png
-│       ├── summary.json
-│       ├── summary.md
-│       └── summary.tex
-└── V2/
-    └── pecv-reference/
+└── pecv-reference/
+    ├── V1/
+    │   ├── <timestamped-run-id>/
+    │   │   ├── cases/
+    │   │   │   └── ITP2425/H01E01-Lectures/001.json
+    │   │   └── run_report.json
+    │   ├── variants_report.json
+    │   ├── variants_report_plots/
+    │   │   ├── per_model.png
+    │   │   └── per_model_per_exercise.png
+    │   ├── summary.json
+    │   ├── summary.md
+    │   └── summary.tex
+    └── V2/
         └── <same structure>
 
 runs/
-├── V1/
-│   └── pecv-reference/
-│       └── <timestamped-run-id>.yaml
-└── V2/
-    └── pecv-reference/
+└── pecv-reference/
+    ├── V1/
+    │   └── <timestamped-run-id>.yaml
+    └── V2/
         └── <timestamped-run-id>.yaml
 ```
 
-Run metadata lives in `runs/VERSION/APPROACH/<run-id>.yaml`, enabling resumable and auditable experiments.
+Run metadata lives in `runs/APPROACH/VERSION/<run-id>.yaml`, enabling resumable and auditable experiments.
 
 ## Methodology
 
@@ -290,19 +288,19 @@ Run metadata lives in `runs/VERSION/APPROACH/<run-id>.yaml`, enabling resumable 
 
 - **Configurations:** `configs/pecv-reference.yaml` captures model presets, reasoning effort, and run identifiers. Commit edited configs alongside experiments for traceability.
 - **Determinism:** Reasoning models introduce variability in outputs due to inherent randomness.
-- **Captured artifacts:** Each run stores raw case outputs under `results/VERSION/APPROACH/<run-id>/cases/` plus structured summaries (`run_report.json`). Metadata in `runs/VERSION/APPROACH/<run-id>.yaml` records CLI arguments, timestamps, and configuration digests.
+- **Captured artifacts:** Each run stores raw case outputs under `results/APPROACH/VERSION/<run-id>/cases/` plus structured summaries (`run_report.json`). Metadata in `runs/APPROACH/VERSION/<run-id>.yaml` records CLI arguments, timestamps, and configuration digests.
 
 ## Results
 
 - The At-a-Glance table above surfaces cross-run V1 metrics for the packaged reference configs.
-- Detailed aggregates: `results/V1/pecv-reference/summary.md`, machine-readable `summary.json`, and LaTeX-ready `summary.tex`.
-- Per-run diagnostics: inspect `results/V1/pecv-reference/<run-id>/run_report.json` alongside per-case artifacts in `results/V1/pecv-reference/<run-id>/cases/`.
+- Detailed aggregates: `results/pecv-reference/V1/summary.md`, machine-readable `summary.json`, and LaTeX-ready `summary.tex`.
+- Per-run diagnostics: inspect `results/pecv-reference/V1/<run-id>/run_report.json` alongside per-case artifacts in `results/pecv-reference/V1/<run-id>/cases/`.
 
 ### Add your own results
 
 1. Create a config (or reuse `configs/pecv-reference.yaml`) and run `pecv-bench run-benchmark ...` with your approach.
-2. Results are placed automatically under `results/VERSION/APPROACH/<run-id>/` and metadata in `runs/VERSION/APPROACH/<run-id>.yaml`.
-3. Re-run `pecv-bench report --results-dir results/VERSION/APPROACH` to update summaries.
+2. Results are placed automatically under `results/APPROACH/VERSION/<run-id>/` and metadata in `runs/APPROACH/VERSION/<run-id>.yaml`.
+3. Re-run `pecv-bench report --results-dir results/APPROACH/VERSION` to update summaries.
 
 ## License
 
