@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-14T15:51:52.656931Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Inkonsistente Gr\u00f6\u00dfe des Framebuffers (display_start) zwischen Aufgabenstellung/Template und Referenzl\u00f6sung: Laut Aufgabenstellung soll mit 1920\u00d71080 bei 32 Bit/Pixel gearbeitet werden (Zeilenbreite 1920*4=7680 Bytes; Gesamtspeicher 1920*1080*4=8294400 Bytes). Das Template reserviert daf\u00fcr korrekt 8294400 Bytes. Die Referenzl\u00f6sung reserviert jedoch nur 409600 Bytes f\u00fcr display_start, nutzt aber weiterhin eine Zeilenbreite von 7680 Bytes (mul ebx mit 7680). Damit w\u00fcrde die Referenzl\u00f6sung f\u00fcr viele g\u00fcltige y-Werte au\u00dferhalb des reservierten Puffers lesen/schreiben und widerspricht den vorgegebenen Parametern.",
+            "suggestedFix": "Referenzl\u00f6sung an die Aufgabenstellung anpassen: display_start in der L\u00f6sung auf 8294400 Bytes reservieren (RESB 8294400) und den Kommentar \"Only 320x320 reserved\" entfernen/korrekt setzen. Alternativ, falls tats\u00e4chlich 320\u00d7320 beabsichtigt ist, Aufgabenstellung und Template konsistent auf 320\u00d7320 umstellen (inkl. Zeilenbreite 320*4=1280 und passender RESB-Gr\u00f6\u00dfe).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 25,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 20,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 4,
+                    "endLine": 6
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 26,
+                    "endLine": 30
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T15:51:52.656931Z",
+        "endTime": "2026-03-14T15:52:08.644725Z",
+        "durationS": 15.987
+    },
+    "tokens": {
+        "prompt": 20529,
+        "completion": 1250,
+        "total": 21779
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/007",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

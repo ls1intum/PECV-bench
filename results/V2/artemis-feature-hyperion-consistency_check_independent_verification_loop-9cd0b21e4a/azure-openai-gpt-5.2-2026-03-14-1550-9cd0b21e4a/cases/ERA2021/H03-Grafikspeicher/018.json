@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-14T15:52:03.667176Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Teilaufgabe b) fordert: \u201eAu\u00dfer dem Register eax d\u00fcrfen keine anderen Registerinhalte ver\u00e4ndert werden.\u201c Das ist missverst\u00e4ndlich, weil set_pixel zum Adressieren/Schreiben zwangsl\u00e4ufig weitere Register tempor\u00e4r nutzen muss (z. B. f\u00fcr Zwischenwerte oder die Zieladresse). Entscheidend ist Register-Erhaltung (save/restore), nicht \u201enie benutzen\u201c. Die Referenzl\u00f6sung nutzt ebx/esi/edx intern, stellt sie aber per push/pop wieder her. Ohne Klarstellung k\u00f6nnten Studierende f\u00e4lschlich glauben, sie d\u00fcrften ESI/EDX \u00fcberhaupt nicht anfassen.",
+            "suggestedFix": "Aufgabenstatement pr\u00e4zisieren zu: \u201eAu\u00dfer EAX d\u00fcrfen keine Registerwerte am Ende des Unterprogramms ver\u00e4ndert sein (d. h. andere Register d\u00fcrfen genutzt werden, m\u00fcssen aber gesichert und wiederhergestellt werden).\u201c Optional im Template-Kommentar bei set_pixel dieselbe Regel wiederholen.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 31,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 39
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                }
+            ]
+        },
+        {
+            "severity": "LOW",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Die Aufgabenbeschreibung und Template-Kommentare referenzieren eine \u201e3rd TODO\u201c-Einf\u00fcgestelle f\u00fcr den Code zur Positionsberechnung. Im Template gibt es daf\u00fcr jedoch keine eindeutige 3. TODO-Markierung: Es existieren (1) ein Kommentarplatzhalter f\u00fcr die Formel und (2) genau ein TODO-Block in main f\u00fcr die Positionsberechnung sowie (3) ein TODO f\u00fcr set_pixel. Die Nummerierung (\u201e3rd TODO\u201c) ist dadurch uneindeutig und kann dazu f\u00fchren, dass Studierende den geforderten Code an der falschen Stelle einf\u00fcgen.",
+            "suggestedFix": "TODO-Markierungen und Nummerierung konsistent machen: z. B. explizit \u201eTODO 1: Formel\u201c, \u201eTODO 2: set_pixel\u201c, \u201eTODO 3: Positionsberechnung in main\u201c oder die \u201e3rd TODO\u201c-Formulierung im Problemstatement/Template entfernen und stattdessen die genaue Stelle benennen.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 24,
+                    "endLine": 26
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 15,
+                    "endLine": 17
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 100,
+                    "endLine": 102
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T15:52:03.667176Z",
+        "endTime": "2026-03-14T15:52:23.262244Z",
+        "durationS": 19.595
+    },
+    "tokens": {
+        "prompt": 20860,
+        "completion": 1727,
+        "total": 22587
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/018",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

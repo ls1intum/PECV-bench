@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-14T16:02:21.046485Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "In the solution, the server endpoint handler PersonResource#createPerson is declared to return a raw Person (and returns null when the request is invalid). The problem statement specifies that POST /persons should return the saved person in the HTTP response body and implies proper HTTP status handling for invalid requests; the analogous NoteResource#createNote uses ResponseEntity<Note> and returns 400 Bad Request when an ID is provided. This inconsistency can confuse students about the expected REST contract and error handling (null body vs explicit HTTP status) for the create-person endpoint.",
+            "suggestedFix": "Change solution PersonResource#createPerson to return ResponseEntity<Person> and respond with ResponseEntity.badRequest().build() when person.getId() != null; otherwise return ResponseEntity.ok(personService.savePerson(person)), matching the NoteResource pattern and the stated REST contract.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 109,
+                    "endLine": 113
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/NoteResource.java",
+                    "startLine": 30,
+                    "endLine": 36
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 29,
+                    "endLine": 35
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T16:02:21.046485Z",
+        "endTime": "2026-03-14T16:04:23.372479Z",
+        "durationS": 122.325
+    },
+    "tokens": {
+        "prompt": 75081,
+        "completion": 966,
+        "total": 76047
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/002",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

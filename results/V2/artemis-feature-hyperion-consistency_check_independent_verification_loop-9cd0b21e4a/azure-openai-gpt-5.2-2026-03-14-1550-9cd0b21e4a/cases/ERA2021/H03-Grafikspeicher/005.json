@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-14T15:52:25.369543Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Calling convention mismatch for set_pixel: The problem statement specifies that the RGB value is passed in ECX and should be written to the computed pixel address. In the reference solution, set_pixel stores EDX to memory (\"mov [eax], edx\"), but EDX is used as a temporary (set to 4 for multiplication) and does not contain the RGB value. As a result, the stored pixel value is incorrect and contradicts the specification and main's usage (main loads the color into ECX before calling set_pixel).",
+            "suggestedFix": "In solution_repository/pixel.asm, write the color from ECX to the computed address (e.g., replace \"mov [eax], edx\" with \"mov [eax], ecx\"). If EDX is needed as a temporary, continue saving/restoring it, but do not use it as the color source.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 141,
+                    "endLine": 148
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Problem statement refers to \"first TODO\" (formula) and \"third TODO\" (address computation), but the template does not have clearly numbered TODO markers matching that description. In template_repository/pixel.asm there is a top comment \"TODO: INSERT FORMULA HERE\" and a later TODO for position calculation in main, plus a separate TODO to implement set_pixel. This mismatch in TODO numbering/locations can confuse students about where each required change belongs.",
+            "suggestedFix": "Make the TODO references consistent: either update problem_statement.md to refer to the actual TODO comments present in the template (formula TODO near line 15 and position-calculation TODO near line 100, plus set_pixel TODO), or add explicit \"TODO 1/2/3\" labels in template_repository/pixel.asm that match the problem statement wording.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 20,
+                    "endLine": 26
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 15,
+                    "endLine": 17
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 100,
+                    "endLine": 102
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T15:52:25.369543Z",
+        "endTime": "2026-03-14T15:53:16.623963Z",
+        "durationS": 51.254
+    },
+    "tokens": {
+        "prompt": 20760,
+        "completion": 1775,
+        "total": 22535
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/005",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

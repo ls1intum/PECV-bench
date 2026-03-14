@@ -1,0 +1,112 @@
+{
+    "timestamp": "2026-03-14T16:00:18.215835Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Server-side service contract is inconsistent: in the template, PersonService.savePerson(Person) returns a Person (the created/updated entity). In the solution, PersonService.savePerson(Person) returns void, but PersonResource still uses it in ResponseEntity.ok(...) expecting a Person. This would make the solution not compile and makes the intended service API unclear to students.",
+            "suggestedFix": "Make the solution match the template/spec by changing solution PersonService.savePerson to `public Person savePerson(Person person)` and return the created/updated Person (and update its implementation accordingly).",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 18,
+                    "endLine": 18
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 20,
+                    "endLine": 20
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 34,
+                    "endLine": 34
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 42,
+                    "endLine": 42
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Problem statement uses different verb for the client-side POST operation than the provided API: it describes \"create\" persons conceptually, while the provided PersonController method name is `addPerson(...)` (template and solution). This can mislead students into looking for/implementing a `createPerson` method on the client controller.",
+            "suggestedFix": "In the problem statement, explicitly refer to the client method as `addPerson(...)` (or rename the method to `createPerson(...)` consistently in both template and solution).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 109,
+                    "endLine": 112
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 187,
+                    "endLine": 189
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+                    "startLine": 10,
+                    "endLine": 10
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+                    "startLine": 27,
+                    "endLine": 27
+                }
+            ]
+        },
+        {
+            "severity": "LOW",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Problem statement typo for protocol: Part 2 instructs to make an \"https get request\" for retrieving persons, but the provided WebClient base URL is `http://localhost:8080/` and all other examples use HTTP. This can confuse students about whether TLS/HTTPS is required.",
+            "suggestedFix": "Change the wording in the problem statement from \"https get request\" to \"http GET request\" (or just \"GET request\").",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 192,
+                    "endLine": 194
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/client/java/de/tum/in/ase/eist/controller/NoteController.java",
+                    "startLine": 18,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+                    "startLine": 19,
+                    "endLine": 23
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T16:00:18.215835Z",
+        "endTime": "2026-03-14T16:01:24.207194Z",
+        "durationS": 65.991
+    },
+    "tokens": {
+        "prompt": 75565,
+        "completion": 2241,
+        "total": 77806
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/001",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

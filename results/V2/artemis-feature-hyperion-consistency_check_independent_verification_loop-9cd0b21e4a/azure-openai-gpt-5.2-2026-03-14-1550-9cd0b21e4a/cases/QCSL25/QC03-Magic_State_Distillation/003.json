@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-14T16:39:06.073792Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "`detect_errors` has an inconsistent return type between the template and the specification/solution. The problem statement specifies it returns a 1D binary array (good shots encoded as 1), and the solution returns a NumPy array (`npt.NDArray[np.int8]`), but the template type hint says it returns `list[int]`. This can mislead students and cause type/usage inconsistencies in downstream code.",
+            "suggestedFix": "Change the template signature to `def detect_errors(...) -> npt.NDArray[np.int8]:` (or `npt.NDArray[np.bool_]`) and update the template docstring to match the problem statement wording (1 indicates no error detected).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 126,
+                    "endLine": 134
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 109,
+                    "endLine": 109
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 186,
+                    "endLine": 186
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "`build_msd_circ`'s template docstring incorrectly describes the second returned list as measurement indices of the distilled state, while the problem statement requires (and the solution implements) returning the indices of the destructive X-basis measurements of the 15 tetrahedral-code block qubits (in qubit order). This ambiguity can cause students to return the wrong indices/order.",
+            "suggestedFix": "Update the template docstring for `build_msd_circ` to state the second list is the measurement indices of the 15 tetrahedral-code qubits measured destructively in the X basis (MRX), ordered to match the code qubit ordering.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 114,
+                    "endLine": 121
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 101,
+                    "endLine": 105
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 161,
+                    "endLine": 165
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T16:39:06.073792Z",
+        "endTime": "2026-03-14T16:40:03.371086Z",
+        "durationS": 57.297
+    },
+    "tokens": {
+        "prompt": 46892,
+        "completion": 2149,
+        "total": 49041
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/003",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

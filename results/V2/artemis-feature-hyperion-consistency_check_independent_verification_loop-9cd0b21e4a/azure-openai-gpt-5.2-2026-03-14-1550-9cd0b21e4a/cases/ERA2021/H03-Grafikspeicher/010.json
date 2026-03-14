@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-14T15:52:22.326130Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Inkonsistente Bytes-pro-Pixel-Annahme zwischen Aufgabenstellung und Referenzl\u00f6sung: Die Aufgabenstellung beschreibt True Color mit 8 Bit pro Kanal und dass in dieser Aufgabe auf 32 Bit pro Pixel (also 4 Byte/Pixel) aufgerundet wird. In solution_repository/pixel.asm berechnet set_pixel jedoch zuerst x*3 (24 Bit/Pixel) und kombiniert dies anschlie\u00dfend mit einer Zeilenstride von 7680 (=1920*4), also 4 Byte/Pixel. Dadurch ist unklar, ob 3 oder 4 Byte pro Pixel gelten; die Referenzl\u00f6sung verwendet zudem eine intern widerspr\u00fcchliche Adressformel.",
+            "suggestedFix": "Entscheidung konsistent umsetzen. F\u00fcr 32 Bit/Pixel \u00fcberall 4 Byte/Pixel verwenden: Offset = display_start + (y*1920 + x)*4; in set_pixel daher x*4 statt x*3 (z.B. per lea/shl) und y*7680 beibehalten. Alternativ konsequent 24 Bit/Pixel nutzen: dann Zeilenstride y*5760 und ggf. Speichergr\u00f6\u00dfe/Kommentare anpassen.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 17,
+                    "endLine": 19
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 23,
+                    "endLine": 30
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T15:52:22.326130Z",
+        "endTime": "2026-03-14T15:52:52.921632Z",
+        "durationS": 30.595
+    },
+    "tokens": {
+        "prompt": 20543,
+        "completion": 1126,
+        "total": 21669
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/010",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

@@ -1,0 +1,92 @@
+{
+    "timestamp": "2026-03-14T16:33:07.675481Z",
+    "issues": [
+        {
+            "severity": "LOW",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "In Exercise 4.2 (Lights Out), the template defines `GroverLightsOutPuzzle.state_preparation(qc, switch_register, tile_register, auxiliary_register, state_of_lights)`, but the problem statement and the rest of the class refer to this register as `flip_register` (the register representing which switches to flip). This naming inconsistency can confuse learners when wiring registers between methods and when following the written instructions that repeatedly mention `flip_register`.",
+            "suggestedFix": "In the template, rename the `state_preparation` parameter `switch_register` to `flip_register`, and update the docstring argument name accordingly so it matches the problem statement and other methods.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 191,
+                    "endLine": 197
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex4_grover_lights_out_puzzle.py",
+                    "startLine": 37,
+                    "endLine": 41
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex4_grover_lights_out_puzzle.py",
+                    "startLine": 36,
+                    "endLine": 41
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Exercises 2.6, 4.6, and 5.6 require returning measurement counts, but the solution code uses `Aer.get_backend(\"statevector_simulator\")` and then calls `result.get_counts(qc)`. Counts are expected from shot-based measurement simulation (qasm-style backends), while a statevector backend is intended to return amplitudes/statevectors. This mismatch can mislead students about the correct simulator backend to use for counts-based tasks and may fail depending on backend behavior.",
+            "suggestedFix": "For counts-returning exercises (2.6/4.6/5.6), switch the solution (and any template guidance) to a shot-based backend such as `Aer.get_backend(\"qasm_simulator\")` or `AerSimulator()` and keep `statevector_simulator` only for the statevector task (Exercise 1.6).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 136,
+                    "endLine": 137
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+                    "startLine": 125,
+                    "endLine": 135
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 212,
+                    "endLine": 213
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex4_grover_lights_out_puzzle.py",
+                    "startLine": 173,
+                    "endLine": 183
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 236,
+                    "endLine": 237
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex5_grover_kakuro.py",
+                    "startLine": 113,
+                    "endLine": 124
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T16:33:07.675481Z",
+        "endTime": "2026-03-14T16:35:03.286498Z",
+        "durationS": 115.611
+    },
+    "tokens": {
+        "prompt": 71561,
+        "completion": 1895,
+        "total": 73456
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/QCSL25/QC02-Far_Term_Quantum_Algorithms/016",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

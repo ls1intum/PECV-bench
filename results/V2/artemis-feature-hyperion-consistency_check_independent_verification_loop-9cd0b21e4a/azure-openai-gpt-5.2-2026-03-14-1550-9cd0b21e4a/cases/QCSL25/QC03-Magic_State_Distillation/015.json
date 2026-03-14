@@ -1,0 +1,94 @@
+{
+    "timestamp": "2026-03-14T16:36:05.247399Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement asks students to implement a function named `_make_y_state(circ, q, p)`, but both the template and reference solution define the function as `make_y_state(circ, q, p)`. This naming mismatch can cause students to implement the wrong function name and fail tests expecting `make_y_state`.",
+            "suggestedFix": "Change the problem statement to consistently refer to `make_y_state(...)` (preferred, matching template/solution). Alternatively, add a compatibility alias in the template such as `_make_y_state = make_y_state`.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 78,
+                    "endLine": 83
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 41,
+                    "endLine": 50
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 95,
+                    "endLine": 107
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "For `build_msd_circ`, the problem statement specifies the second returned list must be the measurement indices of the destructive measurements of the 15 tetrahedral-code qubits (in qubit order). The template docstring instead describes the second list as 'final X-basis measurements of the distilled state', which is a different set of measurements than what downstream steps (error detection on the code block) require and what the solution returns.",
+            "suggestedFix": "Update the template docstring for `build_msd_circ` so the second return value is described as the 15 destructive X-basis measurement indices of the tetrahedral-code block, in the ordering of the code qubits, matching the problem statement and solution.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 116,
+                    "endLine": 121
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 101,
+                    "endLine": 106
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 179,
+                    "endLine": 183
+                }
+            ]
+        },
+        {
+            "severity": "LOW",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The `detect_errors` task description in the problem statement says the function returns a 1D array named `error` where `error[i]=1` means 'no error detected' (i.e., an acceptance flag). The template docstring describes the return as indicating which shots are 'good (1) or have errors (0)'. Although logically consistent, the problem statement variable name (`error`) contradicts its own meaning and the template naming, which can cause students to invert the predicate or misinterpret later acceptance filtering.",
+            "suggestedFix": "In the problem statement, rename the returned array from `error` to `good` or `accept`, and state explicitly that `1` means 'passes checks / accepted' and `0` means 'error detected / rejected', aligning terminology with the template.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 129,
+                    "endLine": 134
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 109,
+                    "endLine": 118
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T16:36:05.247399Z",
+        "endTime": "2026-03-14T16:37:18.381730Z",
+        "durationS": 73.134
+    },
+    "tokens": {
+        "prompt": 46822,
+        "completion": 2382,
+        "total": 49204
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/015",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

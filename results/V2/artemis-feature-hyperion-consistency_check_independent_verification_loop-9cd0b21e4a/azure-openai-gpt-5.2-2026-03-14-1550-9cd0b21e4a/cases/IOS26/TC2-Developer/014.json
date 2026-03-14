@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-14T16:24:35.869980Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Developer.monthsOfSwiftExperience visibility differs between the requirements/template and the reference solution. The problem statement describes it as a regular (mutable) property of Developer, and the template declares it as `var monthsOfSwiftExperience: Int?`, but the solution declares it as `private var monthsOfSwiftExperience: Int?`. This changes the expected API surface and can confuse learners (and potentially break tests or external usage that expects to read/update the property).",
+            "suggestedFix": "Align access control across artifacts: either (a) remove `private` in the solution so it matches the problem statement/template (`var monthsOfSwiftExperience: Int?`), or (b) update the problem statement and template to explicitly require `private` and provide the intended public API (e.g., a public getter) if learners/tests need access.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 32
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Developer.swift",
+                    "startLine": 8,
+                    "endLine": 11
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Developer.swift",
+                    "startLine": 8,
+                    "endLine": 11
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Course property/initializer access control is stricter than specified. The problem statement asks for a `public class Course` with `public` stored properties `name`, `instructor`, and `ratings` (and implies an initializer usable to construct `Course` from outside the module), but both template and solution declare `let name`, `let instructor`, `var ratings`, and `init(...)` without `public`, making them internal to the module. This can conflict with the stated requirements and can break external-module tests or usage.",
+            "suggestedFix": "Either relax the problem statement to not require `public` members, or update template+solution to expose the intended API: `public let name`, `public let instructor`, `public var ratings`, and `public init(name:instructor:ratings:)`.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 6,
+                    "endLine": 11
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 7,
+                    "endLine": 13
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 8,
+                    "endLine": 14
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T16:24:35.869980Z",
+        "endTime": "2026-03-14T16:24:54.216592Z",
+        "durationS": 18.346
+    },
+    "tokens": {
+        "prompt": 19542,
+        "completion": 1521,
+        "total": 21063
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/IOS26/TC2-Developer/014",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

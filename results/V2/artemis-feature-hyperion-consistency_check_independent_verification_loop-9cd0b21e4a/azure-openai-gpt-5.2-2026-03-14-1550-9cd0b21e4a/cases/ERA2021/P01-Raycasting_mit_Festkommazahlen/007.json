@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-14T15:53:16.640365Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "The template and solution differ structurally in the Bitmap24 class constructors: the template header declares only Bitmap24(int,int) while the implementation defines both Bitmap24(int,int) and a default Bitmap24(). In the solution, the header matches the implementation by declaring both constructors. This mismatch can confuse students and can break compilation/linking if they modify or include headers expecting a default constructor (as done in main.cpp).",
+            "suggestedFix": "In the template repository, add the missing default constructor declaration `Bitmap24();` to example_program/src/Bitmap24.hpp (matching the existing definition in Bitmap24.cpp), or remove the default constructor definition from Bitmap24.cpp and update main.cpp to use Bitmap24(width,height) consistently.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 30,
+                    "endLine": 60
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 23,
+                    "endLine": 42
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/main.cpp",
+                    "startLine": 34,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 30,
+                    "endLine": 61
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Macro name controlling inclusion of assembler test main is inconsistent: most files use `%ifndef era` / `-Dera=1`, but tests compile with `-dera=1` (lowercase `d` and different define style). This mismatch can confuse students about the single intended identifier (`era`) and how to enable/disable test mains consistently across build artifacts.",
+            "suggestedFix": "Use one consistent macro definition style and identifier everywhere, e.g. change tests/Makefile nasm invocations from `-dera=1` to `-Dera=1` (or update all asm files to check `%ifndef era` and define `-Dera=1` accordingly), so students only track a single macro name and usage.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "assignment/fix_add.asm",
+                    "startLine": 1,
+                    "endLine": 3
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/Makefile",
+                    "startLine": 15,
+                    "endLine": 21
+                },
+                {
+                    "type": "TESTS_REPOSITORY",
+                    "filePath": "Makefile",
+                    "startLine": 9,
+                    "endLine": 15
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T15:53:16.640365Z",
+        "endTime": "2026-03-14T15:54:23.736439Z",
+        "durationS": 67.096
+    },
+    "tokens": {
+        "prompt": 87685,
+        "completion": 634,
+        "total": 88319
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/007",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

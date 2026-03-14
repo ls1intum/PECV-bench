@@ -1,0 +1,98 @@
+{
+    "timestamp": "2026-03-14T16:35:00.736594Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Exercises 2.6, 4.6, and 5.6 require returning \u201csimulation counts\u201d, but the provided reference implementations run the circuits on Aer.get_backend(\"statevector_simulator\") and then call result.get_counts(qc). This is inconsistent with the usual Qiskit workflow taught to learners: counts are produced by shot-based sampling backends (e.g., qasm_simulator/AerSimulator) after measurement, whereas a statevector simulator is primarily for retrieving statevectors. The mismatch can confuse students about which backend to use and why counts are available.",
+            "suggestedFix": "For Exercises 2.6/4.6/5.6, switch simulate() to a sampling backend (e.g., Aer.get_backend(\"qasm_simulator\") or AerSimulator()) and keep shots-based execution to obtain counts. Alternatively, if you want to keep statevector_simulator, update the problem statement and function contract to return a statevector/probabilities instead of counts.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 134,
+                    "endLine": 137
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 210,
+                    "endLine": 213
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 234,
+                    "endLine": 237
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+                    "startLine": 125,
+                    "endLine": 135
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex4_grover_lights_out_puzzle.py",
+                    "startLine": 173,
+                    "endLine": 183
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex5_grover_kakuro.py",
+                    "startLine": 113,
+                    "endLine": 124
+                }
+            ]
+        },
+        {
+            "severity": "LOW",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "In the Exercise 5 template, GroverKakuro.state_preparation(...) names its third parameter `ancilla_register`, while the class attributes, other methods (oracle/diffusion/grover_circuit), and the reference solution consistently call it `auxiliary_register`. This naming inconsistency can mislead students into thinking two different registers are involved and causes unnecessary mapping when following the instructions.",
+            "suggestedFix": "Rename the template parameter `ancilla_register` to `auxiliary_register` in GroverKakuro.state_preparation(...), and ensure the docstring uses the same term consistently.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex5_grover_kakuro.py",
+                    "startLine": 33,
+                    "endLine": 38
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex5_grover_kakuro.py",
+                    "startLine": 44,
+                    "endLine": 48
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex5_grover_kakuro.py",
+                    "startLine": 26,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex5_grover_kakuro.py",
+                    "startLine": 33,
+                    "endLine": 37
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T16:35:00.736594Z",
+        "endTime": "2026-03-14T16:36:04.343463Z",
+        "durationS": 63.606
+    },
+    "tokens": {
+        "prompt": 71334,
+        "completion": 1718,
+        "total": 73052
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/QCSL25/QC02-Far_Term_Quantum_Algorithms/017",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

@@ -1,0 +1,94 @@
+{
+    "timestamp": "2026-03-14T16:38:03.345385Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The template's simulate_msd_two_rounds function contains a stray executable line `circ = stim.Circuit(p)` immediately inside the function (before the docstring). This line is not part of the specification and also incorrectly passes the float `p` as the first positional argument to `stim.Circuit`, which is intended to be circuit text; this can raise a type error or otherwise break students when they call the function, before they implement anything. The solution correctly initializes with `stim.Circuit()` inside the implementation.",
+            "suggestedFix": "Remove the stray `circ = stim.Circuit(p)` line from the template. Keep the function as a pure stub (docstring + NotImplementedError) until students implement it, and when implemented use `circ = stim.Circuit()` as in the solution.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 134,
+                    "endLine": 147
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 240,
+                    "endLine": 254
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "build_msd_circ's return-value documentation contradicts the problem statement. The problem statement requires returning (1) teleportation measurement indices and (2) the destructive measurements of the 15 tetrahedral-code qubits (in qubit order). However, both template and solution docstrings describe the second list as measurements of the distilled state, which can cause students to return the wrong indices and fail tests that expect the 15 code-block X-basis measurement indices.",
+            "suggestedFix": "Update template and solution docstrings for build_msd_circ so the second returned list is described as the measurement indices of the 15 destructive X-basis measurements of the tetrahedral-code block (in qubit order), not the distilled qubit.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 114,
+                    "endLine": 121
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 93,
+                    "endLine": 106
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 153,
+                    "endLine": 165
+                }
+            ]
+        },
+        {
+            "severity": "LOW",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The solution contains misleading measurement-basis comments that contradict the actual Stim instructions used. In build_msd_circ, the comment says \"Measure all qubits in the Z basis\" but the code uses `MRX` on the code block (X-basis measurement). In simulate_msd_one_round, the comment says \"Measure ... in the Z basis\" but the code uses `MRX` (X-basis) after applying `S_DAG` (a standard way to effectively measure in the Y basis). These incorrect comments can mislead students trying to match the problem statement's \"measure whether the distilled state is |Y> or -|Y>\" guidance.",
+            "suggestedFix": "Correct the solution comments: in build_msd_circ state that `MRX` performs destructive X-basis measurement of the code block; in simulate_msd_one_round state that applying `S_DAG` then `MRX` effectively measures in the Y basis (used to distinguish |Y> vs -|Y>).",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 179,
+                    "endLine": 182
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 218,
+                    "endLine": 220
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 155,
+                    "endLine": 158
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T16:38:03.345385Z",
+        "endTime": "2026-03-14T16:39:06.046342Z",
+        "durationS": 62.7
+    },
+    "tokens": {
+        "prompt": 47237,
+        "completion": 2537,
+        "total": 49774
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/009",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

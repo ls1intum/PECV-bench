@@ -1,0 +1,94 @@
+{
+    "timestamp": "2026-03-14T16:39:08.479308Z",
+    "issues": [
+        {
+            "severity": "LOW",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The `inject` function parameter typing is inconsistent across the exercise text and code. The problem statement specifies `inject(circ: stim.Circuit, data_qubit: int, injection_qubit) -> int` but uses `injection_qubit` as a qubit index (an int), while the template and solution leave `injection_qubit` untyped. This can confuse students about whether non-integer Stim targets are allowed, especially since other APIs in the same exercise type qubit indices as `int`.",
+            "suggestedFix": "Update the function signature in the template (and optionally the solution for consistency) to `def inject(circ: stim.Circuit, data_qubit: int, injection_qubit: int) -> int:`.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 88,
+                    "endLine": 92
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 52,
+                    "endLine": 52
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 108,
+                    "endLine": 108
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "The template\u2019s return type annotation for `simulate_msd_one_round` conflicts with the specification and the solution. The problem statement requires `simulate_msd_one_round(...) -> tuple[float, float]` (error rate, acceptance rate) and the solution matches this, but the template declares `-> list[float]`, which misleads students and breaks type checking/intellisense for callers like `plot_msd` that treat the result as a 2-tuple.",
+            "suggestedFix": "Change the template signature to `def simulate_msd_one_round(n_shots: int, p: float) -> tuple[float, float]:`.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 149,
+                    "endLine": 153
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 121,
+                    "endLine": 121
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 198,
+                    "endLine": 198
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The template docstring for `build_msd_circ` misdescribes the second returned list. The problem statement says the function must return measurement indices for (1) teleportation/injection measurements and (2) the destructive X-basis measurements of the 15 tetrahedral-code qubits (in qubit order). The template docstring instead describes the second list as indices of the \u201cfinal X-basis measurements of the distilled state\u201d, which is a different qubit/entity and can mislead students about what to pass into `detect_errors`.",
+            "suggestedFix": "Edit the `build_msd_circ` template docstring so the second list is described as \u201cindices of the destructive X-basis measurements of the 15 tetrahedral-code qubits (in qubit order)\u201d instead of measurements of the distilled state.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 116,
+                    "endLine": 120
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 101,
+                    "endLine": 105
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T16:39:08.479308Z",
+        "endTime": "2026-03-14T16:40:03.634436Z",
+        "durationS": 55.155
+    },
+    "tokens": {
+        "prompt": 46721,
+        "completion": 2197,
+        "total": 48918
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/002",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}

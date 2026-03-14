@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-14T15:52:05.406448Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Calling convention inconsistency for set_pixel: The problem statement requires set_pixel to receive x in EAX, y in EBX, RGB in ECX and to not modify any registers except EAX. The reference solution's set_pixel saves/restores EBX, ESI and EDX but unconditionally modifies EDI via \"or edi, edi\" without saving/restoring it, and also uses EDI as an implicit input (alpha/format flag) even though neither the statement nor the template define EDI as a parameter. This contradicts the specified interface and makes the solution behavior depend on an undefined register value.",
+            "suggestedFix": "Make set_pixel independent of EDI and preserve all registers except EAX (per specification): remove the EDI-based alpha check and always compute the byte offset for 32bpp (x*4 and y*7680) using a scratch register that is saved/restored. Alternatively, if an additional format/alpha flag is intended, explicitly document it (e.g., EDI as input) and ensure main initializes it before calling set_pixel, and update the 'only EAX may be modified' rule accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 39
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 146,
+                    "endLine": 148
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 33
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-14T15:52:05.406448Z",
+        "endTime": "2026-03-14T15:52:22.782374Z",
+        "durationS": 17.375
+    },
+    "tokens": {
+        "prompt": 21058,
+        "completion": 1819,
+        "total": 22877
+    },
+    "costs": {
+        "promptEur": 0.0,
+        "completionEur": 0.0,
+        "totalEur": 0.0
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/006",
+    "run_id": "azure-openai-gpt-5.2-2026-03-14-1550-9cd0b21e4a"
+}
