@@ -28,6 +28,7 @@
 | Benchmark | Config Key | N runs | TP | FP | FN | Precision | Recall | F1 | Span F1 | IoU | Avg Time (s) | Avg Cost (€) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | artemis-feature-hyperion-consistency_check_scripts-39a20d8576 | default | 1 | 0 | 0 | 30 | 0 | 0 | 0 | — | — | 7.349 | 0.0050 |
+| artemis-feature-hyperion-consistency_check_scripts-39a20d8576 | model=azure-openai-gpt-5-mini, reasoning_effort=medium | 1 | 0 | 1 | 30 | 0 | 0 | 0 | — | — | 7.513 | 0.0052 |
 
 ## Per Exercise Breakdown
 
@@ -35,5 +36,10 @@
 | Exercise | TP | FP | FN | Precision | Recall | F1 | Span F1 | IoU | Avg Time (s) | Avg Cost (€) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | V1/ITP2425/H01E01-Lectures | 0 | 0 | 30 | 0 | 0 | 0 | — | — | 7.349 | 0.0050 |
+
+### artemis-feature-hyperion-consistency_check_scripts-39a20d8576 :: model=azure-openai-gpt-5-mini, reasoning_effort=medium
+| Exercise | TP | FP | FN | Precision | Recall | F1 | Span F1 | IoU | Avg Time (s) | Avg Cost (€) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| V1/ITP2425/H01E01-Lectures | 0 | 1 | 30 | 0 | 0 | 0 | — | — | 7.513 | 0.0052 |
 
 *Benchmark results are provided under CC-BY-4.0; please attribute PECV Bench when reusing.*
