@@ -30,7 +30,7 @@
 | Benchmark | Config Key | N runs | TP | FP | FN | Precision | Recall | F1 | Span F1 | IoU | Avg Time (s) | Avg Cost (€) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | artemis-feature-hyperion-disable_threads_for_consistency_check_evaluation_scripts-1cea00d3d9 | model=azure-openai-gpt-5-mini, reasoning_effort=medium | 3 | 265 | 165 | 14 | 0.616 | 0.950 | 0.748 | 0.424 | 0.302 | 19.278 | 0.0093 |
-| pecv-reference | model=openai:gpt-5-mini, reasoning_effort=medium | 1 | 121 | 82 | 14 | 0.594 | 0.893 | 0.714 | 0.454 | 0.328 | 34.449 | — |
+| pecv-reference | model=openai:gpt-5-mini, reasoning_effort=medium | 3 | 262 | 197 | 17 | 0.571 | 0.939 | 0.710 | 0.433 | 0.308 | 31.634 | 0 |
 
 ## Per Exercise Breakdown
 
