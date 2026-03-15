@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-15T15:47:38.568737Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The problem statement requires a variable named `shared_data` to be globally visible for tests, but the template does not declare `shared_data` at all and the solution declares `shared_data` in the data section without exporting it (missing a `global shared_data` directive). This inconsistency will prevent tests from accessing the symbol and confuse students about whether and how to expose the variable.",
+            "suggestedFix": "Make the requirement explicit and consistent: add a declaration for `shared_data` to the template (e.g. `shared_data dd 100`) and ensure it is exported by adding `global shared_data` in the assembly source (for example place `global shared_data` alongside `global main` or before the data section). Update the solution to also include the `global shared_data` directive so tests can access the symbol.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 2,
+                    "endLine": 4
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 3,
+                    "endLine": 5
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement requires a globally visible variable named `shared_data`, but the template does not declare it and the solution declares `shared_data` in the data section without exporting it as a global symbol (missing `global shared_data`). This mismatch between the documented required identifier and its handling in the provided code creates a conceptual/visibility inconsistency: students and automated tests expect a globally visible symbol named `shared_data`, yet the solution does not make that identifier globally visible and the template omits it entirely.",
+            "suggestedFix": "Ensure the identifier `shared_data` is declared and exported consistently: add a data declaration `shared_data dd <value>` in the template (so students see the required symbol) and add an assembly export directive `global shared_data` (for example near the top with other global directives or before the data section) in both template and solution so the symbol is truly globally visible to tests.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 22
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 2,
+                    "endLine": 4
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 3,
+                    "endLine": 5
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T15:47:38.568737Z",
+        "endTime": "2026-03-15T15:48:02.517043Z",
+        "durationS": 23.948
+    },
+    "tokens": {
+        "prompt": 7413,
+        "completion": 3397,
+        "total": 10810
+    },
+    "costs": {
+        "promptEur": 0.0017049900512695311,
+        "completionEur": 0.00625047998046875,
+        "totalEur": 0.007955470031738281
+    },
+    "case_id": "V2/ERA2021/H00-Hello_World_ASM/014",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1547-1cea00d3d9"
+}

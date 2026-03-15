@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-15T15:50:06.822993Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The template's test support header defaults FIX_LEN to 4 (32-bit fixed type), while the example program and the solution's tests expect FIX_LEN to be 8 (64-bit fixed type). This macro controls the typedef for fix_t and therefore the binary interfaces and expected numeric ranges in tests. The mismatch will cause type/size inconsistencies between the tests and the example/assignment code and can lead to incorrect test behavior or compilation/linking problems for students.",
+            "suggestedFix": "Make FIX_LEN consistent across the template repositories: set the default FIX_LEN in tests/src/math_fix.h to 8 to match example_program/src/math_fix.c and the solution tests, or clearly document and provide a single place (common header) to configure FIX_LEN. Ensure all test expectations and typedefs use the same FIX_LEN value so fix_t has a consistent size for students' implementations.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "tests/src/math_fix.h",
+                    "startLine": 7,
+                    "endLine": 9
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/math_fix.c",
+                    "startLine": 11,
+                    "endLine": 11
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "tests/src/test.c",
+                    "startLine": 139,
+                    "endLine": 144
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "tests/src/math_fix.h",
+                    "startLine": 7,
+                    "endLine": 9
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The fixed-point configuration macro FIX_LEN (the conceptual 'length of fixed-point number in bytes') is inconsistent between the test harness and the example program in the template repository: tests default FIX_LEN to 4 while the example program uses FIX_LEN = 8. This mismatches the same conceptual entity across artifacts and will confuse students about which fixed-point size to target (and may cause compilation/behavior differences between tests and the example). The solution repository uses FIX_LEN = 8 consistently, so the template tests are the outlier.",
+            "suggestedFix": "Standardize the FIX_LEN default across all artifacts. Update tests/src/math_fix.h in the template repository to match the example program (change #define FIX_LEN 4 to #define FIX_LEN 8) or centralize the FIX_LEN definition in a single header included by both the example and tests. Also document the chosen FIX_LEN in problem_statement.md so students know which fixed-point size is expected.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "tests/src/math_fix.h",
+                    "startLine": 7,
+                    "endLine": 9
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/math_fix.h",
+                    "startLine": 11,
+                    "endLine": 13
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "tests/src/math_fix.h",
+                    "startLine": 7,
+                    "endLine": 9
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T15:50:06.822993Z",
+        "endTime": "2026-03-15T15:50:36.544543Z",
+        "durationS": 29.721
+    },
+    "tokens": {
+        "prompt": 87699,
+        "completion": 5009,
+        "total": 92708
+    },
+    "costs": {
+        "promptEur": 0.020170770507812498,
+        "completionEur": 0.00921656005859375,
+        "totalEur": 0.029387330566406248
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/012",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1547-1cea00d3d9"
+}

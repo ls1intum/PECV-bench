@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-15T16:03:17.310473Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "In the solution for Aufgabe08 the FROM clause uses the table Wanderweg_zu_Gemeinde but the WHERE clause refers to Radweg_zu_Gemeinde.gemeindeschluessel. The problem statement asks for a count of Radwegen adjacent to Gemeinden with PLZ > 96400, so the solution's table references are inconsistent and will cause the query to reference an undefined table/alias or produce wrong results.",
+            "suggestedFix": "In the solution query for aufgabe08.sql, use the Radweg_zu_Gemeinde table consistently. For example, change the FROM clause to FROM Radweg_zu_Gemeinde, Gemeinde (or update the WHERE to reference Wanderweg_zu_Gemeinde if the intent was to count Wanderwege). Align the table name with the problem statement (Radweg_zu_Gemeinde) so the WHERE clause references a defined table/alias.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe08.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe08.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 50,
+                    "endLine": 52
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "In the reference solution for Aufgabe 08 the query mixes two different table identifiers for the same join: the FROM clause uses Wanderweg_zu_Gemeinde while the WHERE clause references Radweg_zu_Gemeinde.gemeindeschluessel. The problem statement asks for the number of Radwegen adjacent to Gemeinden (task lines 50-52). This creates confusion about whether the intended association table is Radweg_zu_Gemeinde or Wanderweg_zu_Gemeinde and prevents a clear mapping from the task requirement to the solution implementation.",
+            "suggestedFix": "Make the table identifier consistent and aligned with the task intent. Replace Wanderweg_zu_Gemeinde with Radweg_zu_Gemeinde in the FROM clause of aufgabe08.sql (or, if the intent was to use Wanderweg_zu_Gemeinde, update the WHERE to reference Wanderweg_zu_Gemeinde consistently and adjust the problem text). Example fix for the solution file: FROM Gemeinde, Radweg_zu_Gemeinde WHERE Gemeinde.schluessel = Radweg_zu_Gemeinde.gemeindeschluessel AND Gemeinde.plz > 96400.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe08.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe08.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 50,
+                    "endLine": 52
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T16:03:17.310473Z",
+        "endTime": "2026-03-15T16:03:39.012647Z",
+        "durationS": 21.702
+    },
+    "tokens": {
+        "prompt": 9779,
+        "completion": 4107,
+        "total": 13886
+    },
+    "costs": {
+        "promptEur": 0.0022491700439453127,
+        "completionEur": 0.007556880126953125,
+        "totalEur": 0.009806050170898438
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/009",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1547-1cea00d3d9"
+}

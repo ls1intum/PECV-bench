@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-15T15:48:37.902301Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The template expects students to implement the subroutine set_pixel at the marked TODO (label 'set_pixel:' in pixel.asm), and the problem text refers to a set_pixel routine called from main using the label set_pixel. The provided solution instead defines a label '.set_pixel' (leading dot/local-style label) in a different location and implements the pixel write there while main still calls 'set_pixel'. This creates a visibility/name mismatch: students following the template will implement/see a 'set_pixel' symbol, but the solution's implementation uses a different symbol naming/visibility ('.set_pixel') and placed the implementation at a different location than the template's TODO. This may lead to confusion or linker/assembler errors because the called symbol name and the defined symbol do not match or have different linkage/visibility.",
+            "suggestedFix": "Ensure the subroutine symbol name and visibility match between template, problem description, and solution. Either: (a) define the function as 'set_pixel' (no leading dot) at the template's indicated TODO location so calls to 'set_pixel' resolve correctly, or (b) if using a local/leading-dot label, update the call sites to call the exact symbol used (and document the local/global naming). Prefer implementing 'set_pixel' exactly at the template's TODO to avoid student confusion about label naming and placement.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 92,
+                    "endLine": 101
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement and template refer to the subroutine as set_pixel, but the solution defines the routine with a leading dot as .set_pixel. This inconsistent identifier naming for the same conceptual entity (the pixel-setting subroutine) can confuse students when mapping the exercise description to the provided code and the reference solution.",
+            "suggestedFix": "Rename the solution's label from .set_pixel to set_pixel (or update the template/problem to consistently use .set_pixel) so the subroutine identifier matches exactly across problem statement, template and solution.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T15:48:37.902301Z",
+        "endTime": "2026-03-15T15:49:05.293783Z",
+        "durationS": 27.391
+    },
+    "tokens": {
+        "prompt": 13531,
+        "completion": 4874,
+        "total": 18405
+    },
+    "costs": {
+        "promptEur": 0.0031121300048828123,
+        "completionEur": 0.00896816015625,
+        "totalEur": 0.012080290161132812
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/013",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1547-1cea00d3d9"
+}

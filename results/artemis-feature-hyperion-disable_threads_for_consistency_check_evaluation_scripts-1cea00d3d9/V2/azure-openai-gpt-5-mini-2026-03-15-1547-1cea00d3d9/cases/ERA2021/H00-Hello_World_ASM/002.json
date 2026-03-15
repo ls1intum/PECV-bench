@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-15T15:48:17.842296Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "The problem statement requires a function calc_val that returns the value 42 in the EAX register (cdecl return convention). In the solution, calc_val sets the value in EBX (mov ebx, 42) and returns, which does not place the return value in EAX. This contradicts the specification and could confuse students who rely on the reference solution to see the correct register for returning the value.",
+            "suggestedFix": "Change the solution's calc_val implementation to place 42 in EAX (e.g., 'mov eax, 42' followed by 'ret') so it matches the problem statement's requirement that the function return 42 in the EAX register.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 22,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 9,
+                    "endLine": 11
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 11,
+                    "endLine": 14
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement requires a function calc_val that returns the value 42 in the EAX register, but the solution implementation places the return value in EBX (mov ebx, 42). This is a cross-artifact mismatch in the identifier for the return register (EAX vs EBX) for the same conceptual entity (the return location of calc_val). Students mapping the requirement to the reference solution (or to automated checks expecting EAX) may be confused or see failing behavior because the solution uses a different register than specified.",
+            "suggestedFix": "Change the solution's calc_val implementation to return the value in EAX (e.g., replace 'mov ebx, 42' with 'mov eax, 42') and update or remove the misleading comment. This aligns the solution with the problem requirement and removes the register-name mismatch.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 22,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 9,
+                    "endLine": 11
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 12,
+                    "endLine": 14
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T15:48:17.842296Z",
+        "endTime": "2026-03-15T15:48:35.566342Z",
+        "durationS": 17.724
+    },
+    "tokens": {
+        "prompt": 7465,
+        "completion": 3294,
+        "total": 10759
+    },
+    "costs": {
+        "promptEur": 0.0017169500122070312,
+        "completionEur": 0.006060960205078125,
+        "totalEur": 0.007777910217285157
+    },
+    "case_id": "V2/ERA2021/H00-Hello_World_ASM/002",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1547-1cea00d3d9"
+}

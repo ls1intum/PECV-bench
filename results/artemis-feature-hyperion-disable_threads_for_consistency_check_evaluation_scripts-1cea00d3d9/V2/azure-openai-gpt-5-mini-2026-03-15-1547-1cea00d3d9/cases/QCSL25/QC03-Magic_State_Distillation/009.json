@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-15T16:10:21.394522Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "The template implementation of simulate_msd_two_rounds contains a call to stim.Circuit(p) (passing the noise parameter to the stim.Circuit constructor), while the solution and the rest of the code use stim.Circuit() (no constructor parameter). This stray constructor parameter in the template is inconsistent with the solution and the problem specification and may confuse students or cause runtime errors if stim.Circuit does not accept that argument.",
+            "suggestedFix": "Remove the argument from the stim.Circuit constructor in the template so it matches the intended usage (use stim.Circuit() with no parameters). If a noise parameter is required, document and centralize how it should be applied (e.g., use DEPOLARIZE1 on gates) rather than passing it to the constructor.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 134,
+                    "endLine": 147
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 252,
+                    "endLine": 256
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 171,
+                    "endLine": 175
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The function correct_teleportation is documented (problem statement and template) to accept parameters in the order (teleportation_measurements, x_measurements). In the solution, calls to correct_teleportation consistently pass the arrays in the reversed order (passing final X-basis measurements as the first argument and teleportation measurements as the second). Although the implementation uses XOR (commutative) so the numeric result is unaffected, the mismatch between the documented parameter names/order and the call sites creates a mapping confusion for students trying to relate the problem description to the code.",
+            "suggestedFix": "Make the parameter order and naming consistent between specification, function definition, and all call sites. Either: (A) update the function signature/documentation to (x_measurements, teleportation_measurements) to match how it is called in the solution; or (B) update the solution call sites to pass arguments in the documented order (teleportation_measurements, x_measurements). Alternatively, use explicit keyword arguments at call sites or rename parameters to clarify which array is which (e.g. teleport_meas and resource_meas) to remove ambiguity.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 104,
+                    "endLine": 109
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 65,
+                    "endLine": 75
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 123,
+                    "endLine": 134
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 224,
+                    "endLine": 226
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T16:10:21.394522Z",
+        "endTime": "2026-03-15T16:11:09.847861Z",
+        "durationS": 48.453
+    },
+    "tokens": {
+        "prompt": 30719,
+        "completion": 6550,
+        "total": 37269
+    },
+    "costs": {
+        "promptEur": 0.0070653701171875,
+        "completionEur": 0.012052,
+        "totalEur": 0.0191173701171875
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/009",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1547-1cea00d3d9"
+}

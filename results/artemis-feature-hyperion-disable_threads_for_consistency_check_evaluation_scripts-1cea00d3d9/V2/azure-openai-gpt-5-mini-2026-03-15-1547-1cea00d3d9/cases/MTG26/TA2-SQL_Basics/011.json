@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-15T16:02:15.791197Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The solution for Aufgabe 05 does not compute the requested average area. Instead of using an aggregate (AVG) on the flaeche column, it selects the kreis column twice and aliases it as avg_flaeche (kreis as avg_flaeche). This contradicts the problem statement which requires the average area per Landkreis and will mislead students about the intended use of aggregation functions.",
+            "suggestedFix": "Replace the incorrect use of the kreis column as the average with an actual aggregation on flaeche. For example:\n\nSELECT kreis, regierungsbezirk, AVG(flaeche)\nFROM Gemeinde\nGROUP BY kreis, regierungsbezirk\nORDER BY kreis;\n\nThis returns the Landkreis name (kreis), its Regierungsbezirk, and the average municipality area (AVG(flaeche)) as required by the task.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe05.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 124,
+                    "endLine": 129
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe05.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T16:02:15.791197Z",
+        "endTime": "2026-03-15T16:02:43.126126Z",
+        "durationS": 27.334
+    },
+    "tokens": {
+        "prompt": 13387,
+        "completion": 3125,
+        "total": 16512
+    },
+    "costs": {
+        "promptEur": 0.003079010131835937,
+        "completionEur": 0.00575,
+        "totalEur": 0.008829010131835936
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/011",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1547-1cea00d3d9"
+}

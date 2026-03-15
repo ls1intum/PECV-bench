@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-15T16:06:40.254597Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem statement and the template define the Course rating method with the parameter label 'stars' (addRating(stars:)), but the solution implements the method with a different parameter label 'rating' (addRating(rating:)). Additionally, the solution's Client calls addRating(stars:), creating an internal mismatch inside the solution repository. This inconsistent parameter labeling across problem, template, and solution can confuse students about the expected method signature and may cause compilation or usage errors.",
+            "suggestedFix": "Make the parameter label consistent across all artifacts. Either: (a) rename the solution's Course method to match the spec/template: func addRating(stars: Int) { ... } and keep Client calls as addRating(stars:), or (b) change the problem statement/template to use addRating(rating: Int) and update all calls (Client) accordingly. Ensure template, problem text, and solution use the exact same external parameter label.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 13,
+                    "endLine": 19
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 23,
+                    "endLine": 27
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 24,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Client.swift",
+                    "startLine": 14,
+                    "endLine": 15
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The Course rating method's parameter label is inconsistent across artifacts. The problem statement and the template declare and refer to the method as addRating(stars:), while the solution implementation defines the method as addRating(rating:). This mismatch (stars vs rating) creates cognitive friction for students mapping the requirement to the implementation and makes the solution harder to read and verify against the exercise description (and in the solution repository the Client calls addRating(stars:), which does not match the Course implementation).",
+            "suggestedFix": "Use a single consistent external parameter label for the Course rating method across all artifacts. Prefer matching the problem statement and template by changing the solution's method signature to func addRating(stars: Int) { ... } (and update any internal parameter name accordingly), or alternatively update the problem statement and template to use addRating(rating:) if you prefer that label. Align Client calls to the chosen label as well.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 13,
+                    "endLine": 19
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 23,
+                    "endLine": 27
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 24,
+                    "endLine": 29
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T16:06:40.254597Z",
+        "endTime": "2026-03-15T16:07:06.338348Z",
+        "durationS": 26.083
+    },
+    "tokens": {
+        "prompt": 12827,
+        "completion": 4576,
+        "total": 17403
+    },
+    "costs": {
+        "promptEur": 0.0029502100830078124,
+        "completionEur": 0.008419840332031251,
+        "totalEur": 0.011370050415039063
+    },
+    "case_id": "V2/IOS26/TC2-Developer/004",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1547-1cea00d3d9"
+}

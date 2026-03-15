@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-15T15:49:10.931365Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The problem statement requires that the subroutine set_pixel must preserve all registers except EAX (\"Au\u00dfer dem Register eax d\u00fcrfen keine anderen Registerinhalte ver\u00e4ndert werden\"). However, the template contains a comment at the main calculation TODO which tells students they need not save eax, ebx and esi (\"Attention: save all registers you modify except eax,ebx and esi\"). This is a conflicting instruction: the template implies EBX may be left unsaved/modified during the position calculation, while the problem statement mandates EBX (which holds the y coordinate when calling set_pixel) must not be altered by the subroutine. This mismatch can confuse students about which registers must be preserved and may lead to incorrect implementations or broken calling conventions between main and set_pixel.",
+            "suggestedFix": "Make the register-preservation guidance consistent: update the template comment at the calculation TODO to require preserving EBX (and any other registers) unless explicitly allowed by the problem. For example change the comment to: \"Attention: save all registers you modify except EAX and ESI\" or otherwise clarify that EBX must be preserved for set_pixel calls. Ensure the template and instructions both state the same preservation requirements.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 100,
+                    "endLine": 110
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 92,
+                    "endLine": 101
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T15:49:10.931365Z",
+        "endTime": "2026-03-15T15:49:48.166186Z",
+        "durationS": 37.234
+    },
+    "tokens": {
+        "prompt": 13513,
+        "completion": 4952,
+        "total": 18465
+    },
+    "costs": {
+        "promptEur": 0.003107990112304688,
+        "completionEur": 0.009111680297851563,
+        "totalEur": 0.012219670410156251
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/011",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1547-1cea00d3d9"
+}

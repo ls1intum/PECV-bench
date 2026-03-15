@@ -1,0 +1,98 @@
+{
+    "timestamp": "2026-03-15T15:44:36.584843Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "The problem statement and UML specify Animal.messageOnFeed() returns a String, and the template Farm implementation expects to print that String. However, the solution repository's Animal class declares messageOnFeed() to return FeedResponse (a custom type), while some subclasses (e.g., Goat) in the solution return String. This causes a method return-type mismatch across artifacts and even within the solution (incompatible overrides), leading to compilation errors and confusion about the correct signature students should implement.",
+            "suggestedFix": "Make the messageOnFeed() return type consistent across all artifacts. Either: (A) Follow the problem statement and UML by changing Animal.messageOnFeed() to return String and update Pig/Seal to return String (remove or stop using FeedResponse), and adjust Farm printing accordingly; or (B) If FeedResponse is desired, update the problem statement and UML to specify FeedResponse as the return type, update the template Farm to handle FeedResponse (e.g., use toString()), and modify any subclasses (e.g., Goat) to return FeedResponse so all overrides match.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 26,
+                    "endLine": 29
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Farm.java",
+                    "startLine": 18,
+                    "endLine": 36
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Animal.java",
+                    "startLine": 3,
+                    "endLine": 19
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Goat.java",
+                    "startLine": 3,
+                    "endLine": 17
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/FeedResponse.java",
+                    "startLine": 1,
+                    "endLine": 24
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement and template describe Animal.messageOnFeed() as returning a String (the feed message). The solution repository replaces that return type with a FeedResponse class (and introduces FeedResponse). This creates a conceptual/API mismatch: students reading the assignment expect messageOnFeed(): String, but the reference solution uses messageOnFeed(): FeedResponse (and some concrete classes in the solution even use String signatures inconsistently). The divergent return type/name (String vs FeedResponse) and the addition of the FeedResponse type are not mentioned in the problem statement or template, which will confuse students about the expected method signature and how to implement/consume messageOnFeed().",
+            "suggestedFix": "Make the API consistent across problem, template, and solution. Either: (A) change the solution to have messageOnFeed() return String everywhere (remove or stop using FeedResponse), and update concrete animals to return the String message; or (B) update the problem statement and template to document the FeedResponse type and specify that messageOnFeed() returns FeedResponse (showing how to use its toString()/message). Ensure all concrete animal classes in the solution use the same signature as Animal.messageOnFeed().",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 26,
+                    "endLine": 29
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Farm.java",
+                    "startLine": 18,
+                    "endLine": 37
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Animal.java",
+                    "startLine": 3,
+                    "endLine": 19
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/FeedResponse.java",
+                    "startLine": 1,
+                    "endLine": 24
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Goat.java",
+                    "startLine": 9,
+                    "endLine": 16
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T15:44:36.584843Z",
+        "endTime": "2026-03-15T15:45:03.500253Z",
+        "durationS": 26.915
+    },
+    "tokens": {
+        "prompt": 17253,
+        "completion": 4570,
+        "total": 21823
+    },
+    "costs": {
+        "promptEur": 0.0039681900634765625,
+        "completionEur": 0.008408800292968751,
+        "totalEur": 0.012376990356445313
+    },
+    "case_id": "V1/ITP2425/H05E01-Space_Seal_Farm/016",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1539-1cea00d3d9"
+}

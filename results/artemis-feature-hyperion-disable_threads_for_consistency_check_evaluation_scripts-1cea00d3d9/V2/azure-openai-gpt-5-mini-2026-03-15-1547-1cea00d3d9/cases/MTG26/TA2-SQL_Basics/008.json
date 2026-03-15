@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-15T16:02:01.951454Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The solution for Aufgabe 09 groups by regierungsbezirk but selects kreis. The problem requests averages per Landkreis (kreis) and the name of the respective Landkreis, so the GROUP BY in the solution is incorrect and inconsistent with the problem statement. This makes the SQL either invalid (selecting a non-aggregated column not in GROUP BY) or returns incorrect/ambiguous results and will confuse students about which column to group by.",
+            "suggestedFix": "Modify the solution SQL to group by kreis (the Landkreis) rather than regierungsbezirk. For example: SELECT kreis, AVG(einwohner_m), AVG(einwohner_w) FROM Gemeinde WHERE flaeche > 100 GROUP BY kreis; If the regierungsbezirk should also be included, group by both (GROUP BY kreis, regierungsbezirk) and select both columns.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 146,
+                    "endLine": 149
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe09.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe09.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Aufgabe 09 verlangt die durchschnittlichen Einwohnerzahlen pro Landkreis (\"Landkreis\" / Name des Landkreises). Die L\u00f6sung w\u00e4hlt die Spalte 'kreis' in der SELECT-Klausel, gruppiert jedoch nach 'regierungsbezirk'. Das f\u00fchrt zu einem widerspr\u00fcchlichen Bezug auf die Gruppierungsentit\u00e4t (Landkreis) \u2014 in der Problemformulierung wird 'Landkreis' erwartet, die L\u00f6sung verwendet inkonsistent 'kreis' vs. 'regierungsbezirk'.",
+            "suggestedFix": "Mache die Gruppierungs- und Ausgabespalte konsistent mit der Aufgabenstellung. Entweder gruppiere nach 'kreis' (GROUP BY kreis) wenn Ausgabe pro Landkreis gew\u00fcnscht ist, oder passe die SELECT-Spalten an und formuliere die Aufgabe um, falls stattdessen nach 'regierungsbezirk' gruppiert werden soll. Empfohlen: in aufgabe09.sql GROUP BY kreis anstelle von GROUP BY regierungsbezirk.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 146,
+                    "endLine": 149
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe09.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe09.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T16:02:01.951454Z",
+        "endTime": "2026-03-15T16:02:30.232350Z",
+        "durationS": 28.28
+    },
+    "tokens": {
+        "prompt": 13385,
+        "completion": 4262,
+        "total": 17647
+    },
+    "costs": {
+        "promptEur": 0.003078550048828125,
+        "completionEur": 0.007842079833984375,
+        "totalEur": 0.0109206298828125
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/008",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1547-1cea00d3d9"
+}
