@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-15T15:49:16.297222Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The problem statement and the template require the computed pixel memory address to be placed in ESI and then read via mov ecx, [esi]. The solution implementation in pixel.asm (main) does not follow this: it leaves ESI containing display_start, computes the address into EDI instead, and never adds display_start to EDI before dereferencing (mov ecx, [edi]). This deviates from the specified register/result convention and yields an incorrect address being read. Students expecting the result in ESI (and the example mov ecx, [esi]) will be confused and unable to reconcile the solution with the template/problem requirements.",
+            "suggestedFix": "Modify the solution's main calculation block so the final address is stored in ESI and then read with mov ecx, [esi]. Compute the byte offset as (y*1920 + x) * 4 (e.g. compute x*4 via shl eax,2 or mul 4; compute y*7680 via imul/mul or add-shift optimization), add display_start, place result in ESI, and then use mov ecx, [esi]. Ensure registers are preserved according to the template's requirements (save/restore any registers you modify except allowed ones). Example approach: 1) compute x*4 in EAX (shl eax, 2), 2) compute y*7680 in a temporary register (e.g. mov edx, 7680; imul ebx or mul ebx), 3) add the two results, 4) add display_start to that sum and move into ESI, 5) use mov ecx, [esi]. This will align the solution with the template/problem expectation that the address result is returned in ESI.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 20,
+                    "endLine": 27
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 99,
+                    "endLine": 106
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 92,
+                    "endLine": 102
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement and the template instruct students to compute the pixel memory address into register ESI and to read the pixel via [ESI] (mov ecx, [esi]). The provided solution, however, computes and uses the address in EDI (e.g. mov ecx, [edi]). This register-name mismatch (ESI vs EDI) creates a conceptual mapping barrier: students following the instructions (and the template comments) will expect the address in ESI, but the solution demonstrates a different register, which can confuse debugging and understanding of the intended steps.",
+            "suggestedFix": "Make the register usage consistent across all artifacts. Either update the solution to compute and use the address in ESI (e.g. perform address calculation into ESI and use mov ecx, [esi]), or change the problem statement and template comments to require EDI instead of ESI. Preferably, modify the solution to use ESI so it matches the explicit instructions in the problem and template.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 26
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 99,
+                    "endLine": 103
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 92,
+                    "endLine": 101
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T15:49:16.297222Z",
+        "endTime": "2026-03-15T15:50:02.817951Z",
+        "durationS": 46.52
+    },
+    "tokens": {
+        "prompt": 13529,
+        "completion": 7126,
+        "total": 20655
+    },
+    "costs": {
+        "promptEur": 0.003111670043945312,
+        "completionEur": 0.01311183984375,
+        "totalEur": 0.016223509887695314
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/001",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1547-1cea00d3d9"
+}

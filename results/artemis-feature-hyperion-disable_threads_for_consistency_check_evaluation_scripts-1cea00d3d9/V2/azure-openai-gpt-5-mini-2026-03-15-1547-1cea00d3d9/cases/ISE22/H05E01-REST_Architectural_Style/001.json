@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-15T15:52:06.753475Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "The return type of PersonService.savePerson is inconsistent between template and solution and conflicts with how the REST resource expects to use it. In the template PersonService.savePerson returns a Person (allowing controllers/resources to return the saved/updated Person in responses). In the provided solution PersonService.savePerson is declared void, but PersonResource.createPerson and updatePerson call personService.savePerson(...) and return its result (ResponseEntity.ok(personService.savePerson(...))). This mismatch will cause compilation errors and confuses students about the expected service contract (whether savePerson should return the saved Person). The problem statement and endpoint descriptions also imply the created/updated Person should be returned in the response.",
+            "suggestedFix": "Make the service contract consistent: restore PersonService.savePerson to return a Person (the saved/updated entity) so PersonResource can return ResponseEntity.ok(personService.savePerson(...)). Alternatively, modify PersonResource to not expect a returned Person (e.g., return the saved Person from the resource after calling a void save) \u2014 but the recommended fix is to have savePerson return Person to match the template and the problem statement's endpoint behavior.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 18,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 20,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 29,
+                    "endLine": 35
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 109,
+                    "endLine": 115
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T15:52:06.753475Z",
+        "endTime": "2026-03-15T15:52:27.613683Z",
+        "durationS": 20.86
+    },
+    "tokens": {
+        "prompt": 49965,
+        "completion": 3255,
+        "total": 53220
+    },
+    "costs": {
+        "promptEur": 0.0114919501953125,
+        "completionEur": 0.005989200195312501,
+        "totalEur": 0.017481150390625
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/001",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1547-1cea00d3d9"
+}

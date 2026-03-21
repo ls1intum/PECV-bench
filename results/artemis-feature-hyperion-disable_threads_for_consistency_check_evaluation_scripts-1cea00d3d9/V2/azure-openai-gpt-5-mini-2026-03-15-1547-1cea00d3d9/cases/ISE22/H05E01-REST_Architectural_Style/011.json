@@ -1,0 +1,92 @@
+{
+    "timestamp": "2026-03-15T15:52:07.786346Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The data type of Person.id is inconsistent across artifacts. The problem statement and server-side services/controllers expect person IDs to be UUIDs (endpoints use UUID personId). The template's common Person model defines id as UUID, and the server PersonService/savePerson uses UUID (UUID.randomUUID()). However, the solution's common Person model declares id as Long which conflicts with the server-side code that uses UUID. This mismatch is structural and will prevent correct compilation and confuses students about the intended ID type.",
+            "suggestedFix": "Unify the Person.id type across all artifacts to match the specification: use UUID for Person.id in the common model (change solution's Person.id from Long to UUID and update getter/setter). Ensure all server and client code expects and uses UUID consistently (or update the problem statement and endpoints if Long is intended).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 109,
+                    "endLine": 116
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/common/java/de/tum/in/ase/eist/model/Person.java",
+                    "startLine": 6,
+                    "endLine": 20
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/common/java/de/tum/in/ase/eist/model/Person.java",
+                    "startLine": 6,
+                    "endLine": 20
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 20,
+                    "endLine": 36
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The Problem Statement and the TEMPLATE repository represent the Person identifier as a UUID (Person.id: UUID). In the SOLUTION repository the Person model declares id as Long, while other solution components (PersonResource path variables and PersonService id generation) still use UUID. This inconsistent representation of the same conceptual entity 'Person.id' across artifacts creates a mapping/confusion for students (and can cause compile/runtime mismatches between model, service and REST resource).",
+            "suggestedFix": "Make the Person identifier type consistent across all artifacts. Prefer aligning the SOLUTION model with the Problem Statement and TEMPLATE by changing Person.id in src/common/java/de/tum/in/ase/eist/model/Person.java to UUID (update getter/setter signatures and imports). Alternatively, if Long is intended, update PersonResource and PersonService to use Long consistently and update the problem statement to reflect the Long id type. Ensure PersonService uses the correct id generation/assignment type accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 168,
+                    "endLine": 175
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/common/java/de/tum/in/ase/eist/model/Person.java",
+                    "startLine": 6,
+                    "endLine": 20
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/common/java/de/tum/in/ase/eist/model/Person.java",
+                    "startLine": 6,
+                    "endLine": 20
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 37,
+                    "endLine": 43
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 20,
+                    "endLine": 25
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T15:52:07.786346Z",
+        "endTime": "2026-03-15T15:52:35.243073Z",
+        "durationS": 27.456
+    },
+    "tokens": {
+        "prompt": 49991,
+        "completion": 4194,
+        "total": 54185
+    },
+    "costs": {
+        "promptEur": 0.01149793017578125,
+        "completionEur": 0.0077169599609375,
+        "totalEur": 0.019214890136718753
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/011",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1547-1cea00d3d9"
+}

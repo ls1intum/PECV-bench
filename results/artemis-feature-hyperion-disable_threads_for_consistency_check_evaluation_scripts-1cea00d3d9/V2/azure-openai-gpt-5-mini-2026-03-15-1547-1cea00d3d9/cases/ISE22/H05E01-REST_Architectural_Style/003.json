@@ -1,0 +1,98 @@
+{
+    "timestamp": "2026-03-15T15:52:29.308755Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "The return type of PersonService.getAllPersons differs between the template and the provided solution, and the solution's PersonResource still declares a List return type. In the template PersonService the method signature is public List<Person> getAllPersons(PersonSortingOptions sortingOptions) (students will implement to return a List). In the solution PersonService the method signature was changed to public Set<Person> getAllPersons(PersonSortingOptions sortingOptions), but PersonResource in the solution still declares ResponseEntity<List<Person>> for the endpoint and directly returns the service result. This mismatch (List vs Set) is a structural inconsistency that can cause compilation/generic type errors and will confuse students about the expected collection type to use and return.",
+            "suggestedFix": "Choose and document a single collection type for getAllPersons and make it consistent across template, solution, and REST signatures. Recommended: keep List<Person> (matches the client which expects a List and the template stub). Change the solution's PersonService.getAllPersons to return List<Person> (e.g., return new ArrayList<>(sortedList) or Collections.unmodifiableList(sortedList)), and ensure PersonResource returns ResponseEntity<List<Person>> using the service result. Alternatively, if Set<Person> is preferred, update the template, client (ParameterizedTypeReference), and PersonResource signatures to expect/handle Set<Person> consistently.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 203,
+                    "endLine": 208
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 37,
+                    "endLine": 40
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 39,
+                    "endLine": 64
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 23,
+                    "endLine": 27
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 18,
+                    "endLine": 19
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The conceptual operation to retrieve all persons (getAllPersons) is inconsistently represented across artifacts: the template PersonService declares getAllPersons to return a List<Person> while the solution PersonService returns a Set<Person>. The problem statement and the client-side PersonController expect a list of persons in the HTTP response (GET /persons returns a list). This mismatch (List vs Set return type for the same conceptual method) creates confusion for students about the expected data structure and ordering behavior and may break the mapping between service, REST resource, and client code.",
+            "suggestedFix": "Make the service return the same collection type that the problem statement and client expect (List<Person>) and preserve sorting order. Concretely, change PersonService.getAllPersons in the solution to return List<Person> (or update the client and problem text consistently to accept a Set) so that method signatures and HTTP response types agree across service, resource, and client.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 109,
+                    "endLine": 114
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 37,
+                    "endLine": 40
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 39,
+                    "endLine": 63
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+                    "startLine": 22,
+                    "endLine": 24
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/client/java/de/tum/in/ase/eist/controller/PersonController.java",
+                    "startLine": 65,
+                    "endLine": 80
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T15:52:29.308755Z",
+        "endTime": "2026-03-15T15:53:01.810270Z",
+        "durationS": 32.501
+    },
+    "tokens": {
+        "prompt": 49999,
+        "completion": 5312,
+        "total": 55311
+    },
+    "costs": {
+        "promptEur": 0.0114997705078125,
+        "completionEur": 0.009774080078125,
+        "totalEur": 0.0212738505859375
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/003",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1547-1cea00d3d9"
+}

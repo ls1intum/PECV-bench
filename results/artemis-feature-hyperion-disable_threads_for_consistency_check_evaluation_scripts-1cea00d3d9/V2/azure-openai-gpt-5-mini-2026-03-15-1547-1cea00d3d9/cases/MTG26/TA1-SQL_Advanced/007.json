@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-15T16:03:15.003553Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The solution query for Aufgabe 02 uses Gemeinde.schluessel = Freizeitpark.id as the join condition, but the rest of the exercises and schema use a pattern where places reference their Gemeinde via a foreign key named gemeindeschluessel (e.g., Zoo.gemeindeschluessel, Schwimmbad.gemeindeschluessel). Using Freizeitpark.id as the join column is a structural mismatch: it likely joins the Freizeitpark primary key to Gemeinde.schluessel instead of using the Freizeitpark foreign key to Gemeinde, which can produce incorrect or empty results and confuses students about the correct foreign-key naming convention.",
+            "suggestedFix": "Update the solution (and, if desired, the template hint) to join on the foreign-key column that links Freizeitpark to Gemeinde, e.g. WHERE Gemeinde.schluessel = Freizeitpark.gemeindeschluessel, so it follows the same schema convention used in the other solutions (Zoo.gemeindeschluessel, Schwimmbad.gemeindeschluessel).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 24
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe02.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe02.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The solution SQL for Aufgabe 02 uses Freizeitpark.id to join with Gemeinde.schluessel, while other tasks and the expected schema use a gemeindeschluessel foreign-key naming (e.g. Schwimmbad.gemeindeschluessel, Zoo.gemeindeschluessel). This inconsistent identifier for the same conceptual foreign-key relationship (Freizeitpark -> Gemeinde) can confuse students when mapping the problem requirement (list parks and their Gemeinde) to the implementation and other examples.",
+            "suggestedFix": "Use a consistent foreign-key column name for the link from Freizeitpark to Gemeinde. Change the solution WHERE clause to: WHERE Gemeinde.schluessel = Freizeitpark.gemeindeschluessel (and update any other references to Freizeitpark.id to Freizeitpark.gemeindeschluessel) so it matches the naming used elsewhere in the exercises.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe02.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe02.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 24
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T16:03:15.003553Z",
+        "endTime": "2026-03-15T16:03:38.273363Z",
+        "durationS": 23.269
+    },
+    "tokens": {
+        "prompt": 9769,
+        "completion": 3690,
+        "total": 13459
+    },
+    "costs": {
+        "promptEur": 0.0022468699951171877,
+        "completionEur": 0.00678960009765625,
+        "totalEur": 0.009036470092773438
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/007",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1547-1cea00d3d9"
+}

@@ -1,0 +1,100 @@
+{
+    "timestamp": "2026-03-15T16:05:31.196527Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem statement and the template define Course.instructor as a String, but the solution implementation declares Course.instructor as an array of String ([String]). This attribute type mismatch between the specification/template and the provided solution will confuse students about the intended type for the instructor property and which type they should implement.",
+            "suggestedFix": "Make the Course.instructor type consistent across all artifacts. Either (A) change the solution to use instructor: String and update its initializer to accept a String (matching the problem statement and template), or (B) update the problem statement and template to require instructor: [String] and adjust examples and client code accordingly. Prefer option (A) to preserve the original specification.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 6,
+                    "endLine": 11
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 7,
+                    "endLine": 16
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 8,
+                    "endLine": 16
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "Within the solution repository, Client.swift constructs a Course using a String for the instructor argument, but Course.init in the solution expects an [String]. This constructor parameter type mismatch in the solution will cause compilation errors and makes the provided solution inconsistent and unusable as a reference.",
+            "suggestedFix": "Fix the solution so Client and Course agree on the constructor parameter type. Either (A) change Course.init to accept a String for instructor (and keep Client as-is), or (B) change the Client creation to pass an array of Strings to match Course.init. Prefer changing Course.init to accept a String to align with the problem statement and the template.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Client.swift",
+                    "startLine": 9,
+                    "endLine": 13
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 13,
+                    "endLine": 16
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 6,
+                    "endLine": 11
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement (and the template) treat Course.instructor as a single String (e.g. Course(name: \"My Course\", instructor: \"My Instructor\", ...)), but the solution implementation declares Course.instructor as an array of Strings ([String]) and updates the initializer accordingly. This changes the conceptual representation of the same entity across artifacts and can confuse students (and even break the example client usage expecting a String).",
+            "suggestedFix": "Make the representation of the instructor consistent across artifacts. Either: (A) change the solution to use instructor: String (matching the problem and template) and update any multi-instructor examples to pass a single String (e.g. a comma-separated list), or (B) update the problem statement and template to specify instructor: [String] (and update examples and Client initialization accordingly). Prefer option A to minimize changes to the exercise prompt.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 6,
+                    "endLine": 11
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 7,
+                    "endLine": 16
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 8,
+                    "endLine": 17
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T16:05:31.196527Z",
+        "endTime": "2026-03-15T16:05:54.423631Z",
+        "durationS": 23.227
+    },
+    "tokens": {
+        "prompt": 12831,
+        "completion": 4576,
+        "total": 17407
+    },
+    "costs": {
+        "promptEur": 0.0029511300048828126,
+        "completionEur": 0.008419840332031251,
+        "totalEur": 0.011370970336914064
+    },
+    "case_id": "V2/IOS26/TC2-Developer/012",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1547-1cea00d3d9"
+}

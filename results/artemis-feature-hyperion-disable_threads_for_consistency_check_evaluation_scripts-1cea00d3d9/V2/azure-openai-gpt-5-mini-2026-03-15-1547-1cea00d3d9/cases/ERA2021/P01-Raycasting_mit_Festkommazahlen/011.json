@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-15T15:50:55.948129Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The template's Bitmap24.hpp declares the member 'data' as 'int *data;', but Bitmap24.cpp (template) allocates and treats 'data' as a char buffer (new char[width*height*3] and byte-wise indexing). This causes a type mismatch that prevents successful compilation and contradicts the solution, where Bitmap24.hpp correctly declares 'char *data;'. Students will be blocked by this inconsistency.",
+            "suggestedFix": "In the template, change the Bitmap24.hpp member declaration from 'int *data;' to 'char *data;' so the header matches Bitmap24.cpp's usage (byte buffer). Ensure the destructor and all usages are consistent with a char* pixel buffer.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 31,
+                    "endLine": 37
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 26,
+                    "endLine": 32
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 33,
+                    "endLine": 36
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 18,
+                    "endLine": 21
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The Bitmap24 image buffer member is represented with different types in the template and solution artifacts: the template header declares the member as 'int *data' while the solution header declares it as 'char *data'. The implementation (Bitmap24.cpp) allocates the buffer with 'new char[...]', which matches the solution header but mismatches the template header. This inconsistency between header and implementation in the template repository (and between template and solution headers) creates an avoidable mapping/confusion for students: they may expect an int-typed buffer from the header but see char-based usage in the implementation and in the solution.",
+            "suggestedFix": "Make the template header consistent with the implementation and the solution by declaring the bitmap buffer as 'char *data;' instead of 'int *data;' (or alternatively adjust the implementation to use 'int' consistently). Prefer changing the template header to 'char *data' so students see a consistent API that matches the provided implementation and the solution.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 33,
+                    "endLine": 36
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 26,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 33,
+                    "endLine": 36
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T15:50:55.948129Z",
+        "endTime": "2026-03-15T15:51:19.184867Z",
+        "durationS": 23.236
+    },
+    "tokens": {
+        "prompt": 87699,
+        "completion": 3711,
+        "total": 91410
+    },
+    "costs": {
+        "promptEur": 0.020170770507812498,
+        "completionEur": 0.006828240234375,
+        "totalEur": 0.026999010742187496
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/011",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1547-1cea00d3d9"
+}

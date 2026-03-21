@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-15T16:01:35.762397Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Aufgabe 04 requests the sums of female and male inhabitants grouped by Regierungsbezirk (the name of the Regierungsbezirk), but the solution groups by 'kreis' while selecting 'regierungsbezirk'. This is a structural mismatch: selecting a non-aggregated column (regierungsbezirk) that is not included in the GROUP BY (kreis) yields invalid SQL in strict SQL modes and contradicts the task requirement to group by Regierungsbezirk. This will confuse students about which column to group by and may produce an error.",
+            "suggestedFix": "Modify the solution to group by the same column(s) that are selected unaggregated. For this task, group by 'regierungsbezirk'. For example:\nSELECT regierungsbezirk, SUM(einwohner_w), SUM(einwohner_m)\nFROM Gemeinde\nGROUP BY regierungsbezirk\nThis aligns the solution with the problem statement and avoids invalid SQL.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 120,
+                    "endLine": 123
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe04.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe04.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement for Aufgabe 04 requires aggregating sums grouped by the 'Regierungsbezirk' (regional district). The solution implementation, however, groups by the column 'kreis' instead of 'regierungsbezirk'. This mismatches the conceptual entity named in the task (Regierungsbezirk vs. Kreis) and creates confusion about which column students should group by to satisfy the requirement.",
+            "suggestedFix": "Make the identifiers consistent: modify the solution to group by regierungsbezirk to match the task. For example, change GROUP BY kreis to GROUP BY regierungsbezirk (or else update the problem text to explicitly ask for grouping by 'kreis' if that was intended).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 120,
+                    "endLine": 123
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe04.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe04.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T16:01:35.762397Z",
+        "endTime": "2026-03-15T16:02:12.400525Z",
+        "durationS": 36.638
+    },
+    "tokens": {
+        "prompt": 13377,
+        "completion": 4406,
+        "total": 17783
+    },
+    "costs": {
+        "promptEur": 0.0030767100830078123,
+        "completionEur": 0.008107040039062501,
+        "totalEur": 0.011183750122070313
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/007",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1547-1cea00d3d9"
+}

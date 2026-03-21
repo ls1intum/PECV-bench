@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-15T15:51:25.279717Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "The fixed-point conversion function fix_fix2float has conflicting return types between the example program headers and the test harness headers. In example_program/src/math_fix.h the function is declared to return float, while in tests/src/math_fix.h it is defined to return double. This mismatch appears in both the template and solution repositories. Students reading the example and the tests will see different signatures for the same conceptual function, which can cause confusion about the intended precision and may lead to subtle type/signature errors if code from both contexts is compared or reused.",
+            "suggestedFix": "Unify the signature of fix_fix2float across the project. Either change the test harness (tests/src/math_fix.h) to define and expose fix_fix2float as float (matching example_program/src/math_fix.h and math_fix.c), or update the example_program headers and implementations to use double consistently. Ensure the declaration and definition match exactly in return type and parameter list in all headers and implementations so students see a single, consistent API.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/math_fix.h",
+                    "startLine": 40,
+                    "endLine": 42
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "tests/src/math_fix.h",
+                    "startLine": 31,
+                    "endLine": 39
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/math_fix.h",
+                    "startLine": 40,
+                    "endLine": 42
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "tests/src/math_fix.h",
+                    "startLine": 31,
+                    "endLine": 39
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-15T15:51:25.279717Z",
+        "endTime": "2026-03-15T15:51:58.152981Z",
+        "durationS": 32.873
+    },
+    "tokens": {
+        "prompt": 87699,
+        "completion": 3970,
+        "total": 91669
+    },
+    "costs": {
+        "promptEur": 0.020170770507812498,
+        "completionEur": 0.007304799926757813,
+        "totalEur": 0.02747557043457031
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/003",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-15-1547-1cea00d3d9"
+}
