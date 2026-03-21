@@ -1,0 +1,42 @@
+{
+    "timestamp": "2026-03-21T11:29:18.514799Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "SQL projection mismatch: The solution query in solution_repository/aufgabe08.sql (line 1) uses SELECT * and thus returns all columns from Gemeinde, while the problem statement explicitly instructs students to \"Gib immer genau die geforderten Daten aus und nicht mehr.\" (problem_statement.md lines 101-103) The task (Aufgabe 08) requests exactly the columns: name, kreis (Landkreis), flaeche and the Einwohnerzahlen (einwohner_m, einwohner_w). The solution's use of SELECT * contradicts the stated requirement, may mislead students about which columns to select, and can cause automated equivalence checks to behave unexpectedly.",
+            "suggestedFix": "Replace the SELECT * in solution_repository/aufgabe08.sql with an explicit projection of the required columns to match the problem statement. For example: SELECT name, kreis, flaeche, einwohner_m, einwohner_w FROM Gemeinde WHERE (einwohner_m > 50000 AND einwohner_w > 50000) OR flaeche > 100; This returns exactly the requested columns and aligns the solution with the exercise instructions.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 101,
+                    "endLine": 103
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe08.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:29:18.514799Z",
+        "endTime": "2026-03-21T11:29:53.704050Z",
+        "durationS": 35.189
+    },
+    "tokens": {
+        "prompt": 19867,
+        "completion": 4205,
+        "total": 24072
+    },
+    "costs": {
+        "promptEur": 0.00456941015625,
+        "completionEur": 0.0077372001953125,
+        "totalEur": 0.0123066103515625
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/013",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

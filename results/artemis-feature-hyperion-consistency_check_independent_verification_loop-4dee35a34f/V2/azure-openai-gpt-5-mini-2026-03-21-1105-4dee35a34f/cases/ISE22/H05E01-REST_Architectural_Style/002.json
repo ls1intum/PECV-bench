@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-21T11:13:54.718563Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Method PersonResource.createPerson has an inconsistent return type and error handling compared to the established API pattern and the problem statement guidance. The problem statement (POST /persons should return the saved person in the HTTP response; students are pointed to NoteResource for guidance) describes POST behaviour as returning the saved Person and signalling invalid input via HTTP status. In the solution repository PersonResource.createPerson (src/server/java/de/tum/in/ase/eist/rest/PersonResource.java) the method signature returns raw Person and returns null for invalid input (when person.getId() != null). By contrast, NoteResource.createNote uses ResponseEntity<Note> and returns ResponseEntity.badRequest().build() for invalid input and ResponseEntity.ok(...) for success. This mismatch (raw Person / null vs ResponseEntity / HTTP status) can confuse students about whether to use ResponseEntity for endpoints and how to signal HTTP error responses. The template PersonResource currently contains the TODO placeholder where students are expected to implement endpoints following the NoteResource pattern.",
+            "suggestedFix": "Make PersonResource.createPerson consistent with the NoteResource pattern and the problem statement. Change the method signature to return ResponseEntity<Person>. Validate input: if (person.getId() != null) return ResponseEntity.badRequest().build(); otherwise return ResponseEntity.ok(personService.savePerson(person)). Add the necessary import for org.springframework.http.ResponseEntity. This preserves HTTP status semantics (400 for invalid requests) and matches the example in NoteResource that students are referred to.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 109,
+                    "endLine": 115
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 18,
+                    "endLine": 18
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 30,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/NoteResource.java",
+                    "startLine": 31,
+                    "endLine": 31
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:13:54.718563Z",
+        "endTime": "2026-03-21T11:14:30.018322Z",
+        "durationS": 35.299
+    },
+    "tokens": {
+        "prompt": 74896,
+        "completion": 4443,
+        "total": 79339
+    },
+    "costs": {
+        "promptEur": 0.017226080078125,
+        "completionEur": 0.008175119995117188,
+        "totalEur": 0.02540120007324219
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/002",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

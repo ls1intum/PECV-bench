@@ -1,0 +1,60 @@
+{
+    "timestamp": "2026-03-21T11:07:49.518780Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The solution implementation for pixel address calculation deviates from the formula required by the assignment. The problem statement requires computing the byte address of pixel (x,y) as address = display_start + ((y * 1920 + x) * 4) (32-bit pixels). In solution_repository/pixel.asm, the set_pixel routine computes an address in EAX and then performs an extra `add eax, 4` (solution_repository/pixel.asm lines 29-31), which shifts the target by 4 bytes (one pixel) and causes the write to affect the following pixel rather than the intended one. This mismatch between the stated formula (problem_statement.md lines 20-26) and the solution's write address will produce incorrect behavior and confuse students trying to follow the required address computation. The template left set_pixel as a TODO (template_repository/pixel.asm lines 36-38) and a main-place TODO to calculate the position (template_repository/pixel.asm lines 100-106), so the solution's extra offset is an incorrect implementation detail in the reference solution.",
+            "suggestedFix": "Remove the extra `add eax, 4` in the solution's set_pixel routine. Compute the byte offset explicitly as byte_offset = (y * 1920 + x) * 4 and then form the address as ESI (or EAX) = display_start + byte_offset. Ensure the same corrected calculation is used when main reads the initial pixel and when set_pixel writes the pixel. Preserve registers as required by the assignment (only EAX may be modified by the subroutine) and, if desired, implement multiplications using shifts/adds to minimize mul usage (e.g., x*4 via shl eax,2; y*7680 via y*(1920*4) computed as (y*1920)<<2 or using add/shift breakdown) while keeping the final address exactly display_start + ((y*1920 + x) * 4).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 20,
+                    "endLine": 26
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 100,
+                    "endLine": 106
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 29,
+                    "endLine": 31
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 95,
+                    "endLine": 102
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:07:49.518780Z",
+        "endTime": "2026-03-21T11:09:08.369544Z",
+        "durationS": 78.85
+    },
+    "tokens": {
+        "prompt": 20409,
+        "completion": 7913,
+        "total": 28322
+    },
+    "costs": {
+        "promptEur": 0.004694070068359375,
+        "completionEur": 0.014559920043945313,
+        "totalEur": 0.01925399011230469
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/009",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

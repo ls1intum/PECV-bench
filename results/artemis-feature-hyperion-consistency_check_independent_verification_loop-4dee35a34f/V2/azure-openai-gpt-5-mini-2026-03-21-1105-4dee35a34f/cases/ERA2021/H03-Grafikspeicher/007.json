@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-21T11:07:42.071672Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field 'display_start' has inconsistent reserved size between artifacts. The template (template_repository/pixel.asm) reserves 8,294,400 bytes (display_start RESB 8294400), which matches the problem statement's required resolution of 1920\u00d71080 with 4 bytes per pixel (1920*1080*4 = 8,294,400). The solution (solution_repository/pixel.asm) reserves only 409,600 bytes (display_start RESB 409600) and includes the comment \"Only 320x320 reserved\" (320*320*4 = 409,600). This contradiction (large buffer for 1920\u00d71080 in template/problem vs. small 320\u00d7320 buffer in solution) can confuse students about the intended resolution, the base address arithmetic, and constants such as the row stride (e.g., the solution uses a stride constant 7680 = 1920*4 while the buffer is sized for 320\u00d7320).",
+            "suggestedFix": "Make the buffer size and accompanying comments consistent across artifacts. Option A (preferred for fidelity to the task): increase the solution's display_start reservation to 8294400 (or otherwise reserve enough bytes for 1920\u00d71080\u00d74) and update any comments to indicate 1920\u00d71080. Ensure constants in the solution (row stride, multipliers such as 7680) remain correct for 1920\u00d71080. Option B (if the small buffer is intentional for testing): update the problem statement and the template to state that a reduced test buffer (320\u00d7320) is used, adjust the required resolution/stride values in the text and template, and update comments and constants in solution and template to match the smaller size. Either fix should include updating the explanatory comments so students know whether the provided buffer is a test-sized artifact or the real target resolution.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 21,
+                    "endLine": 21
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 5,
+                    "endLine": 5
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 98,
+                    "endLine": 99
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:07:42.071672Z",
+        "endTime": "2026-03-21T11:08:18.797123Z",
+        "durationS": 36.725
+    },
+    "tokens": {
+        "prompt": 20189,
+        "completion": 4359,
+        "total": 24548
+    },
+    "costs": {
+        "promptEur": 0.004643470092773438,
+        "completionEur": 0.008020560180664063,
+        "totalEur": 0.012664030273437502
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/007",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-21T11:30:29.643370Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Requested output column 'ID' (the primary identifier of Schwimmbad) is different from what the solution returns: the problem statement asks for ID, Name, Art and URL of Freib\u00e4der, but solution_repository/aufgabe01.sql selects the name column twice by using \"name AS id\" (SELECT name as id, name, art, url). The template starts from SELECT * (template_repository/aufgabe01.sql) which leaves the expected identifier ambiguous for students. This aliasing maps the conceptual 'ID' to the 'name' column rather than the actual identifier column and will confuse students about which column is the true identifier and whether they must use an actual id column or alias a different column.",
+            "suggestedFix": "Return the real identifier column in the solution and make the template/problem consistent. Replace the aliased column with the actual id column (example):\nSELECT id, name, art, url\nFROM Schwimmbad\nWHERE art = 'Freibad';\nIf the identifier column is named differently in the data (e.g. schwimmbad_id), select that column or explicitly document the expected column name in the problem statement so students know which column to output.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 108,
+                    "endLine": 108
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 2
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:30:29.643370Z",
+        "endTime": "2026-03-21T11:31:02.198068Z",
+        "durationS": 32.554
+    },
+    "tokens": {
+        "prompt": 20236,
+        "completion": 4736,
+        "total": 24972
+    },
+    "costs": {
+        "promptEur": 0.004654280029296875,
+        "completionEur": 0.008714240234375,
+        "totalEur": 0.013368520263671874
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/010",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-21T11:34:48.761376Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The method Course.addRating(stars:) has conflicting visibility across artifacts. The problem statement (and the template extension) specify and expect a normal instance method that can be called from other files (the exercise instructs implementing addRating and Client.swift calls swiftCourse.addRating). In the solution implementation (Sources/DeveloperLib/Course.swift) the method is declared private (private func addRating(stars: Int)). Declaring it private restricts access to the defining source file and will cause a compilation error when Client.swift (a different file) invokes swiftCourse.addRating, blocking the intended usage and preventing the project from building.",
+            "suggestedFix": "Make Course.addRating(stars:) accessible to other files by removing the private modifier. Replace 'private func addRating(stars: Int)' with 'func addRating(stars: Int)' (internal) or 'public func addRating(stars: Int)' if cross-module access is required. This preserves the intended API for Client.swift and allows the project to compile.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 15,
+                    "endLine": 15
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 24,
+                    "endLine": 24
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 25,
+                    "endLine": 25
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Client.swift",
+                    "startLine": 14,
+                    "endLine": 15
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:34:48.761376Z",
+        "endTime": "2026-03-21T11:35:24.867443Z",
+        "durationS": 36.106
+    },
+    "tokens": {
+        "prompt": 19099,
+        "completion": 4552,
+        "total": 23651
+    },
+    "costs": {
+        "promptEur": 0.00439277001953125,
+        "completionEur": 0.008375680053710938,
+        "totalEur": 0.012768450073242187
+    },
+    "case_id": "V2/IOS26/TC2-Developer/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

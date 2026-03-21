@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-21T12:12:45.995265Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Method SealSaloon.orderMeal: the problem statement UML declares orderMeal(Meal): void (problem_statement.md lists +orderMeal(Meal): void in the SealSaloon UML), whereas the solution implementation declares public boolean orderMeal(Meal meal) (solution_repository/src/de/tum/cit/ase/SealSaloon.java). This mismatch between a void return type in the specification and a boolean return type in the implementation is a concrete signature contradiction that will confuse students about the expected method contract (whether callers should expect a return value indicating success).",
+            "suggestedFix": "Make the expected signature explicit and consistent across the specification and templates/tests. Either: (A) change the problem statement (UML and prose) to declare orderMeal(Meal): boolean and document the boolean meaning (e.g., true when the order was accepted and queued), or (B) change the implementation to public void orderMeal(Meal meal) and adjust the implementation/tests so callers do not rely on a return value. Update any tests and the textual spec to match the chosen signature.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 27,
+                    "endLine": 34
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 12,
+                    "endLine": 12
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Attribute SealSaloon.stock: the problem statement first describes a 'final Stock stock' as part of the SealSaloon attributes (implying an instance final field initialized in the constructor), but later the specification explicitly states the stock attribute must be static/shared across all instances ('Note that the following methods and attributes must be static: stock attribute: This is shared across all instances of the SealSaloon'). The solution declares private static final Stock stock = new Stock(). This inconsistency in whether stock should be an instance-final field or a static shared field is contradictory and will confuse students about the required declaration.",
+            "suggestedFix": "Clarify the specification to remove the contradiction: explicitly state either 'private final Stock stock' (instance field, initialized in the constructor) or 'private static final Stock stock' (shared across all SealSaloon instances). If the intended design is a shared stock, update the earlier attribute description to read 'private static final Stock stock' and mention that the getter and related static methods operate on the shared stock. If the intended design is per-instance stock, remove the later note requiring stock to be static and adjust examples/tests accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 69,
+                    "endLine": 71
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 77,
+                    "endLine": 81
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 5,
+                    "endLine": 5
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T12:12:45.995265Z",
+        "endTime": "2026-03-21T12:13:35.338138Z",
+        "durationS": 49.342
+    },
+    "tokens": {
+        "prompt": 29748,
+        "completion": 5821,
+        "total": 35569
+    },
+    "costs": {
+        "promptEur": 0.0068420400390625,
+        "completionEur": 0.010710640014648437,
+        "totalEur": 0.01755268005371094
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1209-4dee35a34f"
+}

@@ -1,0 +1,60 @@
+{
+    "timestamp": "2026-03-21T11:12:17.928780Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field Note.creationDate has conflicting types between the common model and the server service. In the template repository, src/common/java/de/tum/in/ase/eist/model/Note.java declares creationDate as java.time.Instant. The server code (both template and solution) in src/server/java/de/tum/in/ase/eist/service/NoteService.java calls note.setCreationDate(Instant.now()), i.e. expects an Instant. However the solution repository's shared model at src/common/java/de/tum/in/ase/eist/model/Note.java declares creationDate as String. This mismatch (Instant vs String) will cause compilation errors (setCreationDate(Instant) does not exist on a Note with String field) and will confuse students when comparing the template, the provided solution, and the problem statement example which shows an ISO-8601 instant value for creationDate.",
+            "suggestedFix": "Make the Note.creationDate type consistent across all artifacts. Preferred fix: change the solution repository's common Note model to declare creationDate as java.time.Instant (with matching getter/setter accepting Instant) so it matches NoteService and the template model. Alternatively, if a String is desired in the shared model, update the server NoteService to set a formatted ISO-8601 String (e.g. Instant.now().toString()) and adjust all call sites and the problem statement examples accordingly. Ensure template, solution, and server/service code use the same type to avoid compilation errors.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/common/java/de/tum/in/ase/eist/model/Note.java",
+                    "startLine": 10,
+                    "endLine": 10
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/common/java/de/tum/in/ase/eist/model/Note.java",
+                    "startLine": 10,
+                    "endLine": 10
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/NoteService.java",
+                    "startLine": 21,
+                    "endLine": 21
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/NoteService.java",
+                    "startLine": 21,
+                    "endLine": 21
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 119,
+                    "endLine": 119
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:12:17.928780Z",
+        "endTime": "2026-03-21T11:12:59.092840Z",
+        "durationS": 41.164
+    },
+    "tokens": {
+        "prompt": 74927,
+        "completion": 4953,
+        "total": 79880
+    },
+    "costs": {
+        "promptEur": 0.01723321044921875,
+        "completionEur": 0.009113520141601564,
+        "totalEur": 0.026346730590820315
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/012",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

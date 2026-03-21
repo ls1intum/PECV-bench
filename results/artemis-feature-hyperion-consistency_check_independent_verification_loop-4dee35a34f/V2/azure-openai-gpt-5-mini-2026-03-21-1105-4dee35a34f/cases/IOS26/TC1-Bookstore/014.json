@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-21T11:33:09.906143Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "Field visibility mismatch for Book.title: The problem statement (and the client usage) treats Book.title as a readable property (problem statement requires a Book with fields title and author; Client.main prints book.title). In the solution, the Book struct declares the title property as 'private let title: String' (Bookstore.swift), which prevents access from Client.main (Client.swift) and will cause a compilation error. This inconsistency between the declared visibility in the solution and the intended/public usage in the problem statement/client blocks students from running the provided example.",
+            "suggestedFix": "Make the title property accessible to the client by removing the 'private' modifier so it uses the module-default (internal) visibility, e.g. change 'private let title: String' to 'let title: String'. Alternatively, provide an explicit public/internal accessor (e.g. a read-only computed property) if a different encapsulation is required. This ensures Client.main can read book.title without compilation errors while preserving immutability.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/BookstoreLib/Bookstore.swift",
+                    "startLine": 26,
+                    "endLine": 26
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/BookstoreLib/Client.swift",
+                    "startLine": 11,
+                    "endLine": 11
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 16,
+                    "endLine": 18
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:33:09.906143Z",
+        "endTime": "2026-03-21T11:33:38.489012Z",
+        "durationS": 28.582
+    },
+    "tokens": {
+        "prompt": 16030,
+        "completion": 3487,
+        "total": 19517
+    },
+    "costs": {
+        "promptEur": 0.0036869000244140627,
+        "completionEur": 0.006416080200195313,
+        "totalEur": 0.010102980224609375
+    },
+    "case_id": "V2/IOS26/TC1-Bookstore/014",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

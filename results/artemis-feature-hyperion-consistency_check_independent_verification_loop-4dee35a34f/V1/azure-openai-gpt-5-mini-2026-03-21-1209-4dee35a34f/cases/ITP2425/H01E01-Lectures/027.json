@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-21T12:11:09.527584Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field 'lectureName': the problem statement / UML declares the lectureName attribute as a String (problem_statement.md UML listing: \"-lectureName: String\"), but the reference solution defines a different attribute type: \"private LectureName lectureName;\" in solution_repository/src/de/tum/cit/ase/Lecture.java. This mismatch between the expected primitive type (String) in the exercise specification and the custom LectureName value object in the solution will confuse students about which type to implement and which constructor/getter signatures are correct.",
+            "suggestedFix": "Make the representation of lectureName consistent across artifacts. Recommended minimal-change fix: change the solution to use a plain String for the field (private String lectureName), update the constructor and all getters/setters/toString to use String, and remove the LectureName value object. Alternatively, if the value object is intentional, update the problem statement/UML and template to document and expect a LectureName type (adjust constructor and getter signatures in the specification).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 63,
+                    "endLine": 68
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 6,
+                    "endLine": 6
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/LectureName.java",
+                    "startLine": 3,
+                    "endLine": 3
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Method getLectureName(): the exercise expects (and the UML/tasks imply) a String getter for the lecture name, but in the reference solution the getter is declared as returning String yet its implementation returns the LectureName object directly. In solution_repository/src/de/tum/cit/ase/Lecture.java the method signature is \"public String getLectureName()\" (line 22) but the body returns the field of type LectureName (\"return lectureName;\"), producing a compile-time type mismatch and preventing successful compilation of the solution as-is.",
+            "suggestedFix": "Fix the getter implementation/signature to be consistent with the chosen lectureName representation. If lectureName remains a String, change the field type to String and return it directly. If lectureName remains a LectureName object, change the getter signature to \"public LectureName getLectureName()\" (and update the problem statement/UML/template accordingly) or have the getter return lectureName.toString() while keeping the declared return type String. Ensure the setter signature is updated consistently as well.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 32
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 22,
+                    "endLine": 24
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/LectureName.java",
+                    "startLine": 3,
+                    "endLine": 3
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T12:11:09.527584Z",
+        "endTime": "2026-03-21T12:11:53.846419Z",
+        "durationS": 44.318
+    },
+    "tokens": {
+        "prompt": 19145,
+        "completion": 6409,
+        "total": 25554
+    },
+    "costs": {
+        "promptEur": 0.00440335009765625,
+        "completionEur": 0.01179256005859375,
+        "totalEur": 0.01619591015625
+    },
+    "case_id": "V1/ITP2425/H01E01-Lectures/027",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1209-4dee35a34f"
+}

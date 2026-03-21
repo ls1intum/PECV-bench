@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-21T11:38:08.345037Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Function name mismatch for the full-state measurement routine: the problem statement (and the solution reference) require a function named `dd_measure_all`, but the template implementation defines a function named `measure_all_dd`. Specifically, the problem statement asks to implement `dd_measure_all` (problem_statement.md lines 52-55), the template repository declares `def measure_all_dd(state: DD, shots: int):` (template_repository/dd_simulation.py line 389), while the solution repository provides `def dd_measure_all(state: DD, shots: int) -> dict[str, int]:` (solution_repository/dd_simulation.py starting at line 425). This naming mismatch will confuse students about which symbol to implement and will cause automated tests or example code that call `dd_measure_all` to fail to find the expected implementation.",
+            "suggestedFix": "Make the API name consistent across artifacts. Either (A) rename the template function `measure_all_dd` to `dd_measure_all` (update its definition and any internal references), or (B) add a small compatibility wrapper in the template immediately after the existing function: `def dd_measure_all(state, shots): return measure_all_dd(state, shots)`. Ensure the chosen fix preserves the pedagogical intent and update any tests or README references if necessary.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 52,
+                    "endLine": 55
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd_simulation.py",
+                    "startLine": 389,
+                    "endLine": 424
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd_simulation.py",
+                    "startLine": 425,
+                    "endLine": 467
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:38:08.345037Z",
+        "endTime": "2026-03-21T11:38:41.173936Z",
+        "durationS": 32.828
+    },
+    "tokens": {
+        "prompt": 90189,
+        "completion": 4859,
+        "total": 95048
+    },
+    "costs": {
+        "promptEur": 0.02074347021484375,
+        "completionEur": 0.00894056005859375,
+        "totalEur": 0.029684030273437502
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/017",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-21T11:29:43.046513Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement explicitly instructs students not to rename columns using AS (\"benenne keine mit Spalten mit AS, wenn du nicht dazu aufgefordert wirst\"). The solution repository (solution_repository/aufgabe01.sql) uses an alias on the id column: \"SELECT id AS Kennung, ...\" which renames the requested column ID to Kennung. The task text also asks for ID, Name, Art und URL (problem_statement.md line 108). This mismatch between the instruction (expecting the original column name id) and the solution (renamed to Kennung) can confuse students about whether column aliasing is allowed and what exact column names the grader expects. The template (template_repository/aufgabe01.sql) uses SELECT * and would return the original column name id, not Kennung.",
+            "suggestedFix": "Make the artifacts consistent. Preferred fix: update solution_repository/aufgabe01.sql to not alias the id column (use: SELECT id, name, art, url FROM Schwimmbad WHERE art='Freibad') so the output column name matches the task wording and the rule forbidding AS. Alternatively, if aliasing is intended to be allowed, update problem_statement.md to explicitly permit the use of AS for column renaming and clarify expected output column names.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 102,
+                    "endLine": 102
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 108,
+                    "endLine": 108
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 2
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe01.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:29:43.046513Z",
+        "endTime": "2026-03-21T11:30:16.859173Z",
+        "durationS": 33.812
+    },
+    "tokens": {
+        "prompt": 20208,
+        "completion": 5269,
+        "total": 25477
+    },
+    "costs": {
+        "promptEur": 0.004647840209960938,
+        "completionEur": 0.009694960205078125,
+        "totalEur": 0.014342800415039063
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/018",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

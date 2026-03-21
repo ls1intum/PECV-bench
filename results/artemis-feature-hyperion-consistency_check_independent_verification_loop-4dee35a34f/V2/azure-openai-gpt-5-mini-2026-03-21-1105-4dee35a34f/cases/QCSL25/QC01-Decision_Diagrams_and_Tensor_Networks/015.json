@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-21T11:36:24.504739Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Global compute-table identifier name mismatch: the template dd.py declares the global ComputeTable instance as `_CT` but dd_simulation.py (template) imports `CT` from .dd (from .dd import CT, ...). The reference implementation (solution dd.py) uses `CT` (no underscore). This naming inconsistency causes an ImportError or undefined name at import time when students run dd_simulation.py against the template dd.py and blocks use of the compute-table API.",
+            "suggestedFix": "Make the global ComputeTable instance name consistent between dd.py and callers. Prefer the canonical name `CT` used in the solution: rename `_CT = ComputeTable()` in the template dd.py to `CT = ComputeTable()`. Alternatively, update dd_simulation.py to import `_CT` (e.g. `from .dd import _CT as CT`) and update all uses accordingly. Apply the same name consistently in any other modules that reference the compute table.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 280,
+                    "endLine": 280
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd_simulation.py",
+                    "startLine": 51,
+                    "endLine": 51
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 280,
+                    "endLine": 280
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:36:24.504739Z",
+        "endTime": "2026-03-21T11:36:58.395296Z",
+        "durationS": 33.89
+    },
+    "tokens": {
+        "prompt": 90277,
+        "completion": 4555,
+        "total": 94832
+    },
+    "costs": {
+        "promptEur": 0.02076371044921875,
+        "completionEur": 0.0083812001953125,
+        "totalEur": 0.02914491064453125
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

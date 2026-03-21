@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-21T11:37:28.003770Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement instructs students to \"directly call the public `vector_normalization` and `matrix_normalization` methods\" in dd.py, but both the template and the solution implementations define these routines as private functions named `__vector_normalization` and `__matrix_normalization` and do not expose public functions with the names `vector_normalization` / `matrix_normalization`. The public API in dd.py is designed around make_dd and the terminal constants (ONE_TERM / ZERO_TERM), with normalization performed internally. This naming/API mismatch will confuse students who look for or try to call the named public functions mentioned in the problem text.",
+            "suggestedFix": "Make the exercise text and the code agree. Either (A) update problem_statement.md to state that normalization is performed internally by the provided make_dd function and that students should use the public API (make_dd, ONE_TERM, ZERO_TERM) rather than calling normalization functions directly, or (B) add explicit public wrapper functions named vector_normalization and matrix_normalization in dd.py that call the existing internal implementations, and document them as public helpers. Prefer (A) if the intention is to keep normalization internal and force use of make_dd; prefer (B) only if you intend to teach direct normalization calls.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 21,
+                    "endLine": 23
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 283,
+                    "endLine": 369
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 283,
+                    "endLine": 369
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:37:28.003770Z",
+        "endTime": "2026-03-21T11:38:01.137498Z",
+        "durationS": 33.133
+    },
+    "tokens": {
+        "prompt": 90419,
+        "completion": 4448,
+        "total": 94867
+    },
+    "costs": {
+        "promptEur": 0.02079637060546875,
+        "completionEur": 0.008184320068359376,
+        "totalEur": 0.028980690673828125
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/013",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

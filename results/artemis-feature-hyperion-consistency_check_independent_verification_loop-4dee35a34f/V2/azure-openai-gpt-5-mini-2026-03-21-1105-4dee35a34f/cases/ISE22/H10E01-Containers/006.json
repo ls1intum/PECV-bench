@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-21T11:15:12.631762Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Method addChild has inconsistent parameter order between the specification/template and the solution. The problem statement and the template declare addChild(Person person, Person child) \u2014 i.e., parent then child \u2014 and PersonResource (template and solution) invokes personService.addChild(person, persistedChild). In the solution implementation, the method is declared as addChild(Person child, Person person) with the parameters reversed (child then person). This positional reversal is not a mere renaming: it contradicts the documented API and the call sites, which will confuse students about which argument represents the parent vs. the child and may lead to incorrect implementations or misreading of the solution.",
+            "suggestedFix": "Make the solution's addChild signature match the problem statement and template: change the solution method to public Person addChild(Person person, Person child) and adjust the implementation to add the child to person's children and save person (i.e., person.getChildren().add(child); return personRepository.save(person);). Alternatively, if the reversed order was intentional, update the problem statement, template, and all call sites (PersonResource) to document and use the reversed parameter ordering consistently. Prefer aligning the solution to the template/problem to avoid student confusion.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 99,
+                    "endLine": 104
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 45,
+                    "endLine": 48
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 68,
+                    "endLine": 74
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 48,
+                    "endLine": 54
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:15:12.631762Z",
+        "endTime": "2026-03-21T11:15:46.111868Z",
+        "durationS": 33.48
+    },
+    "tokens": {
+        "prompt": 72130,
+        "completion": 5564,
+        "total": 77694
+    },
+    "costs": {
+        "promptEur": 0.016589900390625,
+        "completionEur": 0.01023776025390625,
+        "totalEur": 0.02682766064453125
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/006",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

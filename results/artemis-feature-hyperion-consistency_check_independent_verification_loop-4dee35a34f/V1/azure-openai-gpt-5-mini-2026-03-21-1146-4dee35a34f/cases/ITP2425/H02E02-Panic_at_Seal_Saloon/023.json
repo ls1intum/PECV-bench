@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-21T11:49:02.765550Z",
+    "issues": [
+        {
+            "severity": "LOW",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field: SealSaloon.totalOrders \u2014 The UML in the problem statement declares SealSaloon.totalOrders as an int (UML attribute '-totalOrders: int' in the class diagram), but the reference solution implements totalOrders as a long (private long totalOrders = 0;) in src/de/tum/cit/ase/SealSaloon.java. This mismatch can confuse students about which numeric type to use for the order counter and leads to an inconsistency between the specification and the provided solution code.",
+            "suggestedFix": "Make the type consistent between specification and code. Either: (A) change the UML/problem statement to indicate 'totalOrders: long' if a larger range is intended, or (B) change the solution/template field to 'private int totalOrders' (and adjust any usages) to match the UML. Prefer changing the specification to 'int' only if you are certain counts will remain within int range; otherwise update the UML to 'long' and mention that a long is acceptable.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 28,
+                    "endLine": 28
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 6,
+                    "endLine": 6
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field: SealSaloon.stock initialization semantics \u2014 The problem statement instructs students to initialize both orders and stock in the SealSaloon constructor (\"These should be initialized ... in the constructor of SealSaloon\"), but elsewhere in the same problem statement it requires the stock attribute to be static/shared across all instances (note: \"stock attribute: This is shared across all instances of the SealSaloon\" and that acceptSupplyDelivery and calculateTotalPrice must be static). This is inconsistent: static (class) fields should not be described as being initialized per-instance in the constructor. The reference solution declares and initializes stock as a static field (private static final Stock stock = new Stock();). The contradictory guidance in the problem statement can confuse students about whether stock is an instance or class-level attribute and where it should be initialized.",
+            "suggestedFix": "Clarify and align the specification and template/solution. Update the problem statement to explicitly state: 'orders (instance field) should be initialized in the instance constructor; stock (shared) must be declared static and may be initialized at declaration or in a static initializer (not in the instance constructor).' Alternatively, if the intention was for stock to be per-instance, remove the 'static' requirement and adjust the notes about static methods. Ensure the template/solution matches the clarified statement (either keep stock static and initialize it at declaration, or make it an instance field initialized in the constructor).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 70
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 77,
+                    "endLine": 81
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 5,
+                    "endLine": 5
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:49:02.765550Z",
+        "endTime": "2026-03-21T11:49:52.896105Z",
+        "durationS": 50.13
+    },
+    "tokens": {
+        "prompt": 29699,
+        "completion": 5724,
+        "total": 35423
+    },
+    "costs": {
+        "promptEur": 0.00683077001953125,
+        "completionEur": 0.010532160278320313,
+        "totalEur": 0.01736293029785156
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/023",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1146-4dee35a34f"
+}

@@ -1,0 +1,42 @@
+{
+    "timestamp": "2026-03-21T11:07:08.221291Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Program entry symbol differs between template and solution: template_repository/pixel.asm declares the program entry as 'global main' (line 30) while solution_repository/pixel.asm declares 'global _start' (line 14). This naming inconsistency can confuse students about which symbol to implement/export and may affect how the program is linked/run with the provided Makefile (the build assumes the usual C runtime startup that calls 'main'). The mismatch is purely a naming/entry-point contradiction (not an intentional TODO) and can lead to linking/runtime surprises.",
+            "suggestedFix": "Make the exported entry symbol consistent across artifacts. Preferred fix: change the solution's declaration from 'global _start' to 'global main' (or remove the stray 'global _start') so the solution matches the template and the provided Makefile. Alternatively, if _start is intended, update the template and Makefile to use _start and ensure a proper '_start' label and runtime setup exist in the solution; document the intended entry behavior in the problem statement.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 30,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 14,
+                    "endLine": 14
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:07:08.221291Z",
+        "endTime": "2026-03-21T11:07:49.473484Z",
+        "durationS": 41.252
+    },
+    "tokens": {
+        "prompt": 20359,
+        "completion": 6522,
+        "total": 26881
+    },
+    "costs": {
+        "promptEur": 0.004682570068359375,
+        "completionEur": 0.012000480468750001,
+        "totalEur": 0.016683050537109376
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

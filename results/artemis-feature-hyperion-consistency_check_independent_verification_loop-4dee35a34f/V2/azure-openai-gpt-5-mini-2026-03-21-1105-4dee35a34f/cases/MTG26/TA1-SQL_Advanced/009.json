@@ -1,0 +1,42 @@
+{
+    "timestamp": "2026-03-21T11:31:36.037408Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "In the solution file solution_repository/aufgabe08.sql the FROM clause (line 2) lists Wanderweg_zu_Gemeinde while the WHERE clause (line 3) references Radweg_zu_Gemeinde.gemeindeschluessel. The problem statement for Aufgabe 08 requests the number of Radwegen (bike paths) adjacent to Gemeinden with PLZ > 96400, so the solution must consistently use the Radweg\u2013Gemeinde relation. The mixed use of Wanderweg_zu_Gemeinde and Radweg_zu_Gemeinde makes the query invalid and will confuse students about which relation represents Radwege.",
+            "suggestedFix": "Make the table name consistent for the Radweg\u2013Gemeinde relationship. Since the task asks for Radwegen, replace Wanderweg_zu_Gemeinde in the FROM clause with Radweg_zu_Gemeinde. For example:\nSELECT COUNT(*)\nFROM Gemeinde, Radweg_zu_Gemeinde\nWHERE Gemeinde.schluessel = Radweg_zu_Gemeinde.gemeindeschluessel\n  AND Gemeinde.plz > 96400\nThis preserves the intended query and removes the contradictory table reference.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe08.sql",
+                    "startLine": 2,
+                    "endLine": 3
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 50,
+                    "endLine": 52
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:31:36.037408Z",
+        "endTime": "2026-03-21T11:32:05.673388Z",
+        "durationS": 29.635
+    },
+    "tokens": {
+        "prompt": 14805,
+        "completion": 4948,
+        "total": 19753
+    },
+    "costs": {
+        "promptEur": 0.0034051500244140624,
+        "completionEur": 0.009104320068359376,
+        "totalEur": 0.012509470092773438
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/009",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

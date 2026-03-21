@@ -1,0 +1,60 @@
+{
+    "timestamp": "2026-03-21T11:15:31.926241Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field type mismatch for the primary key 'id' in Person entity: In the template repository Person.java the id field is declared as 'private Long id;' but in the solution repository Person.java the field is declared as 'private Integer id;'. The solution repository's accessor methods (public Long getId(), public void setId(Long id)) use Long as the id type, and PersonRepository in the solution is parametrized as JpaRepository<Person, Long>. This inconsistency (field declared as Integer while getters/setters and repository expect Long) will cause compilation errors and confuses students which type to use for the entity id.",
+            "suggestedFix": "Make the id type consistent across the entity, its accessors, and the repository. Recommended fix: change the solution repository's Person.id declaration from 'private Integer id;' to 'private Long id;' so it matches the getter/setter signatures and JpaRepository<Person, Long>. Alternatively, if Integer is preferred, update the getters/setters to use Integer and change PersonRepository's generic parameter to JpaRepository<Person, Integer>, but prefer using Long to match the template and repository contract.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+                    "startLine": 22,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+                    "startLine": 22,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+                    "startLine": 53,
+                    "endLine": 55
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/model/Person.java",
+                    "startLine": 57,
+                    "endLine": 59
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/main/java/de/tum/in/ase/eist/repository/PersonRepository.java",
+                    "startLine": 13,
+                    "endLine": 13
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:15:31.926241Z",
+        "endTime": "2026-03-21T11:16:01.896164Z",
+        "durationS": 29.969
+    },
+    "tokens": {
+        "prompt": 71781,
+        "completion": 4022,
+        "total": 75803
+    },
+    "costs": {
+        "promptEur": 0.01650963037109375,
+        "completionEur": 0.0074004802246093754,
+        "totalEur": 0.023910110595703124
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/011",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

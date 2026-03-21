@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-21T11:07:39.561738Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Calling-convention/register-preservation inconsistency: The problem statement (Teilaufgabe b) requires that the subroutine set_pixel may not change any registers except EAX (i.e., caller-saved restriction: only EAX may be modified by set_pixel). In the template source, a comment at the position-calculation TODO reads \"Attention: save all registers you modify except eax, ebx and esi\" which can be read as a conflicting rule about which registers must be preserved. Students can be confused whether the exception in the template comment applies to implementing set_pixel (requirement: only EAX may change) or only to the inline address calculation in main. The solution implementation preserves registers via push/pop and uses EAX for intermediate computation, which is consistent with the problem statement, but the ambiguous template comment remains a conflicting guidance point.",
+            "suggestedFix": "Clarify and align the register-preservation rules in the problem statement and template. Update the template comment near the position-calculation TODO to explicitly state that it applies only to the ad-hoc address calculation in main (not to set_pixel), and that the set_pixel subroutine must preserve all registers except EAX (i.e., \"For set_pixel: only EAX may be changed; save and restore any other registers you use. The comment below applies only to the one-time position calculation in main\"). This removes ambiguity for students about where each rule applies.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 100,
+                    "endLine": 102
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                }
+            ]
+        },
+        {
+            "severity": "LOW",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Subroutine label naming mismatch: the problem statement and the template expect/declare the routine name set_pixel (template defines label 'set_pixel:' and main calls 'call set_pixel'). The solution file defines the implementation label with a leading dot as '.set_pixel:' (different identifier). This naming difference between artifacts can confuse students trying to map the required subroutine name in the problem text/template to the reference implementation and may introduce assembly/linking issues if labels are treated as distinct.",
+            "suggestedFix": "Use a consistent label name across all artifacts. Rename the solution label from '.set_pixel' to 'set_pixel' (remove the leading dot) so it matches the template and problem statement, or update the template and problem text to reference '.set_pixel' consistently. Add a brief comment in both template and solution indicating the expected global label name to avoid future mismatches.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 37,
+                    "endLine": 37
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 147,
+                    "endLine": 147
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 19
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:07:39.561738Z",
+        "endTime": "2026-03-21T11:08:53.731589Z",
+        "durationS": 74.169
+    },
+    "tokens": {
+        "prompt": 20618,
+        "completion": 9192,
+        "total": 29810
+    },
+    "costs": {
+        "promptEur": 0.004742140014648438,
+        "completionEur": 0.016913280517578125,
+        "totalEur": 0.021655420532226563
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/013",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

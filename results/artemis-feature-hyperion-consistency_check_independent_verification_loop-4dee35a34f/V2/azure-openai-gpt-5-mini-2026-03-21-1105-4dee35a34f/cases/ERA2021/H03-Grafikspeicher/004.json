@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-21T11:09:08.380265Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Function set_pixel: the problem statement and template require the subroutine set_pixel to receive the pixel coordinates with x in EAX and y in EBX and to compute the pixel memory address as display_start + (y * 1920 + x) * 4 (row-major, 4 bytes per pixel). The reference solution's set_pixel implementation (solution_repository/pixel.asm lines 19-35) swaps EAX and EBX (contains an xchg eax, ebx) and therefore treats the inputs in the opposite roles, computing an address equivalent to display_start + (x * 1920 + y) * 4 (i.e., using x where y is expected and vice versa). This contradicts the specification in the problem statement (problem_statement.md lines 30-33) and the empty set_pixel stub in the template (template_repository/pixel.asm lines 36-38). The mismatch will confuse students about which register holds x vs. y, produce incorrect pixel writes when students follow the problem statement, and make it unclear whether the intended API is (x in EAX, y in EBX) or reversed.",
+            "suggestedFix": "Make the register convention consistent across artifacts. Preferred fix: change the solution's set_pixel implementation to use x in EAX and y in EBX (remove the xchg eax, ebx). Compute the address as display_start + ebx * (1920 * 4) + eax * 4 (i.e. y*7680 then add x*4) and write ecx to that address, while preserving registers as required by the specification (push/pop any temporaries so only EAX may be modified if the exercise requires it). Alternatively, if the solution intentionally reversed parameters, update the problem statement and the template comments to state that x is passed in EBX and y in EAX so all materials agree.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 19,
+                    "endLine": 35
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:09:08.380265Z",
+        "endTime": "2026-03-21T11:09:45.669863Z",
+        "durationS": 37.289
+    },
+    "tokens": {
+        "prompt": 20281,
+        "completion": 5211,
+        "total": 25492
+    },
+    "costs": {
+        "promptEur": 0.004664630126953125,
+        "completionEur": 0.009588240478515624,
+        "totalEur": 0.014252870605468749
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/004",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

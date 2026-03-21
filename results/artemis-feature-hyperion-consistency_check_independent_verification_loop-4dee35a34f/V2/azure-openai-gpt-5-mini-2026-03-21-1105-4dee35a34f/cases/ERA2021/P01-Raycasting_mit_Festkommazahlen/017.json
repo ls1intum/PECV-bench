@@ -1,0 +1,60 @@
+{
+    "timestamp": "2026-03-21T11:11:14.332961Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Bitmap24 storage method is named inconsistently across artifacts. In the template repository header (example_program/src/Bitmap24.hpp) the member is declared as 'void write(const std::string &i_filename);' while the template implementation (example_program/src/Bitmap24.cpp) defines 'void Bitmap24::save(const std::string &i_filename)' and the template main (example_program/src/main.cpp) calls 'bitmap.save(outfile);'. The solution repository consistently uses 'save(...)' (declaration and implementation). This mismatch between the header declaration ('write') and the implementation/usage ('save') prevents successful compilation of the template and will confuse students about the intended API.",
+            "suggestedFix": "Unify the API name in the template to match the implementation and solution. Preferred fix: change the declaration in example_program/src/Bitmap24.hpp from 'void write(const std::string &i_filename);' to 'void save(const std::string &i_filename);' so header, implementation (Bitmap24::save) and call sites (bitmap.save(...)) are consistent. Alternatively, rename the implementation and all call sites to 'write'. Update any tests or documentation accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 47,
+                    "endLine": 49
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 78,
+                    "endLine": 80
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/main.cpp",
+                    "startLine": 228,
+                    "endLine": 228
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.hpp",
+                    "startLine": 47,
+                    "endLine": 49
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/Bitmap24.cpp",
+                    "startLine": 78,
+                    "endLine": 80
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:11:14.332961Z",
+        "endTime": "2026-03-21T11:11:55.106962Z",
+        "durationS": 40.774
+    },
+    "tokens": {
+        "prompt": 131847,
+        "completion": 5359,
+        "total": 137206
+    },
+    "costs": {
+        "promptEur": 0.030324810546874997,
+        "completionEur": 0.009860560302734375,
+        "totalEur": 0.040185370849609374
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/017",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

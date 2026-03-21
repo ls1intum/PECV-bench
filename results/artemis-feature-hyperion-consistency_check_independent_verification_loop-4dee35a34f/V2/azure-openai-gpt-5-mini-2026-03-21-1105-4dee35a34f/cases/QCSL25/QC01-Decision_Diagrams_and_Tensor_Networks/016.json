@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-21T11:38:24.048129Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The tensor-network zero-state function is named inconsistently across artifacts: the Problem Statement (and the Solution implementation) expect a function named create_zero_state(num_qubits) but the Template repository exposes a stub named init_zero_state(num_qubits). Specifically, problem_statement.md instructs students to implement `create_zero_state`, solution_repository/tensor_networks.py provides `create_zero_state(num_qubits)`, while template_repository/tensor_networks.py defines `init_zero_state(num_qubits)`. This mismatch will cause test harnesses or instructions that call or refer to create_zero_state to fail or confuse students because the template does not provide the expected entrypoint.",
+            "suggestedFix": "Make the template and problem statement consistent. Rename the template function `init_zero_state` to `create_zero_state(num_qubits)` (preserving the same signature and behavior), or add a compatibility wrapper in the template: `def create_zero_state(num_qubits): return init_zero_state(num_qubits)`. Alternatively, update the problem statement and solution to refer to `init_zero_state`. Prefer renaming or adding the wrapper so tests and instructions that expect `create_zero_state` work without further changes.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 76,
+                    "endLine": 76
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/tensor_networks.py",
+                    "startLine": 44,
+                    "endLine": 44
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/tensor_networks.py",
+                    "startLine": 44,
+                    "endLine": 44
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:38:24.048129Z",
+        "endTime": "2026-03-21T11:38:53.909946Z",
+        "durationS": 29.861
+    },
+    "tokens": {
+        "prompt": 90249,
+        "completion": 3685,
+        "total": 93934
+    },
+    "costs": {
+        "promptEur": 0.020757270507812498,
+        "completionEur": 0.006780400146484375,
+        "totalEur": 0.027537670654296874
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/016",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

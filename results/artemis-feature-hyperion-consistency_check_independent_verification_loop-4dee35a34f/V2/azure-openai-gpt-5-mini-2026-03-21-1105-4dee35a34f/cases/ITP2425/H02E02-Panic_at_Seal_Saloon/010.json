@@ -1,0 +1,80 @@
+{
+    "timestamp": "2026-03-21T11:21:54.223937Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "SealSaloon.stock: The problem statement contains two contradictory instructions about the stock attribute. On lines 70-71 it instructs that the SealSaloon's attributes (including the stock) should be initialized in the instance constructor; on lines 77-80 it explicitly requires that the stock attribute must be static and shared across all instances. The solution implements stock as a static field (private static final Stock stock = new Stock(); in SealSaloon.java). Students will be confused whether to implement an instance (final) stock initialized in the constructor or a static shared stock, and where to initialize it (constructor vs. declaration/static initializer).",
+            "suggestedFix": "Make the requirement consistent. Either (A) require a static shared stock and state that it may be initialized at declaration or in a static initializer (and update the constructor guidance to not require initializing stock there), or (B) require an instance final stock initialized in the instance constructor and remove the note saying stock must be static. Update the problem statement (both the prose and UML) to match the chosen design. Ensure the example/solution code and tests use the same approach.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 71
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 77,
+                    "endLine": 80
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 5,
+                    "endLine": 5
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Method name for computing a meal's price/cost: The UML/problem statement names the operation calculateTotalPrice(Meal): int (UML line 29 in the problem statement). The solution's SealSaloon class implements a static method named computeMealCost(Meal) (SealSaloon.java line 57). The template Main calls shop.computeMealCost(...) while the solution Main calls shop.calculateTotalPrice(...). This inconsistent naming across the problem statement, template, solution implementation, and example mains will confuse students about which method name to implement and can cause compilation or test failures if tests expect a different identifier.",
+            "suggestedFix": "Pick one canonical method name and apply it everywhere. Recommended: rename the solution method computeMealCost(Meal) to calculateTotalPrice(Meal) (or update the problem statement/UML and all example usages to computeMealCost) so the UML, problem text, template comments, solution, and tests use the same identifier. Update both Main files and any example code to reference the chosen name.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 29
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Main.java",
+                    "startLine": 13,
+                    "endLine": 13
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 57,
+                    "endLine": 57
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Main.java",
+                    "startLine": 13,
+                    "endLine": 13
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:21:54.223937Z",
+        "endTime": "2026-03-21T11:22:48.932669Z",
+        "durationS": 54.708
+    },
+    "tokens": {
+        "prompt": 30178,
+        "completion": 7913,
+        "total": 38091
+    },
+    "costs": {
+        "promptEur": 0.006940940185546875,
+        "completionEur": 0.01455992041015625,
+        "totalEur": 0.021500860595703126
+    },
+    "case_id": "V2/ITP2425/H02E02-Panic_at_Seal_Saloon/010",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

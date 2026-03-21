@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-21T12:11:47.891822Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Method getTotalNumberOfStudents(): The problem statement's UML and task text declare getTotalNumberOfStudents() returns a primitive int (see problem_statement.md line 70). The template Lecture.java contains a TODO placeholder for this method (src/de/tum/cit/ase/Lecture.java, TODO comment at line 12) which follows the UML. The solution, however, implements a different API: public StudentCount getTotalNumberOfStudents() in solution/src/de/tum/cit/ase/Lecture.java (line 75) and introduces a new public StudentCount class (solution/src/de/tum/cit/ase/StudentCount.java, lines 1-18). This is a return-type/API mismatch: students reading the UML/template will expect an int but the provided solution and its public helper type expose StudentCount, which will confuse implementers and may break tests or automated grading that assume the int return type.",
+            "suggestedFix": "Make the API consistent across artifacts. Two acceptable fixes: (A) Preferred/simple: Change the solution to match the UML/template by making getTotalNumberOfStudents() return a primitive int (e.g. return numberOfInscribedStudents + numberOfGuestStudents) and remove the public StudentCount class from the solution; update any call sites in the solution accordingly. (B) If the StudentCount type is intentional, update the problem statement UML, task text, and the template Lecture.java to declare getTotalNumberOfStudents(): StudentCount and add a StudentCount stub/class to the template with documentation explaining its purpose. Ensure tests and grading expect the same return type.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 70
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 12,
+                    "endLine": 12
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 75,
+                    "endLine": 75
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/StudentCount.java",
+                    "startLine": 1,
+                    "endLine": 18
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T12:11:47.891822Z",
+        "endTime": "2026-03-21T12:12:21.893356Z",
+        "durationS": 34.001
+    },
+    "tokens": {
+        "prompt": 19085,
+        "completion": 5002,
+        "total": 24087
+    },
+    "costs": {
+        "promptEur": 0.004389550048828125,
+        "completionEur": 0.00920368017578125,
+        "totalEur": 0.013593230224609374
+    },
+    "case_id": "V1/ITP2425/H01E01-Lectures/026",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1209-4dee35a34f"
+}

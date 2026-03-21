@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-21T11:29:52.464254Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Task\u8981\u6c42: problem_statement.md (lines 148-149) verlangt die durchschnittlichen Einwohnerzahlen pro Landkreis (das Feld 'kreis') und den Namen des jeweiligen Landkreises. In der Referenzl\u00f6sung (solution_repository/aufgabe09.sql) die SELECT-Klausel gibt 'kreis' aus (line 1) aber die GROUP BY-Klausel gruppiert nach 'regierungsbezirk' (line 4). Dadurch werden die Aggregationen faktisch pro Regierungsbezirk statt pro Landkreis berechnet; in strengen SQL-Modi f\u00fchrt die falsche GROUP BY-Spalte zu einem Fehler (nicht aggregierte Spalte 'kreis' nicht in GROUP BY), ansonsten liefert die Abfrage falsche/irref\u00fchrende Ergebnisse und widerspricht der Aufgabenstellung.",
+            "suggestedFix": "Make the grouping key consistent with the task: group by 'kreis' (Landkreis). Update the solution (and template if provided) so SELECT and GROUP BY use the same identifier. For example: SELECT kreis, AVG(einwohner_m), AVG(einwohner_w) FROM Gemeinde WHERE flaeche > 100 GROUP BY kreis; Ensure the output matches the problem statement requirement 'pro Landkreis'.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 148,
+                    "endLine": 149
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/aufgabe09.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/aufgabe09.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:29:52.464254Z",
+        "endTime": "2026-03-21T11:30:29.633716Z",
+        "durationS": 37.169
+    },
+    "tokens": {
+        "prompt": 20232,
+        "completion": 4921,
+        "total": 25153
+    },
+    "costs": {
+        "promptEur": 0.004653360107421875,
+        "completionEur": 0.00905464013671875,
+        "totalEur": 0.013708000244140626
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/008",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

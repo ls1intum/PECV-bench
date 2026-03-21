@@ -1,0 +1,60 @@
+{
+    "timestamp": "2026-03-21T11:22:24.870892Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "Constructor signature mismatch for class SealSaloon: The problem statement UML and text declare a constructor SealSaloon(String) (problem_statement.md lines 27-31 and 71) and instruct that the constructor should initialize orders/stock. However, the provided implementation (solution) defines a no-argument constructor public SealSaloon() (solution_repository/src/de/tum/cit/ase/SealSaloon.java line 8) and the template/example Main code calls new SealSaloon() (template_repository/src/de/tum/cit/ase/Main.java line 11). Additionally, the problem text contains an internal contradiction: it asks students to initialize stock in the constructor (per-instance initialization) while also requiring the stock attribute and some methods to be static (shared across instances) (problem_statement.md lines 78-82). This mixed guidance (constructor parameter/signature vs. example usage and static initialization guidance) will confuse students about which constructor to implement and where/how to initialize the shared static stock.",
+            "suggestedFix": "Make the specification and code consistent. Either: (A) Update the problem statement and UML to require a no-argument constructor (SealSaloon()) and clarify that the static final stock must be initialized as a static field (e.g., inline at declaration) and should not be initialized per-instance in the constructor; or (B) update the template and solution to provide the constructor SealSaloon(String name), change example usages (Main) to call new SealSaloon(\"SomeName\"), and clarify in the text that the shared static stock should still be declared static (and, if desired, initialized at declaration or in a static initializer). Also remove or reword the sentence that tells students to initialize the shared static stock in the instance constructor to avoid the instance/static initialization contradiction.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 27,
+                    "endLine": 31
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 71,
+                    "endLine": 71
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 78,
+                    "endLine": 82
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Main.java",
+                    "startLine": 11,
+                    "endLine": 11
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 8,
+                    "endLine": 8
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:22:24.870892Z",
+        "endTime": "2026-03-21T11:23:13.002241Z",
+        "durationS": 48.131
+    },
+    "tokens": {
+        "prompt": 29759,
+        "completion": 5892,
+        "total": 35651
+    },
+    "costs": {
+        "promptEur": 0.006844570068359375,
+        "completionEur": 0.010841280395507812,
+        "totalEur": 0.017685850463867187
+    },
+    "case_id": "V2/ITP2425/H02E02-Panic_at_Seal_Saloon/004",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

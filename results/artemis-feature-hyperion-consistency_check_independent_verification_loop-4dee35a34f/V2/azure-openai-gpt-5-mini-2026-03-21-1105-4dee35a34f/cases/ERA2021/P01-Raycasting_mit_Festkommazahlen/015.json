@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-21T11:09:38.072676Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Invalid typedef declarations for the fixed-point integer types fix_t and fixu_t. Both the template and solution repositories declare the types using the incorrect token order 'typedef int long long fix_t;' and 'typedef unsigned int long long fixu_t;'. These incorrect typedef tokens appear in the math_fix implementation and math_fix header used by the tests. The erroneous declarations are present in: example_program/src/math_fix.c (line 13-14) and tests/src/math_fix.h (line 15-16) in both the template and solution repositories. The token order 'int long long' / 'unsigned int long long' is not the standard C type-specifier order and will either fail to compile or produce compiler warnings/ambiguity about the intended signedness/width, confusing students and preventing successful builds and correct reasoning about fix_t.",
+            "suggestedFix": "Replace the incorrect typedefs with standard, unambiguous C declarations and apply consistently across all headers and source files. For example, change:\n    typedef int long long fix_t;\n    typedef unsigned int long long fixu_t;\nto:\n    typedef long long fix_t;\n    typedef unsigned long long fixu_t;\nUpdate the same typedefs in all affected files (example_program/src/math_fix.c and tests/src/math_fix.h in both template and solution repositories) so callers and headers use the same, valid types. Re-run a full build to confirm compilation succeeds.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/math_fix.c",
+                    "startLine": 13,
+                    "endLine": 14
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "tests/src/math_fix.h",
+                    "startLine": 15,
+                    "endLine": 16
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/math_fix.c",
+                    "startLine": 13,
+                    "endLine": 14
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "tests/src/math_fix.h",
+                    "startLine": 15,
+                    "endLine": 16
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:09:38.072676Z",
+        "endTime": "2026-03-21T11:10:26.018826Z",
+        "durationS": 47.946
+    },
+    "tokens": {
+        "prompt": 131459,
+        "completion": 5339,
+        "total": 136798
+    },
+    "costs": {
+        "promptEur": 0.0302355703125,
+        "completionEur": 0.009823760131835939,
+        "totalEur": 0.04005933044433594
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/015",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

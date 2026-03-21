@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-21T11:09:35.758780Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Register usage contradiction: the problem statement explicitly instructs that the pixel value loaded from the computed memory address should be placed into ECX (instruction: mov ecx, [esi]) so that printf is called with (EAX:x, EBX:y, ECX:value). The template's printing code (push ecx; push ebx; push eax; push message; call printf) also expects ECX to contain the pixel value. The solution implementation instead does mov eax, [esi] (loads the pixel into EAX) before restoring saved registers with pop ebx / pop eax, which overwrites the loaded value. As a result, the value passed to printf is incorrect and the solution violates the exercise's explicit register contract, which will confuse students about the expected register usage.",
+            "suggestedFix": "Make the solution conform to the problem's register contract: load the pixel into ECX (use mov ecx, [esi]) at a point where it will not be overwritten by subsequent pops, or move the mov into ECX to after the pops that restore saved registers. Concretely, replace mov eax, [esi] with mov ecx, [esi], or perform mov ecx, [esi] after the pop ebx / pop eax sequence so the value in ECX remains intact when printf is called.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 25,
+                    "endLine": 26
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 112,
+                    "endLine": 118
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 99,
+                    "endLine": 105
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:09:35.758780Z",
+        "endTime": "2026-03-21T11:10:43.607694Z",
+        "durationS": 67.848
+    },
+    "tokens": {
+        "prompt": 20230,
+        "completion": 7846,
+        "total": 28076
+    },
+    "costs": {
+        "promptEur": 0.004652900146484375,
+        "completionEur": 0.014436639587402343,
+        "totalEur": 0.019089539733886718
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/002",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

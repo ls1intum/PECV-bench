@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-21T12:04:08.022033Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field de.tum.cit.ase.Farm.animals has conflicting types across the exercise artifacts. In the UML in problem_statement.md (line 17) the attribute is declared as List<Animal> (\"animals: List<Animal>\"). However, the textual requirement in Part 3 of problem_statement.md (lines 108-109) explicitly requires unique animals and instructs to realize the aggregation using a Set implemented with a HashSet (\"The aggregation between Farm and Animal is realized using a `Set`, implemented using a `HashSet`\"). The reference solution (solution_repository/src/de/tum/cit/ase/Farm.java, lines 9-13) implements animals as a List<Animal> with new ArrayList<>(), which contradicts the textual instructions. This inconsistency leaves students uncertain whether to implement Farm.animals as a List (allowing duplicates) or as a Set/HashSet (preventing duplicates) and may cause grading/implementation mismatches.",
+            "suggestedFix": "Make the collection type for Farm.animals consistent across the UML, textual specification, template, and solution. Two concrete options: (A) Follow the textual requirement (preferred for uniqueness): update the UML in problem_statement.md to show animals: Set<Animal>, update the template and solution Farm.java to declare private Set<Animal> animals; import java.util.Set and java.util.HashSet; initialize animals = new HashSet<>(); change the getter/setter signatures to return/accept Set<Animal>; and keep addAnimal/add iteration logic working with Set. (B) Alternatively, if duplicates are acceptable, update the textual Part 3 to remove the Set/HashSet requirement and state that a List/ArrayList is used, and update the UML to animals: List<Animal>. Concretely for option A, replace in Farm.java: \"private List<Animal> animals;\" -> \"private Set<Animal> animals;\"; replace \"this.animals = new ArrayList<>();\" -> \"this.animals = new HashSet<>();\"; update imports and getter/setter types accordingly; and update the UML block in problem_statement.md to \"animals: Set<Animal>\". Ensure tests and wording reflect the chosen variant.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 17,
+                    "endLine": 17
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 108,
+                    "endLine": 109
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Farm.java",
+                    "startLine": 9,
+                    "endLine": 13
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T12:04:08.022033Z",
+        "endTime": "2026-03-21T12:04:45.986874Z",
+        "durationS": 37.964
+    },
+    "tokens": {
+        "prompt": 25275,
+        "completion": 4599,
+        "total": 29874
+    },
+    "costs": {
+        "promptEur": 0.005813250122070313,
+        "completionEur": 0.008462160034179687,
+        "totalEur": 0.01427541015625
+    },
+    "case_id": "V1/ITP2425/H05E01-Space_Seal_Farm/024",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1157-4dee35a34f"
+}

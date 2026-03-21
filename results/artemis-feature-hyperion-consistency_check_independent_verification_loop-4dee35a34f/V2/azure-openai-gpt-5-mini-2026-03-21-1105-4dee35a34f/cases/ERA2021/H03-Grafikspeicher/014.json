@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-21T11:07:28.463870Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Missing/relocated global framebuffer symbol 'display_start': the problem statement and the template declare and refer to a global symbol named 'display_start' as the framebuffer base address, but the solution file still references the same identifier (in set_pixel and in main) while not providing a corresponding global declaration. This mismatch (code uses the symbol but there is no global definition in the solution) will cause assembly/linker errors and confuses students about where the framebuffer buffer is defined and how to match the template description.",
+            "suggestedFix": "Restore a consistent, accessible declaration of 'display_start' or adapt the code and documentation to the chosen design. Two acceptable fixes: (A) Reintroduce a global buffer declaration (e.g. in .bss: 'display_start RESB 8294400') so both main and set_pixel can reference it as in the template and problem statement; or (B) keep an explicitly local framebuffer (allocated in main) but then modify all references and calls so the address is passed to set_pixel (e.g. pass pointer in a register or on the stack) and update the problem statement/template to document the differing design. Ensure the symbol name used in code matches where the buffer is declared and that the final repository compiles without undefined-symbol errors.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/pixel.asm",
+                    "startLine": 21,
+                    "endLine": 21
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 30,
+                    "endLine": 30
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/pixel.asm",
+                    "startLine": 95,
+                    "endLine": 95
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:07:28.463870Z",
+        "endTime": "2026-03-21T11:08:04.851873Z",
+        "durationS": 36.388
+    },
+    "tokens": {
+        "prompt": 20264,
+        "completion": 4260,
+        "total": 24524
+    },
+    "costs": {
+        "promptEur": 0.0046607199707031245,
+        "completionEur": 0.007838400024414062,
+        "totalEur": 0.012499119995117186
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/014",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

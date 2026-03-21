@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-21T11:31:03.044375Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement requests: \"Schreibe eine SQL-Abfrage, die die Namen aller Zoos in einer Gemeinde namens 'Erlangen' ausgibt.\" (problem_statement.md line 57). In the reference solution (solution_repository/aufgabe09.sql) the WHERE clause compares Gemeinde.name to the numeric literal 12345 (line 4: AND Gemeinde.name=12345) instead of comparing Gemeinde.name to the string 'Erlangen'. This mixes the conceptual use of the municipality name with a numeric key value and will cause the query to return no rows or incorrect results. Students will be confused about whether to filter by the textual Gemeinde.name or by a numeric gemeindeschluessel and which constant/value to use.",
+            "suggestedFix": "Fix the reference solution to match the problem text: compare the Gemeinde.name column to the string 'Erlangen' and keep the join on the key. For example:\nWHERE Zoo.gemeindeschluessel = Gemeinde.schluessel AND Gemeinde.name = 'Erlangen'\nIf the original intent was to filter by a numeric municipality key instead, then the solution should compare that numeric constant to Gemeinde.schluessel (e.g. WHERE Gemeinde.schluessel = 12345) and the problem statement should be adjusted to ask for that key \u2014 but do not compare Gemeinde.name to a numeric literal.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 57,
+                    "endLine": 57
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe09.sql",
+                    "startLine": 4,
+                    "endLine": 4
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe09.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:31:03.044375Z",
+        "endTime": "2026-03-21T11:31:40.109313Z",
+        "durationS": 37.064
+    },
+    "tokens": {
+        "prompt": 14800,
+        "completion": 5506,
+        "total": 20306
+    },
+    "costs": {
+        "promptEur": 0.0034040001220703125,
+        "completionEur": 0.010131040283203125,
+        "totalEur": 0.013535040405273438
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/012",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

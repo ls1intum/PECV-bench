@@ -1,0 +1,86 @@
+{
+    "timestamp": "2026-03-21T11:36:02.973461Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The element Course.ratings (the stored property) and the corresponding initializer parameter have inconsistent element types across artifacts. The problem statement explicitly requires ratings to be an array of Int (problem_statement.md line 7). The template implementation declares var ratings: [Int] and the initializer signature expects ratings: [Int] (Sources/DeveloperLib/Course.swift at lines 10 and 12). The reference solution declares the stored property and initializer parameter as [Double] (Sources/DeveloperLib/Course.swift at lines 11 and 13). This discrepancy (Int vs Double) confuses students about the expected element type for ratings and which initializer signature to implement, and it prevents a one-to-one mapping between the student's code and the reference solution.",
+            "suggestedFix": "Make the element type for ratings consistent across problem statement, template, and solution. Preferred fix: change the solution to use ratings: [Int] and update any computations to convert to Double only where needed for averaging. Alternatively, if fractional ratings are intended, update the problem statement and template to specify ratings: [Double] and adjust the template stubs and solution code accordingly. Ensure the Course initializer parameter type matches the stored property in all artifacts.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 7,
+                    "endLine": 7
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 10,
+                    "endLine": 10
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 12,
+                    "endLine": 12
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 11,
+                    "endLine": 11
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 13,
+                    "endLine": 13
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Within the reference solution (solution_repository/Sources/DeveloperLib/Course.swift) the declared type of Course.ratings is [Double] (line 11) but the Course methods treat ratings as Ints: addRating(stars:) has an Int parameter and appends an Int (signature at line 25, append at line 27), and getAverageRating() uses an Int accumulator and adds rating values as if they were Ints (signature at line 37, accumulation around lines 38-41). This internal type inconsistency will cause compilation errors in the reference solution and means the solution is not a valid, compilable reference for students.",
+            "suggestedFix": "Fix the reference solution so the ratings element type and all uses are consistent. Option A (recommended given the problem text): change ratings to [Int], keep addRating(stars: Int) and update getAverageRating() to sum Int values and convert to Double only for the final division. Option B: if Double ratings are intentional, change addRating to accept Double (or convert Int to Double before appending) and update the accumulation variable and operations to use Double. Ensure the addRating append and the averaging loop operate on the same element type as the stored property so the solution compiles and serves as a correct reference.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 11,
+                    "endLine": 11
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 25,
+                    "endLine": 25
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "Sources/DeveloperLib/Course.swift",
+                    "startLine": 37,
+                    "endLine": 37
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:36:02.973461Z",
+        "endTime": "2026-03-21T11:37:11.083081Z",
+        "durationS": 68.109
+    },
+    "tokens": {
+        "prompt": 19490,
+        "completion": 7311,
+        "total": 26801
+    },
+    "costs": {
+        "promptEur": 0.0044827000732421875,
+        "completionEur": 0.013452239868164063,
+        "totalEur": 0.01793493994140625
+    },
+    "case_id": "V2/IOS26/TC2-Developer/010",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

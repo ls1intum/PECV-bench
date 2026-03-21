@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-21T11:42:44.712873Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Method 'detect_errors': the problem statement and the reference solution declare and use detect_errors with return type npt.NDArray[np.int8] (a 1D numpy array where 1 means 'no error detected' and 0 means 'error detected'), but the template implementation declares the function with return type list[int]. This type annotation mismatch is present in:\n- problem statement (declares -> npt.NDArray[np.int8])\n- template repository (declares -> list[int])\n- solution repository (declares -> npt.NDArray[np.int8] and returns an ndarray). \nHaving the template use list[int] can confuse students and lead to integration/type errors when other provided code (and the solution) expects numpy arrays (for vectorized arithmetic, indexing, and boolean masking).",
+            "suggestedFix": "Update the template function signature and docstring to match the problem statement and solution: use a numpy array return type. For example, in template msd.py change the signature to\n\ndef detect_errors(measurements: npt.NDArray[np.int8], checks: npt.NDArray[np.int8]) -> npt.NDArray[np.int8]:\n\nand update the docstring to state the function returns a 1D numpy array of dtype np.int8 where 1 indicates 'no error detected' and 0 indicates an error. This keeps the exercise consistent with other code that expects ndarray operations.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 130,
+                    "endLine": 130
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 109,
+                    "endLine": 109
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 186,
+                    "endLine": 186
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:42:44.712873Z",
+        "endTime": "2026-03-21T11:43:21.253090Z",
+        "durationS": 36.54
+    },
+    "tokens": {
+        "prompt": 45941,
+        "completion": 5872,
+        "total": 51813
+    },
+    "costs": {
+        "promptEur": 0.01056643017578125,
+        "completionEur": 0.01080447998046875,
+        "totalEur": 0.02137091015625
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/003",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

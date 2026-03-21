@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-21T12:15:07.533107Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field 'orders' in SealSaloon: the problem statement (lines 70-72) requires a modifiable List<Meal> attribute named 'orders' initialized in the constructor, but the solution implementation uses a Meal[] array (SealSaloon.java, line 4) together with ArrayHelpers to manipulate it (ArrayHelpers.addElementToArray at ArrayHelpers.java lines 13-16). This mismatch (List<Meal> vs Meal[]) can confuse students about the expected data structure and which helper utilities (ArrayHelpers vs java.util.List) they should use.",
+            "suggestedFix": "Make the expected type for 'orders' consistent across the problem statement, template, and solution. Either: (A) require and document List<Meal> in the problem statement and update the template to provide List-based helpers (or remove ArrayHelpers); or (B) change the problem statement and UML to accept a Meal[] array and explicitly mention using ArrayHelpers for array manipulation. Update examples and any wording that references 'List<Meal>' accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 72
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 4,
+                    "endLine": 4
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/ArrayHelpers.java",
+                    "startLine": 13,
+                    "endLine": 16
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field 'stock' in SealSaloon: the problem statement instructs that 'stock' and 'orders' should be initialized in the SealSaloon constructor (problem_statement.md lines 70-72) but also explicitly states that the 'stock' attribute must be static (problem_statement.md lines 77-81). Initializing a static field inside an instance constructor is contradictory. The reference solution declares and initializes stock as a static final field at declaration (SealSaloon.java, line 5) rather than initializing it inside the constructor. This inconsistent guidance can lead students to implement stock incorrectly (as instance-initialized) or to be uncertain where to initialize a shared resource.",
+            "suggestedFix": "Clarify in the problem statement whether 'stock' is intended to be a static (shared) field or an instance field. If it must be static/shared, remove or reword the instruction to 'initialize stock in the constructor' and state explicitly that the static final 'stock' should be initialized at declaration or in a static initializer. Alternatively, if initialization in the constructor is required pedagogically, change the requirement that 'stock' be static. Make the UML and any example code consistent with this decision.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 81
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 5,
+                    "endLine": 5
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 8,
+                    "endLine": 10
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T12:15:07.533107Z",
+        "endTime": "2026-03-21T12:15:56.381228Z",
+        "durationS": 48.848
+    },
+    "tokens": {
+        "prompt": 29793,
+        "completion": 5522,
+        "total": 35315
+    },
+    "costs": {
+        "promptEur": 0.006852390136718751,
+        "completionEur": 0.010160480102539064,
+        "totalEur": 0.017012870239257814
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/005",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1209-4dee35a34f"
+}

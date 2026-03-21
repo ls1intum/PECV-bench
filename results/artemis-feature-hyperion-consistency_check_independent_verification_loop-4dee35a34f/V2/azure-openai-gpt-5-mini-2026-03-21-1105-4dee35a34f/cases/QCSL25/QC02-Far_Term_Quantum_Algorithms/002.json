@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-21T11:40:48.255154Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "The method simulate(self, qc: QuantumCircuit) has inconsistent return-type expectations across artifacts. In the template (class GroverMultiQubitWithAuxiliaryQubit) the method signature declares -> list[complex], suggesting it should return a statevector (a list of complex amplitudes). However, the Problem Statement Exercise 2.6 explicitly asks students to \"Simulate the circuit and return the simulation counts\" (a histogram mapping bitstrings to integers), and the Solution implementation returns a counts dictionary (dict[str, int]). This mismatch between the template's type hint/signature and the stated/expected behavior will confuse students and may cause their implementations or automated tests to fail because they will implement/expect a counts dictionary while the template signature implies a statevector.",
+            "suggestedFix": "Update the template method signature and docstring to match the exercise description and solution: change def simulate(self, qc: QuantumCircuit) -> list[complex]: to def simulate(self, qc: QuantumCircuit) -> dict[str, int]: (or typing.Dict[str, int]) and update the docstring to state that the method should run the circuit on a simulator, reverse bits as needed, and return measurement counts (a mapping from bitstring to integer). Ensure any example usages or type hints elsewhere in the template are updated accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+                    "startLine": 89,
+                    "endLine": 89
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "ex2_grover_multi_qubit_with_auxiliary_qubit.py",
+                    "startLine": 125,
+                    "endLine": 125
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 136,
+                    "endLine": 136
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:40:48.255154Z",
+        "endTime": "2026-03-21T11:41:21.216025Z",
+        "durationS": 32.96
+    },
+    "tokens": {
+        "prompt": 70761,
+        "completion": 3901,
+        "total": 74662
+    },
+    "costs": {
+        "promptEur": 0.0162750302734375,
+        "completionEur": 0.007177840087890625,
+        "totalEur": 0.023452870361328128
+    },
+    "case_id": "V2/QCSL25/QC02-Far_Term_Quantum_Algorithms/002",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

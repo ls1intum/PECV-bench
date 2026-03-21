@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-21T11:14:55.061527Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The startup script 'start.sh' is referenced in the exercise instructions and in the Dockerfiles, but the file 'start.sh' is not present in either the template or the solution repository. Specifically: the problem statement instructs students to copy and make executable a file named 'start.sh' and to add 'CMD ./start.sh' to the Dockerfile (problem_statement.md lines 60-62); the template Dockerfile contains a TODO to copy the start.sh script (template_repository/Dockerfile line 4); the solution Dockerfile copies 'start.sh', makes it executable and runs it (solution_repository/Dockerfile lines 5-7). Because the actual file start.sh is missing from the repository, students following the instructions will be unable to build the Docker image as written and will be confused whether they must create the script themselves or adapt the Dockerfile.",
+            "suggestedFix": "Either include a canonical start.sh in the repository (for example: '#!/bin/sh\\nexec java -jar /app/app.jar \"$@\"') and ensure it is executable, or update the Dockerfiles and problem statement to run the jar directly (e.g., replace 'COPY start.sh'/'RUN chmod'/'CMD ./start.sh' with 'CMD [\"java\",\"-jar\",\"/app/app.jar\"]' and remove the start.sh instructions). Update the problem statement so instructions and repository contents are consistent.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 60,
+                    "endLine": 62
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "template_repository/Dockerfile",
+                    "startLine": 4,
+                    "endLine": 4
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "solution_repository/Dockerfile",
+                    "startLine": 5,
+                    "endLine": 7
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:14:55.061527Z",
+        "endTime": "2026-03-21T11:15:31.886721Z",
+        "durationS": 36.825
+    },
+    "tokens": {
+        "prompt": 71732,
+        "completion": 4299,
+        "total": 76031
+    },
+    "costs": {
+        "promptEur": 0.0164983603515625,
+        "completionEur": 0.007910160034179686,
+        "totalEur": 0.024408520385742188
+    },
+    "case_id": "V2/ISE22/H10E01-Containers/007",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

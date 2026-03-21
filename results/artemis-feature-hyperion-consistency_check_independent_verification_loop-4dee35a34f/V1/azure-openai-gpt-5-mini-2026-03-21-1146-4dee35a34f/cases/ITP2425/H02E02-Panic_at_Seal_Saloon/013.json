@@ -1,0 +1,68 @@
+{
+    "timestamp": "2026-03-21T11:49:29.099770Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field: SealSaloon.stock. The problem statement (part 1) contains contradictory instructions: it first tells students to initialize a final Stock stock in the SealSaloon constructor (so the constructor sets the stock), and later explicitly requires that the stock attribute must be static and final (shared across instances). In Java a static final field cannot be initialized in an instance constructor. The reference solution declares the field as a static final and initializes it at the declaration (private static final Stock stock = new Stock();). This contradiction (instance initialization vs. static final requirement) will confuse students about where and how to initialize the shared stock field.",
+            "suggestedFix": "Remove the contradiction in the problem statement. Either (A) require a shared stock and instruct students to declare and initialize it as a static final field (e.g., private static final Stock stock = new Stock(); or use a static initializer), or (B) require an instance final field and instruct students to initialize it in the no-argument constructor (private final Stock stock; this.stock = new Stock();). Update the text where initialization is described (lines about constructor initialization and the later note that stock must be static/final) so both statements agree.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 69,
+                    "endLine": 83
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 5,
+                    "endLine": 5
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Method: SealSaloon.checkOrderReady. The UML and problem statement specify a no-argument method checkOrderReady(): void (class diagram and method list). The reference solution implements public void checkOrderReady(boolean enableLogging) and calls it with a boolean argument from orderMeal (this.checkOrderReady(true)). This difference in parameter list (no-arg in the specification vs. one boolean parameter in the solution) creates an API mismatch and will confuse students about the expected method signature.",
+            "suggestedFix": "Make the API consistent. Preferably retain the specification's no-argument signature (public void checkOrderReady()) and remove the boolean parameter from the public method in the solution. If logging control is needed for testing, implement a private overloaded helper (e.g., private void checkOrderReady(boolean enableLogging)) and call that from the public no-arg method and from orderMeal. Update the UML and problem text only if you intentionally want the public method to accept a parameter.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 32,
+                    "endLine": 32
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 20,
+                    "endLine": 20
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 16,
+                    "endLine": 16
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:49:29.099770Z",
+        "endTime": "2026-03-21T11:50:15.168920Z",
+        "durationS": 46.069
+    },
+    "tokens": {
+        "prompt": 29889,
+        "completion": 5970,
+        "total": 35859
+    },
+    "costs": {
+        "promptEur": 0.00687447021484375,
+        "completionEur": 0.010984800170898437,
+        "totalEur": 0.017859270385742188
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/013",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1146-4dee35a34f"
+}

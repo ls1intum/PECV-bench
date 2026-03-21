@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-21T12:01:58.257437Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "Method SealSaloon.calculateRemainingOrderNumber(): the problem statement (UML and textual description) requires calculateRemainingOrderNumber() to return an int (signature: calculateRemainingOrderNumber(): int and text: \"returns the number of remaining orders as an integer\"). The reference implementation (solution) implements public void calculateRemainingOrderNumber() that prints order numbers instead of returning an int. This mismatch between the specified method return type and the solution's signature/behavior will confuse students about the required API and how to obtain the remaining order count programmatically.",
+            "suggestedFix": "Make the specification and the reference implementation consistent. Preferred fix: change the reference implementation to declare public int calculateRemainingOrderNumber() and return the number of pending orders (e.g., return this.orders.length). If printing is desired for demonstration, keep printing but also return the integer. Alternatively, if the intended behavior is to print only, update the problem statement/UML to specify a void printing method and remove the 'returns an int' requirement.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 33,
+                    "endLine": 33
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 100,
+                    "endLine": 100
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 70,
+                    "endLine": 70
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Attribute SealSaloon.stock: the problem statement first instructs that the SealSaloon attributes (orders and a final Stock stock) \"should be initialized to default values ... in the constructor of SealSaloon\" but later explicitly requires that the stock attribute is static/shared across all instances. Initializing a static shared field in an instance constructor is contradictory. The reference implementation declares the field as a static final Stock and initializes it at declaration (private static final Stock stock = new Stock()), which differs from the earlier constructor-initialization guidance in the problem statement and can confuse students about where/how a static field should be initialized.",
+            "suggestedFix": "Clarify the problem statement to consistently require either a static (class-level) stock or an instance-level stock. If stock is intended to be shared, state that stock must be declared static final and initialized at the field declaration or in a static initializer (not in the instance constructor). If stock is intended to be per-instance, remove the static requirement. Update the UML and descriptive text to reflect the chosen design so students have a single clear instruction.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 71
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 77,
+                    "endLine": 81
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 5,
+                    "endLine": 5
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T12:01:58.257437Z",
+        "endTime": "2026-03-21T12:02:41.065607Z",
+        "durationS": 42.808
+    },
+    "tokens": {
+        "prompt": 29706,
+        "completion": 5390,
+        "total": 35096
+    },
+    "costs": {
+        "promptEur": 0.006832380126953125,
+        "completionEur": 0.009917600219726562,
+        "totalEur": 0.016749980346679686
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/008",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1157-4dee35a34f"
+}

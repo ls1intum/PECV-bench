@@ -1,0 +1,66 @@
+{
+    "timestamp": "2026-03-21T11:09:02.239787Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Inconsistent bytes-per-pixel (pixel stride) between the problem statement/template expectation and the solution implementation. The problem statement explicitly says 24-bit color is rounded to 32 bits (i.e. 4 bytes per pixel) (problem_statement.md lines 17-19). In the solution, the set_pixel routine multiplies x by 3 (mov edx, 3; mul edx) to compute the x offset (solution_repository/pixel.asm lines 19-34), while elsewhere in the solution the code uses a 4-byte stride for x (mov edi, 4; mul edi and stride 7680 = 1920*4 in solution_repository/pixel.asm lines 94-100). This mismatch (3 vs 4 bytes per pixel) will compute incorrect addresses and cause incorrect memory writes, and it directly contradicts the problem description that pixels are stored as 4 bytes. Students will be confused which stride to implement and may produce code that writes at wrong addresses or corrupts memory.",
+            "suggestedFix": "Make the bytes-per-pixel (pixel stride) consistent and match the problem statement (4 bytes per pixel). Concretely: change the set_pixel implementation to compute offset = x*4 + y*(1920*4) + display_start (e.g., multiply x by 4 or shift left by 2 instead of multiplying by 3). Ensure all address calculations (both in set_pixel and in main) use the same stride constant (7680) and write the 4-byte pixel value at that computed address.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 17,
+                    "endLine": 19
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 15,
+                    "endLine": 16
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 100,
+                    "endLine": 106
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 94,
+                    "endLine": 100
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:09:02.239787Z",
+        "endTime": "2026-03-21T11:09:47.981152Z",
+        "durationS": 45.741
+    },
+    "tokens": {
+        "prompt": 20319,
+        "completion": 5317,
+        "total": 25636
+    },
+    "costs": {
+        "promptEur": 0.0046733701171875,
+        "completionEur": 0.009783280395507812,
+        "totalEur": 0.014456650512695311
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/010",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

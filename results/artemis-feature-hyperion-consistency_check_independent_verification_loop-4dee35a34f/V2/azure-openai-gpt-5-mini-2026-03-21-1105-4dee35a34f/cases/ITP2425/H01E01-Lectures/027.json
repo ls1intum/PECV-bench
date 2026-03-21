@@ -1,0 +1,100 @@
+{
+    "timestamp": "2026-03-21T11:18:18.485292Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Field 'lectureName': The UML in the problem statement declares an attribute 'lectureName' of type String, but the reference solution declares a field 'private LectureName lectureName' in src/de/tum/cit/ase/Lecture.java. The solution also adds a new LectureName class. This cross-artifact type change (String -> LectureName) alters the constructor parameter type, getter/setter expectations, and string formatting examples from the statement and will confuse students about the expected type.",
+            "suggestedFix": "Make the lectureName representation consistent across artifacts. Either: (A) revert the solution to use 'private String lectureName' and adjust the constructor, getters, setters and toString() to accept/return String (preferred for minimal changes and to match the UML), or (B) update the problem statement/UML to specify a LectureName type and update the template and tests to expect LectureName. Apply the chosen approach in template, solution and documentation so all three match.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 64,
+                    "endLine": 64
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 6,
+                    "endLine": 6
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/LectureName.java",
+                    "startLine": 3,
+                    "endLine": 9
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Internal mismatch in the reference solution: in src/de/tum/cit/ase/Lecture.java the field is declared as 'private LectureName lectureName;' but the accessor signatures use String: 'public String getLectureName()' (returns the LectureName field) and 'public void setLectureName(String lectureName)' (assigns a String to the LectureName field). These inconsistent types between the field and its getter/setter will cause compilation errors and make the reference implementation invalid.",
+            "suggestedFix": "Fix the solution so the field type and accessor signatures match. Options: (A) Change the field to 'private String lectureName;' so getters/setters remain 'String', or (B) change the getter/setter signatures to use LectureName (e.g. 'public LectureName getLectureName()' and 'public void setLectureName(LectureName lectureName)'). Also update constructor and toString() consistently. Ensure the final solution compiles and matches the chosen design.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 6,
+                    "endLine": 6
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 22,
+                    "endLine": 23
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 26,
+                    "endLine": 27
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Identifier representation mismatch: the problem statement/UML use the identifier 'lectureName' as a String attribute, whereas the solution introduces a new type and identifier LectureName (class) and uses a LectureName-typed field for the same concept. This naming/type divergence breaks the one-to-one mapping students expect between UML/task description and the code they must implement.",
+            "suggestedFix": "Align naming and representation across artifacts. Prefer restoring a plain String 'lectureName' in the solution and template to match the UML and problem text, or else update the problem statement and UML to document the new LectureName type and its purpose. Keep names and types consistent in UML, template, solution and tests to avoid student confusion.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 64,
+                    "endLine": 64
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Lecture.java",
+                    "startLine": 6,
+                    "endLine": 6
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/LectureName.java",
+                    "startLine": 3,
+                    "endLine": 9
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:18:18.485292Z",
+        "endTime": "2026-03-21T11:19:14.949108Z",
+        "durationS": 56.463
+    },
+    "tokens": {
+        "prompt": 19199,
+        "completion": 7671,
+        "total": 26870
+    },
+    "costs": {
+        "promptEur": 0.004415770141601562,
+        "completionEur": 0.01411464013671875,
+        "totalEur": 0.018530410278320312
+    },
+    "case_id": "V2/ITP2425/H01E01-Lectures/027",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-03-21T11:06:05.107993Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Function 'config_system': the problem statement (problem_statement.md) requires implementing config_system that accepts a pointer to a Config struct (line 22). The solution implementation (solution_repository/helloWorld.asm) defines a label 'config_system:' that treats the stack parameter as an integer (comment: \"logic expecting integer in [esp+4]\") and reads [esp+4] into eax directly (line 6). The template (template_repository/helloWorld.asm) does not provide a config_system stub for students to implement, so students following the problem text will implement pointer-based logic but the provided reference implementation expects a plain integer. This mismatch (expected parameter semantics: pointer vs integer) will prevent straightforward verification against the reference and will confuse students about the correct parameter type and calling convention to use.",
+            "suggestedFix": "Make parameter semantics consistent across artifacts and provide a clear student stub. Either (A) update the solution's config_system to accept a pointer: read the pointer from [esp+4], dereference the Config fields as required, and adjust the comment to reflect pointer handling; or (B) if the intended parameter is an integer, update the problem statement to state that config_system expects an integer value. Additionally, add a config_system stub with the chosen signature and a short comment to template_repository/helloWorld.asm so students know where and how to implement it.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 22,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 6,
+                    "endLine": 6
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "helloWorld.asm",
+                    "startLine": 1,
+                    "endLine": 20
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:06:05.107993Z",
+        "endTime": "2026-03-21T11:06:41.886854Z",
+        "durationS": 36.778
+    },
+    "tokens": {
+        "prompt": 11434,
+        "completion": 5252,
+        "total": 16686
+    },
+    "costs": {
+        "promptEur": 0.002629820068359375,
+        "completionEur": 0.009663679931640625,
+        "totalEur": 0.0122935
+    },
+    "case_id": "V2/ERA2021/H00-Hello_World_ASM/009",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

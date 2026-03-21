@@ -1,0 +1,42 @@
+{
+    "timestamp": "2026-03-21T11:30:09.075293Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Aufgabe 05: The reference solution (solution_repository/aufgabe05.sql) selects the column 'kreis' twice and aliases the second occurrence as 'avg_flaeche' (SELECT regierungsbezirk, kreis, kreis AS avg_flaeche). The problem statement (problem_statement.md lines 124-129) requires showing the average area of the municipalities in a Landkreis (Durchschnittliche Fl\u00e4che). The solution therefore returns the Landkreis name again instead of computing AVG(flaeche), producing an incorrect column value for 'avg_flaeche' and misleading students about how to use aggregate functions with GROUP BY.",
+            "suggestedFix": "Replace the incorrect repeated 'kreis' selection with an aggregation over the 'flaeche' column. For example: SELECT regierungsbezirk, kreis, AVG(flaeche) AS avg_flaeche FROM Gemeinde GROUP BY regierungsbezirk, kreis ORDER BY kreis; This returns the Landkreis name, its Regierungsbezirk and the average area as required by the task, and demonstrates correct use of aggregation with GROUP BY.",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe05.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 124,
+                    "endLine": 129
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:30:09.075293Z",
+        "endTime": "2026-03-21T11:30:41.938878Z",
+        "durationS": 32.863
+    },
+    "tokens": {
+        "prompt": 19977,
+        "completion": 4333,
+        "total": 24310
+    },
+    "costs": {
+        "promptEur": 0.004594710205078125,
+        "completionEur": 0.00797272021484375,
+        "totalEur": 0.012567430419921874
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/011",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}

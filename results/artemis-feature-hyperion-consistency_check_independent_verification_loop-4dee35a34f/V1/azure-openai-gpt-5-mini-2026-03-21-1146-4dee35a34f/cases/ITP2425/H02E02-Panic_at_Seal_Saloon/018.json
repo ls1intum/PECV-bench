@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-21T11:50:45.530955Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Method naming mismatch for the routine that serves queued orders. The problem statement (UML and textual description) requires a SealSaloon method named checkOrderReady() that orderMeal() should invoke to attempt serving queued orders until an order cannot be served. (See problem_statement.md lines 31-33 and 85-99 where checkOrderReady() is declared and described.) The solution implementation instead implements this behavior in a method named processOrders() and orderMeal() calls this.processOrders() (see src/de/tum/cit/ase/SealSaloon.java: method signature at line 20 and the call at line 16). This identifier mismatch (checkOrderReady vs. processOrders) can confuse students about the required API, the expected method name in the UML and tests, and which method they must implement or call.",
+            "suggestedFix": "Make the method name consistent between the problem statement/UML and the implementation. Options: (a) Rename the solution's processOrders() method to checkOrderReady() and update its visibility/signature so orderMeal() calls checkOrderReady(); (b) Add a public checkOrderReady() method that delegates to the existing processOrders() (preserving the implementation) so both names work; or (c) If processOrders() is preferred, update the problem statement/UML to reference processOrders() instead of checkOrderReady(). Prefer (a) or (b) to avoid confusing students implementing the exercise according to the UML/tests.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 31,
+                    "endLine": 33
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 85,
+                    "endLine": 99
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 20,
+                    "endLine": 20
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 16,
+                    "endLine": 16
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:50:45.530955Z",
+        "endTime": "2026-03-21T11:51:24.001689Z",
+        "durationS": 38.47
+    },
+    "tokens": {
+        "prompt": 29704,
+        "completion": 5086,
+        "total": 34790
+    },
+    "costs": {
+        "promptEur": 0.006831920166015625,
+        "completionEur": 0.009358239990234375,
+        "totalEur": 0.01619016015625
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/018",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1146-4dee35a34f"
+}

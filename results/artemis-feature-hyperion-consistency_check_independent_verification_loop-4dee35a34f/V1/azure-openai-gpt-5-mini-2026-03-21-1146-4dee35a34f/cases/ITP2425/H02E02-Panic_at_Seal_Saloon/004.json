@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-03-21T11:51:57.643576Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "CONSTRUCTOR_PARAMETER_MISMATCH",
+            "description": "Constructor signature mismatch for class SealSaloon: The UML and the textual specification in the problem statement declare a constructor SealSaloon(String) that accepts a saloon name (see UML entry '+SealSaloon(String)' and the sentence describing the constructor). However, both the template usage in Main.java and the provided solution implement and use a no-argument constructor SealSaloon() (Main.java: 'new SealSaloon()' and SealSaloon.java: 'public SealSaloon()'). This API mismatch will confuse students about which constructor to implement and how to instantiate SealSaloon as described in the assignment.",
+            "suggestedFix": "Make the constructor API consistent across artifacts. Either (A) change the problem statement and UML to require a no-argument constructor SealSaloon(), or (B) add and document a constructor public SealSaloon(String name) in the template and solution and update example usages in Main to call new SealSaloon(\"name\"). Optionally provide both constructors (an overloaded no-arg and a String-arg) and document the preferred one to avoid confusion.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 29,
+                    "endLine": 29
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 71,
+                    "endLine": 73
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Main.java",
+                    "startLine": 11,
+                    "endLine": 11
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 8,
+                    "endLine": 8
+                }
+            ]
+        },
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Contradictory instructions about the 'stock' attribute in SealSaloon: The problem statement tells students to initialize the 'final Stock stock' in the SealSaloon constructor (instructions that imply an instance final field initialized in the constructor). Elsewhere the problem statement explicitly requires that the 'stock' attribute be static (shared across instances) and lists it among elements that must be static. Initializing a static final field in an instance constructor is incorrect (static finals must be initialized at declaration or in a static initializer). The solution declares the field as 'private static final Stock stock = new Stock();' (SealSaloon.java). This contradiction in the task description (initialize in constructor vs. make static) will significantly confuse students about where and how to declare/initialize stock.",
+            "suggestedFix": "Clarify the intended design for 'stock' in the problem statement. Two clear options: (A) Make 'stock' an instance final field (remove the requirement that it be static) and require initialization in the instance constructor; or (B) Keep 'stock' static (shared) and explicitly instruct students to initialize it at the declaration site or in a static initializer (not in the instance constructor). Update the UML, textual instructions, and any example code to match the chosen design so students know exactly where and how to declare and initialize the field.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 71,
+                    "endLine": 82
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 4,
+                    "endLine": 6
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:51:57.643576Z",
+        "endTime": "2026-03-21T11:52:53.421665Z",
+        "durationS": 55.778
+    },
+    "tokens": {
+        "prompt": 30182,
+        "completion": 7741,
+        "total": 37923
+    },
+    "costs": {
+        "promptEur": 0.0069418601074218746,
+        "completionEur": 0.0142434404296875,
+        "totalEur": 0.021185300537109375
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/004",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1146-4dee35a34f"
+}

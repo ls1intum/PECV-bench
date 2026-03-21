@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-03-21T11:11:46.812198Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "Function ray_sphere_intersect has inconsistent parameter lists across template files: the template header (example_program/src/ray_sphere_intersect.h) declares ray_sphere_intersect with three parameters (const float *origin, const float *dir, const float *center), while the template implementation (example_program/src/ray_sphere_intersect.cpp) and the solution header (solution_repository/example_program/src/ray_sphere_intersect.h) define/declare a fourth parameter (float radius). The example program's main (example_program/src/main.cpp) calls ray_sphere_intersect with four arguments (origin_f, dirn, center, radius2). This mismatch between header and implementation will cause compilation or linkage errors and prevents students from building/running the provided example program.",
+            "suggestedFix": "Make the template header prototype match the implementation and solution by adding the radius parameter. Change the declaration in example_program/src/ray_sphere_intersect.h to:\n\nbool ray_sphere_intersect(const float *origin, const float *dir, const float *center, const float radius);\n\nEnsure the parameter order and types match the .cpp definition so the call sites (e.g., main.cpp) compile without errors.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.h",
+                    "startLine": 5,
+                    "endLine": 9
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.cpp",
+                    "startLine": 10,
+                    "endLine": 15
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/main.cpp",
+                    "startLine": 195,
+                    "endLine": 196
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "example_program/src/ray_sphere_intersect.h",
+                    "startLine": 5,
+                    "endLine": 10
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-03-21T11:11:46.812198Z",
+        "endTime": "2026-03-21T11:12:17.920725Z",
+        "durationS": 31.108
+    },
+    "tokens": {
+        "prompt": 131714,
+        "completion": 5218,
+        "total": 136932
+    },
+    "costs": {
+        "promptEur": 0.030294220703125,
+        "completionEur": 0.0096011201171875,
+        "totalEur": 0.0398953408203125
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/005",
+    "run_id": "azure-openai-gpt-5-mini-2026-03-21-1105-4dee35a34f"
+}
