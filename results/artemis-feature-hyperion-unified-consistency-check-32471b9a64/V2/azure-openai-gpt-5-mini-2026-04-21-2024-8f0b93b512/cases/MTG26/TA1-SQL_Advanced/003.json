@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-04-21T21:14:03.592899Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem asks for the IDs of all Radwege that lead to Gemeinden in Oberfranken or Unterfranken, but the solution query selects Radweg_zu_Gemeinde.name instead of an identifier/ID column. This mismatch will cause the solution to return the wrong attribute (name instead of ID) and likely fail tests or confuse students about which column to output.",
+            "suggestedFix": "Modify the solution query to select the Radweg ID column (e.g. Radweg_zu_Gemeinde.radweg_id or the appropriate ID field) instead of Radweg_zu_Gemeinde.name. Keep the existing join and region filter and do not remove duplicates (do not use DISTINCT), for example: SELECT Radweg_zu_Gemeinde.radweg_id FROM Radweg_zu_Gemeinde, Gemeinde WHERE Gemeinde.schluessel = Radweg_zu_Gemeinde.gemeindeschluessel AND (Gemeinde.regierungsbezirk='Oberfranken' OR Gemeinde.regierungsbezirk='Unterfranken').",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 59,
+                    "endLine": 61
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe10.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe10.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-04-21T21:14:03.592899Z",
+        "endTime": "2026-04-21T21:15:03.096110Z",
+        "durationS": 59.503
+    },
+    "tokens": {
+        "prompt": 4940,
+        "completion": 2056,
+        "total": 6996
+    },
+    "costs": {
+        "promptEur": 0.0011362000732421875,
+        "completionEur": 0.0037830400390625,
+        "totalEur": 0.004919240112304687
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/003",
+    "run_id": "azure-openai-gpt-5-mini-2026-04-21-2024-8f0b93b512"
+}

@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-04-21T20:40:42.876399Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "The return type of PersonService.getAllPersons is inconsistent across artifacts: the template declares getAllPersons(...) to return List<Person>, the solution implementation returns Set<Person>, and the solution's PersonResource method (and the problem description) expect a List<Person> to be returned to the REST layer. This mismatch will cause compilation errors and confuses the expected REST response type (the client and problem statement expect a List).",
+            "suggestedFix": "Make the return type consistent. Prefer changing PersonService.getAllPersons to return List<Person> (matching the template, the problem statement and the REST endpoint signature) and return a sorted List (for example, return Collections.unmodifiableList(sortedList)). Alternatively, change the REST endpoint and client to accept a Set consistently, but the simpler fix is to have PersonService return List<Person> so the controller and client continue to use List.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 37,
+                    "endLine": 40
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 39,
+                    "endLine": 63
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 23,
+                    "endLine": 27
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 201,
+                    "endLine": 208
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-04-21T20:40:42.876399Z",
+        "endTime": "2026-04-21T20:42:13.638336Z",
+        "durationS": 90.761
+    },
+    "tokens": {
+        "prompt": 25052,
+        "completion": 2417,
+        "total": 27469
+    },
+    "costs": {
+        "promptEur": 0.0057619599609375,
+        "completionEur": 0.0044472802734375,
+        "totalEur": 0.010209240234375
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/003",
+    "run_id": "azure-openai-gpt-5-mini-2026-04-21-2024-8f0b93b512"
+}

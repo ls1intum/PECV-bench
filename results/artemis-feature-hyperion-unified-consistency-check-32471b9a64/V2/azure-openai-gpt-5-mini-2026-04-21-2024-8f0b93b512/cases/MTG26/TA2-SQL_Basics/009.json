@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-04-21T21:06:56.899962Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem asks for the number of hiking trails (Wanderwegen) that lead to a municipality (grouped by Gemeindeschluessel) in a column named `Anzahl` and sorted descending. The solution instead counts rows from the Gemeinde table grouped by gemeindeschluessel (COUNT(*) on Gemeinde), which does not reference a Wanderweg table or represent counting actual hiking trails. This creates a conceptual/name mismatch between the requested entity (Wanderwege) and the table used in the solution and will confuse students about which table to query.",
+            "suggestedFix": "Update the solution (and clarify the template/instructions) so the query counts hiking-trail records from the appropriate Wanderweg (or equivalent) table and groups by the municipality key. For example: SELECT gemeindeschluessel, COUNT(*) AS Anzahl FROM Wanderweg GROUP BY gemeindeschluessel ORDER BY Anzahl DESC; Or if trails are stored in a different table or require a join, use: SELECT g.gemeindeschluessel, COUNT(w.id) AS Anzahl FROM Gemeinde g JOIN Wanderweg w ON w.gemeindeschluessel = g.gemeindeschluessel GROUP BY g.gemeindeschluessel ORDER BY Anzahl DESC;. Ensure the problem statement, template and solution consistently reference the same table(s).",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 151,
+                    "endLine": 153
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe10.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe10.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-04-21T21:06:56.899962Z",
+        "endTime": "2026-04-21T21:08:07.841895Z",
+        "durationS": 70.941
+    },
+    "tokens": {
+        "prompt": 6737,
+        "completion": 2240,
+        "total": 8977
+    },
+    "costs": {
+        "promptEur": 0.001549510009765625,
+        "completionEur": 0.00412160009765625,
+        "totalEur": 0.005671110107421875
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/009",
+    "run_id": "azure-openai-gpt-5-mini-2026-04-21-2024-8f0b93b512"
+}

@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-04-21T21:11:40.244001Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Problem asks for names of Gemeinden and the names of the respective Freib\u00e4der, but the provided solution query for Aufgabe 07 returns Gemeinde.schluessel and Schwimmbad.id (IDs) instead of Gemeinde.name and Schwimmbad.name. This contradicts the explicit requirement and will confuse students following the instruction to output names.",
+            "suggestedFix": "Change the query to return Gemeinde.name and Schwimmbad.name. Example fix: SELECT Gemeinde.name, Schwimmbad.name FROM Gemeinde JOIN Schwimmbad ON Gemeinde.schluessel = Schwimmbad.gemeindeschluessel WHERE Schwimmbad.art = 'Freibad'. This aligns the solution with the problem statement's requirement to output names.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 46,
+                    "endLine": 49
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe07.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe07.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "Problem for Aufgabe 06 asks for the number of Wanderwege that lead to Gemeinden with more than 500,000 male inhabitants, which typically implies counting distinct Wanderweg entities. The solution uses COUNT(*) over the join of Gemeinde and Wanderweg_zu_Gemeinde, which counts mapping rows (connections) rather than distinct Wanderwege. This creates an ambiguous interpretation and may lead students to produce a different numeric result depending on whether they count distinct wanderweg IDs.",
+            "suggestedFix": "Clarify intent in the problem or adjust the solution. If the goal is to count distinct Wanderwege, use COUNT(DISTINCT Wanderweg_zu_Gemeinde.wanderweg_id) in the solution. If the goal is to count mapping occurrences, update the problem text to state that mappings (connections) should be counted.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 42,
+                    "endLine": 44
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe06.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe06.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-04-21T21:11:40.244001Z",
+        "endTime": "2026-04-21T21:13:02.584559Z",
+        "durationS": 82.34
+    },
+    "tokens": {
+        "prompt": 4944,
+        "completion": 3155,
+        "total": 8099
+    },
+    "costs": {
+        "promptEur": 0.0011371199951171875,
+        "completionEur": 0.0058052001953125,
+        "totalEur": 0.006942320190429687
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/014",
+    "run_id": "azure-openai-gpt-5-mini-2026-04-21-2024-8f0b93b512"
+}

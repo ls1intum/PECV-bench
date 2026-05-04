@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-04-21T21:12:13.898702Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The solution for Aufgabe 07 does not join Gemeinde and Schwimmbad on the gemeindeschluessel. The problem requests the names of Gemeinden that have a \"Freibad\" and the names of the respective Freib\u00e4der (a one-to-many relation), but solution_repository/aufgabe07.sql only filters Schwimmbad.art='Freibad' and omits the join condition. This yields a Cartesian product of all Gemeinden with all Freib\u00e4der and therefore returns incorrect pairings (or too many rows), which contradicts the task and will confuse or mislead students.",
+            "suggestedFix": "In the solution, add the join condition between Gemeinde and Schwimmbad. For example: SELECT Gemeinde.name, Schwimmbad.name FROM Gemeinde, Schwimmbad WHERE Gemeinde.schluessel = Schwimmbad.gemeindeschluessel AND Schwimmbad.art = 'Freibad'; Alternatively use an explicit JOIN: SELECT g.name, s.name FROM Gemeinde g JOIN Schwimmbad s ON g.schluessel = s.gemeindeschluessel WHERE s.art = 'Freibad';",
+            "relatedLocations": [
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe07.sql",
+                    "startLine": 1,
+                    "endLine": 3
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 46,
+                    "endLine": 49
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe07.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-04-21T21:12:13.898702Z",
+        "endTime": "2026-04-21T21:13:18.386331Z",
+        "durationS": 64.487
+    },
+    "tokens": {
+        "prompt": 4925,
+        "completion": 2205,
+        "total": 7130
+    },
+    "costs": {
+        "promptEur": 0.00113275,
+        "completionEur": 0.0040572001953125,
+        "totalEur": 0.0051899501953125
+    },
+    "case_id": "V2/MTG26/TA1-SQL_Advanced/008",
+    "run_id": "azure-openai-gpt-5-mini-2026-04-21-2024-8f0b93b512"
+}

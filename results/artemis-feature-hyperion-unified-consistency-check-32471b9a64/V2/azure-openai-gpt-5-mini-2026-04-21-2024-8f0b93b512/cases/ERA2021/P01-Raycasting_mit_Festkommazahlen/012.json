@@ -1,0 +1,42 @@
+{
+    "timestamp": "2026-04-21T20:33:54.684579Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The template repository defines the fixed-point size (FIX_LEN) differently in the test headers and the example program: tests/src/math_fix.h sets FIX_LEN to 4 (32-bit) while the example program uses FIX_LEN = 8 (64-bit) in math_fix.c / math_fix.h. This produces different typedefs for fix_t across the tests and the example program, causing mismatched integer widths/ABI expectations and likely compilation or runtime/linking confusion when students build and run the provided targets.",
+            "suggestedFix": "Make FIX_LEN consistent across the repository. Prefer aligning tests with the example program by changing tests/src/math_fix.h to define FIX_LEN as 8 (or conversely change example_program to 4) so that the typedef of fix_t is identical for tests and the example program. Ensure both math_fix.h and math_fix.c (and any test headers) use the same FIX_LEN value.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "tests/src/math_fix.h",
+                    "startLine": 7,
+                    "endLine": 13
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "example_program/src/math_fix.c",
+                    "startLine": 11,
+                    "endLine": 13
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-04-21T20:33:54.684579Z",
+        "endTime": "2026-04-21T20:35:09.189827Z",
+        "durationS": 74.505
+    },
+    "tokens": {
+        "prompt": 43902,
+        "completion": 2055,
+        "total": 45957
+    },
+    "costs": {
+        "promptEur": 0.0100974599609375,
+        "completionEur": 0.003781199951171875,
+        "totalEur": 0.013878659912109374
+    },
+    "case_id": "V2/ERA2021/P01-Raycasting_mit_Festkommazahlen/012",
+    "run_id": "azure-openai-gpt-5-mini-2026-04-21-2024-8f0b93b512"
+}

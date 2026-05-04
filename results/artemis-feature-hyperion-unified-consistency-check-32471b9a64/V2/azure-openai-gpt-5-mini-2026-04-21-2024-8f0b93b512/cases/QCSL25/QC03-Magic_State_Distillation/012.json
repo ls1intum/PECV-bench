@@ -1,0 +1,74 @@
+{
+    "timestamp": "2026-04-21T21:31:44.518224Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The solution calls correct_teleportation with its arguments swapped compared to the function's documented/declared argument order. The problem statement and template describe correct_teleportation(teleportation_measurements, x_measurements) but in simulate_msd_one_round the solution calls correct_teleportation(measurements[:, final], measurements[:, tele]) (i.e. passing the final X-basis measurements as the first argument). This reverses the intended mapping of teleportation measurements vs. X-basis measurements, causing the computed corrections and downstream error-detection logic to be incorrect and producing wrong error/acceptance estimates.",
+            "suggestedFix": "Ensure correct_teleportation is called with teleportation measurement results as the first argument and the X-basis (data) measurements as the second. For example: corrected = correct_teleportation(measurements[:, tele], measurements[:, final]). Verify subsequent uses (detect_errors, flip computation) use the corrected array in the intended meaning.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 103,
+                    "endLine": 110
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 65,
+                    "endLine": 75
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 220,
+                    "endLine": 226
+                }
+            ]
+        },
+        {
+            "severity": "LOW",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem statement restricts the allowed instructions for the teleportation/injection stage (lists S, DEPOLARIZE1, RX, H, MR, MRX, R, CX) but the solution uses the Stim instruction name 'S_DAG' in simulate_msd_one_round and simulate_msd_two_rounds. 'S_DAG' is not mentioned in the allowed-instruction list and thus is an unexpected instruction relative to the specification, which may confuse students about what operations are permitted or required.",
+            "suggestedFix": "Either (A) update the problem statement's allowed-instruction list to include 'S_DAG' (and explain its intended use), or (B) modify the solution to use only the listed instructions (for example, replace 'S_DAG' with an equivalent sequence using allowed gates) so the implementation matches the stated constraints.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 71,
+                    "endLine": 74
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 218,
+                    "endLine": 221
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "msd.py",
+                    "startLine": 274,
+                    "endLine": 276
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-04-21T21:31:44.518224Z",
+        "endTime": "2026-04-21T21:34:04.002484Z",
+        "durationS": 139.484
+    },
+    "tokens": {
+        "prompt": 15407,
+        "completion": 5262,
+        "total": 20669
+    },
+    "costs": {
+        "promptEur": 0.003543610107421875,
+        "completionEur": 0.009682080078125,
+        "totalEur": 0.013225690185546875
+    },
+    "case_id": "V2/QCSL25/QC03-Magic_State_Distillation/012",
+    "run_id": "azure-openai-gpt-5-mini-2026-04-21-2024-8f0b93b512"
+}

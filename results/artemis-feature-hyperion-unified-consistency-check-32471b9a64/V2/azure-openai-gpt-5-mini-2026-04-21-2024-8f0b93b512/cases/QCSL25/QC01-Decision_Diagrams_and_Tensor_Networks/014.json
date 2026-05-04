@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-04-21T21:21:32.211577Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "Measurement probability computation in the solution's tensor-network implementation contradicts the specification and template guidance: the solution computes probabilities with np.real(a**2) which is not the squared magnitude |a|^2 required for probabilities and can produce incorrect (or even negative) values for complex amplitudes. This deviates from the measurement note in the DD template (which specifies squared magnitudes) and the expectation in the tensor-network template to build a probability distribution from amplitudes.",
+            "suggestedFix": "Compute measurement probabilities as the squared magnitudes of amplitudes. Replace np.real(a**2) with np.abs(a)**2 (or equivalently np.real(np.conj(a) * a)) so probabilities are non-negative real numbers and reflect |amplitude|^2 as specified.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd_simulation.py",
+                    "startLine": 404,
+                    "endLine": 411
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "tensor_networks.py",
+                    "startLine": 172,
+                    "endLine": 176
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "tensor_networks.py",
+                    "startLine": 223,
+                    "endLine": 226
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-04-21T21:21:32.211577Z",
+        "endTime": "2026-04-21T21:23:48.184328Z",
+        "durationS": 135.972
+    },
+    "tokens": {
+        "prompt": 30112,
+        "completion": 3730,
+        "total": 33842
+    },
+    "costs": {
+        "promptEur": 0.00692576025390625,
+        "completionEur": 0.0068632001953125,
+        "totalEur": 0.01378896044921875
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/014",
+    "run_id": "azure-openai-gpt-5-mini-2026-04-21-2024-8f0b93b512"
+}

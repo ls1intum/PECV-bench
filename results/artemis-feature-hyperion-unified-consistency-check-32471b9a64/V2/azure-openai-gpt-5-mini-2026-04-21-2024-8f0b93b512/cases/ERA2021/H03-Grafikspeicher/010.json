@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-04-21T20:30:49.217708Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The reference implementation's set_pixel routine computes the pixel offset using x*3 (it sets edx = 3 and multiplies), but elsewhere (in main) the code and the problem statement assume 4 bytes per pixel (x*4). This causes set_pixel to write to the wrong memory address. According to the problem, pixels are stored in 32 bits (4 bytes) so the x multiplier must be 4, not 3.",
+            "suggestedFix": "In the set_pixel implementation, compute the x contribution as x*4 (bytes per pixel = 4). For example change the multiplier from 3 to 4 (e.g., mov edx, 4; mul edx) or otherwise compute x*4 (e.g., lea eax, [eax*4]) before adding the row offset and display_start. Ensure the calculation matches the main routine's x*4 and the 32-bit per-pixel specification.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 16,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 36,
+                    "endLine": 38
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 19,
+                    "endLine": 34
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 94,
+                    "endLine": 101
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-04-21T20:30:49.217708Z",
+        "endTime": "2026-04-21T20:32:18.560797Z",
+        "durationS": 89.343
+    },
+    "tokens": {
+        "prompt": 6823,
+        "completion": 3420,
+        "total": 10243
+    },
+    "costs": {
+        "promptEur": 0.0015692900390625,
+        "completionEur": 0.00629280029296875,
+        "totalEur": 0.00786209033203125
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/010",
+    "run_id": "azure-openai-gpt-5-mini-2026-04-21-2024-8f0b93b512"
+}

@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-04-21T20:27:40.515296Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The problem statement and the template expect a framebuffer sized for a 1920\u00d71080 display (4 bytes per pixel \u2192 1920*1080*4 = 8,294,400 bytes, which is reserved in the template as display_start RESB 8294400). The solution, however, reserves a much smaller buffer (display_start RESB 409600) and even includes the remark \"Only 320x320 reserved\". This mismatch between the described/templated framebuffer size and the solution's reserved buffer can confuse students: the problem text and template imply full 1920\u00d71080 memory is available while the solution uses a reduced buffer, yet still computes offsets using the 1920 width (constant 7680). Students may be unsure which size to target or why the solution reduces the buffer size, and could run into out-of-bounds assumptions if they rely on the solution as reference.",
+            "suggestedFix": "Make the buffer size consistent across artifacts. Either (a) update the solution to reserve the full framebuffer (display_start RESB 8294400) to match the problem and template, or (b) update the problem statement and template to explicitly state that a reduced test buffer is used (e.g., 320\u00d7320) and document the discrepancy so students understand the reduced reservation is only for testing/space reasons. Preferably keep the problem, template, and solution aligned so students are not confused about the expected resolution and buffer size.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 17,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 20,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 4,
+                    "endLine": 6
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-04-21T20:27:40.515296Z",
+        "endTime": "2026-04-21T20:28:50.195312Z",
+        "durationS": 69.68
+    },
+    "tokens": {
+        "prompt": 6823,
+        "completion": 2076,
+        "total": 8899
+    },
+    "costs": {
+        "promptEur": 0.0015692900390625,
+        "completionEur": 0.003819840087890625,
+        "totalEur": 0.005389130126953125
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/007",
+    "run_id": "azure-openai-gpt-5-mini-2026-04-21-2024-8f0b93b512"
+}
