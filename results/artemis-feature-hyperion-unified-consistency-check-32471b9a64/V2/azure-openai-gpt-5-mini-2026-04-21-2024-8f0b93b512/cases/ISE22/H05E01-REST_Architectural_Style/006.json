@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-04-21T20:39:27.335100Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "METHOD_PARAMETER_MISMATCH",
+            "description": "The PersonService.getAllPersons method signature is inconsistent between template and solution. The problem statement and the template require getAllPersons(PersonSortingOptions sortingOptions) (to implement server-side sorting), but the solution's PersonService defines getAllPersons() with no parameters. At the same time the solution's PersonResource calls personService.getAllPersons(new PersonSortingOptions(...)), which does not match the no-arg method in the solution service and will cause a compilation error. This mismatch blocks implementing the required sorting functionality and creates confusion about the expected service API.",
+            "suggestedFix": "Make the service API consistent with the problem statement and template: implement public List<Person> getAllPersons(PersonSortingOptions sortingOptions) in PersonService and include the sorting logic. Ensure PersonResource calls that method signature (or alternatively overload getAllPersons with the parameterized version). Update the solution so method signatures match the template and the described REST behavior.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 37,
+                    "endLine": 40
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/service/PersonService.java",
+                    "startLine": 39,
+                    "endLine": 41
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/server/java/de/tum/in/ase/eist/rest/PersonResource.java",
+                    "startLine": 23,
+                    "endLine": 27
+                },
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 199,
+                    "endLine": 208
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-04-21T20:39:27.335100Z",
+        "endTime": "2026-04-21T20:40:42.841610Z",
+        "durationS": 75.506
+    },
+    "tokens": {
+        "prompt": 24811,
+        "completion": 2492,
+        "total": 27303
+    },
+    "costs": {
+        "promptEur": 0.0057065302734375,
+        "completionEur": 0.0045852802734375,
+        "totalEur": 0.010291810546874999
+    },
+    "case_id": "V2/ISE22/H05E01-REST_Architectural_Style/006",
+    "run_id": "azure-openai-gpt-5-mini-2026-04-21-2024-8f0b93b512"
+}

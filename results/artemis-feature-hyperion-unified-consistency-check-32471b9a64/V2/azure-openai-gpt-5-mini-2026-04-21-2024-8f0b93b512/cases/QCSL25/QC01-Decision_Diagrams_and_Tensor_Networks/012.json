@@ -1,0 +1,42 @@
+{
+    "timestamp": "2026-04-21T21:22:16.673784Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "In dd.py the ComputeTable.table attribute has inconsistent type annotations between the template and the solution. The template declares ComputeTable.table as a list of tuples (annotation: list[tuple[DD, DD, DDOperation, DD]]), but the implementation initializes it as a dictionary (self.table = {}) and the solution declares the attribute as a dict mapping (operand key) -> DD (annotation: dict[tuple[DD, DD, DDOperation], DD]). This mismatch in the template's type annotation vs. actual use (and vs. the solution) can confuse students reading the type hints, cause static type-checker warnings, and obscure the intended mapping semantics of the compute table.",
+            "suggestedFix": "Update the template's ComputeTable.table annotation to match the intended implementation and the solution: annotate it as a dict with tuple keys mapping to DD, e.g. table: dict[tuple[DD, DD, DDOperation], DD], and ensure the constructor initializes self.table = {}. This will align type hints with usage and the solution.",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 211,
+                    "endLine": 231
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "dd.py",
+                    "startLine": 211,
+                    "endLine": 231
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-04-21T21:22:16.673784Z",
+        "endTime": "2026-04-21T21:24:14.348588Z",
+        "durationS": 117.674
+    },
+    "tokens": {
+        "prompt": 30110,
+        "completion": 3036,
+        "total": 33146
+    },
+    "costs": {
+        "promptEur": 0.00692530029296875,
+        "completionEur": 0.005586240234375,
+        "totalEur": 0.01251154052734375
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/012",
+    "run_id": "azure-openai-gpt-5-mini-2026-04-21-2024-8f0b93b512"
+}

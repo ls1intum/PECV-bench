@@ -1,0 +1,42 @@
+{
+    "timestamp": "2026-04-21T21:24:14.471413Z",
+    "issues": [
+        {
+            "severity": "MEDIUM",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The problem description and template expect measurement probabilities to be computed from the squared magnitude (|amplitude|^2) of complex amplitudes, but the solution implementation in tensor_networks.py computes probabilities as np.real(a**2). Using a**2 and taking the real part is not equivalent to |a|^2 for complex amplitudes and can produce incorrect or negative probabilities, which will break sampling and contradict the specification in the exercise description.",
+            "suggestedFix": "Compute probabilities from amplitudes using the squared magnitude, e.g. probabilities = [np.abs(a)**2 for a in amplitudes] (or np.real_if_close(np.abs(a)**2) if needed). Ensure the resulting probabilities are non-negative and normalized before sampling.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 96,
+                    "endLine": 101
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "tensor_networks.py",
+                    "startLine": 220,
+                    "endLine": 226
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-04-21T21:24:14.471413Z",
+        "endTime": "2026-04-21T21:26:31.858295Z",
+        "durationS": 137.386
+    },
+    "tokens": {
+        "prompt": 30122,
+        "completion": 3683,
+        "total": 33805
+    },
+    "costs": {
+        "promptEur": 0.00692806005859375,
+        "completionEur": 0.00677672021484375,
+        "totalEur": 0.013704780273437502
+    },
+    "case_id": "V2/QCSL25/QC01-Decision_Diagrams_and_Tensor_Networks/011",
+    "run_id": "azure-openai-gpt-5-mini-2026-04-21-2024-8f0b93b512"
+}

@@ -1,0 +1,62 @@
+{
+    "timestamp": "2026-04-21T19:20:41.343988Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "VISIBILITY_MISMATCH",
+            "description": "The problem description contains contradictory guidance about the saloon's stock field: one section (lines describing constructor initialization) instructs students to initialize a final Stock in the constructor (implying an instance-level final field), while a later explicit note mandates that the stock attribute must be static (shared across all instances). The provided solution implements stock as a static field. This contradiction in the problem statement can confuse students about whether to implement stock as an instance final field initialized in the constructor or as a static field.",
+            "suggestedFix": "Make the problem statement consistent: explicitly require that the stock attribute is static (e.g., 'private static final Stock stock') and clarify that it should be initialized as a static field (not in the constructor). Alternatively, if the intention is an instance-level final stock, remove the note requiring stock to be static and update the reference solution accordingly.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 70,
+                    "endLine": 82
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/SealSaloon.java",
+                    "startLine": 3,
+                    "endLine": 6
+                }
+            ]
+        },
+        {
+            "severity": "MEDIUM",
+            "category": "METHOD_RETURN_TYPE_MISMATCH",
+            "description": "The signature of Stock.getStockIngredients differs between the template and the solution. The template's Stock defines getStockIngredients() to return a List<StockIngredient> (while its setStockIngredients accepts a StockIngredient[]), but the solution's Stock.getStockIngredients() returns a StockIngredient[] array. This mismatch between template and solution (and the template's own setter/getter type mismatch) can confuse students about the intended type to use for stock ingredient collections.",
+            "suggestedFix": "Use a single, consistent type for the Stock.getStockIngredients() API across template and solution. Either change the template getter to return StockIngredient[] (to match the setter and the solution), or change the solution to return List<StockIngredient>. Ensure the setter and getter use compatible types in the template (both array or both List).",
+            "relatedLocations": [
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 13,
+                    "endLine": 19
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "src/de/tum/cit/ase/Stock.java",
+                    "startLine": 14,
+                    "endLine": 16
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-04-21T19:20:41.343988Z",
+        "endTime": "2026-04-21T19:22:57.619977Z",
+        "durationS": 136.275
+    },
+    "tokens": {
+        "prompt": 9961,
+        "completion": 3568,
+        "total": 13529
+    },
+    "costs": {
+        "promptEur": 0.002291030029296875,
+        "completionEur": 0.0065651201171875,
+        "totalEur": 0.008856150146484375
+    },
+    "case_id": "V1/ITP2425/H02E02-Panic_at_Seal_Saloon/028",
+    "run_id": "azure-openai-gpt-5-mini-2026-04-21-1909-8f0b93b512"
+}

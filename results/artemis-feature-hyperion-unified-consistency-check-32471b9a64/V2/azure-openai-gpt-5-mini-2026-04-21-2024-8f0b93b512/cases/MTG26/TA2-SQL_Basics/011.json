@@ -1,0 +1,48 @@
+{
+    "timestamp": "2026-04-21T21:08:22.692730Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "IDENTIFIER_NAMING_INCONSISTENCY",
+            "description": "The solution for Aufgabe 05 uses the column alias avg_flaeche but selects the string column kreis for that alias (SELECT regierungsbezirk, kreis, kreis as avg_flaeche). The problem statement asks for the average area (durchschnittliche Fl\u00e4che) of the municipalities per Landkreis, but the solution does not compute AVG(flaeche) and instead misuses the kreis column as if it were the average. This mismatch between the problem requirement and the provided solution is misleading and will confuse students about the expected aggregation.",
+            "suggestedFix": "Update the solution to compute the average area correctly and name the column appropriately. For example: SELECT regierungsbezirk, kreis, AVG(flaeche) AS avg_flaeche FROM Gemeinde GROUP BY regierungsbezirk, kreis ORDER BY kreis; This matches the problem text requesting the average municipality area per Landkreis and avoids aliasing a string column as a numeric average.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 124,
+                    "endLine": 128
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "aufgabe05.sql",
+                    "startLine": 1,
+                    "endLine": 4
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "aufgabe05.sql",
+                    "startLine": 1,
+                    "endLine": 1
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-04-21T21:08:22.692730Z",
+        "endTime": "2026-04-21T21:09:30.642762Z",
+        "durationS": 67.95
+    },
+    "tokens": {
+        "prompt": 6746,
+        "completion": 1724,
+        "total": 8470
+    },
+    "costs": {
+        "promptEur": 0.001551580078125,
+        "completionEur": 0.00317216015625,
+        "totalEur": 0.004723740234375
+    },
+    "case_id": "V2/MTG26/TA2-SQL_Basics/011",
+    "run_id": "azure-openai-gpt-5-mini-2026-04-21-2024-8f0b93b512"
+}

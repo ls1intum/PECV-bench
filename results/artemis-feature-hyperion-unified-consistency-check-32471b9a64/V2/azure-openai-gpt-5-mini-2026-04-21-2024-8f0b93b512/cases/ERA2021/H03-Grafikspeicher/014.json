@@ -1,0 +1,54 @@
+{
+    "timestamp": "2026-04-21T20:28:45.803332Z",
+    "issues": [
+        {
+            "severity": "HIGH",
+            "category": "ATTRIBUTE_TYPE_MISMATCH",
+            "description": "The solution implementation references the global symbol 'display_start' but does not declare it. The problem statement and the template declare 'display_start' (frame buffer base) in .bss, while the solution removed or relocated that declaration but still uses the identifier (e.g. add eax, display_start and mov esi, display_start). This will cause assembly/link errors or undefined behavior and conflicts with the expectation in the problem statement that a memory label display_start exists.",
+            "suggestedFix": "Restore a proper declaration of the frame-buffer base symbol in the solution (e.g. add 'section .bss' and 'display_start RESB 8294400' as in the template) or explicitly allocate/initialize and reference an equivalent symbol. Ensure the symbol is declared before any references (or adjust code to use a passed-in address) so the assembly and intended behavior match the problem specification.",
+            "relatedLocations": [
+                {
+                    "type": "PROBLEM_STATEMENT",
+                    "filePath": "problem_statement.md",
+                    "startLine": 30,
+                    "endLine": 33
+                },
+                {
+                    "type": "TEMPLATE_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 20,
+                    "endLine": 22
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 28,
+                    "endLine": 32
+                },
+                {
+                    "type": "SOLUTION_REPOSITORY",
+                    "filePath": "pixel.asm",
+                    "startLine": 95,
+                    "endLine": 101
+                }
+            ]
+        }
+    ],
+    "timing": {
+        "startTime": "2026-04-21T20:28:45.803332Z",
+        "endTime": "2026-04-21T20:30:15.494683Z",
+        "durationS": 89.691
+    },
+    "tokens": {
+        "prompt": 6825,
+        "completion": 2507,
+        "total": 9332
+    },
+    "costs": {
+        "promptEur": 0.00156975,
+        "completionEur": 0.0046128798828125,
+        "totalEur": 0.0061826298828125
+    },
+    "case_id": "V2/ERA2021/H03-Grafikspeicher/014",
+    "run_id": "azure-openai-gpt-5-mini-2026-04-21-2024-8f0b93b512"
+}
